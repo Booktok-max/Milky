@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Pawn in Dire Game — Ryan Ambrose | Dark Fantasy Campaign | Atomic Shelf</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,900;1,400&family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+:root {
+  --cream: #f7f3ec;
+  --parchment: #ede6d6;
+  --warm-white: #faf8f4;
+  --surface: #ffffff;
+  --ink: #1e1a14;
+  --ink-mid: #3d3628;
+  --ink-soft: #6b5e48;
+  --gold: #a07c3a;
+  --gold-2: #c9a55a;
+  --gold-pale: #e8d4a0;
+  --gold-bg: #fdf6e3;
+  --sage: #5a7a52;
+  --sage-bg: #e8ede6;
+  --teal: #1D9E75;
+  --teal-bg: #e4f2ee;
+  --blue: #2468c0;
+  --blue-bg: #e6f0fb;
+  --red: #b53a2f;
+  --red-bg: #fce8e6;
+  --dark: #2d2a24;
+  --dark-bg: #f0ece6;
+  --shadow: #0a0a0a;
+  --rule: rgba(160,124,58,0.18);
+  --rule-lt: rgba(160,124,58,0.10);
+  --shadow-sm: 0 1px 4px rgba(30,26,20,0.06);
+  --shadow-md: 0 4px 20px rgba(30,26,20,0.09);
+  --shadow-lg: 0 10px 40px rgba(30,26,20,0.13);
+  --r: 8px;
+  --r-lg: 12px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+a { color: inherit; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--parchment); }
+::-webkit-scrollbar-thumb { background: var(--gold-pale); border-radius: 3px; }
+
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(30,26,20,.96);
+  backdrop-filter: blur(14px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  height: 58px;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.nav::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--gold) 40%, var(--gold-2) 60%, transparent 100%);
+  opacity: .4;
+}
+.nav-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: #fdf4e8;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.nav-mark {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: linear-gradient(138deg, var(--dark) 0%, #4a3a2a 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .65rem;
+  font-weight: 700;
+  color: #fff;
+}
+.nav-brand em { font-style: italic; color: var(--gold-2); }
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a {
+  font-family: 'DM Mono', monospace;
+  font-size: .67rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.38);
+  transition: color .18s;
+}
+.nav-links a:hover { color: var(--gold-2); }
+.nav-pill {
+  font-family: 'DM Mono', monospace;
+  font-size: .62rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  background: rgba(45,42,36,.5);
+  border: 1px solid rgba(160,124,58,.45);
+  color: var(--gold-2);
+  padding: 4px 12px;
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.nav-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--gold-2);
+  box-shadow: 0 0 7px var(--gold-2);
+  animation: pulse 2.5s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1}50%{opacity:.3} }
+
+.hero {
+  background: linear-gradient(160deg, #1a1612 0%, #0f0d0a 55%, #080706 100%);
+  padding: 60px 40px 50px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 60% 40%, rgba(160,124,58,.1) 0%, transparent 65%);
+}
+.hero-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 40px;
+}
+.hero-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: .65rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--gold-2);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.hero-eyebrow::before {
+  content: '';
+  width: 28px;
+  height: 1px;
+  background: var(--gold);
+}
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  font-weight: 900;
+  color: #fdf4e8;
+  line-height: 1.02;
+  letter-spacing: -.02em;
+  margin-bottom: 6px;
+}
+.hero-subtitle {
+  font-family: 'Lora', serif;
+  font-style: italic;
+  font-size: 1rem;
+  color: rgba(253,244,232,.5);
+  margin-bottom: 22px;
+}
+.hero-author {
+  font-size: .88rem;
+  color: rgba(253,244,232,.6);
+  font-weight: 500;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.hero-stats {
+  display: flex;
+  gap: 28px;
+  flex-wrap: wrap;
+  text-align: right;
+}
+.hs-item { text-align: right; }
+.hs-val {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: var(--gold-2);
+  line-height: 1;
+}
+.hs-lbl {
+  font-family: 'DM Mono', monospace;
+  font-size: .58rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(253,244,232,.35);
+}
+.main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 36px 40px 100px;
+  position: relative;
+  z-index: 1;
+}
+.sec-label {
+  font-family: 'DM Mono', monospace;
+  font-size: .62rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.sec-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--rule-lt);
+}
+.card {
+  background: var(--surface);
+  border: 1px solid var(--rule-lt);
+  border-radius: var(--r-lg);
+  padding: 20px 24px;
+  box-shadow: var(--shadow-sm);
+  transition: all .2s ease;
+}
+.card:hover { box-shadow: var(--shadow-md); }
+.welcome-card {
+  background: linear-gradient(135deg, var(--surface), var(--dark-bg));
+  border-left: 4px solid var(--gold);
+}
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  margin-bottom: 28px;
+}
+.metric-box {
+  background: var(--surface);
+  border: 1px solid var(--rule-lt);
+  border-radius: var(--r);
+  padding: 18px 20px;
+  position: relative;
+  box-shadow: var(--shadow-sm);
+  transition: all .18s;
+  text-align: center;
+}
+.metric-box:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.metric-icon { font-size: 1.8rem; margin-bottom: 8px; }
+.metric-val {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--ink);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.metric-lbl {
+  font-family: 'DM Mono', monospace;
+  font-size: .6rem;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.metric-sub { font-size: .7rem; color: var(--ink-soft); margin-top: 6px; }
+.progress-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+.progress-label {
+  font-size: .78rem;
+  color: var(--ink-mid);
+  min-width: 160px;
+}
+.progress-track {
+  flex: 1;
+  height: 6px;
+  background: var(--parchment);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 1s ease;
+}
+.pf-gold { background: linear-gradient(90deg, var(--gold) 0%, var(--gold-2) 100%); }
+.pf-dark { background: linear-gradient(90deg, var(--dark) 0%, #5a4a3a 100%); }
+.pf-blue { background: linear-gradient(90deg, var(--blue) 0%, #60a5fa 100%); }
+.progress-pct {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--gold);
+  min-width: 44px;
+  text-align: right;
+}
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 28px; }
+.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-bottom: 28px; }
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--rule-lt);
+  gap: 12px;
+}
+.info-row:last-child { border-bottom: none; }
+.info-key { font-size: .74rem; color: var(--ink-soft); flex-shrink: 0; }
+.info-val { font-size: .8rem; font-weight: 500; color: var(--ink); text-align: right; }
+.info-val.gold { color: var(--gold); }
+.info-val.dark { color: var(--dark); font-weight: 600; }
+.info-val.blue { color: var(--blue); }
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: .62rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 40px;
+}
+.b-trial { background: var(--blue-bg); color: var(--blue); }
+.b-warning { background: var(--gold-bg); color: var(--gold); }
+.b-success { background: var(--teal-bg); color: var(--teal); }
+.b-pending { background: var(--red-bg); color: var(--red); }
+.action-box {
+  background: linear-gradient(135deg, var(--gold-bg), #fff8e8);
+  border-left: 4px solid var(--gold);
+  border-radius: var(--r);
+  padding: 14px 20px;
+  font-size: .82rem;
+  color: var(--ink-mid);
+  margin-bottom: 28px;
+}
+.action-box.urgent {
+  background: linear-gradient(135deg, var(--blue-bg), #e8f0fe);
+  border-left-color: var(--blue);
+}
+.action-box.warning {
+  background: linear-gradient(135deg, var(--red-bg), #fff5f5);
+  border-left-color: var(--red);
+}
+.video-list { display: flex; flex-direction: column; gap: 4px; }
+.video-item {
+  display: grid;
+  grid-template-columns: 34px 1fr auto;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  border-radius: var(--r);
+  background: var(--warm-white);
+  border: 1px solid var(--rule-lt);
+}
+.video-item.ready { background: var(--teal-bg); border-color: var(--teal); }
+.video-num {
+  font-family: 'DM Mono', monospace;
+  font-size: .65rem;
+  color: var(--ink-soft);
+}
+.video-title { font-size: .8rem; color: var(--ink); line-height: 1.3; }
+.video-badge {
+  font-family: 'DM Mono', monospace;
+  font-size: .57rem;
+  padding: 2px 8px;
+  border-radius: 40px;
+  white-space: nowrap;
+}
+.vb-ready { background: var(--teal-bg); color: var(--teal); }
+.vb-pending { background: var(--blue-bg); color: var(--blue); }
+.footer {
+  background: #1e1a14;
+  padding: 36px 40px;
+  text-align: center;
+  color: rgba(253,244,232,.3);
+}
+.links-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
+.drw-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--warm-white);
+  border: 1px solid var(--rule-lt);
+  border-radius: var(--r);
+  padding: 7px 13px;
+  font-size: .74rem;
+  font-weight: 500;
+  transition: all .14s;
+}
+.drw-link:hover { background: var(--gold-bg); border-color: rgba(160,124,58,.35); transform: translateY(-1px); }
+.character-note {
+  background: var(--dark-bg);
+  border-radius: var(--r);
+  padding: 12px 16px;
+  margin-top: 16px;
+  font-size: .75rem;
+  border-left: 3px solid var(--gold);
+}
+@media (max-width: 900px) {
+  .nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  .hero-inner { grid-template-columns: 1fr; }
+  .main { padding: 24px 20px; }
+  .two-col, .three-col { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <div class="nav-brand"><div class="nav-mark">AS</div>Atomic <em>Shelf</em></div>
+  <ul class="nav-links"><li><a href="#">Dashboard</a></li><li><a href="#">Campaigns</a></li><li><a href="#">Ryan Ambrose</a></li></ul>
+  <div class="nav-pill"><span class="nav-dot"></span>Active Trial · Day 4</div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-eyebrow">Dark Fantasy · A Pawn in Dire Game</div>
+      <h1 class="hero-title">A Pawn in<br>Dire Game</h1>
+      <div class="hero-subtitle">Where every move could be your last</div>
+      <div class="hero-author"><span>Ryan Ambrose (Gene Herington)</span><span class="hero-author-dot"></span><span>Dark Fantasy</span><span class="hero-author-dot"></span><span>♟️ 15-Video Trial Pack</span></div>
+    </div>
+    <div class="hero-stats">
+      <div class="hs-item"><div class="hs-val">Day 4</div><div class="hs-lbl">Trial active</div></div>
+      <div class="hs-item"><div class="hs-val">15</div><div class="hs-lbl">Videos ready</div></div>
+      <div class="hs-item"><div class="hs-val">⚙️</div><div class="hs-lbl">TikTok integration</div></div>
+    </div>
+  </div>
+</div>
+
+<main class="main">
+  <!-- Welcome Card -->
+  <div class="welcome-card card" style="margin-bottom: 28px;">
+    <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap; justify-content: space-between;">
+      <div>
+        <div style="font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 600; color: var(--dark);">
+          <i class="fas fa-chess-pawn"></i> Welcome, Ryan!
+        </div>
+        <div style="font-size: .85rem; color: var(--ink-mid); margin-top: 6px;">
+          Your 15-video trial pack for <strong>A Pawn in Dire Game</strong> is ready. We're currently setting up TikTok Business Center access — then we launch!
+        </div>
+      </div>
+      <div><span class="badge b-trial">📋 Trial Week · May 22-28</span></div>
+    </div>
+  </div>
+
+  <div class="metrics-grid">
+    <div class="metric-box"><div class="metric-icon">🎬</div><div class="metric-val">15</div><div class="metric-lbl">Trial videos</div><div class="metric-sub">May 22-28 schedule</div></div>
+    <div class="metric-box"><div class="metric-icon">📱</div><div class="metric-val">TikTok</div><div class="metric-lbl">Business Center</div><div class="metric-sub">Invite pending</div></div>
+    <div class="metric-box"><div class="metric-icon">🎥</div><div class="metric-val">Temp Channel</div><div class="metric-lbl">YouTube</div><div class="metric-sub">"Ryan" (Google ID validation)</div></div>
+    <div class="metric-box"><div class="metric-icon">⏰</div><div class="metric-val">09:00 & 17:00</div><div class="metric-lbl">Posting schedule</div><div class="metric-sub">UTC daily</div></div>
+    <div class="metric-box"><div class="metric-icon">📧</div><div class="metric-val">May 23</div><div class="metric-lbl">Last contact</div><div class="metric-sub">TikTok instructions sent</div></div>
+  </div>
+
+  <div class="two-col">
+    <div class="card">
+      <div style="font-weight:600; margin-bottom: 18px;">📦 Trial progress</div>
+      <div class="progress-row"><span class="progress-label">15-Video Pack Production</span><div class="progress-track"><div class="progress-fill pf-gold" style="width:100%"></div></div><span class="progress-pct">Complete</span></div>
+      <div class="progress-row"><span class="progress-label">TikTok Business Center Setup</span><div class="progress-track"><div class="progress-fill pf-blue" style="width:40%"></div></div><span class="progress-pct">In Progress</span></div>
+      <div class="progress-row"><span class="progress-label">YouTube Channel Validation</span><div class="progress-track"><div class="progress-fill pf-dark" style="width:60%"></div></div><span class="progress-pct">Pending Google ID</span></div>
+      <div class="progress-row"><span class="progress-label">Posting Launch</span><div class="progress-track"><div class="progress-fill" style="width:0%;background:var(--parchment);"></div></div><span class="progress-pct">Awaiting Access</span></div>
+      <div style="margin-top: 18px; padding-top: 12px; border-top: 1px solid var(--rule-lt);">
+        <div class="info-row"><span class="info-key">Posting schedule</span><span class="info-val gold">09:00 and 17:00 UTC daily</span></div>
+        <div class="info-row"><span class="info-key">Trial dates</span><span class="info-val">May 22 — May 28, 2026</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <div style="font-weight:600; margin-bottom: 18px;">📞 Recent activity</div>
+      <div class="info-row"><span class="info-key">May 23, 2026</span><span class="info-val gold">TikTok Business Center instructions sent</span></div>
+      <div class="info-row"><span class="info-key">May 22, 2026</span><span class="info-val">Trial started · YouTube editor access given</span></div>
+      <div class="info-row"><span class="info-key">YouTube channel</span><span class="info-val blue">Temporary name "Ryan" (Google ID validation pending)</span></div>
+      <div class="info-row"><span class="info-key">Campaign page</span><span class="info-val"><a href="https://atomic-shelf.com/Content-Proposal/Gene_Harrington/Gene_Harrington" target="_blank" style="color:var(--blue);">View dashboard ↗</a></span></div>
+    </div>
+  </div>
+
+  <!-- Character Note - Aleister & Hisper -->
+  <div class="character-note">
+    <i class="fas fa-book-open"></i> <strong>Character reference for video production:</strong> 
+    <strong>Aleister</strong> = four-eyed scholar · <strong>Hisper</strong> = Lady Alexis's henchman. 
+    ⚠️ Mislabeled videos won't count toward the 15-pack total. All assets are correctly labeled in the production folder.
+  </div>
+
+  <!-- 15-Video Trial Pack -->
+  <div class="section-block">
+    <div class="sec-label">♟️ A Pawn in Dire Game — 15-video trial pack (ready to post)</div>
+    <div class="video-list" id="direGameVideos"></div>
+  </div>
+
+  <div class="three-col">
+    <div class="card">
+      <div style="font-weight:600; margin-bottom: 12px;">✅ What's ready</div>
+      <ul style="margin-left: 20px; font-size: .78rem; color: var(--ink-mid); line-height: 1.7;">
+        <li>📹 <strong>15 complete videos</strong> for trial week</li>
+        <li>📝 <strong>Posting schedule</strong> — 09:00 & 17:00 UTC daily</li>
+        <li>🎨 <strong>Assets folder</strong> — Google Photos ready</li>
+        <li>📱 <strong>TikTok Business Center</strong> — instructions sent May 23</li>
+        <li>🎬 <strong>YouTube editor access</strong> — granted to temporary channel</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div style="font-weight:600; margin-bottom: 12px;">⚙️ In progress</div>
+      <ul style="margin-left: 20px; font-size: .78rem; color: var(--ink-mid); line-height: 1.7;">
+        <li>📱 <strong>TikTok Business Center invite</strong> — awaiting your acceptance</li>
+        <li>🎥 <strong>YouTube channel name</strong> — temporary "Ryan" until Google ID validates</li>
+        <li>🔧 <strong>Exclude/fix Aleister/Hisper assets</strong> — mislabels identified and corrected</li>
+        <li>🚀 <strong>Launch posting calendar</strong> — ready once TikTok access granted</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div style="font-weight:600; margin-bottom: 12px;">📋 Next steps (for you)</div>
+      <ul style="margin-left: 20px; font-size: .78rem; color: var(--ink-mid); line-height: 1.7;">
+        <li>📱 <strong>Accept TikTok Business Center invite</strong> — check your email</li>
+        <li>✅ <strong>Confirm YouTube channel access</strong> — "Ryan" temporary channel</li>
+        <li>🎬 <strong>Review the 15 videos</strong> — all ready for posting</li>
+        <li>🚀 <strong>Launch posting schedule</strong> — we'll start immediately after access</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Action Box - TikTok Integration -->
+  <div class="action-box urgent">
+    <strong><i class="fab fa-tiktok"></i> TikTok Business Center — one step away from launch!</strong><br><br>
+    Ryan, we've sent you step-by-step instructions for integrating your TikTok Business Center. Once you accept the invite, we can start posting your 15-video trial pack immediately at <strong>09:00 and 17:00 UTC daily</strong>. 
+    <br><br>
+    <strong>📧 Check your email (rambrose128@gmail.com)</strong> for the TikTok Business Center invite from our team. Need help? Just reply to any email — we'll walk you through it.
+  </div>
+
+  <div class="two-col">
+    <div class="card">
+      <div class="sec-label" style="margin-bottom: 8px;">📁 Asset links</div>
+      <div class="info-row"><span class="info-key">Google Photos assets</span><span class="info-val"><a href="https://photos.app.goo.gl/raNkJJowCNbtXxF28" target="_blank" style="color:var(--blue);">View assets folder ↗</a></span></div>
+      <div class="info-row"><span class="info-key">YouTube channel</span><span class="info-val"><a href="https://www.youtube.com/@user-ju7ov7yq8z" target="_blank" style="color:var(--blue);">Temporary channel ↗</a></span></div>
+      <div class="info-row"><span class="info-key">TikTok handle</span><span class="info-val">Awaiting Business Center setup</span></div>
+      <div class="info-row"><span class="info-key">Campaign page</span><span class="info-val"><a href="https://atomic-shelf.com/Content-Proposal/Gene_Harrington/Gene_Harrington" target="_blank" style="color:var(--blue);">View proposal ↗</a></span></div>
+    </div>
+    <div class="card">
+      <div class="sec-label" style="margin-bottom: 8px;">📞 Author details</div>
+      <div class="info-row"><span class="info-key">Pen name</span><span class="info-val">Gene Herington</span></div>
+      <div class="info-row"><span class="info-key">Email</span><span class="info-val">rambrose128@gmail.com</span></div>
+      <div class="info-row"><span class="info-key">Genre</span><span class="info-val">Dark Fantasy</span></div>
+      <div class="info-row"><span class="info-key">Trial started</span><span class="info-val">May 22, 2026</span></div>
+      <div class="info-row"><span class="info-key">Retainer (post-trial)</span><span class="info-val">$20/month</span></div>
+      <div class="info-row"><span class="info-key">Current status</span><span class="info-val blue">Awaiting TikTok integration</span></div>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <div class="sec-label">🔗 Quick links</div>
+    <div class="links-grid">
+      <a href="https://atomic-shelf.com/Content-Proposal/Gene_Harrington/Gene_Harrington" target="_blank" class="drw-link">📊 Campaign Dashboard</a>
+      <a href="https://photos.app.goo.gl/raNkJJowCNbtXxF28" target="_blank" class="drw-link">🎨 Assets Folder</a>
+      <a href="https://www.youtube.com/@user-ju7ov7yq8z" target="_blank" class="drw-link">🎬 YouTube (Temporary)</a>
+      <a href="#" class="drw-link">📹 15-Video Pack Preview</a>
+      <a href="mailto:rambrose128@gmail.com?subject=A%20Pawn%20in%20Dire%20Game%20-%20TikTok%20Integration" class="drw-link" style="background: var(--gold-bg);">✉️ Email Support</a>
+    </div>
+  </div>
+
+  <!-- Friendly closing -->
+  <div class="card" style="background: var(--dark-bg); text-align: center; margin-top: 8px;">
+    <div style="font-size: .8rem; color: var(--ink-mid);">
+      ♟️ <strong>Almost there, Ryan!</strong> Your 15 videos are ready and waiting. Once TikTok Business Center is connected, we'll launch the daily posting schedule. Check your email for the invite — or reach out if you need help. The trial is active through May 28!
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="footer-brand" style="color:#fdf4e8;">Atomic <em style="color:var(--gold-2);">Shelf</em></div>
+  <div class="footer-sub">A Pawn in Dire Game · Ryan Ambrose / Gene Herington · Dark Fantasy · Trial Week Active</div>
+</footer>
+
+<script>
+(function() {
+  const direGameVideos = [
+    { title: "A Pawn in Dire Game — The Opening Move" },
+    { title: "Meet Aleister: The Four-Eyed Scholar" },
+    { title: "Hisper — Lady Alexis's Right Hand" },
+    { title: "Dark Fantasy Worldbuilding Explained" },
+    { title: "The Game Begins: Chapter 1 Tease" },
+    { title: "Who Is the Pawn? Character Deep Dive" },
+    { title: "The Dire Game Rules" },
+    { title: "Lady Alexis — Power Behind the Throne" },
+    { title: "Every Move Has a Consequence" },
+    { title: "The Scholar and the Henchman" },
+    { title: "Why Dark Fantasy Readers Will Love This" },
+    { title: "The First Twist (No Spoilers)" },
+    { title: "A Pawn in Dire Game — Page One" },
+    { title: "What Makes This Story Different?" },
+    { title: "Start Your Journey Today" }
+  ];
+
+  const container = document.getElementById('direGameVideos');
+  if(container) {
+    container.innerHTML = direGameVideos.map((v, idx) => {
+      return `<div class="video-item ready">
+        <span class="video-num">${(idx+1).toString().padStart(2,'0')}</span>
+        <span class="video-title">${v.title}</span>
+        <span class="video-badge vb-ready">✅ Ready to Post</span>
+      </div>`;
+    }).join('');
+  }
+})();
+</script>
+</body>
+</html>

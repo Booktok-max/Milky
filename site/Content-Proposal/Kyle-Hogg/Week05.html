@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Would You Believe It? — Week 5 Content Deployment | Atomic Shelf</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --black:#0b0f14;
+  --deep:#141b23;
+  --card:#18222d;
+  --ember:#cf8b42;
+  --gold:#e0b978;
+  --mist:#8fa1b5;
+  --light:#d5dee8;
+  --white:#f8fbff;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  background:var(--black);
+  color:var(--light);
+  font-family:'Cormorant Garamond',serif;
+  font-size:21px;
+  line-height:1.7;
+  overflow-x:hidden;
+}
+
+.hero{
+  position:relative;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  overflow:hidden;
+}
+
+.hero-bg{
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at top,#243344 0%,#0b0f14 70%);
+}
+
+.hero-grain{
+  position:absolute;
+  inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
+  opacity:0.6;
+}
+
+.hero-content{
+  position:relative;
+  z-index:2;
+  max-width:920px;
+  padding:80px 50px;
+}
+
+.hero-badge{
+  display:inline-block;
+  font-family:'Space Mono',monospace;
+  font-size:10px;
+  letter-spacing:4px;
+  text-transform:uppercase;
+  border:1px solid var(--ember);
+  color:var(--ember);
+  padding:7px 20px;
+  margin-bottom:32px;
+}
+
+.hero-sub{
+  font-family:'Space Mono',monospace;
+  font-size:11px;
+  letter-spacing:4px;
+  text-transform:uppercase;
+  color:var(--mist);
+  margin-bottom:22px;
+}
+
+.hero-title{
+  font-family:'Cinzel',serif;
+  font-size:clamp(42px,6vw,80px);
+  line-height:1.05;
+  font-weight:900;
+  color:var(--white);
+}
+
+.hero-title span{
+  display:block;
+  font-size:clamp(24px,3vw,44px);
+  color:var(--gold);
+  font-weight:400;
+  margin-top:16px;
+}
+
+.hero-author{
+  margin-top:28px;
+  font-style:italic;
+  font-size:26px;
+  color:var(--light);
+}
+
+.hero-description{
+  max-width:760px;
+  margin:36px auto 0;
+  font-size:24px;
+  color:#bcc9d8;
+  line-height:1.8;
+}
+
+.hero-meta{
+  display:flex;
+  justify-content:center;
+  gap:40px;
+  flex-wrap:wrap;
+  margin-top:48px;
+}
+
+.hero-meta-item{
+  text-align:center;
+}
+
+.hero-meta-item .num{
+  font-family:'Cinzel',serif;
+  font-size:38px;
+  color:var(--ember);
+  font-weight:900;
+}
+
+.hero-meta-item .label{
+  font-family:'Space Mono',monospace;
+  font-size:9px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--mist);
+}
+
+.divider{
+  width:90px;
+  height:1px;
+  background:linear-gradient(to right,transparent,var(--ember),transparent);
+  margin:70px auto;
+}
+
+.intro{
+  max-width:860px;
+  margin:0 auto;
+  padding:0 40px 90px;
+  text-align:center;
+}
+
+.section-label{
+  font-family:'Space Mono',monospace;
+  font-size:10px;
+  letter-spacing:5px;
+  text-transform:uppercase;
+  color:var(--ember);
+  margin-bottom:22px;
+}
+
+.intro p{
+  font-size:25px;
+  line-height:1.9;
+  font-style:italic;
+  color:#c8d3df;
+}
+
+.calendar{
+  max-width:1180px;
+  margin:0 auto;
+  padding:0 32px 120px;
+}
+
+.calendar-header{
+  text-align:center;
+  margin-bottom:70px;
+}
+
+.calendar-header h2{
+  font-family:'Cinzel',serif;
+  font-size:clamp(32px,4vw,52px);
+  color:var(--white);
+  margin-bottom:12px;
+}
+
+.calendar-header p{
+  color:var(--mist);
+  font-style:italic;
+}
+
+.video-card{
+  display:grid;
+  grid-template-columns:130px 1fr;
+  background:var(--deep);
+  border:1px solid rgba(207,139,66,0.14);
+  border-radius:10px;
+  overflow:hidden;
+  margin-bottom:18px;
+  transition:0.25s ease;
+}
+
+.video-card:hover{
+  border-color:rgba(207,139,66,0.4);
+  background:var(--card);
+}
+
+.card-date{
+  background:rgba(207,139,66,0.05);
+  border-right:1px solid rgba(207,139,66,0.14);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:26px 14px;
+  text-align:center;
+}
+
+.date-num{
+  font-family:'Cinzel',serif;
+  font-size:34px;
+  color:var(--ember);
+  font-weight:900;
+  line-height:1;
+}
+
+.date-month{
+  font-family:'Space Mono',monospace;
+  font-size:8px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--mist);
+  margin-top:6px;
+}
+
+.date-vid{
+  font-family:'Space Mono',monospace;
+  font-size:9px;
+  margin-top:12px;
+  color:rgba(224,185,120,0.8);
+}
+
+.card-body{
+  padding:30px 36px;
+}
+
+.card-title{
+  font-family:'Cinzel',serif;
+  font-size:26px;
+  color:var(--white);
+  margin-bottom:8px;
+}
+
+.card-hook{
+  color:var(--gold);
+  font-style:italic;
+  font-size:18px;
+  margin-bottom:24px;
+}
+
+.card-sections{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:24px;
+}
+
+.section-block{
+  background:rgba(11,15,20,0.28);
+  border:1px solid rgba(255,255,255,0.03);
+  border-radius:6px;
+  padding:18px;
+}
+
+.section-block h4{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:12px;
+  font-family:'Space Mono',monospace;
+  font-size:9px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--ember);
+}
+
+.section-block p{
+  font-size:17px;
+  line-height:1.75;
+  color:var(--light);
+}
+
+.section-block.desc p{
+  color:#aab8c6;
+}
+
+.copy-btn{
+  background:transparent;
+  border:1px solid rgba(207,139,66,0.28);
+  color:var(--gold);
+  font-family:'Space Mono',monospace;
+  font-size:8px;
+  padding:3px 9px;
+  border-radius:4px;
+  cursor:pointer;
+  transition:0.2s ease;
+  letter-spacing:1px;
+}
+
+.copy-btn:hover{
+  background:var(--ember);
+  color:var(--white);
+  border-color:var(--ember);
+}
+
+.footer{
+  text-align:center;
+  padding:70px 40px;
+  border-top:1px solid rgba(207,139,66,0.12);
+  background:#10161d;
+}
+
+.footer-brand{
+  font-family:'Cinzel',serif;
+  font-size:24px;
+  font-weight:900;
+  color:var(--ember);
+  letter-spacing:4px;
+}
+
+.footer-note{
+  margin-top:12px;
+  font-family:'Space Mono',monospace;
+  font-size:10px;
+  letter-spacing:2px;
+  color:var(--mist);
+}
+
+@media(max-width:860px){
+
+  .card-sections{
+    grid-template-columns:1fr;
+  }
+
+  .video-card{
+    grid-template-columns:1fr;
+  }
+
+  .card-date{
+    flex-direction:row;
+    justify-content:flex-start;
+    gap:14px;
+    border-right:none;
+    border-bottom:1px solid rgba(207,139,66,0.12);
+  }
+
+  .date-vid{
+    margin-left:auto;
+    margin-top:0;
+  }
+
+  .card-body{
+    padding:22px;
+  }
+
+  .hero-content{
+    padding:60px 24px;
+  }
+
+  .calendar{
+    padding:0 18px 90px;
+  }
+
+}
+
+@keyframes fadeUp{
+  from{
+    opacity:0;
+    transform:translateY(20px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+</style>
+
+<script>
+function copyText(id, btn){
+  const text = document.getElementById(id).innerText;
+
+  navigator.clipboard.writeText(text).then(function(){
+    const original = btn.innerText;
+    btn.innerText = "Copied!";
+    btn.style.background = "rgba(207,139,66,0.18)";
+
+    setTimeout(function(){
+      btn.innerText = original;
+      btn.style.background = "transparent";
+    },1500);
+  });
+}
+</script>
+
+</head>
+
+<body>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grain"></div>
+
+  <div class="hero-content">
+
+    <div class="hero-badge">Week 5 Narrative Escalation</div>
+
+    <div class="hero-sub">Longform Skeptic Conversion Framework</div>
+
+    <h1 class="hero-title">
+      Would You Believe It?
+      <span>A Guide to Finding Faith for Skeptics</span>
+    </h1>
+
+    <p class="hero-author">by Kyle Hogg</p>
+
+    <p class="hero-description">
+      Week 5 deepens the emotional and intellectual relationship with the audience. 
+      The focus shifts from initial curiosity into reflective trust, personal struggle, 
+      emotional honesty, and stronger conversion-oriented invitations designed for returning viewers.
+    </p>
+
+    <div class="hero-meta">
+
+      <div class="hero-meta-item">
+        <div class="num">15</div>
+        <div class="label">Total Videos</div>
+      </div>
+
+      <div class="hero-meta-item">
+        <div class="num">7</div>
+        <div class="label">Publishing Days</div>
+      </div>
+
+      <div class="hero-meta-item">
+        <div class="num">2/3</div>
+        <div class="label">Daily Split</div>
+      </div>
+
+      <div class="hero-meta-item">
+        <div class="num">15–30s</div>
+        <div class="label">Voiceovers</div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="intro">
+  <div class="section-label">Campaign Positioning</div>
+
+  <p>
+    This deployment phase targets emotionally exhausted skeptics, intellectually curious viewers,
+    and spiritually hesitant audiences who have already interacted with prior weeks. 
+    Each clip is structured to feel intimate, cinematic, and psychologically honest —
+    building trust through vulnerability rather than pressure.
+  </p>
+</section>
+
+<section class="calendar">
+
+  <div class="calendar-header">
+    <div class="section-label">Week 5 Deployment Calendar</div>
+
+    <h2>7-Day Publishing Sequence</h2>
+
+    <p>
+      Operational launch: 16 June 2026 · 2 videos daily with final-day expansion to 3 clips
+    </p>
+  </div>
+
+  <!-- VIDEO 1 -->
+  <div class="video-card">
+
+    <div class="card-date">
+      <div class="date-num">16</div>
+      <div class="date-month">June</div>
+      <div class="date-vid">Clip 01</div>
+    </div>
+
+    <div class="card-body">
+
+      <div class="card-title">The Fear of Being Wrong</div>
+
+      <div class="card-hook">
+        Focus: Why many skeptics resist faith because belief feels emotionally dangerous.
+      </div>
+
+      <div class="card-sections">
+
+        <div class="section-block">
+          <h4>
+            Voiceover Script
+            <button class="copy-btn" onclick="copyText('vo1', this)">Copy</button>
+          </h4>
+
+          <p id="vo1">
+            Sometimes the hardest part about faith is not the evidence. 
+            It's the terrifying possibility that your entire worldview might have to change. 
+            Kyle Hogg speaks directly to the skeptic who secretly worries that belief could cost them their identity, their reputation, or even their relationships. 
+            But maybe truth is worth the risk.
+          </p>
+        </div>
+
+        <div class="section-block desc">
+          <h4>
+            Video Description
+            <button class="copy-btn" onclick="copyText('md1', this)">Copy</button>
+          </h4>
+
+          <p id="md1">
+            What if the real obstacle to faith isn't logic — but fear? Would You Believe It? explores the emotional cost of changing your mind. #FaithAndReason #WouldYouBelieveIt #KyleHogg #Skeptic #BookTok #ChristianBooks
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- VIDEO 2 -->
+  <div class="video-card">
+
+    <div class="card-date">
+      <div class="date-num">16</div>
+      <div class="date-month">June</div>
+      <div class="date-vid">Clip 02</div>
+    </div>
+
+    <div class="card-body">
+
+      <div class="card-title">The Exhaustion of Endless Cynicism</div>
+
+      <div class="card-hook">
+        Focus: The emotional fatigue that comes from permanent skepticism.
+      </div>
+
+      <div class="card-sections">
+
+        <div class="section-block">
+          <h4>
+            Voiceover Script
+            <button class="copy-btn" onclick="copyText('vo2', this)">Copy</button>
+          </h4>
+
+          <p id="vo2">
+            Cynicism can feel intelligent for a while. 
+            But eventually it becomes exhausting. 
+            Always doubting. Always questioning motives. Always assuming disappointment is inevitable. 
+            What if faith is not about becoming naive — but finally allowing yourself to hope again?
+          </p>
+        </div>
+
+        <div class="section-block desc">
+          <h4>
+            Video Description
+            <button class="copy-btn" onclick="copyText('md2', this)">Copy</button>
+          </h4>
+
+          <p id="md2">
+            Endless skepticism can slowly drain the soul. This clip explores why hope may actually require courage. #Skepticism #FaithJourney #Hope #WouldYouBelieveIt #ChristianBookTok
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- VIDEO 3 -->
+  <div class="video-card">
+
+    <div class="card-date">
+      <div class="date-num">17</div>
+      <div class="date-month">June</div>
+      <div class="date-vid">Clip 03</div>
+    </div>
+
+    <div class="card-body">
+
+      <div class="card-title">Faith After Disappointment</div>
+
+      <div class="card-hook">
+        Focus: Healing after church hurt or spiritual betrayal.
+      </div>
+
+      <div class="card-sections">
+
+        <div class="section-block">
+          <h4>
+            Voiceover Script
+            <button class="copy-btn" onclick="copyText('vo3', this)">Copy</button>
+          </h4>
+
+          <p id="vo3">
+            Some people did not walk away from faith because of science or philosophy. 
+            They walked away because someone hurt them. 
+            Kyle Hogg gently reminds readers that human failure does not automatically invalidate God Himself. 
+            Healing takes time. But maybe trust can grow again.
+          </p>
+        </div>
+
+        <div class="section-block desc">
+          <h4>
+            Video Description
+            <button class="copy-btn" onclick="copyText('md3', this)">Copy</button>
+          </h4>
+
+          <p id="md3">
+            Church hurt is real. But pain and disappointment are not always the final chapter. #ChurchHurt #FaithHealing #WouldYouBelieveIt #Christianity #BookRecommendation
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- VIDEO 4 -->
+  <div class="video-card">
+
+    <div class="card-date">
+      <div class="date-num">17</div>
+      <div class="date-month">June</div>
+      <div class="date-vid">Clip 04</div>
+    </div>
+
+    <div class="card-body">
+
+      <div class="card-title">The Hidden Desire for Meaning</div>
+
+      <div class="card-hook">
+        Focus: Why humans instinctively search for transcendence.
+      </div>
+
+      <div class="card-sections">
+
+        <div class="section-block">
+          <h4>
+            Voiceover Script
+            <button class="copy-btn" onclick="copyText('vo4', this)">Copy</button>
+          </h4>
+
+          <p id="vo4">
+            No matter how successful we become, most of us eventually feel it — that quiet ache for something more. 
+            A sense that achievement alone cannot fully satisfy the soul. 
+            Would You Believe It? asks a dangerous question: what if that longing is not meaningless at all?
+          </p>
+        </div>
+
+        <div class="section-block desc">
+          <h4>
+            Video Description
+            <button class="copy-btn" onclick="copyText('md4', this)">Copy</button>
+          </h4>
+
+          <p id="md4">
+            Why do humans keep searching for meaning even after success? Kyle Hogg explores the deeper hunger beneath achievement. #MeaningOfLife #Spirituality #FaithAndReason #WouldYouBelieveIt
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- VIDEO 5 -->
+  <div class="video-card">
+
+    <div class="card-date">
+      <div class="date-num">18</div>
+      <div class="date-month">June</div>
+      <div class="date-vid">Clip 05</div>
+    </div>
+
+    <div class="card-body">
+
+      <div class="card-title">You Don't Need Perfect Certainty</div>
+
+      <div class="card-hook">
+        Focus: Letting go of the impossible demand for total certainty.
+      </div>
+
+      <div class="card-sections">
+
+        <div class="section-block">
+          <h4>
+            Voiceover Script
+            <button class="copy-btn" onclick="copyText('vo5', this)">Copy</button>
+          </h4>
+
+          <p id="vo5">
+            Most of life already runs on trust. 
+            Relationships. Love. Friendship. Even science itself involves assumptions and probabilities. 
+            So why do we suddenly demand impossible levels of certainty before even considering God? 
+            Kyle Hogg argues that faith begins when we stop demanding mathematical perfection from human existence.
+          </p>
+        </div>
+
+        <div class="section-block desc">
+          <h4>
+            Video Description
+            <button class="copy-btn" onclick="copyText('md5', this)">Copy</button>
+          </h4>
+
+          <p id="md5">
+            Absolute certainty is not required for meaningful trust. This changes how many skeptics approach faith. #FaithAndLogic #Skeptic #WouldYouBelieveIt #BookTok
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- VIDEO 6 -->
+  <div class="video-card">
+
+    <div class="card-date">
+      <div class="date-num">18</div>
+      <div class="date-month">June</div>
+      <div class="date-vid">Clip 06</div>
+    </div>
+
+    <div class="card-body">
+
+      <div class="card-title">The Silence Everyone Feels</div>
+
+      <div class="card-hook">
+        Focus: Spiritual loneliness in the modern world.
+      </div>
+
+      <div class="card-sections">
+
+        <div class="section-block">
+          <h4>
+            Voiceover Script
+            <button class="copy-btn" onclick="copyText('vo6', this)">Copy</button>
+          </h4>
+
+          <p id="vo6">
+            One of the most painful experiences in life is feeling spiritually alone. 
+            Like you're speaking into silence and nobody is listening. 
+            Would You Believe It? acknowledges that silence honestly — without pretending every answer comes quickly. 
+            And maybe that honesty is exactly what makes faith believable again.
+          </p>
+        </div>
+
+        <div class="section-block desc">
+          <h4>
+            Video Description
+            <button class="copy-btn" onclick="copyText('md6', this)">Copy</button>
+          </h4>
+
+          <p id="md6">
+            Spiritual silence can feel overwhelming. This clip speaks directly to those struggling with loneliness and unanswered questions. #Spirituality #Loneliness #FaithJourney #WouldYouBelieveIt
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- VIDEO 7 -->
+  <div class="video-card">
+
+    <div class="card-date">
+      <div class="date-num">19</div>
+      <div class="date-month">June</div>
+      <div class="date-vid">Clip 07</div>
+    </div>
+
+    <div class="card-body">
+
+      <div class="card-title">Faith Is Not Anti-Science</div>
+
+      <div class="card-hook">
+        Focus: Breaking the myth that intellect and belief are enemies.
+      </div>
+
+      <div class="card-sections">
+
+        <div class="section-block">
+          <h4>
+            Voiceover Script
+            <button class="copy-btn" onclick="copyText('vo7', this)">Copy</button>
+          </h4>
+
+          <p id="vo7">
+            One of the biggest misconceptions about Christianity is that serious thinkers cannot believe. 
+            But history tells a very different story. 
+            Some of the greatest scientific minds in human history believed deeply in God. 
+            Kyle Hogg invites readers to stop seeing faith and intellect as opposing forces.
+          </p>
+        </div>
+
+        <div class="section-block desc">
+          <h4>
+            Video Description
+            <button class="copy-btn" onclick="copyText('md7', this)">Copy</button>
+          </h4>
+
+          <p id="md7">
+            Science and faith are not natural enemies. This clip challenges one of the biggest assumptions in modern culture. #ScienceAndFaith #Christianity #WouldYouBelieveIt #BookTok
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- VIDEO 8 -->
+  <div class="video-card">
+
+    <div class="card-date">
+      <div class="date-num">19</div>
+      <div class="date-month">June</div>
+      <div class="date-vid">Clip 08</div>
+    </div>
+
+    <div class="card-body">
+
+      <div class="card-title">The Courage to Hope</div>
+
+      <div class="card-hook">
+        Focus: Why faith requires vulnerability.
+      </div>
+
+      <div class="card-sections">
+
+        <div class="section-block">
+          <h4>
+            Voiceover Script
+            <button class="copy-btn" onclick="copyText('vo8', this)">Copy</button>
+          </h4>
+
+          <p id="vo8">
+            Hope can actually feel terrifying. 
+            Because the moment you hope, you become vulnerable to disappointment. 
+            That's why cynicism feels safer. 
+            But Kyle Hogg argues that courage is not found in emotional distance — it's found in the willingness to trust again.
+          </p>
+        </div>
+
+        <div class="section-block desc">
+          <h4>
+            Video Description
+            <button class="copy-btn" onclick="copyText('md8', this)">Copy</button>
+          </h4>
+
+          <p id="md8">
+            Cynicism protects us from disappointment — but it also keeps us emotionally closed. #Hope #FaithJourney #WouldYouBelieveIt #ChristianBooks
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- VIDEO 9 -->
+  <div class="video-card">
+
+    <div class="card-date">
+      <div class="date-num">20</div>
+      <div class="date-month">June</div>
+      <div class="date-vid">Clip 09</div>
+    </div>
+
+    <div class="card-body">
+
+      <div class="card-title">What If Christianity Is Actually True?</div>
+
+      <div class="card-hook">
+        Focus: The emotionally disruptive power of the core question.
+      </div>
+
+      <div class="card-sections">
+
+        <div class="section-block">
+          <h4>
+            Voiceover Script
+            <button class="copy-btn" onclick="copyText('vo9', this)">Copy</button>
+          </h4>
+
+          <p id="vo9">
+            Strip away the stereotypes. Ignore the loud internet debates for a second. 
+            And ask the question honestly: what if Christianity is actually true? 
+            Not culturally useful. Not emotionally comforting. True. 
+            Kyle Hogg challenges readers to confront the possibility seriously — because if it's true, everything changes.
+          </p>
+        </div>
+
+        <div class="section-block desc">
+          <h4>
+            Video Description
+            <button class="copy-btn" onclick="copyText('md9', this)">Copy</button>
+          </h4>
+
+          <p id="md9">
+            The most disruptive question a skeptic can ask: what if it's actually true? #WouldYouBelieveIt #FaithQuestions #Christianity #Truth
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- VIDEO 10 -->
+  <div class="video-card">
+
+    <div class="card-date">
+      <div class="date-num">20</div>
+      <div class="date-month">June</div>
+      <div class="date-vid">Clip 10</div>
+    </div>
+
+    <div class="card-body">
+
+      <div class="card-title">The Gentle Invitation</div>
+
+      <div class="card-hook">
+        Focus: Soft call-to-action for hesitant readers.
+      </div>
+
+      <div class="card-sections">
+
+        <div class="section-block">
+          <h4>
+            Voiceover Script
+            <button class="copy-btn" onclick="copyText('vo10', this)">Copy</button>
+          </h4>
+
+          <p id="vo10">
+            If you've been searching quietly — questioning privately — maybe this book is exactly what you needed to find. 
+            Would You Believe It? was written for thoughtful people who want honest answers without pressure or manipulation. 
+            Start with the sample. Read a few pages. You might be surprised by what happens next.
+          </p>
+        </div>
+
+        <div class="section-block desc">
+          <h4>
+            Video Description
+            <button class="copy-btn" onclick="copyText('md10', this)">Copy</button>
+          </h4>
+
+          <p id="md10">
+            A respectful invitation for skeptics, seekers, and thoughtful readers. Start reading Would You Believe It? today. #BookTok #ChristianBooks #FaithJourney #WouldYouBelieveIt
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- VIDEO 11 -->
+  <div class="video-card">
+
+    <div class="card-date">
+      <div class="date-num">21</div>
+      <div class="date-month">June</div>
+      <div class="date-vid">Clip 11</div>
+    </div>
+
+    <div class="card-body">
+
+      <div class="card-title">The Book That Understands Skeptics</div>
+
+      <div class="card-hook">
+        Focus: Positioning the book as uniquely empathetic.
+      </div>
+
+      <div class="card-sections">
+
+        <div class="section-block">
+          <h4>
+            Voiceover Script
+            <button class="copy-btn" onclick="copyText('vo11', this)">Copy</button>
+          </h4>
+
+          <p id="vo11">
+            Most faith books either preach at skeptics or argue with them. 
+            Would You Believe It? does something different. 
+            Kyle Hogg approaches doubt with patience, empathy, and intellectual honesty — creating a guide that feels more like a conversation than a lecture.
+          </p>
+        </div>
+
+        <div class="section-block desc">
+          <h4>
+            Video Description
+            <button class="copy-btn" onclick="copyText('md11', this)">Copy</button>
+          </h4>
+
+          <p id="md11">
+            A Christian book written for people who are tired of being preached at. #WouldYouBelieveIt #FaithAndReason #ChristianBooks #BookRecommendation
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- VIDEO 12 -->
+  <div class="video-card">
+
+    <div class="card-date">
+      <div class="date-num">21</div>
+      <div class="date-month">June</div>
+      <div class="date-vid">Clip 12</div>
+    </div>
+
+    <div class="card-body">
+
+      <div class="card-title">Thousands Are Asking the Same Questions</div>
+
+      <div class="card-hook">
+        Focus: Social proof and emotional belonging.
+      </div>
+
+      <div class="card-sections">
+
+        <div class="section-block">
+          <h4>
+            Voiceover Script
+            <button class="copy-btn" onclick="copyText('vo12', this)">Copy</button>
+          </h4>
+
+          <p id="vo12">
+            Sometimes skepticism can feel isolating. 
+            Like you're the only person wrestling with these questions. 
+            But thousands of readers have connected with Would You Believe It? because they're asking the exact same things you are. 
+            You're not alone in this journey.
+          </p>
+        </div>
+
+        <div class="section-block desc">
+          <h4>
+            Video Description
+            <button class="copy-btn" onclick="copyText('md12', this)">Copy</button>
+          </h4>
+
+          <p id="md12">
+            Honest spiritual questions are more common than you think. You're not alone. #FaithJourney #Skeptic #WouldYouBelieveIt #ChristianBooks
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- VIDEO 13 -->
+  <div class="video-card">
+
+    <div class="card-date">
+      <div class="date-num">22</div>
+      <div class="date-month">June</div>
+      <div class="date-vid">Clip 13</div>
+    </div>
+
+    <div class="card-body">
+
+      <div class="card-title">A Book for Quiet Thinkers</div>
+
+      <div class="card-hook">
+        Focus: Speaking to introverted, reflective audiences.
+      </div>
+
+      <div class="card-sections">
+
+        <div class="section-block">
+          <h4>
+            Voiceover Script
+            <button class="copy-btn" onclick="copyText('vo13', this)">Copy</button>
+          </h4>
+
+          <p id="vo13">
+            Not everyone processes faith loudly. 
+            Some people think quietly. Reflect deeply. Question privately. 
+            Kyle Hogg wrote this book for the reflective skeptic — the person searching carefully beneath the noise of modern culture.
+          </p>
+        </div>
+
+        <div class="section-block desc">
+          <h4>
+            Video Description
+            <button class="copy-btn" onclick="copyText('md13', this)">Copy</button>
+          </h4>
+
+          <p id="md13">
+            A thoughtful, gentle exploration of faith designed for reflective readers and quiet skeptics. #WouldYouBelieveIt #BookTok #FaithAndReason #Introvert
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- VIDEO 14 -->
+  <div class="video-card">
+
+    <div class="card-date">
+      <div class="date-num">22</div>
+      <div class="date-month">June</div>
+      <div class="date-vid">Clip 14</div>
+    </div>
+
+    <div class="card-body">
+
+      <div class="card-title">Start with Curiosity</div>
+
+      <div class="card-hook">
+        Focus: Removing pressure from the first step toward faith.
+      </div>
+
+      <div class="card-sections">
+
+        <div class="section-block">
+          <h4>
+            Voiceover Script
+            <button class="copy-btn" onclick="copyText('vo14', this)">Copy</button>
+          </h4>
+
+          <p id="vo14">
+            You don't have to force yourself to believe overnight. 
+            You don't need perfect certainty before opening the book. 
+            All Kyle Hogg asks is simple curiosity. 
+            Just enough openness to ask: what if there's more to reality than I assumed?
+          </p>
+        </div>
+
+        <div class="section-block desc">
+          <h4>
+            Video Description
+            <button class="copy-btn" onclick="copyText('md14', this)">Copy</button>
+          </h4>
+
+          <p id="md14">
+            Faith often begins with curiosity, not certainty. Start the journey gently. #Curiosity #FaithJourney #WouldYouBelieveIt #ChristianBooks
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- VIDEO 15 -->
+  <div class="video-card">
+
+    <div class="card-date">
+      <div class="date-num">22</div>
+      <div class="date-month">June</div>
+      <div class="date-vid">Clip 15</div>
+    </div>
+
+    <div class="card-body">
+
+      <div class="card-title">The Final Invitation</div>
+
+      <div class="card-hook">
+        Focus: Strong emotional CTA for conversion-oriented viewers.
+      </div>
+
+      <div class="card-sections">
+
+        <div class="section-block">
+          <h4>
+            Voiceover Script
+            <button class="copy-btn" onclick="copyText('vo15', this)">Copy</button>
+          </h4>
+
+          <p id="vo15">
+            Somewhere deep down, you already know this search matters. 
+            You're looking for truth. Meaning. Peace. Something solid enough to hold onto in a chaotic world. 
+            Would You Believe It? is not about manipulating you into belief. 
+            It's an invitation to honestly explore the possibility that God may be far closer than you imagined.
+          </p>
+        </div>
+
+        <div class="section-block desc">
+          <h4>
+            Video Description
+            <button class="copy-btn" onclick="copyText('md15', this)">Copy</button>
+          </h4>
+
+          <p id="md15">
+            The search for meaning is deeply human. Begin exploring Would You Believe It? today. Kindle, paperback & audiobook available now. #WouldYouBelieveIt #FaithAndReason #BookTok #ChristianBooks #SpiritualJourney
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</section>
+
+<footer class="footer">
+
+  <div class="footer-brand">
+    ATOMIC SHELF
+  </div>
+
+  <div class="footer-note">
+    Week 5 Psychological Narrative Deployment · Prepared for Kyle Hogg · June 2026 Distribution Window
+  </div>
+
+</footer>
+
+</body>
+</html>

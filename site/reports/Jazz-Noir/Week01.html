@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Jazz Noir · Bermuda's Triangle · Campaign Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600;1,700&family=Source+Sans+3:wght@300;400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+a{color:inherit;text-decoration:none;}
+:root{
+  --bg:#faf7f2;--bg2:#f4efe6;--bg3:#ede5d8;
+  --rose:#9b2350;--rose2:#c0325e;--blush:#e05070;
+  --gold:#b87d20;--gold2:#d4960e;--gold-lt:#fdf5e0;
+  --ink:#1c1208;--ink2:#2e1f0e;--ink3:#5a4228;--ink4:#8a6e50;
+  --border:#d8c8a8;--border-lt:#e8dcc8;
+  --surface:#ffffff;--surface2:#f7f2ea;
+  --r:10px;--r-lg:16px;--r-xl:24px;
+  --glow-rose:0 4px 24px rgba(155,35,80,.15);--glow-gold:0 4px 20px rgba(184,125,32,.15);
+  --shadow-sm:0 2px 12px rgba(28,18,8,.07);--shadow:0 6px 32px rgba(28,18,8,.11);--shadow-lg:0 14px 50px rgba(28,18,8,.15);
+}
+body{font-family:'Source Sans 3',system-ui,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;font-size:17px;line-height:1.75;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(155,35,80,.06) 0%,transparent 60%);pointer-events:none;z-index:0;}
+::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:var(--bg2);}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+
+/* ── TRIAL BANNER ── */
+.trial-banner{background:var(--surface);border-bottom:2px solid var(--border);padding:12px 40px;position:sticky;top:0;z-index:100;box-shadow:var(--shadow-sm);}
+.trial-inner{max-width:1000px;margin:0 auto;display:flex;align-items:center;gap:20px;flex-wrap:wrap;}
+.trial-label{font-family:'DM Mono',monospace;font-size:.66rem;text-transform:uppercase;letter-spacing:.14em;color:var(--gold);white-space:nowrap;}
+.trial-track{flex:1;min-width:200px;background:var(--bg3);border-radius:40px;height:8px;position:relative;overflow:hidden;}
+.trial-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:40px;transition:width 1s cubic-bezier(.34,1.56,.64,1);}
+.trial-days{display:flex;gap:16px;align-items:center;}
+.trial-day-num{font-family:'Lora',serif;font-size:1.5rem;font-weight:700;color:var(--gold);line-height:1;}
+.trial-day-lbl{font-family:'DM Mono',monospace;font-size:.58rem;color:var(--ink4);text-transform:uppercase;letter-spacing:.1em;}
+.trial-status{font-family:'DM Mono',monospace;font-size:.62rem;color:var(--gold);background:rgba(184,125,32,.1);border:1px solid rgba(184,125,32,.28);border-radius:40px;padding:3px 11px;white-space:nowrap;}
+
+/* ── HERO ── */
+.hero{padding:70px 40px 80px;position:relative;overflow:hidden;z-index:1;background:linear-gradient(160deg,#2a0e1c 0%,#1a0812 55%,#241020 100%);}
+.hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(212,148,42,.5),transparent);}
+.hero-inner{max-width:1000px;margin:0 auto;position:relative;}
+.hero-logo{display:inline-flex;align-items:center;gap:10px;margin-bottom:44px;opacity:.8;}
+.logo-mark{width:36px;height:36px;background:linear-gradient(135deg,var(--rose),var(--blush));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;color:#fff;letter-spacing:.05em;font-family:'DM Mono',monospace;box-shadow:0 2px 16px rgba(155,35,80,.4);}
+.logo-text{font-family:'Lora',serif;font-size:1.1rem;font-style:italic;color:rgba(255,245,235,.6);letter-spacing:.02em;}
+.hero-eyebrow{font-family:'DM Mono',monospace;font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:#f0c060;margin-bottom:16px;opacity:.9;}
+.hero-title{font-family:'Lora',serif;font-size:clamp(2.2rem,6vw,4.4rem);font-weight:700;color:#fff8f0;line-height:1.06;margin-bottom:8px;letter-spacing:-.01em;}
+.hero-title em{font-style:italic;color:#f0c060;}
+.hero-sub{font-size:1.05rem;color:rgba(255,245,235,.6);font-weight:400;margin-bottom:40px;max-width:500px;}
+.hero-stats{display:flex;gap:0;flex-wrap:wrap;}
+.hstat{padding:20px 36px 20px 0;margin-right:36px;border-right:1px solid rgba(255,255,255,.1);}
+.hstat:last-child{border-right:none;margin-right:0;}
+.hstat-val{font-family:'Lora',serif;font-size:2.8rem;font-weight:700;color:#fff8f0;line-height:1;margin-bottom:4px;}
+.hstat-val.rose{color:#f080a0;}.hstat-val.gold{color:#f0c060;}
+.hstat-lbl{font-family:'DM Mono',monospace;font-size:.57rem;color:rgba(255,245,235,.35);text-transform:uppercase;letter-spacing:.1em;}
+
+/* ── LAYOUT ── */
+.main{max-width:1000px;margin:0 auto;padding:50px 40px 100px;position:relative;z-index:1;}
+
+/* ── TABS ── */
+.tab-nav{display:flex;gap:0;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xl);padding:5px;margin-bottom:40px;width:fit-content;overflow-x:auto;box-shadow:var(--shadow-sm);}
+.tab-btn{font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4);padding:9px 20px;border-radius:calc(var(--r-xl) - 4px);cursor:pointer;transition:all .18s;border:none;background:none;white-space:nowrap;}
+.tab-btn.active{background:linear-gradient(135deg,var(--rose),var(--rose2));color:#fff;box-shadow:var(--glow-rose);}
+.tab-btn:hover:not(.active){color:var(--ink);background:var(--bg2);}
+.tab-panel{display:none;}.tab-panel.active{display:block;}
+
+/* ── SECTION HEADERS ── */
+.section-hd{display:flex;align-items:center;gap:14px;margin-bottom:22px;margin-top:52px;}
+.section-hd:first-child{margin-top:0;}
+.section-accent{width:4px;height:30px;border-radius:3px;flex-shrink:0;background:linear-gradient(180deg,var(--rose),var(--blush));}
+.section-accent.gold{background:linear-gradient(180deg,var(--gold),var(--gold2));}
+.section-title{font-family:'Lora',serif;font-size:1.9rem;font-weight:700;color:var(--ink);line-height:1;letter-spacing:-.01em;}
+.section-rule{flex:1;height:1px;background:var(--border-lt);}
+.section-count{font-family:'DM Mono',monospace;font-size:.62rem;color:var(--ink4);background:var(--bg2);border:1px solid var(--border);border-radius:40px;padding:3px 12px;letter-spacing:.06em;}
+
+/* ── NOTICE ── */
+.notice{background:var(--gold-lt);border:1px solid rgba(184,125,32,.28);border-radius:var(--r);padding:16px 20px;font-size:.95rem;color:var(--ink2);font-weight:400;display:flex;align-items:flex-start;gap:10px;margin-bottom:20px;}
+.notice-icon{font-size:1.1rem;flex-shrink:0;}
+.notice a{color:var(--rose);font-weight:600;text-decoration:underline;}
+.notice.amber{background:rgba(184,125,32,.08);border-color:rgba(184,125,32,.3);}
+
+/* ── CARDS ── */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:28px 32px;box-shadow:var(--shadow-sm);margin-bottom:14px;}
+.card-title{font-family:'Lora',serif;font-size:1.3rem;font-weight:700;color:var(--ink);margin-bottom:4px;}
+.card-sub{font-size:.88rem;color:var(--ink3);margin-bottom:22px;font-weight:400;}
+
+/* ── PHOTO ALBUM CARD ── */
+.album-section{margin-bottom:32px;}
+.album-link-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;transition:transform .2s,box-shadow .2s;display:block;box-shadow:var(--shadow-sm);}
+.album-link-card:hover{transform:translateY(-3px);box-shadow:var(--shadow);}
+.album-thumb-wrap{width:100%;aspect-ratio:16/9;overflow:hidden;position:relative;background:var(--bg2);}
+.album-thumb-wrap img{width:100%;height:100%;object-fit:cover;display:block;transition:opacity .2s;}
+.album-link-card:hover .album-thumb-wrap img{opacity:.92;}
+.album-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(28,18,8,.65) 0%,transparent 50%);display:flex;align-items:flex-end;padding:14px;}
+.album-overlay-text{font-family:'DM Mono',monospace;font-size:.62rem;color:#f0c060;text-transform:uppercase;letter-spacing:.1em;}
+.album-info-row{padding:14px 18px;display:flex;align-items:center;justify-content:space-between;background:var(--surface);}
+.album-name{font-family:'Lora',serif;font-size:1.05rem;font-weight:600;color:var(--ink);}
+.album-meta{font-size:.75rem;color:var(--ink4);}
+.album-open-btn{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.08em;color:var(--rose2);background:rgba(155,35,80,.07);border:1px solid rgba(155,35,80,.2);border-radius:40px;padding:4px 12px;text-transform:uppercase;white-space:nowrap;}
+.albums-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-bottom:14px;}
+
+/* ── CONTENT CALENDAR ── */
+.cal-grid{display:flex;flex-direction:column;gap:8px;}
+.cal-item{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:18px 22px;display:grid;grid-template-columns:40px 1fr auto;gap:16px;align-items:start;transition:border-color .2s,box-shadow .2s;box-shadow:var(--shadow-sm);}
+.cal-item:hover{border-color:rgba(155,35,80,.3);box-shadow:var(--glow-rose);}
+.cal-num{font-family:'Lora',serif;font-size:2rem;font-weight:700;color:var(--rose);line-height:1;opacity:.5;}
+.cal-body{}
+.cal-hook{font-family:'Lora',serif;font-size:1.08rem;font-weight:600;color:var(--ink);line-height:1.35;margin-bottom:4px;}
+.cal-tag{font-family:'DM Mono',monospace;font-size:.6rem;text-transform:uppercase;letter-spacing:.09em;color:var(--gold);background:rgba(184,125,32,.1);border:1px solid rgba(184,125,32,.22);border-radius:40px;padding:2px 9px;display:inline-block;margin-bottom:6px;}
+.cal-vo{font-size:.88rem;color:var(--ink3);line-height:1.7;border-left:3px solid rgba(155,35,80,.2);padding-left:12px;margin-top:8px;}
+.cal-day{font-family:'DM Mono',monospace;font-size:.6rem;color:var(--ink4);text-transform:uppercase;letter-spacing:.08em;text-align:right;white-space:nowrap;}
+.cal-vo-toggle{font-family:'DM Mono',monospace;font-size:.62rem;color:var(--rose2);cursor:pointer;letter-spacing:.06em;text-transform:uppercase;background:rgba(155,35,80,.07);border:1px solid rgba(155,35,80,.18);border-radius:40px;padding:3px 10px;margin-top:6px;transition:background .15s;}
+.cal-vo-toggle:hover{background:rgba(155,35,80,.13);}
+.vo-hidden{display:none;}
+
+/* ── NEXT STEPS ── */
+.steps-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;}
+.step-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:24px 26px;box-shadow:var(--shadow-sm);}
+.step-num{font-family:'DM Mono',monospace;font-size:.85rem;font-weight:600;color:var(--rose2);opacity:1;line-height:1;margin-bottom:12px;background:rgba(155,35,80,.08);border:1px solid rgba(155,35,80,.2);border-radius:8px;display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;letter-spacing:.06em;}
+.step-title{font-family:'Lora',serif;font-size:1.15rem;font-weight:700;color:var(--ink);margin-bottom:8px;}
+.step-desc{font-size:.92rem;color:var(--ink3);line-height:1.7;}
+.step-action{display:inline-flex;align-items:center;gap:5px;margin-top:14px;font-family:'DM Mono',monospace;font-size:.62rem;color:var(--gold);background:rgba(184,125,32,.08);border:1px solid rgba(184,125,32,.22);border-radius:40px;padding:5px 13px;letter-spacing:.04em;text-transform:uppercase;cursor:pointer;}
+
+/* ── STRATEGY ── */
+.strategy-timeline{display:flex;flex-direction:column;gap:0;position:relative;}
+.strategy-timeline::before{content:'';position:absolute;left:18px;top:20px;bottom:20px;width:2px;background:linear-gradient(180deg,var(--rose),var(--gold2),var(--rose));opacity:.2;}
+.stl-item{display:flex;gap:20px;padding:18px 0;border-bottom:1px solid var(--border-lt);}
+.stl-item:last-child{border-bottom:none;}
+.stl-dot{width:36px;height:36px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:.6rem;font-weight:600;letter-spacing:.04em;border:2px solid;}
+.stl-dot.organic{background:rgba(155,35,80,.1);border-color:var(--rose);color:var(--rose);}
+.stl-dot.promote{background:rgba(184,125,32,.1);border-color:var(--gold);color:var(--gold);}
+.stl-dot.dsp{background:rgba(192,50,94,.1);border-color:var(--rose2);color:var(--rose2);}
+.stl-body{}
+.stl-phase{font-family:'DM Mono',monospace;font-size:.63rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink4);margin-bottom:4px;}
+.stl-title{font-family:'Lora',serif;font-size:1.15rem;font-weight:700;color:var(--ink);margin-bottom:6px;}
+.stl-desc{font-size:.92rem;color:var(--ink3);line-height:1.7;}
+.stl-metric{display:inline-block;font-family:'DM Mono',monospace;font-size:.68rem;font-weight:600;color:var(--gold);margin-top:8px;}
+
+/* ── FOOTER ── */
+.footer{background:var(--ink);padding:36px 40px;text-align:center;position:relative;z-index:1;}
+.footer-logo{font-family:'Lora',serif;font-size:1.3rem;font-style:italic;color:rgba(255,245,235,.45);margin-bottom:6px;}
+.footer-text{font-family:'DM Mono',monospace;font-size:.62rem;color:rgba(255,245,235,.22);letter-spacing:.06em;}
+
+/* ── BADGE ── */
+.badge{display:inline-flex;align-items:center;padding:3px 11px;border-radius:40px;font-size:.64rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;font-family:'DM Mono',monospace;}
+.b-trial{background:rgba(184,125,32,.12);color:var(--gold);border:1px solid rgba(184,125,32,.3);}
+.b-active{background:rgba(155,35,80,.09);color:var(--rose);border:1px solid rgba(155,35,80,.22);}
+.b-next{background:rgba(184,125,32,.1);color:var(--gold);border:1px solid rgba(184,125,32,.25);}
+.b-review{background:rgba(184,125,32,.12);color:var(--gold);border:1px solid rgba(184,125,32,.3);}
+
+/* ── METRICS ── */
+.metrics-strip{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-bottom:14px;}
+.mbox{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:18px;text-align:center;box-shadow:var(--shadow-sm);}
+.mbox-val{font-family:'Lora',serif;font-size:2.2rem;font-weight:700;color:var(--ink);line-height:1;margin-bottom:5px;}
+.mbox-val.rose{color:var(--rose2);}.mbox-val.gold{color:var(--gold);}
+.mbox-lbl{font-family:'DM Mono',monospace;font-size:.56rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink4);}
+
+@media(max-width:700px){
+  .hero{padding:40px 20px 50px;}.main{padding:30px 20px 80px;}
+  .trial-banner{padding:10px 20px;}.hstat{padding:14px 20px 14px 0;margin-right:20px;}
+  .hstat-val{font-size:2rem;}.albums-grid{grid-template-columns:1fr 1fr;}
+  .steps-grid{grid-template-columns:1fr;}.cal-item{grid-template-columns:36px 1fr;}.cal-day{display:none;}
+}
+@media(max-width:420px){.albums-grid{grid-template-columns:1fr;}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+.card,.cal-item,.step-card,.album-link-card{animation:fadeUp .45s ease both;}
+</style>
+</head>
+<body>
+
+<!-- ── TRIAL BANNER ── -->
+<div class="trial-banner">
+  <div class="trial-inner">
+    <div>
+      <div class="trial-day-num" id="trialDayNum" style="font-family:'Lora',serif;font-size:1.5rem;font-weight:700;color:var(--gold);line-height:1;">1</div>
+      <div class="trial-day-lbl" style="font-family:'DM Mono',monospace;font-size:.58rem;color:var(--ink4);text-transform:uppercase;letter-spacing:.1em;">of 7 days</div>
+    </div>
+    <div style="flex:1;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;">
+        <div class="trial-label">Trial Progress</div>
+        <div class="trial-status" id="trialStatus">Pending Methodology Review</div>
+      </div>
+      <div class="trial-track"><div class="trial-fill" id="trialFill" style="width:14.3%"></div></div>
+    </div>
+    <div style="text-align:right;">
+      <div style="font-family:'DM Mono',monospace;font-size:.58rem;color:var(--ink4);text-transform:uppercase;letter-spacing:.08em;">Started</div>
+      <div style="font-family:'DM Mono',monospace;font-size:.7rem;color:var(--gold2);" id="trialStart">May 29, 2026</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── HERO ── -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-logo"><div class="logo-mark">AS</div><div class="logo-text">Atomic Shelf</div></div>
+    <div class="hero-eyebrow">Campaign Dashboard · Pending Methodology Review · May 2026</div>
+    <h1 class="hero-title">Jazz Noir<br><em>Bermuda's Triangle</em></h1>
+    <p class="hero-sub">Your campaign materials are ready for review. No account access needed yet — take your time exploring the strategy, hooks, and content calendar below.</p>
+    <div class="hero-stats">
+      <div class="hstat"><div class="hstat-val rose">15</div><div class="hstat-lbl">Videos Planned</div></div>
+      <div class="hstat"><div class="hstat-val gold">7</div><div class="hstat-lbl">Trial Days</div></div>
+      <div class="hstat"><div class="hstat-val">1</div><div class="hstat-lbl">Book Active</div></div>
+      <div class="hstat"><div class="hstat-val">Review</div><div class="hstat-lbl">Current Stage</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── MAIN ── -->
+<div class="main">
+
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="switchTab('overview',this)">Overview</button>
+    <button class="tab-btn" onclick="switchTab('calendar',this)">Content Calendar</button>
+    <button class="tab-btn" onclick="switchTab('media',this)">Photo Albums</button>
+    <button class="tab-btn" onclick="switchTab('nextsteps',this)">Next Steps</button>
+    <button class="tab-btn" onclick="switchTab('strategy',this)">Strategy</button>
+  </div>
+
+  <!-- ══ OVERVIEW ══ -->
+  <div class="tab-panel active" id="tab-overview">
+
+    <div class="notice amber">
+      <span class="notice-icon">🔍</span>
+      <span><strong>You're in the review stage.</strong> No account access is needed right now. This dashboard exists so you can evaluate the strategy, scripts, and visual direction at your own pace. When you're ready to move forward — or if you have questions — just reply to Nick's email.</span>
+    </div>
+
+    <div class="section-hd">
+      <div class="section-accent"></div>
+      <div class="section-title">The Book</div>
+      <div class="section-rule"></div>
+    </div>
+
+    <div class="card">
+      <div style="display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap;">
+        <div style="flex:1;min-width:200px;">
+          <div style="font-family:'DM Mono',monospace;font-size:.6rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink4);margin-bottom:6px;">Bisexual Erotica · Erotic Suspense · Polyamorous Romance</div>
+          <div class="card-title" style="font-size:1.4rem;">Bermuda's Triangle</div>
+          <div style="font-size:.85rem;color:var(--ink3);margin-bottom:12px;">by <strong>Jazz Noir</strong> · Book 2 of 3</div>
+          <div style="margin-bottom:14px;display:flex;gap:6px;flex-wrap:wrap;">
+            <span class="badge b-review">Pending Review</span>
+            <span class="badge b-active">Materials Ready</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">
+            <div style="background:var(--bg2);border:1px solid var(--border-lt);border-radius:8px;padding:10px 12px;">
+              <div style="font-family:'DM Mono',monospace;font-size:.54rem;color:var(--ink4);text-transform:uppercase;letter-spacing:.07em;margin-bottom:3px;">Amazon Rating</div>
+              <div style="font-size:.9rem;color:var(--gold2);font-weight:600;">4.0 / 5 ★ (4 reviews)</div>
+            </div>
+            <div style="background:var(--bg2);border:1px solid var(--border-lt);border-radius:8px;padding:10px 12px;">
+              <div style="font-family:'DM Mono',monospace;font-size:.54rem;color:var(--ink4);text-transform:uppercase;letter-spacing:.07em;margin-bottom:3px;">BSR Kindle</div>
+              <div style="font-size:.9rem;color:var(--ink);font-weight:600;">#496,132</div>
+            </div>
+            <div style="background:var(--bg2);border:1px solid var(--border-lt);border-radius:8px;padding:10px 12px;">
+              <div style="font-family:'DM Mono',monospace;font-size:.54rem;color:var(--ink4);text-transform:uppercase;letter-spacing:.07em;margin-bottom:3px;">LGBTQ+ Erotica Rank</div>
+              <div style="font-size:.9rem;color:var(--rose2);font-weight:600;">#1,709</div>
+            </div>
+            <div style="background:var(--bg2);border:1px solid var(--border-lt);border-radius:8px;padding:10px 12px;">
+              <div style="font-family:'DM Mono',monospace;font-size:.54rem;color:var(--ink4);text-transform:uppercase;letter-spacing:.07em;margin-bottom:3px;">Kindle Price</div>
+              <div style="font-size:.9rem;color:var(--ink);font-weight:600;">$2.99 / KU Free</div>
+            </div>
+          </div>
+          <a href="https://www.amazon.com/dp/B0FCCHMHPR" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.06em;color:var(--gold2);background:rgba(212,148,42,.1);border:1px solid rgba(212,148,42,.25);border-radius:40px;padding:6px 14px;text-transform:uppercase;">📚 View on Amazon ↗</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-hd" style="margin-top:40px;">
+      <div class="section-accent gold"></div>
+      <div class="section-title">What's in This Dashboard</div>
+      <div class="section-rule"></div>
+    </div>
+    <div class="metrics-strip">
+      <div class="mbox"><div class="mbox-val rose">15</div><div class="mbox-lbl">Planned Videos</div></div>
+      <div class="mbox"><div class="mbox-val">2–3</div><div class="mbox-lbl">Posts Per Day</div></div>
+      <div class="mbox"><div class="mbox-val gold">TikTok</div><div class="mbox-lbl">Primary Platform</div></div>
+      <div class="mbox"><div class="mbox-val">YT</div><div class="mbox-lbl">Secondary Platform</div></div>
+      <div class="mbox"><div class="mbox-val gold">3</div><div class="mbox-lbl">Growth Phases</div></div>
+      <div class="mbox"><div class="mbox-val">2</div><div class="mbox-lbl">Photo Albums</div></div>
+    </div>
+
+    <div class="notice amber" style="margin-top:4px;">
+      <span class="notice-icon">📋</span>
+      <span>Explore the tabs above: <strong>Content Calendar</strong> has all 15 video scripts and hooks. <strong>Photo Albums</strong> shows the visual direction. <strong>Strategy</strong> explains the full 3-phase growth approach. No commitment required to look around.</span>
+    </div>
+
+  </div>
+
+  <!-- ══ CONTENT CALENDAR ══ -->
+  <div class="tab-panel" id="tab-calendar">
+
+    <div class="section-hd">
+      <div class="section-accent"></div>
+      <div class="section-title">15-Video Content Calendar</div>
+      <div class="section-rule"></div>
+      <div class="section-count">Trial Week · May 29 – Jun 4</div>
+    </div>
+
+    <div class="notice">
+      <span class="notice-icon">🎙️</span>
+      <span>Each video has a hook, angle, and full voiceover script below. Tap <strong>Show Voiceover</strong> to expand any script. These are designed for 30–45 second short-form videos.</span>
+    </div>
+
+    <div class="cal-grid" id="calGrid">
+      <!-- JS renders these -->
+    </div>
+
+  </div>
+
+  <!-- ══ MEDIA ALBUMS ══ -->
+  <div class="tab-panel" id="tab-media">
+
+    <div class="section-hd">
+      <div class="section-accent"></div>
+      <div class="section-title">Seed Photo Albums</div>
+      <div class="section-rule"></div>
+      <div class="section-count">2 albums</div>
+    </div>
+
+    <div class="notice">
+      <span class="notice-icon">👁️</span>
+      <span>These are the images we'd use as visual backdrops for your videos. <strong>Click any album to open it in Google Photos in a new tab.</strong> If any image feels off-brand — wrong mood, wrong tone — just note it and let us know.</span>
+    </div>
+
+    <!-- Album 1 -->
+    <div class="album-section">
+      <a href="https://photos.app.goo.gl/8yAoekhA52sFv73GA" target="_blank" rel="noopener" class="album-link-card">
+        <div class="album-thumb-wrap">
+          <img src="https://lh3.googleusercontent.com/pw/AP1GczO7T2zKCNIiNj6r9SWZW0TqxoC_QfwNh4jL4JRK9p2wt98WkLeelb1wIVvfioxww5gfxY8PMBA1SjZ6TwRIb4Y7VZN2jw0Mn9vpBMcrxQhzvWqTWGU=w800-h450" alt="Week 01 Photos" loading="lazy">
+          <div class="album-overlay"><div class="album-overlay-text">↗ Click to open in Google Photos</div></div>
+        </div>
+        <div class="album-info-row">
+          <div>
+            <div class="album-name">Week 01 — Seed Images</div>
+            <div class="album-meta">Bermuda's Triangle · May 29, 2026 · 15 photos</div>
+          </div>
+          <div class="album-open-btn">Open Album ↗</div>
+        </div>
+      </a>
+    </div>
+
+    <!-- Album 2 -->
+    <div class="album-section">
+      <a href="https://photos.app.goo.gl/MunkdKiN9iyGArb38" target="_blank" rel="noopener" class="album-link-card">
+        <div class="album-thumb-wrap" style="background:linear-gradient(135deg,#1a0f18,#0a0608);display:flex;align-items:center;justify-content:center;">
+          <div style="text-align:center;padding:40px;">
+            <div style="font-family:'Lora',serif;font-size:1.4rem;font-style:italic;color:rgba(245,237,232,.4);margin-bottom:8px;">YouTube Hero Video</div>
+            <div style="font-family:'DM Mono',monospace;font-size:.62rem;color:var(--ink4);letter-spacing:.08em;text-transform:uppercase;">Tap to open in Google Photos</div>
+          </div>
+        </div>
+        <div class="album-info-row">
+          <div>
+            <div class="album-name">YouTube Hero Video — Visual Pack</div>
+            <div class="album-meta">Bermuda's Triangle · Jazz Noir · Shared Album</div>
+          </div>
+          <div class="album-open-btn">Open Album ↗</div>
+        </div>
+      </a>
+    </div>
+
+  </div>
+
+  <!-- ══ NEXT STEPS ══ -->
+  <div class="tab-panel" id="tab-nextsteps">
+
+    <div class="section-hd">
+      <div class="section-accent gold"></div>
+      <div class="section-title">When You're Ready</div>
+      <div class="section-rule"></div>
+    </div>
+
+    <div class="notice amber">
+      <span class="notice-icon">⏸️</span>
+      <span>You're still in the evaluation stage — no action is required right now. The steps below are what would happen <em>after</em> you decide to move forward. Review them at your own pace.</span>
+    </div>
+
+    <div class="steps-grid">
+
+      <div class="step-card">
+        <div class="step-num">01</div>
+        <div class="step-title">Ask Your Questions</div>
+        <div class="step-desc">Review the strategy, hooks, and voiceover scripts. Anything that feels off or unclear — send your questions to Nick. There's no rush and no pressure. The goal of this dashboard is to give you a clear picture of how Atomic Shelf works before you decide anything.</div>
+        <div class="step-action">→ Reply with questions anytime</div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-num">02</div>
+        <div class="step-title">Create a TikTok Account</div>
+        <div class="step-desc">When you're ready to move forward: download TikTok, create an account, then go to <strong>Settings → Manage Account → Switch to Business Account</strong>. Choose the <em>Books & Literature</em> or <em>Entertainment</em> category. Share your username and we'll request Editor access to begin posting.</div>
+        <div class="step-action">→ Only needed when you're ready</div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-num">03</div>
+        <div class="step-title">Create a YouTube Channel</div>
+        <div class="step-desc">Go to <strong>youtube.com</strong>, create a channel under the name <em>Jazz Noir</em>, then go to <strong>Settings → Permissions → Invite</strong> and add <strong>powerpages30@gmail.com</strong> as an Editor. This lets us upload and manage YouTube videos directly on your behalf.</div>
+        <div class="step-action" style="color:var(--rose2);background:rgba(232,96,122,.08);border-color:rgba(232,96,122,.2);">→ Invite: powerpages30@gmail.com</div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-num">04</div>
+        <div class="step-title">Payment Portal</div>
+        <div class="step-desc">When you're ready to continue after the trial or pay for a full month, the payment portal is here. You can set a custom amount at checkout.</div>
+        <a href="https://store.pesapal.com/atomicshelfsubscription" target="_blank" rel="noopener" class="step-action" style="color:var(--gold);background:rgba(184,125,32,.08);border-color:rgba(184,125,32,.22);">→ Payment portal ↗</a>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ══ STRATEGY ══ -->
+  <div class="tab-panel" id="tab-strategy">
+
+    <div class="section-hd">
+      <div class="section-accent"></div>
+      <div class="section-title">Your 3-Phase Growth Strategy</div>
+      <div class="section-rule"></div>
+    </div>
+
+    <div class="notice">
+      <span class="notice-icon">📊</span>
+      <span>This is the full picture of how we grow <em>Bermuda's Triangle</em> from zero to a consistent sales engine. Each phase builds on the last.</span>
+    </div>
+
+    <div class="card" style="margin-bottom:28px;">
+      <div class="strategy-timeline">
+
+        <div class="stl-item">
+          <div class="stl-dot organic">P1</div>
+          <div class="stl-body">
+            <div class="stl-phase">Phase 1 · Weeks 1–4</div>
+            <div class="stl-title">Organic Content First</div>
+            <div class="stl-desc">We post 2–3 short-form videos per day on TikTok and YouTube Shorts. The goal is to build an audience around your book's themes — desire, loyalty, danger, forbidden love — before spending a single dollar on ads. Organic views tell the algorithm <em>who</em> your reader is. This data is priceless for the phases that follow.</div>
+            <div class="stl-metric">Target: 10,000–30,000 organic views in Month 1</div>
+          </div>
+        </div>
+
+        <div class="stl-item">
+          <div class="stl-dot promote">P2</div>
+          <div class="stl-body">
+            <div class="stl-phase">Phase 2 · After Month 1</div>
+            <div class="stl-title">TikTok Promote — Lookalike Expansion</div>
+            <div class="stl-desc">Once we have organic data, we activate <strong>TikTok Promote</strong> on your top-performing videos. Promote takes your real viewers and finds <em>lookalike audiences</em> — people with the same interests, behaviors, and demographics — at a fraction of traditional ad costs. At this stage, we're amplifying what's already working, not guessing.</div>
+            <div class="stl-metric">Typical CPM at this stage: $3–6 · Starts after Month 1</div>
+          </div>
+        </div>
+
+        <div class="stl-item">
+          <div class="stl-dot dsp">P3</div>
+          <div class="stl-body">
+            <div class="stl-phase">Phase 3 · Ongoing</div>
+            <div class="stl-title">Amazon DSP — Direct Retargeting to Book Page</div>
+            <div class="stl-desc">This is the highest-leverage phase. Amazon DSP (Demand-Side Platform) lets us place display ads <strong>directly in front of people who have already seen your TikTok or YouTube content</strong> — and send them straight to your Amazon book page. DSP drives direct reader traffic to a purchase-ready page.<br><br>Without DSP, video views don't reliably convert to sales. With DSP retargeting, you close the loop — views become clicks, clicks become reads and purchases.<br><br>Because we've built a content-first audience, your DSP CPM drops dramatically: instead of the standard <strong>$10 CPM</strong>, content-warmed audiences typically cost us around <strong>$2 CPM</strong> — 80% cheaper, and far more targeted.</div>
+            <div class="stl-metric">DSP CPM: ~$2 (vs $10 cold) · Content-first advantage</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="section-hd" style="margin-top:40px;">
+      <div class="section-accent gold"></div>
+      <div class="section-title">Why This Order Matters</div>
+      <div class="section-rule"></div>
+    </div>
+    <div class="card">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;">
+        <div style="background:var(--bg2);border:1px solid var(--border-lt);border-radius:10px;padding:16px;">
+          <div style="font-family:'DM Mono',monospace;font-size:.58rem;color:var(--ink4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;">Without Content First</div>
+          <div style="font-size:.85rem;color:var(--ink3);line-height:1.6;">Cold DSP costs $8–12 CPM. You're targeting anonymous audiences with no prior exposure. Conversion rates are low. Views don't stick. Budget burns fast.</div>
+        </div>
+        <div style="background:rgba(155,35,80,.06);border:1px solid rgba(155,35,80,.2);border-radius:10px;padding:16px;">
+          <div style="font-family:'DM Mono',monospace;font-size:.58rem;color:var(--rose2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;">With Content First (Our Approach)</div>
+          <div style="font-size:.85rem;color:var(--ink2);line-height:1.6;">Warm DSP retargeting costs ~$2 CPM. Audiences already know your book. They've seen the hook. DSP closes the loop and sends them directly to buy. Every dollar works harder.</div>
+        </div>
+        <div style="background:rgba(212,148,42,.06);border:1px solid rgba(212,148,42,.2);border-radius:10px;padding:16px;">
+          <div style="font-family:'DM Mono',monospace;font-size:.58rem;color:var(--gold2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;">The Result</div>
+          <div style="font-size:.85rem;color:var(--ink2);line-height:1.6;">Readers who find <em>Bermuda's Triangle</em> organically, get retargeted on Amazon, and click through to your page are far more likely to buy or read on Kindle Unlimited — giving you real sales lift, not just vanity metrics.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="footer">
+  <div class="footer-logo">Atomic Shelf</div>
+  <div class="footer-text">· atomic-shelf.com · Materials prepared May 29, 2026</div>
+</div>
+
+<script>
+// ── TAB SWITCHING ──
+function switchTab(tabId, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-' + tabId).classList.add('active');
+  if (btn) btn.classList.add('active');
+  else {
+    document.querySelectorAll('.tab-btn').forEach(b => {
+      if (b.getAttribute('onclick') && b.getAttribute('onclick').includes("'"+tabId+"'")) b.classList.add('active');
+    });
+  }
+}
+
+// ── TRIAL PROGRESS (static — pending review) ──
+(function() {
+  const TRIAL_START = new Date('2026-05-29T00:00:00');
+  const TRIAL_DAYS = 7;
+  const now = new Date();
+  const elapsed = (now - TRIAL_START) / (1000 * 60 * 60 * 24);
+  const day = Math.min(Math.ceil(elapsed + 0.001), TRIAL_DAYS);
+  const pct = Math.min((elapsed / TRIAL_DAYS) * 100, 100);
+  document.getElementById('trialDayNum').textContent = Math.max(day, 1);
+  document.getElementById('trialFill').style.width = Math.max(pct, 4) + '%';
+  // Status stays fixed as "Pending Methodology Review"
+})();
+
+// ── CONTENT CALENDAR ──
+const VIDEOS = [
+  {
+    day: 'Day 1 · May 29', num: 1,
+    tag: 'Book Intro Hook',
+    hook: '"She went on vacation. She came back dangerous."',
+    angle: 'Mystery/intrigue opener — tease the transformation without spoiling',
+    vo: `She booked a trip to clear her head. Sun, sand, solitude.\n\nShe didn't expect Celeste.\nShe didn't expect Malik.\nShe definitely didn't expect the enemies who followed her there.\n\nBermuda's Triangle — an erotic suspense that starts as a vacation and ends as a war.\n\nPart 2 is live on Kindle. Link in bio.`
+  },
+  {
+    day: 'Day 1 · May 29', num: 2,
+    tag: 'Desire Angle',
+    hook: '"Two people. One woman. No safe choice."',
+    angle: 'Poly romance angle for readers who love "why choose" tropes',
+    vo: `Celeste offers her safety.\nMalik offers her fire.\n\nThe problem? She wants both. And they both know it.\n\nThis isn't your average love triangle. This is a woman who refuses to shrink herself to fit one person's vision of who she should be.\n\nBermuda's Triangle: Part 2. The deeper you go, the harder it is to leave.\n\nKindle Unlimited — read free. Link in bio.`
+  },
+  {
+    day: 'Day 2 · May 30', num: 3,
+    tag: 'Reader Hook',
+    hook: '"If you loved Part 1, Part 2 will ruin you."',
+    angle: 'Series continuity — targeting existing readers of Book 1',
+    vo: `Part 1 left you wanting answers.\nPart 2 gives you answers — and burns your comfort zone to the ground.\n\nSecrets unravel. Loyalties shatter. And danger? Danger moves in close.\n\nBermuda is no longer just a woman on vacation. She's the center of a dark game — and the players don't play fair.\n\nBook 2 of the Bermuda's Triangle series is on Kindle now.`
+  },
+  {
+    day: 'Day 2 · May 30', num: 4,
+    tag: 'Suspense Angle',
+    hook: '"This isn\'t just romance. There are people who want her dead."',
+    angle: 'Erotic suspense — hit the thriller readers, not just romance',
+    vo: `Passion is easy. But what happens when desire becomes a liability?\n\nBermuda is caught between two lovers and a circle of powerful enemies who see her as a threat.\n\nThe love scenes are intense. The danger is real. And trust — trust costs everything in this world.\n\nErotic suspense that doesn't pull punches. Bermuda's Triangle Part 2. Kindle Unlimited.`
+  },
+  {
+    day: 'Day 3 · May 31', num: 5,
+    tag: '"For The Culture" Angle',
+    hook: '"Strong Black women who don\'t play it safe — this is your book."',
+    angle: 'Cultural resonance — speak directly to the core demographic',
+    vo: `Bermuda doesn't shrink.\nShe doesn't apologize for her desire.\nShe doesn't choose between power and love — she demands both.\n\nFor readers who are tired of heroines who dim their light for the story's convenience.\n\nJazz Noir writes women who take up space. Beautifully, dangerously, unapologetically.\n\nBermuda's Triangle — on Kindle now.`
+  },
+  {
+    day: 'Day 3 · May 31', num: 6,
+    tag: 'Atmosphere Build',
+    hook: '"The setting is lush. The tension is electric. The danger is real."',
+    angle: 'Evoke the world of the book — visual, sensory storytelling',
+    vo: `Imagine the heat. The salt air. The kind of place where your real life feels a thousand miles away.\n\nThen imagine falling for someone you shouldn't trust.\nThen someone else.\nThen finding out both of them have secrets that could destroy you.\n\nBermuda's Triangle isn't just a book. It's a world you'll want to live in — even knowing the risk.\n\nPart 2 is live on Kindle. Read free with Kindle Unlimited.`
+  },
+  {
+    day: 'Day 4 · Jun 1', num: 7,
+    tag: 'Quote Pull',
+    hook: '"Trust has a price." — Bermuda\'s Triangle Part 2',
+    angle: 'Pull a thematic quote and let it breathe — visual/text video',
+    vo: `Four words.\n\n"Trust has a price."\n\nIn Bermuda's world, every connection comes with a cost. Every secret has teeth. Every feeling she allows herself becomes a vulnerability.\n\nThis is what Jazz Noir does — he writes romance that feels like consequence. Like real life, turned up to maximum intensity.\n\nBermuda's Triangle Part 2. The deeper you go.`
+  },
+  {
+    day: 'Day 4 · Jun 1', num: 8,
+    tag: 'Author Voice',
+    hook: '"Jazz Noir writes characters who don\'t love halfway."',
+    angle: 'Brand the author — build the Jazz Noir identity beyond just this book',
+    vo: `Jazz Noir is the author of high-stakes romance where power, loyalty, and desire collide.\n\nEvery decision in his stories has consequences.\nEvery connection comes at a cost.\n\nIf you've ever wanted romance that treats you like an adult — that doesn't sanitize or simplify the mess of real desire — this is the author you've been looking for.\n\nBermuda's Triangle series. Start with Book 1, or dive straight into Part 2. Your call.`
+  },
+  {
+    day: 'Day 5 · Jun 2', num: 9,
+    tag: 'Kindle Unlimited Angle',
+    hook: '"Read it free. If you\'re not on Kindle Unlimited, you\'re missing out."',
+    angle: 'Reduce the barrier to entry — KU readers are high-volume consumers',
+    vo: `Kindle Unlimited members — this one's for you.\n\nBermuda's Triangle Part 2 is included in your subscription. No extra charge. Just click, download, and start reading.\n\n85 pages of erotic suspense, poly romance, and a woman who refuses to be a pawn in anyone's game.\n\nYou have nothing to lose. Except maybe sleep — because you won't put it down. Link in bio.`
+  },
+  {
+    day: 'Day 5 · Jun 2', num: 10,
+    tag: 'Series Pitch',
+    hook: '"3 books. One woman. An impossible choice. Start from the beginning."',
+    angle: 'Push the full series — maximize LTV with series readers',
+    vo: `Book 1: She arrives. She falls. She starts to see the cracks.\nBook 2: The cracks become craters. Secrets surface. Enemies close in.\nBook 3: One woman. Two lovers. No way out.\n\nThe Bermuda's Triangle series is complete. All 3 books, all on Kindle.\n\nIf you like erotic suspense with real stakes and characters who feel genuinely alive — start with Book 1. You'll read all three in a weekend. Trust me.`
+  },
+  {
+    day: 'Day 6 · Jun 3', num: 11,
+    tag: 'Conflict Tease',
+    hook: '"She has to choose: passion, power, or peace. There\'s only one right answer — and it\'s not the one you think."',
+    angle: 'Create reader curiosity — they have to know which she chooses',
+    vo: `Passion means Malik. Raw, electric, intoxicating — and unpredictable.\nPower means survival. Playing the game. Knowing the rules and weaponizing them.\nPeace means walking away from both.\n\nBermuda has to decide. And every choice costs something she's not sure she can afford to lose.\n\nWhat does she choose? Only one way to find out.\n\nBermuda's Triangle Part 2 — Kindle and Kindle Unlimited. Link in bio.`
+  },
+  {
+    day: 'Day 6 · Jun 3', num: 12,
+    tag: 'Mood / Aesthetic',
+    hook: '"Dark romance energy. Tropical setting. Real consequences."',
+    angle: 'Aesthetic-first for scroll-stopping visual appeal',
+    vo: `If your playlist sounds like this.\nIf you like your romance with teeth.\nIf "soft" isn't really your thing and you need a story that matches the complexity you actually feel —\n\nBermuda's Triangle was written for you.\n\nJazz Noir. Erotic suspense. Strong women, complicated desire, real danger.\n\nPart 2 is on Kindle. You can start reading in under a minute. Link in bio.`
+  },
+  {
+    day: 'Day 7 · Jun 4', num: 13,
+    tag: 'Review Social Proof',
+    hook: '"\'Nonstop entertainment\' — 5 stars. Here\'s what readers are saying."',
+    angle: 'Leverage existing review — social proof for the algorithm skeptics',
+    vo: `"Book 2 continues where one ended, and it's been nonstop entertainment. I love the way they stick together no matter what. The author has a vivid storytelling style that makes you want to be a fly on their wall."\n\nThat's a real reader. Five stars.\n\nBermuda's Triangle is the kind of book people finish and immediately want to talk about.\n\nPart 2 is live. Join the conversation. Kindle and Kindle Unlimited. Link in bio.`
+  },
+  {
+    day: 'Day 7 · Jun 4', num: 14,
+    tag: 'Final Week CTA',
+    hook: '"Haven\'t started yet? You have 85 pages to catch up. That\'s one evening."',
+    angle: 'Low-barrier urgency — 85 pages is nothing for a voracious reader',
+    vo: `85 pages.\n\nThat's dinner and a glass of wine.\nThat's one long bath.\nThat's a flight you actually don't mind taking.\n\nBermuda's Triangle Part 2 is short, sharp, and absolutely does not let you breathe.\n\nErotic suspense. Poly romance. A woman making impossible choices under impossible pressure.\n\n$2.99 or free with Kindle Unlimited. Link in bio.`
+  },
+  {
+    day: 'Day 7 · Jun 4', num: 15,
+    tag: 'Series Close',
+    hook: '"Part 3 is already waiting. Don\'t start Part 2 unless you\'re ready to go all the way."',
+    angle: 'Series completion hook — readers who start will want to finish',
+    vo: `Here's the thing about Bermuda's Triangle.\n\nYou'll finish Part 2 and immediately need Part 3.\n\nOne woman. Two lovers. No way out. That's the promise of the final book — and Jazz Noir delivers.\n\nAll three books are live on Kindle. The complete trilogy is there whenever you're ready.\n\nStart with Part 1, or jump into Part 2 if you're already caught up.\n\nLink in bio. Go. Read.`
+  }
+];
+
+(function renderCalendar() {
+  const grid = document.getElementById('calGrid');
+  VIDEOS.forEach(v => {
+    const voId = 'vo_' + v.num;
+    const div = document.createElement('div');
+    div.className = 'cal-item';
+    div.innerHTML = `
+      <div class="cal-num">${v.num}</div>
+      <div class="cal-body">
+        <div class="cal-tag">${v.tag}</div>
+        <div class="cal-hook">${v.hook}</div>
+        <div style="font-size:.78rem;color:var(--ink4);margin:4px 0 6px;font-style:italic;">${v.angle}</div>
+        <button class="cal-vo-toggle" onclick="toggleVO('${voId}', this)">▶ Show Voiceover</button>
+        <div class="cal-vo vo-hidden" id="${voId}">${v.vo.replace(/\n/g,'<br>')}</div>
+      </div>
+      <div class="cal-day">${v.day}</div>
+    `;
+    grid.appendChild(div);
+  });
+})();
+
+function toggleVO(id, btn) {
+  const el = document.getElementById(id);
+  const hidden = el.classList.toggle('vo-hidden');
+  btn.textContent = hidden ? '▶ Show Voiceover' : '▼ Hide Voiceover';
+}
+</script>
+</body>
+</html>

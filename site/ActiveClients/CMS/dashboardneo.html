@@ -1,0 +1,1411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Atomic Shelf · Book Command Centre</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+a{color:inherit;text-decoration:none;}
+button{cursor:pointer;font-family:'DM Sans',sans-serif;}
+img{display:block;}
+:root{
+  --bg:#f5f0e8;--surface:#ffffff;--surface2:#f0e9dc;--surface3:#e6dcc9;
+  --border:#d8ccb8;--border-lt:#e6dfd4;--border-faint:#ede7dc;
+  --ink:#12090a;--ink2:#2a1510;
+  --text:#1c1008;--text2:#3e2812;--text3:#7a5a3e;--text4:#a8896e;
+  --amber:#b56010;--amber2:#d4852a;--amber-lt:#fdf0dc;--amber-glow:rgba(181,96,16,.14);
+  --green:#14663a;--green-bg:#e8f5ee;--green-bd:rgba(20,102,58,.18);
+  --red:#8f1414;--red-bg:#fce8e8;--red-bd:rgba(143,20,20,.18);
+  --yellow:#6e500a;--yellow-bg:#fef6da;--yellow-bd:rgba(110,80,10,.18);
+  --blue:#1a4878;--blue-bg:#e6f0f9;--blue-bd:rgba(26,72,120,.18);
+  --orange:#a83410;--orange-bg:#feeee6;--orange-bd:rgba(168,52,16,.18);
+  --slate:#3e5066;--slate-bg:#edf1f6;--slate-bd:rgba(62,80,102,.15);
+  --purple:#5a2880;--purple-bg:#f2eaf8;--purple-bd:rgba(90,40,128,.15);
+  --teal:#0c6464;--teal-bg:#e4f2f2;--teal-bd:rgba(12,100,100,.18);
+  --r:8px;--r-sm:6px;--r-md:11px;--r-lg:15px;--r-xl:22px;
+  --shadow-xs:0 1px 3px rgba(18,9,10,.06);
+  --shadow-sm:0 2px 10px rgba(18,9,10,.08),0 1px 3px rgba(18,9,10,.04);
+  --shadow:0 5px 20px rgba(18,9,10,.10),0 2px 7px rgba(18,9,10,.06);
+  --shadow-lg:0 14px 44px rgba(18,9,10,.13),0 4px 14px rgba(18,9,10,.07);
+  --shadow-xl:0 32px 75px rgba(18,9,10,.17),0 8px 26px rgba(18,9,10,.09);
+}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:15px;line-height:1.6;}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:0;}
+::-webkit-scrollbar{width:5px;height:5px;}::-webkit-scrollbar-track{background:var(--surface2);}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+
+/* ── HEADER ── */
+.hdr{background:var(--ink);padding:0 32px;height:62px;display:flex;align-items:center;gap:18px;position:sticky;top:0;z-index:100;border-bottom:1px solid rgba(255,255,255,.05);box-shadow:0 3px 28px rgba(0,0,0,.38);}
+.hdr::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent 0%,var(--amber) 38%,var(--amber2) 62%,transparent 100%);opacity:.5;}
+.logo{font-family:'DM Serif Display',serif;font-size:1.4rem;font-weight:400;color:#fdf4e8;letter-spacing:.01em;white-space:nowrap;flex-shrink:0;display:flex;align-items:center;gap:11px;}
+.logo-mark{width:32px;height:32px;border-radius:7px;background:linear-gradient(138deg,var(--amber) 0%,var(--amber2) 100%);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;color:#fff;font-family:'DM Sans',sans-serif;letter-spacing:.04em;box-shadow:0 2px 10px rgba(181,96,16,.44);}
+.logo em{font-style:italic;color:var(--amber2);}
+.srch-wrap{position:relative;flex:1;max-width:380px;}
+.srch-wrap svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,.28);pointer-events:none;}
+.srch{width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:7px;padding:8px 14px 8px 36px;color:#fff;font-family:'DM Sans',sans-serif;font-size:.85rem;outline:none;transition:all .2s;}
+.srch::placeholder{color:rgba(255,255,255,.26);}
+.srch:focus{border-color:rgba(212,133,42,.55);background:rgba(255,255,255,.10);box-shadow:0 0 0 3px rgba(212,133,42,.11);}
+.hdr-right{display:flex;gap:6px;margin-left:auto;align-items:center;flex-shrink:0;}
+.hdr-btn{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.09);color:rgba(255,255,255,.55);padding:7px 14px;border-radius:7px;font-size:.75rem;font-weight:600;letter-spacing:.03em;display:flex;align-items:center;gap:5px;transition:all .17s;white-space:nowrap;}
+.hdr-btn:hover{background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.18);}
+.hdr-btn.amber{background:rgba(181,96,16,.28);border-color:rgba(212,133,42,.38);color:var(--amber2);}
+.hdr-btn.amber:hover{background:rgba(181,96,16,.44);color:#fdf4e8;}
+.live-chip{display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:.63rem;color:rgba(255,255,255,.35);letter-spacing:.08em;white-space:nowrap;}
+.live-dot{width:6px;height:6px;border-radius:50%;background:#4ade80;box-shadow:0 0 8px #4ade80;animation:livepulse 2.5s ease-in-out infinite;}
+.sync-dot{background:#f87171;box-shadow:0 0 8px #f87171;}
+@keyframes livepulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+.view-toggle{display:flex;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:7px;overflow:hidden;}
+.vt-btn{background:none;border:none;color:rgba(255,255,255,.38);padding:6px 10px;font-size:.8rem;transition:all .15s;display:flex;align-items:center;}
+.vt-btn.active{background:rgba(212,133,42,.22);color:var(--amber2);}
+.vt-btn:hover:not(.active){color:rgba(255,255,255,.7);}
+
+/* ── STATS BAR ── */
+.stats-bar{background:linear-gradient(138deg,#1e1208 0%,#12090a 100%);padding:16px 32px;display:flex;gap:0;overflow-x:auto;scrollbar-width:none;border-bottom:1px solid rgba(255,255,255,.05);}
+.stats-bar::-webkit-scrollbar{display:none;}
+.stat{flex:1;min-width:80px;padding:0 22px;border-right:1px solid rgba(255,255,255,.07);}
+.stat:first-child{padding-left:0;}.stat:last-child{border-right:none;}
+.stat-val{font-family:'DM Serif Display',serif;font-size:2.1rem;font-weight:400;color:#fdf4e8;line-height:1;margin-bottom:3px;}
+.stat-val.g{color:#4ade80;}.stat-val.r{color:#f87171;}.stat-val.a{color:var(--amber2);}
+.stat-lbl{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:rgba(255,255,255,.36);text-transform:uppercase;letter-spacing:.1em;}
+
+/* ── LOADING STATE ── */
+.loading-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 24px;gap:16px;}
+.loading-spinner{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--amber);border-radius:50%;animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.loading-title{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:600;color:var(--text2);}
+.loading-sub{font-size:.82rem;color:var(--text3);}
+.error-state{text-align:center;padding:60px 24px;}
+.error-icon{font-size:2.4rem;margin-bottom:12px;}
+.error-title{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:600;color:var(--red);margin-bottom:8px;}
+.error-sub{font-size:.82rem;color:var(--text3);margin-bottom:20px;}
+
+/* ── CONTROLS ── */
+.ctrl-wrap{background:var(--surface);border-bottom:1px solid var(--border-lt);position:sticky;top:62px;z-index:90;box-shadow:var(--shadow-xs);}
+.tabs-row{display:flex;align-items:center;padding:0 32px;gap:0;border-bottom:1px solid var(--border-lt);}
+.tab{font-family:'DM Sans',sans-serif;font-size:.83rem;font-weight:600;color:var(--text3);padding:13px 20px;border-bottom:2px solid transparent;cursor:pointer;transition:all .18s;white-space:nowrap;letter-spacing:.01em;}
+.tab:hover{color:var(--text2);}.tab.active{color:var(--ink);border-bottom-color:var(--amber);}
+.ctrl-bar{padding:8px 32px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.ctrl-lbl{font-size:.72rem;font-weight:600;color:var(--text3);letter-spacing:.04em;text-transform:uppercase;}
+.ctrl-sel{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:6px 11px;font-size:.78rem;font-family:'DM Sans',sans-serif;color:var(--text2);outline:none;cursor:pointer;font-weight:500;}
+.ctrl-sel:focus{border-color:var(--amber);}
+.author-filter-pill{display:inline-flex;align-items:center;gap:5px;background:var(--amber-lt);border:1px solid rgba(181,96,16,.28);border-radius:40px;padding:3px 10px 3px 12px;font-size:.72rem;font-weight:600;color:var(--amber);cursor:pointer;}
+.author-filter-pill .afp-x{font-size:.9rem;color:var(--amber2);padding-left:2px;}
+.collapse-btns{display:flex;gap:5px;margin-left:auto;}
+.c-btn{background:none;border:1px solid var(--border);color:var(--text3);padding:5px 12px;border-radius:var(--r-sm);font-size:.71rem;font-weight:600;letter-spacing:.02em;transition:all .14s;}
+.c-btn:hover{background:var(--surface2);color:var(--text2);}
+
+/* ── MAIN ── */
+.main{padding:26px 32px 90px;position:relative;z-index:1;}
+.section-block{margin-bottom:40px;}
+.section-hdr{display:flex;align-items:center;gap:13px;margin-bottom:16px;cursor:pointer;user-select:none;}
+.section-hdr:hover .section-title{color:var(--text);}
+.section-rule{flex:1;height:1px;background:var(--border-lt);}
+.section-accent{width:5px;height:28px;border-radius:3px;flex-shrink:0;}
+.section-title{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:600;color:var(--text2);letter-spacing:.01em;line-height:1;white-space:nowrap;transition:color .15s;}
+.section-count{font-family:'JetBrains Mono',monospace;font-size:.63rem;color:var(--text4);background:var(--surface2);border:1px solid var(--border-lt);border-radius:40px;padding:2px 10px;letter-spacing:.05em;}
+.section-toggle{font-size:.78rem;color:var(--text4);transition:transform .22s;flex-shrink:0;}
+.section-toggle.collapsed{transform:rotate(-90deg);}
+.section-body.hidden{display:none;}
+
+/* ── CARDS ── */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:12px;}
+.cards-grid.list-view{grid-template-columns:1fr;gap:8px;}
+.card{background:var(--surface);border:1px solid var(--border-lt);border-radius:var(--r-lg);overflow:hidden;cursor:pointer;transition:transform .19s,box-shadow .19s,border-color .19s;position:relative;display:flex;flex-direction:column;}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);border-color:var(--border);}
+.card.list-view{flex-direction:row;align-items:stretch;border-radius:var(--r);}
+.card.list-view:hover{transform:translateX(3px) translateY(0);}
+.card-accent-bar{height:3.5px;width:100%;flex-shrink:0;}
+.card.list-view .card-accent-bar{height:auto;width:4px;}
+.card-top{padding:14px 15px 9px;}
+.card.list-view .card-top{padding:12px 15px;display:flex;flex-direction:column;justify-content:center;flex:1;min-width:0;}
+.card-book-title{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--ink);line-height:1.2;margin-bottom:2px;display:flex;align-items:flex-start;gap:6px;}
+.vip-star{color:var(--amber2);font-size:.9rem;flex-shrink:0;margin-top:1px;}
+.card-author{font-size:.76rem;font-weight:600;color:var(--text3);margin-bottom:2px;display:flex;align-items:center;gap:5px;flex-wrap:wrap;}
+.card-author .pen-name{font-style:italic;color:var(--text4);font-weight:400;}
+.card-series{font-family:'DM Serif Display',serif;font-size:.77rem;font-style:italic;color:var(--amber);margin-bottom:7px;}
+.card-genre-pill{display:inline-block;font-size:.62rem;font-weight:600;color:var(--text3);background:var(--surface2);border:1px solid var(--border-lt);border-radius:40px;padding:2px 10px;letter-spacing:.03em;margin-bottom:7px;}
+.platform-row{display:flex;align-items:center;gap:5px;margin-bottom:7px;flex-wrap:wrap;}
+.plt{display:inline-flex;align-items:center;gap:3px;font-size:.6rem;font-weight:700;letter-spacing:.04em;padding:2px 8px;border-radius:5px;font-family:'JetBrains Mono',monospace;}
+.plt-tk{background:#010101;color:#fff;}.plt-yt{background:#ff0000;color:#fff;}.plt-pi{background:#e60023;color:#fff;}
+.plt-pg{background:var(--amber-lt);color:var(--amber);border:1px solid rgba(181,96,16,.22);}
+.plt-ph{background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-bd);}
+.plt-off{background:var(--surface2);color:var(--text4);border:1px solid var(--border-lt);}
+
+/* ── METRICS ON CARDS ── */
+.metrics-row{display:flex;gap:9px;margin-bottom:3px;flex-wrap:wrap;}
+.metric{font-family:'JetBrains Mono',monospace;font-size:.63rem;color:var(--text3);display:flex;align-items:center;gap:3px;}
+.metric strong{color:var(--text2);}
+.metric.tk strong{color:#1a1a1a;}
+.metric.yt strong{color:#cc0000;}
+.metric.tot strong{color:var(--amber);}
+
+/* ── CARD BODY / FOOT ── */
+.card-body{padding:0 15px 8px;flex:1;}
+.card.list-view .card-body{display:none;}
+.info-row{display:flex;justify-content:space-between;align-items:flex-start;padding:5px 0;border-bottom:1px solid var(--border-faint);}
+.info-row:last-child{border-bottom:none;}
+.info-key{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--text4);text-transform:uppercase;letter-spacing:.08em;flex-shrink:0;padding-right:10px;padding-top:2px;}
+.info-val{font-size:.78rem;color:var(--text2);text-align:right;font-weight:500;line-height:1.4;}
+.info-val.action{color:var(--amber);font-size:.75rem;}
+.card-meta{display:flex;gap:5px;align-items:center;padding:0 15px 7px;flex-wrap:wrap;}
+.card.list-view .card-meta{padding:0;margin-top:5px;}
+.trial-bar-wrap{padding:0 15px 8px;}
+.card.list-view .trial-bar-wrap{display:none;}
+.trial-bar-lbl{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--text3);letter-spacing:.05em;margin-bottom:4px;display:flex;justify-content:space-between;}
+.trial-bar-bg{background:var(--surface2);border-radius:5px;height:4px;overflow:hidden;}
+.trial-bar-fill{height:100%;border-radius:5px;background:linear-gradient(90deg,var(--blue),#60a5fa);transition:width .4s;}
+.card-foot{display:flex;gap:6px;padding:8px 15px 12px;border-top:1px solid var(--border-faint);margin-top:auto;}
+.card.list-view .card-foot{border-top:none;padding:0;flex-shrink:0;align-items:center;padding-right:14px;}
+.card-list-right{display:none;flex-direction:column;align-items:flex-end;justify-content:center;gap:6px;padding:12px 14px 12px 0;flex-shrink:0;min-width:180px;}
+.card.list-view .card-list-right{display:flex;}
+.sibling-strip{padding:0 15px 8px;display:flex;gap:5px;flex-wrap:wrap;border-bottom:1px solid var(--border-faint);}
+
+/* ── AUTHOR GROUP VIEW ── */
+.author-group{margin-bottom:32px;}
+.author-group-hdr{display:flex;align-items:center;gap:12px;margin-bottom:10px;padding:10px 15px;background:var(--surface);border:1px solid var(--border-lt);border-radius:var(--r-md);cursor:pointer;}
+.author-group-hdr:hover{background:var(--surface2);}
+.ag-name{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:600;color:var(--ink);}
+.ag-email{font-size:.72rem;color:var(--text3);}
+.ag-count{font-family:'JetBrains Mono',monospace;font-size:.63rem;background:var(--surface2);border:1px solid var(--border-lt);border-radius:40px;padding:2px 9px;color:var(--text4);}
+.ag-books{margin-left:auto;font-size:.72rem;color:var(--text4);font-style:italic;}
+.ag-toggle{font-size:.78rem;color:var(--text4);transition:transform .22s;}
+.ag-toggle.collapsed{transform:rotate(-90deg);}
+
+/* ── BADGES ── */
+.badge{display:inline-flex;align-items:center;padding:2px 9px;border-radius:40px;font-size:.61rem;font-weight:700;letter-spacing:.05em;white-space:nowrap;font-family:'DM Sans',sans-serif;text-transform:uppercase;}
+.b-active{background:var(--green-bg);color:var(--green);border:1px solid var(--green-bd);}
+.b-needs{background:var(--red-bg);color:var(--red);border:1px solid var(--red-bd);}
+.b-awaiting{background:var(--yellow-bg);color:var(--yellow);border:1px solid var(--yellow-bd);}
+.b-trial{background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-bd);}
+.b-prospect{background:var(--orange-bg);color:var(--orange);border:1px solid var(--orange-bd);}
+.b-low{background:var(--slate-bg);color:var(--slate);border:1px solid var(--slate-bd);}
+.b-old{background:var(--purple-bg);color:var(--purple);border:1px solid var(--purple-bd);}
+.days-badge{font-family:'JetBrains Mono',monospace;font-size:.61rem;padding:2px 8px;border-radius:40px;white-space:nowrap;}
+.d-fresh{background:var(--green-bg);color:var(--green);}
+.d-ok{background:var(--yellow-bg);color:var(--yellow);}
+.d-stale{background:var(--orange-bg);color:var(--orange);}
+.d-urgent{background:var(--red-bg);color:var(--red);}
+.d-none{background:var(--slate-bg);color:var(--slate);}
+.inv-badge{font-family:'JetBrains Mono',monospace;font-size:.61rem;padding:2px 8px;border-radius:5px;white-space:nowrap;}
+.inv-paid{background:var(--green-bg);color:var(--green);}
+.inv-due{background:var(--yellow-bg);color:var(--yellow);}
+.inv-pend{background:var(--slate-bg);color:var(--slate);}
+.inv-na{font-family:'JetBrains Mono',monospace;font-size:.61rem;color:var(--text4);}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;gap:5px;padding:7px 13px;border-radius:var(--r-sm);font-size:.73rem;font-weight:600;transition:all .15s;white-space:nowrap;border:none;letter-spacing:.01em;}
+.btn-dark{background:var(--ink);color:#fdf4e8;}.btn-dark:hover{background:var(--ink2);box-shadow:var(--shadow);}
+.btn-ghost{background:none;border:1px solid var(--border);color:var(--text2);}.btn-ghost:hover{background:var(--surface2);border-color:var(--text4);}
+.btn-ghost.done{background:var(--green-bg);border-color:var(--green-bd);color:var(--green);}
+.btn-amber{background:var(--amber);color:#fff;}.btn-amber:hover{background:var(--amber2);}
+.btn-sm{padding:5px 10px;font-size:.68rem;}
+.btn-author-filter{background:var(--amber-lt);border:1px solid rgba(181,96,16,.22);color:var(--amber);padding:4px 9px;font-size:.65rem;border-radius:40px;font-weight:700;}
+.btn-author-filter:hover{background:rgba(181,96,16,.18);}
+
+/* ── CONTACT LIST VIEW ── */
+.contact-list{display:flex;flex-direction:column;gap:9px;}
+.clist-item{background:var(--surface);border:1px solid var(--border-lt);border-radius:var(--r-lg);padding:16px 20px;display:flex;align-items:center;gap:18px;cursor:pointer;transition:all .18s;position:relative;overflow:hidden;}
+.clist-item:hover{transform:translateX(3px);box-shadow:var(--shadow);border-color:var(--border);}
+.clist-accent{width:4px;position:absolute;left:0;top:0;bottom:0;border-radius:0;}
+.clist-days{flex-shrink:0;width:72px;text-align:center;}
+.clist-days-num{font-family:'DM Serif Display',serif;font-size:1.8rem;line-height:1;font-weight:400;}
+.clist-days-unit{font-family:'JetBrains Mono',monospace;font-size:.57rem;color:var(--text4);text-transform:uppercase;letter-spacing:.08em;margin-top:1px;}
+.clist-days-today{font-family:'DM Sans',sans-serif;font-size:.76rem;font-weight:700;color:var(--green);padding-top:6px;}
+.clist-divider{width:1px;height:52px;background:var(--border-lt);flex-shrink:0;}
+.clist-info{flex:1;min-width:0;}
+.clist-book{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--ink);margin-bottom:1px;display:flex;align-items:center;gap:7px;}
+.clist-author{font-size:.76rem;color:var(--text3);font-weight:600;margin-bottom:2px;}
+.clist-author .pen{font-style:italic;color:var(--text4);font-weight:400;}
+.clist-summary{font-size:.78rem;color:var(--text3);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.clist-right{flex-shrink:0;display:flex;flex-direction:column;align-items:flex-end;gap:7px;}
+.clist-action{font-size:.73rem;color:var(--amber);font-weight:500;text-align:right;max-width:200px;line-height:1.35;}
+.clist-badges{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;}
+.clist-date-label{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--text4);letter-spacing:.05em;}
+.clist-nodate{opacity:.65;}
+.clist-days-nodate{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--text4);}
+
+/* ── DRAWER ── */
+.overlay{position:fixed;inset:0;background:rgba(10,4,2,.52);z-index:200;opacity:0;pointer-events:none;transition:opacity .28s;backdrop-filter:blur(3px);}
+.overlay.on{opacity:1;pointer-events:auto;}
+.drawer{position:fixed;top:0;right:0;width:660px;max-width:96vw;height:100vh;overflow-y:auto;background:var(--surface);z-index:201;transform:translateX(110%);transition:transform .32s cubic-bezier(.22,1,.36,1);box-shadow:var(--shadow-xl);display:flex;flex-direction:column;}
+.drawer.on{transform:translateX(0);}
+.drw-hdr{background:linear-gradient(138deg,#1e1208 0%,#12090a 100%);padding:26px 26px 20px;position:sticky;top:0;z-index:1;flex-shrink:0;}
+.drw-hdr::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(212,133,42,.48),transparent);}
+.drw-close{position:absolute;top:15px;right:15px;width:32px;height:32px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:50%;color:rgba(255,255,255,.5);display:flex;align-items:center;justify-content:center;font-size:.88rem;transition:all .15s;}
+.drw-close:hover{background:rgba(255,255,255,.15);color:#fff;}
+.drw-book-title{font-family:'DM Serif Display',serif;font-size:1.7rem;font-weight:400;color:#fdf4e8;line-height:1.15;margin-bottom:3px;}
+.drw-author{font-size:.85rem;color:rgba(255,255,255,.55);margin-bottom:2px;font-weight:600;}
+.drw-pen{font-size:.78rem;color:rgba(212,133,42,.65);font-style:italic;margin-bottom:6px;}
+.drw-series{font-family:'DM Serif Display',serif;font-size:.9rem;font-style:italic;color:rgba(212,133,42,.8);margin-bottom:12px;}
+.drw-badges{display:flex;gap:5px;flex-wrap:wrap;}
+.sibling-strip-drw{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;}
+.sibling-chip{display:inline-flex;align-items:center;gap:4px;font-size:.67rem;font-weight:600;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:5px;padding:3px 9px;color:rgba(255,255,255,.6);cursor:pointer;transition:all .13s;}
+.sibling-chip:hover{background:rgba(212,133,42,.2);color:var(--amber2);border-color:rgba(212,133,42,.35);}
+.drw-body{padding:22px 26px;flex:1;}
+.drw-section{margin-bottom:22px;}
+.drw-section-title{font-family:'JetBrains Mono',monospace;font-size:.6rem;text-transform:uppercase;letter-spacing:.11em;color:var(--text3);margin-bottom:10px;padding-bottom:7px;border-bottom:1px solid var(--border-lt);display:flex;align-items:center;gap:7px;}
+.info-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
+.info-box{background:var(--surface2);border:1px solid var(--border-lt);border-radius:var(--r-sm);padding:10px 13px;}
+.info-box-full{grid-column:1/-1;}
+.info-box-label{font-family:'JetBrains Mono',monospace;font-size:.56rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:3px;}
+.info-box-val{font-size:.82rem;color:var(--text);font-weight:500;word-break:break-word;line-height:1.45;}
+.info-box-val.amber{color:var(--amber);}
+.info-box-val.teal{color:var(--teal);}
+.info-box-val.summary{font-size:.8rem;font-weight:400;color:var(--text2);line-height:1.7;white-space:pre-line;}
+.field-edit-wrap{position:relative;}
+.field-edit{width:100%;background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--r-sm);padding:9px 12px;font-size:.8rem;font-family:'DM Sans',sans-serif;color:var(--text);outline:none;transition:border-color .15s;line-height:1.6;}
+.field-edit:focus{border-color:var(--amber);}
+.field-edit.ta{resize:vertical;min-height:85px;}
+.field-save{position:absolute;right:7px;top:7px;background:var(--amber);color:#fff;border:none;border-radius:5px;padding:4px 9px;font-size:.64rem;font-weight:700;cursor:pointer;opacity:0;transition:opacity .15s;}
+.field-edit:focus~.field-save{opacity:1;}
+.links-grid{display:flex;flex-wrap:wrap;gap:6px;}
+.drw-link{display:inline-flex;align-items:center;gap:5px;background:var(--surface2);border:1px solid var(--border-lt);border-radius:var(--r-sm);padding:6px 11px;font-size:.73rem;font-weight:500;color:var(--text2);transition:all .13s;}
+.drw-link:hover{background:var(--amber-lt);border-color:rgba(181,96,16,.3);color:var(--amber);}
+.quick-actions{display:flex;gap:7px;flex-wrap:wrap;}
+
+/* ── DRAWER METRICS STRIP ── */
+.metrics-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:7px;}
+.mbox{background:var(--surface2);border:1px solid var(--border-lt);border-radius:var(--r-sm);padding:11px 13px;text-align:center;}
+.mbox-val{font-family:'DM Serif Display',serif;font-size:1.4rem;font-weight:400;color:var(--ink);line-height:1;}
+.mbox-val.tk{color:#1a1a1a;}
+.mbox-val.yt{color:#cc0000;}
+.mbox-val.grn{color:var(--green);}
+.mbox-val.amb{color:var(--amber);}
+.mbox-lbl{font-family:'JetBrains Mono',monospace;font-size:.52rem;color:var(--text4);text-transform:uppercase;letter-spacing:.08em;margin-top:3px;}
+.best-video-box{background:linear-gradient(135deg,var(--amber-lt),#fff8f0);border:1px solid rgba(181,96,16,.22);border-radius:var(--r-sm);padding:10px 13px;margin-top:7px;}
+.best-video-lbl{font-family:'JetBrains Mono',monospace;font-size:.54rem;color:var(--amber);text-transform:uppercase;letter-spacing:.09em;margin-bottom:4px;}
+.best-video-title{font-size:.8rem;color:var(--text2);font-weight:600;line-height:1.4;margin-bottom:3px;}
+.best-video-views{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--amber);font-weight:700;}
+.analytics-updated{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--text4);padding:5px 0 0;text-align:right;letter-spacing:.04em;}
+
+/* ── ADD BOOK MODAL ── */
+.modal-bg{position:fixed;inset:0;background:rgba(10,4,2,.6);z-index:300;display:none;align-items:center;justify-content:center;backdrop-filter:blur(5px);}
+.modal-bg.on{display:flex;}
+.modal{background:var(--surface);border-radius:var(--r-xl);width:620px;max-width:95vw;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-xl);padding:30px;}
+.modal-title{font-family:'DM Serif Display',serif;font-size:1.55rem;font-weight:400;color:var(--ink);margin-bottom:20px;}
+.modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;}
+.modal-field{display:flex;flex-direction:column;gap:4px;}
+.modal-field.full{grid-column:1/-1;}
+.modal-label{font-family:'JetBrains Mono',monospace;font-size:.6rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);}
+.modal-input{background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--r-sm);padding:9px 11px;font-size:.82rem;font-family:'DM Sans',sans-serif;color:var(--text);outline:none;transition:border-color .15s;}
+.modal-input:focus{border-color:var(--amber);}
+.modal-foot{display:flex;gap:8px;justify-content:flex-end;margin-top:20px;padding-top:15px;border-top:1px solid var(--border-lt);}
+
+/* ── EMPTY / SEARCH ── */
+.empty-state{text-align:center;padding:56px 24px;color:var(--text3);}
+.empty-icon{font-size:2.6rem;margin-bottom:14px;opacity:.38;}
+.empty-title{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:600;color:var(--text2);margin-bottom:7px;}
+.empty-sub{font-size:.85rem;}
+.search-info{background:var(--amber-lt);border:1px solid rgba(181,96,16,.22);border-radius:var(--r);padding:10px 16px;font-size:.8rem;font-weight:500;color:var(--amber);margin-bottom:20px;display:flex;align-items:center;gap:8px;}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(90px);background:var(--ink);color:#fdf4e8;padding:10px 20px;border-radius:40px;font-size:.8rem;font-weight:600;z-index:999;box-shadow:var(--shadow-lg);transition:transform .28s cubic-bezier(.22,1,.36,1);pointer-events:none;border:1px solid rgba(255,255,255,.07);display:flex;align-items:center;gap:8px;}
+.toast.show{transform:translateX(-50%) translateY(0);}
+
+@media(max-width:768px){
+  .hdr,.ctrl-bar,.main,.stats-bar,.tabs-row{padding-left:16px;padding-right:16px;}
+  .cards-grid{grid-template-columns:1fr;}
+  .drw-body{padding:15px 17px;}
+  .drw-hdr{padding:18px 17px 15px;}
+  .info-grid-2{grid-template-columns:1fr;}
+  .info-box-full{grid-column:1;}
+  .collapse-btns,.live-chip,.view-toggle{display:none;}
+  .modal-grid{grid-template-columns:1fr;}
+  .modal-field.full{grid-column:1;}
+  .metrics-strip{grid-template-columns:1fr 1fr;}
+  .clist-item{flex-wrap:wrap;}
+  .clist-right{width:100%;}
+}
+</style>
+</head>
+<body>
+<header class="hdr">
+  <div class="logo"><div class="logo-mark">AS</div>Atomic <em>Shelf</em></div>
+  <div class="srch-wrap">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input class="srch" id="srchInput" type="text" placeholder="Search books, authors, genre, series…" oninput="onSearch(this.value)">
+  </div>
+  <div class="hdr-right">
+    <div class="live-chip"><span class="live-dot" id="liveDot"></span><span id="liveLabel">Connecting…</span></div>
+    <div class="view-toggle">
+      <button class="vt-btn active" id="vt-grid" onclick="setViewMode('grid')" title="Grid">⊞</button>
+      <button class="vt-btn" id="vt-list" onclick="setViewMode('list')" title="List">☰</button>
+      <button class="vt-btn" id="vt-author" onclick="setViewMode('author')" title="By Author">👤</button>
+    </div>
+    <button class="hdr-btn amber" onclick="showModal()">+ Book</button>
+    <button class="hdr-btn" onclick="syncNow()">⟳ Sync</button>
+    <button class="hdr-btn" onclick="exportCSV()">⬇ CSV</button>
+  </div>
+</header>
+
+<div class="stats-bar" id="statsBar">
+  <div class="stat"><div class="stat-val">—</div><div class="stat-lbl">Loading</div></div>
+</div>
+
+<div class="ctrl-wrap">
+  <div class="tabs-row">
+    <div class="tab active" id="tab-board" onclick="switchTab('board')">Board</div>
+    <div class="tab" id="tab-contacted" onclick="switchTab('contacted')">Last Contacted</div>
+  </div>
+  <div class="ctrl-bar" id="ctrlBar">
+    <span class="ctrl-lbl">Sort</span>
+    <select class="ctrl-sel" id="sortSelect" onchange="onSort(this.value)">
+      <option value="urgency">Urgency</option>
+      <option value="title">Title A–Z</option>
+      <option value="author">Author A–Z</option>
+      <option value="invoice">Invoice Status</option>
+      <option value="views">Views ↓</option>
+      <option value="contact">Last Contact</option>
+    </select>
+    <span class="ctrl-lbl" style="margin-left:6px;">Group</span>
+    <select class="ctrl-sel" id="groupSelect" onchange="onGroup(this.value)">
+      <option value="status">By Status</option>
+      <option value="author">By Author</option>
+      <option value="genre">By Genre</option>
+      <option value="none">No Grouping</option>
+    </select>
+    <div id="authorFilterPill"></div>
+    <div class="collapse-btns">
+      <button class="c-btn" onclick="collapseAll()">Collapse all</button>
+      <button class="c-btn" onclick="expandAll()">Expand all</button>
+    </div>
+  </div>
+</div>
+
+<main class="main" id="mainContent">
+  <div class="loading-state">
+    <div class="loading-spinner"></div>
+    <div class="loading-title">Loading campaigns…</div>
+    <div class="loading-sub">Fetching live data from Google Sheets</div>
+  </div>
+</main>
+
+<div class="overlay" id="overlay" onclick="closeDrawer()"></div>
+<aside class="drawer" id="drawer"></aside>
+<div class="toast" id="toast"></div>
+
+<div class="modal-bg" id="modalBg" onclick="hideModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-title">Add New Book Project</div>
+    <div class="modal-grid" id="modalFields"></div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="hideModal()">Cancel</button>
+      <button class="btn btn-amber" onclick="submitNewBook()">Add Book</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════
+// CONFIG — replace with your deployed Apps Script URL
+// ══════════════════════════════════════════
+const API_URL = 'https://script.google.com/macros/s/AKfycbz9nauVT33a-gC5ndiy3OSLrE_r1KGC0sjgBJqdoJiL3oICFPajKMS7BqxNmulX9IAv/exec';
+
+const CSV_HEADERS = [
+  'Author Name','Pen Name','Email','Book Title','Series / Collection','Genre',
+  'Campaign Status','Payment Status','Monthly Retainer','Trial Start Date',
+  'Campaign Live Date','Last Contact Date','Last Contact Summary',
+  'TikTok Account','YouTube Account','Pinterest Account','Campaign Page URL',
+  'Google Drive Folder URL','Google Photos Album URL','Receipt URL',
+  'Total Views','TikTok Views','YouTube Views',
+  'TikTok Followers','YouTube Subscribers Gained',
+  'TikTok Videos Posted','YouTube Videos Posted','YouTube Watch Hours',
+  'Best Performing Video','Best Performing Video Views',
+  'Analytics Last Updated','Video Series Delivered','Current Video Series',
+  'Pending Actions','Notes','VIP Tag'
+];
+
+// ══════════════════════════════════════════
+// DATA LAYER
+// ══════════════════════════════════════════
+let BOOKS = [];
+let activeTab = 'board', viewMode = 'grid', groupBy = 'status';
+let authorFilter = null, sortBy = 'urgency', searchQuery = '';
+let collapsedSections = new Set();
+let currentDrawerID = null;
+let dataLoaded = false;
+
+function generateId(title, author) {
+  const t = (title  || '').toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_+|_+$/g,'').slice(0,24);
+  const a = (author || '').toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_+|_+$/g,'').slice(0,12);
+  return `${t}__${a}`;
+}
+
+function normalizeStatus(raw) {
+  const s = (raw || '').toLowerCase().trim();
+  if (s.includes('needs attention')) return 'needs';
+  if (s.includes('trial ended') || s.includes('re-engage') || s === 're-engage') return 'old';
+  if (s.includes('awaiting')) return 'awaiting';
+  if (s.includes('low priority')) return 'low';
+  if (s.includes('prospect')) return 'prospect';
+  if (s.includes('trial') || s.includes('free trial')) return 'trial';
+  if (s.includes('active') || s.includes('create content')) return 'active';
+  if (!s) return 'prospect';
+  return 'active';
+}
+
+function parseRawRow(r) {
+  const author = (r['Author Name'] || '').trim();
+  const title  = (r['Book Title']  || '').trim();
+  return {
+    id:          generateId(title, author),
+    authorName:  author,
+    penName:     (r['Pen Name']    || '').trim(),
+    email:       (r['Email']       || '').trim(),
+    bookTitle:   title,
+    series:      (r['Series / Collection'] || '').trim(),
+    genre:       (r['Genre']       || '').trim(),
+    status:      normalizeStatus(r['Campaign Status']),
+    rawStatus:   (r['Campaign Status'] || '').trim(),
+    paymentStatus: (r['Payment Status'] || '').trim(),
+    monthlyRetainer: (r['Monthly Retainer'] || '$20/month').trim(),
+    trialStart:  (r['Trial Start Date']   || '').trim(),
+    campaignLive:(r['Campaign Live Date'] || '').trim(),
+    lastContact: (r['Last Contact Date']  || '').trim(),
+    lastContactSummary: (r['Last Contact Summary'] || '').trim(),
+    tiktok:      (r['TikTok Account']     || '').trim(),
+    youtube:     (r['YouTube Account']    || '').trim(),
+    pinterest:   (r['Pinterest Account']  || '').trim(),
+    campaignPage:(r['Campaign Page URL']  || '').trim(),
+    driveUrl:    (r['Google Drive Folder URL']  || '').trim(),
+    photosUrl:   (r['Google Photos Album URL']  || '').trim(),
+    receiptUrl:  (r['Receipt URL']        || '').trim(),
+    // ── PLATFORM-SPLIT METRICS ──
+    totalViews:  (r['Total Views']        || '').trim(),
+    tiktokViews: (r['TikTok Views']       || '').trim(),
+    youtubeViews:(r['YouTube Views']      || '').trim(),
+    tiktokFollowers: (r['TikTok Followers'] || '').trim(),
+    youtubeSubscribersGained: (r['YouTube Subscribers Gained'] || '').trim(),
+    tiktokVideosPosted:  (r['TikTok Videos Posted']  || '').trim(),
+    youtubeVideosPosted: (r['YouTube Videos Posted'] || '').trim(),
+    youtubeWatchHours:   (r['YouTube Watch Hours']   || '').trim(),
+    bestVideo:      (r['Best Performing Video']       || '').trim(),
+    bestVideoViews: (r['Best Performing Video Views'] || '').trim(),
+    analyticsUpdated: (r['Analytics Last Updated']   || '').trim(),
+    // ─────────────────────────────
+    seriesDelivered: (r['Video Series Delivered'] || '').trim(),
+    currentSeries:   (r['Current Video Series']   || '').trim(),
+    nextAction:      (r['Pending Actions']         || '').trim(),
+    notes:           (r['Notes']    || '').trim(),
+    vip:             (r['VIP Tag']  || '').trim(),
+    _raw: r,
+  };
+}
+
+// ══════════════════════════════════════════
+// API CALLS
+// ══════════════════════════════════════════
+async function fetchFromSheets() {
+  try {
+    const res  = await fetch(API_URL + '?action=read');
+    const json = await res.json();
+    if (!json.success || !json.data) return null;
+    return json.data.map(parseRawRow).filter(b => b.bookTitle);
+  } catch(e) {
+    console.warn('Sheets fetch failed:', e.message);
+    return null;
+  }
+}
+
+async function postToSheets(body) {
+  try {
+    const res = await fetch(API_URL, { method:'POST', body: JSON.stringify(body) });
+    return await res.json();
+  } catch(e) {
+    return { success: false, error: e.message };
+  }
+}
+
+// ══════════════════════════════════════════
+// SECTIONS
+// ══════════════════════════════════════════
+const SECTIONS = [
+  { key:'needs',    label:'Needs Attention',  accent:'#ef4444' },
+  { key:'active',   label:'Active Campaigns', accent:'#22c55e' },
+  { key:'awaiting', label:'Awaiting Reply',   accent:'#f59e0b' },
+  { key:'trial',    label:'Free Trials',      accent:'#3b82f6' },
+  { key:'prospect', label:'Prospects',        accent:'#f97316' },
+  { key:'low',      label:'Low Priority',     accent:'#94a3b8' },
+  { key:'old',      label:'Old — Re-engage',  accent:'#8b5cf6' },
+];
+
+// ══════════════════════════════════════════
+// UTILITIES
+// ══════════════════════════════════════════
+function parseDate(s) {
+  if (!s || s === '—') return null;
+  const my = s.match(/^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+(\d{4})$/i);
+  if (my) return new Date(`${my[1]} 1, ${my[2]}`);
+  const full = s.match(/^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+(\d+),?\s*(\d{4})?/i);
+  if (full) return new Date(`${full[1]} ${full[2]}, ${full[3] || new Date().getFullYear()}`);
+  const d = new Date(s); return isNaN(d) ? null : d;
+}
+
+function daysSince(b) {
+  const stored = localStorage.getItem('as_lc_' + b.id);
+  const d = parseDate(stored || b.lastContact);
+  if (!d) return null;
+  return Math.max(0, Math.floor((Date.now() - d) / 864e5));
+}
+
+function daysBadge(days) {
+  if (days === null) return { cls:'d-none',   lbl:'No date' };
+  if (days === 0)    return { cls:'d-fresh',  lbl:'Today' };
+  if (days <= 3)     return { cls:'d-fresh',  lbl: days + 'd ago' };
+  if (days <= 7)     return { cls:'d-ok',     lbl: days + 'd ago' };
+  if (days <= 14)    return { cls:'d-stale',  lbl: days + 'd ago' };
+  return               { cls:'d-urgent', lbl: days + 'd ago' };
+}
+
+function invBadge(info) {
+  if (!info || info === '—' || info === 'N/A' || info === '') return '<span class="inv-na">—</span>';
+  const u = info.toUpperCase();
+  if (u.startsWith('PAID') || u.includes('PAID IN') || u.includes('PAID ('))
+    return '<span class="inv-badge inv-paid">PAID</span>';
+  if (u.includes('DUE') || u.includes('INVOICE DUE'))
+    return '<span class="inv-badge inv-due">DUE</span>';
+  if (u.includes('PENDING') || u.includes('AWAITING') || u.includes('QUOTE') || u.includes('EST.') || u.includes('CONFIRMATION'))
+    return '<span class="inv-badge inv-due">PENDING</span>';
+  if (u.includes('RETAINER'))
+    return '<span class="inv-badge inv-paid">ACTIVE</span>';
+  if (u.includes('TRIAL'))
+    return `<span class="inv-badge" style="background:var(--blue-bg);color:var(--blue);">TRIAL</span>`;
+  if (u.includes('UNPAID'))
+    return `<span class="inv-badge" style="background:var(--red-bg);color:var(--red);">UNPAID</span>`;
+  if (u.includes('EXPIRED') || u.includes('INACTIVE'))
+    return `<span class="inv-badge" style="background:var(--purple-bg);color:var(--purple);">EXPIRED</span>`;
+  return `<span class="inv-badge inv-pend">${info.slice(0,16)}</span>`;
+}
+
+const STATUS_MAP = {
+  active:   ['b-active',   'Active'],
+  needs:    ['b-needs',    'Attention'],
+  awaiting: ['b-awaiting', 'Awaiting'],
+  trial:    ['b-trial',    'Trial'],
+  prospect: ['b-prospect', 'Prospect'],
+  low:      ['b-low',      'Low'],
+  old:      ['b-old',      'Old'],
+};
+function badge(status) {
+  const [cls,lbl] = STATUS_MAP[status] || ['b-low','?'];
+  return `<span class="badge ${cls}">${lbl}</span>`;
+}
+
+function lc(b) {
+  const stored = localStorage.getItem('as_lc_' + b.id);
+  if (stored) {
+    const d = new Date(stored);
+    return d.toDateString() === new Date().toDateString()
+      ? 'Today'
+      : d.toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' });
+  }
+  return b.lastContact || '—';
+}
+
+function isToday(id) {
+  const s = localStorage.getItem('as_lc_' + id);
+  return !!s && new Date(s).toDateString() === new Date().toDateString();
+}
+
+function trialProgress(b) {
+  if (b.status !== 'trial' || !b.trialStart) return null;
+  const start = parseDate(b.trialStart); if (!start) return null;
+  const end = new Date(start.getTime() + 7 * 864e5), now = Date.now();
+  const pct = Math.min(100, Math.max(0, Math.round((now - start.getTime()) / (end - start.getTime()) * 100)));
+  const daysLeft = Math.max(0, Math.ceil((end - now) / 864e5));
+  return { pct, daysLeft };
+}
+
+function numericViews(v) {
+  if (!v || v === '') return 0;
+  const clean = String(v).replace(/[^0-9.]/g, '');
+  const n = parseFloat(clean);
+  return isNaN(n) ? 0 : n;
+}
+
+// Format a view count for display. Respects '+' suffix from source.
+function fmtViews(v) {
+  if (!v || v === '') return '—';
+  const hasPlus = String(v).includes('+');
+  const n = numericViews(v);
+  if (n === 0 && v !== '0') return String(v); // preserve non-numeric strings like '10000+'
+  let s;
+  if (n >= 1000) {
+    s = (n / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+  } else {
+    s = String(Math.round(n));
+  }
+  return hasPlus ? s + '+' : s;
+}
+
+function isValidUrl(s) {
+  return s && s.startsWith('http') && !s.toLowerCase().includes('none');
+}
+
+function getSiblings(b) {
+  return BOOKS.filter(x => x.authorName === b.authorName && x.id !== b.id);
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.innerHTML = msg;
+  t.classList.add('show');
+  clearTimeout(t._tid);
+  t._tid = setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+function copyEmail(email, e) {
+  if (e) e.stopPropagation();
+  navigator.clipboard.writeText(email).then(() => showToast('📋 Copied: ' + email));
+}
+
+// ══════════════════════════════════════════
+// SORT
+// ══════════════════════════════════════════
+const STATUS_PRI = { needs:0, active:1, awaiting:2, trial:3, prospect:4, low:5, old:6 };
+
+function urgencyScore(b) {
+  return (STATUS_PRI[b.status] ?? 7) * 1000 + (daysSince(b) ?? 999);
+}
+
+function sortGroup(list) {
+  return [...list].sort((a, b) => {
+    if (sortBy === 'title')   return a.bookTitle.localeCompare(b.bookTitle);
+    if (sortBy === 'author')  return a.authorName.localeCompare(b.authorName);
+    if (sortBy === 'invoice') {
+      const iv = s => { const u = (s||'').toUpperCase(); if (u.includes('PAID')) return 0; if (u.includes('DUE')||u.includes('PEND')) return 1; return 2; };
+      return iv(a.paymentStatus) - iv(b.paymentStatus);
+    }
+    if (sortBy === 'views')   return numericViews(b.totalViews) - numericViews(a.totalViews);
+    if (sortBy === 'contact') return (daysSince(a) ?? 999) - (daysSince(b) ?? 999);
+    return urgencyScore(a) - urgencyScore(b);
+  });
+}
+
+// ══════════════════════════════════════════
+// STATS BAR
+// ══════════════════════════════════════════
+function renderStats() {
+  const all = BOOKS;
+  const active   = all.filter(b => b.status === 'active').length;
+  const trial    = all.filter(b => b.status === 'trial').length;
+  const needs    = all.filter(b => b.status === 'needs').length;
+  const awaiting = all.filter(b => b.status === 'awaiting').length;
+  const paid     = all.filter(b => (b.paymentStatus || '').toUpperCase().includes('PAID')).length;
+  const overdue  = all.filter(b => { const d = daysSince(b); return d !== null && d > 7 && !['low','old'].includes(b.status); }).length;
+
+  // Total views: sum of tiktokViews + youtubeViews where available; fallback to totalViews
+  let totalTK = 0, totalYT = 0;
+  all.forEach(b => {
+    totalTK += numericViews(b.tiktokViews);
+    totalYT += numericViews(b.youtubeViews);
+  });
+  // For campaigns with only totalViews set (no split), add to TK bucket as proxy
+  all.forEach(b => {
+    if (!b.tiktokViews && !b.youtubeViews && b.totalViews) {
+      totalTK += numericViews(b.totalViews);
+    }
+  });
+
+  const grand  = totalTK + totalYT;
+  const fmtStat = n => n >= 1000 ? (n/1000).toFixed(0) + 'K+' : (n || '—');
+  const authors  = new Set(all.map(b => b.authorName)).size;
+
+  document.getElementById('statsBar').innerHTML = `
+    <div class="stat"><div class="stat-val">${all.length}</div><div class="stat-lbl">Books</div></div>
+    <div class="stat"><div class="stat-val">${authors}</div><div class="stat-lbl">Authors</div></div>
+    <div class="stat"><div class="stat-val g">${active}</div><div class="stat-lbl">Active</div></div>
+    <div class="stat"><div class="stat-val">${trial}</div><div class="stat-lbl">In Trial</div></div>
+    <div class="stat"><div class="stat-val r">${needs}</div><div class="stat-lbl">Attention</div></div>
+    <div class="stat"><div class="stat-val a">${overdue}</div><div class="stat-lbl">Overdue</div></div>
+    <div class="stat"><div class="stat-val a">${awaiting}</div><div class="stat-lbl">Awaiting</div></div>
+    <div class="stat"><div class="stat-val g">${paid}</div><div class="stat-lbl">Paid</div></div>
+    <div class="stat"><div class="stat-val" style="color:#010101;font-size:1.6rem;">${fmtStat(totalTK)}</div><div class="stat-lbl">TikTok Views</div></div>
+    <div class="stat"><div class="stat-val" style="color:#cc0000;font-size:1.6rem;">${fmtStat(totalYT)}</div><div class="stat-lbl">YouTube Views</div></div>`;
+}
+
+// ══════════════════════════════════════════
+// PLATFORM PILLS
+// ══════════════════════════════════════════
+function platformPills(b) {
+  const pills = [];
+  if (isValidUrl(b.tiktok))    pills.push(`<a href="${b.tiktok}"    target="_blank" onclick="event.stopPropagation()" class="plt plt-tk">TK</a>`);
+  else                          pills.push(`<span class="plt plt-off">TK</span>`);
+  if (isValidUrl(b.youtube))   pills.push(`<a href="${b.youtube}"   target="_blank" onclick="event.stopPropagation()" class="plt plt-yt">YT</a>`);
+  else                          pills.push(`<span class="plt plt-off">YT</span>`);
+  if (isValidUrl(b.pinterest))  pills.push(`<a href="${b.pinterest}" target="_blank" onclick="event.stopPropagation()" class="plt plt-pi">PI</a>`);
+  else                          pills.push(`<span class="plt plt-off">PI</span>`);
+  if (isValidUrl(b.campaignPage)) pills.push(`<a href="${b.campaignPage}" target="_blank" onclick="event.stopPropagation()" class="plt plt-pg">PAGE</a>`);
+  if (isValidUrl(b.photosUrl))    pills.push(`<a href="${b.photosUrl}"   target="_blank" onclick="event.stopPropagation()" class="plt plt-ph">📷</a>`);
+  return pills.join('');
+}
+
+// ══════════════════════════════════════════
+// CARD METRICS — accurate platform-split display
+// ══════════════════════════════════════════
+function buildCardMetrics(b) {
+  const parts = [];
+  const tk  = numericViews(b.tiktokViews);
+  const yt  = numericViews(b.youtubeViews);
+  const tot = numericViews(b.totalViews);
+
+  // Show TikTok views if present
+  if (b.tiktokViews && b.tiktokViews !== '0') {
+    parts.push(`<span class="metric tk">📱 <strong>${fmtViews(b.tiktokViews)}</strong></span>`);
+  }
+  // Show YouTube views if present
+  if (b.youtubeViews && b.youtubeViews !== '0') {
+    parts.push(`<span class="metric yt">▶️ <strong>${fmtViews(b.youtubeViews)}</strong></span>`);
+  }
+  // If only totalViews set (no platform split), show it
+  if (!b.tiktokViews && !b.youtubeViews && b.totalViews && b.totalViews !== '0') {
+    parts.push(`<span class="metric tot">👁 <strong>${fmtViews(b.totalViews)}</strong></span>`);
+  }
+  // Show combined total if we have both splits (and it's meaningful)
+  if (tk > 0 && yt > 0) {
+    const combined = tk + yt;
+    parts.push(`<span class="metric tot">= <strong>${fmtViews(String(combined))}</strong></span>`);
+  }
+  // TikTok followers
+  if (b.tiktokFollowers && b.tiktokFollowers !== '0') {
+    parts.push(`<span class="metric">👥 <strong>${fmtViews(b.tiktokFollowers)}</strong></span>`);
+  }
+  return parts.length ? `<div class="metrics-row">${parts.join('')}</div>` : '';
+}
+
+// ══════════════════════════════════════════
+// CARD BUILDER
+// ══════════════════════════════════════════
+function buildCard(b, isListView) {
+  const days = daysSince(b), db = daysBadge(days), td = isToday(b.id);
+  const section = SECTIONS.find(s => s.key === b.status);
+  const accent  = section ? section.accent : '#94a3b8';
+  const tp      = trialProgress(b);
+  const siblings = getSiblings(b);
+
+  const trialHtml = tp && !isListView ? `<div class="trial-bar-wrap">
+    <div class="trial-bar-lbl"><span>Trial progress</span><span>${tp.daysLeft}d left</span></div>
+    <div class="trial-bar-bg"><div class="trial-bar-fill" style="width:${tp.pct}%"></div></div>
+  </div>` : '';
+
+  const siblingHtml = siblings.length > 0 && !isListView ? `
+    <div class="sibling-strip">
+      ${siblings.slice(0,3).map(s =>
+        `<span onclick="event.stopPropagation();openDrawer('${s.id}')"
+          style="font-size:.6rem;background:var(--surface2);border:1px solid var(--border-lt);border-radius:5px;padding:2px 8px;color:var(--text3);cursor:pointer;"
+          title="${s.bookTitle}">📘 ${s.bookTitle.slice(0,22)}${s.bookTitle.length > 22 ? '…' : ''}</span>`
+      ).join('')}
+      ${siblings.length > 3 ? `<span style="font-size:.6rem;color:var(--text4);padding:2px 4px;">+${siblings.length - 3}</span>` : ''}
+    </div>` : '';
+
+  if (isListView) {
+    return `<div class="card list-view" onclick="openDrawer('${b.id}')">
+      <div class="card-accent-bar" style="background:${accent}"></div>
+      <div class="card-top">
+        <div class="card-book-title">${b.vip ? '<span class="vip-star">★</span>' : ''}${b.bookTitle}</div>
+        <div class="card-author">${b.authorName}${b.penName ? ` <span class="pen-name">aka ${b.penName}</span>` : ''}
+          <button class="btn-author-filter" onclick="event.stopPropagation();filterByAuthor('${b.authorName}')">filter</button></div>
+        ${b.series ? `<div class="card-series">${b.series}</div>` : ''}
+        <div class="card-meta">${badge(b.status)}<span class="days-badge ${db.cls}">${db.lbl}</span>${invBadge(b.paymentStatus)}</div>
+      </div>
+      <div class="card-list-right">
+        <div style="font-size:.73rem;color:var(--amber);font-weight:500;text-align:right;max-width:190px;line-height:1.35;">${(b.nextAction || '').slice(0,55)}</div>
+        <button class="btn btn-ghost btn-sm ${td ? 'done' : ''}" onclick="markContacted('${b.id}',event)">${td ? '✓ Today' : 'Mark contacted'}</button>
+      </div>
+    </div>`;
+  }
+
+  return `<div class="card" onclick="openDrawer('${b.id}')">
+    <div class="card-accent-bar" style="background:${accent}"></div>
+    <div class="card-top">
+      <div class="card-book-title">${b.vip ? '<span class="vip-star">★</span>' : ''}${b.bookTitle}</div>
+      <div class="card-author">${b.authorName}${b.penName ? ` <span class="pen-name">aka ${b.penName}</span>` : ''}
+        <button class="btn-author-filter" onclick="event.stopPropagation();filterByAuthor('${b.authorName}')">filter</button></div>
+      ${b.series ? `<div class="card-series">${b.series}</div>` : ''}
+      <div class="card-genre-pill">${b.genre || '—'}</div>
+      <div class="platform-row">${platformPills(b)}</div>
+      ${buildCardMetrics(b)}
+    </div>
+    ${trialHtml}
+    ${siblingHtml}
+    <div class="card-meta">
+      <span class="days-badge ${db.cls}">${db.lbl}</span>
+      ${invBadge(b.paymentStatus)}
+      ${b.vip ? `<span class="badge" style="background:var(--amber-lt);color:var(--amber);border:1px solid rgba(181,96,16,.22);">★ VIP</span>` : ''}
+    </div>
+    <div class="card-body">
+      <div class="info-row"><span class="info-key">Action</span><span class="info-val action">${(b.nextAction || '—').slice(0,60)}</span></div>
+      <div class="info-row"><span class="info-key">Last contact</span><span class="info-val">${lc(b)}</span></div>
+    </div>
+    <div class="card-foot">
+      <button class="btn btn-ghost btn-sm ${td ? 'done' : ''}" onclick="markContacted('${b.id}',event)">${td ? '✓ Contacted' : 'Mark contacted'}</button>
+      <button class="btn btn-dark btn-sm" onclick="event.stopPropagation();openDrawer('${b.id}')">Details →</button>
+    </div>
+  </div>`;
+}
+
+// ══════════════════════════════════════════
+// SECTION BUILDER
+// ══════════════════════════════════════════
+function buildSection(section, books) {
+  if (!books.length) return '';
+  const isCollapsed = collapsedSections.has(section.key);
+  const sorted = sortGroup(books), isLV = viewMode === 'list';
+  return `<div class="section-block" id="section-${section.key}">
+    <div class="section-hdr" onclick="toggleSection('${section.key}')">
+      <div class="section-accent" style="background:${section.accent}"></div>
+      <div class="section-title">${section.label}</div>
+      <div class="section-count">${books.length} book${books.length !== 1 ? 's' : ''}</div>
+      <div class="section-rule"></div>
+      <div class="section-toggle${isCollapsed ? ' collapsed' : ''}">▾</div>
+    </div>
+    <div class="section-body${isCollapsed ? ' hidden' : ''}">
+      <div class="cards-grid${isLV ? ' list-view' : ''}">${sorted.map(b => buildCard(b, isLV)).join('')}</div>
+    </div>
+  </div>`;
+}
+
+// ══════════════════════════════════════════
+// AUTHOR GROUP VIEW
+// ══════════════════════════════════════════
+function buildAuthorGroupView(pool) {
+  const authorMap = {};
+  pool.forEach(b => {
+    if (!authorMap[b.authorName]) authorMap[b.authorName] = [];
+    authorMap[b.authorName].push(b);
+  });
+  const authors = Object.keys(authorMap).sort((a, b) => a.localeCompare(b));
+  if (!authors.length) return `<div class="empty-state"><div class="empty-icon">📭</div><div class="empty-title">No books found</div></div>`;
+  return authors.map(authorName => {
+    const books = sortGroup(authorMap[authorName]);
+    const key   = 'ag_' + authorName.replace(/[^a-z0-9]/gi, '_');
+    const isCollapsed = collapsedSections.has(key);
+    const statusColors = [...new Set(books.map(b => SECTIONS.find(s => s.key === b.status)?.accent || '#94a3b8'))];
+    const email   = books[0]?.email   || '';
+    const penName = books[0]?.penName || '';
+    return `<div class="author-group">
+      <div class="author-group-hdr" onclick="toggleSection('${key}')">
+        <div style="display:flex;gap:4px;flex-shrink:0;">${statusColors.slice(0,4).map(c =>
+          `<div style="width:8px;height:8px;border-radius:50%;background:${c};margin-top:1px;"></div>`).join('')}</div>
+        <div>
+          <div class="ag-name">${authorName}${penName ? ` <span style="font-size:.8rem;color:var(--text4);font-style:italic;font-weight:400;">aka ${penName}</span>` : ''}</div>
+          ${email ? `<div class="ag-email">${email}</div>` : ''}
+        </div>
+        <div class="ag-count">${books.length} book${books.length !== 1 ? 's' : ''}</div>
+        <div class="ag-books">${books.map(b => b.bookTitle).join(' · ').slice(0,80)}${books.map(b => b.bookTitle).join('').length > 80 ? '…' : ''}</div>
+        <div class="ag-toggle${isCollapsed ? ' collapsed' : ''}">▾</div>
+      </div>
+      <div class="${isCollapsed ? 'section-body hidden' : ''}">
+        <div class="cards-grid">${books.map(b => buildCard(b, false)).join('')}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════
+// GENRE GROUP VIEW
+// ══════════════════════════════════════════
+function buildGenreGroupView(pool) {
+  const genreMap = {};
+  pool.forEach(b => {
+    const g = b.genre || 'Uncategorized';
+    if (!genreMap[g]) genreMap[g] = [];
+    genreMap[g].push(b);
+  });
+  const genres = Object.keys(genreMap).sort();
+  if (!genres.length) return `<div class="empty-state"><div class="empty-icon">📭</div><div class="empty-title">No books found</div></div>`;
+  const GENRE_ACCENTS = ['#b56010','#14663a','#1a4878','#8f1414','#5a2880','#0c6464','#a83410'];
+  return genres.map((genre, idx) => {
+    const books = sortGroup(genreMap[genre]), accent = GENRE_ACCENTS[idx % GENRE_ACCENTS.length];
+    const key = 'genre_' + genre.replace(/[^a-z0-9]/gi, '_'), isCollapsed = collapsedSections.has(key);
+    return `<div class="section-block">
+      <div class="section-hdr" onclick="toggleSection('${key}')">
+        <div class="section-accent" style="background:${accent}"></div>
+        <div class="section-title">${genre}</div>
+        <div class="section-count">${books.length}</div>
+        <div class="section-rule"></div>
+        <div class="section-toggle${isCollapsed ? ' collapsed' : ''}">▾</div>
+      </div>
+      <div class="section-body${isCollapsed ? ' hidden' : ''}">
+        <div class="cards-grid">${books.map(b => buildCard(b, false)).join('')}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════
+// LAST CONTACTED VIEW
+// ══════════════════════════════════════════
+function buildContactedView(pool) {
+  const withDate = pool.filter(b => daysSince(b) !== null).sort((a, b) => (daysSince(a) ?? 999) - (daysSince(b) ?? 999));
+  const noDate   = pool.filter(b => daysSince(b) === null);
+  const sorted   = [...withDate, ...noDate];
+  if (!sorted.length) return `<div class="empty-state"><div class="empty-icon">📭</div><div class="empty-title">No books found</div><p class="empty-sub">Try adjusting your search.</p></div>`;
+  return sorted.map(b => {
+    const days = daysSince(b), db = daysBadge(days), td = isToday(b.id);
+    const section = SECTIONS.find(s => s.key === b.status), accent = section ? section.accent : '#94a3b8';
+    let daysHtml;
+    if (days === null) {
+      daysHtml = `<div class="clist-days"><div class="clist-days-nodate" style="padding-top:8px;">No date<br>on file</div></div>`;
+    } else if (days === 0) {
+      daysHtml = `<div class="clist-days"><div class="clist-days-today">✓ Today</div></div>`;
+    } else {
+      const color = db.cls === 'd-fresh' ? 'var(--green)' : db.cls === 'd-ok' ? 'var(--yellow)' : db.cls === 'd-stale' ? 'var(--orange)' : 'var(--red)';
+      daysHtml = `<div class="clist-days"><div class="clist-days-num" style="color:${color}">${days}</div><div class="clist-days-unit">days ago</div></div>`;
+    }
+    return `<div class="clist-item${days === null ? ' clist-nodate' : ''}" onclick="openDrawer('${b.id}')">
+      <div class="clist-accent" style="background:${accent}"></div>
+      ${daysHtml}
+      <div class="clist-divider"></div>
+      <div class="clist-info">
+        <div class="clist-book">${b.bookTitle}${badge(b.status)}</div>
+        <div class="clist-author">${b.authorName}${b.penName ? ` <span class="pen">aka ${b.penName}</span>` : ''}</div>
+        <div class="clist-summary">${b.lastContactSummary || b.nextAction || '—'}</div>
+      </div>
+      <div class="clist-right">
+        <div class="clist-date-label">${lc(b) !== '—' ? lc(b) : 'Never recorded'}</div>
+        <div class="clist-badges">${invBadge(b.paymentStatus)}</div>
+        <div class="clist-action">${(b.nextAction || '').slice(0,55)}</div>
+        <button class="btn btn-ghost btn-sm ${td ? 'done' : ''}" onclick="markContacted('${b.id}',event)">${td ? '✓ Today' : 'Mark contacted'}</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════
+// DRAWER
+// ══════════════════════════════════════════
+function openDrawer(id) {
+  currentDrawerID = id;
+  renderDrawer(id);
+  document.getElementById('drawer').classList.add('on');
+  document.getElementById('overlay').classList.add('on');
+}
+
+function renderDrawer(id) {
+  const b = BOOKS.find(x => x.id === id);
+  if (!b) return;
+  const days = daysSince(b), db = daysBadge(days), td = isToday(b.id);
+  const section = SECTIONS.find(s => s.key === b.status), accent = section ? section.accent : '#94a3b8';
+  const tp = trialProgress(b), siblings = getSiblings(b);
+
+  const siblingHtml = siblings.length > 0 ? `
+    <div style="margin-top:11px;font-family:'JetBrains Mono',monospace;font-size:.56rem;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.3);margin-bottom:6px;">Other books by this author</div>
+    <div class="sibling-strip-drw">
+      ${siblings.map(s =>
+        `<span class="sibling-chip" onclick="renderDrawer('${s.id}');currentDrawerID='${s.id}'">📘 ${s.bookTitle.slice(0,25)}${s.bookTitle.length > 25 ? '…' : ''}</span>`
+      ).join('')}
+    </div>` : '';
+
+  const trialBarHtml = tp ? `<div style="margin-top:9px;">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:.59rem;color:rgba(255,255,255,.45);margin-bottom:4px;display:flex;justify-content:space-between;letter-spacing:.05em;">
+      <span>TRIAL PROGRESS</span><span>${tp.daysLeft} day${tp.daysLeft !== 1 ? 's' : ''} remaining</span></div>
+    <div class="trial-bar-bg"><div class="trial-bar-fill" style="width:${tp.pct}%"></div></div>
+  </div>` : '';
+
+  // ── Accurate platform-split metrics for drawer ──
+  const tk  = numericViews(b.tiktokViews);
+  const yt  = numericViews(b.youtubeViews);
+  const tot = tk + yt || numericViews(b.totalViews);
+
+  const metricsHtml = `
+    <div class="metrics-strip">
+      <div class="mbox">
+        <div class="mbox-val tk">${b.tiktokViews && b.tiktokViews !== '0' ? fmtViews(b.tiktokViews) : '—'}</div>
+        <div class="mbox-lbl">📱 TikTok Views</div>
+      </div>
+      <div class="mbox">
+        <div class="mbox-val yt">${b.youtubeViews && b.youtubeViews !== '0' ? fmtViews(b.youtubeViews) : '—'}</div>
+        <div class="mbox-lbl">▶️ YouTube Views</div>
+      </div>
+      <div class="mbox">
+        <div class="mbox-val amb">${tot > 0 ? fmtViews(String(tot)) : b.totalViews && b.totalViews !== '0' ? fmtViews(b.totalViews) : '—'}</div>
+        <div class="mbox-lbl">👁 Total Views</div>
+      </div>
+    </div>
+    <div class="metrics-strip">
+      <div class="mbox">
+        <div class="mbox-val tk">${b.tiktokFollowers && b.tiktokFollowers !== '0' ? fmtViews(b.tiktokFollowers) : '—'}</div>
+        <div class="mbox-lbl">👥 TK Followers</div>
+      </div>
+      <div class="mbox">
+        <div class="mbox-val yt">${b.youtubeWatchHours && b.youtubeWatchHours !== '0' ? b.youtubeWatchHours + 'h' : '—'}</div>
+        <div class="mbox-lbl">⏱ YT Watch Hrs</div>
+      </div>
+      <div class="mbox">
+        <div class="mbox-val grn">${b.youtubeSubscribersGained && b.youtubeSubscribersGained !== '0' ? '+' + b.youtubeSubscribersGained : '—'}</div>
+        <div class="mbox-lbl">YT Subs Gained</div>
+      </div>
+    </div>
+    <div class="metrics-strip">
+      <div class="mbox">
+        <div class="mbox-val" style="font-size:1rem;color:var(--text2)">${b.tiktokVideosPosted && b.tiktokVideosPosted !== '0' ? b.tiktokVideosPosted : '—'}</div>
+        <div class="mbox-lbl">TK Videos Posted</div>
+      </div>
+      <div class="mbox">
+        <div class="mbox-val" style="font-size:1rem;color:var(--text2)">${b.youtubeVideosPosted && b.youtubeVideosPosted !== '0' ? b.youtubeVideosPosted : '—'}</div>
+        <div class="mbox-lbl">YT Shorts Posted</div>
+      </div>
+      <div class="mbox">
+        <div class="mbox-val" style="font-size:.9rem;color:var(--text2)">${b.monthlyRetainer || '$20/mo'}</div>
+        <div class="mbox-lbl">💰 Retainer</div>
+      </div>
+    </div>
+    ${b.bestVideo ? `<div class="best-video-box">
+      <div class="best-video-lbl">⭐ Best Performing Video</div>
+      <div class="best-video-title">${b.bestVideo}</div>
+      <div class="best-video-views">${b.bestVideoViews} views</div>
+    </div>` : ''}
+    ${b.analyticsUpdated ? `<div class="analytics-updated">Analytics last updated: ${b.analyticsUpdated}</div>` : ''}`;
+
+  const linkItems = [
+    b.tiktok     && isValidUrl(b.tiktok)      ? `<a href="${b.tiktok}"      target="_blank" class="drw-link">📱 TikTok</a>`       : '',
+    b.youtube    && isValidUrl(b.youtube)     ? `<a href="${b.youtube}"     target="_blank" class="drw-link">▶️ YouTube</a>`      : '',
+    b.pinterest  && isValidUrl(b.pinterest)   ? `<a href="${b.pinterest}"   target="_blank" class="drw-link">📌 Pinterest</a>`    : '',
+    b.campaignPage && isValidUrl(b.campaignPage) ? `<a href="${b.campaignPage}" target="_blank" class="drw-link">📄 Campaign Page</a>` : '',
+    b.photosUrl  && isValidUrl(b.photosUrl)   ? `<a href="${b.photosUrl}"   target="_blank" class="drw-link">📷 Photo Album</a>`  : '',
+    b.driveUrl   && isValidUrl(b.driveUrl)    ? `<a href="${b.driveUrl}"    target="_blank" class="drw-link">📁 Drive Folder</a>` : '',
+    b.receiptUrl && isValidUrl(b.receiptUrl)  ? `<a href="${b.receiptUrl}"  target="_blank" class="drw-link">🧾 Receipt</a>`      : '',
+  ].filter(Boolean).join('') || '<span style="font-size:.78rem;color:var(--text3)">No links on file.</span>';
+
+  document.getElementById('drawer').innerHTML = `
+    <div class="drw-hdr">
+      <div style="position:absolute;top:0;left:0;width:4px;height:100%;background:${accent};opacity:.9;"></div>
+      <button class="drw-close" onclick="closeDrawer()">✕</button>
+      <div class="drw-book-title">${b.vip ? '★ ' : ''}${b.bookTitle}</div>
+      <div class="drw-author">${b.authorName}</div>
+      ${b.penName ? `<div class="drw-pen">Pen name: ${b.penName}</div>` : ''}
+      ${b.series  ? `<div class="drw-series">📚 ${b.series}</div>` : ''}
+      <div class="drw-badges">
+        ${badge(b.status)}
+        <span class="days-badge ${db.cls}">${db.lbl}</span>
+        ${invBadge(b.paymentStatus)}
+        ${b.vip ? `<span class="badge" style="background:rgba(212,133,42,.2);color:var(--amber2);border:1px solid rgba(212,133,42,.3);">★ ${b.vip}</span>` : ''}
+      </div>
+      ${trialBarHtml}
+      ${siblingHtml}
+    </div>
+    <div class="drw-body">
+      <div class="drw-section">
+        <div class="drw-section-title">Performance Metrics</div>
+        ${metricsHtml}
+      </div>
+      <div class="drw-section">
+        <div class="drw-section-title">Campaign Info</div>
+        <div class="info-grid-2">
+          <div class="info-box">
+            <div class="info-box-label">Email</div>
+            <div class="info-box-val">${b.email || '—'}
+              ${b.email ? `<button onclick="copyEmail('${b.email}')" style="background:none;border:none;cursor:pointer;color:var(--amber);font-size:.65rem;font-family:'DM Sans',sans-serif;font-weight:600;">copy</button>` : ''}
+            </div>
+          </div>
+          <div class="info-box"><div class="info-box-label">Genre</div><div class="info-box-val">${b.genre || '—'}</div></div>
+          <div class="info-box"><div class="info-box-label">Campaign Status</div><div class="info-box-val">${b.rawStatus || '—'}</div></div>
+          <div class="info-box"><div class="info-box-label">Payment</div><div class="info-box-val">${b.paymentStatus || '—'}</div></div>
+          <div class="info-box"><div class="info-box-label">Trial Start</div><div class="info-box-val">${b.trialStart || '—'}</div></div>
+          <div class="info-box"><div class="info-box-label">Campaign Live</div><div class="info-box-val">${b.campaignLive || '—'}</div></div>
+          <div class="info-box"><div class="info-box-label">Last Contact</div><div class="info-box-val">${lc(b)}</div></div>
+          <div class="info-box"><div class="info-box-label">Series Delivered</div><div class="info-box-val teal">${b.seriesDelivered || '—'}</div></div>
+          <div class="info-box info-box-full"><div class="info-box-label">Current Series</div><div class="info-box-val teal">${b.currentSeries || '—'}</div></div>
+          <div class="info-box info-box-full"><div class="info-box-label">Pending Action</div><div class="info-box-val amber">→ ${b.nextAction || '—'}</div></div>
+        </div>
+      </div>
+      ${b.lastContactSummary ? `<div class="drw-section">
+        <div class="drw-section-title">Last Contact Summary</div>
+        <div class="info-box"><div class="info-box-val summary">${b.lastContactSummary}</div></div>
+      </div>` : ''}
+      ${b.notes ? `<div class="drw-section">
+        <div class="drw-section-title">Notes</div>
+        <div class="info-box"><div class="info-box-val summary">${b.notes}</div></div>
+      </div>` : ''}
+      <div class="drw-section">
+        <div class="drw-section-title">Links & Platforms</div>
+        <div class="links-grid">${linkItems}</div>
+      </div>
+      <div class="drw-section">
+        <div class="drw-section-title">Update Notes <span style="font-size:.56rem;color:var(--text4);font-weight:400;">(syncs to Sheets)</span></div>
+        <div class="field-edit-wrap">
+          <textarea class="field-edit ta" id="drwNotes" placeholder="Add or update notes…">${b.notes || ''}</textarea>
+          <button class="field-save" onclick="saveNote('${b.id}')">Save</button>
+        </div>
+      </div>
+      <div class="drw-section">
+        <div class="drw-section-title">Quick Actions</div>
+        <div class="quick-actions">
+          <button class="btn ${td ? 'btn-ghost done' : 'btn-ghost'}" onclick="markContacted('${b.id}')">
+            ${td ? '✓ Contacted Today' : '○ Mark Contacted'}
+          </button>
+          ${b.email ? `<button class="btn btn-ghost" onclick="copyEmail('${b.email}')">📋 Copy Email</button>` : ''}
+          ${b.campaignPage && isValidUrl(b.campaignPage) ? `<a href="${b.campaignPage}" target="_blank" class="btn btn-ghost">📄 Campaign Page</a>` : ''}
+          <button class="btn btn-ghost" onclick="filterByAuthor('${b.authorName}');closeDrawer()">📚 All books by author</button>
+        </div>
+      </div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.56rem;color:var(--text4);text-align:center;padding:14px 0 4px;border-top:1px solid var(--border-lt);letter-spacing:.08em;text-transform:uppercase;">Atomic Shelf · ${b.id}</div>
+    </div>`;
+}
+
+function closeDrawer() {
+  document.getElementById('drawer').classList.remove('on');
+  document.getElementById('overlay').classList.remove('on');
+  currentDrawerID = null;
+}
+
+async function saveNote(id) {
+  const v = document.getElementById('drwNotes')?.value || '';
+  const b = BOOKS.find(x => x.id === id);
+  if (b) b.notes = v;
+  const res = await postToSheets({ action:'saveNote', bookTitle:b?.bookTitle, authorName:b?.authorName, notes:v });
+  showToast(res.success ? '✓ Saved to Sheets' : '⚠ Sheets update failed — saved locally');
+  renderAll();
+}
+
+async function markContacted(id, e) {
+  if (e) e.stopPropagation();
+  localStorage.setItem('as_lc_' + id, new Date().toISOString());
+  const b = BOOKS.find(x => x.id === id);
+  await postToSheets({ action:'markContacted', bookTitle:b?.bookTitle, authorName:b?.authorName });
+  renderAll();
+  if (currentDrawerID === id) renderDrawer(id);
+  showToast('✓ Marked as contacted');
+}
+
+// ══════════════════════════════════════════
+// ADD BOOK MODAL
+// ══════════════════════════════════════════
+const MODAL_FIELDS = [
+  ['Book Title','text',true,true],['Author Name','text',true],['Pen Name','text'],
+  ['Email','email'],['Series / Collection','text'],['Genre','text'],
+  ['Campaign Status','text'],['Payment Status','text'],
+  ['Monthly Retainer','text'],['Trial Start Date','text'],['Campaign Live Date','text'],
+  ['TikTok Account','url'],['YouTube Account','url'],['Campaign Page URL','url'],
+  ['TikTok Views','text'],['YouTube Views','text'],['TikTok Followers','text'],
+  ['YouTube Watch Hours','text'],['Best Performing Video','text'],['Best Performing Video Views','text'],
+  ['Pending Actions','text',false,true],['Notes','text',false,true],['VIP Tag','text'],
+];
+
+function showModal() {
+  document.getElementById('modalFields').innerHTML = MODAL_FIELDS.map(([label,type,req,full]) =>
+    `<div class="modal-field${full ? ' full' : ''}">
+      <label class="modal-label">${label}${req ? ' *' : ''}</label>
+      <input class="modal-input" type="${type}" name="${label}" placeholder="${label}" ${req ? 'required' : ''}></div>`
+  ).join('');
+  document.getElementById('modalBg').classList.add('on');
+}
+
+function hideModal(e) {
+  if (e && e.target !== document.getElementById('modalBg')) return;
+  document.getElementById('modalBg').classList.remove('on');
+}
+
+async function submitNewBook() {
+  const inputs = document.querySelectorAll('#modalFields .modal-input');
+  const row = {}; let valid = true;
+  inputs.forEach(inp => {
+    row[inp.name] = inp.value.trim();
+    if (inp.required && !inp.value.trim()) { inp.style.borderColor = 'var(--red)'; valid = false; }
+    else inp.style.borderColor = '';
+  });
+  if (!valid) { showToast('⚠ Please fill required fields'); return; }
+  const b = parseRawRow(row);
+  BOOKS.push(b);
+  renderAll();
+  hideModal();
+  showToast('✓ Book added');
+  const res = await postToSheets({ action:'addBook', row });
+  if (res.success) showToast('✓ Saved to Sheets');
+}
+
+// ══════════════════════════════════════════
+// CONTROLS
+// ══════════════════════════════════════════
+function switchTab(tab) {
+  activeTab = tab;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  document.getElementById('ctrlBar').style.display = tab === 'contacted' ? 'none' : 'flex';
+  renderAll();
+}
+
+function setViewMode(mode) {
+  viewMode = mode;
+  ['grid','list','author'].forEach(m => {
+    const btn = document.getElementById('vt-' + m);
+    if (btn) btn.classList.toggle('active', m === mode);
+  });
+  if (mode === 'author') { groupBy = 'author'; document.getElementById('groupSelect').value = 'author'; }
+  renderAll();
+}
+
+function onSearch(v)  { searchQuery = v.trim(); renderAll(); }
+function onSort(v)    { sortBy = v; renderAll(); }
+function onGroup(v)   { groupBy = v; renderAll(); }
+
+function filterByAuthor(name) {
+  authorFilter = name;
+  renderAll();
+  renderAuthorFilterPill();
+}
+
+function clearAuthorFilter() {
+  authorFilter = null;
+  renderAll();
+  renderAuthorFilterPill();
+}
+
+function renderAuthorFilterPill() {
+  const el = document.getElementById('authorFilterPill');
+  el.innerHTML = authorFilter
+    ? `<span class="author-filter-pill" onclick="clearAuthorFilter()">👤 ${authorFilter} <span class="afp-x">×</span></span>`
+    : '';
+}
+
+function toggleSection(key) {
+  if (collapsedSections.has(key)) collapsedSections.delete(key);
+  else collapsedSections.add(key);
+  renderAll();
+}
+
+function collapseAll() {
+  if (viewMode === 'author' || groupBy === 'author') {
+    [...new Set(BOOKS.map(b => 'ag_' + b.authorName.replace(/[^a-z0-9]/gi,'_')))].forEach(k => collapsedSections.add(k));
+  } else {
+    SECTIONS.forEach(s => collapsedSections.add(s.key));
+  }
+  renderAll();
+}
+
+function expandAll() { collapsedSections.clear(); renderAll(); }
+
+// ══════════════════════════════════════════
+// SYNC & EXPORT
+// ══════════════════════════════════════════
+async function syncNow() {
+  setLiveStatus(false);
+  showToast('🔄 Syncing with Google Sheets…');
+  const live = await fetchFromSheets();
+  if (live && live.length > 0) {
+    BOOKS = live;
+    renderAll();
+    setLiveStatus(true);
+    showToast('✅ Synced — ' + BOOKS.length + ' books loaded');
+  } else {
+    setLiveStatus(false, true);
+    showToast('⚠ Could not reach Sheets');
+  }
+}
+
+function setLiveStatus(isLive, isError = false) {
+  const dot   = document.getElementById('liveDot');
+  const label = document.getElementById('liveLabel');
+  if (!dot || !label) return;
+  dot.style.background   = isError ? '#f87171' : isLive ? '#4ade80' : '#f59e0b';
+  dot.style.boxShadow    = isError ? '0 0 8px #f87171' : isLive ? '0 0 8px #4ade80' : '0 0 8px #f59e0b';
+  label.textContent      = isError ? 'Offline' : isLive ? 'Live' : 'Connecting…';
+}
+
+function exportCSV() {
+  const rows = BOOKS.map(b =>
+    CSV_HEADERS.map(k => `"${String((b._raw && b._raw[k]) || '').replace(/"/g,'""')}"`).join(',')
+  );
+  const csv = [CSV_HEADERS.map(k => `"${k}"`).join(','), ...rows].join('\n');
+  const url = URL.createObjectURL(new Blob([csv], { type:'text/csv' }));
+  const el = document.createElement('a');
+  el.href = url;
+  el.download = `atomic-shelf-books-${new Date().toISOString().slice(0,10)}.csv`;
+  el.click();
+  URL.revokeObjectURL(url);
+  showToast('⬇ CSV exported');
+}
+
+// ══════════════════════════════════════════
+// RENDER ALL
+// ══════════════════════════════════════════
+function renderAll() {
+  if (!dataLoaded) return; // wait for initial data
+  renderStats();
+
+  const el = document.getElementById('mainContent');
+  let pool = BOOKS;
+
+  if (authorFilter) pool = pool.filter(b => b.authorName === authorFilter);
+  if (searchQuery) {
+    const q = searchQuery.toLowerCase();
+    pool = pool.filter(b =>
+      [b.bookTitle, b.authorName, b.penName, b.email, b.notes, b.genre, b.series,
+       b.lastContactSummary, b.nextAction].join(' ').toLowerCase().includes(q)
+    );
+  }
+
+  let html = '';
+  if (authorFilter) html += `<div class="search-info">👤 Showing ${pool.length} book${pool.length !== 1 ? 's' : ''} by <strong>${authorFilter}</strong> <span onclick="clearAuthorFilter()" style="cursor:pointer;margin-left:4px;">× clear</span></div>`;
+  if (searchQuery)  html += `<div class="search-info">🔍 ${pool.length} result${pool.length !== 1 ? 's' : ''} for "<strong>${searchQuery}</strong>"</div>`;
+
+  if (activeTab === 'contacted') {
+    html += `<div class="contact-list">${buildContactedView(pool)}</div>`;
+    el.innerHTML = html;
+    return;
+  }
+
+  if (!pool.length) {
+    el.innerHTML = html + `<div class="empty-state"><div class="empty-icon">📭</div><div class="empty-title">No books found</div><p class="empty-sub">Try adjusting your search or filter.</p></div>`;
+    return;
+  }
+
+  if (viewMode === 'author' || groupBy === 'author') {
+    html += buildAuthorGroupView(pool);
+  } else if (groupBy === 'genre') {
+    html += buildGenreGroupView(pool);
+  } else if (groupBy === 'none') {
+    const sorted = sortGroup(pool), isLV = viewMode === 'list';
+    html += `<div class="cards-grid${isLV ? ' list-view' : ''}">${sorted.map(b => buildCard(b, isLV)).join('')}</div>`;
+  } else {
+    // By Status (default)
+    const grouped = {};
+    SECTIONS.forEach(s => { grouped[s.key] = []; });
+    pool.forEach(b => { (grouped[b.status] = grouped[b.status] || []).push(b); });
+    SECTIONS.forEach(s => { html += buildSection(s, grouped[s.key] || []); });
+  }
+
+  el.innerHTML = html;
+}
+
+// ══════════════════════════════════════════
+// KEYBOARD SHORTCUTS
+// ══════════════════════════════════════════
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closeDrawer(); hideModal(); }
+  if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); document.getElementById('srchInput').focus(); }
+});
+
+// ══════════════════════════════════════════
+// INIT — data from Sheets only
+// ══════════════════════════════════════════
+(async () => {
+  setLiveStatus(false);
+  const live = await fetchFromSheets();
+  if (live && live.length > 0) {
+    BOOKS = live;
+    dataLoaded = true;
+    setLiveStatus(true);
+    renderAll();
+    showToast('✅ ' + BOOKS.length + ' books loaded');
+  } else {
+    dataLoaded = true; // allow empty render
+    setLiveStatus(false, true);
+    document.getElementById('mainContent').innerHTML = `
+      <div class="error-state">
+        <div class="error-icon">⚠️</div>
+        <div class="error-title">Could not load data from Google Sheets</div>
+        <p class="error-sub">Check that the API_URL in this file matches your deployed Apps Script URL, and that the sheet is accessible.</p>
+        <button class="btn btn-amber" onclick="syncNow()" style="margin:16px auto 0;display:flex;">⟳ Retry</button>
+      </div>`;
+    renderStats();
+  }
+})();
+</script>
+</body>
+</html>

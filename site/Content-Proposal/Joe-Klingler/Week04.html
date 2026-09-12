@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mash Up — Week 4 Content Calendar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --void: #0a0c10;
+    --dark: #111318;
+    --panel: #161a22;
+    --panel-light: #1e2330;
+    --fog: #c8d4e0;
+    --fog-mid: #8fa5b8;
+    --fog-dim: #4a5a6a;
+    --amber: #e8a030;
+    --amber-hot: #f5b84a;
+    --amber-dim: #7a5218;
+    --amber-glow: rgba(232,160,48,0.12);
+    --neon: #2de8a0;
+    --neon-dim: rgba(45,232,160,0.08);
+    --rule: rgba(232,160,48,0.18);
+    --rule-cool: rgba(143,165,184,0.12);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--void);
+    color: var(--fog);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.75;
+    overflow-x: hidden;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: var(--void);
+  }
+
+  /* City grid background */
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(143,165,184,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(143,165,184,0.04) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+  }
+
+  /* Road / vanishing point */
+  .hero-road {
+    position: absolute;
+    bottom: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    height: 60%;
+    background: linear-gradient(to top, rgba(232,160,48,0.06) 0%, transparent 100%);
+    clip-path: polygon(42% 100%, 58% 100%, 52% 0%, 48% 0%);
+  }
+
+  .hero-road-stripe {
+    position: absolute;
+    bottom: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 3px;
+    height: 55%;
+    background: repeating-linear-gradient(
+      to top,
+      var(--amber) 0px, var(--amber) 24px,
+      transparent 24px, transparent 48px
+    );
+    opacity: 0.2;
+  }
+
+  /* Scan line effect */
+  .hero-scan {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(0,0,0,0.08) 3px,
+      rgba(0,0,0,0.08) 4px
+    );
+    pointer-events: none;
+  }
+
+  /* Amber glow orb */
+  .hero-glow {
+    position: absolute;
+    top: 30%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 700px; height: 500px;
+    background: radial-gradient(ellipse, rgba(232,160,48,0.1) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  /* Waveform decoration */
+  .hero-wave {
+    position: absolute;
+    bottom: 8%;
+    left: 0; right: 0;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    opacity: 0.15;
+  }
+
+  .wave-bar {
+    width: 3px;
+    background: var(--amber);
+    border-radius: 2px;
+    animation: waveAnim 1.4s ease-in-out infinite;
+  }
+
+  @keyframes waveAnim {
+    0%, 100% { transform: scaleY(1); }
+    50% { transform: scaleY(0.2); }
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 860px;
+    padding: 100px 48px 80px;
+    text-align: center;
+    animation: fadeUp 1s ease both;
+  }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 36px;
+  }
+
+  .hero-eyebrow::before,
+  .hero-eyebrow::after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--amber-dim);
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(64px, 12vw, 140px);
+    font-weight: 400;
+    line-height: 0.88;
+    letter-spacing: 4px;
+    color: var(--fog);
+    margin-bottom: 6px;
+  }
+
+  .hero-title .accent {
+    color: var(--amber);
+  }
+
+  .hero-sub {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: clamp(11px, 1.5vw, 14px);
+    letter-spacing: 3px;
+    color: var(--fog-mid);
+    margin-top: 16px;
+    text-transform: uppercase;
+  }
+
+  .hero-author {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 18px;
+    color: var(--fog-dim);
+    margin: 24px 0 52px;
+  }
+
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    flex-wrap: wrap;
+  }
+
+  .stat {
+    text-align: center;
+    position: relative;
+  }
+
+  .stat::after {
+    content: '';
+    position: absolute;
+    right: -30px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 36px;
+    width: 1px;
+    background: var(--rule);
+  }
+
+  .stat:last-child::after { display: none; }
+
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 46px;
+    color: var(--amber);
+    line-height: 1;
+    display: block;
+    letter-spacing: 2px;
+  }
+
+  .stat-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--fog-dim);
+    margin-top: 4px;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    max-width: 700px;
+    margin: 70px auto;
+    padding: 0 40px;
+  }
+
+  .divider-line {
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+
+  .divider-mark {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--amber-dim);
+    letter-spacing: 4px;
+  }
+
+  /* ── INTRO ── */
+  .intro {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 0 40px 80px;
+    text-align: center;
+  }
+
+  .section-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .intro p {
+    font-size: 19px;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--fog-mid);
+    line-height: 1.9;
+  }
+
+  /* ── WEEK BANNER ── */
+  .week-banner {
+    max-width: 1100px;
+    margin: 0 auto 20px;
+    padding: 0 40px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .week-banner-line {
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+
+  .week-banner-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(32px, 5vw, 52px);
+    letter-spacing: 6px;
+    color: var(--fog);
+    white-space: nowrap;
+  }
+
+  .week-banner-text span { color: var(--amber); }
+
+  .week-dates {
+    text-align: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--fog-dim);
+    margin-bottom: 56px;
+    padding: 0 40px;
+  }
+
+  /* ── CARDS ── */
+  .calendar {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 40px 120px;
+  }
+
+  .video-card {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    background: var(--panel);
+    border: 1px solid var(--rule-cool);
+    border-left: 3px solid var(--amber-dim);
+    margin-bottom: 3px;
+    transition: border-left-color 0.25s, box-shadow 0.25s;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .video-card:hover {
+    border-left-color: var(--amber);
+    box-shadow: 0 0 32px rgba(232,160,48,0.08), inset 0 0 60px rgba(232,160,48,0.02);
+  }
+
+  .video-card:first-child { border-radius: 6px 6px 0 0; }
+  .video-card:last-child  { border-radius: 0 0 6px 6px; }
+
+  .card-date {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 22px 10px;
+    background: var(--panel-light);
+    border-right: 1px solid var(--rule-cool);
+    text-align: center;
+    position: relative;
+  }
+
+  .card-date::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 24px; height: 1px;
+    background: var(--rule);
+  }
+
+  .date-day {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 38px;
+    color: var(--amber);
+    line-height: 1;
+    letter-spacing: 1px;
+  }
+
+  .date-month {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--fog-dim);
+    margin-top: 2px;
+  }
+
+  .date-vid {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 7px;
+    color: var(--neon);
+    margin-top: 10px;
+    letter-spacing: 1px;
+    opacity: 0.7;
+  }
+
+  .card-body {
+    padding: 26px 30px;
+  }
+
+  .card-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 2px;
+    color: var(--fog);
+    line-height: 1.2;
+    margin-bottom: 3px;
+  }
+
+  .card-hook {
+    font-style: italic;
+    font-weight: 300;
+    color: var(--amber);
+    font-size: 14px;
+    margin-bottom: 20px;
+    opacity: 0.85;
+  }
+
+  .card-sections {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+  }
+
+  .section-block h4 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .section-block p {
+    font-size: 13.5px;
+    color: var(--fog-mid);
+    line-height: 1.72;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 300;
+  }
+
+  /* ── COPY BUTTON ── */
+  .copy-btn {
+    background: none;
+    border: 1px solid var(--amber-dim);
+    color: var(--amber);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 6px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 3px 7px;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.2s;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .copy-btn:hover {
+    background: var(--amber);
+    color: var(--void);
+    border-color: var(--amber);
+  }
+
+  .copy-btn.copied {
+    background: var(--neon);
+    color: var(--void);
+    border-color: var(--neon);
+  }
+
+  /* ── CTA MARKER ── */
+  .cta-marker {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    max-width: 1100px;
+    margin: 32px auto 4px;
+    padding: 0 40px;
+  }
+
+  .cta-marker-line {
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+    opacity: 0.5;
+  }
+
+  .cta-marker-badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--neon);
+    border: 1px solid rgba(45,232,160,0.3);
+    padding: 4px 12px;
+    border-radius: 2px;
+    opacity: 0.7;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    text-align: center;
+    padding: 60px 40px;
+    border-top: 1px solid var(--rule);
+    background: var(--dark);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .footer::before {
+    content: 'MASH UP';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 180px;
+    letter-spacing: 20px;
+    color: rgba(232,160,48,0.03);
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  .footer-icon {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 16px;
+    color: var(--amber-dim);
+    margin-bottom: 16px;
+    display: block;
+    letter-spacing: 8px;
+  }
+
+  .footer-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    letter-spacing: 5px;
+    color: var(--fog);
+    text-transform: uppercase;
+  }
+
+  .footer-sub {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 2px;
+    color: var(--fog-dim);
+    margin-top: 10px;
+    text-transform: uppercase;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 680px) {
+    .card-sections { grid-template-columns: 1fr; }
+    .video-card { grid-template-columns: 72px 1fr; }
+    .card-body { padding: 18px 16px; }
+    .hero-content { padding: 80px 24px 60px; }
+    .calendar, .intro, .week-banner, .cta-marker { padding-left: 20px; padding-right: 20px; }
+    .hero-stats { gap: 28px; }
+    .stat::after { display: none; }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-road"></div>
+  <div class="hero-road-stripe"></div>
+  <div class="hero-scan"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-wave" id="heroWave"></div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">Content Proposal · YouTube &amp; TikTok</div>
+    <h1 class="hero-title">MASH <span class="accent">UP</span></h1>
+    <div class="hero-sub">Detective Qigiq · Book One</div>
+    <p class="hero-author">by Joe Klingler</p>
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-num">15</span>
+        <span class="stat-label">Videos · Week 4</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">4.1★</span>
+        <span class="stat-label">849 Reviews</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">15–30s</span>
+        <span class="stat-label">Voiceover Length</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DIVIDER -->
+<div class="divider">
+  <div class="divider-line"></div>
+  <div class="divider-mark">// //</div>
+  <div class="divider-line"></div>
+</div>
+
+<!-- INTRO -->
+<section class="intro">
+  <span class="section-label">Campaign Overview</span>
+  <p>Week 4 of a sustained short-form campaign for YouTube and TikTok. Fifteen videos pushing deeper into the world of Qigiq and Kandy — the tech, the tension, the city, and the crimes that didn't exist until the 21st century.</p>
+</section>
+
+<!-- WEEK BANNER -->
+<div class="week-banner">
+  <div class="week-banner-line"></div>
+  <div class="week-banner-text">WEEK <span>FOUR</span></div>
+  <div class="week-banner-line"></div>
+</div>
+<div class="week-dates">May 22 – May 28, 2026 · Videos 46 – 60</div>
+
+<!-- CALENDAR -->
+<section class="calendar">
+
+  <!-- V46 — May 22 -->
+  <div class="video-card" style="animation-delay:0.04s">
+    <div class="card-date">
+      <div class="date-day">22</div>
+      <div class="date-month">May</div>
+      <div class="date-vid">Video 46</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">The Qigiq Problem</div>
+      <div class="card-hook">"He's the best detective they have. He's also ten years behind."</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'Qigiq was a great detective. Past tense — that was the problem. The world moved. Technology accelerated. Criminals stopped leaving fingerprints and started leaving code. So his department did the only thing they could think of. They sent him to San Francisco to learn from someone who understood the new rules. Her name is Kandy Dreeson. And she is about to change everything he thought he knew about how crime works.')">Copy</button></h4>
+          <p>Qigiq was a great detective. Past tense — that was the problem. The world moved. Technology accelerated. Criminals stopped leaving fingerprints and started leaving code. So his department did the only thing they could think of. They sent him to San Francisco to learn from someone who understood the new rules. Her name is Kandy Dreeson. And she is about to change everything he thought he knew about how crime works.</p>
+        </div>
+        <div class="section-block">
+          <h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'What happens when a great detective realizes his skills are obsolete? Joe Klingler\'s Mash Up opens with exactly that question — and the answer is a partnership with Kandy Dreeson that will pull Qigiq straight into the 21st century\'s darkest crimes. Mash Up — Detective Qigiq Book 1. Available on Kindle and paperback now. #MashUp #JoeKlingler #DetectiveQigiq #CrimeFiction #TechThriller #BookTok')">Copy</button></h4>
+          <p>What happens when a great detective realizes his skills are obsolete? Joe Klingler's Mash Up opens with exactly that question — and the answer is a partnership with Kandy Dreeson that will pull Qigiq straight into the 21st century's darkest crimes. Mash Up — Detective Qigiq Book 1. Available on Kindle and paperback now. #MashUp #JoeKlingler #DetectiveQigiq #CrimeFiction #TechThriller #BookTok</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- V47 — May 22 -->
+  <div class="video-card" style="animation-delay:0.08s">
+    <div class="card-date">
+      <div class="date-day">22</div>
+      <div class="date-month">May</div>
+      <div class="date-vid">Video 47</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">Kandy Dreeson Is Not Like Other Detectives</div>
+      <div class="card-hook">"Skin-tight shirts, kick-ass boots, and a mind like a server farm."</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'Kandy Dreeson is young. She is talented. She bends rules like most people bend paperclips — casually and without apology. She drives like she\'s always already late to the crime scene. And she knows how criminals use modern technology better than most criminals do. Qigiq was sent to San Francisco to learn. He had no idea his teacher would be like this. And that might be the best thing that ever happened to him.')">Copy</button></h4>
+          <p>Kandy Dreeson is young. She is talented. She bends rules like most people bend paperclips — casually and without apology. She drives like she's always already late to the crime scene. And she knows how criminals use modern technology better than most criminals do. Qigiq was sent to San Francisco to learn. He had no idea his teacher would be like this. And that might be the best thing that ever happened to him.</p>
+        </div>
+        <div class="section-block">
+          <h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'Kandy Dreeson is one of the most original detective characters in modern crime fiction — and Joe Klingler knows exactly how to write her. Young, fearless, tech-savvy, and completely unpredictable. Mash Up — Detective Qigiq Book 1. Kindle and paperback available now. #KandyDreeson #MashUp #JoeKlingler #DetectiveNovels #PoliceProcedural #BookTok')">Copy</button></h4>
+          <p>Kandy Dreeson is one of the most original detective characters in modern crime fiction — and Joe Klingler knows exactly how to write her. Young, fearless, tech-savvy, and completely unpredictable. Mash Up — Detective Qigiq Book 1. Kindle and paperback available now. #KandyDreeson #MashUp #JoeKlingler #DetectiveNovels #PoliceProcedural #BookTok</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- V48 — May 23 -->
+  <div class="video-card" style="animation-delay:0.12s">
+    <div class="card-date">
+      <div class="date-day">23</div>
+      <div class="date-month">May</div>
+      <div class="date-vid">Video 48</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">The Amazon Box Nobody Wanted to Open</div>
+      <div class="card-hook">"It arrived like any delivery. It left like a nightmare."</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'A college musician gets an Amazon delivery she didn\'t order. Inside are the belongings of her roommate — who is missing. She calls the police in hysterics. And that is how Qigiq and Kandy walk into the strangest case either of them has ever seen. Because whoever sent this box wanted to be noticed. Whoever sent this box is already three moves ahead. And whoever sent this box is not done sending things.')">Copy</button></h4>
+          <p>A college musician gets an Amazon delivery she didn't order. Inside are the belongings of her roommate — who is missing. She calls the police in hysterics. And that is how Qigiq and Kandy walk into the strangest case either of them has ever seen. Because whoever sent this box wanted to be noticed. Whoever sent this box is already three moves ahead. And whoever sent this box is not done sending things.</p>
+        </div>
+        <div class="section-block">
+          <h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'An Amazon box. A missing musician. And a case that spirals into something nobody saw coming. Joe Klingler opens Mash Up with one of the most unsettling inciting incidents in recent crime fiction — and he never lets the tension drop. Mash Up — Detective Qigiq Book 1. Available on Kindle and paperback. #MashUp #JoeKlingler #TechThriller #MissingPerson #CrimeThriller #BookTok')">Copy</button></h4>
+          <p>An Amazon box. A missing musician. And a case that spirals into something nobody saw coming. Joe Klingler opens Mash Up with one of the most unsettling inciting incidents in recent crime fiction — and he never lets the tension drop. Mash Up — Detective Qigiq Book 1. Available on Kindle and paperback. #MashUp #JoeKlingler #TechThriller #MissingPerson #CrimeThriller #BookTok</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- V49 — May 23 -->
+  <div class="video-card" style="animation-delay:0.16s">
+    <div class="card-date">
+      <div class="date-day">23</div>
+      <div class="date-month">May</div>
+      <div class="date-vid">Video 49</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">F112358 Is Watching You</div>
+      <div class="card-hook">"Someone posted a video. Then they posted another. They want to be found."</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'A YouTube account with the username F112358 starts posting videos that only the detectives would understand. A Craigslist ad appears — coded, deliberate, designed to be seen by exactly one person. Whoever is behind this case is not hiding. They are communicating. They want Qigiq and Kandy to follow the trail. And that is the most frightening thing about it — because killers who want to be chased have already decided how it ends.')">Copy</button></h4>
+          <p>A YouTube account with the username F112358 starts posting videos that only the detectives would understand. A Craigslist ad appears — coded, deliberate, designed to be seen by exactly one person. Whoever is behind this case is not hiding. They are communicating. They want Qigiq and Kandy to follow the trail. And that is the most frightening thing about it — because killers who want to be chased have already decided how it ends.</p>
+        </div>
+        <div class="section-block">
+          <h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'F112358. A username. A YouTube account. A Craigslist ad. Clues that only two detectives were meant to see — and a killer who is doing everything in their power to make sure they follow. Joe Klingler\'s tech-thriller instincts are on full display in Mash Up. Kindle and paperback available now. #F112358 #MashUp #JoeKlingler #TechThriller #CyberCrime #BookTok')">Copy</button></h4>
+          <p>F112358. A username. A YouTube account. A Craigslist ad. Clues that only two detectives were meant to see — and a killer who is doing everything in their power to make sure they follow. Joe Klingler's tech-thriller instincts are on full display in Mash Up. Kindle and paperback available now. #F112358 #MashUp #JoeKlingler #TechThriller #CyberCrime #BookTok</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- V50 — May 24 -->
+  <div class="video-card" style="animation-delay:0.20s">
+    <div class="card-date">
+      <div class="date-day">24</div>
+      <div class="date-month">May</div>
+      <div class="date-vid">Video 50</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">The Virus That Went After Music Fans</div>
+      <div class="card-hook">"It didn't steal data. It sent a message."</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'A new virus spreads through the internet. But it doesn\'t go after bank accounts or government systems. It targets music fans — specifically, people who have been downloading music illegally. Joe Klingler spent a decade in software development for film and video. He knows exactly how this technology works. And he uses that knowledge to build something genuinely terrifying. A crime that could only happen now. In this decade. With these tools.')">Copy</button></h4>
+          <p>A new virus spreads through the internet. But it doesn't go after bank accounts or government systems. It targets music fans — specifically, people who have been downloading music illegally. Joe Klingler spent a decade in software development for film and video. He knows exactly how this technology works. And he uses that knowledge to build something genuinely terrifying. A crime that could only happen now. In this decade. With these tools.</p>
+        </div>
+        <div class="section-block">
+          <h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'A virus that targets music pirates. A killer who understands the internet better than the FBI. Joe Klingler draws on a decade of real software development experience to build a cyber-crime thriller that feels terrifyingly plausible. Mash Up — Detective Qigiq Book 1. Available now. #CyberVirus #MashUp #JoeKlingler #MusicPiracy #TechThriller #BookTok')">Copy</button></h4>
+          <p>A virus that targets music pirates. A killer who understands the internet better than the FBI. Joe Klingler draws on a decade of real software development experience to build a cyber-crime thriller that feels terrifyingly plausible. Mash Up — Detective Qigiq Book 1. Available now. #CyberVirus #MashUp #JoeKlingler #MusicPiracy #TechThriller #BookTok</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- V51 — May 24 -->
+  <div class="video-card" style="animation-delay:0.24s">
+    <div class="card-date">
+      <div class="date-day">24</div>
+      <div class="date-month">May</div>
+      <div class="date-vid">Video 51</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">Who Owns a Song?</div>
+      <div class="card-hook">"Just because everyone is doing it doesn't make it free."</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'Mash Up is a great detective thriller. It is also the most interesting novel I\'ve read about what music piracy actually costs — not for the labels, but for the people who make the music. Joe Klingler knows musicians. He knows what it means to create something and watch it get taken. And he builds that anger into the DNA of his killer. You will understand, by the end of this book, why someone might want to make piracy feel dangerous. You might even agree with them.')">Copy</button></h4>
+          <p>Mash Up is a great detective thriller. It is also the most interesting novel I've read about what music piracy actually costs — not for the labels, but for the people who make the music. Joe Klingler knows musicians. He knows what it means to create something and watch it get taken. And he builds that anger into the DNA of his killer. You will understand, by the end of this book, why someone might want to make piracy feel dangerous. You might even agree with them.</p>
+        </div>
+        <div class="section-block">
+          <h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'What does music piracy actually cost? Not just in dollars — but in the lives of the people who make the music? Joe Klingler builds a thriller around that question and gives you a villain whose logic you can almost follow. Mash Up — Detective Qigiq Book 1. Kindle and paperback available now. #MusicPiracy #WhoOwnsArtwork #MashUp #JoeKlingler #CrimeFiction #BookTok')">Copy</button></h4>
+          <p>What does music piracy actually cost? Not just in dollars — but in the lives of the people who make the music? Joe Klingler builds a thriller around that question and gives you a villain whose logic you can almost follow. Mash Up — Detective Qigiq Book 1. Kindle and paperback available now. #MusicPiracy #WhoOwnsArtwork #MashUp #JoeKlingler #CrimeFiction #BookTok</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- V52 — May 25 -->
+  <div class="video-card" style="animation-delay:0.28s">
+    <div class="card-date">
+      <div class="date-day">25</div>
+      <div class="date-month">May</div>
+      <div class="date-vid">Video 52</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">The Odd Couple the City Didn't See Coming</div>
+      <div class="card-hook">"He's old school. She's the new rules. Together they're something else entirely."</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'Qigiq grew up in Alaska. He thinks slowly, carefully, methodically. He\'s been doing this for decades. Kandy grew up in San Francisco. She thinks in code, in speed, in every angle at once. She\'s been doing this for years — but she moves like she\'s already won. On paper, this partnership should not work. In practice, it\'s the most compelling detective duo I\'ve read in years. Mash Up by Joe Klingler. You will want more of them when it\'s done.')">Copy</button></h4>
+          <p>Qigiq grew up in Alaska. He thinks slowly, carefully, methodically. He's been doing this for decades. Kandy grew up in San Francisco. She thinks in code, in speed, in every angle at once. She's been doing this for years — but she moves like she's already won. On paper, this partnership should not work. In practice, it's the most compelling detective duo I've read in years. Mash Up by Joe Klingler. You will want more of them when it's done.</p>
+        </div>
+        <div class="section-block">
+          <h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'A methodical Alaskan detective. A fearless San Francisco cop who bends every rule she can find. The odd-couple partnership at the heart of Mash Up is one of the best things Joe Klingler has ever written. Detective Qigiq Book 1. Kindle and paperback available now. #QigiqAndKandy #OddCouple #MashUp #JoeKlingler #DetectiveDuo #BookTok')">Copy</button></h4>
+          <p>A methodical Alaskan detective. A fearless San Francisco cop who bends every rule she can find. The odd-couple partnership at the heart of Mash Up is one of the best things Joe Klingler has ever written. Detective Qigiq Book 1. Kindle and paperback available now. #QigiqAndKandy #OddCouple #MashUp #JoeKlingler #DetectiveDuo #BookTok</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- V53 — May 25 -->
+  <div class="video-card" style="animation-delay:0.32s">
+    <div class="card-date">
+      <div class="date-day">25</div>
+      <div class="date-month">May</div>
+      <div class="date-vid">Video 53</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">San Francisco As You Haven't Read It Before</div>
+      <div class="card-hook">"Not the postcard version. The version that runs on secrets."</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'Joe Klingler is a California writer. And he uses San Francisco the way a great crime novelist should — not as a backdrop but as a character. The fog. The traffic. The technology. The particular kind of arrogance that comes from being the center of the digital world. Klingler puts you in the alleys and on the freeways and in the startup offices and in the grimy music clubs. He makes the city feel consequential. This is exactly the kind of San Francisco that could produce this kind of crime.')">Copy</button></h4>
+          <p>Joe Klingler is a California writer. And he uses San Francisco the way a great crime novelist should — not as a backdrop but as a character. The fog. The traffic. The technology. The particular kind of arrogance that comes from being the center of the digital world. Klingler puts you in the alleys and on the freeways and in the startup offices and in the grimy music clubs. He makes the city feel consequential. This is exactly the kind of San Francisco that could produce this kind of crime.</p>
+        </div>
+        <div class="section-block">
+          <h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'San Francisco isn\'t just the setting of Mash Up. It\'s the reason the crime is possible. Joe Klingler uses his home state with the authority of someone who has lived these streets — and the precision of a writer who knows exactly what they\'re doing. Detective Qigiq Book 1. Available now. #SanFrancisco #MashUp #JoeKlingler #SettingAsCharacter #CrimeFiction #BookTok')">Copy</button></h4>
+          <p>San Francisco isn't just the setting of Mash Up. It's the reason the crime is possible. Joe Klingler uses his home state with the authority of someone who has lived these streets — and the precision of a writer who knows exactly what they're doing. Detective Qigiq Book 1. Available now. #SanFrancisco #MashUp #JoeKlingler #SettingAsCharacter #CrimeFiction #BookTok</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- V54 — May 26 -->
+  <div class="video-card" style="animation-delay:0.36s">
+    <div class="card-date">
+      <div class="date-day">26</div>
+      <div class="date-month">May</div>
+      <div class="date-vid">Video 54</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">Klingler's Prose Has Fangs</div>
+      <div class="card-hook">"Effortlessly clever. Kirkus Reviews. They were right."</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'Kirkus Reviews called Joe Klingler\'s prose effortlessly clever. The San Francisco Book Review gave Mash Up five out of five stars and compared its plot to Quentin Tarantino. Those are not small things to say. Klingler earned both. His dialogue is sharp and real. His technical knowledge is worn lightly — informative without being a lecture. And his characters talk to each other the way actual people talk. This is crime fiction that respects your intelligence.')">Copy</button></h4>
+          <p>Kirkus Reviews called Joe Klingler's prose effortlessly clever. The San Francisco Book Review gave Mash Up five out of five stars and compared its plot to Quentin Tarantino. Those are not small things to say. Klingler earned both. His dialogue is sharp and real. His technical knowledge is worn lightly — informative without being a lecture. And his characters talk to each other the way actual people talk. This is crime fiction that respects your intelligence.</p>
+        </div>
+        <div class="section-block">
+          <h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'Kirkus called it effortlessly clever. The San Francisco Book Review gave it 5 stars and a Tarantino comparison. Joe Klingler\'s Mash Up has the critical credentials to back up the hype — and the prose to justify every word of it. Detective Qigiq Book 1. Kindle and paperback available now. #KirkusReviews #MashUp #JoeKlingler #CrimeWriting #TechThriller #BookTok')">Copy</button></h4>
+          <p>Kirkus called it effortlessly clever. The San Francisco Book Review gave it 5 stars and a Tarantino comparison. Joe Klingler's Mash Up has the critical credentials to back up the hype — and the prose to justify every word of it. Detective Qigiq Book 1. Kindle and paperback available now. #KirkusReviews #MashUp #JoeKlingler #CrimeWriting #TechThriller #BookTok</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- V55 — May 26 -->
+  <div class="video-card" style="animation-delay:0.40s">
+    <div class="card-date">
+      <div class="date-day">26</div>
+      <div class="date-month">May</div>
+      <div class="date-vid">Video 55</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">The Kind of Book You Slow Down For</div>
+      <div class="card-hook">"I deliberately slowed my reading so it wouldn't have to end."</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'One reader said they intentionally slowed down their reading because they didn\'t want Mash Up to end. Another said it kept them up late to finish — one of the highest compliments they said they could give any book. Joe Klingler wrote 466 pages of a detective thriller and people are annoyed that it has to be over. That is the measure of a writer who understands not just plot and pace but character. You are going to miss Qigiq and Kandy.')">Copy</button></h4>
+          <p>One reader said they intentionally slowed down their reading because they didn't want Mash Up to end. Another said it kept them up late to finish — one of the highest compliments they said they could give any book. Joe Klingler wrote 466 pages of a detective thriller and people are annoyed that it has to be over. That is the measure of a writer who understands not just plot and pace but character. You are going to miss Qigiq and Kandy.</p>
+        </div>
+        <div class="section-block">
+          <h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'Readers are deliberately slowing down to make Mash Up last longer. That\'s the kind of book Joe Klingler wrote. 466 pages that go too fast. A detective duo you\'re not ready to leave behind. Detective Qigiq Book 1. Available on Kindle and paperback now. #CantPutItDown #MashUp #JoeKlingler #DetectiveQigiq #GreatRead #BookTok')">Copy</button></h4>
+          <p>Readers are deliberately slowing down to make Mash Up last longer. That's the kind of book Joe Klingler wrote. 466 pages that go too fast. A detective duo you're not ready to leave behind. Detective Qigiq Book 1. Available on Kindle and paperback now. #CantPutItDown #MashUp #JoeKlingler #DetectiveQigiq #GreatRead #BookTok</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- V56 — May 27 -->
+  <div class="video-card" style="animation-delay:0.44s">
+    <div class="card-date">
+      <div class="date-day">27</div>
+      <div class="date-month">May</div>
+      <div class="date-vid">Video 56</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">849 Reviews. 4.1 Stars. It Earned Them.</div>
+      <div class="card-hook">"Over eight hundred readers finished this book and came back to talk about it."</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, '849 people reviewed Mash Up on Amazon. The average rating is 4.1 stars. Those are not readers who were given a copy and told to be polite. Those are readers who found this book, read all 466 pages of it, and then sat down to write about why it mattered to them. 43 percent gave it five stars. Another 36 percent gave it four. That is nearly four out of five readers calling this one of the best books they read that year. Joe Klingler. Mash Up. Link in bio.')">Copy</button></h4>
+          <p>849 people reviewed Mash Up on Amazon. The average rating is 4.1 stars. Those are not readers who were given a copy and told to be polite. Those are readers who found this book, read all 466 pages of it, and then sat down to write about why it mattered to them. 43 percent gave it five stars. Another 36 percent gave it four. That is nearly four out of five readers calling this one of the best books they read that year. Joe Klingler. Mash Up. Link in bio.</p>
+        </div>
+        <div class="section-block">
+          <h4>YouTube Description <button class="copy-btn" onclick="copyText(this, '849 Amazon reviews. 4.1 stars. 79% of readers rating it four or five stars. The numbers tell the story — and so do the readers who keep coming back to the Detective Qigiq series. Mash Up — Book 1. Available on Kindle and paperback. #AmazonReviews #MashUp #JoeKlingler #DetectiveQigiq #BestMystery #BookTok')">Copy</button></h4>
+          <p>849 Amazon reviews. 4.1 stars. 79% of readers rating it four or five stars. The numbers tell the story — and so do the readers who keep coming back to the Detective Qigiq series. Mash Up — Book 1. Available on Kindle and paperback. #AmazonReviews #MashUp #JoeKlingler #DetectiveQigiq #BestMystery #BookTok</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- V57 — May 27 -->
+  <div class="video-card" style="animation-delay:0.48s">
+    <div class="card-date">
+      <div class="date-day">27</div>
+      <div class="date-month">May</div>
+      <div class="date-vid">Video 57</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">The Author Who Lived This World First</div>
+      <div class="card-hook">"He spent a decade in software. Then he wrote about what that world hides."</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'Joe Klingler is not guessing at what the technology can do. He spent a decade developing software products for film and video production. He studied music. He knows this world from the inside. And when he sits down to write about criminals who use modern technology to commit crimes that didn\'t exist until the 21st century, he is drawing on real knowledge. That is why Mash Up feels different. That is why the tech doesn\'t feel like decoration. It feels like the weapon it actually is.')">Copy</button></h4>
+          <p>Joe Klingler is not guessing at what the technology can do. He spent a decade developing software products for film and video production. He studied music. He knows this world from the inside. And when he sits down to write about criminals who use modern technology to commit crimes that didn't exist until the 21st century, he is drawing on real knowledge. That is why Mash Up feels different. That is why the tech doesn't feel like decoration. It feels like the weapon it actually is.</p>
+        </div>
+        <div class="section-block">
+          <h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'Joe Klingler isn\'t inventing the technology in Mash Up. He lived it — a decade in software development for film and video, plus a background in music. That real-world knowledge is why the tech in this thriller feels genuinely dangerous. Mash Up — Detective Qigiq Book 1. Kindle and paperback available now. #AuthorBackground #JoeKlingler #MashUp #TechKnowledge #CrimeFiction #BookTok')">Copy</button></h4>
+          <p>Joe Klingler isn't inventing the technology in Mash Up. He lived it — a decade in software development for film and video, plus a background in music. That real-world knowledge is why the tech in this thriller feels genuinely dangerous. Mash Up — Detective Qigiq Book 1. Kindle and paperback available now. #AuthorBackground #JoeKlingler #MashUp #TechKnowledge #CrimeFiction #BookTok</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA SECTION MARKER -->
+  <div class="cta-marker">
+    <div class="cta-marker-line"></div>
+    <div class="cta-marker-badge">CTA · Videos 58 – 60</div>
+    <div class="cta-marker-line"></div>
+  </div>
+
+  <!-- V58 — May 28 CTA -->
+  <div class="video-card" style="animation-delay:0.52s">
+    <div class="card-date">
+      <div class="date-day">28</div>
+      <div class="date-month">May</div>
+      <div class="date-vid">Video 58</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">There Are Three More Books After This One</div>
+      <div class="card-hook">"Tune Up. Burn Up. Lock Up. You're going to want all of them."</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'Mash Up is the first Detective Qigiq novel. There are three more. Tune Up. Burn Up. Lock Up. Readers who finish this one consistently say they went straight to the next. Because Qigiq and Kandy are the kind of characters you follow. The kind of partnership you want to watch grow. The kind of fictional world you do not want to leave. Start with Mash Up. Then keep going. Joe Klingler made sure you would have somewhere to go.')">Copy</button></h4>
+          <p>Mash Up is the first Detective Qigiq novel. There are three more. Tune Up. Burn Up. Lock Up. Readers who finish this one consistently say they went straight to the next. Because Qigiq and Kandy are the kind of characters you follow. The kind of partnership you want to watch grow. The kind of fictional world you do not want to leave. Start with Mash Up. Then keep going. Joe Klingler made sure you would have somewhere to go.</p>
+        </div>
+        <div class="section-block">
+          <h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'Mash Up is just the beginning. Tune Up. Burn Up. Lock Up. The Detective Qigiq series gives you four books of one of crime fiction\'s most compelling partnerships. Start here. Don\'t stop. Joe Klingler — Detective Qigiq Book 1 available on Kindle and paperback. #DetectiveQigiqSeries #MashUp #JoeKlingler #CrimeSeries #ReadTheSeries #BookTok')">Copy</button></h4>
+          <p>Mash Up is just the beginning. Tune Up. Burn Up. Lock Up. The Detective Qigiq series gives you four books of one of crime fiction's most compelling partnerships. Start here. Don't stop. Joe Klingler — Detective Qigiq Book 1 available on Kindle and paperback. #DetectiveQigiqSeries #MashUp #JoeKlingler #CrimeSeries #ReadTheSeries #BookTok</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- V59 — May 28 CTA -->
+  <div class="video-card" style="animation-delay:0.56s">
+    <div class="card-date">
+      <div class="date-day">28</div>
+      <div class="date-month">May</div>
+      <div class="date-vid">Video 59</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">Give It to the Tech Person in Your Life</div>
+      <div class="card-hook">"The reader who loves tech and mysteries finally has their book."</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'You know someone who works in tech. Someone who reads crime fiction in their spare time and always complains that thrillers get the technology wrong. This is the book for that person. Joe Klingler gets the technology right. The code. The viruses. The platforms. The way criminals actually use the internet. And then he wraps it in a detective story that would stand up even without any of it. Buy this for your tech person. Then read it yourself. You\'re going to want to talk about it.')">Copy</button></h4>
+          <p>You know someone who works in tech. Someone who reads crime fiction in their spare time and always complains that thrillers get the technology wrong. This is the book for that person. Joe Klingler gets the technology right. The code. The viruses. The platforms. The way criminals actually use the internet. And then he wraps it in a detective story that would stand up even without any of it. Buy this for your tech person. Then read it yourself. You're going to want to talk about it.</p>
+        </div>
+        <div class="section-block">
+          <h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'For the reader who loves tech and hates when thrillers get it wrong: Mash Up by Joe Klingler is the book they\'ve been waiting for. Real technology. Real crime. Real detective work. Detective Qigiq Book 1 — available on Kindle and paperback. #TechThriller #GiftForTechPeople #MashUp #JoeKlingler #CrimeFiction #BookTok')">Copy</button></h4>
+          <p>For the reader who loves tech and hates when thrillers get it wrong: Mash Up by Joe Klingler is the book they've been waiting for. Real technology. Real crime. Real detective work. Detective Qigiq Book 1 — available on Kindle and paperback. #TechThriller #GiftForTechPeople #MashUp #JoeKlingler #CrimeFiction #BookTok</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- V60 — May 28 Ultimate CTA -->
+  <div class="video-card" style="animation-delay:0.60s">
+    <div class="card-date">
+      <div class="date-day">28</div>
+      <div class="date-month">May</div>
+      <div class="date-vid">Video 60</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">Two Detectives. One City. A Killer in the Code.</div>
+      <div class="card-hook">"This is the crime novel the internet made possible. And made necessary."</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'Joe Klingler wanted to know what crime looks like when the criminal understands technology better than the law does. So he wrote Mash Up. A missing musician. A virus spreading through the internet. A killer leaving clues on YouTube. And two detectives — one old school, one new rules — who have to learn each other before they can learn the case. This is the crime novel the 21st century made possible. And made necessary. Mash Up by Joe Klingler. Available now. Link in bio.')">Copy</button></h4>
+          <p>Joe Klingler wanted to know what crime looks like when the criminal understands technology better than the law does. So he wrote Mash Up. A missing musician. A virus spreading through the internet. A killer leaving clues on YouTube. And two detectives — one old school, one new rules — who have to learn each other before they can learn the case. This is the crime novel the 21st century made possible. And made necessary. Mash Up by Joe Klingler. Available now. Link in bio.</p>
+        </div>
+        <div class="section-block">
+          <h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'A crime that could only happen in the 21st century. A detective partnership built to solve it. Mash Up by Joe Klingler is the tech thriller crime fans didn\'t know they were waiting for — and 849 Amazon reviews confirm it. Detective Qigiq Book 1. Available on Kindle and paperback. Link below. #MashUp #JoeKlingler #DetectiveQigiq #TechThriller #CrimeFiction #MustRead #BookTok')">Copy</button></h4>
+          <p>A crime that could only happen in the 21st century. A detective partnership built to solve it. Mash Up by Joe Klingler is the tech thriller crime fans didn't know they were waiting for — and 849 Amazon reviews confirm it. Detective Qigiq Book 1. Available on Kindle and paperback. Link below. #MashUp #JoeKlingler #DetectiveQigiq #TechThriller #CrimeFiction #MustRead #BookTok</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <span class="footer-icon">/ / /</span>
+  <div class="footer-title">Mash Up — Joe Klingler</div>
+  <div class="footer-sub">Week 4 Content Proposal · May 22 – 28, 2026 · Videos 46 – 60 · YouTube &amp; TikTok</div>
+</footer>
+
+<script>
+// Waveform generator
+const wave = document.getElementById('heroWave');
+const heights = [8,14,22,30,36,40,36,30,24,18,28,36,40,38,30,22,16,24,32,38,40,36,28,20,14,20,28,36,40,36,28,20,14,8,12,20,30,38,40,36,30,22,16];
+heights.forEach((h, i) => {
+  const bar = document.createElement('div');
+  bar.className = 'wave-bar';
+  bar.style.height = h + 'px';
+  bar.style.animationDelay = (i * 0.035) + 's';
+  wave.appendChild(bar);
+});
+
+function copyText(btn, text) {
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = 'Copied';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = orig;
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+</script>
+
+</body>
+</html>

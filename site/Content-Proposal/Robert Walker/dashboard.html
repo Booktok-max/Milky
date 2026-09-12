@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Six Moons Seven Gods — Robert Walker | Campaign Dashboard | Atomic Shelf</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,900;1,400&family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+:root {
+  --cream: #f7f3ec;
+  --parchment: #ede6d6;
+  --warm-white: #faf8f4;
+  --surface: #ffffff;
+  --ink: #1e1a14;
+  --ink-mid: #3d3628;
+  --ink-soft: #6b5e48;
+  --gold: #a07c3a;
+  --gold-2: #c9a55a;
+  --gold-pale: #e8d4a0;
+  --gold-bg: #fdf6e3;
+  --sage: #5a7a52;
+  --sage-bg: #e8ede6;
+  --teal: #1D9E75;
+  --teal-bg: #e4f2ee;
+  --blue: #2468c0;
+  --blue-bg: #e6f0fb;
+  --red: #b53a2f;
+  --red-bg: #fce8e6;
+  --violet: #7c3aed;
+  --violet-bg: #ede9fe;
+  --rule: rgba(160,124,58,0.18);
+  --rule-lt: rgba(160,124,58,0.10);
+  --shadow-sm: 0 1px 4px rgba(30,26,20,0.06);
+  --shadow: 0 4px 20px rgba(30,26,20,0.09);
+  --shadow-lg: 0 10px 40px rgba(30,26,20,0.13);
+  --r: 8px;
+  --r-lg: 12px;
+  --r-xl: 16px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+a { color: inherit; text-decoration: none; }
+button { cursor: pointer; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--parchment); }
+::-webkit-scrollbar-thumb { background: var(--gold-pale); border-radius: 3px; }
+
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(30,26,20,.96);
+  backdrop-filter: blur(14px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  height: 58px;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.nav::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--gold) 40%, var(--gold-2) 60%, transparent 100%);
+  opacity: .4;
+}
+.nav-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: #fdf4e8;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.nav-mark {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: linear-gradient(138deg, var(--gold) 0%, var(--gold-2) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .65rem;
+  font-weight: 700;
+  color: #fff;
+}
+.nav-brand em { font-style: italic; color: var(--gold-2); }
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a {
+  font-family: 'DM Mono', monospace;
+  font-size: .67rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.38);
+  transition: color .18s;
+}
+.nav-links a:hover { color: var(--gold-2); }
+.nav-pill {
+  font-family: 'DM Mono', monospace;
+  font-size: .62rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  background: rgba(90,122,82,.3);
+  border: 1px solid rgba(90,122,82,.45);
+  color: #7ecf75;
+  padding: 4px 12px;
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.nav-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #4ade80;
+  box-shadow: 0 0 7px #4ade80;
+  animation: pulse 2.5s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1}50%{opacity:.3} }
+
+.hero {
+  background: linear-gradient(160deg, #1e1429 0%, #16121c 55%, #0e0b12 100%);
+  padding: 60px 40px 50px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 60% 40%, rgba(124,58,237,.15) 0%, transparent 65%);
+}
+.hero-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 40px;
+}
+.hero-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: .65rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--gold-2);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.hero-eyebrow::before {
+  content: '';
+  width: 28px;
+  height: 1px;
+  background: var(--gold);
+}
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  font-weight: 900;
+  color: #fdf4e8;
+  line-height: 1.02;
+  letter-spacing: -.02em;
+  margin-bottom: 6px;
+}
+.hero-subtitle {
+  font-family: 'Lora', serif;
+  font-style: italic;
+  font-size: 1rem;
+  color: rgba(253,244,232,.5);
+  margin-bottom: 22px;
+}
+.hero-author {
+  font-size: .88rem;
+  color: rgba(253,244,232,.6);
+  font-weight: 500;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.hero-stats {
+  display: flex;
+  gap: 28px;
+  flex-wrap: wrap;
+  text-align: right;
+}
+.hs-item { text-align: right; }
+.hs-val {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: var(--gold-2);
+  line-height: 1;
+}
+.hs-lbl {
+  font-family: 'DM Mono', monospace;
+  font-size: .58rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(253,244,232,.35);
+}
+.main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 36px 40px 100px;
+  position: relative;
+  z-index: 1;
+}
+.sec-label {
+  font-family: 'DM Mono', monospace;
+  font-size: .62rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.sec-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--rule-lt);
+}
+.card {
+  background: var(--surface);
+  border: 1px solid var(--rule-lt);
+  border-radius: var(--r-lg);
+  padding: 20px 24px;
+  box-shadow: var(--shadow-sm);
+}
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+  margin-bottom: 28px;
+}
+.metric-box {
+  background: var(--surface);
+  border: 1px solid var(--rule-lt);
+  border-radius: var(--r);
+  padding: 18px 20px;
+  position: relative;
+  box-shadow: var(--shadow-sm);
+  transition: transform .18s;
+}
+.metric-box:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+.metric-val {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--ink);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.metric-lbl {
+  font-family: 'DM Mono', monospace;
+  font-size: .6rem;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.metric-sub { font-size: .72rem; color: var(--ink-soft); margin-top: 2px; }
+.progress-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+.progress-label {
+  font-size: .78rem;
+  color: var(--ink-mid);
+  min-width: 140px;
+}
+.progress-track {
+  flex: 1;
+  height: 6px;
+  background: var(--parchment);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 1s;
+}
+.pf-gold { background: linear-gradient(90deg, var(--gold) 0%, var(--gold-2) 100%); }
+.pf-sage { background: linear-gradient(90deg, var(--sage) 0%, #7ecf75 100%); }
+.progress-pct {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: var(--gold);
+  min-width: 44px;
+  text-align: right;
+}
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 28px; }
+.platforms-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 28px;
+}
+.platform-card {
+  background: var(--surface);
+  border: 1px solid var(--rule-lt);
+  border-radius: var(--r);
+  padding: 14px 16px;
+  text-align: center;
+}
+.platform-card-top {
+  width: 38px; height: 38px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 10px;
+}
+.platform-name {
+  font-family: 'DM Mono', monospace;
+  font-size: .6rem;
+  letter-spacing: .08em;
+  color: var(--ink-soft);
+}
+.platform-handle { font-size: .76rem; font-weight: 500; word-break: break-all; }
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: .62rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 40px;
+}
+.b-active { background: var(--sage-bg); color: var(--sage); }
+.b-amber { background: var(--gold-bg); color: var(--gold); }
+.b-red { background: var(--red-bg); color: var(--red); }
+.b-violet { background: var(--violet-bg); color: var(--violet); }
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--rule-lt);
+  gap: 12px;
+}
+.info-row:last-child { border-bottom: none; }
+.info-key { font-size: .74rem; color: var(--ink-soft); flex-shrink: 0; }
+.info-val { font-size: .8rem; font-weight: 500; color: var(--ink); text-align: right; }
+.info-val.gold { color: var(--gold); }
+.info-val.sage { color: var(--sage); }
+.action-box {
+  background: #fdf6e3;
+  border-left: 4px solid var(--gold);
+  border-radius: var(--r);
+  padding: 14px 18px;
+  font-size: .82rem;
+  color: var(--ink-mid);
+  margin-bottom: 28px;
+}
+.video-list {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.video-item {
+  display: grid;
+  grid-template-columns: 34px 1fr auto;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  border-radius: var(--r);
+  background: var(--warm-white);
+  border: 1px solid var(--rule-lt);
+}
+.video-item.posted { background: var(--sage-bg); opacity: .85; }
+.video-item.today { background: var(--gold-bg); border-color: rgba(160,124,58,.4); }
+.video-item.upcoming { opacity: .6; }
+.video-num {
+  font-family: 'DM Mono', monospace;
+  font-size: .65rem;
+  color: var(--ink-soft);
+}
+.video-title { font-size: .8rem; color: var(--ink); line-height: 1.3; }
+.video-badge {
+  font-family: 'DM Mono', monospace;
+  font-size: .57rem;
+  padding: 2px 8px;
+  border-radius: 40px;
+  white-space: nowrap;
+}
+.vb-posted { background: var(--sage-bg); color: var(--sage); }
+.vb-today { background: var(--gold-bg); color: var(--gold); }
+.vb-scheduled { background: var(--parchment); color: var(--ink-soft); }
+.footer {
+  background: #1e1a14;
+  padding: 36px 40px;
+  text-align: center;
+  color: rgba(253,244,232,.3);
+}
+@media (max-width: 900px) {
+  .nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  .hero-inner { grid-template-columns: 1fr; }
+  .main { padding: 24px 20px; }
+  .two-col { grid-template-columns: 1fr; }
+  .platforms-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <div class="nav-brand"><div class="nav-mark">AS</div>Atomic <em>Shelf</em></div>
+  <ul class="nav-links"><li><a href="#">Dashboard</a></li><li><a href="#">Campaigns</a></li><li><a href="#">Robert Walker</a></li></ul>
+  <div class="nav-pill"><span class="nav-dot"></span>Retainer · Awaiting payment</div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-eyebrow">Grimdark Arthurian Fantasy · Campaign Dashboard</div>
+      <h1 class="hero-title">Six Moons<br>Seven Gods</h1>
+      <div class="hero-subtitle">An epic of broken oaths and risen divinity</div>
+      <div class="hero-author"><span>Robert Walker</span><span class="hero-author-dot"></span><span>Fantasy / Grimdark</span><span class="hero-author-dot"></span><span>Series 1–3 active</span></div>
+    </div>
+    <div class="hero-stats">
+      <div class="hs-item"><div class="hs-val">3.4K+</div><div class="hs-lbl">Total views</div></div>
+      <div class="hs-item"><div class="hs-val">Series 1-3</div><div class="hs-lbl">Video series</div></div>
+      <div class="hs-item"><div class="hs-val">🎬 Daily</div><div class="hs-lbl">2-3 videos/day</div></div>
+    </div>
+  </div>
+</div>
+
+<main class="main">
+  <div class="metrics-grid">
+    <div class="metric-box"><div class="metric-val">Day 84</div><div class="metric-lbl">Campaign active</div><div class="metric-sub">Since Mar 3, 2026</div></div>
+    <div class="metric-box"><div class="metric-val">$20</div><div class="metric-lbl">Monthly retainer</div><div class="metric-sub" style="color: var(--red);">⚠️ Awaiting payment</div></div>
+    <div class="metric-box"><div class="metric-val">3</div><div class="metric-lbl">Series delivered</div><div class="metric-sub">Series 1 · 2 · 3</div></div>
+    <div class="metric-box"><div class="metric-val">3439+</div><div class="metric-lbl">YouTube views</div><div class="metric-sub">+ ~2000 TikTok</div></div>
+    <div class="metric-box"><div class="metric-val">📅 May 25</div><div class="metric-lbl">Launch schedule</div><div class="metric-sub">Daily posting start</div></div>
+  </div>
+
+  <div class="two-col">
+    <div class="card">
+      <div style="font-weight:500;margin-bottom:18px;">Campaign progress</div>
+      <div class="progress-row"><span class="progress-label">Series 1–3 delivery</span><div class="progress-track"><div class="progress-fill pf-gold" style="width:100%"></div></div><span class="progress-pct">100%</span></div>
+      <div class="progress-row"><span class="progress-label">Daily posting (May 25–)</span><div class="progress-track"><div class="progress-fill pf-sage" style="width:5%"></div></div><span class="progress-pct">5%</span></div>
+      <div class="progress-row"><span class="progress-label">Retainer payment status</span><div class="progress-track"><div class="progress-fill" style="width:0%;background:var(--red)"></div></div><span class="progress-pct" style="color:var(--red)">Unpaid</span></div>
+      <div style="margin-top:16px; padding-top:12px; border-top:1px solid var(--rule-lt);">
+        <div class="info-row"><span class="info-key">Last contact</span><span class="info-val gold">May 25, 2026 — Robert confirmed on board</span></div>
+        <div class="info-row"><span class="info-key">Payment link</span><span class="info-val"><a href="#" style="color:var(--blue);">Pesapal subscription (Kenya/Visa)</a></span></div>
+      </div>
+    </div>
+    <div class="card">
+      <div style="font-weight:500;margin-bottom:12px;">⚡ Immediate action items</div>
+      <ul style="margin-left: 20px; font-size: .82rem; color: var(--ink-mid); line-height: 1.6;">
+        <li>💸 <strong>Subscription payment pending</strong> — follow up on Pesapal link (country set to Kenya, Visa/Mastercard)</li>
+        <li>🚀 <strong>Daily posting schedule launched May 25</strong> (2-3 videos/day for Series 1–3)</li>
+        <li>📈 <strong>Encourage year-upfront upgrade</strong> — explain billing &amp; multi-month link</li>
+        <li>📧 <strong>fairytalepub@gmail.com</strong> — send billing explainer + annual offer</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-block"><div class="sec-label">Author & book details</div>
+    <div class="two-col">
+      <div class="card"><div class="info-row"><span class="info-key">Pen name</span><span class="info-val">Robert Walker</span></div>
+      <div class="info-row"><span class="info-key">Email</span><span class="info-val">fairytalepub@gmail.com</span></div>
+      <div class="info-row"><span class="info-key">Genre</span><span class="info-val">Fantasy / Grimdark Arthurian</span></div>
+      <div class="info-row"><span class="info-key">Trial start</span><span class="info-val">Mar 3, 2026</span></div>
+      <div class="info-row"><span class="info-key">Campaign live</span><span class="info-val">Mar 3, 2026</span></div>
+      <div class="info-row"><span class="info-key">Monthly retainer</span><span class="info-val sage">$20/month (awaiting sub)</span></div>
+      <div class="info-row"><span class="info-key">Pesapal link status</span><span class="info-val gold">Link fixed & resent May 24</span></div></div>
+      <div class="card"><div class="info-row"><span class="info-key">Book title</span><span class="info-val">Six Moons Seven Gods</span></div>
+      <div class="info-row"><span class="info-key">Series</span><span class="info-val">Standalone epic</span></div>
+      <div class="info-row"><span class="info-key">Niche</span><span class="info-val">Grimdark / #BookTok fantasy</span></div>
+      <div class="info-row"><span class="info-key">YouTube watch time</span><span class="info-val">3.4 hrs (1,439 views)</span></div>
+      <div class="info-row"><span class="info-key">TikTok views (est.)</span><span class="info-val">~2,000 across 4 videos</span></div>
+      <div class="info-row"><span class="info-key">Campaign page</span><span class="info-val"><a href="https://atomic-shelf.com/Productions/Six_Moons_Seven_Gods_Robert_Walker" target="_blank" style="color:var(--blue);">View dashboard ↗</a></span></div></div>
+    </div>
+  </div>
+
+  <div class="section-block"><div class="sec-label">Platforms & presence</div>
+    <div class="platforms-grid">
+      <div class="platform-card"><div class="platform-card-top" style="background:#010101;"><span style="color:#fff;">TK</span></div><div class="platform-name">TikTok</div><div class="platform-handle">@robertwalker4382</div><div class="platform-status-lbl"><span class="badge b-active">Active</span></div></div>
+      <div class="platform-card"><div class="platform-card-top" style="background:#ff0000;"><span style="color:#fff;">YT</span></div><div class="platform-name">YouTube</div><div class="platform-handle">Channel active</div><div class="platform-status-lbl"><span class="badge b-active">1439 views</span></div></div>
+      <div class="platform-card"><div class="platform-card-top" style="background:#e6edf4;"><span>📄</span></div><div class="platform-name">Campaign page</div><div class="platform-handle">atomic-shelf.com</div><div class="platform-status-lbl"><span class="badge b-active">Live</span></div></div>
+      <div class="platform-card"><div class="platform-card-top" style="background:var(--parchment);"><span>📁</span></div><div class="platform-name">CMS Folder</div><div class="platform-handle" style="font-size:.7rem;">Content-Proposal/Robert Walker</div><div class="platform-status-lbl"><span class="badge b-violet">Ready</span></div></div>
+    </div>
+  </div>
+
+  <div class="section-block"><div class="sec-label">Daily posting plan (Series 1-3) · launched May 25</div>
+    <div class="video-list" id="robertVideoList"></div>
+  </div>
+
+  <div class="action-box">
+    <strong>⚠️ Financial action required — subscription pending.</strong> Robert confirmed he's on board (May 25). Broken Pesapal link has been fixed — new subscription link sent: <strong>https://store.pesapal.com/atomicshelfsubscription</strong>. Advise to select Visa/Mastercard, set country to <strong>Kenya</strong> if payment fails. Also interested in paying full year upfront — send billing explanation + multi-month link.
+  </div>
+
+  <div class="two-col">
+    <div class="card">
+      <div class="sec-label" style="margin-bottom:8px;">📌 Pending actions</div>
+      <ul style="margin-left: 20px; font-size: .8rem; color: var(--ink-mid);">
+        <li>🔁 Monitor subscription payment — confirm first $20</li>
+        <li>📅 Daily schedule: 2-3 videos/day from May 25 onward</li>
+        <li>💰 Upgrade pitch: explain annual prepay ($240/year) vs monthly</li>
+        <li>📊 Check YouTube analytics growth (3.4hr watch time baseline)</li>
+        <li>✉️ Send billing explainer (no charge if trial exit, but campaign already live since March)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="sec-label" style="margin-bottom:8px;">📝 Campaign notes</div>
+      <div style="font-size:.78rem; color: var(--ink-mid); line-height:1.6;">
+        <strong>Grimdark Arthurian niche — strong #BookTok fit.</strong> Moving to full daily plan (2-3 videos/day) starting May 25. Series 1, 2, and 3 already delivered. YouTube performance: 1,439 total views / 3.4 hours watch time. TikTok: ~2000 views across 4 initial videos. Author email: fairytalepub@gmail.com. Payment issue resolved May 24 — new Pesapal link sent. Robert expressed interest in yearly upfront after he understands recurring billing.
+      </div>
+    </div>
+  </div>
+
+  <div class="section-block"><div class="sec-label">Quick resources</div>
+    <div class="links-grid" style="display: flex; gap: 8px; flex-wrap: wrap;">
+      <a href="https://atomic-shelf.com/Productions/Six_Moons_Seven_Gods_Robert_Walker" target="_blank" class="drw-link" style="background:var(--warm-white); padding:6px 12px; border-radius:var(--r);">📖 Campaign Production Page</a>
+      <a href="https://atomic-shelf.com/Content-Proposal/Robert%20Walker/CMS" target="_blank" class="drw-link" style="background:var(--warm-white); padding:6px 12px; border-radius:var(--r);">📁 CMS / Content Folder</a>
+      <a href="https://store.pesapal.com/atomicshelfsubscription" target="_blank" class="drw-link" style="background:var(--warm-white); padding:6px 12px; border-radius:var(--r);">💳 Pesapal Subscription Link</a>
+      <a href="https://www.tiktok.com/@robertwalker4382" target="_blank" class="drw-link" style="background:var(--warm-white); padding:6px 12px; border-radius:var(--r);">📱 TikTok @robertwalker4382</a>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="footer-brand" style="color:#fdf4e8;">Atomic <em style="color:var(--gold-2);">Shelf</em></div>
+  <div class="footer-sub">Six Moons Seven Gods · Robert Walker · Daily campaign active · Retainer pending</div>
+</footer>
+
+<script>
+(function() {
+  // Video series 1-3 sample (15 key assets for daily posting start)
+  const videos = [
+    { title: "The Broken Oath", series: "Series 1", dateLabel: "May 25" },
+    { title: "Seven Gods Rising", series: "Series 1", dateLabel: "May 25" },
+    { title: "Grimdark Arthurian Origins", series: "Series 1", dateLabel: "May 26" },
+    { title: "The First Moon", series: "Series 2", dateLabel: "May 26" },
+    { title: "Robert Walker on Worldbuilding", series: "Series 2", dateLabel: "May 27" },
+    { title: "Why Six Moons?", series: "Series 2", dateLabel: "May 27" },
+    { title: "God of Broken Swords", series: "Series 3", dateLabel: "May 28" },
+    { title: "Faith in Grimdark", series: "Series 3", dateLabel: "May 28" },
+    { title: "The Final Prophecy", series: "Series 3", dateLabel: "May 29" },
+    { title: "Epic Battle Tease", series: "Series 3", dateLabel: "May 29" }
+  ];
+  const todayStr = "May 25";
+  const postedTitles = ["The Broken Oath", "Seven Gods Rising"];
+  const container = document.getElementById('robertVideoList');
+  if(container) {
+    container.innerHTML = videos.map((v, idx) => {
+      const isPosted = postedTitles.includes(v.title);
+      const isToday = v.dateLabel === todayStr && !isPosted;
+      let itemClass = isPosted ? 'posted' : (isToday ? 'today' : 'upcoming');
+      let badgeClass = isPosted ? 'vb-posted' : (isToday ? 'vb-today' : 'vb-scheduled');
+      let badgeText = isPosted ? 'Posted' : (isToday ? 'Today' : 'Scheduled');
+      return `<div class="video-item ${itemClass}">
+        <span class="video-num">${(idx+1).toString().padStart(2,'0')}</span>
+        <span class="video-title">${v.title} <span style="font-size:0.65rem; opacity:0.7;">[${v.series}]</span></span>
+        <span class="video-badge ${badgeClass}">${badgeText} · ${v.dateLabel}</span>
+      </div>`;
+    }).join('');
+  }
+
+  // Additional small chart? Not needed but we can optionally add a mini donut for views (stylistic)
+  // just a placeholder to keep consistent with original dashboard aesthetic but no errors.
+  const existingChart = document.getElementById('ratingsChart');
+  if(existingChart) {
+    new Chart(existingChart, {
+      type: 'doughnut',
+      data: { labels: ['YouTube views', 'TikTok views'], datasets: [{ data: [1439, 2000], backgroundColor: ['#c9a55a', '#8b5cf6'], borderWidth: 0 }] },
+      options: { responsive: true, maintainAspectRatio: false, cutout: '65%', plugins: { legend: { display: false } } }
+    });
+  }
+})();
+</script>
+</body>
+</html>

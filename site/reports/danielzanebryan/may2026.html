@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shelia Zulfiqar • Campaign Performance Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --amber: #b56010;
+      --green: #14663a;
+      --blue: #1a4878;
+      --bg: #f8f4eb;
+      --surface: #ffffff;
+    }
+    * { box-sizing: border-box; margin:0; padding:0; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: #1c1008;
+      line-height: 1.7;
+      font-size: 15px;
+    }
+    .header {
+      background: linear-gradient(135deg, #1e1208, #12090a);
+      color: #fdf4e8;
+      padding: 60px 5% 50px;
+      text-align: center;
+    }
+    .author-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.4rem;
+      margin-bottom: 10px;
+    }
+    .nav-tabs {
+      display: flex;
+      justify-content: center;
+      background: white;
+      border-bottom: 1px solid #d8ccb8;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      flex-wrap: wrap;
+    }
+    .tab {
+      padding: 20px 28px;
+      font-weight: 600;
+      color: #7a5a3e;
+      cursor: pointer;
+      transition: all 0.2s;
+      border-bottom: 4px solid transparent;
+      font-size: 15px;
+    }
+    .tab.active {
+      color: var(--amber);
+      border-bottom: 4px solid var(--amber);
+    }
+    .container {
+      max-width: 1280px;
+      margin: 40px auto;
+      padding: 0 5%;
+    }
+    .section { display: none; }
+    .section.active { display: block; }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+      margin-bottom: 50px;
+    }
+    .stat-card {
+      background: white;
+      border-radius: 16px;
+      padding: 32px 24px;
+      text-align: center;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.09);
+    }
+    .stat-value {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem;
+      font-weight: 600;
+      color: var(--amber);
+    }
+    .book-card {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 35px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+    }
+    .book-header {
+      height: 12px;
+      background: linear-gradient(90deg, var(--amber), #d4852a);
+    }
+    .chart-container {
+      background: white;
+      padding: 32px;
+      border-radius: 16px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.09);
+      margin: 40px 0;
+    }
+    .timeline-item {
+      padding: 18px 0;
+      border-left: 3px solid var(--amber);
+      margin-left: 20px;
+      padding-left: 30px;
+      position: relative;
+    }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -9px;
+      top: 24px;
+      width: 16px;
+      height: 16px;
+      background: white;
+      border: 3px solid var(--amber);
+      border-radius: 50%;
+    }
+    footer {
+      text-align: center;
+      padding: 60px 20px 40px;
+      font-family: 'JetBrains Mono', monospace;
+      color: #7a5a3e;
+      font-size: 14px;
+    }
+    h2, h3 { font-family: 'Playfair Display', serif; }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="author-name">Shelia Zulfiqar</div>
+    <p style="font-size:1.25rem; opacity:0.9;">Your BookTok & YouTube Shorts Campaign Dashboard</p>
+    <p style="font-family:'JetBrains Mono',monospace; margin-top:12px;">Updated May 26, 2026</p>
+  </div>
+
+  <div class="nav-tabs">
+    <div class="tab active" onclick="switchTab(0)">Overview</div>
+    <div class="tab" onclick="switchTab(1)">My Books</div>
+    <div class="tab" onclick="switchTab(2)">Performance</div>
+    <div class="tab" onclick="switchTab(3)">Timeline</div>
+    <div class="tab" onclick="switchTab(4)">Next Steps</div>
+  </div>
+
+  <div class="container">
+
+    <!-- OVERVIEW -->
+    <div id="tab0" class="section active">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value">13,202</div>
+          <div style="font-size:14px; margin-top:8px; color:#7a5a3e;">Total Views Across All Books</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">7,094</div>
+          <div style="font-size:14px; margin-top:8px; color:#7a5a3e;">TikTok Views</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">3,618</div>
+          <div style="font-size:14px; margin-top:8px; color:#7a5a3e;">YouTube Views</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">1,054</div>
+          <div style="font-size:14px; margin-top:8px; color:#7a5a3e;">Combined Followers</div>
+        </div>
+      </div>
+
+      <div class="chart-container">
+        <h2 style="margin-bottom:20px;">Views Growth (April – May 2026)</h2>
+        <canvas id="trendChart" height="110"></canvas>
+      </div>
+    </div>
+
+    <!-- MY BOOKS -->
+    <div id="tab1" class="section">
+      <h2 style="font-size:2.1rem; margin-bottom:30px;">Your Active Books</h2>
+
+      <div class="book-card">
+        <div class="book-header"></div>
+        <div style="padding:28px;">
+          <h3>The Clair Senses</h3>
+          <p style="color:var(--green); font-weight:600;">Psychic / Spiritual • Active - Paid</p>
+          <p><strong>TikTok:</strong> <a href="https://www.tiktok.com/@clair_senses" target="_blank">@clair_senses</a></p>
+          <p><strong>Views:</strong> 4,548 total • Best video CTR: 11.76%</p>
+        </div>
+      </div>
+
+      <div class="book-card">
+        <div class="book-header" style="background:linear-gradient(90deg,#14663a,#4ade80);"></div>
+        <div style="padding:28px;">
+          <h3>Indoor Vegetable Gardening For Small Spaces</h3>
+          <p style="color:var(--green); font-weight:600;">Sustainable Living / Urban Gardening • Active</p>
+          <p><strong>TikTok:</strong> <a href="https://www.tiktok.com/@the.plantnook" target="_blank">@the.plantnook</a></p>
+          <p><strong>Views:</strong> 4,601 total • Top video: 884 views</p>
+        </div>
+      </div>
+
+      <div class="book-card">
+        <div class="book-header"></div>
+        <div style="padding:28px;">
+          <h3>The Plant Nook</h3>
+          <p style="color:var(--green); font-weight:600;">Sustainable Living • Shared Account</p>
+          <p><strong>TikTok:</strong> <a href="https://www.tiktok.com/@the.plantnook" target="_blank">@the.plantnook</a></p>
+        </div>
+      </div>
+
+      <div class="book-card">
+        <div class="book-header" style="background:linear-gradient(90deg,#1a4878,#60a5fa);"></div>
+        <div style="padding:28px;">
+          <h3>Digital Skills for the Modern World Series</h3>
+          <p style="color:var(--blue); font-weight:600;">Technology / Education • In Production</p>
+          <p>Next series currently being prepared.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PERFORMANCE -->
+    <div id="tab2" class="section">
+      <div class="chart-container">
+        <h2>Platform Performance Breakdown</h2>
+        <canvas id="platformChart" height="120"></canvas>
+      </div>
+
+      <div class="chart-container">
+        <h2>Top Performing Content</h2>
+        <ul style="line-height:2.1; font-size:15px;">
+          <li><strong>Indoor Vegetable Gardening:</strong> “No backyard needed — just a windowsill and a plan” — <strong>884 views</strong></li>
+          <li><strong>The Clair Senses:</strong> “If you love books about consciousness, intuition, and energy work” — <strong>218 views</strong> (11.76% CTR)</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- TIMELINE -->
+    <div id="tab3" class="section">
+      <h2 style="margin-bottom:30px;">Campaign Timeline</h2>
+      <div class="timeline-item">
+        <strong>April 3, 2026</strong> — You replied “Show Me” and started the free trial
+      </div>
+      <div class="timeline-item">
+        <strong>April 4, 2026</strong> — Trial officially started
+      </div>
+      <div class="timeline-item">
+        <strong>April 13–17, 2026</strong> — April retainer paid
+      </div>
+      <div class="timeline-item">
+        <strong>May 2, 2026</strong> — Clair Senses Video Series 2 delivered
+      </div>
+      <div class="timeline-item">
+        <strong>May 5, 2026</strong> — Video Series 7 for Indoor Vegetable Gardening delivered
+      </div>
+      <div class="timeline-item">
+        <strong>May 7–8, 2026</strong> — TikTok accounts shared (@clair_senses and @the.plantnook)
+      </div>
+      <div class="timeline-item">
+        <strong>May 26, 2026</strong> — Latest performance update (today)
+      </div>
+    </div>
+
+    <!-- NEXT STEPS -->
+    <div id="tab4" class="section">
+      <div style="background:white; padding:40px; border-radius:16px; box-shadow:0 10px 35px rgba(0,0,0,0.1);">
+        <h2>Recommended Next Steps</h2>
+        <ul style="font-size:15px; line-height:2.1; margin-top:20px;">
+          <li>Continue daily posting on both TikTok accounts</li>
+          <li>Review and approve Digital Skills for the Modern World Series</li>
+          <li>Send the next three book series for prioritization</li>
+          <li>Monitor YouTube CTR — it’s performing strongly</li>
+        </ul>
+        <p style="margin-top:30px; font-style:italic;">Thank you for trusting Atomic Shelf with your books. Your feedback and enthusiasm have been very helpful!</p>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    Your Personal Campaign Dashboard • Powered by Atomic Shelf • May 26, 2026
+  </footer>
+
+  <script>
+    function switchTab(n) {
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      document.getElementById('tab' + n).classList.add('active');
+      document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', i===n));
+    }
+
+    // Views Trend
+    new Chart(document.getElementById('trendChart'), {
+      type: 'line',
+      data: {
+        labels: ['Apr 10','Apr 15','Apr 20','Apr 25','May 5','May 15','May 25'],
+        datasets: [
+          { label: 'TikTok', data: [800,1400,2100,3200,4800,6200,7094], borderColor: '#b56010', tension: 0.4 },
+          { label: 'YouTube', data: [300,650,1100,1650,2400,3100,3618], borderColor: '#1a4878', tension: 0.4 }
+        ]
+      },
+      options: { responsive: true, plugins: { legend: { position: 'top' }}}
+    });
+
+    // Platform Doughnut
+    new Chart(document.getElementById('platformChart'), {
+      type: 'doughnut',
+      data: {
+        labels: ['TikTok', 'YouTube'],
+        datasets: [{ data: [7094, 3618], backgroundColor: ['#b56010', '#1a4878'] }]
+      },
+      options: { responsive: true }
+    });
+  </script>
+</body>
+</html>

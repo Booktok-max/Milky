@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seven (Satan's Fury MC) — L. Wilder | MC Romance Campaign | Atomic Shelf</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,900;1,400&family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+:root {
+  --cream: #f7f3ec;
+  --parchment: #ede6d6;
+  --warm-white: #faf8f4;
+  --surface: #ffffff;
+  --ink: #1e1a14;
+  --ink-mid: #3d3628;
+  --ink-soft: #6b5e48;
+  --gold: #a07c3a;
+  --gold-2: #c9a55a;
+  --gold-pale: #e8d4a0;
+  --gold-bg: #fdf6e3;
+  --sage: #5a7a52;
+  --sage-bg: #e8ede6;
+  --teal: #1D9E75;
+  --teal-bg: #e4f2ee;
+  --blue: #2468c0;
+  --blue-bg: #e6f0fb;
+  --red: #b53a2f;
+  --red-bg: #fce8e6;
+  --vip: #c9a55a;
+  --vip-bg: #fef8e8;
+  --mc: #2a2a2a;
+  --mc-bg: #e8e8e8;
+  --chrome: #9e9e9e;
+  --rule: rgba(160,124,58,0.18);
+  --rule-lt: rgba(160,124,58,0.10);
+  --shadow-sm: 0 1px 4px rgba(30,26,20,0.06);
+  --shadow-md: 0 4px 20px rgba(30,26,20,0.09);
+  --shadow-lg: 0 10px 40px rgba(30,26,20,0.13);
+  --r: 8px;
+  --r-lg: 12px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+a { color: inherit; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--parchment); }
+::-webkit-scrollbar-thumb { background: var(--gold-pale); border-radius: 3px; }
+
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(30,26,20,.96);
+  backdrop-filter: blur(14px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  height: 58px;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.nav::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--vip) 40%, var(--gold-2) 60%, transparent 100%);
+  opacity: .5;
+}
+.nav-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: #fdf4e8;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.nav-mark {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: linear-gradient(138deg, var(--mc) 0%, var(--vip) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .65rem;
+  font-weight: 700;
+  color: #fff;
+}
+.nav-brand em { font-style: italic; color: var(--vip); }
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a {
+  font-family: 'DM Mono', monospace;
+  font-size: .67rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.38);
+  transition: color .18s;
+}
+.nav-links a:hover { color: var(--vip); }
+.nav-pill {
+  font-family: 'DM Mono', monospace;
+  font-size: .62rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, rgba(42,42,42,.8), rgba(201,165,90,.3));
+  border: 1px solid var(--vip);
+  color: var(--vip);
+  padding: 4px 12px;
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.nav-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--vip);
+  box-shadow: 0 0 7px var(--vip);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1}50%{opacity:.3} }
+
+.hero {
+  background: linear-gradient(160deg, #1a1a1a 0%, #0f0f0f 55%, #080808 100%);
+  padding: 48px 40px 40px;
+  position: relative;
+  border-bottom: 2px solid var(--vip);
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 60% 40%, rgba(201,165,90,.08) 0%, transparent 65%);
+}
+.hero-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 40px;
+}
+.hero-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: .65rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--vip);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.hero-eyebrow::before {
+  content: '';
+  width: 28px;
+  height: 1px;
+  background: var(--vip);
+}
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 900;
+  color: #fdf4e8;
+  line-height: 1.05;
+  letter-spacing: -.02em;
+  margin-bottom: 4px;
+}
+.hero-subtitle {
+  font-family: 'Lora', serif;
+  font-style: italic;
+  font-size: .9rem;
+  color: rgba(253,244,232,.5);
+  margin-bottom: 18px;
+}
+.hero-author {
+  font-size: .85rem;
+  color: rgba(253,244,232,.6);
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.hero-stats {
+  display: flex;
+  gap: 28px;
+  flex-wrap: wrap;
+  text-align: right;
+}
+.hs-item { text-align: right; }
+.hs-val {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: var(--vip);
+  line-height: 1;
+}
+.hs-lbl {
+  font-family: 'DM Mono', monospace;
+  font-size: .55rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(253,244,232,.35);
+}
+.main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 40px 80px;
+  position: relative;
+  z-index: 1;
+}
+.sec-label {
+  font-family: 'DM Mono', monospace;
+  font-size: .6rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.sec-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--rule-lt);
+}
+.card {
+  background: var(--surface);
+  border: 1px solid var(--rule-lt);
+  border-radius: var(--r-lg);
+  padding: 18px 22px;
+  box-shadow: var(--shadow-sm);
+  transition: all .2s ease;
+}
+.card:hover { box-shadow: var(--shadow-md); }
+.vip-card {
+  background: linear-gradient(135deg, var(--surface), var(--vip-bg));
+  border-left: 4px solid var(--vip);
+  position: relative;
+  overflow: hidden;
+}
+.vip-card::after {
+  content: '⭐ VIP PROSPECT ⭐';
+  position: absolute;
+  top: 12px;
+  right: -30px;
+  background: var(--vip);
+  color: var(--mc);
+  font-size: .55rem;
+  font-weight: 800;
+  padding: 3px 30px;
+  transform: rotate(45deg);
+  letter-spacing: .1em;
+}
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+  margin-bottom: 24px;
+}
+.metric-box {
+  background: var(--surface);
+  border: 1px solid var(--rule-lt);
+  border-radius: var(--r);
+  padding: 14px 16px;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  transition: all .18s;
+}
+.metric-box:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.metric-icon { font-size: 1.5rem; margin-bottom: 6px; }
+.metric-val {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--ink);
+  line-height: 1;
+  margin-bottom: 3px;
+}
+.metric-lbl {
+  font-family: 'DM Mono', monospace;
+  font-size: .55rem;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.metric-sub { font-size: .65rem; color: var(--ink-soft); margin-top: 4px; }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 24px; }
+.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; margin-bottom: 24px; }
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--rule-lt);
+  gap: 12px;
+}
+.info-row:last-child { border-bottom: none; }
+.info-key { font-size: .7rem; color: var(--ink-soft); flex-shrink: 0; }
+.info-val { font-size: .75rem; font-weight: 500; color: var(--ink); text-align: right; }
+.info-val.gold { color: var(--gold); }
+.info-val.vip { color: var(--vip); font-weight: 700; }
+.info-val.blue { color: var(--blue); }
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: .58rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 40px;
+}
+.b-vip { background: linear-gradient(135deg, var(--vip-bg), var(--gold-bg)); color: var(--vip); font-weight: 700; }
+.b-waiting { background: var(--gold-bg); color: var(--gold); }
+.b-sent { background: var(--blue-bg); color: var(--blue); }
+.action-box {
+  background: linear-gradient(135deg, var(--vip-bg), #fff8e8);
+  border-left: 4px solid var(--vip);
+  border-radius: var(--r);
+  padding: 12px 18px;
+  font-size: .78rem;
+  color: var(--ink-mid);
+  margin-bottom: 24px;
+}
+.video-list { display: flex; flex-direction: column; gap: 3px; }
+.video-item {
+  display: grid;
+  grid-template-columns: 30px 1fr auto;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: var(--r);
+  background: var(--warm-white);
+  border: 1px solid var(--rule-lt);
+  font-size: .75rem;
+}
+.video-item.sample { background: var(--vip-bg); border-color: var(--vip); }
+.video-num {
+  font-family: 'DM Mono', monospace;
+  font-size: .6rem;
+  color: var(--ink-soft);
+  text-align: center;
+}
+.video-title { font-size: .73rem; color: var(--ink); }
+.video-badge {
+  font-size: .55rem;
+  padding: 2px 6px;
+  border-radius: 40px;
+  white-space: nowrap;
+}
+.vb-sample { background: var(--vip-bg); color: var(--vip); }
+.footer {
+  background: #1e1a14;
+  padding: 28px 40px;
+  text-align: center;
+  color: rgba(253,244,232,.3);
+  font-size: .7rem;
+}
+.links-grid { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 24px; }
+.drw-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--warm-white);
+  border: 1px solid var(--rule-lt);
+  border-radius: var(--r);
+  padding: 5px 10px;
+  font-size: .7rem;
+  font-weight: 500;
+  transition: all .14s;
+}
+.drw-link:hover { background: var(--vip-bg); border-color: var(--vip); transform: translateY(-1px); }
+.progress-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.progress-label {
+  font-size: .72rem;
+  color: var(--ink-mid);
+  min-width: 140px;
+}
+.progress-track {
+  flex: 1;
+  height: 5px;
+  background: var(--parchment);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 1s ease;
+}
+.pf-vip { background: linear-gradient(90deg, var(--vip) 0%, var(--gold-2) 100%); }
+.pf-gold { background: linear-gradient(90deg, var(--gold) 0%, var(--gold-2) 100%); }
+.progress-pct {
+  font-family: 'Playfair Display', serif;
+  font-size: .85rem;
+  font-weight: 700;
+  color: var(--gold);
+  min-width: 38px;
+  text-align: right;
+}
+.timeline-marker {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 12px 0;
+  padding: 10px;
+  background: var(--warm-white);
+  border-radius: var(--r);
+}
+.tl-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.tl-dot.sent { background: var(--blue); }
+.tl-dot.waiting { background: var(--gold); animation: pulse 2s infinite; }
+.tl-dot.future { background: var(--sage); }
+.series-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+.series-tag {
+  background: var(--mc-bg);
+  padding: 4px 10px;
+  border-radius: 40px;
+  font-size: .65rem;
+  font-weight: 600;
+  color: var(--mc);
+}
+@media (max-width: 900px) {
+  .nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  .hero-inner { grid-template-columns: 1fr; }
+  .main { padding: 24px 20px; }
+  .two-col, .three-col { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <div class="nav-brand"><div class="nav-mark">AS</div>Atomic <em>Shelf</em></div>
+  <ul class="nav-links"><li><a href="#">Dashboard</a></li><li><a href="#">VIP Prospects</a></li><li><a href="#">L. Wilder</a></li></ul>
+  <div class="nav-pill"><span class="nav-dot"></span>VIP Prospect · Awaiting Response</div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-eyebrow">MC Romance · Satan's Fury MC Series</div>
+      <h1 class="hero-title">Seven (Satan's Fury MC)</h1>
+      <div class="hero-subtitle">Book 1 of the Satan's Fury MC Series · MC Romance</div>
+      <div class="hero-author"><span>L. Wilder</span><span class="hero-author-dot"></span><span>MC Romance</span><span class="hero-author-dot"></span><span>⭐ VIP High-Value Prospect</span></div>
+    </div>
+    <div class="hero-stats">
+      <div class="hs-item"><div class="hs-val">⭐</div><div class="hs-lbl">VIP Status</div></div>
+      <div class="hs-item"><div class="hs-val">📤</div><div class="hs-lbl">Follow-up sent</div></div>
+      <div class="hs-item"><div class="hs-val">📚</div><div class="hs-lbl">Series</div></div>
+    </div>
+  </div>
+</div>
+
+<main class="main">
+  <!-- VIP Status Card -->
+  <div class="vip-card card" style="margin-bottom: 24px;">
+    <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap; justify-content: space-between;">
+      <div>
+        <div style="font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--vip);">
+          <i class="fas fa-crown"></i> High-Value VIP Prospect
+        </div>
+        <div style="font-size: .78rem; color: var(--ink-mid); margin-top: 4px;">
+          Established MC Romance author with Satan's Fury MC series. High-potential for BookTok success.
+        </div>
+      </div>
+      <div><span class="badge b-vip">⭐ VIP · Priority Follow-up ⭐</span></div>
+    </div>
+  </div>
+
+  <!-- Status Overview Metrics -->
+  <div class="metrics-grid">
+    <div class="metric-box"><div class="metric-icon">📖</div><div class="metric-val">Seven</div><div class="metric-lbl">Satan's Fury MC #1</div><div class="metric-sub">MC Romance</div></div>
+    <div class="metric-box"><div class="metric-icon">📚</div><div class="metric-val">Series</div><div class="metric-lbl">Satan's Fury MC</div><div class="metric-sub">Multiple books</div></div>
+    <div class="metric-box"><div class="metric-icon">📧</div><div class="metric-val">Apr 9, 2026</div><div class="metric-lbl">Initial contact</div><div class="metric-sub">46 days ago</div></div>
+    <div class="metric-box"><div class="metric-icon">💰</div><div class="metric-val">$20</div><div class="metric-lbl">Monthly retainer</div><div class="metric-sub">Upon campaign start</div></div>
+    <div class="metric-box"><div class="metric-icon">📱</div><div class="metric-val">@satansfurymc.books</div><div class="metric-lbl">TikTok handle</div><div class="metric-sub">Reserved · Ready</div></div>
+  </div>
+
+  <!-- Campaign Timeline -->
+  <div class="section-block">
+    <div class="sec-label">Campaign timeline</div>
+    <div class="card">
+      <div class="timeline-marker">
+        <div class="tl-dot sent"></div>
+        <div style="flex:1"><strong>April 9, 2026</strong> — Initial outreach / samples sent</div>
+        <div style="font-size:.65rem; color:var(--blue);">📤 First contact</div>
+      </div>
+      <div class="timeline-marker">
+        <div class="tl-dot waiting"></div>
+        <div style="flex:1"><strong>Current</strong> — Awaiting response from author</div>
+        <div style="font-size:.65rem; color:var(--gold);">⏳ Pending reply (46 days)</div>
+      </div>
+      <div class="timeline-marker">
+        <div class="tl-dot sent"></div>
+        <div style="flex:1"><strong>Follow-up sent</strong> — VIP re-engagement</div>
+        <div style="font-size:.65rem; color:var(--blue);">📤 Priority follow-up</div>
+      </div>
+      <div class="timeline-marker">
+        <div class="tl-dot future"></div>
+        <div style="flex:1"><strong>Next step</strong> — Send tailored MC Romance proposal</div>
+      </div>
+      <div class="timeline-marker">
+        <div class="tl-dot future"></div>
+        <div style="flex:1"><strong>Upon confirmation</strong> — Build campaign & launch trial</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Two Column: Details -->
+  <div class="two-col">
+    <div class="card">
+      <div class="sec-label" style="margin-bottom: 12px;">Author & book details</div>
+      <div class="info-row"><span class="info-key">Author name</span><span class="info-val vip">L. Wilder</span></div>
+      <div class="info-row"><span class="info-key">Email</span><span class="info-val">satansfurymcbooks@gmail.com</span></div>
+      <div class="info-row"><span class="info-key">Book title</span><span class="info-val vip">Seven (Satan's Fury MC)</span></div>
+      <div class="info-row"><span class="info-key">Series</span><span class="info-val">Satan's Fury MC Series</span></div>
+      <div class="info-row"><span class="info-key">Genre</span><span class="info-val">MC Romance / Dark Romance</span></div>
+      <div class="info-row"><span class="info-key">Target audience</span><span class="info-val">Romance readers · BookTok community</span></div>
+      <div class="info-row"><span class="info-key">TikTok handle</span><span class="info-val">@satansfurymc.books</span></div>
+      <div class="info-row"><span class="info-key">Campaign status</span><span class="info-val gold">Awaiting confirmation</span></div>
+    </div>
+    <div class="card">
+      <div class="sec-label" style="margin-bottom: 12px;">Production & content</div>
+      <div class="progress-row"><span class="progress-label">Sample videos</span><div class="progress-track"><div class="progress-fill pf-vip" style="width:100%"></div></div><span class="progress-pct">Prepared</span></div>
+      <div class="progress-row"><span class="progress-label">Campaign framework</span><div class="progress-track"><div class="progress-fill pf-vip" style="width:100%"></div></div><span class="progress-pct">Ready</span></div>
+      <div class="progress-row"><span class="progress-label">Series content strategy</span><div class="progress-track"><div class="progress-fill pf-vip" style="width:100%"></div></div><span class="progress-pct">Developed</span></div>
+      <div class="progress-row"><span class="progress-label">Productions page</span><div class="progress-track"><div class="progress-fill pf-gold" style="width:0%"></div></div><span class="progress-pct">Pending</span></div>
+      <div class="progress-row"><span class="progress-label">Full production</span><div class="progress-track"><div class="progress-fill pf-gold" style="width:0%"></div></div><span class="progress-pct">Awaiting green light</span></div>
+    </div>
+  </div>
+
+  <!-- Satan's Fury MC Series -->
+  <div class="section-block">
+    <div class="sec-label">🏍️ Satan's Fury MC Series</div>
+    <div class="card">
+      <div class="info-row"><span class="info-key">Book 1</span><span class="info-val vip">Seven (Satan's Fury MC)</span></div>
+      <div class="info-row"><span class="info-key">Book 2</span><span class="info-val">Additional series entries</span></div>
+      <div class="info-row"><span class="info-key">Series appeal</span><span class="info-val">MC Romance · Dark themes · Brotherhood · Romance</span></div>
+      <div class="series-list">
+        <span class="series-tag">🏍️ MC Romance</span>
+        <span class="series-tag">🔥 Dark Romance</span>
+        <span class="series-tag">📚 Series</span>
+        <span class="series-tag">⭐ Established author</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sample Video Series Preview -->
+  <div class="section-block">
+    <div class="sec-label">📹 Seven (Satan's Fury MC) — sample content framework</div>
+    <div class="video-list" id="mcVideos"></div>
+  </div>
+
+  <!-- Three Column: Status Details -->
+  <div class="three-col">
+    <div class="card">
+      <div class="sec-label" style="margin-bottom: 8px;">📤 Outreach completed</div>
+      <ul style="margin-left: 18px; font-size: .72rem; color: var(--ink-mid); line-height: 1.6;">
+        <li>Initial pitch sent (April 9, 2026)</li>
+        <li>VIP follow-up email sent</li>
+        <li>Sample video concepts shared</li>
+        <li>MC Romance TikTok strategy outlined</li>
+        <li>Pricing & retainer information ($20/month)</li>
+        <li>Series content plan developed</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="sec-label" style="margin-bottom: 8px;">⏳ Awaiting from author</div>
+      <ul style="margin-left: 18px; font-size: .72rem; color: var(--ink-mid); line-height: 1.6;">
+        <li>Response to initial outreach</li>
+        <li>Confirmation to proceed with campaign</li>
+        <li>Feedback on sample content direction</li>
+        <li>Approval to build campaign page</li>
+        <li>Trial start date confirmation</li>
+        <li>Author branding assets</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="sec-label" style="margin-bottom: 8px;">📋 Next steps (upon confirmation)</div>
+      <ul style="margin-left: 18px; font-size: .72rem; color: var(--ink-mid); line-height: 1.6;">
+        <li>Build Atomic Shelf productions page</li>
+        <li>Launch 7-day trial campaign</li>
+        <li>Produce full MC Romance video series</li>
+        <li>Activate TikTok @satansfurymc.books</li>
+        <li>Begin daily posting schedule</li>
+        <li>Scale to full Satan's Fury series</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- VIP Action Box -->
+  <div class="action-box">
+    <strong>⭐ VIP PROSPECT — High-value MC Romance author.</strong> L. Wilder has an established series (Satan's Fury MC) with strong BookTok potential. Initial outreach sent April 9, 2026. VIP follow-up completed. Awaiting response to proceed with campaign.
+  </div>
+
+  <!-- Two Column: Additional Info -->
+  <div class="two-col">
+    <div class="card">
+      <div class="sec-label" style="margin-bottom: 8px;">Campaign specifications</div>
+      <div class="info-row"><span class="info-key">Content type</span><span class="info-val">MC Romance · Dark romance shorts</span></div>
+      <div class="info-row"><span class="info-key">Trial duration</span><span class="info-val">7 days (standard)</span></div>
+      <div class="info-row"><span class="info-key">Posting frequency</span><span class="info-val">2-3 videos/day during trial</span></div>
+      <div class="info-row"><span class="info-key">Full campaign</span><span class="info-val">$20/month retainer after trial</span></div>
+      <div class="info-row"><span class="info-key">Primary platform</span><span class="info-val">TikTok (@satansfurymc.books)</span></div>
+      <div class="info-row"><span class="info-key">Content angle</span><span class="info-val">MC brotherhood · Romance · Dark themes · Bad boy appeal</span></div>
+    </div>
+    <div class="card">
+      <div class="sec-label" style="margin-bottom: 8px;">Contact & follow-up</div>
+      <div class="info-row"><span class="info-key">Author email</span><span class="info-val blue">satansfurymcbooks@gmail.com</span></div>
+      <div class="info-row"><span class="info-key">Initial contact</span><span class="info-val">April 9, 2026</span></div>
+      <div class="info-row"><span class="info-key">Days since contact</span><span class="info-val gold">46 days</span></div>
+      <div class="info-row"><span class="info-key">Follow-up status</span><span class="info-val vip">VIP follow-up completed</span></div>
+      <div class="info-row"><span class="info-key">Priority level</span><span class="info-val vip">HIGH — Established author</span></div>
+    </div>
+  </div>
+
+  <!-- Market Opportunity Note -->
+  <div class="card" style="background: var(--vip-bg); margin-bottom: 24px;">
+    <div class="sec-label" style="margin-bottom: 6px;">📈 MC Romance on BookTok</div>
+    <div style="font-size: .72rem; color: var(--ink-mid); line-height: 1.5;">
+      <strong>Massive opportunity:</strong> MC Romance is one of the most engaged genres on BookTok. Hashtags like #mcromance, #darkromance, #satansfury, #badboybooks consistently generate millions of views. L. Wilder's established Satan's Fury MC series is perfectly positioned for this audience.
+    </div>
+  </div>
+
+  <!-- Quick Links -->
+  <div class="section-block">
+    <div class="sec-label">Quick links</div>
+    <div class="links-grid">
+      <a href="#" class="drw-link">📹 Sample Content Preview</a>
+      <a href="#" class="drw-link">📋 MC Romance Strategy</a>
+      <a href="#" class="drw-link">📱 TikTok @satansfurymc.books</a>
+      <a href="mailto:satansfurymcbooks@gmail.com?subject=Seven%20(Satan's%20Fury%20MC)%20-%20VIP%20Campaign%20Follow-up" class="drw-link" style="background: var(--vip-bg);">✉️ Send VIP Follow-up Email</a>
+    </div>
+  </div>
+
+  <!-- Data Summary -->
+  <div class="card" style="background: var(--vip-bg); margin-top: 8px;">
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; text-align: center; font-size: .7rem;">
+      <div><strong>MC Romance</strong><br>Genre focus</div>
+      <div><strong>Apr 9</strong><br>Initial contact</div>
+      <div><strong>$20/mo</strong><br>Retainer</div>
+      <div><strong>⭐ VIP</strong><br>High priority</div>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="footer-brand" style="color:#fdf4e8;">Atomic <em style="color:var(--vip);">Shelf</em></div>
+  <div class="footer-sub">Seven (Satan's Fury MC) · L. Wilder · MC Romance · VIP Prospect · Awaiting Response</div>
+</footer>
+
+<script>
+(function() {
+  // MC Romance sample content framework
+  const mcVideos = [
+    { title: "Welcome to Satan's Fury MC — Series Introduction", type: "sample" },
+    { title: "Meet Seven — The Anti-Hero You'll Love", type: "sample" },
+    { title: "MC Romance: Why We Can't Get Enough", type: "sample" },
+    { title: "Brotherhood, Loyalty, and Romance", type: "sample" },
+    { title: "Satan's Fury MC — Book 1 Teaser", type: "sample" },
+    { title: "The Bad Boy with a Heart of Gold", type: "sample" },
+    { title: "Dark Romance Meets MC Culture", type: "sample" },
+    { title: "Why Readers Love L. Wilder", type: "sample" },
+    { title: "Satan's Fury MC Series Overview", type: "sample" },
+    { title: "The Appeal of MC Romance", type: "sample" },
+    { title: "Seven — Chapter One Tease", type: "sample" },
+    { title: "From Page to BookTok", type: "sample" },
+    { title: "What Makes Satan's Fury Different", type: "sample" },
+    { title: "The Romance You've Been Waiting For", type: "sample" },
+    { title: "Start Your Satan's Fury Journey Today", type: "sample" }
+  ];
+
+  const container = document.getElementById('mcVideos');
+  if(container) {
+    container.innerHTML = mcVideos.map((v, idx) => {
+      return `<div class="video-item sample">
+        <span class="video-num">${(idx+1).toString().padStart(2,'0')}</span>
+        <span class="video-title">${v.title}</span>
+        <span class="video-badge vb-sample">📤 Sample Content</span>
+      </div>`;
+    }).join('');
+  }
+})();
+</script>
+</body>
+</html>

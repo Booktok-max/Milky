@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Would You Believe It — Week 4 Content Calendar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,900;1,400;1,600&family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f7f3ec;
+    --parchment: #ede6d6;
+    --warm-white: #faf8f4;
+    --ink: #1e1a14;
+    --ink-mid: #3d3628;
+    --ink-soft: #6b5e48;
+    --gold: #a07c3a;
+    --gold-light: #c9a55a;
+    --gold-pale: #e8d4a0;
+    --sage: #7a8c72;
+    --horizon: #8fa5b8;
+    --rule: rgba(160,124,58,0.22);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Lora', serif;
+    font-size: 18px;
+    line-height: 1.8;
+    overflow-x: hidden;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: linear-gradient(170deg, #ddd5c2 0%, #ede6d6 40%, #f7f3ec 100%);
+  }
+
+  /* Road horizon art element */
+  .hero-road {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 55%;
+    background:
+      linear-gradient(to top, #c8bda8 0%, transparent 100%);
+    clip-path: polygon(35% 100%, 65% 100%, 58% 0%, 42% 0%);
+    opacity: 0.18;
+  }
+
+  .hero-road-stripe {
+    position: absolute;
+    bottom: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 55%;
+    background: repeating-linear-gradient(
+      to top,
+      var(--gold-light) 0px,
+      var(--gold-light) 28px,
+      transparent 28px,
+      transparent 52px
+    );
+    opacity: 0.25;
+  }
+
+  .hero-mountain-l {
+    position: absolute;
+    bottom: 28%; left: 0;
+    width: 42%;
+    height: 38%;
+    background: linear-gradient(135deg, #bab0a0 0%, transparent 80%);
+    clip-path: polygon(0% 100%, 50% 0%, 100% 100%);
+    opacity: 0.13;
+  }
+
+  .hero-mountain-r {
+    position: absolute;
+    bottom: 28%; right: 0;
+    width: 42%;
+    height: 42%;
+    background: linear-gradient(225deg, #bab0a0 0%, transparent 80%);
+    clip-path: polygon(0% 100%, 50% 0%, 100% 100%);
+    opacity: 0.1;
+  }
+
+  .hero-glow {
+    position: absolute;
+    top: 20%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px; height: 400px;
+    background: radial-gradient(ellipse, rgba(201,165,90,0.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-grain {
+    position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    opacity: 0.6;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 780px;
+    padding: 100px 48px 80px;
+    text-align: center;
+    animation: fadeUp 1.1s ease both;
+  }
+
+  .hero-eyebrow {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    border-bottom: 1px solid var(--gold-pale);
+    padding-bottom: 8px;
+    margin-bottom: 36px;
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(44px, 8vw, 96px);
+    font-weight: 900;
+    line-height: 0.92;
+    letter-spacing: -1px;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+
+  .hero-title em {
+    display: block;
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(22px, 3.5vw, 42px);
+    color: var(--gold);
+    letter-spacing: 0;
+    line-height: 1.4;
+    margin-top: 10px;
+  }
+
+  .hero-author {
+    font-family: 'Lora', serif;
+    font-style: italic;
+    font-size: 20px;
+    color: var(--ink-soft);
+    margin: 28px 0 48px;
+  }
+
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 56px;
+    flex-wrap: wrap;
+  }
+
+  .stat {
+    text-align: center;
+  }
+
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 38px;
+    font-weight: 900;
+    color: var(--gold);
+    line-height: 1;
+    display: block;
+  }
+
+  .stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-top: 4px;
+  }
+
+  /* ── RULE ── */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    max-width: 680px;
+    margin: 72px auto;
+    padding: 0 40px;
+    opacity: 0.6;
+  }
+
+  .divider-line {
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+
+  .divider-mark {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: var(--gold-light);
+    line-height: 1;
+  }
+
+  /* ── INTRO ── */
+  .intro {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 0 40px 80px;
+    text-align: center;
+  }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 18px;
+    display: block;
+  }
+
+  .intro p {
+    font-size: 21px;
+    font-style: italic;
+    color: var(--ink-mid);
+    line-height: 1.85;
+  }
+
+  /* ── WEEK BANNER ── */
+  .week-banner {
+    max-width: 1080px;
+    margin: 0 auto 60px;
+    padding: 0 40px;
+    display: flex;
+    align-items: center;
+    gap: 28px;
+  }
+
+  .week-banner-line {
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+
+  .week-banner-text {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 900;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+
+  .week-banner-text span {
+    color: var(--gold);
+  }
+
+  .week-dates {
+    text-align: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 60px;
+    padding: 0 40px;
+  }
+
+  /* ── CARDS ── */
+  .calendar {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 40px 120px;
+  }
+
+  .video-card {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    background: var(--warm-white);
+    border: 1px solid rgba(160,124,58,0.15);
+    border-left: 3px solid var(--gold-pale);
+    margin-bottom: 3px;
+    transition: border-left-color 0.3s, box-shadow 0.3s;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .video-card:hover {
+    border-left-color: var(--gold);
+    box-shadow: 0 4px 32px rgba(160,124,58,0.1);
+  }
+
+  .video-card:first-child { border-radius: 6px 6px 0 0; }
+  .video-card:last-child  { border-radius: 0 0 6px 6px; }
+
+  .card-date {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 12px;
+    background: linear-gradient(180deg, var(--parchment) 0%, var(--warm-white) 100%);
+    border-right: 1px solid rgba(160,124,58,0.12);
+    text-align: center;
+  }
+
+  .date-day {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 900;
+    color: var(--gold);
+    line-height: 1;
+  }
+
+  .date-month {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-top: 3px;
+  }
+
+  .date-vid {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    color: var(--gold-light);
+    margin-top: 10px;
+    letter-spacing: 1px;
+  }
+
+  .card-body {
+    padding: 28px 32px 28px 32px;
+  }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.3;
+    margin-bottom: 4px;
+  }
+
+  .card-hook {
+    font-style: italic;
+    color: var(--gold);
+    font-size: 16px;
+    margin-bottom: 20px;
+    opacity: 0.9;
+  }
+
+  .card-sections {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .section-block h4 {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .section-block p {
+    font-size: 15px;
+    color: var(--ink-mid);
+    line-height: 1.7;
+    font-family: 'Lora', serif;
+  }
+
+  /* ── COPY BUTTON ── */
+  .copy-btn {
+    background: none;
+    border: 1px solid var(--gold-pale);
+    color: var(--gold);
+    font-family: 'DM Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .copy-btn:hover {
+    background: var(--gold);
+    color: var(--warm-white);
+    border-color: var(--gold);
+  }
+
+  .copy-btn.copied {
+    background: var(--sage);
+    color: var(--warm-white);
+    border-color: var(--sage);
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    text-align: center;
+    padding: 64px 40px;
+    border-top: 1px solid var(--rule);
+    background: var(--parchment);
+  }
+
+  .footer-cross {
+    font-size: 28px;
+    color: var(--gold-light);
+    margin-bottom: 16px;
+    display: block;
+    opacity: 0.7;
+  }
+
+  .footer-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .footer-sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--ink-soft);
+    margin-top: 8px;
+    text-transform: uppercase;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 680px) {
+    .card-sections { grid-template-columns: 1fr; }
+    .video-card { grid-template-columns: 80px 1fr; }
+    .card-body { padding: 20px 18px; }
+    .hero-content { padding: 80px 24px 60px; }
+    .calendar, .intro, .week-banner { padding-left: 20px; padding-right: 20px; }
+    .hero-stats { gap: 32px; }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-road"></div>
+  <div class="hero-road-stripe"></div>
+  <div class="hero-mountain-l"></div>
+  <div class="hero-mountain-r"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-grain"></div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">Content Proposal · YouTube &amp; TikTok</div>
+    <h1 class="hero-title">
+      Would You<br>Believe It?
+      <em>A Guide to Finding Faith for Skeptics</em>
+    </h1>
+    <p class="hero-author">by Kyle Hogg</p>
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-num">15</span>
+        <span class="stat-label">Videos · Week 4</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">4.9★</span>
+        <span class="stat-label">116 Reviews</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">15–30s</span>
+        <span class="stat-label">Voiceover Length</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DIVIDER -->
+<div class="divider">
+  <div class="divider-line"></div>
+  <div class="divider-mark">✦</div>
+  <div class="divider-line"></div>
+</div>
+
+<!-- INTRO -->
+<section class="intro">
+  <span class="section-label">Campaign Overview</span>
+  <p>Week 4 of a sustained short-form campaign for YouTube and TikTok. Fifteen videos carrying the conversation deeper — from the nature of faith and doubt into the personal transformation that happens when a skeptic opens the door.</p>
+</section>
+
+<!-- WEEK BANNER -->
+<div class="week-banner">
+  <div class="week-banner-line"></div>
+  <div class="week-banner-text">Week <span>Four</span></div>
+  <div class="week-banner-line"></div>
+</div>
+<div class="week-dates">June 12 – June 18, 2026 · Videos 46 – 60</div>
+
+<!-- CALENDAR -->
+<section class="calendar">
+
+  <!-- V46 -->
+  <div class="video-card" style="animation-delay:0.04s">
+    <div class="card-date">
+      <div class="date-day">12</div>
+      <div class="date-month">Jun</div>
+      <div class="date-vid">Video 46</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">What Kind of Doubt Do You Have?</div>
+      <div class="card-hook">"Not all doubt is the same. Kyle Hogg helps you find yours."</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'Not all doubt is the same. Kyle Hogg asks you to name it. Is your doubt intellectual — you need more evidence? Emotional — you've been hurt by religion? Moral — something in the faith feels wrong to you? Or is it spiritual — you simply cannot feel God at all? Naming the source of your doubt is the first step to moving through it. Would You Believe It helps you do exactly that.')">Copy</button></h4>
+          <p>Not all doubt is the same. Kyle Hogg asks you to name it. Is your doubt intellectual — you need more evidence? Emotional — you've been hurt by religion? Moral — something in the faith feels wrong to you? Or is it spiritual — you simply cannot feel God at all? Naming the source of your doubt is the first step to moving through it. Would You Believe It helps you do exactly that.</p>
+        </div>
+        <div class="section-block">
+          <h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'What kind of doubt are you carrying? Kyle Hogg helps readers identify whether their skepticism is intellectual, emotional, moral, or spiritual — and then walks through each one with honesty and care. Would You Believe It? A Guide to Finding Faith for Skeptics. Available now on Kindle and paperback. #WouldYouBelieveIt #KyleHogg #FaithAndDoubt #ChristianApologetics #Skeptic #BookTok')">Copy</button></h4>
+          <p>What kind of doubt are you carrying? Kyle Hogg helps readers identify whether their skepticism is intellectual, emotional, moral, or spiritual — and then walks through each one with honesty and care. Would You Believe It? Available now on Kindle and paperback. #WouldYouBelieveIt #KyleHogg #FaithAndDoubt #ChristianApologetics #Skeptic #BookTok</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- V47 -->
+  <div class="video-card" style="animation-delay:0.08s">
+    <div class="card-date">
+      <div class="date-day">12</div>
+      <div class="date-month">Jun</div>
+      <div class="date-vid">Video 47</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">Faith Is Not the Enemy of Reason</div>
+      <div class="card-hook">"Mystery doesn't contradict reason. It goes beyond it."</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'Someone once said there is all the difference in the world between nonsense that goes against reason and mystery that goes beyond reason. Kyle Hogg builds his whole book on that distinction. Faith is not irrational. It is not the opposite of evidence. It is what reason leads you to when you follow it all the way to the edge — and then take the next honest step.')">Copy</button></h4>
+          <p>Someone once said there is all the difference in the world between nonsense that goes against reason and mystery that goes beyond reason. Kyle Hogg builds his whole book on that distinction. Faith is not irrational. It is not the opposite of evidence. It is what reason leads you to when you follow it all the way to the edge — and then take the next honest step.</p>
+        </div>
+        <div class="section-block">
+          <h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'Reason and faith are not opponents. In Would You Believe It, Kyle Hogg draws a clear line between nonsense that contradicts reason and mystery that simply exceeds it — and shows why that distinction changes everything for the skeptic. Available on Kindle and paperback. #FaithAndReason #ChristianApologetics #WouldYouBelieveIt #KyleHogg #SkepticChristian #BookTok')">Copy</button></h4>
+          <p>Reason and faith are not opponents. In Would You Believe It, Kyle Hogg draws a clear line between nonsense that contradicts reason and mystery that simply exceeds it — and shows why that distinction changes everything for the skeptic. Available on Kindle and paperback. #FaithAndReason #ChristianApologetics #WouldYouBelieveIt #KyleHogg #SkepticChristian #BookTok</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- V48 -->
+  <div class="video-card" style="animation-delay:0.12s">
+    <div class="card-date">
+      <div class="date-day">13</div>
+      <div class="date-month">Jun</div>
+      <div class="date-vid">Video 48</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">Evidence Alone Is Never Enough</div>
+      <div class="card-hook">"You can have all the facts and still not believe. Here's why."</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'You can study every piece of historical evidence for the resurrection. You can read every argument for the existence of God. You can know every answer to every objection — and still not believe. Kyle Hogg explains why. Evidence opens a door. But something else has to walk you through it. Would You Believe It is about what that something is, and how to receive it.')">Copy</button></h4>
+          <p>You can study every piece of historical evidence for the resurrection. You can read every argument for the existence of God. You can know every answer to every objection — and still not believe. Kyle Hogg explains why. Evidence opens a door. But something else has to walk you through it. Would You Believe It is about what that something is, and how to receive it.</p>
+        </div>
+        <div class="section-block">
+          <h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'Evidence alone has never been enough to produce true faith — and Kyle Hogg explains precisely why, with clarity and pastoral warmth. If you\'ve studied all the arguments and still feel stuck, this book was written for you. Would You Believe It? by Kyle Hogg. Kindle and paperback. #EvidenceAndFaith #WouldYouBelieveIt #KyleHogg #ChristianApologetics #FindingFaith #BookTok')">Copy</button></h4>
+          <p>Evidence alone has never been enough to produce true faith — and Kyle Hogg explains precisely why, with clarity and pastoral warmth. If you've studied all the arguments and still feel stuck, this book was written for you. Would You Believe It? by Kyle Hogg. Kindle and paperback. #EvidenceAndFaith #WouldYouBelieveIt #KyleHogg #ChristianApologetics #FindingFaith #BookTok</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- V49 -->
+  <div class="video-card" style="animation-delay:0.16s">
+    <div class="card-date">
+      <div class="date-day">13</div>
+      <div class="date-month">Jun</div>
+      <div class="date-vid">Video 49</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">Faith Comes From the Word Trust</div>
+      <div class="card-hook">"Fides. Trust. That single word changes everything."</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'The Latin word for faith is fides. It means trust. Not certainty. Not the absence of doubt. Trust. And trust, unlike proof, is relational. You don\'t trust a theorem. You trust a person. Kyle Hogg\'s entire guide to finding faith is built on this: that coming to belief in God is not like solving an equation. It is like learning to trust someone who has never once let you down.')">Copy</button></h4>
+          <p>The Latin word for faith is fides. It means trust. Not certainty. Not the absence of doubt. Trust. And trust, unlike proof, is relational. You don't trust a theorem. You trust a person. Kyle Hogg's entire guide to finding faith is built on this: that coming to belief in God is not like solving an equation. It is like learning to trust someone who has never once let you down.</p>
+        </div>
+        <div class="section-block">
+          <h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'Faith means trust — not certainty. Kyle Hogg unpacks the Latin root fides to show that genuine faith is relational, not mathematical. It\'s not about having all the answers. It\'s about learning to trust the One who does. Would You Believe It? now on Kindle and paperback. #FaithMeansTrust #Fides #WouldYouBelieveIt #KyleHogg #ChristianFaith #BookTok')">Copy</button></h4>
+          <p>Faith means trust — not certainty. Kyle Hogg unpacks the Latin root fides to show that genuine faith is relational, not mathematical. It's not about having all the answers. It's about learning to trust the One who does. Would You Believe It? now on Kindle and paperback. #FaithMeansTrust #Fides #WouldYouBelieveIt #KyleHogg #ChristianFaith #BookTok</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- V50 -->
+  <div class="video-card" style="animation-delay:0.2s">
+    <div class="card-date">
+      <div class="date-day">14</div>
+      <div class="date-month">Jun</div>
+      <div class="date-vid">Video 50</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">The Journey from Unbelief</div>
+      <div class="card-hook">"Nobody arrives at faith in one step. This book walks with you."</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'Kyle Hogg says it plainly: unbelief to faith is a journey. There is no single argument that converts you on the spot. There is no single book that does it either — including this one. But this book can be the companion that walks alongside you for a mile. That answers the question you\'ve been afraid to ask out loud. That treats your doubt not as something to crush but as something to understand. The journey is real. Would You Believe It walks with you.')">Copy</button></h4>
+          <p>Kyle Hogg says it plainly: unbelief to faith is a journey. There is no single argument that converts you on the spot. There is no single book that does it either — including this one. But this book can be the companion that walks alongside you for a mile. That answers the question you've been afraid to ask out loud. That treats your doubt not as something to crush but as something to understand. The journey is real. Would You Believe It walks with you.</p>
+        </div>
+        <div class="section-block">
+          <h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'Faith isn\'t a switch — it\'s a journey. Kyle Hogg writes with the honesty of someone who knows that and the pastoral warmth of someone committed to walking alongside you. Would You Believe It? is the companion for every step from skepticism toward genuine belief. Available on Kindle and paperback. #FaithJourney #WouldYouBelieveIt #KyleHogg #SkepticsGuide #UnbeliefToFaith #BookTok')">Copy</button></h4>
+          <p>Faith isn't a switch — it's a journey. Kyle Hogg writes with the honesty of someone who knows that and the pastoral warmth of someone committed to walking alongside you. Would You Believe It? is the companion for every step from skepticism toward genuine belief. Available on Kindle and paperback. #FaithJourney #WouldYouBelieveIt #KyleHogg #SkepticsGuide #UnbeliefToFaith #BookTok</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- V51 -->
+  <div class="video-card" style="animation-delay:0.24s">
+    <div class="card-date">
+      <div class="date-day">14</div>
+      <div class="date-month">Jun</div>
+      <div class="date-vid">Video 51</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">Faith That Lives with Doubt</div>
+      <div class="card-hook">"A living faith walks hand in hand with doubt. Not against it."</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'Doubt is not the enemy of faith. It may be the very thing that makes faith alive. Kyle Hogg doesn\'t ask you to pretend your questions don\'t exist. He asks you to bring them. All of them. To the table. Because a faith that cannot survive your questions was never strong enough to hold your life anyway. Would You Believe It is built for people whose questions are real — and whose hunger for real answers is just as real.')">Copy</button></h4>
+          <p>Doubt is not the enemy of faith. It may be the very thing that makes faith alive. Kyle Hogg doesn't ask you to pretend your questions don't exist. He asks you to bring them. All of them. To the table. Because a faith that cannot survive your questions was never strong enough to hold your life anyway. Would You Believe It is built for people whose questions are real — and whose hunger for real answers is just as real.</p>
+        </div>
+        <div class="section-block">
+          <h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'What if your doubt isn\'t blocking faith — it\'s part of the journey toward it? Kyle Hogg writes for the person who has real questions and refuses to settle for hollow answers. Would You Believe It? A Guide to Finding Faith for Skeptics. Kindle and paperback available now. #DoubtAndFaith #WouldYouBelieveIt #KyleHogg #LivingFaith #ChristianDoubt #BookTok')">Copy</button></h4>
+          <p>What if your doubt isn't blocking faith — it's part of the journey toward it? Kyle Hogg writes for the person who has real questions and refuses to settle for hollow answers. Would You Believe It? A Guide to Finding Faith for Skeptics. Kindle and paperback available now. #DoubtAndFaith #WouldYouBelieveIt #KyleHogg #LivingFaith #ChristianDoubt #BookTok</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- V52 -->
+  <div class="video-card" style="animation-delay:0.28s">
+    <div class="card-date">
+      <div class="date-day">15</div>
+      <div class="date-month">Jun</div>
+      <div class="date-vid">Video 52</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">For the Lifelong Catholic Who Still Has Questions</div>
+      <div class="card-hook">"You don't have to be new to faith to need this book."</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'One reader has been a lifelong Catholic Christian. They already believe in Jesus. And this book still changed something for them. Because Would You Believe It isn\'t only for people outside the church. It is for everyone who has ever held their faith up to the light and wondered whether it would hold. Kyle Hogg meets you wherever you are and helps you understand what you believe — and why.')">Copy</button></h4>
+          <p>One reader has been a lifelong Catholic Christian. They already believe in Jesus. And this book still changed something for them. Because Would You Believe It isn't only for people outside the church. It is for everyone who has ever held their faith up to the light and wondered whether it would hold. Kyle Hogg meets you wherever you are and helps you understand what you believe — and why.</p>
+        </div>
+        <div class="section-block">
+          <h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'You don\'t have to be a skeptic to need this book. Lifelong believers are calling Would You Believe It one of the most clarifying books on faith they\'ve ever read. Kyle Hogg writes for every person on the spectrum from doubt to devotion. Available on Kindle and paperback. #ForBelieversAndSkeptics #WouldYouBelieveIt #KyleHogg #ChristianLiving #FaithBuilding #BookTok')">Copy</button></h4>
+          <p>You don't have to be a skeptic to need this book. Lifelong believers are calling Would You Believe It one of the most clarifying books on faith they've ever read. Kyle Hogg writes for every person on the spectrum from doubt to devotion. Available on Kindle and paperback. #ForBelieversAndSkeptics #WouldYouBelieveIt #KyleHogg #ChristianLiving #FaithBuilding #BookTok</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- V53 -->
+  <div class="video-card" style="animation-delay:0.32s">
+    <div class="card-date">
+      <div class="date-day">15</div>
+      <div class="date-month">Jun</div>
+      <div class="date-vid">Video 53</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">How Faith Is Received, Not Achieved</div>
+      <div class="card-hook">"You cannot manufacture faith. But you can open yourself to it."</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'One of the most important things Kyle Hogg teaches in this book is something that sounds almost too simple: faith is received, not achieved. You cannot think your way into it. You cannot perform your way into it. You cannot earn it. But you can position yourself to receive it. Would You Believe It shows you exactly how — with clarity, with warmth, and with the kind of honest pastoring that stays with you long after the last chapter.')">Copy</button></h4>
+          <p>One of the most important things Kyle Hogg teaches in this book is something that sounds almost too simple: faith is received, not achieved. You cannot think your way into it. You cannot perform your way into it. You cannot earn it. But you can position yourself to receive it. Would You Believe It shows you exactly how — with clarity, with warmth, and with the kind of honest pastoring that stays with you long after the last chapter.</p>
+        </div>
+        <div class="section-block">
+          <h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'Faith is a gift received, not a goal achieved. Kyle Hogg unpacks what that actually means in practice — and how to open yourself to what you cannot produce on your own. A book that changes how you think about belief itself. Would You Believe It? Available now. #FaithAsGift #WouldYouBelieveIt #KyleHogg #HowToHaveFaith #ChristianApologetics #BookTok')">Copy</button></h4>
+          <p>Faith is a gift received, not a goal achieved. Kyle Hogg unpacks what that actually means in practice — and how to open yourself to what you cannot produce on your own. A book that changes how you think about belief itself. Would You Believe It? Available now. #FaithAsGift #WouldYouBelieveIt #KyleHogg #HowToHaveFaith #ChristianApologetics #BookTok</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- V54 -->
+  <div class="video-card" style="animation-delay:0.36s">
+    <div class="card-date">
+      <div class="date-day">16</div>
+      <div class="date-month">Jun</div>
+      <div class="date-vid">Video 54</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">A Book That Convicts the Heart</div>
+      <div class="card-hook">"It doesn't just convince your mind. It convicts your heart."</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'A reader named Maddy put it this way: if someone can convince you of something, someone else can convince you out of it. What Hogg does is not convince your mind — he convicts your heart. After reading this book, Jesus, the Bible, and faith itself all become not just more convincing but more compelling. That is a very different kind of change. And it is the kind that lasts.')">Copy</button></h4>
+          <p>A reader named Maddy put it this way: if someone can convince you of something, someone else can convince you out of it. What Hogg does is not convince your mind — he convicts your heart. After reading this book, Jesus, the Bible, and faith itself all become not just more convincing but more compelling. That is a very different kind of change. And it is the kind that lasts.</p>
+        </div>
+        <div class="section-block">
+          <h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'Convincing and convicting are two entirely different things. Kyle Hogg\'s readers consistently say this book does the latter — and that\'s why the transformation it produces actually sticks. Would You Believe It? A Guide to Finding Faith for Skeptics. On Kindle and paperback now. #HeartConviction #WouldYouBelieveIt #KyleHogg #TrueBeliever #ChristianBooks #BookTok')">Copy</button></h4>
+          <p>Convincing and convicting are two entirely different things. Kyle Hogg's readers consistently say this book does the latter — and that's why the transformation it produces actually sticks. Would You Believe It? A Guide to Finding Faith for Skeptics. On Kindle and paperback now. #HeartConviction #WouldYouBelieveIt #KyleHogg #TrueBeliever #ChristianBooks #BookTok</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- V55 -->
+  <div class="video-card" style="animation-delay:0.4s">
+    <div class="card-date">
+      <div class="date-day">16</div>
+      <div class="date-month">Jun</div>
+      <div class="date-vid">Video 55</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">No Jargon. No Lecture. Just Truth.</div>
+      <div class="card-hook">"118 pages. No seminary required. No pretence."</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'Kyle Hogg has 15 years of scriptural study and ministry behind him. He could write a textbook. He chose to write something different. Would You Believe It is 118 pages of clear, direct, jargon-free truth. Written for the average reader who does not have a doctorate in theology — and does not need one. Clear and relatable, says one reader. Engaging to us average readers, says another. This is the book for regular people with real questions.')">Copy</button></h4>
+          <p>Kyle Hogg has 15 years of scriptural study and ministry behind him. He could write a textbook. He chose to write something different. Would You Believe It is 118 pages of clear, direct, jargon-free truth. Written for the average reader who does not have a doctorate in theology — and does not need one. Clear and relatable, says one reader. Engaging to us average readers, says another. This is the book for regular people with real questions.</p>
+        </div>
+        <div class="section-block">
+          <h4>YouTube Description <button class="copy-btn" onclick="copyText(this, '15 years of ministry distilled into 118 readable, jargon-free pages. Kyle Hogg writes like a thoughtful pastor, not a distant professor — and that accessibility is exactly why readers keep coming back. Would You Believe It? Available on Kindle for $3.99 and in paperback. #AccessibleFaith #WouldYouBelieveIt #KyleHogg #FaithForEveryone #ChristianReading #BookTok')">Copy</button></h4>
+          <p>15 years of ministry distilled into 118 readable, jargon-free pages. Kyle Hogg writes like a thoughtful pastor, not a distant professor — and that accessibility is exactly why readers keep coming back. Would You Believe It? Available on Kindle for $3.99 and in paperback. #AccessibleFaith #WouldYouBelieveIt #KyleHogg #FaithForEveryone #ChristianReading #BookTok</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- V56 -->
+  <div class="video-card" style="animation-delay:0.44s">
+    <div class="card-date">
+      <div class="date-day">17</div>
+      <div class="date-month">Jun</div>
+      <div class="date-vid">Video 56</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">The Peace You Didn't Expect to Find</div>
+      <div class="card-hook">"Skeptics are finishing this book and finding something they didn't come looking for."</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'One skeptic picked up Would You Believe It because a friend insisted. They expected to put it down quickly. Instead they found something unexpected. Not a sudden conversion. Not an argument that pinned them down. But a quiet peace. A sense that the questions they had carried for years had finally been heard — and answered with dignity. That is what this book does for skeptics. It doesn\'t argue you into a corner. It invites you into a room.')">Copy</button></h4>
+          <p>One skeptic picked up Would You Believe It because a friend insisted. They expected to put it down quickly. Instead they found something unexpected. Not a sudden conversion. Not an argument that pinned them down. But a quiet peace. A sense that the questions they had carried for years had finally been heard — and answered with dignity. That is what this book does for skeptics. It doesn't argue you into a corner. It invites you into a room.</p>
+        </div>
+        <div class="section-block">
+          <h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'A lifelong skeptic picked this up reluctantly — and finished it unexpectedly moved. Not coerced. Not cornered. Simply at peace with questions they\'d carried for years. Would You Believe It? A Guide to Finding Faith for Skeptics by Kyle Hogg. Available on Kindle and paperback. #SkepticReview #WouldYouBelieveIt #KyleHogg #FaithForSkeptics #UnexpectedPeace #BookTok')">Copy</button></h4>
+          <p>A lifelong skeptic picked this up reluctantly — and finished it unexpectedly moved. Not coerced. Not cornered. Simply at peace with questions they'd carried for years. Would You Believe It? A Guide to Finding Faith for Skeptics by Kyle Hogg. Available on Kindle and paperback. #SkepticReview #WouldYouBelieveIt #KyleHogg #FaithForSkeptics #UnexpectedPeace #BookTok</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- V57 -->
+  <div class="video-card" style="animation-delay:0.48s">
+    <div class="card-date">
+      <div class="date-day">17</div>
+      <div class="date-month">Jun</div>
+      <div class="date-vid">Video 57</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">Read It Even If You're Already a Believer</div>
+      <div class="card-hook">"This book deepens the faith you already have."</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'Would You Believe It is marketed to skeptics. But the believers who read it keep saying the same thing: this reminded me of how I came to faith. It reaffirmed everything I believe and gave me language for things I\'ve always known but never been able to say. Lauren P said it perfectly — this is a great reminder of how we as Christians came to saving faith. Read it to find faith. Or read it to remember why yours matters.')">Copy</button></h4>
+          <p>Would You Believe It is marketed to skeptics. But the believers who read it keep saying the same thing: this reminded me of how I came to faith. It reaffirmed everything I believe and gave me language for things I've always known but never been able to say. Lauren P said it perfectly — this is a great reminder of how we as Christians came to saving faith. Read it to find faith. Or read it to remember why yours matters.</p>
+        </div>
+        <div class="section-block">
+          <h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'Skeptics find faith in this book. Believers rediscover it. Would You Believe It works for both — because Kyle Hogg writes about the foundations that every Christian, at every stage, needs to revisit. Available now on Kindle and paperback. #ForBelieversAndDoubers #WouldYouBelieveIt #KyleHogg #ChristianFaith #FaithRemembered #BookTok')">Copy</button></h4>
+          <p>Skeptics find faith in this book. Believers rediscover it. Would You Believe It works for both — because Kyle Hogg writes about the foundations that every Christian, at every stage, needs to revisit. Available now on Kindle and paperback. #ForBelieversAndDoubers #WouldYouBelieveIt #KyleHogg #ChristianFaith #FaithRemembered #BookTok</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- V58 — CTA START -->
+  <div class="video-card" style="animation-delay:0.52s">
+    <div class="card-date">
+      <div class="date-day">18</div>
+      <div class="date-month">Jun</div>
+      <div class="date-vid">Video 58</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">116 Reviews. 4.9 Stars. Go Find Out Why.</div>
+      <div class="card-hook">"Over a hundred readers. The same conclusion. Read this book."</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'One hundred and sixteen people have reviewed Would You Believe It. The average rating is 4.9 out of 5 stars. Ninety-three percent of reviewers gave it five stars. The ones who didn\'t gave it four. Not a single person rated it below three. Every single one of those people was a skeptic, a seeker, a lifelong believer, or something in between. And they all finished saying the same thing. This book is worth your time. Kyle Hogg. Would You Believe It. Link in bio.')">Copy</button></h4>
+          <p>One hundred and sixteen people have reviewed Would You Believe It. The average rating is 4.9 out of 5 stars. Ninety-three percent of reviewers gave it five stars. The ones who didn't gave it four. Not a single person rated it below three. Every single one of those people was a skeptic, a seeker, a lifelong believer, or something in between. And they all finished saying the same thing. This book is worth your time. Kyle Hogg. Would You Believe It. Link in bio.</p>
+        </div>
+        <div class="section-block">
+          <h4>YouTube Description <button class="copy-btn" onclick="copyText(this, '116 reviews. 4.9 stars. 93% five-star ratings. The readers have spoken — and they are unanimous. Would You Believe It? A Guide to Finding Faith for Skeptics by Kyle Hogg is one of the best books on faith published in years. Available on Kindle for $3.99 and paperback for $12.99. Link below. #WouldYouBelieveIt #KyleHogg #BookReviews #ChristianApologetics #BestFaithBooks #BookTok')">Copy</button></h4>
+          <p>116 reviews. 4.9 stars. 93% five-star ratings. The readers have spoken — and they are unanimous. Would You Believe It? A Guide to Finding Faith for Skeptics by Kyle Hogg is one of the best books on faith published in years. Available on Kindle for $3.99 and paperback for $12.99. Link below. #WouldYouBelieveIt #KyleHogg #BookReviews #ChristianApologetics #BestFaithBooks #BookTok</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- V59 -->
+  <div class="video-card" style="animation-delay:0.56s">
+    <div class="card-date">
+      <div class="date-day">18</div>
+      <div class="date-month">Jun</div>
+      <div class="date-vid">Video 59</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">Give It to Someone Who Is Searching</div>
+      <div class="card-hook">"You know someone who needs this book. This is your nudge."</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'You are watching this because someone in your life is searching. Maybe it\'s you. Maybe it\'s your brother. Your colleague. Your friend who asks good questions but hasn\'t found good answers. Would You Believe It by Kyle Hogg is the book you hand to that person. It is short enough to be read in an afternoon. It is deep enough to start a real conversation. It is kind enough that no one will feel ambushed. Kindle. Paperback. Link in bio.')">Copy</button></h4>
+          <p>You are watching this because someone in your life is searching. Maybe it's you. Maybe it's your brother. Your colleague. Your friend who asks good questions but hasn't found good answers. Would You Believe It by Kyle Hogg is the book you hand to that person. It is short enough to be read in an afternoon. It is deep enough to start a real conversation. It is kind enough that no one will feel ambushed. Kindle. Paperback. Link in bio.</p>
+        </div>
+        <div class="section-block">
+          <h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'Someone in your life is asking questions about faith. This is the book for them. Short. Honest. Kind. Deeply reasoned. Would You Believe It? by Kyle Hogg makes the perfect gift for the seeker in your circle. Available on Kindle for $3.99 and in paperback. #GiftABook #WouldYouBelieveIt #KyleHogg #FaithGift #ShareYourFaith #BookTok')">Copy</button></h4>
+          <p>Someone in your life is asking questions about faith. This is the book for them. Short. Honest. Kind. Deeply reasoned. Would You Believe It? by Kyle Hogg makes the perfect gift for the seeker in your circle. Available on Kindle for $3.99 and in paperback. #GiftABook #WouldYouBelieveIt #KyleHogg #FaithGift #ShareYourFaith #BookTok</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- V60 — Ultimate CTA -->
+  <div class="video-card" style="animation-delay:0.6s">
+    <div class="card-date">
+      <div class="date-day">18</div>
+      <div class="date-month">Jun</div>
+      <div class="date-vid">Video 60</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">The Question That Changes Everything</div>
+      <div class="card-hook">"Would you believe it? That is the only question that matters."</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'Three words. Would you believe it. Not as a challenge. Not as a dare. As an invitation. Kyle Hogg has spent 15 years studying scripture and walking with people through every kind of doubt. And after all of it, his question is the same gentle one he started with. Would you believe it? Not because you have to. Not because the evidence is irresistible. But because something in you is still open. If that\'s you, this book was written for you. Would You Believe It. Available now. Link in bio.')">Copy</button></h4>
+          <p>Three words. Would you believe it. Not as a challenge. Not as a dare. As an invitation. Kyle Hogg has spent 15 years studying scripture and walking with people through every kind of doubt. And after all of it, his question is the same gentle one he started with. Would you believe it? Not because you have to. Not because the evidence is irresistible. But because something in you is still open. If that's you, this book was written for you. Would You Believe It. Available now. Link in bio.</p>
+        </div>
+        <div class="section-block">
+          <h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'Would you believe it? Not as a challenge. As an invitation. Kyle Hogg\'s book has guided hundreds of readers — skeptics, seekers, and lifelong believers — closer to genuine faith in Jesus Christ. If something in you is still open, this book was written for you. Would You Believe It? by Kyle Hogg. Available on Kindle for $3.99. Paperback $12.99. Link below. #WouldYouBelieveIt #KyleHogg #TheInvitation #FindingFaith #Jesus #ChristianApologetics #BookTok')">Copy</button></h4>
+          <p>Would you believe it? Not as a challenge. As an invitation. Kyle Hogg's book has guided hundreds of readers — skeptics, seekers, and lifelong believers — closer to genuine faith in Jesus Christ. If something in you is still open, this book was written for you. Would You Believe It? by Kyle Hogg. Available on Kindle for $3.99. Paperback $12.99. Link below. #WouldYouBelieveIt #KyleHogg #TheInvitation #FindingFaith #Jesus #ChristianApologetics #BookTok</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <span class="footer-cross">✦</span>
+  <div class="footer-title">Would You Believe It? — Kyle Hogg</div>
+  <div class="footer-sub">Week 4 Content Proposal · June 12 – 18, 2026 · Videos 46 – 60 · YouTube &amp; TikTok</div>
+</footer>
+
+<script>
+function copyText(btn, text) {
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = 'Copied';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = orig;
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+</script>
+
+</body>
+</html>

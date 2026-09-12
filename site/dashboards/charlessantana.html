@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vibe Check — Charles Santana | Contemporary Fiction Campaign | Atomic Shelf</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,900;1,400&family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+:root {
+  --cream: #f7f3ec;
+  --parchment: #ede6d6;
+  --warm-white: #faf8f4;
+  --surface: #ffffff;
+  --ink: #1e1a14;
+  --ink-mid: #3d3628;
+  --ink-soft: #6b5e48;
+  --gold: #a07c3a;
+  --gold-2: #c9a55a;
+  --gold-pale: #e8d4a0;
+  --gold-bg: #fdf6e3;
+  --sage: #5a7a52;
+  --sage-bg: #e8ede6;
+  --teal: #1D9E75;
+  --teal-bg: #e4f2ee;
+  --blue: #2468c0;
+  --blue-bg: #e6f0fb;
+  --red: #b53a2f;
+  --red-bg: #fce8e6;
+  --vibe: #8b5cf6;
+  --vibe-bg: #ede9fe;
+  --vibe-dark: #6d28d9;
+  --rule: rgba(160,124,58,0.18);
+  --rule-lt: rgba(160,124,58,0.10);
+  --shadow-sm: 0 1px 4px rgba(30,26,20,0.06);
+  --shadow-md: 0 4px 20px rgba(30,26,20,0.09);
+  --shadow-lg: 0 10px 40px rgba(30,26,20,0.13);
+  --r: 8px;
+  --r-lg: 12px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+a { color: inherit; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--parchment); }
+::-webkit-scrollbar-thumb { background: var(--gold-pale); border-radius: 3px; }
+
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(30,26,20,.96);
+  backdrop-filter: blur(14px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  height: 58px;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.nav::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--gold) 40%, var(--gold-2) 60%, transparent 100%);
+  opacity: .4;
+}
+.nav-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: #fdf4e8;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.nav-mark {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: linear-gradient(138deg, var(--vibe) 0%, var(--vibe-dark) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .65rem;
+  font-weight: 700;
+  color: #fff;
+}
+.nav-brand em { font-style: italic; color: var(--gold-2); }
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a {
+  font-family: 'DM Mono', monospace;
+  font-size: .67rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.38);
+  transition: color .18s;
+}
+.nav-links a:hover { color: var(--gold-2); }
+.nav-pill {
+  font-family: 'DM Mono', monospace;
+  font-size: .62rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  background: rgba(139,92,246,.3);
+  border: 1px solid rgba(139,92,246,.45);
+  color: #a78bfa;
+  padding: 4px 12px;
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.nav-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #a78bfa;
+  box-shadow: 0 0 7px #a78bfa;
+  animation: pulse 2.5s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1}50%{opacity:.3} }
+
+.hero {
+  background: linear-gradient(160deg, #1a1a2e 0%, #16213e 55%, #0f0f23 100%);
+  padding: 48px 40px 40px;
+  position: relative;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 60% 40%, rgba(139,92,246,.12) 0%, transparent 65%);
+}
+.hero-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 40px;
+}
+.hero-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: .65rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--gold-2);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.hero-eyebrow::before {
+  content: '';
+  width: 28px;
+  height: 1px;
+  background: var(--gold);
+}
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 900;
+  color: #fdf4e8;
+  line-height: 1.05;
+  letter-spacing: -.02em;
+  margin-bottom: 4px;
+}
+.hero-subtitle {
+  font-family: 'Lora', serif;
+  font-style: italic;
+  font-size: .9rem;
+  color: rgba(253,244,232,.5);
+  margin-bottom: 18px;
+}
+.hero-author {
+  font-size: .85rem;
+  color: rgba(253,244,232,.6);
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.hero-stats {
+  display: flex;
+  gap: 28px;
+  flex-wrap: wrap;
+  text-align: right;
+}
+.hs-item { text-align: right; }
+.hs-val {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: var(--gold-2);
+  line-height: 1;
+}
+.hs-lbl {
+  font-family: 'DM Mono', monospace;
+  font-size: .55rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(253,244,232,.35);
+}
+.main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 40px 80px;
+  position: relative;
+  z-index: 1;
+}
+.sec-label {
+  font-family: 'DM Mono', monospace;
+  font-size: .6rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.sec-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--rule-lt);
+}
+.card {
+  background: var(--surface);
+  border: 1px solid var(--rule-lt);
+  border-radius: var(--r-lg);
+  padding: 18px 22px;
+  box-shadow: var(--shadow-sm);
+  transition: all .2s ease;
+}
+.card:hover { box-shadow: var(--shadow-md); }
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 10px;
+  margin-bottom: 24px;
+}
+.metric-box {
+  background: var(--surface);
+  border: 1px solid var(--rule-lt);
+  border-radius: var(--r);
+  padding: 14px 16px;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  transition: all .18s;
+}
+.metric-box:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.metric-icon { font-size: 1.5rem; margin-bottom: 6px; }
+.metric-val {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--ink);
+  line-height: 1;
+  margin-bottom: 3px;
+}
+.metric-lbl {
+  font-family: 'DM Mono', monospace;
+  font-size: .55rem;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.metric-sub { font-size: .65rem; color: var(--ink-soft); margin-top: 4px; }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 24px; }
+.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; margin-bottom: 24px; }
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--rule-lt);
+  gap: 12px;
+}
+.info-row:last-child { border-bottom: none; }
+.info-key { font-size: .7rem; color: var(--ink-soft); flex-shrink: 0; }
+.info-val { font-size: .75rem; font-weight: 500; color: var(--ink); text-align: right; }
+.info-val.gold { color: var(--gold); }
+.info-val.vibe { color: var(--vibe-dark); font-weight: 600; }
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: .58rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 40px;
+}
+.b-active { background: var(--sage-bg); color: var(--sage); }
+.b-paid { background: var(--teal-bg); color: var(--teal); }
+.b-pending { background: var(--gold-bg); color: var(--gold); }
+.action-box {
+  background: linear-gradient(135deg, var(--gold-bg), #fff8e8);
+  border-left: 4px solid var(--gold);
+  border-radius: var(--r);
+  padding: 12px 18px;
+  font-size: .78rem;
+  color: var(--ink-mid);
+  margin-bottom: 24px;
+}
+.video-list { display: flex; flex-direction: column; gap: 3px; }
+.video-item {
+  display: grid;
+  grid-template-columns: 30px 1fr auto;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: var(--r);
+  background: var(--warm-white);
+  border: 1px solid var(--rule-lt);
+  font-size: .75rem;
+}
+.video-item.produced { background: var(--vibe-bg); border-color: var(--vibe); }
+.video-num {
+  font-family: 'DM Mono', monospace;
+  font-size: .6rem;
+  color: var(--ink-soft);
+  text-align: center;
+}
+.video-title { font-size: .73rem; color: var(--ink); }
+.video-badge {
+  font-size: .55rem;
+  padding: 2px 6px;
+  border-radius: 40px;
+  white-space: nowrap;
+}
+.vb-produced { background: var(--vibe-bg); color: var(--vibe-dark); }
+.footer {
+  background: #1e1a14;
+  padding: 28px 40px;
+  text-align: center;
+  color: rgba(253,244,232,.3);
+  font-size: .7rem;
+}
+.links-grid { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 24px; }
+.drw-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--warm-white);
+  border: 1px solid var(--rule-lt);
+  border-radius: var(--r);
+  padding: 5px 10px;
+  font-size: .7rem;
+  font-weight: 500;
+  transition: all .14s;
+}
+.drw-link:hover { background: var(--gold-bg); border-color: rgba(160,124,58,.35); transform: translateY(-1px); }
+.progress-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.progress-label {
+  font-size: .72rem;
+  color: var(--ink-mid);
+  min-width: 140px;
+}
+.progress-track {
+  flex: 1;
+  height: 5px;
+  background: var(--parchment);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 1s ease;
+}
+.pf-vibe { background: linear-gradient(90deg, var(--vibe) 0%, var(--vibe-dark) 100%); }
+.pf-gold { background: linear-gradient(90deg, var(--gold) 0%, var(--gold-2) 100%); }
+.progress-pct {
+  font-family: 'Playfair Display', serif;
+  font-size: .85rem;
+  font-weight: 700;
+  color: var(--gold);
+  min-width: 38px;
+  text-align: right;
+}
+@media (max-width: 900px) {
+  .nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  .hero-inner { grid-template-columns: 1fr; }
+  .main { padding: 24px 20px; }
+  .two-col, .three-col { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <div class="nav-brand"><div class="nav-mark">AS</div>Atomic <em>Shelf</em></div>
+  <ul class="nav-links"><li><a href="#">Dashboard</a></li><li><a href="#">Campaigns</a></li><li><a href="#">Charles Santana</a></li></ul>
+  <div class="nav-pill"><span class="nav-dot"></span>Active · Paid · Campaign Live</div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-eyebrow">Contemporary Fiction · Vibe Check</div>
+      <h1 class="hero-title">Vibe Check</h1>
+      <div class="hero-subtitle">Contemporary fiction for the modern reader</div>
+      <div class="hero-author"><span>Charles Santana</span><span class="hero-author-dot"></span><span>Contemporary Fiction</span><span class="hero-author-dot"></span><span>Active Campaign</span></div>
+    </div>
+    <div class="hero-stats">
+      <div class="hs-item"><div class="hs-val">Active</div><div class="hs-lbl">Campaign status</div></div>
+      <div class="hs-item"><div class="hs-val">Paid</div><div class="hs-lbl">Payment status</div></div>
+      <div class="hs-item"><div class="hs-val">Mar 2026</div><div class="hs-lbl">Launch date</div></div>
+    </div>
+  </div>
+</div>
+
+<main class="main">
+  <!-- Key Metrics Row -->
+  <div class="metrics-grid">
+    <div class="metric-box"><div class="metric-icon">📚</div><div class="metric-val">Vibe Check</div><div class="metric-lbl">Book title</div><div class="metric-sub">Contemporary Fiction</div></div>
+    <div class="metric-box"><div class="metric-icon">💰</div><div class="metric-val">$20</div><div class="metric-lbl">Monthly retainer</div><div class="metric-sub">Paid · Active</div></div>
+    <div class="metric-box"><div class="metric-icon">📅</div><div class="metric-val">Mar 2026</div><div class="metric-lbl">Campaign start</div><div class="metric-sub">2+ months active</div></div>
+    <div class="metric-box"><div class="metric-icon">📱</div><div class="metric-val">@vibecheck.books</div><div class="metric-lbl">TikTok handle</div><div class="metric-sub">Active account</div></div>
+    <div class="metric-box"><div class="metric-icon">📊</div><div class="metric-val">Word Doc</div><div class="metric-lbl">Performance report</div><div class="metric-sub">TikTok + YouTube analytics</div></div>
+  </div>
+
+  <!-- Two Column: Campaign Progress + Details -->
+  <div class="two-col">
+    <div class="card">
+      <div class="sec-label" style="margin-bottom: 12px;">Campaign progress</div>
+      <div class="progress-row"><span class="progress-label">Vibe Check Content Series</span><div class="progress-track"><div class="progress-fill pf-vibe" style="width:75%"></div></div><span class="progress-pct">75%</span></div>
+      <div class="progress-row"><span class="progress-label">Next content batch</span><div class="progress-track"><div class="progress-fill pf-gold" style="width:0%"></div></div><span class="progress-pct">Ready to push</span></div>
+      <div class="progress-row"><span class="progress-label">Performance reporting</span><div class="progress-track"><div class="progress-fill pf-vibe" style="width:100%"></div></div><span class="progress-pct">Complete</span></div>
+      <div class="progress-row"><span class="progress-label">Campaign duration</span><div class="progress-track"><div class="progress-fill pf-gold" style="width:100%"></div></div><span class="progress-pct">2+ months</span></div>
+      <div style="margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--rule-lt);">
+        <div class="info-row"><span class="info-key">Content status</span><span class="info-val vibe">Series in production · 75% complete</span></div>
+        <div class="info-row"><span class="info-key">Next deliverable</span><span class="info-val">Push next content batch</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="sec-label" style="margin-bottom: 12px;">Account & platform details</div>
+      <div class="info-row"><span class="info-key">TikTok</span><span class="info-val"><a href="https://www.tiktok.com/@vibecheck.books" target="_blank" style="color:var(--blue);">@vibecheck.books ↗</a></span></div>
+      <div class="info-row"><span class="info-key">YouTube</span><span class="info-val">Not active (TikTok primary)</span></div>
+      <div class="info-row"><span class="info-key">Pinterest</span><span class="info-val">Not configured</span></div>
+      <div class="info-row"><span class="info-key">Campaign page</span><span class="info-val"><a href="https://atomic-shelf.com/Productions/Charles_Santana_Vibe_Check" target="_blank" style="color:var(--blue);">atomic-shelf.com ↗</a></span></div>
+      <div class="info-row"><span class="info-key">Author email</span><span class="info-val">vibecheck.books@gmail.com</span></div>
+    </div>
+  </div>
+
+  <!-- Three Column: Status Overview -->
+  <div class="three-col">
+    <div class="card">
+      <div class="sec-label" style="margin-bottom: 8px;">Payment & billing</div>
+      <div class="info-row"><span class="info-key">Monthly retainer</span><span class="info-val">$20 / month</span></div>
+      <div class="info-row"><span class="info-key">Payment status</span><span class="info-val vibe">Paid · Current</span></div>
+      <div class="info-row"><span class="info-key">Start date</span><span class="info-val">March 2026</span></div>
+      <div class="info-row"><span class="info-key">Billing cycle</span><span class="info-val">Monthly</span></div>
+      <div class="info-row"><span class="info-key">Next invoice</span><span class="info-val">June 2026</span></div>
+    </div>
+    <div class="card">
+      <div class="sec-label" style="margin-bottom: 8px;">Content production</div>
+      <div class="info-row"><span class="info-key">Series name</span><span class="info-val">Vibe Check Series</span></div>
+      <div class="info-row"><span class="info-key">Production status</span><span class="info-val vibe">Active · In production</span></div>
+      <div class="info-row"><span class="info-key">Completion</span><span class="info-val">75%</span></div>
+      <div class="info-row"><span class="info-key">Content type</span><span class="info-val">TikTok Shorts</span></div>
+      <div class="info-row"><span class="info-key">Posting frequency</span><span class="info-val">Ongoing</span></div>
+    </div>
+    <div class="card">
+      <div class="sec-label" style="margin-bottom: 8px;">Analytics & reporting</div>
+      <div class="info-row"><span class="info-key">Performance report</span><span class="info-val vibe">Word Doc produced</span></div>
+      <div class="info-row"><span class="info-key">Platforms covered</span><span class="info-val">TikTok + YouTube</span></div>
+      <div class="info-row"><span class="info-key">Report format</span><span class="info-val">Microsoft Word</span></div>
+      <div class="info-row"><span class="info-key">Last report</span><span class="info-val">April 2026</span></div>
+      <div class="info-row"><span class="info-key">Next report due</span><span class="info-val">June 2026</span></div>
+    </div>
+  </div>
+
+  <!-- Vibe Check Content Series -->
+  <div class="section-block">
+    <div class="sec-label">Vibe Check — content series (produced & pending)</div>
+    <div class="video-list" id="vibeCheckVideos"></div>
+  </div>
+
+  <!-- Two Column: Pending Actions + Notes -->
+  <div class="two-col">
+    <div class="card">
+      <div class="sec-label" style="margin-bottom: 8px;">Pending actions</div>
+      <ul style="margin-left: 18px; font-size: .72rem; color: var(--ink-mid); line-height: 1.6;">
+        <li>Push next content batch to publishing queue</li>
+        <li>Continue Vibe Check series production (remaining 25%)</li>
+        <li>Schedule June performance report</li>
+        <li>Monitor TikTok engagement metrics</li>
+        <li>Consider YouTube Shorts expansion</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="sec-label" style="margin-bottom: 8px;">Campaign notes</div>
+      <div style="font-size: .72rem; color: var(--ink-mid); line-height: 1.6;">
+        <p><strong>Active campaign</strong> — Vibe Check is a contemporary fiction title. Campaign launched March 2026 with monthly retainer paid and current.</p>
+        <p style="margin-top: 8px;"><strong>Content series:</strong> Vibe Check Series in production (75% complete). Next batch ready to push to publishing.</p>
+        <p style="margin-top: 8px;"><strong>Performance reporting:</strong> Word doc report produced covering TikTok and YouTube analytics. Detailed metrics available.</p>
+        <p style="margin-top: 8px;"><strong>Primary platform:</strong> TikTok (@vibecheck.books). YouTube not currently active but included in analytics reporting.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Action Box -->
+  <div class="action-box">
+    <strong>📋 Current focus:</strong> Complete remaining 25% of Vibe Check content series · Push next batch to TikTok · Prepare June performance report.
+  </div>
+
+  <!-- Quick Links -->
+  <div class="section-block">
+    <div class="sec-label">Quick links</div>
+    <div class="links-grid">
+      <a href="https://atomic-shelf.com/Productions/Charles_Santana_Vibe_Check" target="_blank" class="drw-link">📊 Campaign Dashboard</a>
+      <a href="https://www.tiktok.com/@vibecheck.books" target="_blank" class="drw-link">📱 TikTok Profile</a>
+      <a href="#" class="drw-link">📄 Performance Report (Word Doc)</a>
+      <a href="#" class="drw-link">📁 Content Assets</a>
+      <a href="mailto:vibecheck.books@gmail.com" class="drw-link">✉️ Author Email</a>
+    </div>
+  </div>
+
+  <!-- Data Summary Footer inside main -->
+  <div class="card" style="background: var(--vibe-bg); margin-top: 8px;">
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; text-align: center; font-size: .7rem;">
+      <div><strong>Campaign age:</strong> 2+ months</div>
+      <div><strong>Content complete:</strong> 75%</div>
+      <div><strong>Primary platform:</strong> TikTok</div>
+      <div><strong>Reporting:</strong> Word doc + analytics</div>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="footer-brand" style="color:#fdf4e8;">Atomic <em style="color:var(--gold-2);">Shelf</em></div>
+  <div class="footer-sub">Vibe Check · Charles Santana · Contemporary Fiction · Active Campaign</div>
+</footer>
+
+<script>
+(function() {
+  // 20 videos in series - 15 produced (75%), 5 pending
+  const vibeVideos = [
+    { title: "Vibe Check — Welcome to the Series", status: "produced" },
+    { title: "Contemporary Fiction for a New Generation", status: "produced" },
+    { title: "Meet the Characters of Vibe Check", status: "produced" },
+    { title: "The Story Behind the Book", status: "produced" },
+    { title: "Why 'Vibe Check' Resonates", status: "produced" },
+    { title: "Chapter One Tease (No Spoilers)", status: "produced" },
+    { title: "The Writing Process", status: "produced" },
+    { title: "Themes of Modern Life", status: "produced" },
+    { title: "Reader Reactions", status: "produced" },
+    { title: "A Day in the Life of the Author", status: "produced" },
+    { title: "Vibe Check — Page One Read", status: "produced" },
+    { title: "The Heart of Contemporary Fiction", status: "produced" },
+    { title: "What Makes Vibe Check Different", status: "produced" },
+    { title: "The Emotional Core", status: "produced" },
+    { title: "Vibe Check — Book Trailer", status: "produced" },
+    { title: "Behind the Scenes (Next Batch)", status: "pending" },
+    { title: "Character Deep Dive (Next Batch)", status: "pending" },
+    { title: "Themes & Symbolism (Next Batch)", status: "pending" },
+    { title: "Reader Q&A (Next Batch)", status: "pending" },
+    { title: "Vibe Check — The Conclusion (Next Batch)", status: "pending" }
+  ];
+
+  const container = document.getElementById('vibeCheckVideos');
+  if(container) {
+    container.innerHTML = vibeVideos.map((v, idx) => {
+      const isProduced = v.status === 'produced';
+      return `<div class="video-item ${isProduced ? 'produced' : ''}">
+        <span class="video-num">${(idx+1).toString().padStart(2,'0')}</span>
+        <span class="video-title">${v.title}</span>
+        <span class="video-badge ${isProduced ? 'vb-produced' : ''}" style="${!isProduced ? 'background:#e8ede6; color:#6b5e48;' : ''}">${isProduced ? '✅ Produced' : '⏳ Pending'}</span>
+      </div>`;
+    }).join('');
+  }
+})();
+</script>
+</body>
+</html>

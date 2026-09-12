@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Daniel J. Voelker - Return to Hawaii: A Donovan Cross Novel • Atomic-Shelf Monthly Retainer Content Report & TikTok Production Assets" />
+    <title>Daniel J. Voelker • Return to Hawaii • Content Report | Atomic-Shelf</title>
+    <link rel="icon" type="image/svg+xml" href="/atomicshelf.svg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f9f6f0 0%, #f0ebe2 100%);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+        .hero-bg {
+            background: linear-gradient(rgba(44,26,24,0.85), rgba(44,26,24,0.9)),
+                        url('https://lh3.googleusercontent.com/pw/AP1GczNbd2dWGjlgzTP_qSfol2e0HQD32ukFamXHbEskoL6Kovi3-fe1soO5-U5h11w9yfoGAbCJyiQUFXhjE97h4pzT1EJOtJZXFtfcGx9buiPWXgxNKME=w1920-h1080')
+                        center/cover no-repeat;
+            height: 65vh;
+        }
+        .card { transition: all 0.4s cubic-bezier(0.4,0,0.2,1); }
+        .card:hover { transform: translateY(-12px); box-shadow: 0 30px 60px -15px rgb(74 44 42 / 0.4); }
+        .badge { background: linear-gradient(90deg, #4a2c2a, #6b4e4a); }
+        .report-box { background: #fffaf0; border: 2px solid #4a2c2a; }
+        .calendar-table { border-collapse: collapse; width: 100%; border-radius: 1.5rem; overflow: hidden; box-shadow: 0 15px 30px -5px rgb(74 44 42 / 0.12); }
+        .calendar-table th { background: linear-gradient(95deg, #4a2c2a, #5c3a37); color: white; font-weight: 600; padding: 1rem; font-size: 0.85rem; }
+        .calendar-table td { padding: 0.85rem 1rem; border-bottom: 1px solid #f0e7dd; background: white; }
+        .calendar-table tr:hover td { background-color: #fefaf5; }
+        input[type="checkbox"] { accent-color: #2b9348; width: 1.25rem; height: 1.25rem; cursor: pointer; }
+        .status-badge { display: inline-block; padding: 0.2rem 0.8rem; border-radius: 20px; font-size: 0.7rem; font-weight: 600; }
+        .status-paid { background: #e3f7ec; color: #0b5e2e; }
+        .paid-badge { background: linear-gradient(135deg, #2b9348, #1a6e35); box-shadow: 0 8px 20px -6px rgba(43,147,72,0.4); }
+        .thankyou-card { background: linear-gradient(135deg, #fff8f0, #fef3e7); border: 2px solid #d97706; border-radius: 2rem; }
+        @keyframes gentle-float { 0% { transform: translateY(0px); } 50% { transform: translateY(-6px); } 100% { transform: translateY(0px); } }
+        .float-icon { animation: gentle-float 4s ease-in-out infinite; }
+        .section-header { position: relative; display: inline-block; }
+        .section-header::after { content: ''; position: absolute; bottom: -8px; left: 0; width: 60%; height: 3px; background: linear-gradient(to right, #4a2c2a, #d97706); border-radius: 999px; }
+        .receipt-link { background: #f2ede5; padding: 0.5rem 1rem; border-radius: 2rem; font-size: 0.75rem; transition: all 0.2s; display: inline-flex; align-items: center; gap: 0.5rem; }
+        .receipt-link:hover { background: #4a2c2a; color: white; }
+        
+        /* New styles for the latest album card */
+        .latest-album-card {
+            background: linear-gradient(135deg, #4a2c2a, #6b4e4a);
+            color: white;
+            border-radius: 2rem;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgb(74 44 42 / 0.35);
+        }
+        .latest-album-card:hover {
+            transform: translateY(-8px);
+        }
+        .embed-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+        }
+        .embed-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-b border-[#4a2c2a]/20 shadow-sm">
+        <nav class="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <span class="text-3xl">🎥</span>
+                <div>
+                    <div class="text-2xl font-bold tracking-tight text-[#4a2c2a]">Atomic-Shelf</div>
+                    <div class="text-xs text-gray-500 -mt-0.5">Daniel J. Voelker • Return to Hawaii</div>
+                </div>
+            </div>
+            <a href="https://atomic-shelf.com" class="text-sm bg-[#4a2c2a] hover:bg-[#2f1e1b] text-white px-5 py-2 rounded-full transition shadow-md">← Dashboard</a>
+        </nav>
+    </header>
+    <!-- Hero -->
+    <section class="hero-bg flex items-center text-white pt-28">
+        <div class="max-w-5xl mx-auto px-6 text-center">
+            <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-5 py-2 rounded-full text-sm font-medium mb-6">
+                <span class="text-emerald-300 text-lg">✓</span>
+                <span>MONTHLY RETAINER • ACTIVE</span>
+            </div>
+            <h1 class="text-5xl md:text-6xl font-bold leading-tight mb-4">
+                Daniel J. Voelker<br>
+                <span class="text-4xl md:text-5xl text-amber-200">Return to Hawaii</span>
+            </h1>
+            <p class="text-xl text-white/90 max-w-2xl mx-auto">A Donovan Cross Novel • Monthly Retainer Content Report & Schedule</p>
+            <div class="mt-6 inline-flex items-center gap-3 bg-white/20 backdrop-blur-md px-5 py-2 rounded-full text-sm">
+                <span class="text-emerald-300">✅</span>
+                <span>April 2026 Full-Month Posting Schedule</span>
+            </div>
+        </div>
+    </section>
+    <div class="max-w-7xl mx-auto px-6 py-16 -mt-20 relative z-10">
+        <!-- Receipt & Paid Status Banner -->
+        <div class="bg-white rounded-2xl p-6 mb-10 shadow-md border border-[#e0d5c8] flex flex-wrap justify-between items-center">
+            <div class="flex items-center gap-4">
+                <div class="paid-badge inline-flex items-center gap-2 text-white px-4 py-2 rounded-full text-sm font-bold">
+                    <span>✓</span> PAID IN FULL — 10 MONTHS PREPAID
+                </div>
+                <span class="text-sm text-gray-500">Term: Apr 13, 2026 – Feb 13, 2027</span>
+            </div>
+            <a href="https://atomic-shelf.com/Productions/Receipts/Return_To_Hawaii" target="_blank" class="receipt-link text-[#4a2c2a] hover:text-white">
+                📄 View Official Receipt ↗
+            </a>
+        </div>
+        <!-- Content Delivery Report -->
+        <div class="report-box rounded-3xl p-10 mb-12">
+            <h2 class="text-4xl font-bold text-[#4a2c2a] mb-8 text-center">Content Delivery & TikTok Performance Report • April 2026</h2>
+            <div class="prose max-w-none text-gray-700 leading-relaxed text-lg">
+                <p>This report covers the initial trial period and the transition to the monthly retainer for <strong>Return to Hawaii</strong> (@returnhawaiidonovancross). The trial ran from February 14 to April 7, 2026. The account has grown to <strong>922 followers</strong> and accumulated <strong>1,466 video views</strong> from a standing start, with a clear upward trajectory.</p>
+               
+                <p class="font-semibold text-[#4a2c2a] mt-8">What's Included in Your Monthly Retainer</p>
+                <ul class="list-disc pl-6 space-y-2">
+                    <li><strong>Daily Video Production</strong>: 2-3 faceless BookTok videos posted daily on TikTok (priority) and YouTube Shorts</li>
+                    <li><strong>Trend Research & Hashtag Strategy</strong>: Real-time adaptation to BookTok trends</li>
+                    <li><strong>Amazon Attribution Setup</strong>: Full tracking and retargeting integration</li>
+                    <li><strong>Weekly Performance Reports</strong>: Detailed analytics delivered every Monday</li>
+                    <li><strong>Audience Retargeting</strong>: Tag readers who engage with your content</li>
+                    <li><strong>Priority Support & Strategy Calls</strong>: Direct access to your account manager</li>
+                </ul>
+               
+                <p class="font-semibold text-[#4a2c2a] mt-8">Performance Guarantee</p>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-6 text-sm my-6">
+                    <div class="bg-white p-4 rounded-2xl text-center shadow-sm"><strong>First Month</strong><br>10,000+ views</div>
+                    <div class="bg-white p-4 rounded-2xl text-center shadow-sm"><strong>Second Month</strong><br>20,000–30,000 views</div>
+                    <div class="bg-white p-4 rounded-2xl text-center shadow-sm"><strong>Ongoing</strong><br>Compounding growth</div>
+                </div>
+               
+                <p class="text-center font-medium mt-6 text-lg">We have completed <strong>11 cinematic series</strong> of visual content for Return to Hawaii, produced across February and March. All series are delivered via shared Google Photos albums. In total, <strong>104+ pieces of visual content</strong> have been produced. Fresh videos are generated daily from these sources and posted according to the schedule below.</p>
+            </div>
+        </div>
+        <!-- April Posting Calendar - Fully Scheduled & Beautified -->
+        <div class="mb-16">
+            <div class="flex items-center gap-4 mb-8">
+                <span class="text-5xl">📅</span>
+                <div>
+                    <h2 class="text-4xl font-bold text-[#4a2c2a]">April 2026 Posting Schedule</h2>
+                    <p class="text-gray-600">Monday–Friday • All times UTC • Fresh videos generated daily from series sources</p>
+                </div>
+            </div>
+            <div class="overflow-x-auto rounded-2xl shadow-lg">
+                <table class="calendar-table">
+                    <thead>
+                        <tr><th class="text-left">Date</th><th class="text-left">Time (UTC)</th><th class="text-left">Series</th><th class="text-left">Hook Theme</th><th class="text-center w-28">Status (April 1-27 ✓)</th></tr>
+                    </thead>
+                    <tbody>
+                        <!-- April 1 -->
+                        <tr><td class="font-medium line-through text-gray-400">Tuesday, April 1</td><td class="line-through text-gray-400">10:00</td><td class="line-through text-gray-400">Series 1</td><td class="line-through text-gray-400">The ghost agent returns to the waves that shaped him</td><td class="text-center"><span class="status-badge bg-green-100 text-green-700">✓ Done</span></td></tr>
+                        <tr><td class="font-medium line-through text-gray-400">Tuesday, April 1</td><td class="line-through text-gray-400">14:00</td><td class="line-through text-gray-400">Series 2</td><td class="line-through text-gray-400">Jade Viper's first strike—deadly beauty in paradise</td><td class="text-center"><span class="status-badge bg-green-100 text-green-700">✓ Done</span></td></tr>
+                        <!-- April 2 -->
+                        <tr><td class="font-medium line-through text-gray-400">Wednesday, April 2</td><td class="line-through text-gray-400">09:00</td><td class="line-through text-gray-400">Series 3</td><td class="line-through text-gray-400">Parasail lines snap—who wanted Donovan dead?</td><td class="text-center"><span class="status-badge bg-green-100 text-green-700">✓ Done</span></td></tr>
+                        <tr><td class="font-medium line-through text-gray-400">Wednesday, April 2</td><td class="line-through text-gray-400">13:00</td><td class="line-through text-gray-400">Series 4</td><td class="line-through text-gray-400">High-stakes secrets hidden in Honolulu's back alleys</td><td class="text-center"><span class="status-badge bg-green-100 text-green-700">✓ Done</span></td></tr>
+                        <!-- April 3 -->
+                        <tr><td class="font-medium line-through text-gray-400">Thursday, April 3</td><td class="line-through text-gray-400">10:00</td><td class="line-through text-gray-400">Series 5</td><td class="line-through text-gray-400">Nazi uranium buried beneath the Vatican—worth $40B</td><td class="text-center"><span class="status-badge bg-green-100 text-green-700">✓ Done</span></td></tr>
+                        <tr><td class="font-medium line-through text-gray-400">Thursday, April 3</td><td class="line-through text-gray-400">14:00</td><td class="line-through text-gray-400">Series 6</td><td class="line-through text-gray-400">Surf legend turned spy: the Pipeline origin story</td><td class="text-center"><span class="status-badge bg-green-100 text-green-700">✓ Done</span></td></tr>
+                        <!-- April 4 (Saturday - no post) -->
+                        <!-- April 5 (Sunday - no post) -->
+                        <!-- April 6 -->
+                        <tr><td class="font-medium line-through text-gray-400">Monday, April 6</td><td class="line-through text-gray-400">09:00</td><td class="line-through text-gray-400">Series 1</td><td class="line-through text-gray-400">Sharks were circling… but one woman pulled him from the jaws of death</td><td class="text-center"><span class="status-badge bg-green-100 text-green-700">✓ Done</span></td></tr>
+                        <tr><td class="font-medium line-through text-gray-400">Monday, April 6</td><td class="line-through text-gray-400">13:00</td><td class="line-through text-gray-400">Series 3</td><td class="line-through text-gray-400">Parasail lines sliced mid-air – who wanted the spy dead in paradise?</td><td class="text-center"><span class="status-badge bg-green-100 text-green-700">✓ Done</span></td></tr>
+                        <tr><td class="font-medium line-through text-gray-400">Monday, April 6</td><td class="line-through text-gray-400">17:00</td><td class="line-through text-gray-400">Series 2</td><td class="line-through text-gray-400">She saved his life… but Jade Viper is hiding a deadly secret</td><td class="text-center"><span class="status-badge bg-green-100 text-green-700">✓ Done</span></td></tr>
+                        <!-- April 7 -->
+                        <tr><td class="font-medium line-through text-gray-400">Tuesday, April 7</td><td class="line-through text-gray-400">10:00</td><td class="line-through text-gray-400">Series 4</td><td class="line-through text-gray-400">High-ranking Chinese generals are hiding in Honolulu Chinatown</td><td class="text-center"><span class="status-badge bg-green-100 text-green-700">✓ Done</span></td></tr>
+                        <tr><td class="font-medium line-through text-gray-400">Tuesday, April 7</td><td class="line-through text-gray-400">14:00</td><td class="line-through text-gray-400">Series 5</td><td class="line-through text-gray-400">Nazi uranium worth $40 billion is buried under Vatican catacombs</td><td class="text-center"><span class="status-badge bg-green-100 text-green-700">✓ Done</span></td></tr>
+                        <!-- April 8 -->
+                        <tr><td class="font-medium line-through text-gray-400">Wednesday, April 8</td><td class="line-through text-gray-400">09:00</td><td class="line-through text-gray-400">Series 6</td><td class="line-through text-gray-400">The Pipeline surfer who became America's deadliest secret agent</td><td class="text-center"><span class="status-badge bg-green-100 text-green-700">✓ Done</span></td></tr>
+                        <tr><td class="font-medium line-through text-gray-400">Wednesday, April 8</td><td class="line-through text-gray-400">13:00</td><td class="line-through text-gray-400">Series 1</td><td class="line-through text-gray-400">One wrong wave… and the spy's past comes crashing back</td><td class="text-center"><span class="status-badge bg-green-100 text-green-700">✓ Done</span></td></tr>
+                        <!-- April 9 -->
+                        <tr><td class="font-medium line-through text-gray-400">Thursday, April 9</td><td class="line-through text-gray-400">10:00</td><td class="line-through text-gray-400">Series 7</td><td class="line-through text-gray-400">Elite NIA agent returns home – but someone wants him erased</td><td class="text-center"><span class="status-badge bg-green-100 text-green-700">✓ Done</span></td></tr>
+                        <tr><td class="font-medium line-through text-gray-400">Thursday, April 9</td><td class="line-through text-gray-400">14:00</td><td class="line-through text-gray-400">Series 3</td><td class="line-through text-gray-400">She pulled him from the sharks… now she holds his fate</td><td class="text-center"><span class="status-badge bg-green-100 text-green-700">✓ Done</span></td></tr>
+                        <!-- April 10 -->
+                        <tr><td class="font-medium line-through text-gray-400">Friday, April 10</td><td class="line-through text-gray-400">09:00</td><td class="line-through text-gray-400">Series 8</td><td class="line-through text-gray-400">Casino five-card stud – one hand could start World War III</td><td class="text-center"><span class="status-badge bg-green-100 text-green-700">✓ Done</span></td></tr>
+                        <tr><td class="font-medium line-through text-gray-400">Friday, April 10</td><td class="line-through text-gray-400">13:00</td><td class="line-through text-gray-400">Series 4</td><td class="line-through text-gray-400">The enemy is already inside the gates of paradise</td><td class="text-center"><span class="status-badge bg-green-100 text-green-700">✓ Done</span></td></tr>
+                        <!-- April 11-12 weekend -->
+                        <!-- April 13 -->
+                        <tr><td class="font-medium line-through text-gray-400">Monday, April 13</td><td class="line-through text-gray-400">09:00</td><td class="line-through text-gray-400">Series 9</td><td class="line-through text-gray-400">Ghost agent resurfaces – Hawaii will never be the same</td><td class="text-center"><span class="status-badge bg-green-100 text-green-700">✓ Done</span></td></tr>
+                        <tr><td class="font-medium line-through text-gray-400">Monday, April 13</td><td class="line-through text-gray-400">13:00</td><td class="line-through text-gray-400">Series 2</td><td class="line-through text-gray-400">Blood in the water, betrayal in the sky – the trap was perfect</td><td class="text-center"><span class="status-badge bg-green-100 text-green-700">✓ Done</span></td></tr>
+                        <tr><td class="font-medium line-through text-gray-400">Monday, April 13</td><td class="line-through text-gray-400">17:00</td><td class="line-through text-gray-400">Series 5</td><td class="line-through text-gray-400">$40 billion in Nazi uranium… and it's headed for the Pacific</td><td class="text-center"><span class="status-badge bg-green-100 text-green-700">✓ Done</span></td></tr>
+                        <!-- April 14 -->
+                        <tr><td class="font-medium line-through text-gray-400">Tuesday, April 14</td><td class="line-through text-gray-400">10:00</td><td class="line-through text-gray-400">Series 10</td><td class="line-through text-gray-400">Chinatown's shadow war just became personal for the spy</td><td class="text-center"><span class="status-badge bg-green-100 text-green-700">✓ Done</span></td></tr>
+                        <tr><td class="font-medium line-through text-gray-400">Tuesday, April 14</td><td class="line-through text-gray-400">14:00</td><td class="line-through text-gray-400">Series 6</td><td class="line-through text-gray-400">From Pipeline waves to black-ops missions – his deadliest ride yet</td><td class="text-center"><span class="status-badge bg-green-100 text-green-700">✓ Done</span></td></tr>
+                        <!-- April 15 -->
+                        <tr><td class="font-medium line-through text-gray-400">Wednesday, April 15</td><td class="line-through text-gray-400">09:00</td><td class="line-through text-gray-400">Series 11</td><td class="line-through text-gray-400">The woman who saved him might be the one who destroys him</td><td class="text-center"><span class="status-badge bg-green-100 text-green-700">✓ Done</span></td></tr>
+                        <tr><td class="font-medium line-through text-gray-400">Wednesday, April 15</td><td class="line-through text-gray-400">13:00</td><td class="line-through text-gray-400">Series 7</td><td class="line-through text-gray-400">Elite spy returns home – but his past is waiting with a knife</td><td class="text-center"><span class="status-badge bg-green-100 text-green-700">✓ Done</span></td></tr>
+                        <!-- April 16 -->
+                        <tr><td class="font-medium line-through text-gray-400">Thursday, April 16</td><td class="line-through text-gray-400">10:00</td><td class="line-through text-gray-400">Series 8</td><td class="line-through text-gray-400">One poker hand could trigger the next Pacific war</td><td class="text-center"><span class="status-badge bg-green-100 text-green-700">✓ Done</span></td></tr>
+                        <tr><td class="font-medium line-through text-gray-400">Thursday, April 16</td><td class="line-through text-gray-400">14:00</td><td class="line-through text-gray-400">Series 1</td><td class="line-through text-gray-400">The ghost agent is back… and the island is no longer safe</td><td class="text-center"><span class="status-badge bg-green-100 text-green-700">✓ Done</span></td></tr>
+                        <!-- April 17 -->
+                        <tr><td class="font-medium line-through text-gray-400">Friday, April 17</td><td class="line-through text-gray-400">09:00</td><td class="line-through text-gray-400">Series 9</td><td class="line-through text-gray-400">Countdown to activation – the final mission begins in Hawaii</td><td class="text-center"><span class="status-badge bg-green-100 text-green-700">✓ Done</span></td></tr>
+                        <tr><td class="font-medium line-through text-gray-400">Friday, April 17</td><td class="line-through text-gray-400">13:00</td><td class="line-through text-gray-400">Series 3</td><td class="line-through text-gray-400">Sharks weren't the only predators waiting in the waves</td><td class="text-center"><span class="status-badge bg-green-100 text-green-700">✓ Done</span></td></tr>
+                        <!-- April 18-19 weekend -->
+                        <!-- April 20 -->
+                        <tr><td class="font-medium line-through text-gray-400">Monday, April 20</td><td class="line-through text-gray-400">09:00</td><td class="line-through text-gray-400">Series 4</td><td class="line-through text-gray-400">Chinese generals are plotting right under the spy's nose</td><td class="text-center"><span class="status-badge bg-green-100 text-green-700">✓ Done</span></td></tr>
+                        <tr><td class="font-medium line-through text-gray-400">Monday, April 20</td><td class="line-through text-gray-400">13:00</td><td class="line-through text-gray-400">Series 10</td><td class="line-through text-gray-400">The most beautiful woman in Hawaii just became his deadliest threat</td><td class="text-center"><span class="status-badge bg-green-100 text-green-700">✓ Done</span></td></tr>
+                        <tr><td class="font-medium line-through text-gray-400">Monday, April 20</td><td class="line-through text-gray-400">17:00</td><td class="line-through text-gray-400">Series 5</td><td class="line-through text-gray-400">Nuclear fuel worth billions is about to surface in paradise</td><td class="text-center"><span class="status-badge bg-green-100 text-green-700">✓ Done</span></td></tr>
+                        <!-- April 21 -->
+                        <tr><td class="font-medium line-through text-gray-400">Tuesday, April 21</td><td class="line-through text-gray-400">10:00</td><td class="line-through text-gray-400">Series 6</td><td class="line-through text-gray-400">From childhood surf legend to global spy – the origin story explodes</td><td class="text-center"><span class="status-badge bg-green-100 text-green-700">✓ Done</span></td></tr>
+                        <tr><td class="font-medium line-through text-gray-400">Tuesday, April 21</td><td class="line-through text-gray-400">14:00</td><td class="line-through text-gray-400">Series 11</td><td class="line-through text-gray-400">One woman holds the key to stopping the next world war</td><td class="text-center"><span class="status-badge bg-green-100 text-green-700">✓ Done</span></td></tr>
+                        <!-- April 22 -->
+                        <tr><td class="font-medium line-through text-gray-400">Wednesday, April 22</td><td class="line-through text-gray-400">09:00</td><td class="line-through text-gray-400">Series 2</td><td class="line-through text-gray-400">Blood in the water, lies in the sky – the assassination attempt failed</td><td class="text-center"><span class="status-badge bg-green-100 text-green-700">✓ Done</span></td></tr>
+                        <tr><td class="font-medium line-through text-gray-400">Wednesday, April 22</td><td class="line-through text-gray-400">13:00</td><td class="line-through text-gray-400">Series 7</td><td class="line-through text-gray-400">The ghost agent is hunting the hunters in his own backyard</td><td class="text-center"><span class="status-badge bg-green-100 text-green-700">✓ Done</span></td></tr>
+                        <!-- April 23 -->
+                        <tr><td class="font-medium line-through text-gray-400">Thursday, April 23</td><td class="line-through text-gray-400">10:00</td><td class="line-through text-gray-400">Series 8</td><td class="line-through text-gray-400">Casino lights hide the deadliest poker game on Earth</td><td class="text-center"><span class="status-badge bg-green-100 text-green-700">✓ Done</span></td></tr>
+                        <tr><td class="font-medium line-through text-gray-400">Thursday, April 23</td><td class="line-through text-gray-400">14:00</td><td class="line-through text-gray-400">Series 1</td><td class="line-through text-gray-400">Hawaii's favorite son just became its most wanted man</td><td class="text-center"><span class="status-badge bg-green-100 text-green-700">✓ Done</span></td></tr>
+                        <!-- April 24 -->
+                        <tr><td class="font-medium line-through text-gray-400">Friday, April 24</td><td class="line-through text-gray-400">09:00</td><td class="line-through text-gray-400">Series 9</td><td class="line-through text-gray-400">The final countdown has started – paradise is about to burn</td><td class="text-center"><span class="status-badge bg-green-100 text-green-700">✓ Done</span></td></tr>
+                        <tr><td class="font-medium line-through text-gray-400">Friday, April 24</td><td class="line-through text-gray-400">13:00</td><td class="line-through text-gray-400">Series 10</td><td class="line-through text-gray-400">Jade Viper's kiss could be the last thing he ever feels</td><td class="text-center"><span class="status-badge bg-green-100 text-green-700">✓ Done</span></td></tr>
+                        <!-- April 25-26 weekend -->
+                        <!-- April 27 -->
+                        <tr><td class="font-medium line-through text-gray-400">Monday, April 27</td><td class="line-through text-gray-400">09:00</td><td class="line-through text-gray-400">Series 3</td><td class="line-through text-gray-400">Sharks weren't the only predators circling the spy</td><td class="text-center"><span class="status-badge bg-green-100 text-green-700">✓ Done</span></td></tr>
+                        <tr><td class="font-medium line-through text-gray-400">Monday, April 27</td><td class="line-through text-gray-400">13:00</td><td class="line-through text-gray-400">Series 11</td><td class="line-through text-gray-400">One woman holds the key to saving – or dooming – the Pacific</td><td class="text-center"><span class="status-badge bg-green-100 text-green-700">✓ Done</span></td></tr>
+                        <tr><td class="font-medium line-through text-gray-400">Monday, April 27</td><td class="line-through text-gray-400">17:00</td><td class="line-through text-gray-400">Series 4</td><td class="line-through text-gray-400">Chinese generals are already inside the gates of Hawaii</td><td class="text-center"><span class="status-badge bg-green-100 text-green-700">✓ Done</span></td></tr>
+                        <!-- April 28 -->
+                        <tr><td class="font-medium">Tuesday, April 28</td><td class="">10:00</td><td class="">Series 5</td><td class="">Nazi uranium is rising from the depths – and it's headed here</td><td class="text-center"><span class="status-badge bg-yellow-100 text-amber-700">Scheduled</span></td></tr>
+                        <tr><td class="font-medium">Tuesday, April 28</td><td class="">14:00</td><td class="">Series 6</td><td class="">The Pipeline legend is now the hunter – not the hunted</td><td class="text-center"><span class="status-badge bg-yellow-100 text-amber-700">Scheduled</span></td></tr>
+                        <!-- April 29 -->
+                        <tr><td class="font-medium">Wednesday, April 29</td><td class="">09:00</td><td class="">Series 7</td><td class="">Elite spy vs the ghosts of his own childhood island</td><td class="text-center"><span class="status-badge bg-yellow-100 text-amber-700">Scheduled</span></td></tr>
+                        <tr><td class="font-medium">Wednesday, April 29</td><td class="">13:00</td><td class="">Series 8</td><td class="">The casino is rigged – and the stakes are nuclear</td><td class="text-center"><span class="status-badge bg-yellow-100 text-amber-700">Scheduled</span></td></tr>
+                        <!-- April 30 -->
+                        <tr><td class="font-medium">Thursday, April 30</td><td class="">10:00</td><td class="">Series 9</td><td class="">The final mission begins where his life first began</td><td class="text-center"><span class="status-badge bg-yellow-100 text-amber-700">Scheduled</span></tr>
+                        <tr><td class="font-medium">Thursday, April 30</td><td>14:00</td><td>Series 2</td><td>Jade Viper's smile hides the deadliest betrayal in paradise</td><td class="text-center"><span class="status-badge bg-yellow-100 text-amber-700">Scheduled</span></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-sm text-gray-500 mt-6 text-center">✅ Full April 2026 schedule (Monday–Friday). All posts from April 1 through April 27 have been completed and marked as done. Remaining videos April 28–30 scheduled and ready to post.</p>
+        </div>
+
+        <!-- Newest Album Card - Beautiful Standalone Section -->
+        <div class="mb-16">
+            <div class="flex items-center gap-4 mb-8">
+                <span class="text-5xl">🌟</span>
+                <div>
+                    <h2 class="text-4xl font-bold text-[#4a2c2a]">Latest Visual Asset Drop</h2>
+                    <p class="text-gray-600">AS-RTH-APR26-VIDEO SERIES 1 • Tuesday, April 14, 2026</p>
+                </div>
+            </div>
+            
+            <div class="latest-album-card p-8 md:p-10">
+                <div class="flex flex-col lg:flex-row gap-10 items-center">
+                    <!-- Left side: Info -->
+                    <div class="lg:w-5/12 text-white">
+                        <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-5 py-2 rounded-full text-sm mb-6">
+                            <span class="text-amber-300">📸</span>
+                            <span class="font-medium">NEW • April 14, 2026</span>
+                        </div>
+                        <h3 class="text-3xl md:text-4xl font-bold leading-tight mb-4">
+                            AS-RTH-APR26-VIDEO SERIES 1
+                        </h3>
+                        <p class="text-lg text-white/90 mb-8">
+                            Fresh cinematic assets for your BookTok content. Tap the button below to open the full shared album in a new tab.
+                        </p>
+                        <a href="https://photos.app.goo.gl/g3L7yJDaNNUFEbeV7" 
+                           target="_blank"
+                           class="inline-flex items-center gap-3 bg-white text-[#4a2c2a] hover:bg-amber-100 transition-all font-semibold px-8 py-4 rounded-2xl text-lg shadow-xl">
+                            <span>View all ↗</span>
+                        </a>
+                    </div>
+                    
+                    <!-- Right side: Preview Grid -->
+                    <div class="lg:w-7/12">
+                        <div class="grid grid-cols-2 gap-3">
+                            <img src="https://lh3.googleusercontent.com/pw/AP1GczMekJoq1wkGUg8lmmSh8K1qpMoO7SQs1CrgHtD7dOHqwx72kqAQe-QlBfwirUrPybvw10-90T2-gabgvqJei89y4F2bRpu8sNSoiVrCSiV4puhaPdw=w1920-h1080" 
+                                 class="rounded-2xl shadow-lg aspect-video object-cover" alt="Series preview 1">
+                            <img src="https://lh3.googleusercontent.com/pw/AP1GczNaYhgRXRcqxPcFVFapzw4oMq0GUZuz4e4rZcuxzvTwwr_F0h45pOKrA8QLJi18qx3_T96KuL6Ypdimn-RcKQh1iMcnavX9EgTIG_XXWB5kc2lhwDI=w1920-h1080" 
+                                 class="rounded-2xl shadow-lg aspect-video object-cover" alt="Series preview 2">
+                            <img src="https://lh3.googleusercontent.com/pw/AP1GczMOAllkQkcrrseSUDbXSciod-TJdEta0qr2SUi232SLCRkeUyKo_8OZZrndTk5sTbX6QoSLTxZ2EmWN9jJ9uePCBMsfVo6QO6ZYTsA1RSg9cqRpZLk=w1920-h1080" 
+                                 class="rounded-2xl shadow-lg aspect-video object-cover" alt="Series preview 3">
+                            <img src="https://lh3.googleusercontent.com/pw/AP1GczMGT8ToE8mQ5K4337O_T4dcDFDTFDb0-h_lVIGKaZ5HfRcIAZxxm3iN2Pt7HH86Fod7K-u79eVPLlmByEQNH6U7MpUkmh0LVnsXApJ3T7L_ogsiS2A=w1920-h1080" 
+                                 class="rounded-2xl shadow-lg aspect-video object-cover" alt="Series preview 4">
+                        </div>
+                        <div class="mt-4 text-center">
+                            <span class="text-white/70 text-sm">+ 10 more high-resolution cinematic images in the full album</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Source Imagery & Raw Visual Assets -->
+        <div class="mb-16">
+            <div class="flex items-center gap-4 mb-8">
+                <span class="text-5xl">📸</span>
+                <div>
+                    <h2 class="text-4xl font-bold text-[#4a2c2a]">Source Imagery & Raw Visual Assets</h2>
+                    <p class="text-gray-600">11 cinematic series (February–March 2026) – the raw material used to create your TikTok videos</p>
+                </div>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="card bg-white rounded-2xl overflow-hidden shadow-md border border-[#e0d5c8]"><div class="h-48 bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/pw/AP1GczNbd2dWGjlgzTP_qSfol2e0HQD32ukFamXHbEskoL6Kovi3-fe1soO5-U5h11w9yfoGAbCJyiQUFXhjE97h4pzT1EJOtJZXFtfcGx9buiPWXgxNKME=w1920-h1080')"></div><div class="p-5"><h3 class="font-bold text-xl">Series 1 • Feb 17</h3><p class="text-gray-500 text-sm">Donovan Cross origin story</p><a href="https://photos.app.goo.gl/tuuutxPucsr6eEBn7" target="_blank" class="inline-block mt-3 text-amber-700 text-sm font-medium">Open Album ↗</a></div></div>
+                <div class="card bg-white rounded-2xl overflow-hidden shadow-md border border-[#e0d5c8]"><div class="h-48 bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/pw/AP1GczOeNTwmNS4xXky3fiD8pE9LJMu-k5lYYaQADl-gec0yk4DcOeRiKyfGt3amga2IQ7BuqFxGSwUTo7H-Zuwc30YKvsrLjgSUKP86SVe6BxPh3vpPka0=w1920-h1080')"></div><div class="p-5"><h3 class="font-bold text-xl">Series 2 • Feb 19</h3><p class="text-gray-500 text-sm">Jade Viper introduction</p><a href="https://photos.app.goo.gl/jZpVpqMePqT17Cx49" target="_blank" class="inline-block mt-3 text-amber-700 text-sm font-medium">Open Album ↗</a></div></div>
+                <div class="card bg-white rounded-2xl overflow-hidden shadow-md border border-[#e0d5c8]"><div class="h-48 bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/pw/AP1GczOGuV7OSEQJULwtsdbVbz9yaCrrJeamCThKFwLGUWbNhSd7Ejntykq9Qn2TesfUU6pWqX6dt_lW3p3j5nfV24DsvPHPemOrTyutKoJqn7tYOQqwcDM=w1920-h1080')"></div><div class="p-5"><h3 class="font-bold text-xl">Series 3 • Feb 19</h3><p class="text-gray-500 text-sm">Parasail sabotage scene</p><a href="https://photos.app.goo.gl/RRFpGWGb2ofKhVTo7" target="_blank" class="inline-block mt-3 text-amber-700 text-sm font-medium">Open Album ↗</a></div></div>
+                <div class="card bg-white rounded-2xl overflow-hidden shadow-md border border-[#e0d5c8]"><div class="h-48 bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/pw/AP1GczMCJrJNerBkrak9nRmcluonRLAtee-nn_kYEIYeYjoRmv6S7ietvv_hclmZG5PDtFLmAu4lre2Y9FBtnv1929I4pQfVFXhZPfr9A26kADz_5DQ-le4=w1920-h1080')"></div><div class="p-5"><h3 class="font-bold text-xl">Series 4 • Feb 19</h3><p class="text-gray-500 text-sm">Chinatown intrigue</p><a href="https://photos.app.goo.gl/5xx31hH3Lxiit3sz5" target="_blank" class="inline-block mt-3 text-amber-700 text-sm font-medium">Open Album ↗</a></div></div>
+                <div class="card bg-white rounded-2xl overflow-hidden shadow-md border border-[#e0d5c8]"><div class="h-48 bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/pw/AP1GczNy83ztCGStLDNX65zBN1V1fPVJ1AG3BgSsuCBQDeUw3q50029yN5KNGJK-4Y3NqxuM89lHnybagjsIUcS0tNHiptFXkBOf1RtpBnOWxb7gXigjK64=w1920-h1080')"></div><div class="p-5"><h3 class="font-bold text-xl">Series 5 • Feb 19</h3><p class="text-gray-500 text-sm">Vatican uranium mission</p><a href="https://photos.app.goo.gl/wSitjdFYEHnhjDEZ8" target="_blank" class="inline-block mt-3 text-amber-700 text-sm font-medium">Open Album ↗</a></div></div>
+                <div class="card bg-white rounded-2xl overflow-hidden shadow-md border border-[#e0d5c8]"><div class="h-48 bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/pw/AP1GczMlFP8fGaEnAiXHbxLelwzpob10uwNBLExOs4TotW6eAkhyX2ghg98oDNkI9JgzJXe3FYXcK_nft3iF4dY0ZSto31BLUtSIQtr2dK9LObZvG2cgIcs=w1920-h1080')"></div><div class="p-5"><h3 class="font-bold text-xl">Series 6 • Feb 19</h3><p class="text-gray-500 text-sm">Childhood Hawaii scenes</p><a href="https://photos.app.goo.gl/kTEhP3YinqR5j4bd7" target="_blank" class="inline-block mt-3 text-amber-700 text-sm font-medium">Open Album ↗</a></div></div>
+                <div class="card bg-white rounded-2xl overflow-hidden shadow-md border border-[#e0d5c8]"><div class="h-48 bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/pw/AP1GczN6bzgN4r-j3c8JweXjtGsoncsiO68bAwy480j4v1Bp2WVoxQMtXopa48Lrnz_B7KEhnYkPHRBBUqlvDFyA_t4NByLmuIIFFMYsAaIxFF0n_QbjqKE=w1920-h1080')"></div><div class="p-5"><h3 class="font-bold text-xl">Series 7 • Feb 19</h3><p class="text-gray-500 text-sm">Espionage tension</p><a href="https://photos.app.goo.gl/yN586T3aBQw9hDf86" target="_blank" class="inline-block mt-3 text-amber-700 text-sm font-medium">Open Album ↗</a></div></div>
+                <div class="card bg-white rounded-2xl overflow-hidden shadow-md border border-[#e0d5c8]"><div class="h-48 bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/pw/AP1GczOmYcUjI-YN9wTWlur34BRkAJbNoYZjPBx2brFqR-d8xEXHoBm7MfJ1npe2V8TXwVfPsbTcZ8ANeDIKFU-C0c-145sXhclJ5Y0N4ebJejZYXI8wbAM=w1920-h1080')"></div><div class="p-5"><h3 class="font-bold text-xl">Series 8 • Mar 27</h3><p class="text-gray-500 text-sm">Casino & high-stakes scenes</p><a href="https://photos.app.goo.gl/GgaSbPnfr2b23PYz9" target="_blank" class="inline-block mt-3 text-amber-700 text-sm font-medium">Open Album ↗</a></div></div>
+                <div class="card bg-white rounded-2xl overflow-hidden shadow-md border border-[#e0d5c8]"><div class="h-48 bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/pw/AP1GczOAm24XexSvs0eI5aE7o6BXV9FOkxb-xv0f_2neBAItI9cnbpammzIfuHHfmikSBnj89x0LxMJdaGhU99uRstRL6RyWuxOp_28qd2GrEILe_a_VMRM=w1920-h1080')"></div><div class="p-5"><h3 class="font-bold text-xl">Series 9 • Mar 27</h3><p class="text-gray-500 text-sm">Climax & redemption</p><a href="https://photos.app.goo.gl/qp11RL9LqSu6MS9f8" target="_blank" class="inline-block mt-3 text-amber-700 text-sm font-medium">Open Album ↗</a></div></div>
+                <div class="card bg-white rounded-2xl overflow-hidden shadow-md border border-[#e0d5c8]"><div class="h-48 bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/pw/AP1GczPIfi2UY3uKQJEXTNzBrHAD2jsNeRvB-LQSaCOjTgwBeQi42J7_1EBsZmZaXzFTx9BvNku9G7XB3aO-ge9SZeqli4DYSiOXutovDZdy47BlPdRQEYs=w1920-h1080')"></div><div class="p-5"><h3 class="font-bold text-xl">Series 10 • Mar 28</h3><p class="text-gray-500 text-sm">Action & pursuit</p><a href="https://photos.app.goo.gl/Lo8a1PQPJ21j4wtN7" target="_blank" class="inline-block mt-3 text-amber-700 text-sm font-medium">Open Album ↗</a></div></div>
+                <div class="card bg-white rounded-2xl overflow-hidden shadow-md border border-[#e0d5c8]"><div class="h-48 bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/pw/AP1GczMBOpF1CJPvXoTHZYY8yxOuzeT_p8jb_ZELLIBY0mOTNyzO0AD6CuTXVA3Nh29tzLUrza2Fw4XrkkPnv-uDcu2ONB8GxrBrn_-nYxQTX2SVfsoCUKU=w1920-h1080')"></div><div class="p-5"><h3 class="font-bold text-xl">Series 11 • Mar 14</h3><p class="text-gray-500 text-sm">Emotional & character depth</p><a href="https://photos.app.goo.gl/jS9QDnsZMZ5AH38T8" target="_blank" class="inline-block mt-3 text-amber-700 text-sm font-medium">Open Album ↗</a></div></div>
+            </div>
+        </div>
+        <!-- Thank You & Next Steps -->
+        <div class="thankyou-card p-10 text-center">
+            <div class="text-6xl mb-4 float-icon">🙏</div>
+            <h2 class="text-3xl md:text-4xl font-bold text-[#4a2c2a] mb-4">Thank You, Daniel!</h2>
+            <p class="text-gray-700 text-lg max-w-2xl mx-auto leading-relaxed">
+                Your trust in Atomic-Shelf means the world to us. We're honored to bring <strong class="text-[#e07a2c]">Return to Hawaii</strong> to life on BookTok.
+            </p>
+            <div class="mt-6 flex flex-wrap justify-center gap-3">
+                <span class="bg-white/70 rounded-full px-4 py-2 text-sm text-gray-600 shadow-sm">🎬 Daily video production</span>
+                <span class="bg-white/70 rounded-full px-4 py-2 text-sm text-gray-600 shadow-sm">📈 10K+ views guarantee (first month)</span>
+                <span class="bg-white/70 rounded-full px-4 py-2 text-sm text-gray-600 shadow-sm">🎯 Amazon retargeting included</span>
+            </div>
+            <p class="text-sm text-gray-500 mt-6 italic">"We're ready to make your book a BookTok sensation."</p>
+            <div class="mt-6 pt-4 border-t border-amber-200">
+                <p class="text-sm text-gray-600">Questions? We're always here for you.</p>
+                <p class="text-xs text-gray-400 mt-2">📧 powerpages30@gmail.com • 📧 nick@atomic-shelf.com</p>
+            </div>
+        </div>
+    </div>
+    <!-- Footer -->
+    <footer class="bg-[#2b241c] text-stone-300 py-12 mt-8 text-center text-sm">
+        <div class="max-w-7xl mx-auto px-6">
+            <p>Atomic-Shelf — BookTok video marketing for indie authors</p>
+            <p class="mt-2 text-xs opacity-70">© 2026 Atomic-Shelf. All rights reserved.</p>
+            <p class="mt-4 text-xs opacity-50">📄 Official Receipt: <a href="https://atomic-shelf.com/Productions/Receipts/Return_To_Hawaii" target="_blank" class="underline hover:text-amber-300">atomic-shelf.com/Productions/Receipts/Return_To_Hawaii</a></p>
+        </div>
+    </footer>
+
+</body>
+</html>

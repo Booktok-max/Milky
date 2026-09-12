@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atomic Shelf • Author Portal</title>
+<link rel="icon" type="image/svg+xml" href="https://atomic-shelf.com/atomic-shelf.svg">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@400;600;700&family=Jost:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --w100:#FBF7ED; --w500:#C9A84C; --w600:#B8860B;
+  --b800:#1E1208; --b500:#7A5C2E;
+  --f500:#2D7A52; --f600:#1E5C3A;
+  --teal:#0D7377;
+  --red:#C0392B;
+  --bg:#FBF7ED; --surface:#FFFEFA; --card:#FFFCF5;
+  --border:#E8D89A;
+  --r:12px; --r-lg:20px;
+}
+
+* { box-sizing:border-box; margin:0; padding:0; }
+body {
+  font-family:'Jost',system-ui,sans-serif;
+  background:var(--bg);
+  color:var(--b800);
+  line-height:1.6;
+  font-size:15px;
+}
+
+header {
+  background:linear-gradient(160deg,#162A1C,#0D1F10);
+  color:#F0E8D0;
+  padding:1.5rem 2rem;
+  display:flex;
+  align-items:center;
+  gap:1rem;
+  position:sticky;
+  top:0;
+  z-index:100;
+  box-shadow:0 4px 20px rgba(0,0,0,.3);
+}
+
+.logo {
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.emblem {
+  width:48px; height:48px;
+  background:linear-gradient(135deg,#D4B95A,#B8860B);
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:28px;
+  font-weight:700;
+  color:#1E1208;
+}
+
+h1 {
+  font-family:'Playfair Display',serif;
+  font-size:1.8rem;
+  font-weight:700;
+}
+
+main {
+  max-width:1200px;
+  margin:2rem auto;
+  padding:0 1.5rem;
+  display:grid;
+  grid-template-columns:1fr 380px;
+  gap:2rem;
+}
+
+.card {
+  background:var(--card);
+  border:2px solid var(--border);
+  border-radius:var(--r-lg);
+  overflow:hidden;
+  box-shadow:0 8px 30px rgba(30,18,8,.1);
+}
+
+.card-header {
+  padding:1.25rem 1.75rem;
+  background:linear-gradient(90deg,#FFFCF5,var(--w200));
+  border-bottom:1px solid var(--border);
+  font-family:'Playfair Display',serif;
+  font-size:1.35rem;
+  font-weight:700;
+  color:var(--b800);
+}
+
+.card-body {
+  padding:1.75rem;
+}
+
+.progress-circle {
+  width:160px;
+  height:160px;
+  border-radius:50%;
+  background:conic-gradient(var(--f600) 0% var(--pct), #EDE5D4 var(--pct) 100%);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:0 auto 1rem;
+}
+
+.progress-inner {
+  width:130px;
+  height:130px;
+  background:var(--card);
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  font-size:2.2rem;
+  font-weight:700;
+  color:var(--f600);
+}
+
+.checklist {
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.step {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px 16px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:10px;
+  transition:all .2s;
+}
+
+.step.done {
+  background:#EBF5F0;
+  border-color:var(--f500);
+}
+
+.step-check {
+  width:24px;
+  height:24px;
+  border:2px solid var(--b500);
+  border-radius:6px;
+  flex-shrink:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:14px;
+  color:#fff;
+}
+
+.step.done .step-check {
+  background:var(--f600);
+  border-color:var(--f600);
+}
+
+.metrics-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:16px;
+}
+
+.metric {
+  text-align:center;
+  padding:14px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:10px;
+}
+
+.metric-value {
+  font-size:1.8rem;
+  font-weight:700;
+  color:var(--b800);
+  font-family:'Playfair Display',serif;
+}
+
+.metric-label {
+  font-size:0.75rem;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  color:var(--b500);
+  margin-top:4px;
+}
+
+.timeline {
+  max-height:420px;
+  overflow-y:auto;
+}
+
+.timeline-entry {
+  padding:14px 0;
+  border-bottom:1px solid #EDE5D4;
+  display:flex;
+  gap:16px;
+}
+
+.timeline-dot {
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  background:var(--f600);
+  margin-top:6px;
+  flex-shrink:0;
+}
+
+.links-grid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.link-btn {
+  display:block;
+  padding:14px 16px;
+  background:var(--w100);
+  border:1px solid var(--border);
+  border-radius:10px;
+  text-decoration:none;
+  color:var(--b800);
+  font-weight:500;
+  transition:all .2s;
+}
+
+.link-btn:hover {
+  background:var(--w200);
+  border-color:var(--w500);
+  transform:translateY(-2px);
+}
+
+.status-pill {
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:6px 16px;
+  border-radius:9999px;
+  font-weight:600;
+  font-size:0.9rem;
+}
+
+.status-live { background:#EBF5F0; color:var(--f600); }
+.status-behind { background:#FCE8E6; color:var(--red); }
+
+@media (max-width: 900px) {
+  main { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="emblem">📖</div>
+    <div>
+      <div style="font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;">Atomic Shelf</div>
+      <div style="font-size:0.75rem;opacity:0.8;letter-spacing:2px;">AUTHOR PORTAL</div>
+    </div>
+  </div>
+  <div style="margin-left:auto;display:flex;align-items:center;gap:16px;">
+    <div id="book-title" style="text-align:right;font-size:1.1rem;font-weight:600;"></div>
+    <div style="width:42px;height:42px;border-radius:50%;background:#D4B95A;color:#1E1208;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.3rem;" id="author-initial"></div>
+  </div>
+</header>
+
+<main>
+  <!-- LEFT COLUMN -->
+  <div style="display:flex;flex-direction:column;gap:2rem;">
+
+    <!-- HERO PROGRESS -->
+    <div class="card">
+      <div class="card-header">Campaign Progress</div>
+      <div class="card-body" style="text-align:center;">
+        <div id="progress-circle" class="progress-circle" style="--pct:65%;">
+          <div class="progress-inner">
+            <span id="pct-large">65</span><span style="font-size:1rem;">%</span>
+          </div>
+        </div>
+        <div style="font-size:1.1rem;margin-bottom:8px;" id="current-week">Week 4 of 8 • June 2026</div>
+        <div class="status-pill status-live" id="overall-status">ON TRACK</div>
+      </div>
+    </div>
+
+    <!-- CHECKLIST -->
+    <div class="card">
+      <div class="card-header">Production Checklist</div>
+      <div class="card-body">
+        <div class="checklist" id="checklist">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- METRICS -->
+    <div class="card">
+      <div class="card-header">Performance This Month</div>
+      <div class="card-body">
+        <div class="metrics-grid" id="metrics-grid">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- RECENT REPORTS -->
+    <div class="card">
+      <div class="card-header">Recent Reports</div>
+      <div class="card-body timeline" id="reports-timeline">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT COLUMN -->
+  <div style="display:flex;flex-direction:column;gap:2rem;">
+
+    <!-- QUICK LINKS -->
+    <div class="card">
+      <div class="card-header">Campaign Assets</div>
+      <div class="card-body">
+        <div class="links-grid" id="quick-links">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- PAYMENT STATUS -->
+    <div class="card">
+      <div class="card-header">Payment Status</div>
+      <div class="card-body" id="payment-card">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+
+    <!-- COMMUNICATION -->
+    <div class="card">
+      <div class="card-header">Recent Communication</div>
+      <div class="card-body timeline" id="comm-timeline">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+
+    <!-- NEXT STEPS -->
+    <div class="card">
+      <div class="card-header">Next Actions</div>
+      <div class="card-body" id="next-actions">
+        <ul style="padding-left:1.4rem;line-height:1.7;">
+          <li>Review draft script (due in 3 days)</li>
+          <li>Approve thumbnail concepts</li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:auto;padding:1rem;font-size:0.85rem;color:#7A5C2E;">
+      Questions? <a href="#" style="color:var(--f600);text-decoration:underline;" onclick="contactTeam()">Message your editor</a>
+    </div>
+  </div>
+</main>
+
+<script>
+// Sample data – in production this would be fetched from the same Apps Script endpoint
+const authorData = {
+  author: "Aisha Okoro",
+  bookTitle: "Whispers of the Savannah",
+  progress: 68,
+  currentWeek: 5,
+  totalWeeks: 8,
+  status: "on-track",
+  checklist: [
+    {label:"Hook Written", done:true},
+    {label:"Script Approved", done:true},
+    {label:"Seed Images Created", done:true},
+    {label:"B-Roll Sourced", done:true},
+    {label:"First Draft Complete", done:false},
+    {label:"Client Review Sent", done:false},
+    {label:"Client Approved", done:false},
+    {label:"Captions Added", done:false},
+  ],
+  metrics: {
+    tiktokViews: 12400,
+    tiktokLikes: 890,
+    ytViews: 3200,
+    totalViews: 18700
+  },
+  links: {
+    prodDoc: "https://docs.google.com/...",
+    photos: "https://photos.google.com/...",
+    videos: "https://photos.google.com/...",
+    campaign: "https://tiktok.com/@atomicshelf/..."
+  },
+  reports: [
+    {date:"2026-06-10", title:"Week 4 Report", views:12400, note:"Strong engagement on TikTok"},
+    {date:"2026-06-03", title:"Week 3 Report", views:9800, note:"Initial launch feedback positive"}
+  ],
+  comms: [
+    {date:"2 days ago", type:"email", subject:"Thumbnail options for review"},
+    {date:"5 days ago", type:"call", subject:"Script feedback call"}
+  ],
+  payment: {
+    retainer: "USD 650",
+    status: "Healthy",
+    nextDue: "July 15"
+  }
+};
+
+function renderDashboard() {
+  // Header
+  document.getElementById('book-title').textContent = authorData.bookTitle;
+  document.getElementById('author-initial').textContent = authorData.author.split(' ').map(n=>n[0]).join('').toUpperCase();
+
+  // Progress
+  const pctEl = document.getElementById('progress-circle');
+  pctEl.style.setProperty('--pct', authorData.progress + '%');
+  document.getElementById('pct-large').textContent = authorData.progress;
+  document.getElementById('current-week').textContent = `Week ${authorData.currentWeek} of ${authorData.totalWeeks} • June 2026`;
+
+  // Checklist
+  const clContainer = document.getElementById('checklist');
+  clContainer.innerHTML = authorData.checklist.map(step => `
+    <div class="step ${step.done ? 'done' : ''}">
+      <div class="step-check">${step.done ? '✓' : ''}</div>
+      <div>${step.label}</div>
+    </div>
+  `).join('');
+
+  // Metrics
+  const metricsHTML = `
+    <div class="metric"><div class="metric-value">${authorData.metrics.tiktokViews.toLocaleString()}</div><div class="metric-label">TikTok Views</div></div>
+    <div class="metric"><div class="metric-value">${authorData.metrics.tiktokLikes}</div><div class="metric-label">Likes</div></div>
+    <div class="metric"><div class="metric-value">${authorData.metrics.ytViews.toLocaleString()}</div><div class="metric-label">YouTube Views</div></div>
+    <div class="metric"><div class="metric-value">${authorData.metrics.totalViews.toLocaleString()}</div><div class="metric-label">Total Reach</div></div>
+  `;
+  document.getElementById('metrics-grid').innerHTML = metricsHTML;
+
+  // Quick Links
+  const linksHTML = Object.entries(authorData.links).map(([key, url]) => `
+    <a href="${url}" target="_blank" class="link-btn">
+      ${key === 'prodDoc' ? '📝 Production Doc' : key === 'photos' ? '📸 Photo Album' : key === 'videos' ? '🎥 Video Assets' : '🌐 Campaign Page'}
+    </a>
+  `).join('');
+  document.getElementById('quick-links').innerHTML = linksHTML;
+
+  // Reports
+  const reportsHTML = authorData.reports.map(r => `
+    <div class="timeline-entry">
+      <div>
+        <div class="timeline-dot"></div>
+      </div>
+      <div style="flex:1">
+        <div style="font-weight:600;">${r.title}</div>
+        <div style="font-size:0.85rem;color:#7A5C2E;">${r.date} • ${r.views.toLocaleString()} views</div>
+        <div style="font-size:0.9rem;margin-top:4px;">${r.note}</div>
+      </div>
+    </div>
+  `).join('');
+  document.getElementById('reports-timeline').innerHTML = reportsHTML;
+
+  // Payment
+  document.getElementById('payment-card').innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <div>
+        <div style="font-size:1.8rem;font-weight:700;color:var(--f600);">${authorData.payment.retainer}</div>
+        <div style="color:var(--f600);font-weight:500;">Monthly Retainer</div>
+      </div>
+      <div class="status-pill status-live">${authorData.payment.status}</div>
+    </div>
+    <div style="margin-top:16px;font-size:0.9rem;">
+      Next due: <strong>${authorData.payment.nextDue}</strong>
+    </div>
+  `;
+
+  // Comms
+  const commsHTML = authorData.comms.map(c => `
+    <div class="timeline-entry">
+      <div style="color:#0D7377;font-size:1.1rem;">${c.type === 'email' ? '✉️' : '📞'}</div>
+      <div style="flex:1">
+        <div style="font-weight:500;">${c.subject}</div>
+        <div style="font-size:0.8rem;color:#7A5C2E;">${c.date}</div>
+      </div>
+    </div>
+  `).join('');
+  document.getElementById('comm-timeline').innerHTML = commsHTML;
+}
+
+function contactTeam() {
+  alert("📧 Opening message composer to your editor...");
+  // In real version: open modal or redirect to contact form that posts to Apps Script
+}
+
+// Load data (in production replace with fetch to your Apps Script)
+window.onload = () => {
+  renderDashboard();
+};
+</script>
+</body>
+</html>

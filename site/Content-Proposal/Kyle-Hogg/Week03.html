@@ -1,0 +1,810 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Would You Believe It? • Week 3 Content Calendar | Kyle Hogg</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0807;
+    --deep: #120e0b;
+    --char: #1c1410;
+    --ember: #c94a1a;
+    --gold: #d4882a;
+    --cream: #f0e6d3;
+    --mist: #9e8e7e;
+    --light: #e8ddd0;
+    --white: #faf6f0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--black);
+    color: var(--cream);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 21px;
+    line-height: 1.75;
+    overflow-x: hidden;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 60% 40%, #2a150a 0%, #0a0807 60%);
+  }
+
+  .hero-grain {
+    position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E");
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
+  .hero-cover {
+    position: absolute;
+    right: 0; top: 0; bottom: 0;
+    width: 50%;
+    object-fit: cover;
+    object-position: top center;
+    opacity: 0.28;
+    mask-image: linear-gradient(to left, rgba(0,0,0,0.6) 0%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,0.6) 0%, transparent 100%);
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 900px;
+    padding: 80px 60px;
+    text-align: center;
+    animation: fadeUp 1.2s ease both;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--ember);
+    border: 1px solid var(--ember);
+    padding: 6px 20px;
+    margin-bottom: 32px;
+    opacity: 0.9;
+  }
+
+  .hero-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(42px, 7vw, 88px);
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -1px;
+    color: var(--white);
+    margin-bottom: 12px;
+  }
+
+  .hero-title span {
+    color: var(--gold);
+    display: block;
+  }
+
+  .hero-sub {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(14px, 2vw, 18px);
+    font-weight: 400;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 24px;
+  }
+
+  .hero-author {
+    font-style: italic;
+    font-size: 22px;
+    color: var(--mist);
+    margin-bottom: 48px;
+  }
+
+  .hero-meta {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .hero-meta-item .num {
+    font-family: 'Cinzel', serif;
+    font-size: 36px;
+    font-weight: 900;
+    color: var(--ember);
+    line-height: 1;
+  }
+
+  .hero-meta-item .label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--mist);
+    margin-top: 4px;
+  }
+
+  /* ── INTRO BLOCK ── */
+  .intro {
+    max-width: 740px;
+    margin: 0 auto;
+    padding: 0 40px 80px;
+    text-align: center;
+  }
+
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 20px;
+  }
+
+  .intro p {
+    font-size: 24px;
+    font-style: italic;
+    color: var(--light);
+    line-height: 1.9;
+  }
+
+  /* ── VIDEO CARDS ── */
+  .calendar {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 40px 120px;
+  }
+
+  .calendar-header {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+
+  .calendar-header h2 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(28px, 4vw, 48px);
+    font-weight: 900;
+    color: var(--white);
+    margin-bottom: 12px;
+  }
+
+  .calendar-header p {
+    color: var(--mist);
+    font-size: 17px;
+    font-style: italic;
+  }
+
+  .video-card {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 0;
+    margin-bottom: 2px;
+    background: var(--deep);
+    border: 1px solid rgba(201,74,26,0.12);
+    transition: border-color 0.3s ease, background 0.3s ease;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .video-card:hover {
+    border-color: rgba(201,74,26,0.45);
+    background: var(--char);
+  }
+
+  .video-card:first-child { border-radius: 4px 4px 0 0; }
+  .video-card:last-child  { border-radius: 0 0 4px 4px; }
+
+  .card-date {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(201,74,26,0.08);
+    border-right: 1px solid rgba(201,74,26,0.15);
+    padding: 24px 16px;
+    text-align: center;
+    position: relative;
+  }
+
+  .card-date::after {
+    content: '';
+    position: absolute;
+    right: -1px; top: 20%; bottom: 20%;
+    width: 2px;
+    background: var(--ember);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .video-card:hover .card-date::after { opacity: 1; }
+
+  .date-num {
+    font-family: 'Cinzel', serif;
+    font-size: 32px;
+    font-weight: 900;
+    color: var(--ember);
+    line-height: 1;
+  }
+
+  .date-month {
+    font-family: 'Space Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--mist);
+    margin-top: 4px;
+  }
+
+  .date-vid {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    color: rgba(201,74,26,0.6);
+    margin-top: 10px;
+  }
+
+  .card-body {
+    padding: 28px 36px;
+  }
+
+  .card-title {
+    font-family: 'Cinzel', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
+
+  .card-hook {
+    font-style: italic;
+    color: var(--gold);
+    font-size: 18px;
+    margin-bottom: 20px;
+    opacity: 0.9;
+  }
+
+  .card-sections {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .section-block h4 {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 8px;
+  }
+
+  .section-block p {
+    font-size: 16px;
+    color: var(--light);
+    line-height: 1.65;
+  }
+
+  .copy-btn {
+    background: transparent;
+    color: var(--gold);
+    border: 1px solid var(--gold);
+    padding: 8px 16px;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 10px;
+    width: 100%;
+  }
+
+  .copy-btn:hover {
+    background: var(--gold);
+    color: var(--black);
+  }
+
+  @media (max-width: 700px) {
+    .card-sections { grid-template-columns: 1fr; }
+    .hero-cover { display: none; }
+    .hero-content { padding: 60px 28px; }
+    .calendar { padding: 0 20px 80px; }
+    .video-card { grid-template-columns: 90px 1fr; }
+    .card-body { padding: 20px 20px; }
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    text-align: center;
+    padding: 60px 40px;
+    border-top: 1px solid rgba(201,74,26,0.15);
+  }
+
+  .footer-brand {
+    font-family: 'Cinzel', serif;
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--ember);
+    letter-spacing: 4px;
+  }
+
+  .footer-note {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--mist);
+    margin-top: 10px;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grain"></div>
+  <img class="hero-cover" src="https://files.oaiusercontent.com/file-VlWvK8vXjE9pL2mN7qR9tY?se=2026-05-20T00%3A00%3A00Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D31536000%2C%20immutable&rscd=attachment%3B%20filename%3Dwould-you-believe-it-cover.jpg" alt="Would You Believe It? Book Cover">
+  <div class="hero-content">
+    <div class="hero-badge">WEEK 3 • CONTENT CALENDAR</div>
+    <h1 class="hero-title">WOULD YOU<br><span>BELIEVE IT?</span></h1>
+    <p class="hero-sub">A Guide to Finding Faith for Skeptics — Kyle Hogg</p>
+    <p class="hero-author">15 Short-Form Videos • YouTube &amp; TikTok</p>
+    
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <div class="num">JUNE</div>
+        <div class="label">5 — 11 2026</div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="num">15</div>
+        <div class="label">VIDEOS</div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="num">15-30s</div>
+        <div class="label">VOICEOVERS</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="intro">
+  <div class="section-label">WEEK 3 FOCUS</div>
+  <p>Deepening trust • Addressing common barriers • The gift of faith • Clear biblical answers for skeptics and growing believers</p>
+</div>
+
+<div class="calendar">
+  <div class="calendar-header">
+    <h2>Week 3 — June 5 to June 11, 2026</h2>
+    <p>2 videos per day • 3 videos on final day • Total 15 videos</p>
+  </div>
+
+  <!-- June 5 -->
+  <div class="video-card">
+    <div class="card-date">
+      <div class="date-num">05</div>
+      <div class="date-month">JUN</div>
+      <div class="date-vid">FRI</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">Faith Is Not Blind Belief</div>
+      <div class="card-hook">“Faith and reason belong together.”</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>VIDEO DESCRIPTION (For Posting)</h4>
+          <p>Many people think faith means turning off your brain. But Kyle Hogg’s powerful book “Would You Believe It?” shows that real Christian faith is reasonable, grounded in evidence, and deeply relational. Perfect for skeptics and believers who want honest answers.</p>
+          <button class="copy-btn" onclick="copyDescription(this)">Copy Description</button>
+        </div>
+        <div class="section-block desc">
+          <h4>VOICEOVER (22s)</h4>
+          <p>“Many believe faith means turning off your mind. Kyle Hogg shows the opposite — true faith is reasonable, grounded, and built on trust.”</p>
+          <button class="copy-btn" onclick="copyText(this)">Copy VO</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <div class="card-date">
+      <div class="date-num">05</div>
+      <div class="date-month">JUN</div>
+      <div class="date-vid">FRI</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">Naming Your Doubts</div>
+      <div class="card-hook">Intellectual • Emotional • Moral</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>VIDEO DESCRIPTION (For Posting)</h4>
+          <p>Where do your doubts come from? Kyle Hogg helps you identify if your doubt is intellectual, emotional, moral, spiritual, or physical. A must-watch for anyone wrestling with faith questions. From “Would You Believe It? — A Guide to Finding Faith for Skeptics”.</p>
+          <button class="copy-btn" onclick="copyDescription(this)">Copy Description</button>
+        </div>
+        <div class="section-block desc">
+          <h4>VOICEOVER (24s)</h4>
+          <p>“Doubt isn’t the enemy of faith. Kyle Hogg helps you identify whether your doubt is intellectual, emotional, or moral — and what to do next.”</p>
+          <button class="copy-btn" onclick="copyText(this)">Copy VO</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- June 6 -->
+  <div class="video-card">
+    <div class="card-date">
+      <div class="date-num">06</div>
+      <div class="date-month">JUN</div>
+      <div class="date-vid">SAT</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">Faith Is a Gift</div>
+      <div class="card-hook">You don’t have to manufacture it</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>VIDEO DESCRIPTION (For Posting)</h4>
+          <p>Faith is not something you have to create by yourself. It is a gift from God. Kyle Hogg explains how you can open your heart and receive the faith you’ve been searching for. Beautiful truth from “Would You Believe It?”</p>
+          <button class="copy-btn" onclick="copyDescription(this)">Copy Description</button>
+        </div>
+        <div class="section-block desc">
+          <h4>VOICEOVER (20s)</h4>
+          <p>“Faith is not something you create alone. It is a gift from God — and you can open your hands to receive it right now.”</p>
+          <button class="copy-btn" onclick="copyText(this)">Copy VO</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <div class="card-date">
+      <div class="date-num">06</div>
+      <div class="date-month">JUN</div>
+      <div class="date-vid">SAT</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">Reason & Faith Are Friends</div>
+      <div class="card-hook">Not enemies</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>VIDEO DESCRIPTION (For Posting)</h4>
+          <p>Does faith require you to ignore science and reason? Absolutely not. Kyle Hogg beautifully shows how faith and reason work together in “Would You Believe It? A Guide to Finding Faith for Skeptics.” Great for thinkers and doubters.</p>
+          <button class="copy-btn" onclick="copyDescription(this)">Copy Description</button>
+        </div>
+        <div class="section-block desc">
+          <h4>VOICEOVER (23s)</h4>
+          <p>“Christianity never asks you to check your brain at the door. Kyle Hogg shows how faith and reason work beautifully together.”</p>
+          <button class="copy-btn" onclick="copyText(this)">Copy VO</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- June 7 -->
+  <div class="video-card">
+    <div class="card-date">
+      <div class="date-num">07</div>
+      <div class="date-month">JUN</div>
+      <div class="date-vid">SUN</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">Evidence That Invites You In</div>
+      <div class="card-hook">History meets Scripture</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>VIDEO DESCRIPTION (For Posting)</h4>
+          <p>You don’t have to ignore evidence to have faith. Kyle Hogg presents a clear case that Christianity stands up to honest examination. Highly recommended for skeptics exploring faith. “Would You Believe It?” by Kyle Hogg.</p>
+          <button class="copy-btn" onclick="copyDescription(this)">Copy Description</button>
+        </div>
+        <div class="section-block desc">
+          <h4>VOICEOVER (25s)</h4>
+          <p>“You don’t have to ignore evidence to believe. This book shows how the evidence actually invites us into genuine faith.”</p>
+          <button class="copy-btn" onclick="copyText(this)">Copy VO</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <div class="card-date">
+      <div class="date-num">07</div>
+      <div class="date-month">JUN</div>
+      <div class="date-vid">SUN</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">Feelings vs Lasting Faith</div>
+      <div class="card-hook">What endures when emotions fade</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>VIDEO DESCRIPTION (For Posting)</h4>
+          <p>Emotions are unreliable, but real faith lasts. Learn how to build a steady trust in God that goes beyond feelings. Practical wisdom from Kyle Hogg’s book “Would You Believe It? A Guide to Finding Faith for Skeptics.”</p>
+          <button class="copy-btn" onclick="copyDescription(this)">Copy Description</button>
+        </div>
+        <div class="section-block desc">
+          <h4>VOICEOVER (22s)</h4>
+          <p>“Feelings come and go. Real faith is deeper. Kyle Hogg explains how to build a faith that lasts beyond your emotions.”</p>
+          <button class="copy-btn" onclick="copyText(this)">Copy VO</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- June 8 -->
+  <div class="video-card">
+    <div class="card-date">
+      <div class="date-num">08</div>
+      <div class="date-month">JUN</div>
+      <div class="date-vid">MON</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">Jesus Meets You in Doubt</div>
+      <div class="card-hook">You are not disqualified</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>VIDEO DESCRIPTION (For Posting)</h4>
+          <p>Struggling with doubt? Jesus doesn’t wait until you have perfect faith — He meets you right in the middle of your questions. Encouraging message from “Would You Believe It?” by Kyle Hogg.</p>
+          <button class="copy-btn" onclick="copyDescription(this)">Copy Description</button>
+        </div>
+        <div class="section-block desc">
+          <h4>VOICEOVER (21s)</h4>
+          <p>“Doubt doesn’t disqualify you. Jesus meets you exactly where you are — doubts and all.”</p>
+          <button class="copy-btn" onclick="copyText(this)">Copy VO</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <div class="card-date">
+      <div class="date-num">08</div>
+      <div class="date-month">JUN</div>
+      <div class="date-vid">MON</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">The Mystery Beyond Reason</div>
+      <div class="card-hook">Nonsense vs Mystery</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>VIDEO DESCRIPTION (For Posting)</h4>
+          <p>“There is all the difference in the world between nonsense that goes against reason and mystery that goes beyond reason.” A powerful quote and teaching from Kyle Hogg’s book for skeptics and believers.</p>
+          <button class="copy-btn" onclick="copyDescription(this)">Copy Description</button>
+        </div>
+        <div class="section-block desc">
+          <h4>VOICEOVER (24s)</h4>
+          <p>“There’s a big difference between nonsense that goes against reason and mystery that goes beyond it. Faith embraces the latter.”</p>
+          <button class="copy-btn" onclick="copyText(this)">Copy VO</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- June 9 -->
+  <div class="video-card">
+    <div class="card-date">
+      <div class="date-num">09</div>
+      <div class="date-month">JUN</div>
+      <div class="date-vid">TUE</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">How Faith Actually Grows</div>
+      <div class="card-hook">Practical and biblical</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>VIDEO DESCRIPTION (For Posting)</h4>
+          <p>Faith isn’t a one-time event — it grows. Discover practical, biblical ways to deepen your trust in God from Kyle Hogg’s accessible guide “Would You Believe It? A Guide to Finding Faith for Skeptics.”</p>
+          <button class="copy-btn" onclick="copyDescription(this)">Copy Description</button>
+        </div>
+        <div class="section-block desc">
+          <h4>VOICEOVER (23s)</h4>
+          <p>“Faith isn’t a one-time decision. Kyle Hogg shows how it grows over time through trust, truth, and relationship with God.”</p>
+          <button class="copy-btn" onclick="copyText(this)">Copy VO</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <div class="card-date">
+      <div class="date-num">09</div>
+      <div class="date-month">JUN</div>
+      <div class="date-vid">TUE</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">You’re Not Alone</div>
+      <div class="card-hook">Skeptics welcome here</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>VIDEO DESCRIPTION (For Posting)</h4>
+          <p>If you have doubts about God, the Bible, or Christianity — you are not alone. This book was written for people exactly like you. Honest, thoughtful, and full of hope. “Would You Believe It?” by Kyle Hogg.</p>
+          <button class="copy-btn" onclick="copyDescription(this)">Copy Description</button>
+        </div>
+        <div class="section-block desc">
+          <h4>VOICEOVER (20s)</h4>
+          <p>“If you have doubts, you’re in good company. This book was written for people just like you.”</p>
+          <button class="copy-btn" onclick="copyText(this)">Copy VO</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- June 10 -->
+  <div class="video-card">
+    <div class="card-date">
+      <div class="date-num">10</div>
+      <div class="date-month">JUN</div>
+      <div class="date-vid">WED</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">What Real Faith Looks Like</div>
+      <div class="card-hook">Transformed daily life</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>VIDEO DESCRIPTION (For Posting)</h4>
+          <p>Real faith doesn’t remove every question — it introduces you to Someone bigger than every question. A powerful look at transformed living from Kyle Hogg’s book “Would You Believe It?”</p>
+          <button class="copy-btn" onclick="copyDescription(this)">Copy Description</button>
+        </div>
+        <div class="section-block desc">
+          <h4>VOICEOVER (22s)</h4>
+          <p>“Faith doesn’t remove every question — it gives you Someone bigger than every question.”</p>
+          <button class="copy-btn" onclick="copyText(this)">Copy VO</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <div class="card-date">
+      <div class="date-num">10</div>
+      <div class="date-month">JUN</div>
+      <div class="date-vid">WED</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">Clear Answers for Skeptics</div>
+      <div class="card-hook">Honest & accessible</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>VIDEO DESCRIPTION (For Posting)</h4>
+          <p>No complicated theology. No pressure. Just clear, honest, biblical answers to the real questions skeptics ask. “Would You Believe It? A Guide to Finding Faith for Skeptics” by Kyle Hogg is a game-changer.</p>
+          <button class="copy-btn" onclick="copyDescription(this)">Copy Description</button>
+        </div>
+        <div class="section-block desc">
+          <h4>VOICEOVER (23s)</h4>
+          <p>“No jargon. No pressure. Just clear, biblical answers to the questions skeptics actually ask.”</p>
+          <button class="copy-btn" onclick="copyText(this)">Copy VO</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- June 11 - 3 videos -->
+  <div class="video-card">
+    <div class="card-date">
+      <div class="date-num">11</div>
+      <div class="date-month">JUN</div>
+      <div class="date-vid">THU</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">From Doubt to Trust</div>
+      <div class="card-hook">The journey is worth it</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>VIDEO DESCRIPTION (For Posting)</h4>
+          <p>The journey from doubt to genuine trust in God is possible. Kyle Hogg walks you through it with compassion and clarity in his bestselling book “Would You Believe It? A Guide to Finding Faith for Skeptics.”</p>
+          <button class="copy-btn" onclick="copyDescription(this)">Copy Description</button>
+        </div>
+        <div class="section-block desc">
+          <h4>VOICEOVER (24s)</h4>
+          <p>“The path from doubt to trust is real. Would You Believe It? walks you through it with honesty and hope.”</p>
+          <button class="copy-btn" onclick="copyText(this)">Copy VO</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <div class="card-date">
+      <div class="date-num">11</div>
+      <div class="date-month">JUN</div>
+      <div class="date-vid">THU</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">The Invitation Is Open</div>
+      <div class="card-hook">Jesus is waiting</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>VIDEO DESCRIPTION (For Posting)</h4>
+          <p>You don’t need perfect faith to come to Jesus. The invitation stands open today — doubts and all. Beautiful encouragement from Kyle Hogg’s book “Would You Believe It?”</p>
+          <button class="copy-btn" onclick="copyDescription(this)">Copy Description</button>
+        </div>
+        <div class="section-block desc">
+          <h4>VOICEOVER (21s)</h4>
+          <p>“You don’t have to have it all figured out. The invitation to real faith stands open today.”</p>
+          <button class="copy-btn" onclick="copyText(this)">Copy VO</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <div class="card-date">
+      <div class="date-num">11</div>
+      <div class="date-month">JUN</div>
+      <div class="date-vid">THU</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">Start Here — Would You Believe It?</div>
+      <div class="card-hook">Strong Final CTA</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>VIDEO DESCRIPTION (For Posting)</h4>
+          <p>If you’re a skeptic searching for real faith or a believer wanting to go deeper, this book is for you. Clear, honest, and life-changing. “Would You Believe It? A Guide to Finding Faith for Skeptics” by Kyle Hogg — Available now. Link in bio 👆</p>
+          <button class="copy-btn" onclick="copyDescription(this)">Copy Description</button>
+        </div>
+        <div class="section-block desc">
+          <h4>VOICEOVER (28s)</h4>
+          <p>“If you’re searching for a faith that’s honest, reasonable, and life-changing, this is the book. Would You Believe It? by Kyle Hogg — available now. Link in bio.”</p>
+          <button class="copy-btn" onclick="copyText(this)">Copy VO</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <div class="footer-brand">WOULD YOU BELIEVE IT?</div>
+  <div class="footer-note">KYLE HOGG • WEEK 3 CONTENT CALENDAR • JUNE 5–11 2026</div>
+</div>
+
+<script>
+function copyText(btn) {
+  const text = btn.previousElementSibling.innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const original = btn.textContent;
+    btn.textContent = "COPIED ✓";
+    btn.style.background = "#c94a1a";
+    btn.style.color = "#0a0807";
+    setTimeout(() => {
+      btn.textContent = original;
+      btn.style.background = "transparent";
+      btn.style.color = "#d4882a";
+    }, 2200);
+  });
+}
+
+function copyDescription(btn) {
+  const text = btn.previousElementSibling.innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const original = btn.textContent;
+    btn.textContent = "DESCRIPTION COPIED ✓";
+    btn.style.background = "#c94a1a";
+    btn.style.color = "#0a0807";
+    setTimeout(() => {
+      btn.textContent = original;
+      btn.style.background = "transparent";
+      btn.style.color = "#d4882a";
+    }, 2200);
+  });
+}
+</script>
+</body>
+</html>
+```

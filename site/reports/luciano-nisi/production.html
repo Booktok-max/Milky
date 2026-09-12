@@ -1,0 +1,1468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Luciano Nisi · Campaign Dashboard | Atomic Shelf</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;font-size:15px;}
+a{color:inherit;text-decoration:none;}button{cursor:pointer;font-family:inherit;}
+img{display:block;}
+
+:root{
+  --ink:#0d0a06;
+  --bark:#1e1208;
+  --mahogany:#3a1a0a;
+  --rust:#8b3a1a;
+  --amber:#c47520;
+  --amber2:#e08a2a;
+  --gold:#d4a843;
+  --cream:#faf6ef;
+  --parch:#f3ead8;
+  --fog:#e8dfc8;
+  --mist:#d6c8aa;
+  --border:#cfc0a0;
+  --border-lt:#e2d8c4;
+  --border-faint:#eee5d3;
+
+  --text:#1a1008;
+  --text2:#3a2010;
+  --text3:#7a5c38;
+  --text4:#a88c6a;
+
+  --yt:#cc0000;--yt-bg:#fce8e8;
+  --tt:#111;--tt-bg:#e8e8e8;
+  --green:#1a6640;--green-bg:#e8f5ee;
+  --blue:#1a4878;--blue-bg:#e6f0f9;
+  --amber-bg:#fdf0d8;
+
+  --r:8px;--r-md:13px;--r-lg:18px;--r-xl:26px;
+  --sh-xs:0 1px 4px rgba(13,10,6,.06);
+  --sh-sm:0 3px 14px rgba(13,10,6,.09);
+  --sh:0 8px 32px rgba(13,10,6,.12);
+  --sh-lg:0 20px 60px rgba(13,10,6,.16);
+}
+
+body{
+  font-family:'DM Sans',system-ui,sans-serif;
+  background:var(--cream);
+  color:var(--text);
+  min-height:100vh;
+}
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='.025'/%3E%3C/svg%3E");
+}
+::-webkit-scrollbar{width:5px;height:5px;}
+::-webkit-scrollbar-track{background:var(--parch);}
+::-webkit-scrollbar-thumb{background:var(--mist);border-radius:3px;}
+
+/* ── NAV ── */
+.nav{
+  position:sticky;top:0;z-index:200;
+  background:rgba(250,246,239,.96);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border-lt);
+  box-shadow:0 1px 0 rgba(196,117,32,.1);
+}
+.nav-inner{
+  max-width:1280px;margin:0 auto;
+  padding:0 36px;height:64px;
+  display:flex;align-items:center;gap:20px;
+}
+.logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.45rem;font-weight:600;
+  color:var(--bark);display:flex;align-items:center;gap:10px;
+  flex-shrink:0;
+}
+.logo-mark{
+  width:32px;height:32px;border-radius:7px;
+  background:linear-gradient(135deg,var(--amber),var(--amber2));
+  display:flex;align-items:center;justify-content:center;
+  font-family:'DM Sans',sans-serif;font-size:.6rem;font-weight:700;
+  color:#fff;letter-spacing:.06em;
+  box-shadow:0 3px 10px rgba(196,117,32,.4);
+}
+.nav-sep{width:1px;height:28px;background:var(--border-lt);}
+.nav-client{
+  font-size:.78rem;color:var(--text3);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.nav-right{margin-left:auto;display:flex;gap:8px;align-items:center;flex-shrink:0;}
+.live-chip{
+  display:flex;align-items:center;gap:6px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.6rem;color:var(--green);
+  background:var(--green-bg);
+  border:1px solid rgba(26,102,64,.18);
+  border-radius:40px;padding:4px 12px;
+  white-space:nowrap;
+}
+.live-dot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:pulse 2.5s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.2;}}
+.today-chip{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.6rem;color:var(--text3);
+  background:var(--parch);border:1px solid var(--border);
+  border-radius:40px;padding:4px 12px;
+  white-space:nowrap;
+}
+
+/* ── HERO ── */
+.hero{
+  background:linear-gradient(180deg,#0d0a06 0%,#1e1208 60%,#0d0a06 100%);
+  padding:56px 36px 48px;position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 80% at 20% 50%,rgba(196,117,32,.18) 0%,transparent 70%),
+             radial-gradient(ellipse 40% 60% at 80% 30%,rgba(204,0,0,.08) 0%,transparent 60%);
+}
+.hero::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(196,117,32,.5),transparent);
+}
+.hero-inner{max-width:1280px;margin:0 auto;position:relative;z-index:1;}
+.hero-eyebrow{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--gold);opacity:.8;margin-bottom:12px;
+  display:flex;align-items:center;gap:10px;
+}
+.hero-eyebrow::before{content:'';display:block;width:24px;height:1px;background:var(--gold);opacity:.6;}
+.hero-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2.8rem,5vw,4.8rem);
+  font-weight:300;color:#fdf6ec;
+  line-height:1.0;letter-spacing:-.01em;
+  margin-bottom:6px;
+}
+.hero-title em{font-style:italic;font-weight:300;color:rgba(255,255,255,.55);}
+.hero-subtitle{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.2rem;font-style:italic;
+  color:rgba(255,255,255,.45);margin-bottom:36px;
+}
+.hero-kpis{display:flex;gap:0;flex-wrap:wrap;}
+.kpi{padding:14px 28px;border-right:1px solid rgba(255,255,255,.08);}
+.kpi:first-child{padding-left:0;}.kpi:last-child{border-right:none;}
+.kpi-val{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2.2rem;font-weight:500;
+  color:#fff;line-height:1;margin-bottom:3px;
+}
+.kpi-val.amber{color:var(--gold);}
+.kpi-val.green{color:#6ee7a0;}
+.kpi-val.red{color:#fca5a5;}
+.kpi-lbl{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.54rem;letter-spacing:.12em;text-transform:uppercase;
+  color:rgba(255,255,255,.35);
+}
+
+/* ── WEEK SLIDER ── */
+.slider-section{
+  background:var(--bark);padding:0;position:sticky;top:64px;z-index:190;
+  border-bottom:2px solid var(--amber);
+}
+.slider-inner{max-width:1280px;margin:0 auto;padding:0 36px;}
+.weeks-row{
+  display:flex;overflow-x:auto;scrollbar-width:none;
+  gap:0;
+}
+.weeks-row::-webkit-scrollbar{display:none;}
+.week-tab{
+  flex-shrink:0;
+  padding:14px 24px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(255,255,255,.36);
+  border-right:1px solid rgba(255,255,255,.06);
+  cursor:pointer;transition:all .18s;
+  position:relative;white-space:nowrap;
+  background:none;border-top:none;border-left:none;border-bottom:3px solid transparent;
+}
+.week-tab:hover{color:rgba(255,255,255,.7);background:rgba(255,255,255,.04);}
+.week-tab.active{color:var(--gold);border-bottom-color:var(--amber);}
+.week-tab.current::after{
+  content:'NOW';
+  position:absolute;top:5px;right:6px;
+  font-size:.42rem;font-weight:700;letter-spacing:.1em;
+  background:var(--amber);color:#fff;
+  border-radius:3px;padding:1px 4px;
+}
+.week-tab.past{color:rgba(255,255,255,.22);}
+.week-tab.future{color:rgba(255,255,255,.28);}
+
+/* ── TABS ── */
+.tabs-bar{
+  background:#fff;
+  border-bottom:1px solid var(--border-lt);
+  position:sticky;
+  top:calc(64px + 48px);
+  z-index:180;
+  box-shadow:var(--sh-xs);
+}
+.tabs-inner{max-width:1280px;margin:0 auto;padding:0 36px;display:flex;gap:0;align-items:center;}
+.tab{
+  font-family:'DM Sans',sans-serif;
+  font-size:.82rem;font-weight:600;
+  color:var(--text3);
+  padding:15px 22px;
+  border-bottom:2.5px solid transparent;
+  cursor:pointer;transition:all .18s;
+  white-space:nowrap;letter-spacing:.01em;
+  background:none;border-top:none;border-left:none;border-right:none;
+}
+.tab:hover{color:var(--text2);}
+.tab.active{color:var(--bark);border-bottom-color:var(--amber);}
+.tabs-right{margin-left:auto;display:flex;align-items:center;gap:8px;padding:0 0 0 20px;}
+.tabs-right .week-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.62rem;color:var(--text4);
+  background:var(--parch);border:1px solid var(--border-lt);
+  border-radius:5px;padding:4px 10px;white-space:nowrap;
+}
+
+/* ── MAIN WRAP ── */
+.main{max-width:1280px;margin:0 auto;padding:32px 36px 80px;position:relative;z-index:1;}
+
+/* ── PANEL (each tab content) ── */
+.panel{display:none;}.panel.active{display:block;}
+
+/* ── SECTION HEADER ── */
+.sh{display:flex;align-items:baseline;gap:12px;margin:0 0 8px;}
+.sh h2{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;color:var(--bark);}
+.sh-sub{font-size:.76rem;color:var(--text4);font-style:italic;}
+.rule{height:1px;background:linear-gradient(90deg,var(--border),transparent);margin-bottom:24px;}
+
+/* ── NOTICE STRIP ── */
+.notice{
+  padding:14px 20px;border-radius:var(--r);margin-bottom:14px;
+  display:flex;gap:14px;align-items:flex-start;
+  border-left:3px solid transparent;
+}
+.notice-green{background:var(--green-bg);border-left-color:var(--green);}
+.notice-amber{background:var(--amber-bg);border-left-color:var(--amber);}
+.notice-blue{background:var(--blue-bg);border-left-color:var(--blue);}
+.notice-red{background:var(--yt-bg);border-left-color:var(--yt);}
+.notice-icon{font-size:1rem;flex-shrink:0;padding-top:1px;}
+.notice-title{font-weight:700;font-size:.84rem;color:var(--bark);margin-bottom:2px;}
+.notice-body{font-size:.78rem;color:var(--text2);line-height:1.65;}
+
+/* ── WEEK STATUS BAR ── */
+.week-status-bar{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;
+  margin-bottom:28px;
+}
+.wsb-card{
+  background:#fff;border:1px solid var(--border-lt);
+  border-radius:var(--r-md);padding:18px;
+  position:relative;overflow:hidden;
+  transition:transform .2s,box-shadow .2s;
+}
+.wsb-card:hover{transform:translateY(-2px);box-shadow:var(--sh);}
+.wsb-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--amber),var(--gold));}
+.wsb-val{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2.2rem;font-weight:500;
+  color:var(--bark);line-height:1;margin-bottom:4px;
+}
+.wsb-val.tk{color:var(--tt);}
+.wsb-val.yt{color:var(--yt);}
+.wsb-val.grn{color:var(--green);}
+.wsb-lbl{font-family:'JetBrains Mono',monospace;font-size:.56rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text4);}
+
+/* ── CALENDAR TABLE ── */
+.cal-wrap{overflow-x:auto;border-radius:var(--r-lg);border:1px solid var(--border-lt);box-shadow:var(--sh-xs);}
+.cal-table{width:100%;border-collapse:collapse;background:#fff;}
+.cal-table thead tr{background:var(--bark);}
+.cal-table th{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.56rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
+  color:rgba(255,255,255,.55);
+  padding:12px 16px;text-align:left;
+  border-right:1px solid rgba(255,255,255,.06);
+  white-space:nowrap;
+}
+.cal-table th:last-child{border-right:none;}
+.cal-table td{
+  padding:12px 16px;
+  font-size:.8rem;color:var(--text2);
+  border-bottom:1px solid var(--border-faint);
+  border-right:1px solid var(--border-faint);
+  vertical-align:top;
+}
+.cal-table td:last-child{border-right:none;}
+.cal-table tbody tr:last-child td{border-bottom:none;}
+.cal-table tbody tr:hover td{background:rgba(250,246,239,.7);}
+.cal-table tbody tr.today-row td{background:rgba(196,117,32,.06);}
+.cal-table tbody tr.today-row td:first-child{border-left:3px solid var(--amber);}
+.cal-table tbody tr.posted td{opacity:.65;}
+.cal-table tbody tr.future-row td{color:var(--text3);}
+
+.time-badge{
+  display:inline-block;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.58rem;
+  background:var(--bark);color:rgba(255,255,255,.7);
+  border-radius:4px;padding:2px 7px;margin-top:3px;
+  white-space:nowrap;
+}
+.platform-tag{
+  display:inline-flex;align-items:center;gap:3px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.58rem;font-weight:700;letter-spacing:.04em;
+  padding:2px 7px;border-radius:4px;margin-right:4px;
+}
+.ptk{background:#111;color:#fff;}
+.pyt{background:#cc0000;color:#fff;}
+.status-pill{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:.62rem;font-weight:700;
+  border-radius:40px;padding:3px 10px;
+  white-space:nowrap;
+}
+.sp-done{background:var(--green-bg);color:var(--green);}
+.sp-live{background:var(--amber-bg);color:var(--amber);}
+.sp-queued{background:var(--blue-bg);color:var(--blue);}
+.sp-pending{background:var(--parch);color:var(--text3);}
+
+.hashtags{color:var(--amber);font-size:.68rem;line-height:1.5;margin-top:4px;}
+.desc-cell{max-width:300px;font-size:.75rem;line-height:1.5;color:var(--text2);}
+.hook-title{font-weight:600;color:var(--bark);margin-bottom:3px;}
+
+/* ── ALBUMS GRID ── */
+.albums-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-bottom:32px;}
+.album-card{
+  background:#fff;border:1px solid var(--border-lt);
+  border-radius:var(--r-md);overflow:hidden;
+  transition:all .22s;cursor:pointer;
+}
+.album-card:hover{transform:translateY(-4px);box-shadow:var(--sh);border-color:var(--amber);}
+.album-thumb{height:180px;background-size:cover;background-position:center;position:relative;}
+.album-thumb::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(13,10,6,.6) 0%,transparent 60%);
+}
+.album-thumb-label{
+  position:absolute;bottom:12px;left:12px;z-index:1;
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.1rem;font-weight:600;color:#fff;
+  text-shadow:0 1px 4px rgba(0,0,0,.4);
+}
+.album-body{padding:14px 16px;}
+.album-title{font-weight:700;font-size:.9rem;color:var(--bark);margin-bottom:4px;}
+.album-desc{font-size:.75rem;color:var(--text3);line-height:1.5;margin-bottom:10px;}
+.album-link{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:.72rem;font-weight:600;color:var(--amber);
+  background:var(--amber-bg);border:1px solid rgba(196,117,32,.2);
+  border-radius:5px;padding:5px 12px;
+  transition:all .14s;
+}
+.album-link:hover{background:rgba(196,117,32,.15);}
+
+/* ── VOICEOVER CARDS ── */
+.vo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px;margin-bottom:28px;}
+.vo-card{
+  background:#fff;border:1px solid var(--border-lt);
+  border-radius:var(--r-md);overflow:hidden;
+  transition:box-shadow .2s;
+}
+.vo-card:hover{box-shadow:var(--sh);}
+.vo-card-header{
+  background:var(--bark);padding:14px 18px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.vo-num{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;
+  color:rgba(255,255,255,.45);
+}
+.vo-book-tag{
+  font-size:.62rem;font-weight:700;
+  padding:2px 8px;border-radius:4px;
+}
+.vo-body{padding:16px 18px;}
+.vo-hook{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.1rem;font-weight:600;font-style:italic;
+  color:var(--bark);margin-bottom:10px;line-height:1.3;
+}
+.vo-script{
+  font-size:.78rem;line-height:1.75;
+  color:var(--text2);
+  background:var(--parch);
+  border-radius:var(--r);
+  padding:12px 14px;
+  border-left:3px solid var(--amber);
+}
+.vo-tags{margin-top:10px;font-size:.68rem;color:var(--text3);}
+.vo-duration{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.56rem;color:var(--text4);
+  margin-top:8px;
+}
+
+/* ── DESCRIPTIONS PANEL ── */
+.desc-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:28px;}
+@media(max-width:800px){.desc-grid{grid-template-columns:1fr;}}
+.desc-card{
+  background:#fff;border:1px solid var(--border-lt);
+  border-radius:var(--r-md);overflow:hidden;
+}
+.desc-card-hdr{
+  padding:12px 16px;
+  display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid var(--border-lt);
+}
+.desc-plat{font-weight:700;font-size:.82rem;color:var(--bark);display:flex;align-items:center;gap:6px;}
+.desc-body{padding:16px;}
+.desc-block{margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border-faint);}
+.desc-block:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+.desc-hook-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.56rem;text-transform:uppercase;letter-spacing:.1em;
+  color:var(--text4);margin-bottom:5px;
+}
+.desc-text{font-size:.78rem;line-height:1.7;color:var(--text2);}
+.desc-hashtags{color:var(--amber);font-size:.68rem;margin-top:5px;line-height:1.6;}
+.copy-btn{
+  background:none;border:1px solid var(--border);
+  color:var(--text3);border-radius:5px;padding:3px 9px;
+  font-size:.62rem;font-weight:600;transition:all .13s;
+}
+.copy-btn:hover{background:var(--parch);border-color:var(--amber);color:var(--amber);}
+
+/* ── VIDEO REPORT ── */
+.report-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:28px;}
+@media(max-width:900px){.report-grid{grid-template-columns:1fr;}}
+.report-card{
+  background:#fff;border:1px solid var(--border-lt);
+  border-radius:var(--r-md);overflow:hidden;
+}
+.report-hdr{
+  background:linear-gradient(135deg,var(--bark),var(--mahogany));
+  padding:16px 20px;
+}
+.report-hdr-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.1rem;font-weight:600;color:#fdf6ec;
+}
+.report-hdr-sub{font-size:.72rem;color:rgba(255,255,255,.45);margin-top:2px;}
+.report-body{padding:16px 20px;}
+.report-stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px;}
+.rs{background:var(--parch);border-radius:var(--r);padding:10px 12px;text-align:center;}
+.rs-val{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.5rem;font-weight:500;color:var(--bark);line-height:1;
+}
+.rs-val.tk{color:#111;}.rs-val.yt{color:var(--yt);}
+.rs-lbl{font-family:'JetBrains Mono',monospace;font-size:.5rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text4);margin-top:2px;}
+.top-vid-list{display:flex;flex-direction:column;gap:8px;}
+.top-vid{
+  display:flex;align-items:center;gap:12px;
+  padding:9px 12px;background:var(--parch);
+  border-radius:var(--r);border:1px solid var(--border-faint);
+}
+.top-vid-rank{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.3rem;color:var(--text4);
+  font-weight:500;flex-shrink:0;width:22px;text-align:center;
+}
+.top-vid-info{flex:1;min-width:0;}
+.top-vid-title{font-size:.77rem;font-weight:600;color:var(--bark);line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.top-vid-book{font-size:.62rem;color:var(--text4);margin-top:2px;}
+.top-vid-views{font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:600;color:var(--amber);flex-shrink:0;}
+
+.chart-placeholder{
+  background:var(--parch);border-radius:var(--r);padding:20px;
+  display:flex;align-items:flex-end;justify-content:center;gap:4px;
+  height:120px;margin-bottom:14px;
+}
+.bar-seg{
+  border-radius:3px 3px 0 0;
+  transition:opacity .2s;flex:1;max-width:26px;
+}
+.bar-seg:hover{opacity:.75;}
+
+.roadmap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--border-lt);border-radius:var(--r-lg);overflow:hidden;margin-bottom:28px;}
+.phase{background:#fff;padding:22px 20px;border-right:1px solid var(--border-lt);position:relative;}
+.phase:last-child{border-right:none;}
+.phase.done{background:rgba(26,102,64,.03);}
+.phase.active-phase{background:linear-gradient(160deg,rgba(196,117,32,.05) 0%,#fff 100%);}
+.phase-status{
+  position:absolute;top:14px;right:12px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.54rem;font-weight:700;letter-spacing:.1em;
+  padding:2px 8px;border-radius:4px;
+}
+.ps-done{background:var(--green-bg);color:var(--green);}
+.ps-active{background:var(--amber-bg);color:var(--amber);}
+.ps-next{background:var(--fog);color:var(--text3);}
+.phase-num{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text4);margin-bottom:6px;}
+.phase-title{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:var(--bark);margin-bottom:4px;}
+.phase-date{font-size:.72rem;color:var(--amber);font-weight:600;margin-bottom:8px;}
+.phase-desc{font-size:.77rem;color:var(--text3);line-height:1.65;}
+
+/* ── FOOTER ── */
+footer{
+  background:var(--bark);color:rgba(255,255,255,.45);
+  padding:44px 36px;text-align:center;
+}
+.footer-brand{font-family:'Cormorant Garamond',serif;font-size:1.35rem;color:#fdf6ec;margin-bottom:6px;}
+footer p{font-size:.75rem;line-height:1.7;max-width:520px;margin:0 auto;}
+.footer-rule{height:1px;background:rgba(255,255,255,.1);max-width:200px;margin:14px auto;}
+
+/* ── BOOK FILTER PILLS ── */
+.book-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px;}
+.bfp{
+  font-size:.72rem;font-weight:600;
+  border-radius:40px;padding:5px 14px;cursor:pointer;
+  border:1.5px solid var(--border);
+  background:#fff;color:var(--text3);
+  transition:all .15s;
+}
+.bfp:hover{border-color:var(--amber);color:var(--amber);}
+.bfp.active{background:var(--amber);border-color:var(--amber);color:#fff;}
+.bfp.paramedic.active{background:var(--yt);border-color:var(--yt);color:#fff;}
+.bfp.trail.active{background:var(--mahogany);border-color:var(--mahogany);color:#fff;}
+.bfp.crossing.active{background:var(--blue);border-color:var(--blue);color:#fff;}
+
+/* ── COPY TOAST ── */
+.toast{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);
+  background:var(--bark);color:#fdf6ec;
+  padding:9px 20px;border-radius:40px;
+  font-size:.78rem;font-weight:600;z-index:999;
+  box-shadow:var(--sh-lg);
+  transition:transform .26s cubic-bezier(.22,1,.36,1);
+  pointer-events:none;border:1px solid rgba(255,255,255,.07);
+}
+.toast.show{transform:translateX(-50%) translateY(0);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .hero,.main,.nav-inner,.slider-inner,.tabs-inner{padding-left:18px;padding-right:18px;}
+  .hero{padding-top:40px;padding-bottom:36px;}
+  .kpi{padding:10px 14px;}.kpi-val{font-size:1.7rem;}
+  .week-status-bar{grid-template-columns:1fr 1fr;}
+  .roadmap-grid{grid-template-columns:1fr;}
+  .phase{border-right:none;border-bottom:1px solid var(--border-lt);}
+  .phase:last-child{border-bottom:none;}
+  .report-stat-row{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:600px){
+  .desc-grid,.report-grid{grid-template-columns:1fr;}
+  .albums-grid{grid-template-columns:1fr 1fr;}
+  .week-status-bar{grid-template-columns:repeat(2,1fr);}
+  .nav-client{display:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="logo"><div class="logo-mark">AS</div>Atomic Shelf</div>
+    <div class="nav-sep"></div>
+    <div class="nav-client">Luciano Nisi · Paramedic Trilogy · Campaign Dashboard</div>
+    <div class="nav-right">
+      <div class="live-chip"><span class="live-dot"></span>Active Campaign</div>
+      <div class="today-chip" id="todayChip">—</div>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Atomic Shelf · Campaign Report · Updated May 26, 2026</div>
+    <h1 class="hero-title">Luciano Nisi<br><em>Paramedic Trilogy</em></h1>
+    <p class="hero-subtitle">Untold Stories of a Paramedic · Trail Ready · Crossing the Line</p>
+    <div class="hero-kpis">
+      <div class="kpi"><div class="kpi-val amber">10,083</div><div class="kpi-lbl">Total Views</div></div>
+      <div class="kpi"><div class="kpi-val">8,521</div><div class="kpi-lbl">TikTok Views</div></div>
+      <div class="kpi"><div class="kpi-val">1,562</div><div class="kpi-lbl">YouTube Views</div></div>
+      <div class="kpi"><div class="kpi-val green">92</div><div class="kpi-lbl">TT Followers</div></div>
+      <div class="kpi"><div class="kpi-val">79</div><div class="kpi-lbl">TT Posts Live</div></div>
+      <div class="kpi"><div class="kpi-val">78</div><div class="kpi-lbl">YT Shorts Live</div></div>
+      <div class="kpi"><div class="kpi-val red">703</div><div class="kpi-lbl">Peak Day (May 21)</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- WEEK SLIDER -->
+<div class="slider-section">
+  <div class="slider-inner">
+    <div class="weeks-row" id="weeksRow">
+      <!-- generated by JS -->
+    </div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs-bar">
+  <div class="tabs-inner">
+    <button class="tab active" onclick="switchTab('calendar',this)">📅 Calendar</button>
+    <button class="tab" onclick="switchTab('albums',this)">📸 Albums</button>
+    <button class="tab" onclick="switchTab('voiceovers',this)">🎙 Voiceovers</button>
+    <button class="tab" onclick="switchTab('descriptions',this)">✍️ Descriptions</button>
+    <button class="tab" onclick="switchTab('report',this)">📈 Video Report</button>
+    <div class="tabs-right">
+      <span class="week-label" id="activeWeekLabel">Week 1</span>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- ═══════════════════════════════════════ CALENDAR PANEL -->
+  <div class="panel active" id="panel-calendar">
+
+    <div class="sh"><h2>Campaign Calendar</h2><span class="sh-sub" id="cal-week-label">Showing all weeks</span></div>
+    <div class="rule"></div>
+
+    <!-- week status cards -->
+    <div class="week-status-bar" id="weekStatusBar">
+      <!-- filled by JS -->
+    </div>
+
+    <!-- notices -->
+    <div class="notice notice-green" style="margin-bottom:14px;">
+      <span class="notice-icon">✅</span>
+      <div>
+        <div class="notice-title">TikTok Momentum Strong — 8,521 views in 18 active days</div>
+        <div class="notice-body">Peak day May 21 (703 views). Averaging 473 views/day. 92 followers and growing. All 3 books are live and posting daily.</div>
+      </div>
+    </div>
+    <div class="notice notice-amber" style="margin-bottom:20px;">
+      <span class="notice-icon">💡</span>
+      <div>
+        <div class="notice-title">Highlighted row = today's scheduled posts. Green = published. Blue = queued.</div>
+        <div class="notice-body">Rows are auto-highlighted based on today's date. Scroll horizontally on small screens to see all columns.</div>
+      </div>
+    </div>
+
+    <!-- book filter -->
+    <div class="book-filters">
+      <button class="bfp active" onclick="filterCal('all',this)">All Books</button>
+      <button class="bfp paramedic" onclick="filterCal('paramedic',this)">🚑 Paramedic</button>
+      <button class="bfp trail" onclick="filterCal('trail',this)">🥾 Trail Ready</button>
+      <button class="bfp crossing" onclick="filterCal('crossing',this)">🛂 Crossing the Line</button>
+    </div>
+
+    <div class="cal-wrap">
+      <table class="cal-table" id="calTable">
+        <thead>
+          <tr>
+            <th>Week</th>
+            <th>Date & Time (UTC)</th>
+            <th>Book</th>
+            <th>Hook Theme</th>
+            <th>Platform</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="calBody">
+          <!-- filled by JS -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ ALBUMS PANEL -->
+  <div class="panel" id="panel-albums">
+    <div class="sh"><h2>Source Albums & Visual Assets</h2><span class="sh-sub">Click any album to open in Google Photos</span></div>
+    <div class="rule"></div>
+
+    <div class="notice notice-blue" style="margin-bottom:20px;">
+      <span class="notice-icon">📸</span>
+      <div>
+        <div class="notice-title">7 Series · 70+ Visual Assets Delivered</div>
+        <div class="notice-body">All videos are generated from these source albums. New series added weekly. Albums are shared via Google Photos — click to view, download, or forward to editors.</div>
+      </div>
+    </div>
+
+    <div class="sh" style="margin-top:28px;"><h2 style="font-size:1.1rem;">🚑 Untold Stories of a Paramedic</h2></div>
+    <div class="rule" style="margin-bottom:16px;"></div>
+    <div class="albums-grid">
+      <a href="https://www.youtube.com/@LucianosBooks-d7i/shorts" target="_blank" class="album-card">
+        <div class="album-thumb" style="background:linear-gradient(135deg,#cc0000,#8b1a1a);">
+          <div class="album-thumb-label">Paramedic Series 1</div>
+        </div>
+        <div class="album-body">
+          <div class="album-title">Emergency POV — Series 1</div>
+          <div class="album-desc">Behind-the-lights stories, sirens, real calls. First-person ambulance POV content. Live on YouTube & TikTok.</div>
+          <span class="album-link">Open Shorts ↗</span>
+        </div>
+      </a>
+      <div class="album-card" style="cursor:default;opacity:.7;">
+        <div class="album-thumb" style="background:linear-gradient(135deg,#3a1a0a,#cc0000);">
+          <div class="album-thumb-label">Paramedic Series 2</div>
+        </div>
+        <div class="album-body">
+          <div class="album-title">Thumbnail Refresh — Series 2</div>
+          <div class="album-desc">Upgraded thumbnails using Trail Ready CTR formula. Target: lift Paramedic CTR from 0.68% toward 5%+.</div>
+          <span class="album-link" style="opacity:.5;cursor:not-allowed;">Queued · Coming June</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sh" style="margin-top:32px;"><h2 style="font-size:1.1rem;">🥾 Trail Ready</h2></div>
+    <div class="rule" style="margin-bottom:16px;"></div>
+    <div class="albums-grid">
+      <a href="https://www.youtube.com/@LucianosBooks-d7i/shorts" target="_blank" class="album-card">
+        <div class="album-thumb" style="background:linear-gradient(135deg,#3a1a0a,#c47520);">
+          <div class="album-thumb-label">Trail Ready S1–S3</div>
+        </div>
+        <div class="album-body">
+          <div class="album-title">Trail Survival — Series 1, 2 & 3</div>
+          <div class="album-desc">Question-hook formula. Top performer: 225 views, 8% CTR. 3 series complete and live.</div>
+          <span class="album-link">View Shorts ↗</span>
+        </div>
+      </a>
+      <div class="album-card" style="cursor:default;opacity:.7;">
+        <div class="album-thumb" style="background:linear-gradient(135deg,#1a3a0a,#4a7520);">
+          <div class="album-thumb-label">Trail Ready Series 4</div>
+        </div>
+        <div class="album-body">
+          <div class="album-title">Expansion — Series 4</div>
+          <div class="album-desc">Deep wilderness scenarios, gear reviews, survival edge cases. Planned June 2026 launch.</div>
+          <span class="album-link" style="opacity:.5;cursor:not-allowed;">In Production · June</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sh" style="margin-top:32px;"><h2 style="font-size:1.1rem;">🛂 Crossing the Line</h2></div>
+    <div class="rule" style="margin-bottom:16px;"></div>
+    <div class="albums-grid">
+      <a href="https://www.youtube.com/@LucianosBooks-d7i/shorts" target="_blank" class="album-card">
+        <div class="album-thumb" style="background:linear-gradient(135deg,#1a2878,#3a6898);">
+          <div class="album-thumb-label">Crossing Series 1</div>
+        </div>
+        <div class="album-body">
+          <div class="album-title">Border Crossing — Series 1</div>
+          <div class="album-desc">Tension-and-decision framing. 170 views, 5.26% CTR. Live and performing well.</div>
+          <span class="album-link">View Shorts ↗</span>
+        </div>
+      </a>
+      <div class="album-card" style="cursor:default;opacity:.7;">
+        <div class="album-thumb" style="background:linear-gradient(135deg,#0a1a38,#1a4878);">
+          <div class="album-thumb-label">Crossing Series 2</div>
+        </div>
+        <div class="album-body">
+          <div class="album-title">Border Crossing — Series 2</div>
+          <div class="album-desc">Doubling down on proven tension structure. Planned launch June 2026.</div>
+          <span class="album-link" style="opacity:.5;cursor:not-allowed;">Queued · June 2026</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ VOICEOVERS PANEL -->
+  <div class="panel" id="panel-voiceovers">
+    <div class="sh"><h2>Voiceover Scripts</h2><span class="sh-sub">Ready-to-record scripts for each hook theme · filtered by active week</span></div>
+    <div class="rule"></div>
+
+    <div class="notice notice-amber" style="margin-bottom:20px;">
+      <span class="notice-icon">🎙</span>
+      <div>
+        <div class="notice-title">These are your video voiceover scripts — record directly or adapt freely</div>
+        <div class="notice-body">Each script is ~25–35 seconds at natural speaking pace. Scripts follow the proven hook formula: open with a question or tension, reveal stakes, close with a CTA. Use these as-is or riff on them.</div>
+      </div>
+    </div>
+
+    <div class="book-filters">
+      <button class="bfp active" onclick="filterVo('all',this)">All Books</button>
+      <button class="bfp paramedic" onclick="filterVo('paramedic',this)">🚑 Paramedic</button>
+      <button class="bfp trail" onclick="filterVo('trail',this)">🥾 Trail Ready</button>
+      <button class="bfp crossing" onclick="filterVo('crossing',this)">🛂 Crossing the Line</button>
+    </div>
+
+    <div class="vo-grid" id="voGrid">
+      <!-- filled by JS -->
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ DESCRIPTIONS PANEL -->
+  <div class="panel" id="panel-descriptions">
+    <div class="sh"><h2>Post Descriptions</h2><span class="sh-sub">Copy-ready captions for TikTok & YouTube Shorts · click to copy</span></div>
+    <div class="rule"></div>
+
+    <div class="notice notice-green" style="margin-bottom:20px;">
+      <span class="notice-icon">📋</span>
+      <div>
+        <div class="notice-title">Click any description to copy it to clipboard</div>
+        <div class="notice-body">Descriptions are formatted for each platform — TikTok is punchy and emoji-driven; YouTube Shorts is slightly more descriptive. Both include the Amazon purchase link and optimised hashtag stack.</div>
+      </div>
+    </div>
+
+    <div class="book-filters">
+      <button class="bfp active" onclick="filterDesc('all',this)">All Books</button>
+      <button class="bfp paramedic" onclick="filterDesc('paramedic',this)">🚑 Paramedic</button>
+      <button class="bfp trail" onclick="filterDesc('trail',this)">🥾 Trail Ready</button>
+      <button class="bfp crossing" onclick="filterDesc('crossing',this)">🛂 Crossing the Line</button>
+    </div>
+
+    <div id="descContainer">
+      <!-- filled by JS -->
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ VIDEO REPORT PANEL -->
+  <div class="panel" id="panel-report">
+    <div class="sh"><h2>Video Performance Report</h2><span class="sh-sub">Updated May 26, 2026</span></div>
+    <div class="rule"></div>
+
+    <!-- Phase roadmap -->
+    <div class="roadmap-grid" style="margin-bottom:28px;">
+      <div class="phase done">
+        <div class="phase-status ps-done">DONE</div>
+        <div class="phase-num">Phase 1</div>
+        <div class="phase-title">Trail Ready Launch</div>
+        <div class="phase-date">May 4–12, 2026</div>
+        <div class="phase-desc">Series 1–3 of Trail Ready live. Top video: 225 views, 8% CTR. TikTok & YouTube running from May 7. Foundation audience established.</div>
+      </div>
+      <div class="phase active-phase">
+        <div class="phase-status ps-active">ACTIVE</div>
+        <div class="phase-num">Phase 2</div>
+        <div class="phase-title">Paramedic & Crossing</div>
+        <div class="phase-date">May 2026 · In Progress</div>
+        <div class="phase-desc">All 3 books live on TikTok & YouTube. 79 TikTok posts at 8,521 views. 78 YouTube Shorts at 1,562 views. Daily posting maintained.</div>
+      </div>
+      <div class="phase">
+        <div class="phase-status ps-next">NEXT</div>
+        <div class="phase-num">Phase 3</div>
+        <div class="phase-title">Series 2 Expansion</div>
+        <div class="phase-date">June 2026</div>
+        <div class="phase-desc">Paramedic Series 2 thumbnail refresh. Crossing the Line Series 2 production. Trail Ready Series 4. Scale to 3–4 videos/day.</div>
+      </div>
+    </div>
+
+    <div class="report-grid">
+
+      <!-- TikTok performance -->
+      <div class="report-card">
+        <div class="report-hdr" style="background:linear-gradient(135deg,#0f0f0f,#2a2a2a);">
+          <div class="report-hdr-title" style="display:flex;align-items:center;gap:8px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.29 6.29 0 0 0-.79-.05A6.34 6.34 0 0 0 3.15 15.3a6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.19 8.19 0 0 0 4.79 1.52V6.73a4.85 4.85 0 0 1-1.02-.04z"/></svg>
+            TikTok Performance
+          </div>
+          <div class="report-hdr-sub">@lucianonisi · May 7–24, 2026</div>
+        </div>
+        <div class="report-body">
+          <div class="report-stat-row">
+            <div class="rs"><div class="rs-val tk">8,521</div><div class="rs-lbl">Views</div></div>
+            <div class="rs"><div class="rs-val">92</div><div class="rs-lbl">Followers</div></div>
+            <div class="rs"><div class="rs-val">153+</div><div class="rs-lbl">Likes</div></div>
+            <div class="rs"><div class="rs-val tk">79</div><div class="rs-lbl">Posts</div></div>
+            <div class="rs"><div class="rs-val">703</div><div class="rs-lbl">Peak Day</div></div>
+            <div class="rs"><div class="rs-val">473</div><div class="rs-lbl">Avg/Day</div></div>
+          </div>
+          <!-- Mini bar chart -->
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.56rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text4);margin-bottom:8px;">Daily Views · May 7–24</div>
+          <div class="chart-placeholder" id="ttChart"></div>
+          <div style="font-size:.7rem;color:var(--text4);text-align:center;">↑ May 21 peak: 703 views</div>
+        </div>
+      </div>
+
+      <!-- YouTube performance -->
+      <div class="report-card">
+        <div class="report-hdr" style="background:linear-gradient(135deg,#8b0000,#cc0000);">
+          <div class="report-hdr-title" style="display:flex;align-items:center;gap:8px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            YouTube Shorts
+          </div>
+          <div class="report-hdr-sub">@LucianosBooks-d7i · Apr 26–May 24, 2026</div>
+        </div>
+        <div class="report-body">
+          <div class="report-stat-row">
+            <div class="rs"><div class="rs-val yt">1,562</div><div class="rs-lbl">Views</div></div>
+            <div class="rs"><div class="rs-val">+4</div><div class="rs-lbl">New Subs</div></div>
+            <div class="rs"><div class="rs-val">78</div><div class="rs-lbl">Shorts</div></div>
+            <div class="rs"><div class="rs-val">3,611</div><div class="rs-lbl">Impressions</div></div>
+            <div class="rs"><div class="rs-val">1.91%</div><div class="rs-lbl">Avg CTR</div></div>
+            <div class="rs"><div class="rs-val">2.36h</div><div class="rs-lbl">Watch Time</div></div>
+          </div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.56rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text4);margin-bottom:8px;">Daily Views · Apr 26–May 24</div>
+          <div class="chart-placeholder" id="ytChart"></div>
+          <div style="font-size:.7rem;color:var(--text4);text-align:center;">↑ May 8 peak: 419 views</div>
+        </div>
+      </div>
+
+      <!-- Top Videos -->
+      <div class="report-card" style="grid-column:1/-1;">
+        <div class="report-hdr">
+          <div class="report-hdr-title">⭐ Top Performing Videos</div>
+          <div class="report-hdr-sub">YouTube Analytics · 35 videos tracked · ranked by views</div>
+        </div>
+        <div class="report-body">
+          <div class="top-vid-list" id="topVidList">
+            <!-- filled by JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- CTR Analysis -->
+      <div class="report-card">
+        <div class="report-hdr">
+          <div class="report-hdr-title">📐 CTR Analysis & Next Steps</div>
+          <div class="report-hdr-sub">Click-through rate by book & thumbnail formula</div>
+        </div>
+        <div class="report-body">
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="padding:12px 14px;background:var(--green-bg);border-radius:var(--r);border-left:3px solid var(--green);">
+              <div style="font-weight:700;font-size:.82rem;color:var(--green);margin-bottom:3px;">🥾 Trail Ready — 8.0% CTR (Top)</div>
+              <div style="font-size:.75rem;color:var(--text2);line-height:1.6;">Question-hook + high-contrast thumbnail formula is working. "You think you're ready for the trail?" framing drives curiosity clicks. Apply this formula to Paramedic series next.</div>
+            </div>
+            <div style="padding:12px 14px;background:var(--blue-bg);border-radius:var(--r);border-left:3px solid var(--blue);">
+              <div style="font-weight:700;font-size:.82rem;color:var(--blue);margin-bottom:3px;">🛂 Crossing the Line — 5.26% CTR</div>
+              <div style="font-size:.75rem;color:var(--text2);line-height:1.6;">Tension-and-decision framing performs well. "What would you do if something went wrong?" drives engagement. Replicate for Series 2.</div>
+            </div>
+            <div style="padding:12px 14px;background:var(--yt-bg);border-radius:var(--r);border-left:3px solid var(--yt);">
+              <div style="font-weight:700;font-size:.82rem;color:var(--yt);margin-bottom:3px;">🚑 Paramedic — 0.68% CTR (Needs refresh)</div>
+              <div style="font-size:.75rem;color:var(--text2);line-height:1.6;">"Step inside the ambulance" has 443 impressions but only 0.68% CTR. Thumbnail refresh using Trail Ready formula could immediately triple click-through. Priority action for Series 2.</div>
+            </div>
+            <div style="padding:12px 14px;background:var(--amber-bg);border-radius:var(--r);border-left:3px solid var(--amber);">
+              <div style="font-weight:700;font-size:.82rem;color:var(--amber);margin-bottom:3px;">💡 Opportunity: Rethumbnail high-impression videos</div>
+              <div style="font-size:.75rem;color:var(--text2);line-height:1.6;">3 Paramedic videos have 91–443 impressions with below-average CTR. Rethumbnailing these could unlock 200–400 additional views without any new posts.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TikTok Promote -->
+      <div class="report-card">
+        <div class="report-hdr" style="background:linear-gradient(135deg,#0f0f0f,#1a1a1a);">
+          <div class="report-hdr-title">🚀 Next Step: TikTok Promote</div>
+          <div class="report-hdr-sub">Turn organic momentum into targeted reach</div>
+        </div>
+        <div class="report-body">
+          <div style="font-size:.8rem;color:var(--text2);line-height:1.75;margin-bottom:14px;">8,521 TikTok views in 18 days is strong organic proof. TikTok Promote pushes your best-performing videos to lookalike audiences — people who match your existing viewers.</div>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px;">
+            <div style="display:flex;gap:10px;align-items:flex-start;"><span style="font-size:1rem;flex-shrink:0;">🎯</span><div style="font-size:.77rem;color:var(--text2);line-height:1.55;"><strong>Lookalike audiences</strong> — TikTok finds new viewers who match your existing followers</div></div>
+            <div style="display:flex;gap:10px;align-items:flex-start;"><span style="font-size:1rem;flex-shrink:0;">🌍</span><div style="font-size:.77rem;color:var(--text2);line-height:1.55;"><strong>You choose the countries</strong> — prioritise US, UK, Canada, Australia</div></div>
+            <div style="display:flex;gap:10px;align-items:flex-start;"><span style="font-size:1rem;flex-shrink:0;">💰</span><div style="font-size:.77rem;color:var(--text2);line-height:1.55;"><strong>Flexible budget</strong> — start from a few dollars/day, pause anytime</div></div>
+          </div>
+          <a href="https://ads.tiktok.com/business/en/promote-101" target="_blank" style="display:inline-flex;align-items:center;gap:6px;background:var(--bark);color:#fdf6ec;padding:9px 18px;border-radius:var(--r);font-size:.76rem;font-weight:700;text-decoration:none;transition:opacity .15s;" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
+            TikTok Promote Guide ↗
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <div class="footer-brand">Atomic Shelf</div>
+  <div class="footer-rule"></div>
+  <p>Luciano Nisi · Paramedic Trilogy · Campaign Dashboard · May 2026<br>Prepared by Atomic Shelf — your book marketing team.</p>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ══════════════════════════════════
+// DATE UTILITIES
+// ══════════════════════════════════
+const TODAY = new Date('2026-05-26');
+const CAMPAIGN_START = new Date('2026-05-04'); // YouTube launched May 4
+
+function formatDate(d,short=false){
+  const months=short?['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']:['January','February','March','April','May','June','July','August','September','October','November','December'];
+  return `${months[d.getMonth()]} ${d.getDate()}`;
+}
+
+function getWeekNumber(d){
+  const diff = Math.floor((d - CAMPAIGN_START)/(1000*60*60*24*7));
+  return Math.max(0, diff);
+}
+
+document.getElementById('todayChip').textContent = formatDate(TODAY, true) + ' 2026';
+
+// ══════════════════════════════════
+// CAMPAIGN DATA
+// ══════════════════════════════════
+
+// 12 weeks of campaign content
+const WEEKS = [
+  { num:1, label:'Week 1', dates:'May 4–10', start:new Date('2026-05-04'), status:'done' },
+  { num:2, label:'Week 2', dates:'May 11–17', start:new Date('2026-05-11'), status:'done' },
+  { num:3, label:'Week 3', dates:'May 18–24', start:new Date('2026-05-18'), status:'current' },
+  { num:4, label:'Week 4', dates:'May 25–31', start:new Date('2026-05-25'), status:'current' },
+  { num:5, label:'Week 5', dates:'Jun 1–7', start:new Date('2026-06-01'), status:'future' },
+  { num:6, label:'Week 6', dates:'Jun 8–14', start:new Date('2026-06-08'), status:'future' },
+  { num:7, label:'Week 7', dates:'Jun 15–21', start:new Date('2026-06-15'), status:'future' },
+  { num:8, label:'Week 8', dates:'Jun 22–28', start:new Date('2026-06-22'), status:'future' },
+];
+
+// Detailed calendar posts
+const POSTS = [
+  // WEEK 1
+  { week:1, date:'2026-05-04', time:'09:00 UTC', book:'paramedic', bookLabel:'🚑 Paramedic', hook:'What goes on behind flashing lights?', platform:'yt', status:'done' },
+  { week:1, date:'2026-05-04', time:'17:00 UTC', book:'paramedic', bookLabel:'🚑 Paramedic', hook:'Step inside the ambulance', platform:'yt', status:'done' },
+  { week:1, date:'2026-05-04', time:'20:00 UTC', book:'paramedic', bookLabel:'🚑 Paramedic', hook:'True Emergency Calls You Won\'t Believe', platform:'yt', status:'done' },
+  { week:1, date:'2026-05-05', time:'09:00 UTC', book:'trail', bookLabel:'🥾 Trail Ready', hook:'So you think you\'re prepared for your next hike?', platform:'yt', status:'done' },
+  { week:1, date:'2026-05-06', time:'09:00 UTC', book:'trail', bookLabel:'🥾 Trail Ready', hook:'Stabbings, Shootings, and Overdoses — Up Close', platform:'yt', status:'done' },
+  { week:1, date:'2026-05-07', time:'09:00 UTC', book:'trail', bookLabel:'🥾 Trail Ready', hook:'You think you\'re ready for the trail — but are you really?', platform:'tt', status:'done' },
+  { week:1, date:'2026-05-07', time:'17:00 UTC', book:'paramedic', bookLabel:'🚑 Paramedic', hook:'What would you do if something went wrong on the trail?', platform:'tt', status:'done' },
+  { week:1, date:'2026-05-08', time:'09:00 UTC', book:'trail', bookLabel:'🥾 Trail Ready', hook:'The trail doesn\'t care if you\'re experienced', platform:'both', status:'done' },
+  { week:1, date:'2026-05-09', time:'09:00 UTC', book:'trail', bookLabel:'🥾 Trail Ready', hook:'You either adapt or the mountain decides for you', platform:'both', status:'done' },
+  { week:1, date:'2026-05-09', time:'17:00 UTC', book:'paramedic', bookLabel:'🚑 Paramedic', hook:'The Dark Humor That Keeps Paramedics Sane', platform:'both', status:'done' },
+  { week:1, date:'2026-05-10', time:'09:00 UTC', book:'crossing', bookLabel:'🛂 Crossing', hook:'Do you know what CBSA officers are really looking for?', platform:'tt', status:'done' },
+  // WEEK 2
+  { week:2, date:'2026-05-11', time:'09:00 UTC', book:'trail', bookLabel:'🥾 Trail Ready', hook:'Miles from help', platform:'both', status:'done' },
+  { week:2, date:'2026-05-11', time:'17:00 UTC', book:'trail', bookLabel:'🥾 Trail Ready', hook:'You either adapt or the mountain decides for you', platform:'both', status:'done' },
+  { week:2, date:'2026-05-12', time:'09:00 UTC', book:'paramedic', bookLabel:'🚑 Paramedic', hook:'Non-English text approved — live now', platform:'tt', status:'done' },
+  { week:2, date:'2026-05-12', time:'17:00 UTC', book:'crossing', bookLabel:'🛂 Crossing', hook:'You crossed the border and got sent inside — why?', platform:'both', status:'done' },
+  { week:2, date:'2026-05-13', time:'09:00 UTC', book:'paramedic', bookLabel:'🚑 Paramedic', hook:'What it really feels like behind the sirens', platform:'tt', status:'done' },
+  { week:2, date:'2026-05-14', time:'09:00 UTC', book:'trail', bookLabel:'🥾 Trail Ready', hook:'What to bring on a short hike that could save your life', platform:'tt', status:'done' },
+  { week:2, date:'2026-05-15', time:'09:00 UTC', book:'crossing', bookLabel:'🛂 Crossing', hook:'Random exam — is it really random?', platform:'both', status:'done' },
+  { week:2, date:'2026-05-16', time:'09:00 UTC', book:'paramedic', bookLabel:'🚑 Paramedic', hook:'Dark humour is a paramedic\'s armour', platform:'tt', status:'done' },
+  { week:2, date:'2026-05-17', time:'09:00 UTC', book:'trail', bookLabel:'🥾 Trail Ready', hook:'The 10 hiking essentials — do you carry them?', platform:'both', status:'done' },
+  { week:2, date:'2026-05-17', time:'17:00 UTC', book:'crossing', bookLabel:'🛂 Crossing', hook:'Duty-free rules explained in 30 seconds', platform:'tt', status:'done' },
+  // WEEK 3
+  { week:3, date:'2026-05-18', time:'09:00 UTC', book:'paramedic', bookLabel:'🚑 Paramedic', hook:'The call that changed everything', platform:'tt', status:'done' },
+  { week:3, date:'2026-05-18', time:'17:00 UTC', book:'trail', bookLabel:'🥾 Trail Ready', hook:'Out of cell range with no first aid — now what?', platform:'both', status:'done' },
+  { week:3, date:'2026-05-19', time:'09:00 UTC', book:'crossing', bookLabel:'🛂 Crossing', hook:'Did you declare everything? Think again', platform:'tt', status:'done' },
+  { week:3, date:'2026-05-20', time:'09:00 UTC', book:'paramedic', bookLabel:'🚑 Paramedic', hook:'What paramedics notice first on scene', platform:'tt', status:'done' },
+  { week:3, date:'2026-05-21', time:'09:00 UTC', book:'trail', bookLabel:'🥾 Trail Ready', hook:'Peak day — Trail survival hook', platform:'both', status:'done' },
+  { week:3, date:'2026-05-21', time:'17:00 UTC', book:'crossing', bookLabel:'🛂 Crossing', hook:'The question the CBSA officer is about to ask you', platform:'tt', status:'done' },
+  { week:3, date:'2026-05-22', time:'09:00 UTC', book:'paramedic', bookLabel:'🚑 Paramedic', hook:'Adrenaline, chaos, and a decision in 3 seconds', platform:'tt', status:'done' },
+  { week:3, date:'2026-05-23', time:'09:00 UTC', book:'trail', bookLabel:'🥾 Trail Ready', hook:'Why short hikers get in more trouble than long ones', platform:'both', status:'done' },
+  { week:3, date:'2026-05-24', time:'09:00 UTC', book:'crossing', bookLabel:'🛂 Crossing', hook:'Most people get this border rule completely wrong', platform:'tt', status:'done' },
+  // WEEK 4 (current)
+  { week:4, date:'2026-05-25', time:'09:00 UTC', book:'paramedic', bookLabel:'🚑 Paramedic', hook:'The overdose call nobody talks about', platform:'tt', status:'live' },
+  { week:4, date:'2026-05-25', time:'17:00 UTC', book:'trail', bookLabel:'🥾 Trail Ready', hook:'You packed light. The weather didn\'t.', platform:'both', status:'live' },
+  { week:4, date:'2026-05-26', time:'09:00 UTC', book:'crossing', bookLabel:'🛂 Crossing', hook:'Crossing with a record — what happens next?', platform:'tt', status:'today' },
+  { week:4, date:'2026-05-26', time:'17:00 UTC', book:'paramedic', bookLabel:'🚑 Paramedic', hook:'30 years on the job. Here\'s what breaks you.', platform:'tt', status:'today' },
+  { week:4, date:'2026-05-27', time:'09:00 UTC', book:'trail', bookLabel:'🥾 Trail Ready', hook:'The hiker who wasn\'t prepared. This is their story.', platform:'both', status:'queued' },
+  { week:4, date:'2026-05-28', time:'09:00 UTC', book:'paramedic', bookLabel:'🚑 Paramedic', hook:'When you can\'t save them — and you have to keep going', platform:'tt', status:'queued' },
+  { week:4, date:'2026-05-29', time:'09:00 UTC', book:'crossing', bookLabel:'🛂 Crossing', hook:'The one thing that always slows down the border line', platform:'tt', status:'queued' },
+  { week:4, date:'2026-05-30', time:'09:00 UTC', book:'trail', bookLabel:'🥾 Trail Ready', hook:'Could you treat a sprained ankle on the trail?', platform:'both', status:'queued' },
+  { week:4, date:'2026-05-31', time:'09:00 UTC', book:'paramedic', bookLabel:'🚑 Paramedic', hook:'The shooting call from a paramedic\'s eyes', platform:'tt', status:'queued' },
+  // WEEK 5
+  { week:5, date:'2026-06-01', time:'09:00 UTC', book:'trail', bookLabel:'🥾 Trail Ready', hook:'Series 4 launch — backcountry survival', platform:'both', status:'pending' },
+  { week:5, date:'2026-06-02', time:'09:00 UTC', book:'paramedic', bookLabel:'🚑 Paramedic', hook:'Paramedic Series 2 — new thumbnail formula', platform:'tt', status:'pending' },
+  { week:5, date:'2026-06-03', time:'09:00 UTC', book:'crossing', bookLabel:'🛂 Crossing', hook:'Crossing the Line Series 2 launch', platform:'both', status:'pending' },
+  { week:5, date:'2026-06-04', time:'09:00 UTC', book:'trail', bookLabel:'🥾 Trail Ready', hook:'Emergency shelter — could you build one?', platform:'both', status:'pending' },
+  { week:5, date:'2026-06-05', time:'09:00 UTC', book:'paramedic', bookLabel:'🚑 Paramedic', hook:'The cardiac arrest that surprised everyone', platform:'tt', status:'pending' },
+];
+
+// Voiceover scripts
+const VOICEOVERS = [
+  {
+    book:'paramedic',
+    week:1,
+    hook:'What goes on behind flashing lights and sirens?',
+    script:`You hear the siren. You pull over. You wonder — what's actually happening in there?\n\nFor 15 years Luciano Nisi was the person in that ambulance. Stabbings. Overdoses. Calls that change your life forever.\n\nUntold Stories of a Paramedic takes you inside the ambulance on real emergency calls. You'll see what he sees, hear what he hears — and understand what it actually takes to do this job.\n\nFull book on Kindle — link in bio.`,
+    duration:'~28 sec',
+    cta:'Link in bio',
+  },
+  {
+    book:'paramedic',
+    week:1,
+    hook:'The Dark Humor That Keeps Paramedics Sane',
+    script:`How do paramedics deal with the worst days of people's lives — every single shift?\n\nDark humour. It's not cruelty. It's survival.\n\nLuciano Nisi spent 15 years on the job, rural and downtown. In Untold Stories of a Paramedic he shows you both sides — the gut-punch calls and the moments that make you laugh until you can't breathe.\n\nBecause that's the real job.\n\nKindle link in bio.`,
+    duration:'~30 sec',
+    cta:'Kindle link in bio',
+  },
+  {
+    book:'trail',
+    week:1,
+    hook:'You think you\'re ready for the trail — but are you really?',
+    script:`Most people who get into trouble on a hike thought they were prepared.\n\nThey brought snacks. They wore trainers. They figured — it's just a couple of hours.\n\nBut what happens when you're out of cell range and something goes wrong?\n\nTrail Ready by Luciano Nisi gives you the actual guidelines — what to pack, what to prepare, and what the 10 hiking essentials are that most people leave at home.\n\nKindle link in bio.`,
+    duration:'~32 sec',
+    cta:'Kindle link in bio',
+  },
+  {
+    book:'trail',
+    week:2,
+    hook:'Miles from help.',
+    script:`You\'re on the trail. Something went wrong. No signal.\n\nThe nearest person who can help you is miles away.\n\nThis isn't a worst-case scenario — it happens every single weekend to hikers who didn\'t think it would happen to them.\n\nTrail Ready tells you exactly what to carry and how to prepare, so that when something goes sideways, you don't panic. You act.\n\nLink in bio.`,
+    duration:'~27 sec',
+    cta:'Link in bio',
+  },
+  {
+    book:'crossing',
+    week:1,
+    hook:'Do you know what CBSA officers are really looking for?',
+    script:`You pull up to the booth. The officer asks where you\'re going. Simple question.\n\nBut do you know what they\'re actually assessing in those first 10 seconds?\n\nLuciano Nisi spent years understanding the Canada–US border and in Crossing the Line he breaks it all down — what triggers a secondary inspection, when you have to pay duty, and how to get through with zero stress.\n\nKindle link in bio.`,
+    duration:'~30 sec',
+    cta:'Kindle link in bio',
+  },
+  {
+    book:'crossing',
+    week:2,
+    hook:'Random exam — is it really random?',
+    script:`You followed all the rules. You declared everything. And they still sent you in.\n\nIs it actually random? Or is there something specific that triggered it?\n\nCrossing the Line answers that question. Luciano Nisi explains exactly why CBSA sends people to secondary inspection — and what to do when it happens so you get out fast.\n\nLink in bio.`,
+    duration:'~26 sec',
+    cta:'Link in bio',
+  },
+];
+
+// Descriptions
+const DESCRIPTIONS = [
+  {
+    week:1,
+    book:'paramedic',
+    hook:'What goes on behind flashing lights?',
+    tiktok:`When you see an ambulance fly past — have you ever wondered what\'s actually happening inside? 🚑\n\n15 years as a paramedic. Real calls. Real stories. Untold.\n\n📖 Kindle link in bio\n\n#paramedic #ems #emergencyservices #booktok #untoldstories #firstresponder`,
+    youtube:`Luciano Nisi spent 15 years as a paramedic working rural and downtown urban areas. In Untold Stories of a Paramedic he takes you inside the ambulance on real calls — stabbings, overdoses, shootings — and shows you what it's really like.\n\n📖 Full book on Kindle → https://amzn.to/paramedic\n\n#ParamedicStories #BookTok #EMS #FirstResponder #NonfictionBooks`,
+  },
+  {
+    week:1,
+    book:'trail',
+    hook:'You think you\'re ready for the trail?',
+    tiktok:`So you think you\'re prepared for your next hike — but are you REALLY? 🥾\n\nMost hikers who get into trouble thought they were ready too.\n\nTrail Ready gives you the actual checklist to make it back safely.\n\n📖 Kindle link in bio\n\n#hiking #trailready #hikingsafety #booktok #outdoors #hikingtips`,
+    youtube:`Trail Ready by Luciano Nisi — the hiking emergency preparation guide that gives both novice and experienced hikers the real guidelines on what to pack, what the 10 hiking essentials are, and how to prepare for anything that goes wrong on the trail.\n\n📖 Full book on Kindle → https://amzn.to/trailready\n\n#TrailReady #HikingSafety #OutdoorBooks #BookTok #HikingTips #EmergencyPrep`,
+  },
+  {
+    week:1,
+    book:'crossing',
+    hook:'CBSA — what are they really looking for?',
+    tiktok:`You know the questions they ask at the border. But do you know what they\'re actually evaluating? 🛂\n\nCrossing the Line tells you everything CBSA doesn\'t.\n\n📖 Kindle link in bio\n\n#cbsa #borderlife #canadausa #crossingtheline #booktok #traveltips`,
+    youtube:`Crossing the Line by Luciano Nisi dispels the myths about the Canada–US border crossing. What triggers a secondary inspection? When do you pay duty? What ID do you actually need? All of it — answered clearly.\n\n📖 Full book on Kindle → https://amzn.to/crossingtheline\n\n#CrossingTheLine #CBSA #BorderCrossing #CanadaUSA #TravelTips #BookTok`,
+  },
+  {
+    week:2,
+    book:'paramedic',
+    hook:'The Dark Humor That Keeps Paramedics Sane',
+    tiktok:`No one talks about how paramedics actually survive this job emotionally 😬\n\nHint: it\'s not mindfulness.\n\n📖 Untold Stories of a Paramedic — Kindle link in bio\n\n#paramedic #ems #darkhumour #firstresponder #booktok #ambulancelife`,
+    youtube:`The calls are brutal. The hours are brutal. So how do paramedics cope? Luciano Nisi goes behind the scenes of the coping mechanisms, the team dynamics, and the dark humour that gets you through the shift.\n\n📖 Full book on Kindle → https://amzn.to/paramedic\n\n#ParamedicLife #DarkHumour #EMS #BookTok #FirstResponderStories`,
+  },
+];
+
+// Top videos data
+const TOP_VIDEOS = [
+  { title:'You think you\'re ready for the trail — but are you really? 🥾', book:'Trail Ready', views:225, ctr:'8.0%', impressions:25 },
+  { title:'What would you do if something went wrong on the trail', book:'Crossing the Line', views:170, ctr:'5.26%', impressions:38 },
+  { title:'What goes on behind flashing lights and sirens?', book:'Paramedic', views:143, ctr:'0%', impressions:84 },
+  { title:'You either adapt or the mountain decides for you.', book:'Trail Ready', views:120, ctr:'4.62%', impressions:65 },
+  { title:'Step inside the ambulance and experience real emergency', book:'Paramedic', views:94, ctr:'0.68%', impressions:443 },
+  { title:'The Dark Humor That Keeps Paramedics Sane', book:'Paramedic', views:89, ctr:'4.4%', impressions:91 },
+  { title:'Miles from help.', book:'Trail Ready', views:85, ctr:'2.78%', impressions:72 },
+  { title:'The trail doesn\'t care if you\'re experienced.', book:'Trail Ready', views:77, ctr:'0%', impressions:39 },
+  { title:'True Emergency Calls You Won\'t Believe', book:'Paramedic', views:68, ctr:'0%', impressions:91 },
+  { title:'Stabbings, Shootings, and Overdoses – Up Close', book:'Paramedic', views:61, ctr:'2.21%', impressions:136 },
+];
+
+// Week stats
+const WEEK_STATS = {
+  1: { ttViews:1924, ytViews:554, posts:10, topDay:'May 8 (419 YT)' },
+  2: { ttViews:2844, ytViews:346, posts:10, topDay:'May 13 (607 TT)' },
+  3: { ttViews:2891, ytViews:390, posts:9, topDay:'May 21 (703 TT)' },
+  4: { ttViews:862, ytViews:272, posts:3, topDay:'May 25 (live)' },
+  5: { ttViews:0, ytViews:0, posts:0, topDay:'—' },
+};
+
+// ══════════════════════════════════
+// ACTIVE WEEK STATE
+// ══════════════════════════════════
+let activeWeek = 4; // current week is week 4
+let calFilter = 'all';
+let voFilter = 'all';
+let descFilter = 'all';
+let activeTab = 'calendar';
+
+// ══════════════════════════════════
+// RENDER WEEK TABS
+// ══════════════════════════════════
+function renderWeekTabs(){
+  const row = document.getElementById('weeksRow');
+  row.innerHTML = WEEKS.map(w => {
+    let cls = 'week-tab';
+    if (w.num === activeWeek) cls += ' active';
+    if (w.status === 'done' && w.num < activeWeek) cls += ' past';
+    else if (w.status === 'done' || w.status === 'current') cls += ' current';
+    else cls += ' future';
+    return `<button class="${cls}" onclick="setWeek(${w.num})">${w.label}<br><span style="font-size:.52rem;opacity:.6;">${w.dates}</span></button>`;
+  }).join('');
+  document.getElementById('activeWeekLabel').textContent = `Week ${activeWeek} · ${WEEKS[activeWeek-1]?.dates||''}`;
+}
+
+function setWeek(n){
+  activeWeek = n;
+  renderWeekTabs();
+  renderCalendar();
+  renderWeekStatusBar();
+  renderVoiceovers();
+  renderDescriptions();
+  document.getElementById('cal-week-label').textContent = `Week ${n} · ${WEEKS[n-1]?.dates||''}`;
+}
+
+// ══════════════════════════════════
+// RENDER WEEK STATUS BAR
+// ══════════════════════════════════
+function renderWeekStatusBar(){
+  const ws = WEEK_STATS[activeWeek] || { ttViews:0, ytViews:0, posts:0, topDay:'—' };
+  const el = document.getElementById('weekStatusBar');
+  el.innerHTML = `
+    <div class="wsb-card"><div class="wsb-val tk">${ws.ttViews.toLocaleString()}</div><div class="wsb-lbl">📱 TikTok Views</div></div>
+    <div class="wsb-card"><div class="wsb-val yt">${ws.ytViews.toLocaleString()}</div><div class="wsb-lbl">▶️ YouTube Views</div></div>
+    <div class="wsb-card"><div class="wsb-val">${ws.posts}</div><div class="wsb-lbl">🎬 Posts This Week</div></div>
+    <div class="wsb-card"><div class="wsb-val grn" style="font-size:1.1rem;margin-bottom:4px;">${ws.topDay}</div><div class="wsb-lbl">⭐ Top Day</div></div>
+  `;
+}
+
+// ══════════════════════════════════
+// RENDER CALENDAR
+// ══════════════════════════════════
+function getPlatformPills(platform){
+  if(platform==='tt') return `<span class="platform-tag ptk">📱 TikTok</span>`;
+  if(platform==='yt') return `<span class="platform-tag pyt">▶️ YouTube</span>`;
+  if(platform==='both') return `<span class="platform-tag ptk">📱 TikTok</span><span class="platform-tag pyt">▶️ YouTube</span>`;
+  return '';
+}
+
+function getStatusPill(s){
+  if(s==='done') return `<span class="status-pill sp-done">✅ Posted</span>`;
+  if(s==='live') return `<span class="status-pill sp-live">🔴 Live</span>`;
+  if(s==='today') return `<span class="status-pill sp-live">📍 Today</span>`;
+  if(s==='queued') return `<span class="status-pill sp-queued">🔵 Queued</span>`;
+  return `<span class="status-pill sp-pending">⏳ Pending</span>`;
+}
+
+function getBookColor(book){
+  if(book==='paramedic') return '#cc0000';
+  if(book==='trail') return '#3a1a0a';
+  if(book==='crossing') return '#1a4878';
+  return '#888';
+}
+
+function renderCalendar(){
+  const posts = POSTS.filter(p => {
+    if(calFilter !== 'all' && p.book !== calFilter) return false;
+    return p.week === activeWeek;
+  });
+  const body = document.getElementById('calBody');
+  if(!posts.length){
+    body.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:32px;color:var(--text4);font-style:italic;">No posts scheduled for this week yet.</td></tr>`;
+    return;
+  }
+  body.innerHTML = posts.map(p => {
+    const isToday = p.date === '2026-05-26';
+    const rowCls = isToday ? 'today-row' : p.status==='done' ? 'posted' : p.status==='pending'||p.status==='queued' ? 'future-row' : '';
+    const d = new Date(p.date);
+    const dayName = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][d.getDay()];
+    const bookColor = getBookColor(p.book);
+    return `<tr class="${rowCls}">
+      <td><span style="font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--text4);">W${p.week}</span></td>
+      <td>
+        <div style="font-weight:600;font-size:.82rem;">${dayName}, ${formatDate(d,true)}</div>
+        <div><span class="time-badge">${p.time}</span></div>
+      </td>
+      <td><span style="font-size:.75rem;font-weight:700;color:${bookColor};">${p.bookLabel}</span></td>
+      <td><div class="hook-title">${p.hook}</div></td>
+      <td>${getPlatformPills(p.platform)}</td>
+      <td>${getStatusPill(p.status)}</td>
+    </tr>`;
+  }).join('');
+}
+
+function filterCal(f, btn){
+  calFilter = f;
+  document.querySelectorAll('.book-filters .bfp').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderCalendar();
+}
+
+// ══════════════════════════════════
+// RENDER VOICEOVERS
+// ══════════════════════════════════
+function getBookBg(book){
+  if(book==='paramedic') return 'background:linear-gradient(135deg,#8b0000,#cc0000);';
+  if(book==='trail') return 'background:linear-gradient(135deg,#3a1a0a,#c47520);';
+  if(book==='crossing') return 'background:linear-gradient(135deg,#0a1a38,#1a4878);';
+  return '';
+}
+
+function renderVoiceovers(){
+  const scripts = VOICEOVERS.filter(v => {
+    if(voFilter !== 'all' && v.book !== voFilter) return false;
+    return true; // show all weeks or filter to active week
+  });
+  const grid = document.getElementById('voGrid');
+  if(!scripts.length){
+    grid.innerHTML = `<div style="color:var(--text4);font-style:italic;grid-column:1/-1;padding:32px;text-align:center;">No voiceover scripts for this selection.</div>`;
+    return;
+  }
+  grid.innerHTML = scripts.map((v,i) => {
+    const bookLabel = v.book==='paramedic'?'🚑 Paramedic': v.book==='trail'?'🥾 Trail Ready':'🛂 Crossing';
+    return `<div class="vo-card">
+      <div class="vo-card-header" style="${getBookBg(v.book)}">
+        <div class="vo-num">Script #${i+1} · Week ${v.week}</div>
+        <div class="vo-book-tag" style="background:rgba(255,255,255,.15);color:rgba(255,255,255,.8);">${bookLabel}</div>
+      </div>
+      <div class="vo-body">
+        <div class="vo-hook">"${v.hook}"</div>
+        <div class="vo-script" id="vs-${i}">${v.script.replace(/\n/g,'<br>')}</div>
+        <div class="vo-duration">🕐 Duration: ${v.duration} at natural speaking pace</div>
+        <div style="margin-top:10px;display:flex;gap:8px;">
+          <button class="copy-btn" onclick="copyVO(${i},'vs-${i}')">📋 Copy Script</button>
+          <span style="font-size:.62rem;color:var(--text4);align-self:center;">CTA: ${v.cta}</span>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function copyVO(i, elId){
+  const el = document.getElementById(elId);
+  const text = el.innerText;
+  navigator.clipboard.writeText(text).then(()=>showToast('📋 Script copied!'));
+}
+
+function filterVo(f, btn){
+  voFilter = f;
+  document.querySelectorAll('#panel-voiceovers .book-filters .bfp').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderVoiceovers();
+}
+
+// ══════════════════════════════════
+// RENDER DESCRIPTIONS
+// ══════════════════════════════════
+function renderDescriptions(){
+  const descs = DESCRIPTIONS.filter(d => {
+    if(descFilter !== 'all' && d.book !== descFilter) return false;
+    return true;
+  });
+  const container = document.getElementById('descContainer');
+  if(!descs.length){
+    container.innerHTML = `<div style="color:var(--text4);font-style:italic;padding:32px;text-align:center;">No descriptions for this selection.</div>`;
+    return;
+  }
+  container.innerHTML = descs.map((d,i) => {
+    const bookLabel = d.book==='paramedic'?'🚑 Paramedic': d.book==='trail'?'🥾 Trail Ready':'🛂 Crossing';
+    const bookColor = getBookColor(d.book);
+    return `<div style="margin-bottom:20px;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+        <span style="font-weight:700;font-size:.84rem;color:${bookColor};">${bookLabel}</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--text4);">Week ${d.week} · "${d.hook}"</span>
+      </div>
+      <div class="desc-grid">
+        <div class="desc-card">
+          <div class="desc-card-hdr">
+            <div class="desc-plat"><span class="platform-tag ptk" style="font-size:.7rem;">📱 TikTok</span> Caption</div>
+            <button class="copy-btn" onclick="copyDesc('dd-tt-${i}')">📋 Copy</button>
+          </div>
+          <div class="desc-body">
+            <div class="desc-block">
+              <div id="dd-tt-${i}" class="desc-text">${d.tiktok.replace(/\n/g,'<br>')}</div>
+            </div>
+          </div>
+        </div>
+        <div class="desc-card">
+          <div class="desc-card-hdr">
+            <div class="desc-plat"><span class="platform-tag pyt" style="font-size:.7rem;">▶️ YouTube</span> Description</div>
+            <button class="copy-btn" onclick="copyDesc('dd-yt-${i}')">📋 Copy</button>
+          </div>
+          <div class="desc-body">
+            <div class="desc-block">
+              <div id="dd-yt-${i}" class="desc-text">${d.youtube.replace(/\n/g,'<br>')}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function copyDesc(id){
+  const el = document.getElementById(id);
+  const text = el.innerText;
+  navigator.clipboard.writeText(text).then(()=>showToast('📋 Description copied!'));
+}
+
+function filterDesc(f, btn){
+  descFilter = f;
+  document.querySelectorAll('#panel-descriptions .book-filters .bfp').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderDescriptions();
+}
+
+// ══════════════════════════════════
+// RENDER TOP VIDEOS
+// ══════════════════════════════════
+function renderTopVideos(){
+  const list = document.getElementById('topVidList');
+  list.innerHTML = TOP_VIDEOS.map((v,i) => {
+    const bookColor = v.book==='Trail Ready'?'#3a1a0a':v.book==='Paramedic'?'#cc0000':'#1a4878';
+    return `<div class="top-vid">
+      <div class="top-vid-rank">${i+1}</div>
+      <div class="top-vid-info">
+        <div class="top-vid-title">${v.title}</div>
+        <div class="top-vid-book"><span style="color:${bookColor};font-weight:600;">${v.book}</span> · CTR: ${v.ctr} · ${v.impressions} impressions</div>
+      </div>
+      <div class="top-vid-views">${v.views}</div>
+    </div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════
+// RENDER CHARTS
+// ══════════════════════════════════
+function renderCharts(){
+  const ttData = [193,267,763,286,449,428,607,391,493,447,256,541,594,564,703,493,442,604];
+  const ytData = [332,21,26,96,419,54,127,121,57,13,14,2,7,7,2,3,2,3,2];
+
+  function buildBars(data, color, maxH=100){
+    const mx = Math.max(...data);
+    return data.map(v => {
+      const h = Math.round((v/mx)*maxH);
+      return `<div class="bar-seg" style="background:${color};height:${h}px;opacity:${v===mx?1:.45};" title="${v} views"></div>`;
+    }).join('');
+  }
+
+  const ttEl = document.getElementById('ttChart');
+  const ytEl = document.getElementById('ytChart');
+  if(ttEl) ttEl.innerHTML = buildBars(ttData,'#333',95);
+  if(ytEl) ytEl.innerHTML = buildBars(ytData,'#cc0000',95);
+}
+
+// ══════════════════════════════════
+// TAB SWITCHING
+// ══════════════════════════════════
+function switchTab(name, btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('panel-'+name).classList.add('active');
+  if(btn) btn.classList.add('active');
+  activeTab = name;
+}
+
+// ══════════════════════════════════
+// TOAST
+// ══════════════════════════════════
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._tid);
+  t._tid = setTimeout(()=>t.classList.remove('show'), 2600);
+}
+
+// ══════════════════════════════════
+// INIT
+// ══════════════════════════════════
+renderWeekTabs();
+renderWeekStatusBar();
+renderCalendar();
+renderVoiceovers();
+renderDescriptions();
+renderTopVideos();
+renderCharts();
+</script>
+</body>
+</html>

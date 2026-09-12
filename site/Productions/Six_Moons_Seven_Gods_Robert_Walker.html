@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Robert A. Walker • Six Moons, Seven Gods • Content Report | Atomic-Shelf</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --ink: #1a0e0c;
+            --parchment: #f5ede0;
+            --gold: #c9a84c;
+            --gold-light: #e8c97a;
+            --crimson: #7a1f1f;
+            --ash: #3d2b28;
+            --smoke: #8a7060;
+            --cream: #fdf8f0;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'EB Garamond', Georgia, serif;
+            background: var(--ink);
+            color: var(--parchment);
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Grain texture overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 1000;
+            opacity: 0.4;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Cinzel', serif;
+        }
+
+        .hero-bg {
+            background:
+                linear-gradient(to bottom, rgba(26,14,12,0.6) 0%, rgba(26,14,12,0.85) 60%, rgba(26,14,12,1) 100%),
+                url('https://lh3.googleusercontent.com/pw/AP1GczPRDR_PE1380BAtxYSVd-eHU2X6TmdXwWp9AC8ML62Bfm79CQXV5Z9Kt55cTk0DqneM_uECkufcCjg8IuLxtUVokr5ZRQ-5udlCnVtDEWz1bEkaX14=w1920-h1080')
+                center/cover no-repeat;
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .gold-rule {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+
+        .gold-rule-thick {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent);
+        }
+
+        .card {
+            background: rgba(26,14,12,0.7);
+            border: 1px solid rgba(201,168,76,0.25);
+            backdrop-filter: blur(8px);
+            transition: border-color 0.3s ease, transform 0.3s ease;
+        }
+        .card:hover {
+            border-color: rgba(201,168,76,0.6);
+            transform: translateY(-4px);
+        }
+
+        .week-header {
+            background: linear-gradient(135deg, var(--crimson), var(--ash));
+            border-left: 4px solid var(--gold);
+        }
+
+        table { border-collapse: collapse; width: 100%; }
+
+        thead tr {
+            background: rgba(201,168,76,0.12);
+            border-bottom: 1px solid var(--gold);
+        }
+
+        th {
+            font-family: 'Cinzel', serif;
+            font-size: 0.7rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--gold);
+            padding: 14px 18px;
+            text-align: left;
+        }
+
+        td {
+            padding: 13px 18px;
+            font-size: 0.95rem;
+            border-bottom: 1px solid rgba(201,168,76,0.1);
+            vertical-align: top;
+        }
+
+        tbody tr:hover td {
+            background: rgba(201,168,76,0.05);
+        }
+
+        input[type="checkbox"] {
+            accent-color: var(--gold);
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .badge-gold {
+            display: inline-block;
+            background: linear-gradient(90deg, var(--gold), var(--gold-light));
+            color: var(--ink);
+            font-family: 'Cinzel', serif;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            padding: 4px 12px;
+            border-radius: 2px;
+        }
+
+        .badge-crimson {
+            display: inline-block;
+            background: var(--crimson);
+            border: 1px solid rgba(201,168,76,0.4);
+            color: var(--gold-light);
+            font-family: 'Cinzel', serif;
+            font-size: 0.65rem;
+            letter-spacing: 0.1em;
+            padding: 4px 12px;
+            border-radius: 2px;
+        }
+
+        .stat-box {
+            background: rgba(201,168,76,0.06);
+            border: 1px solid rgba(201,168,76,0.2);
+            border-radius: 4px;
+            padding: 20px 24px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: 'Cinzel', serif;
+            font-size: 2.4rem;
+            color: var(--gold);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--smoke);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-top: 6px;
+        }
+
+        .retainer-cta {
+            background: linear-gradient(135deg, rgba(122,31,31,0.4), rgba(61,43,40,0.6));
+            border: 1px solid var(--gold);
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .retainer-cta::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent);
+        }
+
+        .btn-primary {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            color: var(--ink);
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            font-size: 0.85rem;
+            letter-spacing: 0.08em;
+            padding: 14px 32px;
+            border-radius: 3px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(201,168,76,0.35);
+        }
+
+        .btn-secondary {
+            display: inline-block;
+            background: transparent;
+            color: var(--gold);
+            font-family: 'Cinzel', serif;
+            font-size: 0.85rem;
+            letter-spacing: 0.08em;
+            padding: 13px 28px;
+            border-radius: 3px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 1px solid var(--gold);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(201,168,76,0.1);
+        }
+
+        .series-chip {
+            display: inline-block;
+            background: rgba(201,168,76,0.12);
+            border: 1px solid rgba(201,168,76,0.3);
+            color: var(--gold-light);
+            font-size: 0.75rem;
+            padding: 2px 8px;
+            border-radius: 2px;
+            white-space: nowrap;
+        }
+
+        .week-divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 48px 0 24px;
+        }
+
+        .week-divider-line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(201,168,76,0.4));
+        }
+
+        .week-divider-line.right {
+            background: linear-gradient(90deg, rgba(201,168,76,0.4), transparent);
+        }
+
+        .nav-fixed {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 500;
+            background: rgba(26,14,12,0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(201,168,76,0.2);
+        }
+
+        .ornament {
+            color: var(--gold);
+            font-size: 1.2rem;
+            opacity: 0.6;
+        }
+
+        .album-card {
+            background: rgba(26,14,12,0.5);
+            border: 1px solid rgba(201,168,76,0.2);
+            border-radius: 6px;
+            overflow: hidden;
+            transition: border-color 0.3s, transform 0.3s;
+        }
+
+        .album-card:hover {
+            border-color: rgba(201,168,76,0.5);
+            transform: translateY(-4px);
+        }
+
+        .album-img {
+            height: 180px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .album-img::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 60px;
+            background: linear-gradient(transparent, rgba(26,14,12,0.8));
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-up { animation: fadeUp 0.7s ease both; }
+        .delay-1 { animation-delay: 0.15s; }
+        .delay-2 { animation-delay: 0.3s; }
+        .delay-3 { animation-delay: 0.45s; }
+
+        /* Week color accents */
+        .week1-accent { border-left-color: #c9a84c; }
+        .week2-accent { border-left-color: #7a9c6a; }
+        .week3-accent { border-left-color: #6a7a9c; }
+
+        .week1-bg { background: rgba(201,168,76,0.06); }
+        .week2-bg { background: rgba(106,154,106,0.06); }
+        .week3-bg { background: rgba(106,122,156,0.06); }
+
+        .platform-tiktok { color: #69C9D0; }
+        .platform-yt { color: #FF4444; }
+        .platform-both { color: var(--gold-light); }
+    </style>
+</head>
+<body>
+
+<!-- Fixed Nav -->
+<nav class="nav-fixed">
+    <div style="max-width:1200px; margin:0 auto; padding:16px 32px; display:flex; justify-content:space-between; align-items:center;">
+        <div style="display:flex; align-items:center; gap:12px;">
+            <span style="font-size:1.5rem;">⚔️</span>
+            <div>
+                <div style="font-family:'Cinzel',serif; font-size:1.2rem; color:var(--gold); font-weight:700;">Atomic-Shelf</div>
+                <div style="font-size:0.75rem; color:var(--smoke); margin-top:-2px;">Robert A. Walker • Six Moons, Seven Gods</div>
+            </div>
+        </div>
+        <div style="display:flex; gap:12px; align-items:center;">
+            <a href="https://atomic-shelf.com/Essentials" target="_blank" class="btn-secondary" style="font-size:0.75rem; padding:8px 18px;">Essentials Plan</a>
+            <a href="https://store.pesapal.com/trialsubscription" target="_blank" class="btn-primary" style="font-size:0.75rem; padding:8px 18px;">Subscribe Now</a>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero-bg" style="padding-top:80px;">
+    <div style="max-width:1200px; margin:0 auto; padding:60px 32px; text-align:center;" class="fade-up">
+        <div style="margin-bottom:24px;">
+            <span class="badge-crimson">FREE PILOT</span>
+            &nbsp;&nbsp;
+            <span class="badge-gold">May–June 2026</span>
+        </div>
+        <h1 style="font-size:clamp(2.4rem,5vw,4.5rem); font-weight:900; line-height:1.1; margin-bottom:16px;">
+            Robert A. Walker
+        </h1>
+        <h2 style="font-family:'EB Garamond',serif; font-size:clamp(1.4rem,3vw,2.4rem); color:var(--gold-light); font-style:italic; font-weight:400; margin-bottom:32px;">
+            Six Moons, Seven Gods — The Legends of Baelon
+        </h2>
+        <div class="gold-rule-thick" style="max-width:400px; margin:0 auto 32px;"></div>
+        <p style="font-size:1.15rem; color:rgba(245,237,224,0.8); max-width:640px; margin:0 auto 40px; line-height:1.7;">
+            TikTok &amp; YouTube Shorts Video Production Campaign<br>
+            <span style="color:var(--smoke);">Weeks 1–3 Content Calendar • May 25 – June 13, 2026</span>
+        </p>
+
+        <!-- Stats Row -->
+        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:16px; max-width:800px; margin:0 auto;" class="fade-up delay-2">
+            <div class="stat-box">
+                <div class="stat-number">1.4K</div>
+                <div class="stat-label">YouTube Views</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">~2K</div>
+                <div class="stat-label">TikTok Views</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">504</div>
+                <div class="stat-label">TikTok Followers</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">5</div>
+                <div class="stat-label">Videos Live</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">4.5★</div>
+                <div class="stat-label">Amazon Rating</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div style="max-width:1200px; margin:0 auto; padding:60px 32px;">
+
+    <!-- Channels -->
+    <div style="margin-bottom:64px;">
+        <div style="text-align:center; margin-bottom:40px;">
+            <h2 style="font-size:1.8rem; color:var(--gold); margin-bottom:8px;">Live Channels</h2>
+            <div class="gold-rule" style="max-width:300px; margin:0 auto;"></div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;">
+            <div class="card" style="border-radius:8px; overflow:hidden;">
+                <div style="background:#000; padding:16px 24px; display:flex; align-items:center; gap:12px;">
+                    <span style="font-size:1.4rem;">🎵</span>
+                    <span style="font-family:'Cinzel',serif; font-weight:700; font-size:1rem; letter-spacing:0.1em;">TIKTOK</span>
+                    <span style="color:var(--smoke); font-size:0.85rem;">@robertwalker4382</span>
+                </div>
+                <div style="padding:24px;">
+                    <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@robertwalker4382" data-unique-id="robertwalker4382" data-embed-from="embed_page" data-embed-type="creator" style="max-width:100%; min-width:288px;">
+                        <section><a target="_blank" href="https://www.tiktok.com/@robertwalker4382?refer=creator_embed">@robertwalker4382</a></section>
+                    </blockquote>
+                    <script async src="https://www.tiktok.com/embed.js"></script>
+                    <p style="font-size:0.8rem; color:var(--smoke); margin-top:16px; text-align:center;">~2K views across 4 videos • First batch posted March 20th</p>
+                </div>
+            </div>
+
+            <div class="card" style="border-radius:8px; overflow:hidden;">
+                <div style="background:#CC0000; padding:16px 24px; display:flex; align-items:center; gap:12px;">
+                    <span style="font-size:1.4rem;">▶</span>
+                    <span style="font-family:'Cinzel',serif; font-weight:700; font-size:1rem; letter-spacing:0.1em;">YOUTUBE</span>
+                    <span style="color:rgba(255,255,255,0.7); font-size:0.85rem;">@RobertWalker-SMSG</span>
+                </div>
+                <div style="padding:24px;">
+                    <iframe width="100%" height="240"
+                        src="https://www.youtube.com/embed/videoseries?list=UUAhgVzzRk4sbcNECmEUmgCg"
+                        title="Robert Walker YouTube"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen
+                        style="border-radius:4px;"></iframe>
+                    <p style="font-size:0.8rem; color:var(--smoke); margin-top:16px; text-align:center;">1,439 views • 3 subscribers • Joined Mar 17, 2026</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════
+         CONTENT CALENDARS — WEEKS 1, 2, 3
+    ═══════════════════════════════════════════ -->
+    <div style="margin-bottom:80px;">
+        <div style="text-align:center; margin-bottom:16px;">
+            <h2 style="font-size:1.8rem; color:var(--gold); margin-bottom:8px;">Production Calendar</h2>
+            <p style="color:var(--smoke); font-size:0.95rem;">Weeks 1–3 • May 25 – June 13, 2026 • 2–3 posts per day • TikTok &amp; YouTube Shorts</p>
+            <div class="gold-rule" style="max-width:400px; margin:16px auto 0;"></div>
+        </div>
+
+        <!-- Legend -->
+        <div style="display:flex; gap:24px; justify-content:center; margin:24px 0 40px; flex-wrap:wrap;">
+            <div style="display:flex; align-items:center; gap:8px;">
+                <div style="width:12px; height:12px; background:#c9a84c; border-radius:2px;"></div>
+                <span style="font-size:0.85rem; color:var(--smoke);">Week 1 — May 25–31</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px;">
+                <div style="width:12px; height:12px; background:#7a9c6a; border-radius:2px;"></div>
+                <span style="font-size:0.85rem; color:var(--smoke);">Week 2 — Jun 1–7</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px;">
+                <div style="width:12px; height:12px; background:#6a7a9c; border-radius:2px;"></div>
+                <span style="font-size:0.85rem; color:var(--smoke);">Week 3 — Jun 8–13</span>
+            </div>
+        </div>
+
+        <!-- ─── WEEK 1 ─── -->
+        <div class="week-divider">
+            <div class="week-divider-line"></div>
+            <div style="display:flex; align-items:center; gap:12px; white-space:nowrap;">
+                <span style="width:12px; height:12px; background:#c9a84c; border-radius:2px; display:inline-block;"></span>
+                <h3 style="font-size:1.2rem; color:var(--gold);">Week 1 &nbsp;·&nbsp; May 25–31</h3>
+                <span style="width:12px; height:12px; background:#c9a84c; border-radius:2px; display:inline-block;"></span>
+            </div>
+            <div class="week-divider-line right"></div>
+        </div>
+
+        <div style="background:rgba(26,14,12,0.6); border:1px solid rgba(201,168,76,0.2); border-left:4px solid #c9a84c; border-radius:6px; overflow:hidden; margin-bottom:48px;">
+            <div style="padding:12px 24px; background:rgba(201,168,76,0.07); border-bottom:1px solid rgba(201,168,76,0.15);">
+                <p style="font-size:0.85rem; color:var(--smoke);">Content sourced from: Week 1 Images &amp; Video — <a href="https://photos.app.goo.gl/FJNkdLY9LtS11MzS6" target="_blank" style="color:var(--gold-light); text-decoration:none;">Image Album ↗</a> &nbsp;|&nbsp; <a href="https://photos.app.goo.gl/NsyorquYVJApcTdz7" target="_blank" style="color:var(--gold-light); text-decoration:none;">Video Album ↗</a></p>
+            </div>
+            <div style="overflow-x:auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Time (UTC)</th>
+                        <th>Platform</th>
+                        <th>Series</th>
+                        <th>Hook Theme</th>
+                        <th style="text-align:center;">Posted?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>Sun, May 25</strong></td><td>09:00</td><td><span class="platform-both">Both</span></td><td><span class="series-chip">Series 1</span></td><td>The Guild of Takers just put a price on the throne…</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                    <tr><td><strong>Sun, May 25</strong></td><td>17:00</td><td><span class="platform-tiktok">TikTok</span></td><td><span class="series-chip">Series 3</span></td><td>One gaffe… and your throat meets the hook</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                    <tr><td><strong>Mon, May 26</strong></td><td>09:00</td><td><span class="platform-both">Both</span></td><td><span class="series-chip">Series 2</span></td><td>The Magister's hood slips… revealing what lies beneath</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                    <tr><td><strong>Mon, May 26</strong></td><td>13:00</td><td><span class="platform-yt">YouTube</span></td><td><span class="series-chip">Series 4</span></td><td>Queen Isadora watches her daughter's mangled body return</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                    <tr><td><strong>Mon, May 26</strong></td><td>17:00</td><td><span class="platform-tiktok">TikTok</span></td><td><span class="series-chip">Series 6</span></td><td>Ruler Two proposes the overthrow of both kings</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                    <tr><td><strong>Tue, May 27</strong></td><td>09:00</td><td><span class="platform-both">Both</span></td><td><span class="series-chip">Series 7</span></td><td>Raggett slams the spindle into Leo's ear</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                    <tr><td><strong>Tue, May 27</strong></td><td>14:00</td><td><span class="platform-tiktok">TikTok</span></td><td><span class="series-chip">Series 8</span></td><td>The balcony fall… the sharp crack of a queen's skull</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                    <tr><td><strong>Wed, May 28</strong></td><td>09:00</td><td><span class="platform-both">Both</span></td><td><span class="series-chip">Series 9</span></td><td>Loyalty and treachery share the same roof in Baelon</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                    <tr><td><strong>Wed, May 28</strong></td><td>13:00</td><td><span class="platform-yt">YouTube</span></td><td><span class="series-chip">Series 1</span></td><td>The Guild's Reckoning Day begins</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                    <tr><td><strong>Wed, May 28</strong></td><td>17:00</td><td><span class="platform-tiktok">TikTok</span></td><td><span class="series-chip">Series 3</span></td><td>A princess returns wearing her mother's jewelry… dead</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                    <tr><td><strong>Thu, May 29</strong></td><td>09:00</td><td><span class="platform-both">Both</span></td><td><span class="series-chip">Series 4</span></td><td>The Lawless Lands… where a human life is cheaper than ale</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                    <tr><td><strong>Thu, May 29</strong></td><td>14:00</td><td><span class="platform-tiktok">TikTok</span></td><td><span class="series-chip">Series 6</span></td><td>Ruler Five's smile says he hasn't eaten in weeks</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                    <tr><td><strong>Fri, May 30</strong></td><td>09:00</td><td><span class="platform-both">Both</span></td><td><span class="series-chip">Series 7</span></td><td>Sarteeg taught him the ancient art of mindal</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                    <tr><td><strong>Fri, May 30</strong></td><td>13:00</td><td><span class="platform-yt">YouTube</span></td><td><span class="series-chip">Series 8</span></td><td>The High Order wears ceremonial masks… but their blades are real</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                    <tr><td><strong>Fri, May 30</strong></td><td>17:00</td><td><span class="platform-tiktok">TikTok</span></td><td><span class="series-chip">Series 9</span></td><td>Initial challenges are welcome… final failures are permanent</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                    <tr><td><strong>Sat, May 31</strong></td><td>10:00</td><td><span class="platform-both">Both</span></td><td><span class="series-chip">Series 2</span></td><td>The Guild of Takers treats kings as disposable liabilities</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                    <tr><td><strong>Sat, May 31</strong></td><td>15:00</td><td><span class="platform-tiktok">TikTok</span></td><td><span class="series-chip">Series 1</span></td><td>A nightmare from which the monarchy may never wake</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                </tbody>
+            </table>
+            </div>
+        </div>
+
+        <!-- ─── WEEK 2 ─── -->
+        <div class="week-divider">
+            <div class="week-divider-line" style="background:linear-gradient(90deg,transparent,rgba(106,154,106,0.4));"></div>
+            <div style="display:flex; align-items:center; gap:12px; white-space:nowrap;">
+                <span style="width:12px; height:12px; background:#7a9c6a; border-radius:2px; display:inline-block;"></span>
+                <h3 style="font-size:1.2rem; color:#a8c89a;">Week 2 &nbsp;·&nbsp; June 1–7</h3>
+                <span style="width:12px; height:12px; background:#7a9c6a; border-radius:2px; display:inline-block;"></span>
+            </div>
+            <div class="week-divider-line right" style="background:linear-gradient(90deg,rgba(106,154,106,0.4),transparent);"></div>
+        </div>
+
+        <div style="background:rgba(26,14,12,0.6); border:1px solid rgba(106,154,106,0.2); border-left:4px solid #7a9c6a; border-radius:6px; overflow:hidden; margin-bottom:48px;">
+            <div style="padding:12px 24px; background:rgba(106,154,106,0.06); border-bottom:1px solid rgba(106,154,106,0.15);">
+                <p style="font-size:0.85rem; color:var(--smoke);">Content sourced from: Week 2 Images — <a href="https://photos.app.goo.gl/LpwbnhNx3ru6z6k7A" target="_blank" style="color:#a8c89a; text-decoration:none;">Album 1 ↗</a> &nbsp;|&nbsp; <a href="https://photos.app.goo.gl/jt1CqmH6Jst7jDwJ7" target="_blank" style="color:#a8c89a; text-decoration:none;">Album 2 ↗</a> &nbsp;|&nbsp; Week 2 Videos — <a href="https://photos.app.goo.gl/roTP1L2gpF2irC7w6" target="_blank" style="color:#a8c89a; text-decoration:none;">Video 1 ↗</a> &nbsp;|&nbsp; <a href="https://photos.app.goo.gl/RDCvBfNygh9pZ2L16" target="_blank" style="color:#a8c89a; text-decoration:none;">Video 2 ↗</a></p>
+            </div>
+            <div style="overflow-x:auto;">
+            <table>
+                <thead>
+                    <tr style="background:rgba(106,154,106,0.08); border-bottom:1px solid rgba(106,154,106,0.3);">
+                        <th>Date</th>
+                        <th>Time (UTC)</th>
+                        <th>Platform</th>
+                        <th>Series</th>
+                        <th>Hook Theme</th>
+                        <th style="text-align:center;">Posted?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>Sun, Jun 1</strong></td><td>09:00</td><td><span class="platform-both">Both</span></td><td><span class="series-chip">Series 3</span></td><td>The sharp crack of a queen's skull on courtyard stone</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                    <tr><td><strong>Sun, Jun 1</strong></td><td>17:00</td><td><span class="platform-tiktok">TikTok</span></td><td><span class="series-chip">Series 4</span></td><td>Raggett's ambition will haunt Baelon for years</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                    <tr><td><strong>Mon, Jun 2</strong></td><td>09:00</td><td><span class="platform-both">Both</span></td><td><span class="series-chip">Series 6</span></td><td>The High Order's secret reckoning has begun</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                    <tr><td><strong>Mon, Jun 2</strong></td><td>13:00</td><td><span class="platform-yt">YouTube</span></td><td><span class="series-chip">Series 7</span></td><td>Loyalty and treachery live under the same roof</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                    <tr><td><strong>Mon, Jun 2</strong></td><td>17:00</td><td><span class="platform-tiktok">TikTok</span></td><td><span class="series-chip">Series 8</span></td><td>One ambitious thief… one kingdom on the brink</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                    <tr><td><strong>Tue, Jun 3</strong></td><td>09:00</td><td><span class="platform-both">Both</span></td><td><span class="series-chip">Series 9</span></td><td>The Magister's bony white arms and yellow fingernails</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                    <tr><td><strong>Tue, Jun 3</strong></td><td>14:00</td><td><span class="platform-tiktok">TikTok</span></td><td><span class="series-chip">Series 1</span></td><td>The Guild's watchers are always listening</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                    <tr><td><strong>Wed, Jun 4</strong></td><td>09:00</td><td><span class="platform-both">Both</span></td><td><span class="series-chip">Series 2</span></td><td>A world turned upside down… nothing is as it seems</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                    <tr><td><strong>Wed, Jun 4</strong></td><td>13:00</td><td><span class="platform-yt">YouTube</span></td><td><span class="series-chip">Series 3</span></td><td>The price for a gaffe is paid in blood</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                    <tr><td><strong>Wed, Jun 4</strong></td><td>17:00</td><td><span class="platform-tiktok">TikTok</span></td><td><span class="series-chip">Series 4</span></td><td>The Guild treats the crown as a mere liability</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                    <tr><td><strong>Thu, Jun 5</strong></td><td>09:00</td><td><span class="platform-both">Both</span></td><td><span class="series-chip">Series 6</span></td><td>Ruler Two's mindal training begins</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                    <tr><td><strong>Thu, Jun 5</strong></td><td>14:00</td><td><span class="platform-tiktok">TikTok</span></td><td><span class="series-chip">Series 7</span></td><td>The balcony… the silence… the dull thud</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                    <tr><td><strong>Fri, Jun 6</strong></td><td>09:00</td><td><span class="platform-both">Both</span></td><td><span class="series-chip">Series 8</span></td><td>The High Order's ceremonial masks hide real blades</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                    <tr><td><strong>Fri, Jun 6</strong></td><td>13:00</td><td><span class="platform-yt">YouTube</span></td><td><span class="series-chip">Series 9</span></td><td>In Baelon, the only thing cheaper than ale is a human life</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                    <tr><td><strong>Fri, Jun 6</strong></td><td>17:00</td><td><span class="platform-tiktok">TikTok</span></td><td><span class="series-chip">Series 1</span></td><td>The Guild of Takers is always watching</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                    <tr><td><strong>Sat, Jun 7</strong></td><td>10:00</td><td><span class="platform-both">Both</span></td><td><span class="series-chip">Series 2</span></td><td>A nightmare from which the monarchy may never wake</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                    <tr><td><strong>Sat, Jun 7</strong></td><td>15:00</td><td><span class="platform-tiktok">TikTok</span></td><td><span class="series-chip">Series 3</span></td><td>The princess returns… wearing her mother's jewelry</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                </tbody>
+            </table>
+            </div>
+        </div>
+
+        <!-- ─── WEEK 3 ─── -->
+        <div class="week-divider">
+            <div class="week-divider-line" style="background:linear-gradient(90deg,transparent,rgba(106,122,156,0.4));"></div>
+            <div style="display:flex; align-items:center; gap:12px; white-space:nowrap;">
+                <span style="width:12px; height:12px; background:#6a7a9c; border-radius:2px; display:inline-block;"></span>
+                <h3 style="font-size:1.2rem; color:#9aaace;">Week 3 &nbsp;·&nbsp; June 8–13</h3>
+                <span style="width:12px; height:12px; background:#6a7a9c; border-radius:2px; display:inline-block;"></span>
+            </div>
+            <div class="week-divider-line right" style="background:linear-gradient(90deg,rgba(106,122,156,0.4),transparent);"></div>
+        </div>
+
+        <div style="background:rgba(26,14,12,0.6); border:1px solid rgba(106,122,156,0.2); border-left:4px solid #6a7a9c; border-radius:6px; overflow:hidden; margin-bottom:48px;">
+            <div style="padding:12px 24px; background:rgba(106,122,156,0.06); border-bottom:1px solid rgba(106,122,156,0.15);">
+                <p style="font-size:0.85rem; color:var(--smoke);">Content sourced from: Series 6–9 imagery &amp; prior week video assets • Fresh angles on all 9 cinematic series</p>
+            </div>
+            <div style="overflow-x:auto;">
+            <table>
+                <thead>
+                    <tr style="background:rgba(106,122,156,0.08); border-bottom:1px solid rgba(106,122,156,0.3);">
+                        <th>Date</th>
+                        <th>Time (UTC)</th>
+                        <th>Platform</th>
+                        <th>Series</th>
+                        <th>Hook Theme</th>
+                        <th style="text-align:center;">Posted?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>Sun, Jun 8</strong></td><td>09:00</td><td><span class="platform-both">Both</span></td><td><span class="series-chip">Series 4</span></td><td>Ruler Five's grin says he hasn't eaten in weeks</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                    <tr><td><strong>Sun, Jun 8</strong></td><td>17:00</td><td><span class="platform-tiktok">TikTok</span></td><td><span class="series-chip">Series 6</span></td><td>The Reckoning Day proposal that could topple two kings</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                    <tr><td><strong>Mon, Jun 9</strong></td><td>09:00</td><td><span class="platform-both">Both</span></td><td><span class="series-chip">Series 7</span></td><td>The Guild's watchers never sleep</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                    <tr><td><strong>Mon, Jun 9</strong></td><td>13:00</td><td><span class="platform-yt">YouTube</span></td><td><span class="series-chip">Series 8</span></td><td>One thief's ambition… one kingdom's fall</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                    <tr><td><strong>Mon, Jun 9</strong></td><td>17:00</td><td><span class="platform-tiktok">TikTok</span></td><td><span class="series-chip">Series 9</span></td><td>Baelon… where loyalty and treachery share a roof</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                    <tr><td><strong>Tue, Jun 10</strong></td><td>09:00</td><td><span class="platform-both">Both</span></td><td><span class="series-chip">Series 1</span></td><td>The Magister's deformed skull glimpsed in the wind</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                    <tr><td><strong>Tue, Jun 10</strong></td><td>14:00</td><td><span class="platform-tiktok">TikTok</span></td><td><span class="series-chip">Series 2</span></td><td>The Guild of Takers treats the crown as a liability</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                    <tr><td><strong>Wed, Jun 11</strong></td><td>09:00</td><td><span class="platform-both">Both</span></td><td><span class="series-chip">Series 3</span></td><td>The gaffe is in… and the price is paid in blood</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                    <tr><td><strong>Wed, Jun 11</strong></td><td>13:00</td><td><span class="platform-yt">YouTube</span></td><td><span class="series-chip">Series 4</span></td><td>What shall come to pass when these kings are gone?</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                    <tr><td><strong>Wed, Jun 11</strong></td><td>17:00</td><td><span class="platform-tiktok">TikTok</span></td><td><span class="series-chip">Series 6</span></td><td>In a world of give and take, the Guild does its part</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                    <tr><td><strong>Thu, Jun 12</strong></td><td>09:00</td><td><span class="platform-both">Both</span></td><td><span class="series-chip">Series 7</span></td><td>Neither king has a bloodline — the Guild sees opportunity</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                    <tr><td><strong>Thu, Jun 12</strong></td><td>14:00</td><td><span class="platform-tiktok">TikTok</span></td><td><span class="series-chip">Series 8</span></td><td>Raggett had big plans — plans so outlandish the Guild noticed</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                    <tr><td><strong>Fri, Jun 13</strong></td><td>09:00</td><td><span class="platform-both">Both</span></td><td><span class="series-chip">Series 9</span></td><td>The shadows are rising — and nothing is as it seems</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                    <tr><td><strong>Fri, Jun 13</strong></td><td>13:00</td><td><span class="platform-yt">YouTube</span></td><td><span class="series-chip">Series 1</span></td><td">Why manage two kingdoms when you can manage two kings?</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                    <tr><td><strong>Fri, Jun 13</strong></td><td>17:00</td><td><span class="platform-tiktok">TikTok</span></td><td><span class="series-chip">Series 3</span></td><td>The High Order convenes — and Baelon holds its breath</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                </tbody>
+            </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Source Albums -->
+    <div style="margin-bottom:80px;">
+        <div style="text-align:center; margin-bottom:40px;">
+            <h2 style="font-size:1.8rem; color:var(--gold); margin-bottom:8px;">Source Imagery &amp; Raw Visual Assets</h2>
+            <p style="color:var(--smoke); font-size:0.9rem;">9 cinematic series — the raw material powering all video production</p>
+            <div class="gold-rule" style="max-width:400px; margin:16px auto 0;"></div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:20px;">
+
+            <div class="album-card">
+                <div class="album-img" style="background-image:url('https://lh3.googleusercontent.com/pw/AP1GczPRDR_PE1380BAtxYSVd-eHU2X6TmdXwWp9AC8ML62Bfm79CQXV5Z9Kt55cTk0DqneM_uECkufcCjg8IuLxtUVokr5ZRQ-5udlCnVtDEWz1bEkaX14=w800-h450');"></div>
+                <div style="padding:20px;">
+                    <h4 style="font-size:1rem; color:var(--gold); margin-bottom:6px;">Series 1 &nbsp;·&nbsp; Feb 25</h4>
+                    <p style="font-size:0.85rem; color:var(--smoke); margin-bottom:16px;">Guild of Takers intrigue &amp; throne-room shadows</p>
+                    <a href="https://photos.app.goo.gl/1UYs92H6JxNSSdN86" target="_blank" style="font-size:0.8rem; color:var(--gold-light); text-decoration:none;">Open Album ↗</a>
+                </div>
+            </div>
+
+            <div class="album-card">
+                <div class="album-img" style="background-image:url('https://lh3.googleusercontent.com/pw/AP1GczPEawq-N2zU2HoKKubd2ilpKRrdvwyfbJFpjegeHSDmqSllW45urSUCHaFmYF2Uf3HXvN3pj8nKAGIns6265XYdYYbE6Aw1E_GQ1J411IPaeo4qaDM=w800-h450');"></div>
+                <div style="padding:20px;">
+                    <h4 style="font-size:1rem; color:var(--gold); margin-bottom:6px;">Series 2 &nbsp;·&nbsp; Mar 14</h4>
+                    <p style="font-size:0.85rem; color:var(--smoke); margin-bottom:16px;">High Order masks &amp; secret society atmosphere</p>
+                    <a href="https://photos.app.goo.gl/PHSHnJ5YNWT5ezFS7" target="_blank" style="font-size:0.8rem; color:var(--gold-light); text-decoration:none;">Open Album ↗</a>
+                </div>
+            </div>
+
+            <div class="album-card">
+                <div class="album-img" style="background-image:url('https://lh3.googleusercontent.com/pw/AP1GczNxZEzft913f2TGVhjsLkiPLvSLgnBSjvrLB6bTMDmOkSzOae5ZXRz5VX9KGvCmLG1vESaH-EhnlhTRr3A7KnQJ_ha-Yfj4-rq9Ek-BCKnFHX6xYcg=w800-h450');"></div>
+                <div style="padding:20px;">
+                    <h4 style="font-size:1rem; color:var(--gold); margin-bottom:6px;">Series 3 &nbsp;·&nbsp; Mar 14</h4>
+                    <p style="font-size:0.85rem; color:var(--smoke); margin-bottom:16px;">Visceral execution &amp; gaffe scenes</p>
+                    <a href="https://photos.app.goo.gl/5pNFxTH73FGaaTRh7" target="_blank" style="font-size:0.8rem; color:var(--gold-light); text-decoration:none;">Open Album ↗</a>
+                </div>
+            </div>
+
+            <div class="album-card">
+                <div class="album-img" style="background-image:url('https://lh3.googleusercontent.com/pw/AP1GczOgK5jMQRqTiKDTPwPipToO7n6NiK6fkPQL8mUtfd5uDHzTOZN2zeLVCSihItzWKdS5ZuZK0MIp1Ol8M7aBfbKwJwKZ_3ZV30Ypsb_vvetECPIMVo=w800-h450');"></div>
+                <div style="padding:20px;">
+                    <h4 style="font-size:1rem; color:var(--gold); margin-bottom:6px;">Series 4 &nbsp;·&nbsp; Mar 14</h4>
+                    <p style="font-size:0.85rem; color:var(--smoke); margin-bottom:16px;">Queen Isadora &amp; princess tragedy beats</p>
+                    <a href="https://photos.app.goo.gl/HQehzi5c37kd7wvd7" target="_blank" style="font-size:0.8rem; color:var(--gold-light); text-decoration:none;">Open Album ↗</a>
+                </div>
+            </div>
+
+            <div class="album-card">
+                <div class="album-img" style="background-image:url('https://lh3.googleusercontent.com/pw/AP1GczPsjCpTlCXozBg5F27Krd-Qe-MTfwxU14vry-Iycp2l8Ie8tqpAc2Q5GRwayehzGr5zrZ8oUqSVUkWY942RNVylw_DJzs6e-XMkveNvR2PwhA8dhoM=w800-h450');"></div>
+                <div style="padding:20px;">
+                    <h4 style="font-size:1rem; color:var(--gold); margin-bottom:6px;">Series 6 &nbsp;·&nbsp; Mar 20</h4>
+                    <p style="font-size:0.85rem; color:var(--smoke); margin-bottom:16px;">Raggett &amp; street-level heist energy</p>
+                    <a href="https://photos.app.goo.gl/ByRAK4k74epGGCJD6" target="_blank" style="font-size:0.8rem; color:var(--gold-light); text-decoration:none;">Open Album ↗</a>
+                </div>
+            </div>
+
+            <div class="album-card">
+                <div class="album-img" style="background-image:url('https://lh3.googleusercontent.com/pw/AP1GczMTWLpof6lagTWAAjN9BLg_E1g-btK6XgslnzYKPlAsDVElgs894yctVc3Rc8JcvR-H2Wazel-RPfTrkp9YOYQF5TrcNgfw_SmbY9HXXkvzC3S8-oo=w800-h450');"></div>
+                <div style="padding:20px;">
+                    <h4 style="font-size:1rem; color:var(--gold); margin-bottom:6px;">Series 7 &nbsp;·&nbsp; Mar 20</h4>
+                    <p style="font-size:0.85rem; color:var(--smoke); margin-bottom:16px;">Reckoning Day &amp; High Order chamber tension</p>
+                    <a href="https://photos.app.goo.gl/MhW5UYcD2RivZi7M9" target="_blank" style="font-size:0.8rem; color:var(--gold-light); text-decoration:none;">Open Album ↗</a>
+                </div>
+            </div>
+
+            <div class="album-card">
+                <div class="album-img" style="background-image:url('https://lh3.googleusercontent.com/pw/AP1GczOK9XzEW2IXeDoBB7HvEjkdCeKjPxBhFgxDWNGi0qemeWIKLNb8Su7UTjrWUJmnPo8Xg1wDifCIifaOUXFFvIxwXucl004saPtUcbTmAbmgEYmVEIw=w800-h450');"></div>
+                <div style="padding:20px;">
+                    <h4 style="font-size:1rem; color:var(--gold); margin-bottom:6px;">Series 8 &nbsp;·&nbsp; Mar 26</h4>
+                    <p style="font-size:0.85rem; color:var(--smoke); margin-bottom:16px;">Morally grey protagonist &amp; betrayal scenes</p>
+                    <a href="https://photos.app.goo.gl/o6L6xccgFuCK5p9R9" target="_blank" style="font-size:0.8rem; color:var(--gold-light); text-decoration:none;">Open Album ↗</a>
+                </div>
+            </div>
+
+            <div class="album-card">
+                <div class="album-img" style="background-image:url('https://lh3.googleusercontent.com/pw/AP1GczMaN6URGygUwK8lc532r7Jfz4COCpurzlsXr8vUoXpMr8gJSC0gXcYXKi6Z8v35nfcf2opHi85pKz0tho-eby-AZFwKmMO84GjeULs_-UzCy0YXmKk=w800-h450');"></div>
+                <div style="padding:20px;">
+                    <h4 style="font-size:1rem; color:var(--gold); margin-bottom:6px;">Series 9 &nbsp;·&nbsp; Mar 26</h4>
+                    <p style="font-size:0.85rem; color:var(--smoke); margin-bottom:16px;">Epic Arthurian grimdark atmosphere &amp; final beats</p>
+                    <a href="https://photos.app.goo.gl/o6L6xccgFuCK5p9R9" target="_blank" style="font-size:0.8rem; color:var(--gold-light); text-decoration:none;">Open Album ↗</a>
+                </div>
+            </div>
+
+            <!-- Week 1 New Assets -->
+            <div class="album-card" style="border-color:rgba(201,168,76,0.4);">
+                <div style="padding:12px 16px; background:rgba(201,168,76,0.1); border-bottom:1px solid rgba(201,168,76,0.2);">
+                    <span class="badge-gold" style="font-size:0.6rem;">NEW — WEEK 1</span>
+                </div>
+                <div style="padding:20px;">
+                    <h4 style="font-size:1rem; color:var(--gold); margin-bottom:6px;">Week 1 Images</h4>
+                    <p style="font-size:0.85rem; color:var(--smoke); margin-bottom:16px;">Fresh imagery batch for May 25 content</p>
+                    <a href="https://photos.app.goo.gl/FJNkdLY9LtS11MzS6" target="_blank" style="font-size:0.8rem; color:var(--gold-light); text-decoration:none; margin-right:16px;">Images ↗</a>
+                    <a href="https://photos.app.goo.gl/NsyorquYVJApcTdz7" target="_blank" style="font-size:0.8rem; color:var(--gold-light); text-decoration:none;">Video ↗</a>
+                </div>
+            </div>
+
+            <div class="album-card" style="border-color:rgba(106,154,106,0.4);">
+                <div style="padding:12px 16px; background:rgba(106,154,106,0.1); border-bottom:1px solid rgba(106,154,106,0.2);">
+                    <span style="display:inline-block; background:#7a9c6a; color:#fff; font-family:'Cinzel',serif; font-size:0.6rem; font-weight:700; letter-spacing:0.1em; padding:3px 10px; border-radius:2px;">NEW — WEEK 2</span>
+                </div>
+                <div style="padding:20px;">
+                    <h4 style="font-size:1rem; color:#a8c89a; margin-bottom:6px;">Week 2 Images &amp; Videos</h4>
+                    <p style="font-size:0.85rem; color:var(--smoke); margin-bottom:16px;">Extended June 1 content batch</p>
+                    <a href="https://photos.app.goo.gl/LpwbnhNx3ru6z6k7A" target="_blank" style="font-size:0.8rem; color:#a8c89a; text-decoration:none; margin-right:8px;">Img 1 ↗</a>
+                    <a href="https://photos.app.goo.gl/jt1CqmH6Jst7jDwJ7" target="_blank" style="font-size:0.8rem; color:#a8c89a; text-decoration:none; margin-right:8px;">Img 2 ↗</a>
+                    <a href="https://photos.app.goo.gl/roTP1L2gpF2irC7w6" target="_blank" style="font-size:0.8rem; color:#a8c89a; text-decoration:none; margin-right:8px;">Vid 1 ↗</a>
+                    <a href="https://photos.app.goo.gl/RDCvBfNygh9pZ2L16" target="_blank" style="font-size:0.8rem; color:#a8c89a; text-decoration:none;">Vid 2 ↗</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ═══════════ RETAINER CTA ═══════════ -->
+    <div class="retainer-cta" style="padding:60px; margin-bottom:80px; text-align:center; border-radius:8px;">
+        <div class="ornament" style="font-size:2rem; margin-bottom:20px;">⚔ &nbsp; ⚔</div>
+        <h2 style="font-size:2rem; color:var(--gold); margin-bottom:12px;">Ready to Scale?</h2>
+        <div class="gold-rule" style="max-width:300px; margin:0 auto 24px;"></div>
+        <p style="font-size:1.1rem; color:rgba(245,237,224,0.85); max-width:580px; margin:0 auto 16px; line-height:1.7;">
+            The free pilot has proven the concept. Your YouTube channel hit <strong style="color:var(--gold-light);">1,439 views</strong> and TikTok crossed <strong style="color:var(--gold-light);">~2,000 views</strong> in weeks. The audience for grimdark Arthurian fantasy is out there — and it's growing.
+        </p>
+        <p style="font-size:1rem; color:var(--smoke); max-width:540px; margin:0 auto 40px; line-height:1.6;">
+            Move to the Atomic-Shelf <strong style="color:var(--parchment);">Essentials Plan</strong> and we continue daily posting, expand to 3 platforms, run Amazon DSP retargeting, and send you weekly performance reports — for as many months as you need.
+        </p>
+
+        <div style="display:flex; gap:16px; justify-content:center; flex-wrap:wrap; margin-bottom:40px;">
+            <a href="https://store.pesapal.com/trialsubscription" target="_blank" class="btn-primary">
+                Subscribe Now ↗
+            </a>
+            <a href="https://atomic-shelf.com/Essentials" target="_blank" class="btn-secondary">
+                Learn About Essentials ↗
+            </a>
+        </div>
+
+        <p style="font-size:0.8rem; color:var(--smoke);">Pay for 1 month or lock in multiple months — your choice. Cancel anytime.</p>
+    </div>
+
+</div>
+
+<!-- Footer -->
+<footer style="background:rgba(0,0,0,0.6); border-top:1px solid rgba(201,168,76,0.2); padding:48px 32px; text-align:center;">
+    <div style="max-width:1200px; margin:0 auto;">
+        <div style="font-family:'Cinzel',serif; font-size:1.3rem; color:var(--gold); margin-bottom:8px;">Atomic-Shelf</div>
+        <p style="color:var(--smoke); font-size:0.85rem; margin-bottom:24px;">Robert A. Walker • Six Moons, Seven Gods • Campaign Dashboard • May–June 2026</p>
+        <div class="gold-rule" style="max-width:300px; margin:0 auto 24px;"></div>
+        <p style="font-size:0.75rem; color:rgba(138,112,96,0.7); max-width:700px; margin:0 auto; line-height:1.7;">
+            By participating in this campaign, you confirm you hold the rights to the book content provided and grant Atomic-Shelf a limited licence to use it for the production of short-form promotional video content on your behalf. AI-generated imagery derived from book themes does not constitute reproduction and carries no copyright risk.
+        </p>
+    </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Luciano Nisi · Campaign Dashboard | Atomic Shelf</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;0,800;1,400;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300;1,9..40,400&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;font-size:16px;}
+a{color:inherit;text-decoration:none;}
+button{font-family:inherit;cursor:pointer;}
+img{display:block;}
+
+:root{
+  /* Brand palette — warm editorial */
+  --ink:#1a1208;
+  --bark:#2e1c0e;
+  --mahogany:#5c3320;
+  --terracotta:#8b4513;
+  --amber:#c47928;
+  --amber2:#e0932e;
+  --gold:#d4a843;
+  --cream:#faf6f0;
+  --parchment:#f4ede0;
+  --fog:#ede3d4;
+  --mist:#d8ccba;
+  --border:#ddd0bb;
+  --border-lt:#ede7dc;
+
+  --text:#1e1008;
+  --text2:#3a2010;
+  --text3:#7a5a3c;
+  --text4:#a8896a;
+
+  --green:#1a6640;
+  --green-bg:#e8f5ee;
+  --green-bd:rgba(26,102,64,.2);
+  --red:#991414;
+  --red-bg:#fde8e8;
+  --blue:#1a4878;
+  --blue-bg:#e6f0f9;
+
+  --yt:#cc0000;
+  --tt:#111111;
+
+  --r:8px;--r-md:12px;--r-lg:16px;--r-xl:24px;
+  --shadow-xs:0 1px 4px rgba(30,16,8,.06);
+  --shadow-sm:0 3px 12px rgba(30,16,8,.08),0 1px 4px rgba(30,16,8,.04);
+  --shadow:0 6px 24px rgba(30,16,8,.10),0 2px 8px rgba(30,16,8,.06);
+  --shadow-lg:0 16px 48px rgba(30,16,8,.14),0 4px 16px rgba(30,16,8,.08);
+  --shadow-xl:0 32px 80px rgba(30,16,8,.18),0 8px 28px rgba(30,16,8,.10);
+}
+
+body{
+  font-family:'DM Sans',system-ui,sans-serif;
+  background:var(--cream);
+  color:var(--text);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* ─── NOISE TEXTURE OVERLAY ─── */
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:0;
+}
+
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:var(--parchment);}
+::-webkit-scrollbar-thumb{background:var(--mist);border-radius:3px;}
+
+/* ─── NAV ─── */
+.nav{
+  position:sticky;top:0;z-index:200;
+  background:rgba(250,246,240,.95);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border-lt);
+  box-shadow:0 1px 0 rgba(196,121,40,.08);
+}
+.nav-inner{
+  max-width:1200px;margin:0 auto;
+  padding:0 32px;height:60px;
+  display:flex;align-items:center;gap:18px;
+}
+.nav-logo{
+  font-family:'Playfair Display',serif;
+  font-size:1.1rem;font-weight:700;
+  color:var(--bark);letter-spacing:.01em;
+  display:flex;align-items:center;gap:9px;
+  flex-shrink:0;
+}
+.nav-logo-mark{
+  width:28px;height:28px;border-radius:6px;
+  background:linear-gradient(138deg,var(--amber),var(--amber2));
+  display:flex;align-items:center;justify-content:center;
+  font-size:.6rem;font-weight:700;color:#fff;letter-spacing:.05em;
+  box-shadow:0 2px 8px rgba(196,121,40,.36);
+}
+.nav-sep{width:1px;height:26px;background:var(--border);}
+.nav-context{
+  font-size:.75rem;color:var(--text3);font-weight:500;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.nav-right{display:flex;gap:8px;margin-left:auto;align-items:center;flex-shrink:0;}
+.nav-chip{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.6rem;letter-spacing:.08em;
+  color:var(--green);background:var(--green-bg);
+  border:1px solid var(--green-bd);
+  border-radius:40px;padding:4px 11px;
+  display:flex;align-items:center;gap:5px;white-space:nowrap;
+}
+.nav-dot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:pulse 2.5s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.25;}}
+.btn{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:8px 18px;border-radius:var(--r);
+  font-size:.78rem;font-weight:600;border:none;
+  transition:all .18s;white-space:nowrap;letter-spacing:.01em;
+}
+.btn-bark{background:var(--bark);color:#fdf6ec;}
+.btn-bark:hover{background:var(--mahogany);box-shadow:var(--shadow);}
+.btn-outline{background:transparent;color:var(--text2);border:1px solid var(--border);padding:7px 16px;}
+.btn-outline:hover{background:var(--parchment);border-color:var(--amber);}
+
+/* ─── HERO ─── */
+.hero{
+  position:relative;min-height:62vh;
+  display:flex;align-items:flex-end;
+  overflow:hidden;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:
+    linear-gradient(180deg,rgba(26,18,8,.12) 0%,rgba(26,18,8,.55) 50%,rgba(26,18,8,.97) 100%),
+    url('https://images.unsplash.com/photo-1588776814546-ec7e1fa89f09?q=80&w=1920') center 30%/cover no-repeat;
+}
+/* Warm amber accent line across bottom of hero */
+.hero-bg::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent 0%,rgba(196,121,40,.6) 40%,rgba(224,147,46,.6) 60%,transparent 100%);
+}
+.hero-content{
+  position:relative;z-index:2;width:100%;
+  max-width:1200px;margin:0 auto;
+  padding:56px 32px;
+}
+.hero-eyebrow{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.65rem;font-weight:500;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--gold);
+  margin-bottom:14px;
+  display:flex;align-items:center;gap:10px;
+}
+.hero-eyebrow::before{content:'';display:block;width:28px;height:1px;background:var(--gold);opacity:.7;}
+.hero-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2.6rem,5vw,4.2rem);
+  font-weight:800;color:#fff;
+  line-height:1.05;letter-spacing:-.02em;
+  margin-bottom:8px;
+}
+.hero-title em{font-style:italic;font-weight:400;color:rgba(255,255,255,.72);}
+.hero-sub{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1rem,2vw,1.25rem);
+  font-style:italic;color:rgba(255,255,255,.55);
+  margin-bottom:36px;
+}
+.hero-kpis{
+  display:flex;gap:0;flex-wrap:wrap;
+}
+.kpi{
+  padding:16px 28px;
+  border-right:1px solid rgba(255,255,255,.1);
+  text-align:center;
+}
+.kpi:first-child{padding-left:0;}
+.kpi:last-child{border-right:none;}
+.kpi-num{
+  font-family:'Playfair Display',serif;
+  font-size:2.1rem;font-weight:700;color:#fff;
+  line-height:1;margin-bottom:4px;
+}
+.kpi-num.amber{color:var(--gold);}
+.kpi-num.green{color:#6ee7a0;}
+.kpi-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.56rem;letter-spacing:.12em;
+  text-transform:uppercase;color:rgba(255,255,255,.4);
+}
+
+/* ─── LAYOUT ─── */
+.wrap{max-width:1200px;margin:0 auto;padding:0 32px 80px;position:relative;z-index:1;}
+
+.section-head{
+  display:flex;align-items:baseline;gap:14px;
+  padding-top:56px;margin-bottom:6px;
+}
+.section-head h2{
+  font-family:'Playfair Display',serif;
+  font-size:1.6rem;font-weight:700;
+  color:var(--bark);letter-spacing:-.01em;
+}
+.section-head .sh-sub{
+  font-size:.78rem;color:var(--text4);
+  font-style:italic;
+}
+.section-rule{
+  height:1px;
+  background:linear-gradient(90deg,var(--border),transparent);
+  margin-bottom:28px;
+}
+
+/* ─── METRIC CARDS GRID ─── */
+.cards-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+.cards-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.cards-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+
+.mcard{
+  background:#fff;
+  border:1px solid var(--border-lt);
+  border-radius:var(--r-md);
+  padding:22px 20px;
+  position:relative;overflow:hidden;
+  transition:transform .2s,box-shadow .2s;
+}
+.mcard:hover{transform:translateY(-3px);box-shadow:var(--shadow);}
+.mcard::before{
+  content:'';position:absolute;
+  top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--amber),var(--gold));
+}
+.mcard.yt::before{background:linear-gradient(90deg,#cc0000,#ff7070);}
+.mcard.tt::before{background:linear-gradient(90deg,#111,#555);}
+.mcard.green::before{background:linear-gradient(90deg,var(--green),#4ade80);}
+
+.mcard-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.6rem;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:var(--text4);margin-bottom:10px;
+}
+.mcard-num{
+  font-family:'Playfair Display',serif;
+  font-size:2.4rem;font-weight:700;
+  color:var(--bark);line-height:1;
+  margin-bottom:6px;
+}
+.mcard-sub{font-size:.78rem;color:var(--text3);line-height:1.5;}
+.mcard-delta{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:.7rem;font-weight:600;
+  border-radius:4px;padding:2px 8px;
+  margin-top:6px;
+}
+.delta-green{color:var(--green);background:var(--green-bg);}
+.delta-amber{color:var(--amber);background:rgba(196,121,40,.1);}
+.delta-blue{color:var(--blue);background:var(--blue-bg);}
+
+/* ─── STATUS NOTICE ─── */
+.notice{
+  border-radius:0 var(--r) var(--r) 0;
+  padding:16px 20px 16px 22px;
+  display:flex;gap:14px;align-items:flex-start;
+  margin-bottom:14px;
+}
+.notice-green{background:rgba(26,102,64,.05);border:1px solid rgba(26,102,64,.18);border-left:3px solid var(--green);}
+.notice-amber{background:rgba(196,121,40,.05);border:1px solid rgba(196,121,40,.2);border-left:3px solid var(--amber);}
+.notice-blue{background:rgba(26,72,120,.05);border:1px solid rgba(26,72,120,.18);border-left:3px solid var(--blue);}
+.notice-red{background:rgba(153,20,20,.04);border:1px solid rgba(153,20,20,.18);border-left:3px solid var(--red);}
+.notice-icon{font-size:1.1rem;flex-shrink:0;margin-top:1px;}
+.notice-title{font-weight:600;font-size:.86rem;color:var(--bark);margin-bottom:3px;}
+.notice-text{font-size:.8rem;color:var(--text3);line-height:1.65;}
+
+/* ─── CHART CARD ─── */
+.chart-card{
+  background:#fff;
+  border:1px solid var(--border-lt);
+  border-radius:var(--r-md);
+  padding:26px 24px 20px;
+}
+.chart-card-title{
+  font-family:'Playfair Display',serif;
+  font-size:1.05rem;font-weight:700;
+  color:var(--bark);margin-bottom:3px;
+}
+.chart-card-sub{font-size:.76rem;color:var(--text4);margin-bottom:20px;}
+
+/* ─── PLATFORM CHANNEL CARDS ─── */
+.channel-card{
+  background:#fff;
+  border:1px solid var(--border-lt);
+  border-radius:var(--r-md);
+  padding:24px;
+  display:flex;gap:18px;align-items:flex-start;
+  transition:all .2s;
+}
+.channel-card:hover{border-color:rgba(196,121,40,.3);box-shadow:var(--shadow);}
+.ch-icon{
+  width:52px;height:52px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;font-size:1.5rem;
+}
+.ch-info{flex:1;}
+.ch-name{font-weight:700;font-size:.95rem;color:var(--bark);margin-bottom:2px;}
+.ch-handle{font-size:.73rem;color:var(--text4);margin-bottom:14px;}
+.ch-stats-row{display:flex;gap:20px;flex-wrap:wrap;}
+.ch-stat-num{
+  font-family:'Playfair Display',serif;
+  font-size:1.4rem;color:var(--bark);line-height:1;margin-bottom:2px;
+}
+.ch-stat-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;color:var(--text4);
+}
+.ch-link{
+  display:inline-flex;align-items:center;gap:5px;
+  margin-top:14px;font-size:.73rem;font-weight:600;
+  color:var(--amber);background:rgba(196,121,40,.08);
+  border:1px solid rgba(196,121,40,.2);border-radius:5px;
+  padding:5px 12px;transition:all .15s;
+}
+.ch-link:hover{background:rgba(196,121,40,.14);border-color:rgba(196,121,40,.38);}
+
+/* ─── TABLE ─── */
+.table-wrap{
+  background:#fff;border:1px solid var(--border-lt);
+  border-radius:var(--r-md);overflow:hidden;
+}
+table.perf{width:100%;border-collapse:collapse;}
+table.perf thead tr{background:var(--parchment);}
+table.perf th{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.58rem;font-weight:700;
+  letter-spacing:.12em;text-transform:uppercase;
+  color:var(--text4);padding:12px 16px;
+  text-align:left;border-bottom:1px solid var(--border-lt);
+}
+table.perf td{
+  padding:11px 16px;font-size:.84rem;
+  border-bottom:1px solid rgba(93,61,46,.06);
+  color:var(--text2);vertical-align:middle;
+}
+table.perf tbody tr:last-child td{border-bottom:none;}
+table.perf tbody tr:hover td{background:rgba(250,246,240,.7);}
+.tbl-footer{
+  padding:10px 16px;background:var(--parchment);
+  border-top:1px solid var(--border-lt);
+  font-size:.72rem;color:var(--text4);
+}
+
+.bar-wrap{display:flex;align-items:center;gap:8px;}
+.bar{height:4px;border-radius:2px;flex-shrink:0;}
+.bar.yt{background:linear-gradient(90deg,#cc0000,#ff7070);}
+.bar.tt{background:linear-gradient(90deg,#111,#555);}
+.bar.amber{background:linear-gradient(90deg,var(--amber),var(--gold));}
+
+.book-tag{
+  font-size:.6rem;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;padding:2px 8px;
+  border-radius:4px;white-space:nowrap;
+}
+.tag-trail{background:rgba(46,28,14,.1);color:var(--mahogany);}
+.tag-para{background:rgba(153,20,20,.1);color:var(--red);}
+.tag-cross{background:rgba(196,121,40,.1);color:var(--amber);}
+
+.ctr-high{color:var(--green);font-weight:700;}
+.ctr-mid{color:var(--amber);font-weight:600;}
+.ctr-low{color:var(--text3);}
+
+/* ─── PHASE ROADMAP ─── */
+.phase-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:0;border:1px solid var(--border-lt);
+  border-radius:var(--r-md);overflow:hidden;
+}
+.phase{
+  background:#fff;padding:24px 22px;
+  border-right:1px solid var(--border-lt);
+  position:relative;
+}
+.phase:last-child{border-right:none;}
+.phase.done{background:rgba(26,102,64,.03);}
+.phase.active{background:linear-gradient(160deg,rgba(196,121,40,.06) 0%,#fff 100%);}
+.phase-status{
+  position:absolute;top:16px;right:14px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.56rem;font-weight:700;letter-spacing:.12em;
+  padding:2px 8px;border-radius:4px;
+}
+.ps-done{background:var(--green-bg);color:var(--green);}
+.ps-active{background:rgba(196,121,40,.12);color:var(--amber);}
+.ps-next{background:var(--fog);color:var(--text4);}
+.phase-dot{
+  width:10px;height:10px;border-radius:50%;
+  background:var(--mist);margin-bottom:14px;
+}
+.phase.done .phase-dot{background:var(--green);}
+.phase.active .phase-dot{background:var(--amber);box-shadow:0 0 0 3px rgba(196,121,40,.2);}
+.phase-num{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--text4);margin-bottom:6px;
+}
+.phase-title{
+  font-family:'Playfair Display',serif;
+  font-size:1rem;font-weight:700;color:var(--bark);margin-bottom:6px;
+}
+.phase-date{font-size:.72rem;color:var(--amber);font-weight:600;margin-bottom:10px;}
+.phase-desc{font-size:.8rem;color:var(--text3);line-height:1.6;}
+
+/* ─── BOOK CARDS ─── */
+.book-card{
+  background:#fff;border:1px solid var(--border-lt);
+  border-radius:var(--r-md);overflow:hidden;
+  transition:transform .2s,box-shadow .2s;
+}
+.book-card:hover{transform:translateY(-3px);box-shadow:var(--shadow);}
+.book-card-accent{height:4px;}
+.book-card-body{padding:22px;}
+.book-status-pill{
+  display:inline-block;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  padding:3px 10px;border-radius:4px;margin-bottom:12px;
+}
+.book-card-title{
+  font-family:'Playfair Display',serif;
+  font-size:1.05rem;font-weight:700;
+  color:var(--bark);margin-bottom:8px;
+}
+.book-card-desc{font-size:.8rem;color:var(--text3);line-height:1.6;margin-bottom:14px;}
+.book-metrics{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.bm-item{background:var(--parchment);border-radius:6px;padding:10px 12px;}
+.bm-val{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--bark);line-height:1;}
+.bm-label{font-family:'JetBrains Mono',monospace;font-size:.56rem;letter-spacing:.08em;text-transform:uppercase;color:var(--text4);margin-top:2px;}
+.book-action{
+  background:rgba(196,121,40,.06);
+  border-top:1px solid rgba(196,121,40,.12);
+  padding:10px 22px;
+  font-size:.75rem;color:var(--amber);font-weight:600;
+  line-height:1.5;
+}
+
+/* ─── SUPPORT CARD ─── */
+.support-card{
+  background:linear-gradient(135deg,var(--bark) 0%,var(--mahogany) 100%);
+  border-radius:var(--r-md);padding:34px;
+  position:relative;overflow:hidden;
+}
+.support-card::before{
+  content:'';position:absolute;
+  top:-60px;right:-60px;
+  width:220px;height:220px;
+  background:radial-gradient(circle,rgba(196,121,40,.28) 0%,transparent 70%);
+  pointer-events:none;
+}
+.support-card::after{
+  content:'';position:absolute;
+  bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(196,121,40,.4),transparent);
+}
+.support-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(255,255,255,.38);margin-bottom:10px;
+}
+.support-title{
+  font-family:'Playfair Display',serif;
+  font-size:1.5rem;font-weight:700;
+  color:#fdf6ec;margin-bottom:6px;
+}
+.support-sub{font-size:.84rem;color:rgba(255,255,255,.55);margin-bottom:28px;line-height:1.6;}
+.support-contacts{display:flex;flex-direction:column;gap:12px;margin-bottom:28px;}
+.support-contact{
+  display:flex;align-items:center;gap:14px;
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:var(--r);padding:14px 18px;
+}
+.sc-avatar{
+  width:42px;height:42px;border-radius:50%;
+  background:linear-gradient(135deg,var(--amber),var(--gold));
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Playfair Display',serif;
+  font-size:1.05rem;font-weight:700;color:#fff;flex-shrink:0;
+}
+.sc-info{flex:1;}
+.sc-name{font-weight:600;font-size:.88rem;color:#fdf6ec;margin-bottom:1px;}
+.sc-role{font-size:.71rem;color:rgba(255,255,255,.45);}
+.sc-links{display:flex;gap:7px;flex-wrap:wrap;margin-top:4px;}
+.sc-link{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:.68rem;font-weight:600;
+  color:var(--gold);background:rgba(212,168,67,.12);
+  border:1px solid rgba(212,168,67,.22);
+  border-radius:4px;padding:3px 9px;
+  transition:all .15s;
+}
+.sc-link:hover{background:rgba(212,168,67,.22);}
+.support-actions{display:flex;gap:9px;flex-wrap:wrap;}
+.btn-support{
+  background:var(--amber);color:#fff;
+  padding:10px 20px;border-radius:var(--r);
+  font-size:.78rem;font-weight:700;border:none;
+  transition:all .18s;display:inline-flex;align-items:center;gap:6px;
+}
+.btn-support:hover{background:var(--amber2);box-shadow:0 4px 16px rgba(196,121,40,.4);}
+.btn-support-ghost{
+  background:rgba(255,255,255,.08);
+  color:rgba(255,255,255,.7);
+  border:1px solid rgba(255,255,255,.14);
+  padding:9px 18px;border-radius:var(--r);
+  font-size:.78rem;font-weight:600;
+  transition:all .15s;display:inline-flex;align-items:center;gap:6px;
+}
+.btn-support-ghost:hover{background:rgba(255,255,255,.14);color:#fff;}
+
+/* ─── LAST CONTACT TIMELINE ─── */
+.timeline{display:flex;flex-direction:column;gap:0;}
+.tl-item{
+  display:flex;gap:18px;padding:16px 0;
+  border-bottom:1px solid rgba(93,61,46,.07);
+}
+.tl-item:last-child{border-bottom:none;}
+.tl-dot-wrap{display:flex;flex-direction:column;align-items:center;flex-shrink:0;width:14px;padding-top:4px;}
+.tl-dot{width:10px;height:10px;border-radius:50%;background:var(--amber);flex-shrink:0;}
+.tl-line{flex:1;width:1px;background:var(--border-lt);margin-top:4px;}
+.tl-item:last-child .tl-line{display:none;}
+.tl-content{flex:1;padding-bottom:4px;}
+.tl-date{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.6rem;color:var(--text4);
+  margin-bottom:4px;letter-spacing:.05em;
+}
+.tl-book{
+  font-weight:600;font-size:.8rem;
+  color:var(--amber);margin-bottom:4px;
+}
+.tl-text{font-size:.82rem;color:var(--text2);line-height:1.6;}
+
+/* ─── QUICK ACTIONS BAR ─── */
+.qactions{
+  display:flex;gap:10px;flex-wrap:wrap;
+  background:#fff;border:1px solid var(--border-lt);
+  border-radius:var(--r-md);padding:20px 24px;
+  margin-bottom:32px;align-items:center;
+}
+.qa-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--text4);flex-shrink:0;margin-right:4px;
+}
+.qa-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--parchment);border:1px solid var(--border);
+  color:var(--text2);border-radius:var(--r);
+  padding:8px 15px;font-size:.76rem;font-weight:600;
+  transition:all .15s;
+}
+.qa-btn:hover{background:var(--fog);border-color:var(--amber);color:var(--bark);}
+.qa-btn.amber{background:var(--amber);border-color:var(--amber);color:#fff;}
+.qa-btn.amber:hover{background:var(--amber2);}
+
+/* ─── FOOTER ─── */
+footer{
+  background:var(--bark);color:rgba(255,255,255,.55);
+  padding:44px 32px;text-align:center;
+}
+footer .footer-brand{
+  font-family:'Playfair Display',serif;
+  font-size:1.3rem;color:#fdf6ec;margin-bottom:6px;
+}
+footer p{font-size:.78rem;line-height:1.7;max-width:560px;margin:0 auto;}
+.footer-rule{height:1px;background:rgba(255,255,255,.1);max-width:280px;margin:16px auto;}
+
+/* ─── ANIMATIONS ─── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+.fade-up{animation:fadeUp .6s ease both;}
+.d1{animation-delay:.08s;}.d2{animation-delay:.18s;}.d3{animation-delay:.28s;}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:980px){
+  .cards-4,.cards-3{grid-template-columns:repeat(2,1fr);}
+  .phase-grid{grid-template-columns:1fr;}
+  .phase{border-right:none;border-bottom:1px solid var(--border-lt);}
+  .phase:last-child{border-bottom:none;}
+}
+@media(max-width:680px){
+  .wrap{padding:0 16px 60px;}
+  .nav-inner{padding:0 16px;}
+  .hero-content{padding:40px 16px;}
+  .cards-4,.cards-3,.cards-2{grid-template-columns:1fr 1fr;}
+  .kpi{padding:12px 14px;}
+  .kpi-num{font-size:1.6rem;}
+  .section-head{flex-direction:column;gap:4px;}
+  .support-card{padding:22px;}
+  .support-actions{flex-direction:column;}
+}
+@media(max-width:440px){
+  .cards-4,.cards-3,.cards-2{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-logo">
+      <div class="nav-logo-mark">AS</div>
+      Atomic Shelf
+    </div>
+    <div class="nav-sep"></div>
+    <div class="nav-context">Luciano Nisi · Paramedic Trilogy · Campaign Dashboard</div>
+    <div class="nav-right">
+      <div class="nav-chip"><span class="nav-dot"></span>Active Campaign</div>
+    </div>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow fade-up">Atomic Shelf · Campaign Report · Updated May 26, 2026</div>
+    <h1 class="hero-title fade-up d1">Luciano Nisi<br><em>Paramedic Trilogy</em></h1>
+    <p class="hero-sub fade-up d2">Untold Stories of a Paramedic · Trail Ready · Crossing the Line</p>
+    <div class="hero-kpis fade-up d3">
+      <div class="kpi">
+        <div class="kpi-num amber">10,083</div>
+        <div class="kpi-label">Total Views</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-num">8,521</div>
+        <div class="kpi-label">TikTok Views</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-num">1,562</div>
+        <div class="kpi-label">YouTube Views</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-num">79</div>
+        <div class="kpi-label">TikTok Posts</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-num">78</div>
+        <div class="kpi-label">YouTube Shorts</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-num green">92</div>
+        <div class="kpi-label">TT Followers</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-num">4</div>
+        <div class="kpi-label">YT Subs</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── MAIN ── -->
+<div class="wrap">
+
+  <!-- QUICK ACTIONS -->
+  <div class="section-head" style="padding-top:40px;"><h2>Quick Actions</h2></div>
+  <div class="section-rule"></div>
+  <div class="qactions">
+    <span class="qa-label">Jump to</span>
+    <a href="#status" class="qa-btn">📊 Campaign Status</a>
+    <a href="#performance" class="qa-btn">📈 Performance</a>
+    <a href="#charts" class="qa-btn">📉 Charts</a>
+    <a href="#top-videos" class="qa-btn">🎬 Top Videos</a>
+    <a href="#books" class="qa-btn">📚 Your Books</a>
+    <a href="#roadmap" class="qa-btn">🗺 Roadmap</a>
+    <a href="#promote" class="qa-btn">🚀 TikTok Promote</a>
+  </div>
+
+  <!-- STATUS NOTICES -->
+  <div id="status">
+    <div class="section-head"><h2>Campaign Status</h2><span class="sh-sub">As of May 26, 2026</span></div>
+    <div class="section-rule"></div>
+
+    <div class="notice notice-green">
+      <span class="notice-icon">✅</span>
+      <div>
+        <div class="notice-title">All 3 Titles Active — Publishing on TikTok & YouTube</div>
+        <div class="notice-text">10,083 combined views across 79 TikTok posts and 78 YouTube Shorts. TikTok went live May 7 and is now the dominant platform, accounting for 84% of all views. Paramedic videos approved with non-English text — all systems go.</div>
+      </div>
+    </div>
+    <div class="notice notice-blue">
+      <span class="notice-icon">📱</span>
+      <div>
+        <div class="notice-title">TikTok Momentum Strong — Peak Day: 703 Views (May 21)</div>
+        <div class="notice-text">8,521 TikTok views in just 18 active days. Consistent daily posting cadence averaging 473 views/day. Total likes: 153+. Follower count: 92 and growing.</div>
+      </div>
+    </div>
+    <div class="notice notice-amber">
+      <span class="notice-icon">🎯</span>
+      <div>
+        <div class="notice-title">Trail Ready Thumbnails Leading on Click-Through Rate</div>
+        <div class="notice-text">Trail Ready posts are achieving up to 8% CTR on YouTube — significantly above the 1.91% average. We're applying the same thumbnail formula to the Paramedic series next to lift those numbers. "Step inside the ambulance" has 443 impressions — a refresh could unlock a major boost.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PERFORMANCE METRICS -->
+  <div id="performance">
+    <div class="section-head"><h2>Performance Metrics</h2><span class="sh-sub">Combined across all 3 books</span></div>
+    <div class="section-rule"></div>
+
+    <div class="cards-4" style="margin-bottom:14px;">
+      <div class="mcard">
+        <div class="mcard-label">Total Views</div>
+        <div class="mcard-num">10,083</div>
+        <div class="mcard-sub">TikTok + YouTube combined</div>
+        <div class="mcard-delta delta-green">↑ +3,321 since last report</div>
+      </div>
+      <div class="mcard tt">
+        <div class="mcard-label">TikTok Views</div>
+        <div class="mcard-num">8,521</div>
+        <div class="mcard-sub">@lucianonisi · 79 posts live</div>
+        <div class="mcard-delta delta-green">↑ Active from May 7</div>
+      </div>
+      <div class="mcard yt">
+        <div class="mcard-label">YouTube Views</div>
+        <div class="mcard-num">1,562</div>
+        <div class="mcard-sub">78 Shorts · 4 new subscribers</div>
+        <div class="mcard-delta delta-green">↑ Active from May 4</div>
+      </div>
+      <div class="mcard green">
+        <div class="mcard-label">TikTok Followers</div>
+        <div class="mcard-num">92</div>
+        <div class="mcard-sub">Growing daily</div>
+        <div class="mcard-delta delta-amber">↑ From May 7</div>
+      </div>
+    </div>
+    <div class="cards-4" style="margin-bottom:28px;">
+      <div class="mcard tt">
+        <div class="mcard-label">TikTok Posts</div>
+        <div class="mcard-num">79</div>
+        <div class="mcard-sub">Avg 473 views/day</div>
+        <div class="mcard-delta delta-green">↑ +59 since last report</div>
+      </div>
+      <div class="mcard tt">
+        <div class="mcard-label">TikTok Likes</div>
+        <div class="mcard-num">153+</div>
+        <div class="mcard-sub">Avg 8.5 likes/day</div>
+      </div>
+      <div class="mcard yt">
+        <div class="mcard-label">YT Impressions</div>
+        <div class="mcard-num">3,611</div>
+        <div class="mcard-sub">1.91% avg CTR</div>
+        <div class="mcard-delta delta-amber">Top: 8% CTR (Trail Ready)</div>
+      </div>
+      <div class="mcard yt">
+        <div class="mcard-label">YT Watch Time</div>
+        <div class="mcard-num">2.36</div>
+        <div class="mcard-sub">Hours across 35 tracked videos</div>
+        <div class="mcard-delta delta-blue">Peak day: May 8 (419 views)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHARTS -->
+  <div id="charts">
+    <div class="section-head"><h2>View Charts</h2><span class="sh-sub">Daily breakdown by platform</span></div>
+    <div class="section-rule"></div>
+
+    <div class="cards-2" style="margin-bottom:28px;">
+      <div class="chart-card">
+        <div class="chart-card-title">TikTok Daily Views</div>
+        <div class="chart-card-sub">@lucianonisi · May 7–24, 2026 · 18 active days</div>
+        <canvas id="ttChart" height="160" role="img" aria-label="TikTok daily views bar chart from May 7 to May 24 2026. Peak: May 21 with 703 views."></canvas>
+      </div>
+      <div class="chart-card">
+        <div class="chart-card-title">YouTube Daily Views</div>
+        <div class="chart-card-sub">@LucianosBooks-d7i · Apr 26–May 24, 2026 · Peak: May 8 (419 views)</div>
+        <canvas id="ytChart" height="160" role="img" aria-label="YouTube daily views bar chart. Peak: May 8 with 419 views."></canvas>
+      </div>
+    </div>
+
+    <!-- TikTok engagement strip -->
+    <div class="cards-4" style="margin-bottom:28px;">
+      <div class="mcard tt">
+        <div class="mcard-label">TT Video Views</div>
+        <div class="mcard-num">8,521</div>
+        <div class="mcard-sub">May 7–24, 2026</div>
+      </div>
+      <div class="mcard tt">
+        <div class="mcard-label">TT Likes</div>
+        <div class="mcard-num">153+</div>
+        <div class="mcard-sub">Total likes</div>
+      </div>
+      <div class="mcard tt">
+        <div class="mcard-label">TT Profile Views</div>
+        <div class="mcard-num">62</div>
+        <div class="mcard-sub">Unique visits to profile</div>
+      </div>
+      <div class="mcard tt">
+        <div class="mcard-label">Peak Single Day</div>
+        <div class="mcard-num">703</div>
+        <div class="mcard-sub">May 21, 2026</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- YOUR CHANNELS -->
+  <div class="section-head"><h2>Your Channels</h2></div>
+  <div class="section-rule"></div>
+
+  <div class="cards-2" style="margin-bottom:28px;">
+    <!-- TikTok -->
+    <div class="channel-card">
+      <div class="ch-icon" style="background:#111;color:#fff;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.29 6.29 0 0 0-.79-.05A6.34 6.34 0 0 0 3.15 15.3a6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.19 8.19 0 0 0 4.79 1.52V6.73a4.85 4.85 0 0 1-1.02-.04z"/></svg>
+      </div>
+      <div class="ch-info">
+        <div class="ch-name">TikTok</div>
+        <div class="ch-handle">@lucianonisi</div>
+        <div class="ch-stats-row">
+          <div><div class="ch-stat-num">8,521</div><div class="ch-stat-label">Views</div></div>
+          <div><div class="ch-stat-num">92</div><div class="ch-stat-label">Followers</div></div>
+          <div><div class="ch-stat-num">79</div><div class="ch-stat-label">Posts</div></div>
+          <div><div class="ch-stat-num">153+</div><div class="ch-stat-label">Likes</div></div>
+        </div>
+        <a href="https://www.tiktok.com/@lucianonisi" target="_blank" class="ch-link">Open TikTok ↗</a>
+      </div>
+    </div>
+    <!-- YouTube -->
+    <div class="channel-card">
+      <div class="ch-icon" style="background:#cc0000;color:#fff;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+      </div>
+      <div class="ch-info">
+        <div class="ch-name">YouTube Shorts</div>
+        <div class="ch-handle">@LucianosBooks-d7i</div>
+        <div class="ch-stats-row">
+          <div><div class="ch-stat-num">1,562</div><div class="ch-stat-label">Views</div></div>
+          <div><div class="ch-stat-num">4</div><div class="ch-stat-label">New Subs</div></div>
+          <div><div class="ch-stat-num">78</div><div class="ch-stat-label">Shorts</div></div>
+          <div><div class="ch-stat-num">3,611</div><div class="ch-stat-label">Impressions</div></div>
+          <div><div class="ch-stat-num">2.36</div><div class="ch-stat-label">Watch Hrs</div></div>
+        </div>
+        <a href="https://www.youtube.com/@LucianosBooks-d7i/shorts" target="_blank" class="ch-link">Open YouTube ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOP VIDEOS TABLE -->
+  <div id="top-videos">
+    <div class="section-head"><h2>Top Performing YouTube Videos</h2><span class="sh-sub">35 videos tracked · ranked by views</span></div>
+    <div class="section-rule"></div>
+
+    <div class="table-wrap" style="margin-bottom:28px;">
+      <table class="perf">
+        <thead>
+          <tr>
+            <th>Published</th>
+            <th>Title</th>
+            <th>Book</th>
+            <th>Views</th>
+            <th>Watch Hrs</th>
+            <th>CTR</th>
+            <th>Impressions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="white-space:nowrap;color:var(--text4);font-size:.77rem;">May 9</td>
+            <td style="font-weight:600;">You think you're ready for the trail — but are you really? 🥾</td>
+            <td><span class="book-tag tag-trail">Trail Ready</span></td>
+            <td><div class="bar-wrap"><div class="bar yt" style="width:100px;"></div><strong>225</strong></div></td>
+            <td>0.14</td>
+            <td class="ctr-high">8.0%</td>
+            <td>25</td>
+          </tr>
+          <tr>
+            <td style="white-space:nowrap;color:var(--text4);font-size:.77rem;">May 9</td>
+            <td>What would you do if something went wrong on the trail</td>
+            <td><span class="book-tag tag-trail">Trail Ready</span></td>
+            <td><div class="bar-wrap"><div class="bar yt" style="width:76px;"></div><strong>170</strong></div></td>
+            <td>0.41</td>
+            <td class="ctr-high">5.26%</td>
+            <td>38</td>
+          </tr>
+          <tr>
+            <td style="white-space:nowrap;color:var(--text4);font-size:.77rem;">May 4</td>
+            <td>What goes on behind flashing lights and sirens?</td>
+            <td><span class="book-tag tag-para">Paramedic</span></td>
+            <td><div class="bar-wrap"><div class="bar yt" style="width:63px;"></div><strong>143</strong></div></td>
+            <td>0.13</td>
+            <td class="ctr-low">0%</td>
+            <td>84</td>
+          </tr>
+          <tr>
+            <td style="white-space:nowrap;color:var(--text4);font-size:.77rem;">May 11</td>
+            <td>You either adapt or the mountain decides for you.</td>
+            <td><span class="book-tag tag-trail">Trail Ready</span></td>
+            <td><div class="bar-wrap"><div class="bar yt" style="width:53px;"></div><strong>120</strong></div></td>
+            <td>0.06</td>
+            <td class="ctr-mid">4.62%</td>
+            <td>65</td>
+          </tr>
+          <tr>
+            <td style="white-space:nowrap;color:var(--text4);font-size:.77rem;">May 4</td>
+            <td>Step inside the ambulance and experience real emergency</td>
+            <td><span class="book-tag tag-para">Paramedic</span></td>
+            <td><div class="bar-wrap"><div class="bar yt" style="width:42px;"></div><strong>94</strong></div></td>
+            <td>0.04</td>
+            <td class="ctr-low">0.68%</td>
+            <td style="color:var(--amber);font-weight:600;">443</td>
+          </tr>
+          <tr>
+            <td style="white-space:nowrap;color:var(--text4);font-size:.77rem;">Apr 29</td>
+            <td>The Dark Humor That Keeps Paramedics Sane</td>
+            <td><span class="book-tag tag-para">Paramedic</span></td>
+            <td><div class="bar-wrap"><div class="bar yt" style="width:40px;"></div><strong>89</strong></div></td>
+            <td>0.07</td>
+            <td class="ctr-mid">4.4%</td>
+            <td>91</td>
+          </tr>
+          <tr>
+            <td style="white-space:nowrap;color:var(--text4);font-size:.77rem;">May 11</td>
+            <td>Miles from help.</td>
+            <td><span class="book-tag tag-trail">Trail Ready</span></td>
+            <td><div class="bar-wrap"><div class="bar yt" style="width:38px;"></div><strong>85</strong></div></td>
+            <td>0.06</td>
+            <td class="ctr-low">2.78%</td>
+            <td>72</td>
+          </tr>
+          <tr>
+            <td style="white-space:nowrap;color:var(--text4);font-size:.77rem;">May 7</td>
+            <td>The trail doesn't care if you're experienced.</td>
+            <td><span class="book-tag tag-trail">Trail Ready</span></td>
+            <td><div class="bar-wrap"><div class="bar yt" style="width:34px;"></div><strong>77</strong></div></td>
+            <td>0.05</td>
+            <td class="ctr-low">0%</td>
+            <td>39</td>
+          </tr>
+          <tr>
+            <td style="white-space:nowrap;color:var(--text4);font-size:.77rem;">May 4</td>
+            <td>True Emergency Calls You Won't Believe</td>
+            <td><span class="book-tag tag-para">Paramedic</span></td>
+            <td><div class="bar-wrap"><div class="bar yt" style="width:30px;"></div><strong>68</strong></div></td>
+            <td>0.04</td>
+            <td class="ctr-low">0%</td>
+            <td>91</td>
+          </tr>
+          <tr>
+            <td style="white-space:nowrap;color:var(--text4);font-size:.77rem;">Apr 28</td>
+            <td>Stabbings, Shootings, and Overdoses – Up Close</td>
+            <td><span class="book-tag tag-para">Paramedic</span></td>
+            <td><div class="bar-wrap"><div class="bar yt" style="width:27px;"></div><strong>61</strong></div></td>
+            <td>0.06</td>
+            <td class="ctr-low">2.21%</td>
+            <td>136</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="tbl-footer">
+        Showing top 10 of 35 tracked YouTube videos · Total: 1,562 views · 78 Shorts posted · 2.36 watch hours · 3,611 impressions · 1.91% avg CTR. Trail Ready leads on CTR — same formula being applied to Paramedic Series 2.
+      </div>
+    </div>
+  </div>
+
+  <!-- YOUR 3 BOOKS -->
+  <div id="books">
+    <div class="section-head"><h2>Your Books</h2><span class="sh-sub">All 3 titles in active campaign</span></div>
+    <div class="section-rule"></div>
+
+    <div class="cards-3" style="margin-bottom:28px;">
+
+      <!-- Trail Ready -->
+      <div class="book-card">
+        <div class="book-card-accent" style="background:linear-gradient(90deg,var(--mahogany),var(--amber));"></div>
+        <div class="book-card-body">
+          <div class="book-status-pill" style="background:rgba(46,28,14,.1);color:var(--mahogany);">✓ Active · Phase 1–2</div>
+          <div class="book-card-title">Trail Ready</div>
+          <div class="book-card-desc">Your top performer. Authentic trail-survival content is hitting the right audience. Series 1–3 complete and posting daily. Highest CTR of all three books.</div>
+          <div class="book-metrics">
+            <div class="bm-item"><div class="bm-val">225</div><div class="bm-label">Top Video Views</div></div>
+            <div class="bm-item"><div class="bm-val">8%</div><div class="bm-label">Best CTR</div></div>
+            <div class="bm-item"><div class="bm-val">3</div><div class="bm-label">Series Delivered</div></div>
+            <div class="bm-item"><div class="bm-val">🏅 #1</div><div class="bm-label">Top Performer</div></div>
+          </div>
+        </div>
+        <div class="book-action">→ Continue daily posting · Expand Series 4 in June</div>
+      </div>
+
+      <!-- Paramedic -->
+      <div class="book-card">
+        <div class="book-card-accent" style="background:linear-gradient(90deg,#991414,var(--amber));"></div>
+        <div class="book-card-body">
+          <div class="book-status-pill" style="background:rgba(153,20,20,.1);color:var(--red);">✓ Active · Phase 2</div>
+          <div class="book-card-title">Untold Stories of a Paramedic</div>
+          <div class="book-card-desc">Emergency POV content is resonating. "What goes on behind flashing lights" (143 views) and "True Emergency Calls" building a strong audience. Approved with non-English text.</div>
+          <div class="book-metrics">
+            <div class="bm-item"><div class="bm-val">143</div><div class="bm-label">Top Video Views</div></div>
+            <div class="bm-item"><div class="bm-val">443</div><div class="bm-label">Most Impressions</div></div>
+            <div class="bm-item"><div class="bm-val">Series 1</div><div class="bm-label">Live</div></div>
+            <div class="bm-item"><div class="bm-val">Series 2</div><div class="bm-label">Queued</div></div>
+          </div>
+        </div>
+        <div class="book-action">→ Series 2 queued · Thumbnail refresh to lift CTR</div>
+      </div>
+
+      <!-- Crossing the Line -->
+      <div class="book-card">
+        <div class="book-card-accent" style="background:linear-gradient(90deg,var(--gold),var(--amber));"></div>
+        <div class="book-card-body">
+          <div class="book-status-pill" style="background:rgba(196,121,40,.1);color:var(--amber);">Series 1 Live</div>
+          <div class="book-card-title">Crossing the Line</div>
+          <div class="book-card-desc">Series 1 delivered and live. "What would you do if something went wrong on the trail" (170 views, 5.26% CTR) is performing strongly. Strong mid-pack performer with growth potential.</div>
+          <div class="book-metrics">
+            <div class="bm-item"><div class="bm-val">170</div><div class="bm-label">Top Video Views</div></div>
+            <div class="bm-item"><div class="bm-val">5.26%</div><div class="bm-label">Best CTR</div></div>
+            <div class="bm-item"><div class="bm-val">Series 1</div><div class="bm-label">Live</div></div>
+            <div class="bm-item"><div class="bm-val">June</div><div class="bm-label">Series 2 Start</div></div>
+          </div>
+        </div>
+        <div class="book-action">→ Series 2 production begins June 2026</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ROADMAP -->
+  <div id="roadmap">
+    <div class="section-head"><h2>Campaign Roadmap</h2><span class="sh-sub">Three-phase trilogy rollout</span></div>
+    <div class="section-rule"></div>
+
+    <div class="phase-grid" style="margin-bottom:28px;">
+      <div class="phase done">
+        <div class="phase-status ps-done">DONE</div>
+        <div class="phase-dot"></div>
+        <div class="phase-num">Phase 1</div>
+        <div class="phase-title">Trail Ready Launch</div>
+        <div class="phase-date">May 4 – May 12, 2026</div>
+        <div class="phase-desc">Series 1–3 of Trail Ready published. Top performer: "You think you're ready for the trail" (225 views, 8% CTR). TikTok and YouTube running in parallel from May 7. Foundation audience established.</div>
+      </div>
+      <div class="phase active">
+        <div class="phase-status ps-active">ACTIVE</div>
+        <div class="phase-dot"></div>
+        <div class="phase-num">Phase 2</div>
+        <div class="phase-title">Paramedic &amp; Crossing Expansion</div>
+        <div class="phase-date">May 2026 · In Progress</div>
+        <div class="phase-desc">Untold Stories of a Paramedic and Crossing the Line Series 1 are live. 79 TikTok posts driving 8,521 views. Emergency-room POV content performing well. Daily posting cadence maintained across all titles.</div>
+      </div>
+      <div class="phase">
+        <div class="phase-status ps-next">NEXT</div>
+        <div class="phase-dot"></div>
+        <div class="phase-num">Phase 3</div>
+        <div class="phase-title">Crossing the Line — Series 2</div>
+        <div class="phase-date">June 2026</div>
+        <div class="phase-desc">Series 2 for Crossing the Line. Retargeting viewers from Trail Ready and Paramedic content. Scaling to 3–4 videos/day across all titles. Thumbnail formula refined based on Phase 1–2 CTR data.</div>
+      </div>
+    </div>
+
+    <!-- Next actions -->
+    <div class="cards-2" style="margin-bottom:0;">
+      <div>
+        <div class="notice notice-green" style="margin-bottom:12px;">
+          <span class="notice-icon">🚀</span>
+          <div>
+            <div class="notice-title">Keep TikTok Momentum Going</div>
+            <div class="notice-text">At 8,521 views in 18 days, TikTok is your growth engine. We'll maintain the posting cadence and push toward 15K+ total views by end of June.</div>
+          </div>
+        </div>
+        <div class="notice notice-amber">
+          <span class="notice-icon">📐</span>
+          <div>
+            <div class="notice-title">Trail Ready Thumbnail Formula → Paramedic</div>
+            <div class="notice-text">Trail Ready achieves 8% CTR vs 0.68% for Paramedic. Applying the same question-hook + high-contrast design to Paramedic Series 2 could triple click-through.</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="notice notice-blue" style="margin-bottom:12px;">
+          <span class="notice-icon">📖</span>
+          <div>
+            <div class="notice-title">Crossing the Line Series 2 — June</div>
+            <div class="notice-text">Series 1 template built around the tension-and-decision framing is working (170 views, 5.26% CTR). Series 2 will double down on that proven structure.</div>
+          </div>
+        </div>
+        <div class="notice notice-green">
+          <span class="notice-icon">🎬</span>
+          <div>
+            <div class="notice-title">Ambulance Video Thumbnail Refresh</div>
+            <div class="notice-text">"Step inside the ambulance" has 443 impressions but only 0.68% CTR. A thumbnail refresh on this single video could unlock ~90 additional views immediately.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- CONTACT TIMELINE -->
+  <!-- TIKTOK PROMOTE -->
+  <div id="promote">
+    <div class="section-head" style="padding-top:56px;"><h2>The Next Step: TikTok Promote</h2><span class="sh-sub">Turning organic momentum into targeted reach</span></div>
+    <div class="section-rule"></div>
+
+    <div class="notice notice-green" style="margin-bottom:20px;">
+      <span class="notice-icon">🎉</span>
+      <div>
+        <div class="notice-title">Phase One Complete — You've Built a Real Organic Audience</div>
+        <div class="notice-text">8,521 TikTok views in just 18 days is a strong signal. People are watching, engaging, and following without any paid amplification. That organic proof of concept is exactly what you need before putting any budget behind a video — it means you're promoting content that already works, not guessing in the dark.</div>
+      </div>
+    </div>
+
+    <!-- The big promote card -->
+    <div style="background:linear-gradient(135deg,#0f0f0f 0%,#1a1a1a 100%);border-radius:var(--r-lg);overflow:hidden;margin-bottom:20px;position:relative;">
+      <!-- Subtle TikTok-coloured glow -->
+      <div style="position:absolute;top:-80px;right:-80px;width:300px;height:300px;background:radial-gradient(circle,rgba(105,201,208,.12) 0%,transparent 70%);pointer-events:none;"></div>
+      <div style="position:absolute;top:-80px;left:10%;width:200px;height:200px;background:radial-gradient(circle,rgba(255,0,80,.08) 0%,transparent 70%);pointer-events:none;"></div>
+
+      <div style="padding:36px 36px 28px;position:relative;z-index:1;">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:12px;">What's Available Now</div>
+        <div style="font-family:'Playfair Display',serif;font-size:1.9rem;font-weight:700;color:#fff;line-height:1.1;margin-bottom:10px;">TikTok Promote</div>
+        <p style="font-size:.9rem;color:rgba(255,255,255,.6);max-width:640px;line-height:1.75;margin-bottom:28px;">TikTok Promote lets you take a video that's already performing — one with real views and engagement — and push it to a much wider audience. TikTok identifies people who look and behave like your existing viewers (lookalike audiences) and serves them your content. You stay in control: you set the budget, you choose the geography, and you can pause at any time. No advertising experience required.</p>
+
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:32px;">
+          <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:var(--r);padding:18px;">
+            <div style="font-size:1.4rem;margin-bottom:8px;">🎯</div>
+            <div style="font-weight:700;font-size:.86rem;color:#fff;margin-bottom:5px;">Lookalike Audiences</div>
+            <div style="font-size:.78rem;color:rgba(255,255,255,.5);line-height:1.6;">TikTok finds new viewers who match the profile of people already engaging with your content — same interests, same behaviour, same reading appetite.</div>
+          </div>
+          <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:var(--r);padding:18px;">
+            <div style="font-size:1.4rem;margin-bottom:8px;">🌍</div>
+            <div style="font-weight:700;font-size:.86rem;color:#fff;margin-bottom:5px;">You Choose the Countries</div>
+            <div style="font-size:.78rem;color:rgba(255,255,255,.5);line-height:1.6;">Because you're promoting directly through your own TikTok account, you pick the geographies — prioritising premium English-speaking markets like the US, UK, Canada, and Australia where book buyers are most active.</div>
+          </div>
+          <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:var(--r);padding:18px;">
+            <div style="font-size:1.4rem;margin-bottom:8px;">💰</div>
+            <div style="font-weight:700;font-size:.86rem;color:#fff;margin-bottom:5px;">Flexible Daily Budget</div>
+            <div style="font-size:.78rem;color:rgba(255,255,255,.5);line-height:1.6;">You can start with as little as a few dollars a day. Set a total budget cap and TikTok stops automatically when you hit it. No surprise charges, no commitment beyond what you choose.</div>
+          </div>
+        </div>
+
+        <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:var(--r);padding:20px 22px;margin-bottom:28px;">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.59rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:10px;">How it works for you</div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="display:flex;gap:12px;align-items:flex-start;">
+              <div style="width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;color:rgba(255,255,255,.5);flex-shrink:0;margin-top:1px;">1</div>
+              <div style="font-size:.82rem;color:rgba(255,255,255,.65);line-height:1.6;">Log into your TikTok Business account at <a href="https://ads.tiktok.com/business/en/promote-101" target="_blank" style="color:#69c9d0;text-decoration:none;font-weight:600;">ads.tiktok.com/promote-101 ↗</a> — this is TikTok's own step-by-step guide for Promote.</div>
+            </div>
+            <div style="display:flex;gap:12px;align-items:flex-start;">
+              <div style="width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;color:rgba(255,255,255,.5);flex-shrink:0;margin-top:1px;">2</div>
+              <div style="font-size:.82rem;color:rgba(255,255,255,.65);line-height:1.6;">Choose one of your existing videos to promote — your best-performing TikToks are the strongest candidates to amplify first.</div>
+            </div>
+            <div style="display:flex;gap:12px;align-items:flex-start;">
+              <div style="width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;color:rgba(255,255,255,.5);flex-shrink:0;margin-top:1px;">3</div>
+              <div style="font-size:.82rem;color:rgba(255,255,255,.65);line-height:1.6;">Set your goal (more video views), select your target countries, and choose a daily budget. Review TikTok's budgeting guidance at <a href="https://ads.tiktok.com/business/en/how-it-works/budgeting" target="_blank" style="color:#69c9d0;text-decoration:none;font-weight:600;">ads.tiktok.com/budgeting ↗</a></div>
+            </div>
+            <div style="display:flex;gap:12px;align-items:flex-start;">
+              <div style="width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;color:rgba(255,255,255,.5);flex-shrink:0;margin-top:1px;">4</div>
+              <div style="font-size:.82rem;color:rgba(255,255,255,.65);line-height:1.6;">TikTok handles the rest — distributing your video to lookalike audiences and reporting results in real time. You can pause or stop at any point.</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <a href="https://ads.tiktok.com/business/en/promote-101" target="_blank" style="display:inline-flex;align-items:center;gap:7px;background:#fff;color:#000;padding:11px 22px;border-radius:var(--r);font-size:.8rem;font-weight:700;text-decoration:none;transition:opacity .15s;" onmouseover="this.style.opacity='.88'" onmouseout="this.style.opacity='1'">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.29 6.29 0 0 0-.79-.05A6.34 6.34 0 0 0 3.15 15.3a6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.19 8.19 0 0 0 4.79 1.52V6.73a4.85 4.85 0 0 1-1.02-.04z"/></svg>
+            TikTok Promote — Getting Started ↗
+          </a>
+          <a href="https://ads.tiktok.com/business/en/how-it-works/budgeting" target="_blank" style="display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.1);color:rgba(255,255,255,.8);border:1px solid rgba(255,255,255,.15);padding:10px 20px;border-radius:var(--r);font-size:.8rem;font-weight:600;text-decoration:none;transition:all .15s;" onmouseover="this.style.background='rgba(255,255,255,.16)'" onmouseout="this.style.background='rgba(255,255,255,.1)'">
+            💰 Budgeting Guide ↗
+          </a>
+        </div>
+
+        <p style="font-size:.74rem;color:rgba(255,255,255,.28);margin-top:18px;line-height:1.6;">You'll need a TikTok Business account to access Promote. If you haven't set one up yet, we can walk you through it — just drop us an email and we'll point you in the right direction.</p>
+      </div>
+    </div>
+
+    <div class="notice notice-amber">
+      <span class="notice-icon">💡</span>
+      <div>
+        <div class="notice-title">Which Videos Should You Promote First?</div>
+        <div class="notice-text">Your organic data gives you a clear starting point. The videos with the highest views and engagement are already proven with a cold audience — those are the ones worth amplifying. We'd suggest starting with your top Trail Ready and Paramedic performers, as those niches have a large and active community on TikTok in the US and UK.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RECENT UPDATES -->
+  <div class="section-head" style="padding-top:56px;"><h2>Recent Updates</h2><span class="sh-sub">What's happened across your campaign</span></div>
+  <div class="section-rule"></div>
+
+  <div style="background:#fff;border:1px solid var(--border-lt);border-radius:var(--r-md);padding:24px 26px;margin-bottom:28px;">
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot-wrap"><div class="tl-dot"></div><div class="tl-line"></div></div>
+        <div class="tl-content">
+          <div class="tl-date">May 12, 2026</div>
+          <div class="tl-book">All 3 Books — Campaign Update</div>
+          <div class="tl-text">Trail Ready Series 3 and Untold Stories of a Paramedic videos are live. Author approved Paramedic videos with non-English text. All three titles now posting on TikTok and YouTube.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot-wrap"><div class="tl-dot" style="background:var(--text3);"></div><div class="tl-line"></div></div>
+        <div class="tl-content">
+          <div class="tl-date">May 7, 2026</div>
+          <div class="tl-book">TikTok Launch</div>
+          <div class="tl-text">TikTok @lucianonisi went live. Paramedic and Trail Ready content begins posting. Unified account strategy across all three titles confirmed.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot-wrap"><div class="tl-dot" style="background:var(--text3);"></div><div class="tl-line"></div></div>
+        <div class="tl-content">
+          <div class="tl-date">May 4, 2026</div>
+          <div class="tl-book">YouTube Launch</div>
+          <div class="tl-text">YouTube Shorts (@LucianosBooks-d7i) went live with Trail Ready Series 1. First videos began accumulating views. Peak day followed on May 8 with 419 YouTube views.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot-wrap"><div class="tl-dot" style="background:var(--mist);"></div></div>
+        <div class="tl-content">
+          <div class="tl-date">Mar 15, 2026</div>
+          <div class="tl-book">Campaign Start — Book Signing Note</div>
+          <div class="tl-text">Trial period began. Campaign strategy defined for all three titles in the Paramedic Trilogy. Book signing Saturday May 9 noted. Unified accounts set up across TikTok and YouTube.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div><!-- /wrap -->
+
+<footer>
+  <div class="footer-brand">Atomic Shelf</div>
+  <p>Luciano Nisi · Paramedic Trilogy · Campaign Dashboard · May 2026<br>Prepared by Atomic Shelf — your book marketing team.</p>
+  <div class="footer-rule"></div>
+  <p style="font-size:.7rem;opacity:.45;max-width:580px;margin:0 auto;">By participating in this campaign, you confirm you hold the rights to the book content provided and grant Atomic Shelf a limited licence to use it for the production of short-form promotional video content on your behalf. All data is sourced from TikTok Studio and YouTube Analytics.</p>
+</footer>
+
+<!-- ── CHARTS ── -->
+<script>
+(function(){
+
+  // ── Shared font/grid defaults
+  Chart.defaults.font.family = "'DM Sans', system-ui, sans-serif";
+
+  const gridColor = 'rgba(93,61,46,.06)';
+  const tickColor = '#a8896a';
+
+  // TikTok chart
+  const ttLabels = ['May 7','May 8','May 9','May 10','May 11','May 12','May 13','May 14','May 15','May 16','May 17','May 18','May 19','May 20','May 21','May 22','May 23','May 24'];
+  const ttData   = [193,267,763,286,449,428,607,391,493,447,256,541,594,564,703,493,442,604];
+  const ttMax    = Math.max(...ttData);
+
+  new Chart(document.getElementById('ttChart'), {
+    type: 'bar',
+    data: {
+      labels: ttLabels,
+      datasets: [{
+        label: 'TikTok Views',
+        data: ttData,
+        backgroundColor: ttData.map(v => v === ttMax ? 'rgba(17,17,17,0.82)' : 'rgba(17,17,17,0.25)'),
+        borderColor:     ttData.map(v => v === ttMax ? 'rgba(17,17,17,1)'    : 'rgba(17,17,17,0.4)'),
+        borderWidth: 1,
+        borderRadius: 5,
+        borderSkipped: false,
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: 'rgba(30,18,8,.92)',
+          titleColor: '#fdf6ec',
+          bodyColor: 'rgba(255,255,255,.65)',
+          padding: 12,
+          cornerRadius: 8,
+          callbacks: { label: c => '  ' + c.parsed.y.toLocaleString() + ' views' }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          grid: { color: gridColor },
+          ticks: { color: tickColor, font: { size: 11 } }
+        },
+        x: {
+          grid: { display: false },
+          ticks: { color: tickColor, font: { size: 10 }, maxRotation: 45, autoSkip: false }
+        }
+      }
+    }
+  });
+
+  // YouTube chart
+  const ytLabels = ['Apr 26','Apr 27','Apr 28','Apr 29','Apr 30','May 1','May 2','May 3','May 4','May 5','May 6','May 7','May 8','May 9','May 10','May 11','May 12','May 13','May 14','May 15','May 16','May 17','May 18','May 19','May 20','May 21','May 22','May 23','May 24'];
+  const ytData   = [6,0,106,86,31,9,3,12,332,21,26,96,419,54,127,121,57,13,14,2,7,7,2,0,3,2,3,1,2];
+  const ytMax    = Math.max(...ytData);
+
+  new Chart(document.getElementById('ytChart'), {
+    type: 'bar',
+    data: {
+      labels: ytLabels,
+      datasets: [{
+        label: 'YouTube Views',
+        data: ytData,
+        backgroundColor: ytData.map(v => v === ytMax ? 'rgba(204,0,0,.85)' : 'rgba(204,0,0,.28)'),
+        borderColor:     ytData.map(v => v === ytMax ? 'rgba(204,0,0,1)'   : 'rgba(204,0,0,.45)'),
+        borderWidth: 1,
+        borderRadius: 5,
+        borderSkipped: false,
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: 'rgba(30,18,8,.92)',
+          titleColor: '#fdf6ec',
+          bodyColor: 'rgba(255,255,255,.65)',
+          padding: 12,
+          cornerRadius: 8,
+          callbacks: { label: c => '  ' + c.parsed.y.toLocaleString() + ' views' }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          grid: { color: gridColor },
+          ticks: { color: tickColor, font: { size: 11 } }
+        },
+        x: {
+          grid: { display: false },
+          ticks: { color: tickColor, font: { size: 9 }, maxRotation: 45, maxTicksLimit: 12 }
+        }
+      }
+    }
+  });
+
+})();
+</script>
+
+</body>
+</html>

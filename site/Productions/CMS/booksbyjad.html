@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="60 premium short-form videos for The Chosen and the Cursed series by Jad Phillip. Ready-to-use voiceovers, titles, descriptions and hashtags. Essentials Plan Content Calendar."/>
+<title>The Chosen and the Cursed — Content Calendar | Essentials Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&amp;family=Outfit:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --ink: #130f0b;
+  --cream: #f9f5ef;
+  --warm: #f2ebe0;
+  --amber: #b8712a;
+  --amber-light: #d4943d;
+  --amber-pale: #f7eadb;
+  --stone: #5a4b3e;
+  --muted: #8a7868;
+  --border: rgba(184,113,42,0.18);
+  --card: #fffcf7;
+  --dark: #1c1612;
+  --shadow-amber: 0 24px 64px rgba(184,113,42,0.18);
+  --shadow-soft: 0 8px 40px rgba(19,15,11,0.08);
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+
+body{
+  font-family:'Outfit',sans-serif;
+  background:var(--cream);
+  color:var(--ink);
+  line-height:1.65;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:-1;opacity:0.6;
+}
+
+header{
+  background:rgba(249,245,239,0.95);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  padding:2rem 5vw;
+  position:relative;
+  z-index:10;
+}
+.header-inner{
+  max-width:1280px;
+  margin:0 auto;
+  text-align:center;
+}
+.logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2.1rem;
+  font-weight:700;
+  color:var(--ink);
+  letter-spacing:-0.02em;
+  margin-bottom:0.5rem;
+}
+.agency-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:0.5rem;
+  font-size:0.78rem;
+  font-weight:600;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  color:var(--amber);
+  background:var(--amber-pale);
+  border:1px solid var(--border);
+  padding:0.45rem 1.1rem;
+  border-radius:9999px;
+  margin-bottom:1.5rem;
+}
+
+h1{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2.4rem,5vw,3.8rem);
+  line-height:1.05;
+  font-weight:700;
+  letter-spacing:-0.025em;
+  color:var(--ink);
+  margin-bottom:0.8rem;
+}
+h1 .gold{color:var(--amber);}
+
+.header-sub{
+  font-size:1.05rem;
+  color:var(--stone);
+  max-width:620px;
+  margin:0 auto 2.5rem;
+  line-height:1.75;
+}
+
+main{
+  max-width:1280px;
+  margin:0 auto;
+  padding:2rem 5vw 5rem;
+}
+
+.toolbar{
+  background:var(--card);
+  border:1.5px solid var(--border);
+  border-radius:16px;
+  padding:1.25rem 1.75rem;
+  display:flex;
+  align-items:center;
+  gap:1.25rem;
+  flex-wrap:wrap;
+  margin-bottom:2.5rem;
+  box-shadow:var(--shadow-soft);
+}
+.search-box{
+  flex:1;
+  min-width:280px;
+  background:var(--warm);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:0.85rem 1.25rem;
+  font-size:1rem;
+  color:var(--ink);
+  outline:none;
+}
+.search-box:focus{
+  border-color:var(--amber);
+}
+
+.filter-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:0.75rem;
+  margin-bottom:2.5rem;
+}
+.filter-btn{
+  background:var(--card);
+  border:1.5px solid var(--border);
+  border-radius:9999px;
+  padding:0.55rem 1.25rem;
+  font-size:0.8rem;
+  font-weight:600;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  color:var(--stone);
+  cursor:pointer;
+  transition:all 0.25s;
+}
+.filter-btn:hover{
+  border-color:var(--amber);
+  color:var(--amber);
+}
+.filter-btn.active{
+  background:var(--amber);
+  color:white;
+  border-color:var(--amber);
+}
+
+.day-group{
+  margin-bottom:3.5rem;
+  background:var(--card);
+  border:1.5px solid var(--border);
+  border-radius:16px;
+  padding:2rem;
+  box-shadow:var(--shadow-soft);
+}
+.day-label{
+  display:flex;
+  align-items:center;
+  gap:1rem;
+  margin-bottom:1.5rem;
+  padding-bottom:1rem;
+  border-bottom:1px solid var(--border);
+}
+.day-number{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.35rem;
+  font-weight:700;
+  color:var(--amber);
+}
+.day-date{
+  font-size:0.95rem;
+  color:var(--stone);
+  font-style:italic;
+}
+
+.day-cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(480px, 1fr));
+  gap:1.75rem;
+}
+.video-card{
+  background:var(--warm);
+  border:1.5px solid var(--border);
+  border-radius:14px;
+  overflow:hidden;
+  transition:all .3s;
+}
+.video-card:hover{
+  border-color:var(--amber);
+  transform:translateY(-6px);
+  box-shadow:var(--shadow-amber);
+}
+
+.card-top{
+  background:var(--dark);
+  color:white;
+  padding:1rem 1.5rem;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:0.75rem;
+}
+.video-num{
+  font-size:0.8rem;
+  font-weight:600;
+  letter-spacing:0.1em;
+  opacity:0.85;
+}
+.book-tag{
+  font-size:0.75rem;
+  font-weight:600;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  padding:0.35rem 0.9rem;
+  border-radius:6px;
+  border:1px solid;
+}
+
+.card-body{
+  padding:1.75rem;
+}
+
+.section-label{
+  font-size:0.72rem;
+  font-weight:700;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:0.8rem;
+  display:flex;
+  align-items:center;
+  gap:0.5rem;
+}
+
+.vo-text, .desc-text{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:1.1rem 1.3rem;
+  margin-bottom:1rem;
+  font-size:0.95rem;
+  line-height:1.75;
+  color:var(--ink);
+}
+.hashtags{
+  color:var(--amber);
+  font-size:0.8rem;
+  line-height:1.6;
+}
+
+.copy-btn{
+  background:transparent;
+  border:1.5px solid var(--border);
+  color:var(--stone);
+  padding:0.65rem 1.1rem;
+  border-radius:8px;
+  font-size:0.8rem;
+  font-weight:600;
+  letter-spacing:0.05em;
+  cursor:pointer;
+  transition:all .25s;
+  display:inline-flex;
+  align-items:center;
+  gap:0.5rem;
+}
+.copy-btn:hover{
+  border-color:var(--amber);
+  color:var(--amber);
+}
+.copy-btn.copied{
+  border-color:#4ade80;
+  color:#4ade80;
+}
+
+.amazon-link{
+  display:inline-flex;
+  align-items:center;
+  gap:0.6rem;
+  color:var(--amber);
+  text-decoration:none;
+  font-weight:600;
+  font-size:0.85rem;
+  margin-top:1rem;
+  padding:0.6rem 1.2rem;
+  border:1.5px solid var(--border);
+  border-radius:8px;
+  transition:all .25s;
+}
+.amazon-link:hover{
+  background:var(--amber);
+  color:white;
+  border-color:var(--amber);
+}
+
+footer{
+  background:var(--dark);
+  color:#d4c3b0;
+  text-align:center;
+  padding:3rem 5vw 2rem;
+  font-size:0.85rem;
+}
+footer a{
+  color:var(--amber-light);
+  text-decoration:none;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="agency-badge">✦ Essentials Plan • Atomic‑Shelf</div>
+    <h1>The Chosen <span class="gold">and the Cursed</span></h1>
+    <p class="header-sub">30-Day Content Calendar • 60 Premium Videos<br>Ready-to-use voiceovers, titles, descriptions &amp; hashtags</p>
+  </div>
+</header>
+
+<main>
+  <div class="toolbar">
+    <input class="search-box" type="search" id="searchBox" placeholder="Search videos, titles, or hashtags..." oninput="filterCards()"/>
+    <div style="font-size:0.9rem;color:var(--stone);white-space:nowrap;">Showing <strong id="visibleCount">60</strong> of 60</div>
+  </div>
+
+  <div class="filter-row">
+    <button class="filter-btn active" data-book="all" onclick="setFilter('all',this)">All Books</button>
+    <button class="filter-btn" data-book="jade" onclick="setFilter('jade',this)">📗 Jade Necklace</button>
+    <button class="filter-btn" data-book="shards" onclick="setFilter('shards',this)">🔮 Black Shards</button>
+    <button class="filter-btn" data-book="life" onclick="setFilter('life',this)">🩸 Book of Life</button>
+    <button class="filter-btn" data-book="crown" onclick="setFilter('crown',this)">👑 Crimson Crown</button>
+    <button class="filter-btn" data-book="monster" onclick="setFilter('monster',this)">🖤 To Love a Monster</button>
+  </div>
+
+  <div id="allCards"></div>
+</main>
+
+<footer>
+  Generated by Atomic‑Shelf • Essentials Plan<br>
+  <a href="https://www.amazon.com/dp/B0DL1S5FJL" target="_blank">Shop The Chosen and the Cursed Series on Amazon</a>
+</footer>
+
+<script>
+const BOOKS = {
+  jade:    { label:'The Jade Necklace',    asin:'B0DL1S5FJL',  emoji:'📗' },
+  shards:  { label:'The Black Shards',     asin:'B0DQVLSLNQ',  emoji:'🔮' },
+  life:    { label:'The Book of Life',     asin:'B0DTJDNB2L',  emoji:'🩸' },
+  crown:   { label:'The Crimson Crown',    asin:'B0FD8WZFZK',  emoji:'👑' },
+  monster: { label:'To Love a Monster',   asin:'B0G3WYJ477',   emoji:'🖤' },
+};
+
+const videos = [
+  // Day 1 – May 15
+  {book:'jade', vo:"Clara grew up believing her memories were broken — that the fire, the strangers, the terror she remembered as a six-year-old were just nightmares. But her mother's jade necklace never let her forget. Now someone wants it back. And the power awakening inside Clara can no longer be ignored. The Jade Necklace by Jad Phillip — the debut that BookTok can't stop talking about. Available on Amazon and Kindle Unlimited — link in bio!", title:"She Never Knew the Necklace Was Protecting Her", desc:"A girl. A necklace. A power she never asked for. The Jade Necklace is the slow-burn fantasy romance that starts with a childhood tragedy and ends with your jaw on the floor. 💚", tags:"#TheJadeNecklace #JadPhillip #BookTok #FantasyRomance #Romantasy #SlowBurn #KindleUnlimited #BookRecommendation #FantasyBooks #YAFantasy"},
+  {book:'monster', vo:"Princess Aurora of Amador dreams of battlefields, not ballrooms. But when an arranged marriage threatens to cage her forever, she runs — straight into the arms of something her kingdom calls its greatest enemy. A creature. A monster. Or maybe something else entirely. To Love a Monster by Jad Phillip — number one bestseller in Teen and Young Adult Alternative History. On Amazon now!", title:"A Princess Who'd Rather Fight Than Dance", desc:"She was born for ballrooms. She wanted battlefields. When an escape goes wrong, Aurora finds something she never expected — a monster who might actually save her. 👑🖤", tags:"#ToLoveaMonster #JadPhillip #BookTok #ForbiddenLove #MonsterRomance #Romantasy #PrincessFantasy #KindleUnlimited #AmazonBooks #ChosenAndCursed"},
+
+  // Day 2 – May 16
+  {book:'shards', vo:"By day, Robin is Clara's history teacher — quiet, watchful, always nearby. By night, he soars above her as the monster she's been trying to uncover. His identity hidden. His mission impossible. His feelings for her — undeniable. The Black Shards is Book Two of The Chosen and the Cursed, and it's the sequel that delivers on every promise. On Amazon — link in bio.", title:"He Teaches Her History By Day. Guards Her By Night.", desc:"Her history teacher by day. The monster she's hunting by night. Robin's double life in The Black Shards is one of the most compelling setups in modern fantasy. 🖤", tags:"#TheBlackShards #JadPhillip #BookTok #Romantasy #SecretIdentity #ForbiddenLove #FantasyRomance #SlowBurn #KindleUnlimited #AmazonBooks"},
+  {book:'life', vo:"Clara has a prophecy hanging over her head: she is the abomination destined to awaken Lilith, the primordial vampire goddess. The forces of good want her dead to prevent it. The forces of evil want her alive to use her. And the only person she can trust — Robin — has a father who wants him destroyed. The Book of Life. Book Three. On Amazon now.", title:"She Was Foretold as the End of the World", desc:"The prophecy says Clara will end the world. Her enemies believe it. Her allies fear it. Only one person refuses to give up on her. The Book of Life hits different. 🌒", tags:"#TheBookofLife #JadPhillip #BookTok #Romantasy #ProphecyBooks #DarkFantasy #FantasyRomance #ChosenAndCursed #KindleUnlimited #AmazonBooks"},
+
+  // Day 3 – May 17
+  {book:'crown', vo:"She once hid in a closet from the monsters. Now she might have to become one. The Crimson Crown is the final chapter of The Chosen and the Cursed — the conclusion to a four-book saga of ancient magic, forbidden love, and a girl who was never just what the prophecy said. Jad Phillip's finale is available on Amazon now — link in bio.", title:"The Final Battle Is Coming. And Love Is the Deadliest Weapon.", desc:"She once hid from the monsters. Now she must decide whether to become one. The Crimson Crown is the final chapter — and it ends the way you always hoped. 👑🖤", tags:"#TheCrimsonCrown #JadPhillip #FinaleBook #BookTok #Romantasy #DarkFantasy #ChosenAndCursed #SeriesEnding #KindleUnlimited #AmazonBooks"},
+  {book:'jade', vo:"Robin has watched empires rise and fall for over a thousand years. He has felt nothing — until Clara. She's a pre-med student with no idea what she is, no idea what's hunting her, and no idea why a creature bound by darkness can't stay away from her. The Jade Necklace is the forbidden love story that hits different. Find it on Amazon — link in bio!", title:"What Happens When a Gargoyle Falls for a Human", desc:"A thousand-year-old gargoyle. A girl with hidden powers. The slowest, most intoxicating burn you've ever read. The Jade Necklace will ruin other books for you. 🖤", tags:"#JadeNecklace #GargoyleRomance #SlowBurnRomance #ForbiddenLove #BookTok #Romantasy #FantasyRomance #JadPhillip #KindleUnlimited #AmazonBooks"},
+
+  // Day 4 – May 18
+  {book:'monster', vo:"To Love a Monster by Jad Phillip hit number one in Teen and Young Adult Alternative History on Amazon — and readers can't stop raving about it. 'A delightful and thrilling read.' 'An exciting, emotional story with a strong heroine.' 'What a ride.' Four-point-four stars from over forty-five reviews and climbing. Grab your copy — link in bio!", title:"The #1 Bestseller in YA Alternative History", desc:"#1 Bestseller. 4.4 ⭐ from 45+ readers. 'A delightful and thrilling read.' To Love a Monster by Jad Phillip is the forbidden romance fantasy everyone is talking about. 👑", tags:"#ToLoveaMonster #JadPhillip #BestsellerBook #BookTok #Romantasy #ForbiddenLove #YAFantasy #KindleUnlimited #AmazonBestseller #ChosenAndCursed"},
+  {book:'shards', vo:"'This is how you make a sequel! We took time to meet Robin and Clara independently in Book One, and now they're finally having chemistry off the charts!' That's a real reader review of The Black Shards. If Book One was the setup, Book Two is the payoff — and it absolutely delivers. Grab it on Amazon — link in bio.", title:"The Sequel That Delivers on the Slow Burn", desc:"'Chemistry off the charts!' If you loved Book One's slow burn, The Black Shards is where the fire finally catches. The payoff is everything you hoped for. 🔥💫", tags:"#TheBlackShards #JadPhillip #BookTok #SlowBurnPayoff #FantasyRomance #Romantasy #ChemistryOffTheCharts #KindleUnlimited #AmazonBooks #ChosenAndCursed"},
+
+  // Day 5 – May 19
+  {book:'life', vo:"Lord Caleb has waited an eternity for this. Robin's ruthless, vengeful father broke out of the prison that was supposed to hold him forever — and his first target is Clara. Because he knows she's the one thing that could destroy his son. The Book of Life makes The Chosen and the Cursed deeply, dangerously personal. On Amazon — link in bio.", title:"Robin's Father Just Escaped an Eternal Prison", desc:"A father escaped from eternal imprisonment. His first target: the girl his son would die to protect. The Book of Life turns the threat deeply, devastatingly personal. 🔓💔", tags:"#TheBookofLife #JadPhillip #BookTok #Romantasy #DarkFantasy #VillainFather #FamilyDrama #FantasyRomance #KindleUnlimited #AmazonBooks"},
+  {book:'crown', vo:"The jade necklace. The black blade. The book of life. The crimson crown. Four sacred artifacts tied to a forgotten prophecy — and Clara is the wielder of all of them. The Crimson Crown reveals what this series was always about. Everything Clara survived was preparation for this moment. On Amazon — link in bio.", title:"The Jade Necklace Was Just the Beginning", desc:"Four sacred artifacts. One wielder. One final prophecy. The Crimson Crown reveals what The Chosen and the Cursed was always building toward — and it delivers. 💚⚔️", tags:"#TheCrimsonCrown #JadPhillip #FourArtifacts #BookTok #Romantasy #DarkFantasy #ProphecyRevealed #SeriesConclusion #KindleUnlimited #AmazonBooks"},
+
+  // Day 6 – May 20
+  {book:'jade', vo:"Most fantasy books give you one supernatural creature and call it a day. The Jade Necklace gives you gargoyles, vampires, dragons, phoenixes, witches, and mages — all woven into a world that feels completely real. And at the center of it all: Clara. A girl who has no idea she's the most powerful person in the room. Grab it on Amazon — link in bio!", title:"This Book Has Gargoyles, Vampires, Dragons & Phoenixes", desc:"Gargoyles. Vampires. Phoenixes. Dragons. The Jade Necklace doesn't pick one supernatural creature — it gives you ALL of them. And somehow it works perfectly. 🔥", tags:"#Gargoyles #Vampires #Phoenixes #FantasyBooks #BookTok #TheJadeNecklace #JadPhillip #Romantasy #SupernaturalFantasy #KindleUnlimited"},
+  {book:'monster', vo:"The king bends to her will. The court is terrified of her. And beautiful Dorova — the fae stepmother with a hunger for power — is slowly strangling the throne from the inside. Princess Aurora is the only one who sees it. But speaking the truth means risking everything. To Love a Monster — the dark fairy tale with real stakes. On Amazon — link in bio.", title:"Her Stepmother Is the Real Villain", desc:"A king under a spell. A fae stepmother with a hunger for power. And a princess who is the only one who can see the truth. To Love a Monster goes dark — beautifully. 🌑", tags:"#ToLoveaMonster #FairyTaleRetelling #DarkFairytale #EvilStepmother #FaeFantasy #BookTok #JadPhillip #Romantasy #YAFantasy #KindleUnlimited"},
+
+  // Day 7 – May 21
+  {book:'shards', vo:"A witch's curse strips Clara of everything she just discovered about herself. No powers. No protection. Completely vulnerable — and surrounded by enemies closing in on every side. But Clara refuses to break. And watching her fight without her abilities is somehow more compelling than watching her fight with them. The Black Shards — available on Amazon.", title:"Clara Loses Her Powers — But Not Her Courage", desc:"Cursed. Powerless. Vulnerable. And refusing to back down. Clara's arc in The Black Shards proves that the girl was never defined by her magic. 💪🖤", tags:"#TheBlackShards #JadPhillip #BookTok #Romantasy #PowerlessHeroine #CurseBreaking #DarkFantasy #FantasyRomance #KindleUnlimited #AmazonBooks"},
+  {book:'life', vo:"In The Book of Life, the blood moon is no longer a distant threat — it's here. The ritual is being prepared. The vampires are closing in. And Clara has to find a way to rewrite a destiny that was written before she was born. Jad Phillip's third book in the series is relentless, emotional, and devastating in the best way. On Amazon — link in bio.", title:"A Blood Moon Is Rising. Everything Hangs in the Balance.", desc:"The blood moon is rising. The ritual is being prepared. And Clara has one chance to rewrite a destiny she never chose. The Book of Life is where it all comes undone. 🌑🩸", tags:"#TheBookofLife #JadPhillip #BloodMoon #BookTok #Romantasy #DarkFantasy #ProphecyBreaker #FantasyRomance #KindleUnlimited #AmazonBooks"},
+
+  // Day 8 – May 22
+  {book:'crown', vo:"'Books three and four in two days. I won't spoil much — but it's bittersweet and a happy ending at the same time, depending on who you're rooting for.' That's a real reader review of The Crimson Crown. A finale that satisfies and stings in equal measure. On Amazon — link in bio.", title:"A Bittersweet Ending Readers Can't Stop Talking About", desc:"'Bittersweet and a happy ending at the same time, depending on who you're rooting for.' The Crimson Crown's finale is the ending readers deserved. ❤️‍🩹👑", tags:"#TheCrimsonCrown #JadPhillip #BittersweetEnding #SeriesFinale #BookTok #Romantasy #DarkFantasy #ChosenAndCursed #KindleUnlimited #AmazonBooks"},
+  {book:'jade', vo:"One reader said: 'I was not ready for how into this book I was gonna get. Suddenly it's two a.m. and I'm gripping my oat milk latte and fully invested in cursed destinies and ancient magic.' Another called it 'unlike any fantasy I've read.' The Jade Necklace by Jad Phillip — four-point-five stars on Amazon and climbing. Link in bio!", title:"The Review That Made Everyone Buy This Book", desc:"'I was not ready for how into this book I was gonna be.' — real reader review. 4.5 ⭐ on Amazon. The Jade Necklace is that book. 📖", tags:"#BookReview #ReaderReview #TheJadeNecklace #JadPhillip #BookTok #Romantasy #FantasyRomance #AmazonBooks #KindleUnlimited #MustRead"},
+
+  // Day 9 – May 23
+  {book:'monster', vo:"That's the question at the heart of To Love a Monster. Aurora runs from an arranged marriage and lands in the arms of a creature her kingdom has hunted for centuries. But the more time she spends with him, the more she has to ask: who are the real monsters here? Jad Phillip's breakout standalone is on Amazon and Kindle Unlimited — link in bio.", title:"What Is the Line Between Monster and Protector?", desc:"Who is the real monster — the creature they warned her about, or the kingdom she grew up in? To Love a Monster asks the question and answers it beautifully. 🖤", tags:"#ToLoveaMonster #JadPhillip #MonsterRomance #ForbiddenLove #BookTok #Romantasy #DarkFantasy #YAFantasy #KindleUnlimited #AmazonBooks"},
+  {book:'shards', vo:"The Black Shards opens with a fairy tale — the myth of Lilith, the first vampire, and the curse that made her what she is. It's dark. It's poetic. It's the kind of prologue that sets the tone for everything that follows. International Review of Books called it 'a masterful tapestry.' The Black Shards by Jad Phillip — on Amazon now.", title:"The Vampire Origin Story That Will Haunt You", desc:"The myth of Lilith. The origin of vampires. The Black Shards opens with a fairytale prologue that will stay with you — dark, poetic, and perfectly ominous. 🧛‍♀️📖", tags:"#TheBlackShards #Lilith #VampireLore #DarkMythology #JadPhillip #BookTok #Romantasy #DarkFantasy #FantasyLore #KindleUnlimited"},
+
+  // Day 10 – May 24
+  {book:'life', vo:"All phoenixes must fight each other in a brutal trial with only one survivor. Erick is in the ring. His powers are on the line. His humanity is on the line. And he can't afford to lose — because Clara still needs him. The Book of Life gives every character something to lose, and the price is devastating. On Amazon now — link in bio.", title:"Erick's Trial Could Cost Him His Humanity", desc:"Every phoenix must fight. Only one can survive. Erick's trial in The Book of Life could cost him his humanity — and the price feels unbearably real. 🔥⚔️", tags:"#TheBookofLife #JadPhillip #PhoenixTrial #BookTok #Romantasy #DarkFantasy #EpicFantasy #ChosenAndCursed #KindleUnlimited #AmazonBooks"},
+  {book:'crown', vo:"'A captivating read that pulls you straight into a rich and immersive world. It's the kind of book that's easy to get lost in, with moments that stay with you even after you've put it down.' That's a verified purchase review of The Crimson Crown. Five stars. The final book in The Chosen and the Cursed. On Amazon — link in bio.", title:"Fantasy Done Right From Start to Finish", desc:"'The kind of book that's easy to get lost in, with moments that stay with you after you've put it down.' The Crimson Crown delivers everything fans of the series were waiting for. 🌟", tags:"#TheCrimsonCrown #JadPhillip #FiveStars #BookReview #BookTok #Romantasy #FantasyRomance #SeriesConclusion #KindleUnlimited #AmazonBooks"},
+
+  // Day 11 – May 25
+  {book:'jade', vo:"At six years old, Clara watched everything she loved burn. Her parents. Her home. Her memories. All that remained was the jade necklace around her neck. Fifteen years later, the past is catching up with her — and the power she's been suppressing is about to explode. The Jade Necklace by Jad Phillip. Start the series today — link in bio.", title:"A Childhood Tragedy. A Thousand-Year Secret. One Necklace.", desc:"Six years old. A fire. A massacre. A jade necklace that survived everything. Fifteen years later, the truth comes for Clara — and it's not coming gently. 💚🔥", tags:"#TheJadeNecklace #JadPhillip #BookTok #DarkFantasy #FantasyRomance #Romantasy #OriginStory #KindleUnlimited #AmazonBooks #ChosenAndCursed"},
+  {book:'monster', vo:"Aurora didn't just escape an arranged marriage. She escaped something that was suppressing the power inside her. Now that she's free — and now that she's near him — something ancient is waking up. Something her stepmother desperately wants to control. To Love a Monster by Jad Phillip — the story where love is the most dangerous magic of all. On Amazon now!", title:"Forbidden Powers Awakening", desc:"The escape awakened something in her. Forbidden powers. Ancient magic. And a connection to the creature who saved her that defies every rule her kingdom ever wrote. ⚡🖤", tags:"#ForbiddenPowers #MagicAwakening #ToLoveaMonster #JadPhillip #BookTok #Romantasy #FantasyRomance #PowerfulHeroine #KindleUnlimited #AmazonBooks"},
+
+  // Day 12 – May 26
+  {book:'shards', vo:"Robin wants to protect Clara. His darkness wants to consume everything around him. Every time he gets close to her, he has to fight himself — the monster, the desire, the thousand years of violence inside him. The Black Shards turns their relationship into something genuinely dangerous and genuinely beautiful. On Amazon and Kindle Unlimited — link in bio.", title:"The Protector vs the Predator", desc:"He protects her. He's also the most dangerous thing near her. Robin's internal war in The Black Shards makes for one of fantasy's most compelling love interests. 🖤⚔️", tags:"#TheBlackShards #JadPhillip #MorallyGrayRomance #ForbiddenLove #SlowBurn #BookTok #Romantasy #FantasyRomance #KindleUnlimited #AmazonBooks"},
+  {book:'life', vo:"'I finished it in one sitting. This is one of the best fantasy books I've ever read.' That's a real Amazon review of The Book of Life. Five stars. Zero hesitation. If you've been following The Chosen and the Cursed, Book Three is the one that will break your heart and put it back together again. On Amazon — link in bio.", title:"Readers Finished It in One Sitting", desc:"'One of the best fantasy books I've ever read.' A reader who finished in one sitting. The Book of Life is the series entry that fans can't stop talking about. ⭐⭐⭐⭐⭐", tags:"#TheBookofLife #JadPhillip #FiveStars #BookReview #BookTok #Romantasy #FantasyRomance #OneSitRead #KindleUnlimited #AmazonBooks"},
+
+  // Day 13 – May 27
+  {book:'crown', vo:"By the end of The Chosen and the Cursed, Clara isn't the girl she was. She's lost friends. Lost her innocence. Lost parts of herself she can never get back. But in their place — purpose. The Crimson Crown is about what it costs to win. And whether the Clara who wins is still someone she recognizes. On Amazon — link in bio.", title:"Right and Wrong Blur. Survival Demands Everything.", desc:"She's lost her friends, her innocence, and her powers. But in their place: purpose. The Crimson Crown asks what it costs to win — and whether winning is enough. 💔👑", tags:"#TheCrimsonCrown #JadPhillip #CharacterGrowth #BookTok #Romantasy #DarkFantasy #SeriesEnding #ChosenAndCursed #KindleUnlimited #AmazonBooks"},
+  {book:'jade', vo:"Clara and Robin's love story doesn't happen fast. It shouldn't. He's been alive a thousand years. She's been through trauma that would break most people. What they build — slowly, painfully, beautifully — is one of the most earned romances in modern fantasy. If you've been burned by rushed love stories, The Jade Necklace is the reset you need. On Amazon now!", title:"Slow Burn Romance Done Right", desc:"Slow burn done RIGHT. Clara and Robin's love story is agonizingly, beautifully earned over an entire series. This is the book that starts it all. 🖤✨", tags:"#SlowBurn #SlowBurnRomance #FantasyRomance #TheJadeNecklace #JadPhillip #BookTok #Romantasy #RomanceBooks #KindleUnlimited #EnemiestoLovers"},
+
+  // Day 14 – May 28
+  {book:'monster', vo:"Aurora isn't strong because the plot says so. She's strong because she acts — she escapes, she fights, she makes choices even when they're terrifying. And she falls in love in a way that never weakens her. She stays herself through every trial. To Love a Monster by Jad Phillip is the book strong-heroine fans have been waiting for. Link in bio!", title:"This Is How You Write a Strong Heroine", desc:"Aurora doesn't just survive — she fights, chooses, and falls in love without losing herself. To Love a Monster is the strong-heroine story done right. 👑⚔️", tags:"#StrongHeroine #ToLoveaMonster #JadPhillip #BookTok #FeministFantasy #Romantasy #ForbiddenLove #YAFantasy #KindleUnlimited #AmazonBooks"},
+  {book:'shards', vo:"The International Review of Books called The Black Shards 'utterly addictive' and said the writing 'keeps you up well into the night.' They praised the pacing as relentless, the world-building as layered, and the blending of fairytale and dark romantasy as masterful. That's the kind of review that means something. Find it on Amazon — link in bio.", title:"An International Review of Books Pick", desc:"Called 'utterly addictive' by the International Review of Books. The Black Shards is the sequel that doesn't just match Book One — it surpasses it. 📰⭐", tags:"#TheBlackShards #JadPhillip #BookReview #InternationalReview #BookTok #Romantasy #DarkFantasy #SlowBurn #KindleUnlimited #AmazonBooks"},
+
+  // Day 15 – May 29
+  {book:'life', vo:"In The Book of Life, no one is safe and no one is fully trustworthy. Allies become uncertain. Ancient powers long buried begin to surface. And the book that holds the key to Clara's destiny has pages she never knew existed. Jad Phillip turns the screw in Book Three — and it is genuinely breathtaking. On Amazon and Kindle Unlimited — link in bio.", title:"Betrayals Loom. Ancient Powers Awaken.", desc:"Allies become uncertain. Ancient powers stir. And the Book of Life holds pages Clara never knew existed. This is the series entry where everything unravels — beautifully. 🕯️📖", tags:"#TheBookofLife #JadPhillip #BookTok #Romantasy #DarkFantasy #Betrayal #AncientMagic #FantasyRomance #KindleUnlimited #AmazonBooks"},
+  {book:'crown', vo:"Thwarted for three books. Pushed apart by prophecy, power, and pain. But in The Crimson Crown, Robin and Clara's bond finally burns brighter than everything standing in their way. Jad Phillip gives these two characters the ending they've earned — beautifully, heartbreakingly, perfectly. On Amazon and Kindle Unlimited — link in bio.", title:"Their Bond Finally Burns Bright", desc:"Three books of waiting. One book of payoff. Robin and Clara's bond in The Crimson Crown finally burns brighter than everything in their way. Worth every page. 🔥🖤", tags:"#TheCrimsonCrown #JadPhillip #SlowBurnPayoff #ClaraAndRobin #BookTok #Romantasy #FantasyRomance #ForbiddenLove #KindleUnlimited #AmazonBooks"},
+
+  // Day 16 – May 30
+  {book:'jade', vo:"Clara thinks she's a normal pre-med student. She has a best friend. A crush. A quiet apartment and a life she built from the ruins of her past. Then a stranger attacks her — and something inside her snaps. Raw, electric, impossible power. She is not what she thought she was. Not even close. The Jade Necklace — on Amazon and Kindle Unlimited.", title:"Meet Clara — The Girl Who Doesn't Know What She Is", desc:"She thought she was ordinary. She was wrong. Clara's awakening in The Jade Necklace is one of the most satisfying moments in YA fantasy. Don't miss it. ⚡", tags:"#TheJadeNecklace #ChosenOne #FantasyBooks #BookTok #JadPhillip #Romantasy #YAFantasy #PowerAwakening #KindleUnlimited #AmazonBooks"},
+  {book:'monster', vo:"'The vivid descriptions of her magical abilities and palace intrigue made it feel like a cinematic adventure.' That's a real review of To Love a Monster by Jad Phillip. The writing puts you inside a world you can see, hear, and feel. If you've been looking for a fantasy that plays like a film in your head — this is it. Available on Amazon — link in bio.", title:"Readers Called It a Cinematic Adventure", desc:"'It felt like a cinematic adventure.' Readers say To Love a Monster reads like a film you can't look away from — full of magic, palace intrigue, and forbidden tension. 🎬✨", tags:"#ToLoveaMonster #JadPhillip #CinematicReads #BookTok #Romantasy #FantasyRomance #ForbiddenLove #PalaceIntrigue #KindleUnlimited #AmazonBooks"},
+
+  // Day 17 – May 31
+  {book:'shards', vo:"There's a character in The Black Shards unlike any other in the series: a fae-human hybrid, raised as a king's son, then betrayed, killed, and resurrected by a vampire — only to be imprisoned for his heritage. He is the last of his kind. And he changes everything. The Black Shards — where the world gets bigger and darker. On Amazon now!", title:"The Fae-Vampire Hybrid No One Expected", desc:"A fae-human hybrid. Stolen. Betrayed. Resurrected. Imprisoned. The Black Shards introduces a character so compelling, readers couldn't stop talking about him. 🧝🧛", tags:"#TheBlackShards #JadPhillip #FaeFantasy #HybridCharacter #BookTok #Romantasy #DarkFantasy #FantasyLore #KindleUnlimited #AmazonBooks"},
+  {book:'life', vo:"Robin and Clara have always had obstacles. But The Book of Life puts the kind of obstacles between them that feel truly impossible — an escaped, murderous father. A prophecy that names Clara as the end of the world. A blood moon that's almost here. Their love has never been more tested or more worth rooting for. On Amazon — link in bio.", title:"Love Under the Most Impossible Conditions", desc:"A murderous father. A world-ending prophecy. A blood moon. Robin and Clara's love in The Book of Life is tested like never before — and more worth rooting for than ever. 🖤🌒", tags:"#TheBookofLife #JadPhillip #ForbiddenLove #FantasyRomance #BookTok #Romantasy #SlowBurn #EnemiestoLovers #KindleUnlimited #AmazonBooks"},
+
+  // Day 18 – June 1
+  {book:'crown', vo:"Three books of watching Clara run from what she is. In The Crimson Crown, she stops running. Her destiny is finally clear. The jade necklace. The black blade. The book of life. The crimson crown. Everything she's survived has brought her here — to the final battle. And she walks toward it. On Amazon — link in bio.", title:"Her Destiny Is No Longer Shrouded in Shadow", desc:"She stopped running. She knows who she is. She knows what she carries. In The Crimson Crown, Clara walks toward her destiny — and it's extraordinary. ⚡👑", tags:"#TheCrimsonCrown #JadPhillip #DestinyRevealed #BookTok #Romantasy #DarkFantasy #HeroineArc #ChosenAndCursed #KindleUnlimited #AmazonBooks"},
+  {book:'jade', vo:"The Chosen and the Cursed series by Jad Phillip has everything BookTok loves: forbidden love, slow burn, morally complex characters, ancient magic, and a world that keeps getting darker as the stakes get higher. It starts with The Jade Necklace and does not let go. Four books. One unforgettable saga. Grab Book One on Amazon — link in bio!", title:"Why BookTok Is Obsessed With This Series", desc:"Everything BookTok loves in one series: forbidden love, slow burn, ancient magic, morally gray characters, and devastating stakes. Start with The Jade Necklace. 📚🖤", tags:"#BookTok #TheChosenAndTheCursed #JadPhillip #SlowBurn #ForbiddenLove #Romantasy #FantasyRomance #BookSeries #KindleUnlimited #AmazonBooks"},
+
+  // Day 19 – June 2
+  {book:'monster', vo:"To Love a Monster stands on its own — you can read it without having read The Chosen and the Cursed. But if you're a fan of the series, you'll recognize familiar faces and a world that now feels richer and deeper. Jad Phillip built a universe. And To Love a Monster is its most romantic corner. Available on Amazon and Kindle Unlimited — link in bio!", title:"A Standalone Story Connected to the Main Series", desc:"A standalone you can read fresh OR a deeper layer of the main series. To Love a Monster rewards both new readers and fans of The Chosen and the Cursed. 📚🖤", tags:"#ToLoveaMonster #JadPhillip #Standalone #BookSeries #ChosenAndCursed #BookTok #Romantasy #ForbiddenLove #KindleUnlimited #AmazonBooks"},
+  {book:'shards', vo:"The vampires in The Chosen and the Cursed don't just want to feed. They want to awaken Lilith — the primordial vampire goddess — and plunge the entire world into eternal darkness. That's the threat building in the background of The Black Shards. And every chapter brings them closer. The Black Shards by Jad Phillip — on Amazon and Kindle Unlimited.", title:"The Vampires Have a Plan. And It's Apocalyptic.", desc:"The vampires have a plan: awaken Lilith and end the world as we know it. The Black Shards raises the stakes to apocalyptic levels — and it's thrilling. 🩸🌑", tags:"#TheBlackShards #Lilith #VampireApocalypse #WorldEndingStakes #JadPhillip #BookTok #DarkFantasy #Romantasy #KindleUnlimited #AmazonBooks"},
+
+  // Day 20 – June 3
+  {book:'life', vo:"The prophecy says Clara is the harbinger of darkness. But prophecies have been wrong before. Can she find a new path — one that doesn't require her to become what everyone fears? The Book of Life is the most philosophical entry in The Chosen and the Cursed, and the most emotionally devastating. On Amazon and Kindle Unlimited — link in bio.", title:"Can a Destiny Be Rewritten?", desc:"The prophecy calls her the end of the world. But Clara is determined to rewrite it. The Book of Life asks whether destiny is fixed — or whether it can be unmade. ✨", tags:"#TheBookofLife #JadPhillip #ProphecyBooks #DestinyAndChoice #BookTok #Romantasy #DarkFantasy #PhilosophicalFantasy #KindleUnlimited #AmazonBooks"},
+  {book:'crown', vo:"That's the impossible contradiction at the heart of The Crimson Crown. Robin is the monster Clara was warned about. He's also the man who has been by her side through every battle, every loss, every moment she almost gave up. The final book asks whether love is powerful enough to survive destiny. The answer — is everything. On Amazon now.", title:"The Monster She Fears. The Man She Loves.", desc:"The monster she fears. The man she loves. The protector she never asked for. The Crimson Crown gives Clara and Robin the ending this impossible love deserves. 🖤", tags:"#TheCrimsonCrown #JadPhillip #MonsterRomance #ForbiddenLove #SlowBurn #BookTok #Romantasy #FantasyRomance #KindleUnlimited #AmazonBooks"},
+
+  // Day 21 – June 4
+  {book:'jade', vo:"You know the feeling — you pick up a book at ten p.m. and suddenly it's two in the morning and you're in too deep to stop. The Jade Necklace is that book. Multiple readers have said they finished it in one sitting. Ancient magic, emotional depth, a love story that actually earns it — all in one. Link in bio to find it on Amazon.", title:"The 2 AM Book You've Been Looking For", desc:"The kind of book you start at 10pm and finish at 2am. Multiple readers report one-sitting reads. The Jade Necklace is that good — and it's just the beginning. 🌙", tags:"#OneSitRead #BookTok #TheJadeNecklace #JadPhillip #FantasyBooks #Romantasy #CantPutItDown #KindleUnlimited #AmazonBooks #ReadingCommunity"},
+  {book:'monster', vo:"The darkness in To Love a Monster isn't just out there in the world — it's inside the palace. Dorova's schemes have been spreading like poison through the king's court for years. Aurora can feel it. She just can't prove it. Until now. A dark fairy tale about power, truth, and the courage to name the real monster. On Amazon — link in bio.", title:"Dark Magic at the Heart of the Throne", desc:"The real darkness isn't outside the castle walls — it's on the throne. To Love a Monster is a dark fairy tale about courage, truth, and naming the real monster. 👑🌑", tags:"#ToLoveaMonster #DarkFairytale #PalaceIntrigue #JadPhillip #BookTok #Romantasy #DarkFantasy #EvilQueen #KindleUnlimited #AmazonBooks"},
+
+  // Day 22 – June 5
+  {book:'shards', vo:"'Once you start reading The Black Shards, there's no stopping.' 'It's utterly addictive.' 'I tore through it in just a couple of sittings.' These are real readers. Real reviews. The second book in The Chosen and the Cursed series earns every word. Find it on Amazon — link in bio.", title:"Readers Called It Unputdownable", desc:"'There's no stopping once you start.' Real readers. Real reviews. The Black Shards is the sequel that earns every bit of praise it gets. 🔥📖", tags:"#TheBlackShards #JadPhillip #BookReview #CantPutItDown #BookTok #Romantasy #FantasyRomance #SlowBurn #KindleUnlimited #AmazonBooks"},
+  {book:'life', vo:"The Book of Life promises sacrifices — and it delivers. Not every character makes it through intact. Not every relationship survives. Jad Phillip does not shy away from the cost of war, love, and power in this third installment. If you thought you were prepared, you're not. On Amazon and Kindle Unlimited — link in bio.", title:"Sacrifices Will Be Made", desc:"The Book of Life promised sacrifices — and it delivers. Not everyone survives. Not everything survives. This is the book that costs you something. 💔", tags:"#TheBookofLife #JadPhillip #CharacterDeaths #BookTok #Romantasy #DarkFantasy #BookFeelings #FantasyRomance #KindleUnlimited #AmazonBooks"},
+
+  // Day 23 – June 6
+  {book:'crown', vo:"'As the fourth and final book in the series, it delivers a satisfying and well-earned conclusion that ties everything together beautifully.' Real reader. Real review. Verified purchase. The Crimson Crown pays off four books of investment — every mystery, every hint, every heartbreak. On Amazon — link in bio.", title:"A Satisfying Conclusion That Ties Everything Together", desc:"'Ties everything together beautifully.' A real reader. A real review. The Crimson Crown is the series finale that earns every star it's been given. ⭐⭐⭐⭐⭐", tags:"#TheCrimsonCrown #JadPhillip #SeriesConclusion #BookReview #BookTok #Romantasy #DarkFantasy #ChosenAndCursed #KindleUnlimited #AmazonBooks"},
+  {book:'jade', vo:"What makes The Jade Necklace stand out from other fantasy is how it blends ancient, mythological darkness with completely relatable modern life — college classes, friendship drama, unrequited love. Clara lives in the real world. And the real world is being invaded by something very, very old. Jad Phillip's debut series is something special. Grab it on Amazon — link in bio!", title:"Ancient Magic Meets Modern Life", desc:"Ancient magic bleeding into modern life. College classes by day, gargoyles and vampires by night. The Jade Necklace is grounded fantasy done brilliantly. 🌆🔮", tags:"#UrbanFantasy #ModernFantasy #TheJadeNecklace #JadPhillip #BookTok #Romantasy #CollegeLife #AncientMagic #KindleUnlimited #AmazonBooks"},
+
+  // Day 24 – June 7
+  {book:'monster', vo:"Never read Jad Phillip before? To Love a Monster is a perfect entry point. A complete story with a beginning, a middle, and a satisfying ending — with all the magic, romance, and dark fairy tale energy the author does best. Currently number one in its category on Amazon. Grab your copy — link in bio. You'll be a fan by the last page.", title:"Start Here If You're New to the Series", desc:"New to Jad Phillip? Start with To Love a Monster — a complete, stunning dark fairy tale that doubles as a perfect entry point to an entire universe. 🌌📖", tags:"#ToLoveaMonster #NewToSeries #JadPhillip #BookTok #Romantasy #StartHere #DarkFairytale #ForbiddenLove #KindleUnlimited #AmazonBooks"},
+  {book:'shards', vo:"The world gets bigger. The stakes get higher. Robin and Clara's tension finally ignites. And the mythology that felt distant in Book One moves terrifyingly close. The Black Shards is the book in this series where everything accelerates — and where you'll truly understand how vast and dark this world is. Book Two. Available on Amazon — link in bio.", title:"If You Haven't Read Book Two Yet, Here's Why You Should", desc:"The world gets bigger. The romance finally ignites. The threat becomes terrifyingly real. The Black Shards is where The Chosen and the Cursed becomes epic. 🌍🔥", tags:"#TheBlackShards #JadPhillip #BookTwo #SeriesUpdate #BookTok #Romantasy #EpicFantasy #SlowBurnPayoff #KindleUnlimited #AmazonBooks"},
+
+  // Day 25 – June 8
+  {book:'life', vo:"Four books. A mythology spanning thousands of years. Gargoyles, phoenixes, vampires, fae hybrids, mages, and witches all sharing one terrifyingly detailed world. Jad Phillip isn't just writing a love story — he's building a universe. The Book of Life is Book Three. Don't start here — start with The Jade Necklace. Links in bio for all four.", title:"One of the Most Ambitious Series in YA Fantasy", desc:"Gargoyles. Phoenixes. Vampires. Fae. A mythology spanning thousands of years. Jad Phillip is building a universe — and The Book of Life is its most ambitious chapter yet. 🌌", tags:"#TheChosenAndTheCursed #TheBookofLife #JadPhillip #BookSeries #IndieAuthor #BookTok #Romantasy #WorldBuilding #KindleUnlimited #AmazonBooks"},
+  {book:'crown', vo:"Jad Phillip — physician, author, and advocate — writes characters that reflect the world. The Crimson Crown, like all his books, features authentic diversity and rich cultural representation. Readers called it 'a beautiful portrayal of diversity and a new twist on fantasy.' A series that belongs to everyone. On Amazon — link in bio.", title:"A Beautiful Portrayal of Diversity", desc:"'A beautiful portrayal of diversity and a new twist on fantasy.' The Crimson Crown closes a series that has always reflected the whole world — not just part of it. 🌍📖", tags:"#TheCrimsonCrown #JadPhillip #DiverseBooks #RepresentationMatters #BookTok #Romantasy #InclusiveFantasy #ChosenAndCursed #KindleUnlimited #AmazonBooks"},
+
+  // Day 26 – June 9
+  {book:'jade', vo:"Jad Phillip is a physician and advocate who spent years working with marginalized communities — and that shows in his writing. The Jade Necklace features a richly diverse cast of characters from different backgrounds, with authentic representation woven naturally into the story. It's fantasy that reflects the real world. Find it on Amazon — link in bio.", title:"Diverse Characters, Real Representation", desc:"Written by a physician-author-advocate, The Jade Necklace features authentic diversity and real representation woven into epic fantasy. Stories like this matter. 🌍📖", tags:"#DiverseBooks #RepresentationMatters #TheJadeNecklace #JadPhillip #InclusiveFantasy #BookTok #YAFantasy #Romantasy #KindleUnlimited #AmazonBooks"},
+  {book:'monster', vo:"'The story balances romance, suspense, and magical intrigue beautifully. For anyone who enjoys fantasy with heart, strong heroines, and a touch of forbidden love — this book is an utterly engaging escape.' That's how a real reader described To Love a Monster. If that sounds like your kind of book, the link is in bio.", title:"The Review That Said Everything", desc:"'Fantasy with heart, strong heroines, and a touch of forbidden love.' Readers have found the perfect words for To Love a Monster — and we couldn't say it better ourselves. ⭐", tags:"#ToLoveaMonster #JadPhillip #BookReview #BookTok #Romantasy #FantasyRomance #ForbiddenLove #StrongHeroine #KindleUnlimited #AmazonBooks"},
+
+  // Day 27 – June 10
+  {book:'shards', vo:"The Black Shards does something rare: it keeps you genuinely surprised. Just when you think you understand the world, Jad Phillip reveals another layer. Another secret. Another character who is not what they seemed. The series never stands still. And The Black Shards is proof that the middle of a story can be just as electric as the beginning. On Amazon now.", title:"Dark, Romantic, and Impossible to Predict", desc:"The Black Shards never lets you settle. Just when you think you understand the world, it shifts. Unpredictable, romantic, and dark in the best possible way. 🌀🖤", tags:"#TheBlackShards #JadPhillip #Unpredictable #BookTok #Romantasy #DarkFantasy #SeriesReview #SlowBurn #KindleUnlimited #AmazonBooks"},
+  {book:'life', vo:"The Crimson Crown — Book Four and the final chapter of The Chosen and the Cursed — is waiting. But you need to read The Book of Life first. Everything that comes before matters. Every sacrifice, every secret, every slow-building reveal. Book Three is essential. Grab it on Amazon — link in bio.", title:"Where to Read Before the Final Book", desc:"Before the final book, there's The Book of Life. Essential. Devastating. Unmissable. Read it before The Crimson Crown — you'll understand why. 📚🖤", tags:"#TheBookofLife #JadPhillip #BeforeTheFinalBook #BookTok #Romantasy #DarkFantasy #SeriesOrder #ChosenAndCursed #KindleUnlimited #AmazonBooks"},
+
+  // Day 28 – June 11
+  {book:'crown', vo:"The Chosen and the Cursed is four books of ambition, emotion, and dark fantasy romance. The Jade Necklace lit the spark. The Black Shards fanned the flame. The Book of Life turned it into a fire. And The Crimson Crown — the final book — lets it burn in the most spectacular way possible. All four available on Amazon. Link in bio.", title:"The Series That Deserved This Ending", desc:"Spark. Flame. Fire. Inferno. The Chosen and the Cursed builds to The Crimson Crown — and the finale earns everything this series promised from page one. 🔥👑", tags:"#TheCrimsonCrown #ChosenAndCursed #JadPhillip #SeriesFinale #BookTok #Romantasy #DarkFantasy #EpicFantasy #KindleUnlimited #AmazonBooks"},
+  {book:'jade', vo:"Four books. Over sixty reviews. A cast of gargoyles, phoenixes, vampires, and mages. A love story a thousand years in the making. And a heroine who starts ordinary and becomes extraordinary. The Chosen and the Cursed series begins with The Jade Necklace — and once you start, you will not stop. Available on Amazon and Kindle Unlimited. Link in bio.", title:"Start the Series That Has Everything", desc:"A four-book saga. A heroine who grows into her power. A love story a thousand years in the making. The Chosen and the Cursed starts with The Jade Necklace. Begin here. 🖤", tags:"#TheChosenAndTheCursed #TheJadeNecklace #JadPhillip #BookSeries #BookTok #Romantasy #FantasyRomance #KindleUnlimited #AmazonBooks #EpicFantasy"},
+
+  // Day 29 – June 12
+  {book:'monster', vo:"There's a gargoyle in To Love a Monster — and the moment readers meet this character, the story twists into something completely unexpected. Alliances shift. Loyalties crumble. And what seemed like a simple escape story becomes a battle for the soul of an entire kingdom. You won't see it coming. Grab To Love a Monster on Amazon — link in bio.", title:"The Gargoyle That Changes Everything", desc:"There's a gargoyle in this book. And the moment you meet them, everything changes. To Love a Monster hides its biggest twist in plain sight. 🏛️👁️", tags:"#ToLoveaMonster #JadPhillip #Gargoyle #BookTwist #BookTok #Romantasy #DarkFantasy #FantasyRomance #KindleUnlimited #AmazonBooks"},
+  {book:'shards', vo:"Finished The Jade Necklace and can't breathe? The Black Shards is already waiting. Robin steps out of the shadows. Clara fights without her powers. The vampires close in. And the slow burn you survived in Book One? It's about to catch fire. The Black Shards — Book Two of The Chosen and the Cursed. Link in bio for Amazon.", title:"Book Two for Fans Who Devoured Book One", desc:"Finished The Jade Necklace and need more? The Black Shards picks up the slow burn — and finally, FINALLY lets it catch fire. This is the book you've been waiting for. 🔥", tags:"#TheBlackShards #BookTwo #ChosenAndCursed #JadPhillip #BookTok #SlowBurnPayoff #FantasyRomance #Romantasy #KindleUnlimited #AmazonBooks"},
+
+  // Day 30 – June 13
+  {book:'life', vo:"Every book in The Chosen and the Cursed raises the stakes. The Jade Necklace introduced the world. The Black Shards expanded it. And The Book of Life — Book Three — tears it open at the seams. Jad Phillip is building toward something extraordinary. And you'll want to be along for the ride. Available on Amazon — link in bio.", title:"The Series That Keeps Getting Better", desc:"Each book raises the stakes. Each book breaks more ground. The Book of Life is proof that The Chosen and the Cursed is one of the most ambitious series in indie YA fantasy. 📈🔥", tags:"#TheChosenAndTheCursed #TheBookofLife #JadPhillip #SeriesReview #BookTok #Romantasy #YAFantasy #IndieAuthor #KindleUnlimited #AmazonBooks"},
+  {book:'crown', vo:"Four books. Four Amazon links. One unforgettable saga. The Jade Necklace, The Black Shards, The Book of Life, The Crimson Crown — all by Jad Phillip, all on Amazon and Kindle Unlimited. Start at the beginning and let this series change how you feel about fantasy romance. Links in bio for every book. You owe yourself this read.", title:"Read the Whole Series. You'll Understand Why.", desc:"Four books. One saga. Start with The Jade Necklace and don't stop until The Crimson Crown. The Chosen and the Cursed is the series you've been looking for. 📚🖤", tags:"#TheChosenAndTheCursed #JadPhillip #ReadTheSeries #BookTok #Romantasy #DarkFantasy #EpicFantasy #FantasyRomance #KindleUnlimited #AmazonBooks"}
+];
+
+const BOOK_NAMES = {
+  jade:    'The Jade Necklace',
+  shards:  'The Black Shards',
+  life:    'The Book of Life',
+  crown:   'The Crimson Crown',
+  monster: 'To Love a Monster'
+};
+
+const startDate = new Date(2026, 4, 15);
+let activeFilter = 'all';
+
+function formatDate(d){
+  return d.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
+}
+
+function buildCard(num, v){
+  const asin = BOOKS[v.book].asin;
+  const amazonUrl = `https://www.amazon.com/dp/${asin}`;
+  const bookName = BOOK_NAMES[v.book];
+  const search = (v.title + ' ' + v.vo + ' ' + v.desc + ' ' + v.tags + ' ' + bookName).toLowerCase();
+
+  return `
+  <div class="video-card" data-book="${v.book}" data-search="${search}">
+    <div class="card-top">
+      <div class="video-num">VIDEO #${String(num).padStart(2,'0')}</div>
+      <div class="book-tag" data-book="${v.book}">${BOOKS[v.book].emoji} ${bookName}</div>
+    </div>
+    <div class="card-body">
+      <div class="section-label">🎙 Voiceover Script</div>
+      <div class="vo-text" id="vo-${num}">${v.vo}</div>
+      <button class="copy-btn" onclick="copyText('vo-${num}',this,'Copy Voiceover')">Copy Voiceover</button>
+
+      <div class="section-label" style="margin-top:1.5rem">📝 Title · Description · Hashtags</div>
+      <div class="desc-text" id="desc-${num}">
+        <strong>${v.title}</strong><br/><br/>
+        ${v.desc}<br/><br/>
+        <span class="hashtags">${v.tags}</span>
+      </div>
+      <button class="copy-btn" onclick="copyText('desc-${num}',this,'Copy Description')">Copy Description</button>
+
+      <a class="amazon-link" href="${amazonUrl}" target="_blank" rel="noopener">
+        Shop on Amazon →
+      </a>
+    </div>
+  </div>`;
+}
+
+function buildCards(){
+  const container = document.getElementById('allCards');
+  let html = '';
+  for(let day=0;day<30;day++){
+    const date = new Date(startDate);
+    date.setDate(startDate.getDate()+day);
+    const v1 = videos[day*2];
+    const v2 = videos[day*2+1];
+    html += `
+    <div class="day-group">
+      <div class="day-label">
+        <div class="day-number">Day ${day+1}</div>
+        <div class="day-date">${formatDate(date)}</div>
+      </div>
+      <div class="day-cards">
+        ${buildCard(day*2+1, v1)}
+        ${buildCard(day*2+2, v2)}
+      </div>
+    </div>`;
+  }
+  container.innerHTML = html;
+}
+
+function copyText(id, btn, label){
+  const el = document.getElementById(id);
+  navigator.clipboard.writeText(el.innerText).then(()=>{
+    btn.classList.add('copied');
+    btn.textContent = '✅ Copied!';
+    setTimeout(()=>{ 
+      btn.classList.remove('copied');
+      btn.textContent = label;
+    }, 2000);
+  });
+}
+
+function filterCards(){
+  const q = document.getElementById('searchBox').value.toLowerCase().trim();
+  let visible = 0;
+  document.querySelectorAll('.video-card').forEach(c=>{
+    const bookMatch = activeFilter==='all' || c.dataset.book===activeFilter;
+    const searchMatch = !q || c.dataset.search.includes(q);
+    const show = bookMatch && searchMatch;
+    c.style.display = show ? '' : 'none';
+    if(show) visible++;
+  });
+  document.getElementById('visibleCount').textContent = visible;
+}
+
+function setFilter(book, btn){
+  activeFilter = book;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  filterCards();
+}
+
+buildCards();
+</script>
+</body>
+</html>

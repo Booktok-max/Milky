@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kokoro — Shaun Humphries | Shonen & Martial Arts Fantasy Campaign | Atomic Shelf</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,900;1,400&family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+:root {
+  --cream: #f5f6f8;
+  --parchment: #e2e4e9;
+  --warm-white: #ffffff;
+  --surface: #ffffff;
+  --ink: #111625;
+  --ink-mid: #2d354a;
+  --ink-soft: #636e87;
+  --gold: #ff3e3e; /* Shonen Crimson variant */
+  --gold-2: #ff6b6b;
+  --gold-pale: #ffccd5;
+  --gold-bg: #fff0f2;
+  --sage: #1D9E75;
+  --sage-bg: #e4f2ee;
+  --teal: #2468c0;
+  --teal-bg: #e6f0fb;
+  --blue: #7000ff;
+  --blue-bg: #f3ebff;
+  --red: #ff3e3e;
+  --red-bg: #fff0f2;
+  --hania: #111625;
+  --hania-bg: #f0f2f7;
+  --olive: #ff9f43;
+  --rule: rgba(255,62,62,0.15);
+  --rule-lt: rgba(17,22,37,0.08);
+  --shadow-sm: 0 1px 4px rgba(17,22,37,0.04);
+  --shadow-md: 0 6px 24px rgba(17,22,37,0.08);
+  --r: 8px;
+  --r-lg: 12px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.015'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+a { color: inherit; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--parchment); }
+::-webkit-scrollbar-thumb { background: var(--gold-2); border-radius: 3px; }
+
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(17, 22, 37, 0.96);
+  backdrop-filter: blur(14px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  height: 58px;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.nav::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--gold) 40%, var(--olive) 60%, transparent 100%);
+  opacity: .5;
+}
+.nav-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.nav-mark {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: linear-gradient(138deg, var(--gold) 0%, var(--olive) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .65rem;
+  font-weight: 700;
+  color: #fff;
+}
+.nav-brand em { font-style: italic; color: var(--gold-2); }
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a {
+  font-family: 'DM Mono', monospace;
+  font-size: .67rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.45);
+  transition: color .18s;
+}
+.nav-links a:hover { color: var(--gold-2); }
+.nav-pill {
+  font-family: 'DM Mono', monospace;
+  font-size: .62rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  background: rgba(255, 62, 62, 0.15);
+  border: 1px solid rgba(255, 62, 62, 0.3);
+  color: var(--gold-2);
+  padding: 4px 12px;
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.nav-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 8px var(--gold);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1}50%{opacity:.3} }
+
+.hero {
+  background: linear-gradient(160deg, #181d2e 0%, #111625 65%, #0a0d16 100%);
+  padding: 48px 40px 40px;
+  position: relative;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 60% 40%, rgba(255, 62, 62, 0.08) 0%, transparent 70%);
+}
+.hero-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 40px;
+}
+.hero-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: .65rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--gold-2);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.hero-eyebrow::before {
+  content: '';
+  width: 28px;
+  height: 1px;
+  background: var(--gold);
+}
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 900;
+  color: #ffffff;
+  line-height: 1.05;
+  letter-spacing: -.02em;
+  margin-bottom: 4px;
+}
+.hero-subtitle {
+  font-family: 'Lora', serif;
+  font-style: italic;
+  font-size: .9rem;
+  color: rgba(255,255,255,.6);
+  margin-bottom: 18px;
+}
+.hero-author {
+  font-size: .85rem;
+  color: rgba(255,255,255,.6);
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.hero-author-dot {
+  width: 4px;
+  height: 4px;
+  background: rgba(255,255,255,0.3);
+  border-radius: 50%;
+}
+.hero-stats {
+  display: flex;
+  gap: 28px;
+  flex-wrap: wrap;
+  text-align: right;
+}
+.hs-item { text-align: right; }
+.hs-val {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: #ffffff;
+  line-height: 1;
+}
+.hs-lbl {
+  font-family: 'DM Mono', monospace;
+  font-size: .55rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.4);
+}
+.main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 40px 80px;
+  position: relative;
+  z-index: 1;
+}
+.sec-label {
+  font-family: 'DM Mono', monospace;
+  font-size: .6rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.sec-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--rule-lt);
+}
+.card {
+  background: var(--surface);
+  border: 1px solid var(--rule-lt);
+  border-radius: var(--r-lg);
+  padding: 18px 22px;
+  box-shadow: var(--shadow-sm);
+  transition: all .2s ease;
+}
+.card:hover { box-shadow: var(--shadow-md); }
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.metric-box {
+  background: var(--surface);
+  border: 1px solid var(--rule-lt);
+  border-radius: var(--r);
+  padding: 14px 16px;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  transition: all .18s;
+}
+.metric-box:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.metric-icon { font-size: 1.5rem; margin-bottom: 6px; }
+.metric-val {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: var(--ink);
+  line-height: 1.2;
+  margin-bottom: 3px;
+}
+.metric-lbl {
+  font-family: 'DM Mono', monospace;
+  font-size: .55rem;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.metric-sub { font-size: .65rem; color: var(--ink-soft); margin-top: 4px; }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 24px; }
+.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; margin-bottom: 24px; }
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--rule-lt);
+  gap: 12px;
+}
+.info-row:last-child { border-bottom: none; }
+.info-key { font-size: .7rem; color: var(--ink-soft); flex-shrink: 0; }
+.info-val { font-size: .75rem; font-weight: 500; color: var(--ink); text-align: right; }
+.info-val.gold { color: var(--gold); font-weight: 600; }
+.info-val.hania { color: var(--ink); font-weight: 600; }
+.info-val.blue { color: var(--blue); }
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: .58rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 40px;
+}
+.action-box {
+  background: linear-gradient(135deg, var(--gold-bg), #ffffff);
+  border-left: 4px solid var(--gold);
+  border-radius: var(--r);
+  padding: 12px 18px;
+  font-size: .78rem;
+  color: var(--ink-mid);
+  margin-bottom: 24px;
+}
+.video-list { display: flex; flex-direction: column; gap: 4px; }
+.video-item {
+  display: grid;
+  grid-template-columns: 30px 1fr auto;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: var(--r);
+  background: var(--warm-white);
+  border: 1px solid var(--rule-lt);
+  font-size: .75rem;
+}
+.video-item.sample { background: var(--gold-bg); border-color: rgba(255,62,62,0.15); }
+.video-num {
+  font-family: 'DM Mono', monospace;
+  font-size: .6rem;
+  color: var(--ink-soft);
+  text-align: center;
+}
+.video-title { font-size: .75rem; font-weight: 500; color: var(--ink); }
+.video-badge {
+  font-size: .55rem;
+  padding: 2px 6px;
+  border-radius: 40px;
+  white-space: nowrap;
+}
+.vb-sample { background: #ff3e3e; color: #ffffff; font-weight: 600; }
+.footer {
+  background: #111625;
+  padding: 28px 40px;
+  text-align: center;
+  color: rgba(255,255,255,.4);
+  font-size: .7rem;
+}
+.links-grid { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 24px; }
+.drw-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--warm-white);
+  border: 1px solid var(--rule-lt);
+  border-radius: var(--r);
+  padding: 5px 10px;
+  font-size: .7rem;
+  font-weight: 500;
+  transition: all .14s;
+}
+.drw-link:hover { background: var(--gold-bg); border-color: rgba(255,62,62,0.25); transform: translateY(-1px); }
+.progress-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.progress-label {
+  font-size: .72rem;
+  color: var(--ink-mid);
+  min-width: 140px;
+}
+.progress-track {
+  flex: 1;
+  height: 5px;
+  background: var(--parchment);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 1s ease;
+}
+.pf-hania { background: linear-gradient(90deg, var(--ink) 0%, var(--gold) 100%); }
+.pf-gold { background: linear-gradient(90deg, var(--parchment) 0%, var(--gold-2) 100%); }
+.progress-pct {
+  font-family: 'Playfair Display', serif;
+  font-size: .85rem;
+  font-weight: 700;
+  color: var(--gold);
+  min-width: 45px;
+  text-align: right;
+}
+.timeline-marker {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 12px 0;
+  padding: 10px;
+  background: var(--warm-white);
+  border-radius: var(--r);
+}
+.tl-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.tl-dot.sent { background: var(--teal); }
+.tl-dot.waiting { background: var(--gold); animation: pulse 2s infinite; }
+.tl-dot.future { background: var(--ink-soft); }
+@media (max-width: 900px) {
+  .nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  .hero-inner { grid-template-columns: 1fr; }
+  .main { padding: 24px 20px; }
+  .two-col, .three-col { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <div class="nav-brand"><div class="nav-mark">AS</div>Atomic <em>Shelf</em></div>
+  <ul class="nav-links"><li><a href="#">Dashboard</a></li><li><a href="#">Trials</a></li><li><a href="#">Shaun Humphries</a></li></ul>
+  <div class="nav-pill"><span class="nav-dot"></span>Active - Trial · Reply Confirmed</div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-eyebrow">Martial Arts Epic · Modern Mythology</div>
+      <h1 class="hero-title">Kokoro</h1>
+      <div class="hero-subtitle">A Shonen-inspired narrative of gods, fate, and ancient war</div>
+      <div class="hero-author"><span>Shaun Humphries</span><span class="hero-author-dot"></span><span>AnimeBookTok / Light Novel Niche</span><span class="hero-author-dot"></span><span>📧 "Show Me" Confirmed May 24</span></div>
+    </div>
+    <div class="hero-stats">
+      <div class="hs-item"><div class="hs-val">7-Day</div><div class="hs-lbl">Free Trial</div></div>
+      <div class="hs-item"><div class="hs-val">100%</div><div class="hs-lbl">Content Rights</div></div>
+      <div class="hs-item"><div class="hs-val">🚀</div><div class="hs-lbl">Intro Launch</div></div>
+    </div>
+  </div>
+</div>
+
+<main class="main">
+  <!-- Status Overview Metrics -->
+  <div class="metrics-grid">
+    <div class="metric-box"><div class="metric-icon">⚔️</div><div class="metric-val">Kokoro</div><div class="metric-lbl">Book Title</div><div class="metric-sub">5.0★ Journey to the West Roots</div></div>
+    <div class="metric-box"><div class="metric-icon">⚡</div><div class="metric-val">Active Trial</div><div class="metric-lbl">Campaign Status</div><div class="metric-sub">Triggered via "Show Me" reply</div></div>
+    <div class="metric-box"><div class="metric-icon">📅</div><div class="metric-val">May 25, 2026</div><div class="metric-lbl">Trial Start Date</div><div class="metric-sub">7-Day low-risk evaluation window</div></div>
+    <div class="metric-box"><div class="metric-icon">💰</div><div class="metric-val">$20/mo</div><div class="metric-lbl">Standard Retainer</div><div class="metric-sub">Covers 10k-20k views post-trial</div></div>
+    <div class="metric-box"><div class="metric-icon">📱</div><div class="metric-val">@kokoro.books</div><div class="metric-lbl">TikTok Profile</div><div class="metric-sub">Faceless high-impact hook system</div></div>
+  </div>
+
+  <!-- Campaign Timeline -->
+  <div class="section-block">
+    <div class="sec-label">Campaign timeline</div>
+    <div class="card">
+      <div class="timeline-marker">
+        <div class="tl-dot sent"></div>
+        <div style="flex:1"><strong>April 2, 2026</strong> — Initial outreach sent tracking modern mythology trends on #AnimeBookTok.</div>
+      </div>
+      <div class="timeline-marker">
+        <div class="tl-dot sent"></div>
+        <div style="flex:1"><strong>April 4, 2026</strong> — Provided clarity on content ownership (100% author) and organic conversion logic.</div>
+      </div>
+      <div class="timeline-marker">
+        <div class="tl-dot sent"></div>
+        <div style="flex:1"><strong>May 24, 2026</strong> — Author re-engaged and confirmed via "Show Me" request.</div>
+        <div style="font-size:.65rem; color:var(--sage);">📥 Action Triggered</div>
+      </div>
+      <div class="timeline-marker">
+        <div class="tl-dot waiting"></div>
+        <div style="flex:1"><strong>May 25, 2026 (Current)</strong> — Campaign conversion to Active Trial. Generating initial media concepts.</div>
+        <div style="font-size:.65rem; color:var(--gold);">⚡ In Production</div>
+      </div>
+      <div class="timeline-marker">
+        <div class="tl-dot future"></div>
+        <div style="flex:1"><strong>Next Step</strong> — Deliver tailored media breakdown and live sample hook sequence.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Two Column: Details -->
+  <div class="two-col">
+    <div class="card">
+      <div class="sec-label" style="margin-bottom: 12px;">Author & book details</div>
+      <div class="info-row"><span class="info-key">Author Pen Name</span><span class="info-val">Shaun Humphries</span></div>
+      <div class="info-row"><span class="info-key">Contact Email</span><span class="info-val blue">shaun.m.humphries@gmail.com</span></div>
+      <div class="info-row"><span class="info-key">Book Focus</span><span class="info-val hania">Kokoro: A Martial-Arts Epic</span></div>
+      <div class="info-row"><span class="info-key">Core Hooks</span><span class="info-val">"Ancient lore waking up in a modern world"</span></div>
+      <div class="info-row"><span class="info-key">Target Audience</span><span class="info-val">#Shonen · #YAFantasy · #LightNovel Fans</span></div>
+      <div class="info-row"><span class="info-key">Target Handle</span><span class="info-val">@kokoro.books</span></div>
+      <div class="info-row"><span class="info-key">Ownership Tier</span><span class="info-val" style="color: var(--sage); font-weight: 600;">100% Author Retained</span></div>
+    </div>
+    <div class="card">
+      <div class="sec-label" style="margin-bottom: 12px;">Content Pipeline Breakdown</div>
+      <div class="progress-row"><span class="progress-label">Audience Framework</span><div class="progress-track"><div class="progress-fill pf-hania" style="width:100%"></div></div><span class="progress-pct">Ready</span></div>
+      <div class="progress-row"><span class="progress-label">High-Octane Hook Logic</span><div class="progress-track"><div class="progress-fill pf-hania" style="width:100%"></div></div><span class="progress-pct">Ready</span></div>
+      <div class="progress-row"><span class="progress-label">Kokoro Intro Pack</span><div class="progress-track"><div class="progress-fill pf-gold" style="width:65%"></div></div><span class="progress-pct">65% Rebuilding</span></div>
+      <div class="progress-row"><span class="progress-label">Clickable Video Cards</span><div class="progress-track"><div class="progress-fill pf-gold" style="width:0%"></div></div><span class="progress-pct">Queued</span></div>
+    </div>
+  </div>
+
+  <!-- 7-Video Trial Framework Preview -->
+  <div class="section-block">
+    <div class="sec-label">📹 7-video core trial framework — sample preview (building may 25)</div>
+    <div class="video-list" id="kokoroVideos"></div>
+  </div>
+
+  <!-- Three Column: Status Details -->
+  <div class="three-col">
+    <div class="card">
+      <div class="sec-label" style="margin-bottom: 8px;">⚙️ Creative Direction</div>
+      <ul style="margin-left: 18px; font-size: .72rem; color: var(--ink-mid); line-height: 1.6;">
+        <li>Faceless video framework leveraging dynamic character illustrations.</li>
+        <li>High-tempo audio profiles matched with scrolling cultivation lore overlays.</li>
+        <li>Scroll-stopping opening pacing: "The legends of the past are waking up..."</li>
+        <li>Targeting high-affinity anime aesthetics currently driving organic search.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="sec-label" style="margin-bottom: 8px;">📊 Conversion Engineering</div>
+      <ul style="margin-left: 18px; font-size: .72rem; color: var(--ink-mid); line-height: 1.6;">
+        <li>Top-of-funnel short-form exposure scaling up to 20,000 algorithmic views.</li>
+        <li>Mid-funnel redirection layout linking readers straight to Amazon.</li>
+        <li>Integrated retargeting architecture recommendation for DSP inclusion.</li>
+        <li>Optimized character focus to match early 5.0-star organic reader validation.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="sec-label" style="margin-bottom: 8px;">📋 immediate next moves</div>
+      <ul style="margin-left: 18px; font-size: .72rem; color: var(--ink-mid); line-height: 1.6;">
+        <li>Finalize initial 9:16 vertical text overlays for the trial core.</li>
+        <li>Deploy tailored asset proposal layout page matching layout specs.</li>
+        <li>Transmit sample video cards to Shaun for preview.</li>
+        <li>Initialize channel onboarding sequences for verification tracking.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Action Box -->
+  <div class="action-box">
+    <strong>📧 Status Update:</strong> Conversion parameters verified. Author requested campaign launch parameters via direct verification email on May 24. Trial workspace setup configured on May 25. High-octane cultivation theme scripts undergoing compilation.
+  </div>
+
+  <!-- Two Column: Additional Info -->
+  <div class="two-col">
+    <div class="card">
+      <div class="sec-label" style="margin-bottom: 8px;">Campaign specifications</div>
+      <div class="info-row"><span class="info-key">Trial Sequence</span><span class="info-val">7 Days Complete Access</span></div>
+      <div class="info-row"><span class="info-key">Volume Baseline</span><span class="info-val">10,000 - 20,000 Views Expected</span></div>
+      <div class="info-row"><span class="info-key">Posting Velocity</span><span class="info-val">2-3 High-Impact Delivery Layouts Daily</span></div>
+      <div class="info-row"><span class="info-key">Content Deliverables</span><span class="info-val">Full Audio, Scripting, and Visual Integration</span></div>
+      <div class="info-row"><span class="info-key">Conversion Strategy</span><span class="info-val">Organic Discovery Compounded by Search Volume</span></div>
+    </div>
+    <div class="card">
+      <div class="sec-label" style="margin-bottom: 8px;">Account Administration</div>
+      <div class="info-row"><span class="info-key">Client Lead</span><span class="info-val font-weight-bold">Shaun Humphries</span></div>
+      <div class="info-row"><span class="info-key">Assigned Workspace URL</span><span class="info-val blue" style="font-size:0.68rem;">atomic-shelf.com/Content-Proposal/Shaun_Humphries/Kokoro</span></div>
+      <div class="info-row"><span class="info-key">Last Action Event</span><span class="info-val gold">"Show Me" Email Confirmed</span></div>
+      <div class="info-row"><span class="info-key">Content Formats</span><span class="info-val">TikTok, Shorts, Pinterest Media Integration</span></div>
+      <div class="info-row"><span class="info-key">Financial Retainer</span><span class="info-val">$20.00 USD/Month Post-Trial Baseline</span></div>
+    </div>
+  </div>
+
+  <!-- Quick Links -->
+  <div class="section-block">
+    <div class="sec-label">Quick links</div>
+    <div class="links-grid">
+      <a href="#" class="drw-link">⚔️ View Live Concept Strategy</a>
+      <a href="#" class="drw-link">📋 Access 7-Video Structural Logic</a>
+      <a href="#" class="drw-link">📱 Target Grid Preview</a>
+      <a href="mailto:shaun.m.humphries@gmail.com?subject=Kokoro%20Campaign%20-%20Your%20Free%20Trial%20Video%20Samples" class="drw-link" style="background: var(--gold-bg); border-color: rgba(255, 62, 62, 0.2);">✉️ Send Tailored Video Proposal Email</a>
+    </div>
+  </div>
+
+  <!-- Data Summary -->
+  <div class="card" style="background: var(--hania-bg); margin-top: 8px;">
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; text-align: center; font-size: .7rem;">
+      <div><strong>7-Day</strong><br>Free Window</div>
+      <div><strong>May 24</strong><br>Opt-In Noted</div>
+      <div><strong>$20/mo</strong><br>Fixed Retainer</div>
+      <div><strong>🚀</strong><br>Intro Pipeline Live</div>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="footer-brand" style="color:#ffffff;">Atomic <em style="color:var(--gold-2);">Shelf</em></div>
+  <div class="footer-sub">Kokoro · Shaun Humphries · Shonen / Light Novel Mythic Retelling · Trial System Launch Page</div>
+</footer>
+
+<script>
+(function() {
+  // 7-video core preview sequence for Kokoro
+  const kokoroVideos = [
+    { title: "The Legends of the Past are Waking Up — Main Concept Hook", type: "sample" },
+    { title: "He’ll Tear Through Heaven to Reclaim What Was Lost", type: "sample" },
+    { title: "Journey to the West Reinvented: Modern Mythology Aesthetic", type: "sample" },
+    { title: "High-Octane Cultivation: Pacing the Visual Grid", type: "sample" },
+    { title: "The Shonen Stop-Scroll Formula — Narrative Break", type: "framework" },
+    { title: "Why Indie Readers Left a Perfect 5.0 Star Rating", type: "framework" },
+    { title: "Kokoro Official Light Novel Campaign Core Sequence", type: "framework" }
+  ];
+
+  const container = document.getElementById('kokoroVideos');
+  if(container) {
+    container.innerHTML = kokoroVideos.map((v, idx) => {
+      const isSample = v.type === 'sample';
+      return `<div class="video-item ${isSample ? 'sample' : ''}">
+        <span class="video-num">${(idx+1).toString().padStart(2,'0')}</span>
+        <span class="video-title">${v.title}</span>
+        <span class="video-badge ${isSample ? 'vb-sample' : ''}" style="${!isSample ? 'background:#e2e4e9; color:#2d354a;' : ''}">${isSample ? '⚡ In Production' : '📋 Queued'}</span>
+      </div>`;
+    }).join('');
+  }
+})();
+</script>
+</body>
+</html>

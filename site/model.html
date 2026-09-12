@@ -1,0 +1,493 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Start with 4 videos for $0.99. Then only $20/month retainer + optional CPM ads. Daily faceless BookTok videos." />
+    <title>Our Model - $0.99 Demo + $20/mo Retainer + CPM Ads • Atomic-Shelf</title>
+    <link rel="icon" type="image/svg+xml" href="/atomicshelf.svg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { font-size: 16px; }
+        @media (min-width: 1024px) { html { font-size: 17.5px; } }
+        body {
+            font-family: 'Inter', Georgia, 'Times New Roman', serif;
+            line-height: 1.7;
+            background: #fefaf5;
+            color: #2c1a18;
+        }
+        .glass-card {
+            background: rgba(255, 255, 245, 0.92);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(74,44,42,0.15);
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        .glass-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 45px -15px rgba(74,44,42,0.25);
+            border-color: rgba(224,122,44,0.5);
+            background: rgba(255, 255, 245, 0.98);
+        }
+        .model-card {
+            border-radius: 2rem;
+            transition: all 0.4s ease;
+        }
+        .benefit-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-bottom: 0.8rem;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+        }
+        .benefit-list li:hover {
+            transform: translateX(4px);
+        }
+        .benefit-list li::before {
+            content: "✨";
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(35px);
+            transition: all 0.85s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        .scroll-reveal.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            background: transparent;
+        }
+        .slider-thumb::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 1.2rem;
+            height: 1.2rem;
+            background: #e07a2c;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(224,122,44,0.4);
+            border: 2px solid white;
+        }
+        .slider-thumb::-moz-range-thumb {
+            width: 1.2rem;
+            height: 1.2rem;
+            background: #e07a2c;
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+        }
+        .stats-table {
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: 1.5rem;
+            overflow: hidden;
+        }
+        .stats-table th {
+            background: linear-gradient(105deg, #4a2c2a, #5c3a37);
+            color: white;
+            font-weight: 600;
+            padding: 1rem;
+            font-size: 0.85rem;
+        }
+        .stats-table td {
+            padding: 0.85rem 1rem;
+            border-bottom: 1px solid rgba(74,44,42,0.1);
+        }
+        .stats-table tr:hover td {
+            background: rgba(224,122,44,0.05);
+        }
+        .nav-link {
+            transition: all 0.2s ease;
+        }
+        .nav-link:hover {
+            color: #e07a2c;
+            transform: translateY(-2px);
+        }
+        @keyframes gentle-float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-6px); }
+            100% { transform: translateY(0px); }
+        }
+        .float-icon {
+            animation: gentle-float 4s ease-in-out infinite;
+        }
+        .demo-card {
+            background: linear-gradient(135deg, #fff8f0, #fff3e6);
+        }
+        .service-badge {
+            background: rgba(224,122,44,0.1);
+            border-radius: 999px;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #e07a2c;
+        }
+    </style>
+</head>
+<body class="bg-[#fefaf5] text-textdark antialiased">
+
+    <!-- Header Navigation -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-2xl border-b border-[#4a2c2a]/20 shadow-sm">
+        <nav class="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <span class="text-3xl">⚛️</span>
+                <div class="text-2xl font-extrabold tracking-tight text-[#4a2c2a]">Atomic‑Shelf</div>
+            </div>
+            <div class="hidden md:flex gap-8 text-[#4a2c2a]/80 font-medium">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="how-it-works.html" class="nav-link">How It Works</a>
+                <a href="our-model.html" class="text-[#e07a2c] font-semibold border-b-2 border-[#e07a2c]">Our Model</a>
+                <a href="results.html" class="nav-link">Results</a>
+                <a href="faq.html" class="nav-link">FAQ</a>
+            </div>
+            <a href="#demo-offer" class="bg-[#e07a2c] hover:bg-[#b85c1a] text-white px-6 py-2.5 rounded-full text-sm font-semibold shadow-md transition">🎬 $0.99 Demo</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="pt-36 pb-20 px-6 bg-gradient-to-br from-amber-50/60 via-white to-stone-100/50">
+        <div class="max-w-5xl mx-auto text-center">
+            <div class="inline-flex items-center gap-2 bg-amber-100/70 backdrop-blur-sm rounded-full px-5 py-1.5 text-amber-800 text-sm font-semibold mb-6">🎯 Zero-Risk, Full-Power Model</div>
+            <h1 class="text-5xl md:text-6xl font-extrabold text-[#4a2c2a] leading-tight">Start with <span class="text-[#e07a2c]">$0.99</span> Demo.<br>Scale with CPM Ads.</h1>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto mt-6">Get 4 professional faceless videos for just $0.99. Then only $20/month for full-service BookTok marketing + optional CPM campaigns.</p>
+            <div class="flex flex-wrap justify-center gap-4 mt-10">
+                <a href="#demo-offer" class="bg-[#4a2c2a] text-white px-8 py-4 rounded-full font-bold shadow-lg hover:bg-[#e07a2c] transition">🎬 Get $0.99 Demo →</a>
+                <a href="#ads-calculator" class="border-2 border-[#4a2c2a] text-[#4a2c2a] px-8 py-4 rounded-full font-semibold hover:bg-[#4a2c2a] hover:text-white transition">📊 Estimate Your Reach</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- $0.99 Demo Offer Card -->
+    <section id="demo-offer" class="py-12 px-6 max-w-4xl mx-auto">
+        <div class="demo-card rounded-3xl p-8 border-2 border-amber-300 shadow-xl text-center">
+            <div class="inline-block bg-[#e07a2c]/20 rounded-full px-5 py-1.5 text-sm font-bold text-[#e07a2c] mb-4">🔥 INTRO OFFER</div>
+            <h2 class="text-3xl md:text-4xl font-bold text-[#4a2c2a]">Try Atomic‑Shelf for <span class="text-[#e07a2c]">$0.99</span></h2>
+            <p class="text-gray-600 mt-2">4 professional faceless videos • 48h delivery • See quality before you commit</p>
+            <div class="flex flex-wrap justify-center gap-6 mt-6">
+                <div class="bg-white rounded-2xl px-6 py-3 shadow-md"><span class="font-bold text-2xl text-[#e07a2c]">4</span> <span class="text-gray-600">Videos</span></div>
+                <div class="bg-white rounded-2xl px-6 py-3 shadow-md"><span class="font-bold text-2xl text-[#e07a2c]">$0.99</span> <span class="text-gray-600">One-time</span></div>
+                <div class="bg-white rounded-2xl px-6 py-3 shadow-md"><span class="font-bold text-2xl text-[#e07a2c]">48h</span> <span class="text-gray-600">Delivery</span></div>
+            </div>
+            <div class="mt-8 flex justify-center">
+                <iframe width="240" height="48" src="https://store.pesapal.com/embed-code?pageUrl=https://store.pesapal.com/trialsubscription" frameborder="0" allowfullscreen class="rounded-full shadow-lg"></iframe>
+            </div>
+            <p class="text-gray-400 text-xs mt-4">Secure PesaPal payment • No monthly commitment</p>
+        </div>
+    </section>
+
+    <!-- Two-Column Model (Retainer + Ads) -->
+    <section id="our-model" class="py-20 px-6 max-w-7xl mx-auto">
+        <div class="grid lg:grid-cols-2 gap-10">
+            
+            <!-- LEFT CARD: Social Media Retainer (General Service Offerings) -->
+            <div class="glass-card rounded-3xl p-8 scroll-reveal flex flex-col h-full">
+                <div class="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-[#4a2c2a]/20 to-[#e07a2c]/20 rounded-2xl flex items-center justify-center text-5xl border border-[#e07a2c]/30">
+                    💻
+                </div>
+                <h2 class="text-3xl font-bold text-center text-[#4a2c2a]">Social Media Retainer</h2>
+                <div class="text-center mt-4">
+                    <div class="text-3xl font-bold text-[#4a2c2a]">$20<span class="text-base font-normal">/month</span></div>
+                    <p class="text-gray-500 text-sm mt-1">After $0.99 demo • Cancel anytime</p>
+                </div>
+                
+                <!-- Service Offerings Content -->
+                <div class="mt-6 border-t border-[#e0d5c8] pt-6">
+                    <p class="text-sm text-gray-700 mb-5">Full-service management that turns your book into a consistent content engine. Here's exactly what we do for you every month:</p>
+                    
+                    <!-- Social Media Management -->
+                    <div class="mb-5">
+                        <div class="flex items-center gap-2 mb-3"><span class="text-xl">📱</span><h3 class="font-bold text-[#4a2c2a]">Social Media Management</h3></div>
+                        <ul class="benefit-list text-gray-700">
+                            <li>Daily posting across TikTok, YouTube Shorts, Instagram Reels, and Pinterest</li>
+                            <li>Full account setup and optimization (bio, link in bio, profile aesthetics)</li>
+                            <li>Community engagement: responding to comments, engaging with similar creators</li>
+                            <li>Cross-platform syndication of top-performing content</li>
+                            <li>Posting schedule optimization based on platform peak hours</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Hashtag Research -->
+                    <div class="mb-5">
+                        <div class="flex items-center gap-2 mb-3"><span class="text-xl">#️⃣</span><h3 class="font-bold text-[#4a2c2a]">Hashtag Research & Strategy</h3></div>
+                        <ul class="benefit-list text-gray-700">
+                            <li>Genre-specific hashtag clusters (romance, fantasy, thriller, self-help, etc.)</li>
+                            <li>Trend monitoring and real-time hashtag insertion</li>
+                            <li>Mix of volume-based and niche hashtags for algorithmic discovery</li>
+                            <li>Weekly hashtag refresh based on performance data</li>
+                            <li>Competitor hashtag analysis to capture active reader communities</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Book Research -->
+                    <div class="mb-5">
+                        <div class="flex items-center gap-2 mb-3"><span class="text-xl">📚</span><h3 class="font-bold text-[#4a2c2a]">Book Research & Audience Mapping</h3></div>
+                        <ul class="benefit-list text-gray-700">
+                            <li>Deep-dive into your book's tropes, themes, and emotional beats</li>
+                            <li>Identification of comparable titles and successful BookTok campaigns in your genre</li>
+                            <li>Reader persona development — understanding what makes your ideal reader click</li>
+                            <li>Competitive analysis to find content gaps and opportunities</li>
+                            <li>Ongoing genre trend monitoring to keep content fresh and relevant</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- AI Prompting & Content Creation -->
+                    <div class="mb-5">
+                        <div class="flex items-center gap-2 mb-3"><span class="text-xl">🤖</span><h3 class="font-bold text-[#4a2c2a]">AI Prompting & Content Creation</h3></div>
+                        <ul class="benefit-list text-gray-700">
+                            <li>Custom prompt engineering for AI avatar narration that matches your book's voice</li>
+                            <li>Script generation optimized for retention and conversion (hook → story → CTA)</li>
+                            <li>Faceless video production using cinematic stock + AI avatars</li>
+                            <li>Voiceover selection and tone calibration to match your genre (dramatic, cozy, intense, etc.)</li>
+                            <li>Thumbnail and caption A/B testing for maximum click-through rates</li>
+                            <li>Rapid iteration — we produce 2-24 videos daily depending on your tier</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Additional Services -->
+                    <div class="bg-amber-50 rounded-xl p-4 mt-4">
+                        <p class="text-sm font-semibold text-[#4a2c2a] mb-2">✨ Also included at no extra cost:</p>
+                        <div class="grid grid-cols-2 gap-2 text-xs text-gray-700">
+                            <span>• Amazon Attribution setup</span>
+                            <span>• Weekly performance reports</span>
+                            <span>• Retargeting pixel integration</span>
+                            <span>• ARC team building</span>
+                            <span>• Book Club features</span>
+                            <span>• A/B testing & optimization</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-6 pt-4 text-center">
+                    <a href="#demo-offer" class="inline-block bg-[#4a2c2a] text-white px-6 py-3 rounded-full text-sm font-semibold hover:bg-[#e07a2c] transition">Start with $0.99 Demo →</a>
+                </div>
+            </div>
+            
+            <!-- RIGHT CARD: CPM Ads with Impressions & Randomized Sales -->
+            <div class="glass-card rounded-3xl p-8 scroll-reveal flex flex-col h-full">
+                <div class="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-[#e07a2c]/20 to-[#f5b042]/20 rounded-2xl flex items-center justify-center text-5xl border border-[#e07a2c]/30">
+                    📊
+                </div>
+                <h2 class="text-3xl font-bold text-center text-[#4a2c2a]">CPM Ads (Optional)</h2>
+                <div class="text-center mt-4">
+                    <span class="text-3xl font-black text-[#e07a2c]">$5 CPM</span>
+                    <span class="text-xl text-gray-500"> — starting rate</span>
+                    <div class="text-md text-gray-600 mt-2">Amazon.com traffic • We track impressions</div>
+                </div>
+                <p class="text-gray-600 text-center mt-4 text-sm">Reach thousands of potential readers. Results vary significantly based on book page quality, cover, pricing, and genre.</p>
+                
+                <div class="border-t border-[#e0d5c8] my-6"></div>
+                
+                <!-- Budget Visualizer with Impressions & Randomized Sales -->
+                <div id="ads-calculator" class="bg-white/80 rounded-2xl p-5 shadow-sm">
+                    <h3 class="font-bold text-[#4a2c2a] text-center mb-4">📈 Reach Estimator</h3>
+                    <label class="block text-sm text-gray-600 mb-2 text-center">Monthly Ad Budget</label>
+                    <input type="range" id="budget-slider" min="50" max="5000" value="500" step="50" class="slider-thumb w-full h-2 bg-[#e0d5c8] rounded-full appearance-none cursor-pointer">
+                    <div class="flex justify-between text-xs text-gray-500 mt-1"><span>$50</span><span>$5,000</span></div>
+                    
+                    <div id="budget-results" class="mt-6 bg-gradient-to-br from-[#4a2c2a]/5 to-[#e07a2c]/5 rounded-xl p-5">
+                        <div class="grid grid-cols-2 gap-4 text-center">
+                            <div>
+                                <p class="text-xs text-gray-500 uppercase">Budget</p>
+                                <p class="text-xl font-black text-[#e07a2c]"><span id="budget-display">$500</span></p>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-500 uppercase">Est. Impressions</p>
+                                <p class="text-xl font-black text-[#e07a2c]"><span id="impressions-display">0</span>K</p>
+                            </div>
+                            <div class="col-span-2">
+                                <p class="text-xs text-gray-500 uppercase">Potential Sales Range*</p>
+                                <p class="text-lg font-bold text-[#4a2c2a]"><span id="sales-min">0</span> – <span id="sales-max">0</span> <span class="text-sm font-normal">units</span></p>
+                            </div>
+                        </div>
+                        <div class="mt-4 h-2 bg-gray-200 rounded-full overflow-hidden">
+                            <div id="progress-bar" class="h-full bg-gradient-to-r from-[#4a2c2a] to-[#e07a2c] transition-all duration-500" style="width: 0%"></div>
+                        </div>
+                        <p class="text-xs text-gray-500 text-center mt-4 italic">*Results vary significantly based on book cover quality, landing page, pricing, genre, and reader targeting. These are illustrative estimates only — actual sales cannot be guaranteed.</p>
+                    </div>
+                </div>
+                
+                <!-- Disclaimer Note -->
+                <div class="mt-4 bg-amber-50 rounded-xl p-4 border border-amber-200">
+                    <div class="flex gap-2 text-sm">
+                        <span class="text-amber-700">📌</span>
+                        <p class="text-xs text-gray-600"><strong class="text-[#4a2c2a]">Important:</strong> CPM campaigns deliver impressions. Conversion to sales depends on multiple factors outside our control including book cover, Amazon page optimization, pricing, reviews, and reader intent. We optimize for reach and engagement; sales outcomes vary by book.</p>
+                    </div>
+                </div>
+                
+                <!-- Tier Performance Table (Impressions only, no sales guarantees) -->
+                <div class="mt-6">
+                    <h3 class="font-bold text-[#4a2c2a] text-center mb-4">📊 Estimated Impressions by Budget</h3>
+                    <div class="tier-table-wrapper overflow-x-auto">
+                        <table class="stats-table w-full text-sm bg-white rounded-xl">
+                            <thead><tr><th>Budget</th><th>Est. Impressions (CPM $5–$7)</th><th>Potential Reach</th></tr></thead>
+                            <tbody class="text-gray-700">
+                                <tr><td class="font-medium">$100</td><td>~14k–20k</td><td>~14,000–20,000 readers</td></tr>
+                                <tr><td class="font-medium">$250</td><td>~35k–50k</td><td>~35,000–50,000 readers</td></tr>
+                                <tr class="bg-amber-50/50"><td class="font-medium text-[#e07a2c]">$500</td><td>~70k–100k</td><td>~70,000–100,000 readers</td></tr>
+                                <tr><td class="font-medium">$1,000</td><td>~140k–200k</td><td>~140,000–200,000 readers</td></tr>
+                                <tr><td class="font-medium">$2,500</td><td>~350k–500k</td><td>~350,000–500,000 readers</td></tr>
+                                <tr><td class="font-medium">$5,000</td><td>~700k–1M</td><td>~700,000–1,000,000+ readers</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="text-xs text-gray-400 text-center mt-3">*Impressions are estimates based on $5–7 CPM. Actual results vary by targeting, seasonality, and ad quality.</p>
+                </div>
+                
+                <!-- Guarantee Badge -->
+                <div class="mt-6 bg-gradient-to-r from-amber-100 to-orange-50 rounded-2xl p-4 text-center border border-amber-300">
+                    <div class="text-3xl mb-2">⚡</div>
+                    <h4 class="font-bold text-[#4a2c2a]">The Atomic Guarantee</h4>
+                    <p class="text-sm text-gray-700 mt-1">5,000 organic views on your BookTok content in the first month of retainer or your money back. CPM ad campaigns deliver impressions as purchased — sales outcomes vary by book.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works (3-Step Summary) -->
+    <section class="py-16 px-6 bg-[#f7f2ea]">
+        <div class="max-w-6xl mx-auto text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-[#4a2c2a] mb-4">How the Model Works</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto mb-12">Simple, transparent, and built for indie authors.</p>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-[#4a2c2a] text-white rounded-2xl flex items-center justify-center text-2xl font-black mx-auto mb-4 shadow-lg">1</div>
+                    <h3 class="font-bold text-xl">$0.99 Demo</h3>
+                    <p class="text-gray-600 text-sm mt-2">Get 4 professional faceless videos delivered in 48h. Test our quality risk-free.</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-[#e07a2c] text-white rounded-2xl flex items-center justify-center text-2xl font-black mx-auto mb-4 shadow-lg">2</div>
+                    <h3 class="font-bold text-xl">$20/mo Retainer</h3>
+                    <p class="text-gray-600 text-sm mt-2">After demo, pay only $20/month for full ongoing management + daily content + 5K view guarantee.</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-[#6b4e4a] text-white rounded-2xl flex items-center justify-center text-2xl font-black mx-auto mb-4 shadow-lg">3</div>
+                    <h3 class="font-bold text-xl">Scale with CPM Ads</h3>
+                    <p class="text-gray-600 text-sm mt-2">Optional CPM campaigns from $5 CPM. Reach thousands of potential readers.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="py-24 px-6 bg-gradient-to-br from-[#4a2c2a] to-[#6b4e4a] text-center text-white">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-5xl mb-4 float-icon">📖</div>
+            <h2 class="text-4xl md:text-6xl font-bold mb-6">Your Book Deserves an Audience</h2>
+            <p class="text-xl text-amber-100/90 mb-8">Join 160+ authors already scaling with Atomic-Shelf.</p>
+            <div class="flex flex-wrap justify-center gap-5">
+                <a href="#demo-offer" class="bg-white text-[#4a2c2a] px-10 py-4 rounded-full font-bold shadow-lg hover:bg-amber-100 transition text-lg">Get $0.99 Demo →</a>
+                <a href="#ads-calculator" class="border-2 border-white text-white px-10 py-4 rounded-full font-semibold hover:bg-white/10 transition text-lg">Estimate Your Reach</a>
+            </div>
+            <p class="text-sm text-amber-200/70 mt-8">⚡ 4 videos for $0.99 | Cancel anytime | 5K view guarantee on retainer</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#f7f2ea] border-t border-[#e0d5c8] py-16">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-3 gap-12">
+                <div>
+                    <div class="text-2xl font-extrabold text-[#4a2c2a] mb-4">Atomic‑Shelf</div>
+                    <p class="text-gray-600">Certified Amazon Ads agency helping indie authors dominate BookTok and drive real royalties.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-[#4a2c2a] text-lg mb-5">Quick Links</h4>
+                    <ul class="space-y-2 text-gray-600">
+                        <li><a href="index.html" class="hover:text-[#e07a2c] transition">Home</a></li>
+                        <li><a href="how-it-works.html" class="hover:text-[#e07a2c] transition">How It Works</a></li>
+                        <li><a href="our-model.html" class="hover:text-[#e07a2c] transition">Our Model</a></li>
+                        <li><a href="results.html" class="hover:text-[#e07a2c] transition">Results</a></li>
+                        <li><a href="faq.html" class="hover:text-[#e07a2c] transition">FAQ</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-[#4a2c2a] text-lg mb-5">Contact</h4>
+                    <p class="text-gray-600 mb-2">📧 powerpages30@gmail.com</p>
+                    <p class="text-gray-600">📧 nick@atomic-shelf.com</p>
+                    <p class="text-gray-500 text-sm mt-4">Response within 24 hours</p>
+                </div>
+            </div>
+            <div class="border-t border-[#e0d5c8] mt-12 pt-8 text-center text-gray-500 text-sm">
+                © 2026 Atomic-Shelf. All rights reserved. Built for indie authors.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Budget Visualizer with Impressions & Randomized Sales (no breakeven)
+        const slider = document.getElementById('budget-slider');
+        if (slider) {
+            const els = {
+                budget: document.getElementById('budget-display'),
+                impressions: document.getElementById('impressions-display'),
+                salesMin: document.getElementById('sales-min'),
+                salesMax: document.getElementById('sales-max'),
+                progress: document.getElementById('progress-bar')
+            };
+            
+            function randomRange(min, max) {
+                return Math.floor(Math.random() * (max - min + 1) + min);
+            }
+            
+            const updateEstimates = () => {
+                let budget = parseInt(slider.value);
+                // CPM between $5 and $7
+                let cpm = 5 + (Math.random() * 2);
+                let impressions = Math.floor((budget / cpm) * 1000);
+                
+                // Randomized sales range based on impressions (highly variable)
+                // Conversion rate can range from 0.5% to 5% depending on book quality
+                let lowConv = 0.005;
+                let highConv = 0.05;
+                let salesLow = Math.floor(impressions * lowConv);
+                let salesHigh = Math.floor(impressions * highConv);
+                
+                // Add some randomness per calculation
+                let variance = 0.7 + (Math.random() * 0.6);
+                salesLow = Math.floor(salesLow * variance);
+                salesHigh = Math.floor(salesHigh * (variance + 0.3));
+                
+                els.budget.textContent = `$${budget.toLocaleString()}`;
+                els.impressions.textContent = (impressions / 1000).toFixed(0);
+                els.salesMin.textContent = salesLow.toLocaleString();
+                els.salesMax.textContent = salesHigh.toLocaleString();
+                
+                let progressPercent = Math.min(100, (budget / 5000) * 100);
+                els.progress.style.width = `${progressPercent}%`;
+            };
+            
+            slider.addEventListener('input', updateEstimates);
+            updateEstimates();
+        }
+
+        // Scroll Reveal
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                }
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+
+        // Smooth anchor scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                const target = document.querySelector(targetId);
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

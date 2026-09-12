@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atomic Shelf × Tracey-Ann Beckett — After Dark in Greenwich Park</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0d0d12;
+    --paper: #f5f0e8;
+    --gold: #c9a84c;
+    --gold-dim: #8a6e32;
+    --mist: #d6cfc4;
+    --moss: #2a3528;
+    --night: #131920;
+    --accent: #b04a3a;
+    --text-body: #2b2620;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--ink);
+    color: var(--paper);
+    overflow-x: hidden;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    background: var(--night);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+    padding: 60px 24px 80px;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 20%, rgba(201,168,76,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 80% at 80% 80%, rgba(42,53,40,0.6) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 50% at 20% 60%, rgba(176,74,58,0.06) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .hero-noise {
+    position: absolute;
+    inset: 0;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 200px;
+    pointer-events: none;
+  }
+
+  .agency-badge {
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 48px;
+    opacity: 0.85;
+    animation: fadeDown 0.8s ease both;
+  }
+
+  .hero-eyebrow {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(14px, 2vw, 17px);
+    font-style: italic;
+    color: var(--mist);
+    letter-spacing: 0.08em;
+    margin-bottom: 20px;
+    animation: fadeDown 0.9s 0.1s ease both;
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(42px, 8vw, 96px);
+    font-weight: 900;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    color: var(--paper);
+    animation: fadeDown 1s 0.2s ease both;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .hero-sub {
+    margin-top: 28px;
+    font-size: clamp(15px, 2vw, 19px);
+    font-weight: 300;
+    color: var(--mist);
+    max-width: 560px;
+    line-height: 1.7;
+    animation: fadeDown 1s 0.35s ease both;
+  }
+
+  .hero-divider {
+    width: 64px;
+    height: 1px;
+    background: var(--gold);
+    margin: 36px auto;
+    animation: expand 1.2s 0.5s ease both;
+    transform-origin: center;
+  }
+
+  .hero-meta {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    flex-wrap: wrap;
+    animation: fadeUp 1s 0.6s ease both;
+  }
+
+  .meta-item {
+    text-align: center;
+  }
+
+  .meta-label {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    margin-bottom: 6px;
+  }
+
+  .meta-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    color: var(--paper);
+  }
+
+  .scroll-cue {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    animation: fadeUp 1s 1s ease both;
+  }
+
+  .scroll-cue span {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scrollPulse 2s 1.5s ease-in-out infinite;
+  }
+
+  /* ── SECTIONS ── */
+  section {
+    padding: 96px 24px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 5vw, 52px);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--paper);
+    margin-bottom: 24px;
+  }
+
+  .section-title em { font-style: italic; color: var(--gold); }
+
+  .section-body {
+    font-size: 17px;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--mist);
+    max-width: 680px;
+  }
+
+  /* ── STRATEGY STRIP ── */
+  .strategy-strip {
+    background: var(--night);
+    border-top: 1px solid rgba(201,168,76,0.15);
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+    padding: 80px 24px;
+  }
+
+  .strategy-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .strategy-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 40px;
+    margin-top: 56px;
+  }
+
+  .strategy-card {
+    border-left: 2px solid var(--gold);
+    padding-left: 24px;
+  }
+
+  .strategy-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    font-weight: 900;
+    color: rgba(201,168,76,0.18);
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+
+  .strategy-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 19px;
+    color: var(--paper);
+    margin-bottom: 10px;
+  }
+
+  .strategy-desc {
+    font-size: 15px;
+    font-weight: 300;
+    color: var(--mist);
+    line-height: 1.7;
+  }
+
+  /* ── VIDEO CARDS ── */
+  .videos-section {
+    background: #0f1117;
+    padding: 96px 0;
+  }
+
+  .videos-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .videos-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin-bottom: 56px;
+  }
+
+  .video-count-badge {
+    background: rgba(201,168,76,0.1);
+    border: 1px solid rgba(201,168,76,0.3);
+    color: var(--gold);
+    font-size: 13px;
+    letter-spacing: 0.15em;
+    padding: 8px 20px;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+
+  .video-grid {
+    display: grid;
+    gap: 24px;
+  }
+
+  .video-card {
+    background: var(--night);
+    border: 1px solid rgba(201,168,76,0.1);
+    display: grid;
+    grid-template-columns: 72px 1fr;
+    gap: 0;
+    transition: border-color 0.3s;
+    cursor: default;
+  }
+
+  .video-card:hover {
+    border-color: rgba(201,168,76,0.4);
+  }
+
+  .video-num-col {
+    background: rgba(201,168,76,0.07);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid rgba(201,168,76,0.1);
+    flex-shrink: 0;
+  }
+
+  .video-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 900;
+    color: var(--gold-dim);
+  }
+
+  .video-content {
+    padding: 28px 28px;
+  }
+
+  .video-tag {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    margin-bottom: 8px;
+  }
+
+  .video-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--paper);
+    margin-bottom: 12px;
+    line-height: 1.25;
+  }
+
+  .video-desc {
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--mist);
+    line-height: 1.65;
+    margin-bottom: 16px;
+  }
+
+  details.vo-block {
+    border-top: 1px solid rgba(201,168,76,0.12);
+    padding-top: 14px;
+  }
+
+  details.vo-block summary {
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    cursor: pointer;
+    user-select: none;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 0;
+  }
+
+  details.vo-block summary::after {
+    content: '▾';
+    transition: transform 0.25s;
+  }
+
+  details.vo-block[open] summary::after {
+    transform: rotate(180deg);
+  }
+
+  details.vo-block summary::-webkit-details-marker { display: none; }
+
+  .vo-text {
+    margin-top: 14px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-style: italic;
+    color: var(--paper);
+    line-height: 1.8;
+    padding-left: 16px;
+    border-left: 2px solid var(--gold);
+    opacity: 0.9;
+  }
+
+  .hashtags {
+    margin-top: 12px;
+    font-size: 13px;
+    color: var(--gold-dim);
+    line-height: 1.8;
+    font-weight: 300;
+  }
+
+  /* ── A+ SECTION ── */
+  .aplus-section {
+    background: var(--moss);
+    padding: 96px 24px;
+  }
+
+  .aplus-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+
+  @media (max-width: 700px) {
+    .aplus-inner { grid-template-columns: 1fr; }
+    .hero-meta { gap: 24px; }
+    .video-card { grid-template-columns: 56px 1fr; }
+    .video-content { padding: 20px 18px; }
+    .videos-header { flex-direction: column; align-items: flex-start; }
+  }
+
+  .aplus-panel {
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(201,168,76,0.2);
+    padding: 40px;
+  }
+
+  .aplus-panel-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 23px;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+
+  .aplus-panel-body {
+    font-size: 15px;
+    font-weight: 300;
+    color: var(--mist);
+    line-height: 1.75;
+  }
+
+  .aplus-panel-link {
+    display: inline-block;
+    margin-top: 20px;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(201,168,76,0.4);
+    padding-bottom: 2px;
+    transition: border-color 0.25s;
+  }
+
+  .aplus-panel-link:hover { border-color: var(--gold); }
+
+  /* ── RETARGETING ── */
+  .retarget-section {
+    background: var(--night);
+    border-top: 1px solid rgba(201,168,76,0.12);
+    padding: 96px 24px;
+  }
+
+  .retarget-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .retarget-flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    flex-wrap: wrap;
+    margin-top: 56px;
+  }
+
+  .flow-step {
+    text-align: center;
+    padding: 32px 28px;
+    background: rgba(201,168,76,0.04);
+    border: 1px solid rgba(201,168,76,0.12);
+    min-width: 180px;
+    flex: 1;
+    max-width: 220px;
+  }
+
+  .flow-icon {
+    font-size: 28px;
+    margin-bottom: 14px;
+  }
+
+  .flow-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    color: var(--paper);
+    margin-bottom: 8px;
+  }
+
+  .flow-desc {
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--mist);
+    line-height: 1.65;
+  }
+
+  .flow-arrow {
+    font-size: 22px;
+    color: var(--gold-dim);
+    padding: 0 8px;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 750px) {
+    .retarget-flow { flex-direction: column; align-items: stretch; }
+    .flow-step { max-width: 100%; }
+    .flow-arrow { transform: rotate(90deg); align-self: center; }
+    .aplus-inner { grid-template-columns: 1fr; gap: 32px; }
+  }
+
+  /* ── CTA ── */
+  .cta-section {
+    background: var(--ink);
+    text-align: center;
+    padding: 120px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .cta-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(22px, 4vw, 40px);
+    font-style: italic;
+    font-weight: 300;
+    color: var(--paper);
+    max-width: 720px;
+    margin: 0 auto 16px;
+    line-height: 1.4;
+  }
+
+  .cta-attr {
+    font-size: 13px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    margin-bottom: 56px;
+  }
+
+  .cta-btn {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--ink);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 18px 48px;
+    text-decoration: none;
+    transition: background 0.25s, transform 0.2s;
+  }
+
+  .cta-btn:hover {
+    background: #e0bb5c;
+    transform: translateY(-2px);
+  }
+
+  .cta-secondary {
+    display: block;
+    margin-top: 20px;
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--mist);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #080a0d;
+    padding: 40px 24px;
+    text-align: center;
+    border-top: 1px solid rgba(201,168,76,0.1);
+  }
+
+  footer p {
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    color: var(--gold-dim);
+    margin-bottom: 6px;
+  }
+
+  footer a { color: var(--gold-dim); text-decoration: none; }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes expand {
+    from { transform: scaleX(0); opacity: 0; }
+    to   { transform: scaleX(1); opacity: 1; }
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(1); }
+    50%       { opacity: 1;   transform: scaleY(1.2); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     HERO
+══════════════════════════════════════════ -->
+<div class="hero">
+  <div class="hero-noise"></div>
+
+  <div class="agency-badge">Atomic Shelf · Content Proposal · May 2026</div>
+  <div class="hero-eyebrow">A BookTok Content Campaign for</div>
+  <h1 class="hero-title">
+    After Dark in<br><em>Greenwich Park</em>
+  </h1>
+  <p class="hero-sub">
+    15 short-form videos designed to stop the scroll, build a reader following,
+    and retarget every viewer who shows interest — directly on Amazon.
+    You approve the media first. We post to YouTube Shorts. Then results speak.
+  </p>
+  <div class="hero-divider"></div>
+  <div class="hero-meta">
+    <div class="meta-item">
+      <div class="meta-label">Author</div>
+      <div class="meta-value">Tracey-Ann Beckett</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Genre</div>
+      <div class="meta-value">Psychological Thriller</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Videos</div>
+      <div class="meta-value">15 Delivered</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Trial Platform</div>
+      <div class="meta-value">YouTube Shorts</div>
+    </div>
+  </div>
+
+  <div class="scroll-cue">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     STRATEGY
+══════════════════════════════════════════ -->
+<div class="strategy-strip">
+  <div class="strategy-inner">
+    <div class="section-label">How This Works</div>
+    <h2 class="section-title">Organic first.<br><em>Ads that follow.</em></h2>
+    <p class="section-body">
+      Every video we produce is platform-native content, built to be discovered
+      — not to feel like an ad. Once your organic views accumulate, we
+      retarget those exact viewers on Amazon, so every person who paused
+      on your story gets a second chance to buy.
+    </p>
+
+    <div class="strategy-grid">
+      <div class="strategy-card">
+        <div class="strategy-num">01</div>
+        <div class="strategy-title">Content Production</div>
+        <div class="strategy-desc">15 cinematic short-form videos — each with a distinct hook, voiceover, and posting caption — built around the world of After Dark in Greenwich Park.</div>
+      </div>
+      <div class="strategy-card">
+        <div class="strategy-num">02</div>
+        <div class="strategy-title">Publishing & Distribution</div>
+        <div class="strategy-desc">We produce your 15 videos and share them with you for approval. Once you give the green light, we publish and manage posting on YouTube Shorts during your 7-day free trial. You see real results before you decide anything.</div>
+      </div>
+      <div class="strategy-card">
+        <div class="strategy-num">03</div>
+        <div class="strategy-title">Amazon DSP Retargeting</div>
+        <div class="strategy-desc">Anyone who watches your videos and is active on Amazon gets served a targeted ad — your book, your cover, your sample link. We only retarget warm viewers, never cold audiences.</div>
+      </div>
+      <div class="strategy-card">
+        <div class="strategy-num">04</div>
+        <div class="strategy-title">A+ Content Bonus</div>
+        <div class="strategy-desc">Every video and AI image we create can double as A+ Content on your Amazon seller page — elevating your book listing with visuals that convert browsers into buyers.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     15 VIDEOS
+══════════════════════════════════════════ -->
+<div class="videos-section">
+  <div class="videos-inner">
+    <div class="videos-header">
+      <div>
+        <div class="section-label">Content Plan</div>
+        <h2 class="section-title">Your <em>15 Videos</em></h2>
+      </div>
+      <div class="video-count-badge">15 Videos · TikTok &amp; YouTube Shorts</div>
+    </div>
+
+    <div class="video-grid">
+
+      <!-- VIDEO 1 -->
+      <div class="video-card">
+        <div class="video-num-col"><span class="video-num">01</span></div>
+        <div class="video-content">
+          <div class="video-tag">Hook · Series Opener</div>
+          <div class="video-title">He Looked Perfect. That Was the Problem.</div>
+          <div class="video-desc">
+            <strong>Post Title:</strong> He Looked Perfect. That Was the Problem. 🌑 | After Dark in Greenwich Park<br>
+            <strong>Caption:</strong> When you fall for someone on screen, you believe the character. But what happens when the screen goes dark? This is the story of Trudie Callender — and the man the world loved who she had to survive. #BookTok #PsychologicalThriller #AfterDarkInGreenwichPark #ThrillerBooks #DarkRomance
+          </div>
+          <details class="vo-block">
+            <summary>Voiceover Script</summary>
+            <div class="vo-text">
+              "She thought she'd won the fairy tale. The handsome TV star. The glamorous life. The love story everyone wanted. But fairy tales don't show you what happens behind the door. After Dark in Greenwich Park — a psychological thriller that asks: what do you do when the person you love is your greatest danger?"
+            </div>
+          </details>
+          <div class="hashtags">#BookTok #PsychologicalThriller #DarkRomanceBooks #ThrillerReads #AfterDark #TraceyAnnBeckett</div>
+        </div>
+      </div>
+
+      <!-- VIDEO 2 -->
+      <div class="video-card">
+        <div class="video-num-col"><span class="video-num">02</span></div>
+        <div class="video-content">
+          <div class="video-tag">Character Study · Trudie</div>
+          <div class="video-title">She Was Relatable in Every Imperfection</div>
+          <div class="video-desc">
+            <strong>Post Title:</strong> She wasn't perfect. That's why you'll root for her. | Trudie Callender's Story<br>
+            <strong>Caption:</strong> Trudie isn't a superhero. She's someone who loved the wrong person and had to find her way back to herself. Readers say they saw themselves in her. That's the power of this book. #BookTokThriller #FemaleProtagonist #RelatablebookTok #IndieBooks #WomensFiction
+          </div>
+          <details class="vo-block">
+            <summary>Voiceover Script</summary>
+            <div class="vo-text">
+              "Trudie Callender had everything she thought she wanted. And slowly, quietly, it was taken from her — one lie at a time. This is not a story about weakness. This is a story about what it takes to finally say: enough. After Dark in Greenwich Park. Out now."
+            </div>
+          </details>
+          <div class="hashtags">#TrudieCallender #BookTokCharacter #ThrillerReads #EmotionalFiction #IndieAuthorBooks</div>
+        </div>
+      </div>
+
+      <!-- VIDEO 3 -->
+      <div class="video-card">
+        <div class="video-num-col"><span class="video-num">03</span></div>
+        <div class="video-content">
+          <div class="video-tag">Antagonist · Dark Reveal</div>
+          <div class="video-title">The Man the World Loved. The Husband She Feared.</div>
+          <div class="video-desc">
+            <strong>Post Title:</strong> Everyone loved him. She was the only one who knew the truth. | Cameron Callender<br>
+            <strong>Caption:</strong> Charm in public. Control in private. Cameron Callender is the kind of man who makes everyone believe in him — everyone except the woman he's slowly destroying. #ManipulativeMen #DomesticThriller #PsychologicalAbuse #BookTokDark #ThrillerAlert
+          </div>
+          <details class="vo-block">
+            <summary>Voiceover Script</summary>
+            <div class="vo-text">
+              "On TV, he's the man everyone falls for. At home, he's someone else entirely. Cameron Callender knows exactly how to play a role — and Trudie is the only audience that gets to see the real performance. The one she can't walk out of. After Dark in Greenwich Park."
+            </div>
+          </details>
+          <div class="hashtags">#DarkThriller #ManipulatorAlert #BookTokVillain #PsychologicalFiction #GreenwichPark</div>
+        </div>
+      </div>
+
+      <!-- VIDEO 4 -->
+      <div class="video-card">
+        <div class="video-num-col"><span class="video-num">04</span></div>
+        <div class="video-content">
+          <div class="video-tag">Romance · Joe's Introduction</div>
+          <div class="video-title">The Lawyer Who Was Never Supposed to Be More</div>
+          <div class="video-desc">
+            <strong>Post Title:</strong> She hired him to help her escape. She didn't expect to feel this way. | Joe<br>
+            <strong>Caption:</strong> Not the typical romance hero. Confident without arrogance. Attractive in a way you can't quite explain. Joe wasn't supposed to matter this much — but here we are. #ForbiddenRomance #RomanceThriller #SlowBurn #BookTokRomance #GreenwichParkBook
+          </div>
+          <details class="vo-block">
+            <summary>Voiceover Script</summary>
+            <div class="vo-text">
+              "She needed a divorce lawyer. What she found was someone who made her remember who she was before Cameron took it all away. Joe isn't perfect. But he makes her feel safe. And she hasn't felt that in a long time. After Dark in Greenwich Park — more than a love story."
+            </div>
+          </details>
+          <div class="hashtags">#SlowBurnRomance #ForbiddenLove #BookTok #DivorceStory #RomanticThriller #JoeAndTrudie</div>
+        </div>
+      </div>
+
+      <!-- VIDEO 5 -->
+      <div class="video-card">
+        <div class="video-num-col"><span class="video-num">05</span></div>
+        <div class="video-content">
+          <div class="video-tag">Plot Twist · Shock Moment</div>
+          <div class="video-title">The Discovery That Changes Everything</div>
+          <div class="video-desc">
+            <strong>Post Title:</strong> One discovery. Everything she thought she knew — gone. | After Dark in Greenwich Park<br>
+            <strong>Caption:</strong> There's a moment in this book where you will gasp. Readers reported audibly reacting. No spoilers — but you won't see it coming. #BookTokTwist #PlotTwistAlert #ThrillerBooks #MindBlown #MustRead2025
+          </div>
+          <details class="vo-block">
+            <summary>Voiceover Script</summary>
+            <div class="vo-text">
+              "Every marriage has secrets. But when Trudie finds out what Cameron has been hiding — the world doesn't just shift. It shatters. What she does next will define everything. No spoilers. But readers say they gasped. Out loud. After Dark in Greenwich Park."
+            </div>
+          </details>
+          <div class="hashtags">#PlotTwist #ThrillerReads #BookTokOMG #PsychologicalThriller #ReadingCommunity #ShockEnding</div>
+        </div>
+      </div>
+
+      <!-- VIDEO 6 -->
+      <div class="video-card">
+        <div class="video-num-col"><span class="video-num">06</span></div>
+        <div class="video-content">
+          <div class="video-tag">Relatable · Emotional Hook</div>
+          <div class="video-title">Signs You're Being Slowly Controlled (And Don't Know It)</div>
+          <div class="video-desc">
+            <strong>Post Title:</strong> "He wasn't hitting me. So why did I feel like I was disappearing?" | Manipulation in Relationships<br>
+            <strong>Caption:</strong> This book captures what slow manipulation actually looks like — and why it's so hard to name. If you've ever doubted your own reality in a relationship, Trudie's story will feel very familiar. #GasLighting #EmotionalAbuse #ToxicRelationship #BookTokReal #PsychologicalThriller
+          </div>
+          <details class="vo-block">
+            <summary>Voiceover Script</summary>
+            <div class="vo-text">
+              "It starts with small things. The way he corrects you in front of others. The way your world gets smaller — and somehow it feels like your choice. Tracey-Ann Beckett writes manipulation the way it actually happens: quietly, gradually, until you can't trust your own mind. After Dark in Greenwich Park."
+            </div>
+          </details>
+          <div class="hashtags">#Gaslighting #ToxicMarriage #BookTokAwareness #RelationshipThriller #MentalHealthBooks</div>
+        </div>
+      </div>
+
+      <!-- VIDEO 7 -->
+      <div class="video-card">
+        <div class="video-num-col"><span class="video-num">07</span></div>
+        <div class="video-content">
+          <div class="video-tag">Engagement · Question Format</div>
+          <div class="video-title">Would You Stay or Leave? (This Book Will Make You Think)</div>
+          <div class="video-desc">
+            <strong>Post Title:</strong> Would YOU have stayed? 🤍 | Trudie's choice in After Dark in Greenwich Park<br>
+            <strong>Caption:</strong> People always say they'd leave immediately. But Trudie's story shows just how complicated that really is. Drop your answer below — and then read this book and see if you change your mind. #WouldYouStay #BookTokDiscussion #ThrillerBookClub #RelationshipTalk #BookRecommendation
+          </div>
+          <details class="vo-block">
+            <summary>Voiceover Script</summary>
+            <div class="vo-text">
+              "It's easy to say you'd walk out. But what if you loved him? What if the world loved him? What if leaving meant losing everything you built together? Trudie Callender didn't leave immediately. And you might understand why. After Dark in Greenwich Park — leave your answer in the comments."
+            </div>
+          </details>
+          <div class="hashtags">#BookTokEngagement #ThrillerDiscussion #WouldYouLeave #DomesticThriller #CommentBelow</div>
+        </div>
+      </div>
+
+      <!-- VIDEO 8 -->
+      <div class="video-card">
+        <div class="video-num-col"><span class="video-num">08</span></div>
+        <div class="video-content">
+          <div class="video-tag">Setting · Atmosphere</div>
+          <div class="video-title">Greenwich Park at Night — Where It All Unravels</div>
+          <div class="video-desc">
+            <strong>Post Title:</strong> Greenwich Park after dark is not the place you think it is. 🌑 | Setting reel<br>
+            <strong>Caption:</strong> London. A park. A marriage unravelling. Tracey-Ann Beckett uses setting like a character — and once you've read this, you'll never see Greenwich Park the same way again. #LondonBooks #GreenwichPark #AtmosphericFiction #BookTokLondon #ThrillerSetting
+          </div>
+          <details class="vo-block">
+            <summary>Voiceover Script</summary>
+            <div class="vo-text">
+              "Greenwich Park by day is a beautiful place. By night, it's where secrets live. Where a woman named Trudie walks to feel like herself again. And where everything in her life is about to come to a head. After Dark in Greenwich Park — a London you haven't seen before."
+            </div>
+          </details>
+          <div class="hashtags">#LondonThriller #AtmosphericReads #BookTokUK #GreenwichParkLondon #PsychologicalFiction</div>
+        </div>
+      </div>
+
+      <!-- VIDEO 9 -->
+      <div class="video-card">
+        <div class="video-num-col"><span class="video-num">09</span></div>
+        <div class="video-content">
+          <div class="video-tag">Tension · Pacing Highlight</div>
+          <div class="video-title">At 80% — You Won't Be Able to Put It Down</div>
+          <div class="video-desc">
+            <strong>Post Title:</strong> "I ignored my housework from 80% to the end" 😭 | Real reader reaction<br>
+            <strong>Caption:</strong> A real Amazon reviewer said she literally abandoned her household chores once she hit the 80% mark. That's the kind of grip this book has. #CantPutItDown #PageTurner #BookTokAddict #ThrillerReads #ReadingObsession
+          </div>
+          <details class="vo-block">
+            <summary>Voiceover Script</summary>
+            <div class="vo-text">
+              "One reader said: 'The household chores were ignored today as soon as I reached around the 80% mark.' Another said she audibly gasped at the ending. This is the kind of book that takes over your afternoon. After Dark in Greenwich Park — you've been warned."
+            </div>
+          </details>
+          <div class="hashtags">#BookTokHooked #PageTurnerAlert #ThrillerBooks #ReadWithMe #CantStop</div>
+        </div>
+      </div>
+
+      <!-- VIDEO 10 -->
+      <div class="video-card">
+        <div class="video-num-col"><span class="video-num">10</span></div>
+        <div class="video-content">
+          <div class="video-tag">Genre Blend · Pitch</div>
+          <div class="video-title">If You Love Romance but Crave the Tension of a Thriller</div>
+          <div class="video-desc">
+            <strong>Post Title:</strong> What happens when a romance and a psychological thriller have a baby? This book. 📖<br>
+            <strong>Caption:</strong> It's not just a love story. It's not just a thriller. It's both — and that's what makes it impossible to put down. Perfect for fans of Liane Moriarty, Lisa Jewell, and Big Little Lies. #GenreBlend #RomanceThriller #BookTokRecommendation #LianeMorearty #LisaJewell
+          </div>
+          <details class="vo-block">
+            <summary>Voiceover Script</summary>
+            <div class="vo-text">
+              "You want the romance. The slow build. The undeniable chemistry. But you also want the suspense. The tension. The feeling that something is very, very wrong. After Dark in Greenwich Park gives you both — and never lets you get comfortable. Genre-bending. Heart-racing. Completely absorbing."
+            </div>
+          </details>
+          <div class="hashtags">#RomanticSuspense #ThrillerRomance #BookTok2025 #BigLittleLies #CompulsivelyReadable</div>
+        </div>
+      </div>
+
+      <!-- VIDEO 11 -->
+      <div class="video-card">
+        <div class="video-num-col"><span class="video-num">11</span></div>
+        <div class="video-content">
+          <div class="video-tag">Social Proof · Reviews</div>
+          <div class="video-title">"What a Rollercoaster of Emotions" — Real Readers React</div>
+          <div class="video-desc">
+            <strong>Post Title:</strong> Real readers. Real reactions. 🎢 | After Dark in Greenwich Park reviews<br>
+            <strong>Caption:</strong> 4.5 stars on Amazon. Readers in the UK and US calling it "completely absorbing," "a rollercoaster," and "impossible to put down." This is what Tracey-Ann Beckett does. #BookReviews #BookTokRecommends #AmazonBooks #ThrillerReads #ReaderReactions
+          </div>
+          <details class="vo-block">
+            <summary>Voiceover Script</summary>
+            <div class="vo-text">
+              "Readers are calling it 'a rollercoaster of emotions.' A 'well-written, polished novel.' A story that had them 'on the edge of their seat.' After Dark in Greenwich Park is rated 4.5 stars on Amazon — and the reviews keep coming. Will yours be next?"
+            </div>
+          </details>
+          <div class="hashtags">#BookReviewTikTok #AmazonReviews #ThrillerCommunity #BookTokUK #MustReadBook</div>
+        </div>
+      </div>
+
+      <!-- VIDEO 12 -->
+      <div class="video-card">
+        <div class="video-num-col"><span class="video-num">12</span></div>
+        <div class="video-content">
+          <div class="video-tag">Author Story · Connection</div>
+          <div class="video-title">The Legal Secretary Who Writes Thrillers in Cumbria</div>
+          <div class="video-desc">
+            <strong>Post Title:</strong> She types for barristers by day. She writes psychological thrillers by night. 🖊️ | Meet Tracey-Ann Beckett<br>
+            <strong>Caption:</strong> Tracey-Ann Beckett grew up by the Essex seaside, became a legal secretary, and now writes the kind of fiction that makes you miss your stop on the train. Her story is as compelling as her books. #IndieAuthor #AuthorStory #MeetTheAuthor #BookTokAuthor #TraceyAnnBeckett
+          </div>
+          <details class="vo-block">
+            <summary>Voiceover Script</summary>
+            <div class="vo-text">
+              "She's been working with words all her life — first as a legal secretary, typing for solicitors and barristers, then as a novelist writing stories that grip you from page one. Tracey-Ann Beckett lives on the Cumbrian coast. And her latest book will make your heart race. After Dark in Greenwich Park."
+            </div>
+          </details>
+          <div class="hashtags">#IndieAuthorLife #AuthorBookTok #TraceyAnnBeckett #BehindTheBook #UKAuthor</div>
+        </div>
+      </div>
+
+      <!-- VIDEO 13 -->
+      <div class="video-card">
+        <div class="video-num-col"><span class="video-num">13</span></div>
+        <div class="video-content">
+          <div class="video-tag">Forbidden Romance · Slow Burn</div>
+          <div class="video-title">They Were Fighting Something Neither of Them Could Name</div>
+          <div class="video-desc">
+            <strong>Post Title:</strong> The attraction that could destroy them both. 🔥 | Joe &amp; Trudie<br>
+            <strong>Caption:</strong> He's her divorce lawyer. She's his client. Every professional rule says this can't happen. But something between them refuses to stay quiet. #ForbiddenRomance #SlowBurnThriller #BookTokForbidden #LoveShouldntHappen #RomanticTension
+          </div>
+          <details class="vo-block">
+            <summary>Voiceover Script</summary>
+            <div class="vo-text">
+              "He was supposed to help her escape her marriage. That was all. But Trudie needed more from Joe than legal advice — and they both knew it. Fighting it only made everything harder. After Dark in Greenwich Park — when the right person arrives at exactly the wrong time."
+            </div>
+          </details>
+          <div class="hashtags">#ForbiddenLove #SlowBurnRomance #ThrillerRomance #BookTok #WrongTimeRightPerson</div>
+        </div>
+      </div>
+
+      <!-- VIDEO 14 -->
+      <div class="video-card">
+        <div class="video-num-col"><span class="video-num">14</span></div>
+        <div class="video-content">
+          <div class="video-tag">Third Person POV · Craft</div>
+          <div class="video-title">The Writing Craft That Makes You Forget It's Third Person</div>
+          <div class="video-desc">
+            <strong>Post Title:</strong> "I forgot it wasn't first person." — A reader on Tracey-Ann Beckett's writing 📖<br>
+            <strong>Caption:</strong> Third person POV is notoriously hard to make feel intimate. Tracey-Ann Beckett does it so well that readers say they forget. That's not an accident — that's real craft. #WritingCraft #BookTokLiterary #POV #AuthorSkill #ThirdPersonPOV
+          </div>
+          <details class="vo-block">
+            <summary>Voiceover Script</summary>
+            <div class="vo-text">
+              "One reader said she usually struggles with third person point-of-view — but Tracey-Ann Beckett weaves in so much emotion that you forget it isn't first person. That's the mark of a writer who's done something genuinely difficult and made it look effortless. After Dark in Greenwich Park."
+            </div>
+          </details>
+          <div class="hashtags">#WritingBookTok #AuthorCraft #BookTokLiterary #DeepReads #ThrillerWriter</div>
+        </div>
+      </div>
+
+      <!-- VIDEO 15 -->
+      <div class="video-card">
+        <div class="video-num-col"><span class="video-num">15</span></div>
+        <div class="video-content">
+          <div class="video-tag">Call to Action · Series Closer</div>
+          <div class="video-title">Start With the Sample. You Won't Stop There.</div>
+          <div class="video-desc">
+            <strong>Post Title:</strong> Not sure? Read the sample first. Then tell me you're not hooked. | After Dark in Greenwich Park<br>
+            <strong>Caption:</strong> Available on Amazon in Kindle and paperback. Start with the free sample and see what everyone is talking about. Link in bio. #BookRecommendation #AmazonBooks #KindleBooks #BookTokCTA #AfterDarkInGreenwichPark
+          </div>
+          <details class="vo-block">
+            <summary>Voiceover Script</summary>
+            <div class="vo-text">
+              "You've heard what the readers are saying. You've seen what this story is about. Now it's your turn. After Dark in Greenwich Park by Tracey-Ann Beckett is available on Amazon right now — Kindle and paperback. Start with the free sample. We think you'll stay for the whole thing."
+            </div>
+          </details>
+          <div class="hashtags">#AfterDarkInGreenwichPark #TraceyAnnBeckett #BookTok #KindleUnlimited #PaperbackBooks #ReadNow</div>
+        </div>
+      </div>
+
+    </div><!-- /video-grid -->
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     A+ CONTENT
+══════════════════════════════════════════ -->
+<div class="aplus-section">
+  <div class="aplus-inner">
+    <div>
+      <div class="section-label">Amazon Bonus</div>
+      <h2 class="section-title" style="color:var(--paper);">Your videos become<br><em>Amazon A+ Content</em></h2>
+      <p class="section-body" style="color:var(--mist);">
+        Every AI-generated image and video frame we produce for your campaign
+        can be repurposed as Amazon A+ Content — transforming your basic book
+        listing into a rich, visual storefront that converts passive browsers
+        into buyers. If you have a professional Amazon selling account, this
+        is a no-cost upgrade with significant impact on conversion rates.
+      </p>
+    </div>
+    <div>
+      <div class="aplus-panel">
+        <div class="aplus-panel-title">What Is A+ Content?</div>
+        <div class="aplus-panel-body">
+          Amazon's A+ Content tool lets authors with professional selling accounts
+          add enhanced images, comparison charts, lifestyle visuals, and rich
+          descriptions directly to their book detail page. Studies show A+ Content
+          can increase conversion rates by up to 8–20%. Instead of a plain
+          description, your readers see a cinematic, immersive experience — before
+          they even click "Buy."<br><br>
+          Every image and visual asset we create for your BookTok campaign is
+          ready to upload. No extra cost, no extra effort.
+        </div>
+        <a href="https://sell.amazon.com/tools/a-content" target="_blank" class="aplus-panel-link">
+          Learn About A+ Content on Amazon →
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     RETARGETING FUNNEL
+══════════════════════════════════════════ -->
+<div class="retarget-section">
+  <div class="retarget-inner">
+    <div class="section-label">Phase Two · Amazon DSP</div>
+    <h2 class="section-title">From scroll to sale.<br><em>Retargeting that follows.</em></h2>
+    <p class="section-body">
+      After the organic campaign builds your audience, we deploy Amazon DSP
+      retargeting — serving ads only to people who have already watched your content
+      and are active on Amazon. We never target cold audiences. This means every
+      ad dollar works harder, reaching readers who already know your story.
+    </p>
+
+    <div class="retarget-flow">
+      <div class="flow-step">
+        <div class="flow-icon">🎬</div>
+        <div class="flow-label">Video Views</div>
+        <div class="flow-desc">Readers watch your BookTok content on TikTok, YouTube Shorts, Pinterest &amp; X</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="flow-icon">👁</div>
+        <div class="flow-label">Warm Audience</div>
+        <div class="flow-desc">Viewers who engaged are collected into a custom retargeting pool</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="flow-icon">🎯</div>
+        <div class="flow-label">Amazon DSP Ad</div>
+        <div class="flow-desc">Those same viewers see your book while shopping on Amazon — your cover, title, and sample link</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="flow-icon">📖</div>
+        <div class="flow-label">Sale or Sample</div>
+        <div class="flow-desc">Reader clicks through to your Amazon page, downloads a sample or buys directly</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     CTA
+══════════════════════════════════════════ -->
+<div class="cta-section">
+  <p class="cta-quote">"Somewhere right now, your perfect reader is scrolling. We'll make your book stop their thumb."</p>
+  <p class="cta-attr">— Atomic Shelf</p>
+
+  <a href="mailto:powerpages30@gmail.com?subject=After Dark in Greenwich Park – I'm interested" class="cta-btn">
+    Reply "Show Me" to Start Your Free Trial
+  </a>
+  <span class="cta-secondary">7-day free trial · No commitment · $20/month if you love your results</span>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════ -->
+<footer>
+  <p>Atomic Shelf · BookTok &amp; Social Media Marketing for Indie Authors</p>
+  <p>Operated by <a href="#">Atomic Shelf Studios Ltd</a> · <a href="https://atomic-shelf.com/Productions/">atomic-shelf.com/Productions</a></p>
+  <p style="margin-top:12px; color:#444; font-size:11px;">Prepared for Tracey-Ann Beckett · After Dark in Greenwich Park · ASIN B0DX7LZS52</p>
+</footer>
+
+</body>
+</html>

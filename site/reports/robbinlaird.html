@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Robbin Laird • Leadership Series • Campaign Report | Atomic-Shelf</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --ink: #1a1410; --bark: #3d2b1f; --mahogany: #5c3d2e;
+            --terracotta: #8b4513; --amber: #c8722a; --gold: #d4a843;
+            --cream: #faf6f0; --parchment: #f2ead8; --fog: #e8dfd0;
+            --mist: #d4c9b8; --text: #2c1f14; --text-mid: #6b5744;
+            --text-dim: #9b8878; --rule: rgba(92,61,46,0.12);
+            --rule-warm: rgba(200,114,42,0.2); --white: #ffffff;
+            --yt-red: #FF0000; --tt-black: #000000;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'DM Sans', system-ui, sans-serif; background: var(--cream); color: var(--text); overflow-x: hidden; }
+        body::after { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events: none; z-index: 9999; }
+
+        /* NAV */
+        .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 500; background: rgba(250,246,240,0.94); backdrop-filter: blur(16px); border-bottom: 1px solid var(--rule); }
+        .nav-inner { max-width: 1200px; margin: 0 auto; padding: 14px 32px; display: flex; justify-content: space-between; align-items: center; }
+        .nav-brand { display: flex; align-items: center; gap: 12px; }
+        .nav-logo { font-family: 'DM Serif Display', Georgia, serif; font-size: 1.2rem; color: var(--bark); letter-spacing: -0.01em; }
+        .nav-sub { font-size: 0.72rem; color: var(--text-dim); margin-top: -1px; font-weight: 400; }
+        .nav-divider { width: 1px; height: 28px; background: var(--rule); }
+        .btn { display: inline-flex; align-items: center; gap: 6px; font-family: 'DM Sans', sans-serif; font-size: 0.78rem; font-weight: 500; padding: 8px 18px; border-radius: 6px; text-decoration: none; transition: all 0.2s; cursor: pointer; border: none; }
+        .btn-primary { background: var(--bark); color: #fff; }
+        .btn-primary:hover { background: var(--mahogany); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(61,43,31,0.25); }
+        .btn-outline { background: transparent; color: var(--bark); border: 1px solid var(--rule-warm); }
+        .btn-outline:hover { background: var(--parchment); border-color: var(--amber); }
+
+        /* HERO */
+        .hero { position: relative; min-height: 72vh; display: flex; align-items: flex-end; overflow: hidden; margin-top: 57px; }
+        .hero-img { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(26,20,16,0.3) 0%, rgba(26,20,16,0.7) 60%, rgba(26,20,16,0.95) 100%), url('https://lh3.googleusercontent.com/pw/AP1GczOp6IlVyYscHlQ5nYBaE9fb6b5ewACJZC52wtmOzjj99NjjXDcGggkrGoN4Ftt4PmKNO2qmmYp8eEt51_QPg1YpOhLcS3obf4GSJs6VGlzrqyBDCI8=w1920-h1080') center/cover no-repeat; }
+        .hero-content { position: relative; z-index: 2; width: 100%; max-width: 1200px; margin: 0 auto; padding: 60px 32px; }
+        .hero-eyebrow { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+        .hero-title { font-family: 'DM Serif Display', Georgia, serif; font-size: clamp(2.4rem, 5vw, 4rem); color: #fff; line-height: 1.08; margin-bottom: 10px; letter-spacing: -0.02em; }
+        .hero-subtitle { font-family: 'DM Serif Display', Georgia, serif; font-size: clamp(1rem, 2vw, 1.35rem); color: rgba(255,255,255,0.65); font-style: italic; margin-bottom: 36px; }
+        .hero-stats { display: flex; gap: 0; flex-wrap: wrap; }
+        .hero-stat { padding: 16px 28px; border-right: 1px solid rgba(255,255,255,0.12); text-align: center; }
+        .hero-stat:first-child { padding-left: 0; }
+        .hero-stat:last-child { border-right: none; }
+        .hero-stat-num { font-family: 'DM Serif Display', Georgia, serif; font-size: 2rem; color: #fff; line-height: 1; margin-bottom: 4px; }
+        .hero-stat-label { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.45); }
+
+        /* MAIN */
+        .main { max-width: 1200px; margin: 0 auto; padding: 0 32px 80px; }
+        .section-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 28px; padding-top: 64px; }
+        .section-head h2 { font-family: 'DM Serif Display', Georgia, serif; font-size: 1.75rem; color: var(--bark); letter-spacing: -0.02em; }
+        .section-rule { height: 1px; background: linear-gradient(90deg, var(--rule-warm), transparent); margin-bottom: 32px; }
+
+        /* STAT CARDS */
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
+        .stat-card { background: var(--white); border: 1px solid var(--rule); border-radius: 10px; padding: 22px 20px; position: relative; overflow: hidden; transition: box-shadow 0.2s, transform 0.2s; }
+        .stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--amber), var(--gold)); }
+        .stat-card.yt::before { background: linear-gradient(90deg, #FF0000, #ff6b6b); }
+        .stat-card.tt::before { background: linear-gradient(90deg, #000, #444); }
+        .stat-card:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(61,43,31,0.1); }
+        .stat-card-num { font-family: 'DM Serif Display', Georgia, serif; font-size: 2.4rem; color: var(--bark); line-height: 1; margin-bottom: 4px; }
+        .stat-card-label { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); }
+        .stat-card-sub { font-size: 0.78rem; color: var(--text-mid); margin-top: 6px; }
+        .stat-delta { display: inline-flex; align-items: center; gap: 3px; font-size: 0.72rem; font-weight: 600; border-radius: 4px; padding: 2px 7px; margin-top: 6px; }
+        .delta-green { color: #2d7a45; background: rgba(45,122,69,0.08); }
+        .delta-amber { color: var(--amber); background: rgba(200,114,42,0.08); }
+
+        /* CHARTS */
+        .chart-wrap { background: var(--white); border: 1px solid var(--rule); border-radius: 10px; padding: 28px 28px 20px; margin-bottom: 20px; }
+        .chart-title { font-family: 'DM Serif Display', serif; font-size: 1.1rem; color: var(--bark); margin-bottom: 4px; }
+        .chart-desc { font-size: 0.8rem; color: var(--text-dim); margin-bottom: 20px; }
+        .chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 32px; }
+
+        /* PLATFORM BADGE */
+        .plt-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; border-radius: 4px; padding: 3px 9px; }
+        .plt-yt { background: rgba(255,0,0,0.08); color: #cc0000; }
+        .plt-tt { background: rgba(0,0,0,0.07); color: #111; }
+        .plt-both { background: rgba(200,114,42,0.1); color: var(--amber); }
+
+        /* TOP POSTS TABLE */
+        .perf-table-wrap { background: var(--white); border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; margin-bottom: 32px; }
+        table.perf { width: 100%; border-collapse: collapse; }
+        table.perf th { font-size: 0.63rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dim); padding: 12px 16px; text-align: left; background: var(--parchment); border-bottom: 1px solid var(--rule); }
+        table.perf td { padding: 11px 16px; font-size: 0.85rem; border-bottom: 1px solid rgba(92,61,46,0.06); vertical-align: middle; color: var(--text); }
+        table.perf tr:last-child td { border-bottom: none; }
+        table.perf tr:hover td { background: rgba(250,246,240,0.6); }
+        .views-bar-wrap { display: flex; align-items: center; gap: 8px; }
+        .views-bar { height: 4px; border-radius: 2px; background: linear-gradient(90deg, var(--amber), var(--gold)); }
+        .views-bar.yt { background: linear-gradient(90deg, #cc0000, #ff6b6b); }
+
+        /* BOOK TAGS */
+        .book-tag { font-size: 0.62rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 2px 7px; border-radius: 3px; white-space: nowrap; }
+        .tag-ps { background: rgba(200,114,42,0.1); color: var(--amber); }
+        .tag-ll { background: rgba(45,122,69,0.08); color: #2d7a45; }
+
+        /* PHASE GRID */
+        .phase-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; margin-bottom: 32px; }
+        .phase-item { padding: 22px 20px; border-right: 1px solid var(--rule); background: var(--white); position: relative; }
+        .phase-item:last-child { border-right: none; }
+        .phase-item.active { background: linear-gradient(160deg, rgba(200,114,42,0.07) 0%, var(--white) 100%); }
+        .phase-item.active::after { content: 'ACTIVE'; position: absolute; top: 14px; right: 14px; font-size: 0.58rem; font-weight: 700; letter-spacing: 0.12em; color: var(--amber); background: rgba(200,114,42,0.1); border-radius: 4px; padding: 2px 7px; }
+        .phase-item.done::after { content: 'DONE'; position: absolute; top: 14px; right: 14px; font-size: 0.58rem; font-weight: 700; letter-spacing: 0.12em; color: #2d7a45; background: rgba(45,122,69,0.08); border-radius: 4px; padding: 2px 7px; }
+        .phase-num { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 6px; }
+        .phase-title { font-family: 'DM Serif Display', serif; font-size: 1rem; color: var(--bark); margin-bottom: 8px; }
+        .phase-date { font-size: 0.72rem; color: var(--amber); font-weight: 500; margin-bottom: 8px; }
+        .phase-desc { font-size: 0.8rem; color: var(--text-mid); line-height: 1.5; }
+        .phase-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--mist); margin-bottom: 10px; }
+        .phase-item.active .phase-dot { background: var(--amber); }
+        .phase-item.done .phase-dot { background: #2d7a45; }
+
+        /* BOOK CARDS */
+        .books-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 32px; }
+        .book-card { background: var(--white); border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; transition: all 0.25s; }
+        .book-card:hover { transform: translateY(-4px); box-shadow: 0 14px 36px rgba(61,43,31,0.1); border-color: rgba(200,114,42,0.3); }
+        .book-card-header { height: 6px; }
+        .book-card-body { padding: 22px; }
+        .book-badge { display: inline-block; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; border-radius: 4px; padding: 3px 9px; margin-bottom: 10px; }
+        .badge-live { background: rgba(45,122,69,0.1); color: #2d7a45; }
+        .badge-soon { background: rgba(200,114,42,0.1); color: var(--amber); }
+        .book-title { font-family: 'DM Serif Display', serif; font-size: 1.1rem; color: var(--bark); margin-bottom: 6px; line-height: 1.2; }
+        .book-asin { font-size: 0.72rem; color: var(--text-dim); font-family: monospace; margin-bottom: 10px; }
+        .book-desc { font-size: 0.82rem; color: var(--text-mid); line-height: 1.55; }
+
+        /* ALBUM CARDS */
+        .albums-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px; }
+        .album-card { background: var(--white); border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; transition: all 0.25s; text-decoration: none; display: block; }
+        .album-card:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(61,43,31,0.1); border-color: rgba(200,114,42,0.3); }
+        .album-thumb { height: 130px; background: var(--fog); overflow: hidden; }
+        .album-thumb img { width: 100%; height: 100%; object-fit: cover; filter: saturate(0.8); transition: filter 0.3s, transform 0.4s; }
+        .album-card:hover .album-thumb img { filter: saturate(1); transform: scale(1.04); }
+        .album-body { padding: 14px 16px; }
+        .album-name { font-family: 'DM Serif Display', serif; font-size: 0.95rem; color: var(--bark); margin-bottom: 3px; }
+        .album-meta { font-size: 0.72rem; color: var(--text-dim); margin-bottom: 10px; }
+        .album-open { font-size: 0.72rem; font-weight: 600; color: var(--amber); display: flex; align-items: center; gap: 4px; }
+
+        /* CHANNELS */
+        .channels-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 32px; }
+        .channel-card { background: var(--white); border: 1px solid var(--rule); border-radius: 10px; padding: 22px; display: flex; gap: 16px; align-items: flex-start; transition: all 0.2s; }
+        .channel-card:hover { border-color: rgba(200,114,42,0.3); box-shadow: 0 6px 18px rgba(61,43,31,0.08); }
+        .channel-icon { width: 48px; height: 48px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0; }
+        .channel-info { flex: 1; }
+        .channel-name { font-weight: 600; font-size: 0.9rem; color: var(--bark); margin-bottom: 2px; }
+        .channel-handle { font-size: 0.75rem; color: var(--text-dim); margin-bottom: 10px; }
+        .channel-stats { display: flex; gap: 18px; flex-wrap: wrap; }
+        .channel-stat-num { font-family: 'DM Serif Display', serif; font-size: 1.3rem; color: var(--bark); line-height: 1; }
+        .channel-stat-label { font-size: 0.62rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-dim); }
+
+        /* NOTICE */
+        .notice { border-radius: 8px; padding: 16px 20px; margin-bottom: 16px; display: flex; gap: 12px; align-items: flex-start; }
+        .notice-amber { background: rgba(200,114,42,0.06); border: 1px solid rgba(200,114,42,0.2); border-left: 3px solid var(--amber); }
+        .notice-green { background: rgba(45,122,69,0.05); border: 1px solid rgba(45,122,69,0.2); border-left: 3px solid #2d7a45; }
+        .notice-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+        .notice-title { font-weight: 600; font-size: 0.86rem; color: var(--bark); margin-bottom: 3px; }
+        .notice-text { font-size: 0.82rem; color: var(--text-mid); line-height: 1.6; }
+
+        /* CALENDAR */
+        .cal-wrap { background: var(--white); border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; margin-bottom: 20px; }
+        .cal-header { padding: 16px 22px; background: var(--bark); color: #fff; display: flex; justify-content: space-between; align-items: center; }
+        .cal-header h3 { font-family: 'DM Serif Display', serif; font-size: 1.05rem; }
+        .cal-header span { font-size: 0.73rem; opacity: 0.6; }
+        table.cal { width: 100%; border-collapse: collapse; }
+        table.cal th { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dim); padding: 11px 14px; text-align: left; background: var(--parchment); border-bottom: 1px solid var(--rule); }
+        table.cal td { padding: 10px 14px; font-size: 0.83rem; border-bottom: 1px solid rgba(92,61,46,0.06); vertical-align: middle; }
+        table.cal tr:last-child td { border-bottom: none; }
+        table.cal tr:hover td { background: rgba(250,246,240,0.6); }
+        table.cal tr.done td { color: var(--text-dim); text-decoration: line-through; }
+        table.cal tr.done td:last-child { text-decoration: none; }
+        input[type="checkbox"] { accent-color: var(--amber); width: 15px; height: 15px; cursor: pointer; }
+
+        footer { background: var(--bark); color: rgba(255,255,255,0.7); padding: 40px 32px; text-align: center; }
+        footer .footer-brand { font-family: 'DM Serif Display', serif; font-size: 1.3rem; color: #fff; margin-bottom: 6px; }
+        footer p { font-size: 0.8rem; line-height: 1.7; max-width: 560px; margin: 0 auto; }
+        .footer-rule { height: 1px; background: rgba(255,255,255,0.1); max-width: 300px; margin: 16px auto; }
+
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-up { animation: fadeUp 0.6s ease both; }
+        .d1 { animation-delay: 0.1s; } .d2 { animation-delay: 0.22s; } .d3 { animation-delay: 0.34s; }
+
+        @media (max-width: 900px) {
+            .stats-grid, .phase-grid { grid-template-columns: repeat(2, 1fr); }
+            .books-grid, .chart-grid, .channels-grid { grid-template-columns: 1fr; }
+            .albums-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 600px) {
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+            .albums-grid { grid-template-columns: 1fr; }
+            .main { padding: 0 16px 60px; }
+            .hero-stat { padding: 12px 14px; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="nav">
+    <div class="nav-inner">
+        <div class="nav-brand">
+            <div class="nav-logo">Atomic-Shelf</div>
+            <div class="nav-divider"></div>
+            <div class="nav-sub">Robbin Laird · Leadership Series · Campaign Report</div>
+        </div>
+        <div style="display:flex;gap:10px;">
+            <a href="https://atomic-shelf.com/Productions/Robbin_Lairds_Public_Speaking_for_Professionals" target="_blank" class="btn btn-outline">Productions Page ↗</a>
+            <a href="https://store.pesapal.com/trialsubscription" target="_blank" class="btn btn-primary">Renew Retainer ↗</a>
+        </div>
+    </div>
+</nav>
+
+<section class="hero">
+    <div class="hero-img"></div>
+    <div class="hero-content fade-up">
+        <div class="hero-eyebrow">Campaign Report · Updated May 26, 2026</div>
+        <h1 class="hero-title">Robbin Laird<br><span style="font-style:italic;color:rgba(255,255,255,0.75);">Leadership Series</span></h1>
+        <p class="hero-subtitle">Public Speaking for Professionals · Listen to Lead · Mastering Chaos</p>
+        <div class="hero-stats fade-up d2">
+            <div class="hero-stat">
+                <div class="hero-stat-num">7,252</div>
+                <div class="hero-stat-label">Total Views</div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-num">5,200</div>
+                <div class="hero-stat-label">TikTok Views</div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-num">2,052</div>
+                <div class="hero-stat-label">YouTube Views</div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-num">23</div>
+                <div class="hero-stat-label">TT Followers</div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-num">Phase 2</div>
+                <div class="hero-stat-label">Active</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="main">
+
+    <div class="section-head" style="padding-top:40px;"><h2>Campaign Status</h2></div>
+    <div class="section-rule"></div>
+
+    <div class="notice notice-green">
+        <span class="notice-icon">✅</span>
+        <div>
+            <div class="notice-title">Phase 2 Active — Dual-title campaign running across TikTok & YouTube</div>
+            <div class="notice-text">7,252 combined views (5,200 TikTok + 2,052 YouTube). 20 TikTok posts live, 57 YouTube Shorts posted. Payment confirmed: $80 for two months (Apr–May 2026). YouTube active since Apr 7; TikTok views building from May 12.</div>
+        </div>
+    </div>
+    <div class="notice notice-amber">
+        <span class="notice-icon">📺</span>
+        <div>
+            <div class="notice-title">YouTube performing strongly from launch — 2,052 views, 2.09 watch hours, 4 subs</div>
+            <div class="notice-text">YouTube launched Apr 7 with an immediate spike (241 views on Apr 25). Peak day was Apr 30 (160 views). Top video: "No Backyard? No Problem." 193 views. "Stage fright doesn't go away" (112), "Most leaders think talking is power" (111). 926 impressions at 1.73% CTR.</div>
+        </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="section-head"><h2>Performance Overview</h2><span style="font-size:0.78rem;color:var(--text-dim);">As of May 26, 2026</span></div>
+    <div class="section-rule"></div>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-card-label">Combined Views</div>
+            <div class="stat-card-num">7,252</div>
+            <div class="stat-delta delta-green">↑ TikTok + YouTube</div>
+            <div class="stat-card-sub">5,200 TikTok · 2,052 YouTube</div>
+        </div>
+        <div class="stat-card tt">
+            <div class="stat-card-label">TikTok Views</div>
+            <div class="stat-card-num">5,200</div>
+            <div class="stat-delta delta-green">↑ From May 12</div>
+            <div class="stat-card-sub">23 followers · 154 likes · 2 shares</div>
+        </div>
+        <div class="stat-card yt">
+            <div class="stat-card-label">YouTube Views</div>
+            <div class="stat-card-num">2,052</div>
+            <div class="stat-delta delta-green">↑ From Apr 7</div>
+            <div class="stat-card-sub">4 subs · 2.09 hrs watch time</div>
+        </div>
+        <div class="stat-card yt">
+            <div class="stat-card-label">YT Impressions</div>
+            <div class="stat-card-num">926</div>
+            <div class="stat-delta delta-amber">1.73% CTR</div>
+            <div class="stat-card-sub">57 YouTube Shorts posted</div>
+        </div>
+        <div class="stat-card tt">
+            <div class="stat-card-label">TikTok Posts</div>
+            <div class="stat-card-num">20</div>
+            <div class="stat-card-sub">@robbin.laird.book</div>
+        </div>
+        <div class="stat-card tt">
+            <div class="stat-card-label">TT Best Day</div>
+            <div class="stat-card-num">793</div>
+            <div class="stat-card-sub">May 19, 2026</div>
+        </div>
+        <div class="stat-card yt">
+            <div class="stat-card-label">YT Best Day</div>
+            <div class="stat-card-num">241</div>
+            <div class="stat-card-sub">Apr 25, 2026</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-card-label">Retainer Paid</div>
+            <div class="stat-card-num">$80</div>
+            <div class="stat-card-sub">2 months · Apr 24, 2026</div>
+        </div>
+    </div>
+
+    <!-- CHARTS -->
+    <div class="chart-grid">
+        <div class="chart-wrap" style="margin-bottom:0;">
+            <div class="chart-title">TikTok Daily Views — May 2026</div>
+            <div class="chart-desc">From TikTok Studio export · @robbin.laird.book · Active from May 12</div>
+            <canvas id="ttChart" height="140"></canvas>
+        </div>
+        <div class="chart-wrap" style="margin-bottom:0;">
+            <div class="chart-title">YouTube Daily Views — Apr–May 2026</div>
+            <div class="chart-desc">From YouTube Studio export · @RobbinLaird-c3x · Active from Apr 7</div>
+            <canvas id="ytChart" height="140"></canvas>
+        </div>
+    </div>
+    <div style="margin-bottom:32px;"></div>
+
+    <!-- TOP POSTS -->
+    <div class="section-head"><h2>Top Performing Videos</h2><span style="font-size:0.78rem;color:var(--text-dim);">YouTube Shorts · ranked by views</span></div>
+    <div class="section-rule"></div>
+
+    <div class="perf-table-wrap">
+        <table class="perf">
+            <thead>
+                <tr>
+                    <th>Published</th>
+                    <th>Title</th>
+                    <th>Book</th>
+                    <th>Platform</th>
+                    <th>Views</th>
+                    <th>Watch hrs</th>
+                    <th>CTR %</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="white-space:nowrap;color:var(--text-dim);font-size:0.78rem;">Apr 25</td>
+                    <td>No Backyard? No Problem.</td>
+                    <td>–</td>
+                    <td><span class="plt-badge plt-yt">YouTube</span></td>
+                    <td><div class="views-bar-wrap"><div class="views-bar yt" style="width:100px;"></div><strong>193</strong></div></td>
+                    <td>0.12</td>
+                    <td>5.56%</td>
+                </tr>
+                <tr>
+                    <td style="white-space:nowrap;color:var(--text-dim);font-size:0.78rem;">Apr 8</td>
+                    <td>Stage fright doesn't go away — you just learn to use it.</td>
+                    <td><span class="book-tag tag-ps">Pub. Speaking</span></td>
+                    <td><span class="plt-badge plt-yt">YouTube</span></td>
+                    <td><div class="views-bar-wrap"><div class="views-bar yt" style="width:58px;"></div><strong>112</strong></div></td>
+                    <td>0.10</td>
+                    <td>11.11%</td>
+                </tr>
+                <tr>
+                    <td style="white-space:nowrap;color:var(--text-dim);font-size:0.78rem;">May 2</td>
+                    <td>Most leaders think talking is power.</td>
+                    <td><span class="book-tag tag-ll">Listen to Lead</span></td>
+                    <td><span class="plt-badge plt-yt">YouTube</span></td>
+                    <td><div class="views-bar-wrap"><div class="views-bar yt" style="width:57px;"></div><strong>111</strong></div></td>
+                    <td>0.68</td>
+                    <td>–</td>
+                </tr>
+                <tr>
+                    <td style="white-space:nowrap;color:var(--text-dim);font-size:0.78rem;">May 3</td>
+                    <td>In chaotic workplaces, the loudest voice isn't always the smartest one.</td>
+                    <td><span class="book-tag tag-ll">Listen to Lead</span></td>
+                    <td><span class="plt-badge plt-yt">YouTube</span></td>
+                    <td><div class="views-bar-wrap"><div class="views-bar yt" style="width:57px;"></div><strong>111</strong></div></td>
+                    <td>0.04</td>
+                    <td>–</td>
+                </tr>
+                <tr>
+                    <td style="white-space:nowrap;color:var(--text-dim);font-size:0.78rem;">Apr 29</td>
+                    <td>What Defense and Government Leaders Know About Listening</td>
+                    <td><span class="book-tag tag-ll">Listen to Lead</span></td>
+                    <td><span class="plt-badge plt-yt">YouTube</span></td>
+                    <td><div class="views-bar-wrap"><div class="views-bar yt" style="width:43px;"></div><strong>82</strong></div></td>
+                    <td>0.05</td>
+                    <td>–</td>
+                </tr>
+                <tr>
+                    <td style="white-space:nowrap;color:var(--text-dim);font-size:0.78rem;">Apr 8</td>
+                    <td>The promotion is yours — the speech is the only thing in the way.</td>
+                    <td><span class="book-tag tag-ps">Pub. Speaking</span></td>
+                    <td><span class="plt-badge plt-yt">YouTube</span></td>
+                    <td><div class="views-bar-wrap"><div class="views-bar yt" style="width:37px;"></div><strong>72</strong></div></td>
+                    <td>0.17</td>
+                    <td>5.26%</td>
+                </tr>
+                <tr>
+                    <td style="white-space:nowrap;color:var(--text-dim);font-size:0.78rem;">May 14</td>
+                    <td>The strongest leaders ask better questions.</td>
+                    <td><span class="book-tag tag-ll">Listen to Lead</span></td>
+                    <td><span class="plt-badge plt-yt">YouTube</span></td>
+                    <td><div class="views-bar-wrap"><div class="views-bar yt" style="width:36px;"></div><strong>70</strong></div></td>
+                    <td>0.03</td>
+                    <td>–</td>
+                </tr>
+                <tr>
+                    <td style="white-space:nowrap;color:var(--text-dim);font-size:0.78rem;">Apr 24</td>
+                    <td>Empathy is NOT soft, it's cognitive heavy lifting.</td>
+                    <td><span class="book-tag tag-ll">Listen to Lead</span></td>
+                    <td><span class="plt-badge plt-yt">YouTube</span></td>
+                    <td><div class="views-bar-wrap"><div class="views-bar yt" style="width:35px;"></div><strong>67</strong></div></td>
+                    <td>0.03</td>
+                    <td>–</td>
+                </tr>
+                <tr style="background:rgba(250,246,240,0.5);">
+                    <td colspan="7" style="font-size:0.72rem;color:var(--text-dim);padding:8px 16px;font-style:italic;">TikTok · @robbin.laird.book — 5,200 total views · Best day May 19 (793) · Top TikTok video: "Empathy isn't weakness. It's operational strength." (383 views, May 14)</td>
+                </tr>
+                <tr>
+                    <td style="white-space:nowrap;color:var(--text-dim);font-size:0.78rem;">May 14</td>
+                    <td>Empathy isn't weakness. It's operational strength.</td>
+                    <td><span class="book-tag tag-ll">Listen to Lead</span></td>
+                    <td><span class="plt-badge plt-tt">TikTok</span></td>
+                    <td><div class="views-bar-wrap"><div class="views-bar" style="width:100px;"></div><strong>383</strong></div></td>
+                    <td>–</td>
+                    <td>–</td>
+                </tr>
+                <tr>
+                    <td style="white-space:nowrap;color:var(--text-dim);font-size:0.78rem;">May 12</td>
+                    <td>Every conversation is shaping your leadership. Make it count.</td>
+                    <td><span class="book-tag tag-ll">Listen to Lead</span></td>
+                    <td><span class="plt-badge plt-tt">TikTok</span></td>
+                    <td><div class="views-bar-wrap"><div class="views-bar" style="width:101px;"></div><strong>389</strong></div></td>
+                    <td>–</td>
+                    <td>–</td>
+                </tr>
+                <tr>
+                    <td style="white-space:nowrap;color:var(--text-dim);font-size:0.78rem;">May 13</td>
+                    <td>Want stronger teams and better conversations? Start listening.</td>
+                    <td><span class="book-tag tag-ll">Listen to Lead</span></td>
+                    <td><span class="plt-badge plt-tt">TikTok</span></td>
+                    <td><div class="views-bar-wrap"><div class="views-bar" style="width:79px;"></div><strong>303</strong></div></td>
+                    <td>–</td>
+                    <td>–</td>
+                </tr>
+                <tr>
+                    <td style="white-space:nowrap;color:var(--text-dim);font-size:0.78rem;">May 12</td>
+                    <td>Most teams fail from poor communication, not lack of talent.</td>
+                    <td><span class="book-tag tag-ll">Listen to Lead</span></td>
+                    <td><span class="plt-badge plt-tt">TikTok</span></td>
+                    <td><div class="views-bar-wrap"><div class="views-bar" style="width:75px;"></div><strong>289</strong></div></td>
+                    <td>–</td>
+                    <td>–</td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="padding:10px 16px;background:var(--parchment);border-top:1px solid var(--rule);">
+            <p style="font-size:0.72rem;color:var(--text-dim);">YouTube data from YouTube Studio Table export (57 videos, 2,052 total views). TikTok data from TikTok Studio. Watch hrs & CTR = YouTube only.</p>
+        </div>
+    </div>
+
+    <!-- CHANNELS -->
+    <div class="section-head"><h2>Your Channels</h2></div>
+    <div class="section-rule"></div>
+
+    <div class="channels-grid">
+        <div class="channel-card">
+            <div class="channel-icon" style="background:#000;color:#fff;">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.29 6.29 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.19 8.19 0 0 0 4.79 1.52V6.73a4.85 4.85 0 0 1-1.02-.04z"/></svg>
+            </div>
+            <div class="channel-info">
+                <div class="channel-name">TikTok</div>
+                <div class="channel-handle">@robbin.laird.book</div>
+                <div class="channel-stats">
+                    <div><div class="channel-stat-num">5,200</div><div class="channel-stat-label">Views</div></div>
+                    <div><div class="channel-stat-num">23</div><div class="channel-stat-label">Followers</div></div>
+                    <div><div class="channel-stat-num">20</div><div class="channel-stat-label">Posts</div></div>
+                    <div><div class="channel-stat-num">154</div><div class="channel-stat-label">Likes</div></div>
+                    <div><div class="channel-stat-num">2</div><div class="channel-stat-label">Shares</div></div>
+                </div>
+            </div>
+        </div>
+        <div class="channel-card">
+            <div class="channel-icon" style="background:#FF0000;color:#fff;">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            </div>
+            <div class="channel-info">
+                <div class="channel-name">YouTube Shorts</div>
+                <div class="channel-handle">@RobbinLaird-c3x</div>
+                <div class="channel-stats">
+                    <div><div class="channel-stat-num">2,052</div><div class="channel-stat-label">Views</div></div>
+                    <div><div class="channel-stat-num">4</div><div class="channel-stat-label">New Subs</div></div>
+                    <div><div class="channel-stat-num">57</div><div class="channel-stat-label">Videos</div></div>
+                    <div><div class="channel-stat-num">2.09</div><div class="channel-stat-label">Watch Hrs</div></div>
+                    <div><div class="channel-stat-num">926</div><div class="channel-stat-label">Impressions</div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PHASE ROADMAP -->
+    <div class="section-head"><h2>Series Campaign — Phased Roadmap</h2></div>
+    <div class="section-rule"></div>
+
+    <div class="phase-grid">
+        <div class="phase-item done">
+            <div class="phase-dot"></div>
+            <div class="phase-num">Phase 1</div>
+            <div class="phase-title">Foundation</div>
+            <div class="phase-date">Apr 6 – Apr 30, 2026</div>
+            <div class="phase-desc">Public Speaking for Professionals entry point. YouTube + TikTok launched. 2–3 videos/day. Warm audience built in #LeadershipTok / #CareerTok.</div>
+        </div>
+        <div class="phase-item active">
+            <div class="phase-dot"></div>
+            <div class="phase-num">Phase 2</div>
+            <div class="phase-title">Series Expansion</div>
+            <div class="phase-date">May 2026</div>
+            <div class="phase-desc">Listen to Lead introduced alongside Book 1. Dual-title calendar live. $40/month retainer active. DSP starting $100/month (SmartyAds).</div>
+        </div>
+        <div class="phase-item">
+            <div class="phase-dot"></div>
+            <div class="phase-num">Phase 3</div>
+            <div class="phase-title">Mastering Chaos Launch</div>
+            <div class="phase-date">June 2026</div>
+            <div class="phase-desc">Pre-launch teasers from mid-May. 5+ videos/day launch week. Full retargeting of Books 1 & 2 engagers via Amazon DSP.</div>
+        </div>
+        <div class="phase-item">
+            <div class="phase-dot"></div>
+            <div class="phase-num">Phase 4</div>
+            <div class="phase-title">Series Close</div>
+            <div class="phase-date">Late Summer 2026</div>
+            <div class="phase-desc">Combined volume release. "Complete the series" strategy. Full retargeting stack across all prior engagers.</div>
+        </div>
+    </div>
+
+    <!-- THE BOOKS -->
+    <div class="section-head"><h2>The Series</h2><span style="font-size:0.78rem;color:var(--text-dim);">Personal Professional Development Insights</span></div>
+    <div class="section-rule"></div>
+
+    <div class="books-grid">
+        <div class="book-card">
+            <div class="book-card-header" style="background:linear-gradient(90deg,var(--amber),var(--gold));"></div>
+            <div class="book-card-body">
+                <span class="book-badge badge-live">Live · Phase 1 & 2</span>
+                <div class="book-title">Public Speaking for Professionals</div>
+                <div class="book-asin">Book 1 · Personal voice & confidence</div>
+                <div class="book-desc">Entry point to the series. Hooks around stage fright, career-defining moments, and clarity under pressure. "Stage fright doesn't go away" is a top-5 YouTube performer with 11.11% CTR.</div>
+            </div>
+        </div>
+        <div class="book-card">
+            <div class="book-card-header" style="background:linear-gradient(90deg,#2d7a45,#4caf70);"></div>
+            <div class="book-card-body">
+                <span class="book-badge badge-live">Live · Phase 2</span>
+                <div class="book-title">Listen to Lead</div>
+                <div class="book-asin">ASIN: B0GGJ8NY5M · Empathy & relational intelligence</div>
+                <div class="book-desc">Book 2 live from May 2026. Empathy and listening hooks dominate top videos on both platforms. "Most leaders think talking is power" — 111 YouTube views, 0.68 hrs watch time.</div>
+            </div>
+        </div>
+        <div class="book-card">
+            <div class="book-card-header" style="background:linear-gradient(90deg,var(--mahogany),var(--bark));"></div>
+            <div class="book-card-body">
+                <span class="book-badge badge-soon">June 2026 Launch</span>
+                <div class="book-title">Mastering Chaos</div>
+                <div class="book-asin">ASIN: B0GPMRBF6S · Organizational resilience</div>
+                <div class="book-desc">Robbin's "age of chaos" work. Pre-launch teaser content to begin seeding now. Launch week content surge planned (5+ videos/day). Will complete the leadership arc.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- VIDEO ALBUMS -->
+    <div class="section-head"><h2>Video Albums</h2><span style="font-size:0.78rem;color:var(--text-dim);">Click any album to open in Google Photos</span></div>
+    <div class="section-rule"></div>
+
+    <div class="albums-grid">
+        <a href="https://photos.app.goo.gl/jjoAPtdQMyffTsJF8" target="_blank" class="album-card">
+            <div class="album-thumb"><img src="https://lh3.googleusercontent.com/pw/AP1GczOp6IlVyYscHlQ5nYBaE9fb6b5ewACJZC52wtmOzjj99NjjXDcGggkrGoN4Ftt4PmKNO2qmmYp8eEt51_QPg1YpOhLcS3obf4GSJs6VGlzrqyBDCI8=w600-h340" alt="Series 1"></div>
+            <div class="album-body"><div class="album-name">Public Speaking — Series 1</div><div class="album-meta">Apr 6, 2026 · Stage presence & confidence</div><div class="album-open">Open album ↗</div></div>
+        </a>
+        <a href="https://photos.app.goo.gl/jbSwZUFLknGZxowt5" target="_blank" class="album-card">
+            <div class="album-thumb"><img src="https://lh3.googleusercontent.com/pw/AP1GczP5dPmkCGlSyRlWQu_kf0OTIFZIch_mVg63Ne_brBFrfjJOIugqgdbYVgyTpgmqEuzmGujEzinWpR_29EYzY7gI4myfmf58Zcu20f6wWJQF_Eunffs=w600-h340" alt="Series 2"></div>
+            <div class="album-body"><div class="album-name">Public Speaking — Series 2</div><div class="album-meta">Apr 6, 2026 · Overcoming stage fright</div><div class="album-open">Open album ↗</div></div>
+        </a>
+        <a href="https://photos.app.goo.gl/QZkF8fJ51QA6AK6M6" target="_blank" class="album-card">
+            <div class="album-thumb" style="background:var(--bark);display:flex;align-items:center;justify-content:center;"><span style="font-size:2.5rem;opacity:0.3;">🎬</span></div>
+            <div class="album-body"><div class="album-name">Video Album — Apr 6–8</div><div class="album-meta">7 ready videos · First production batch</div><div class="album-open">Open album ↗</div></div>
+        </a>
+        <a href="https://photos.app.goo.gl/YhkUtPWVhDY5nowy7" target="_blank" class="album-card">
+            <div class="album-thumb" style="background:linear-gradient(135deg,#1a3a2a,#2d7a45);display:flex;align-items:center;justify-content:center;"><span style="font-size:2.5rem;opacity:0.4;">🎧</span></div>
+            <div class="album-body"><div class="album-name">Listen to Lead — Video Batch</div><div class="album-meta">May 12, 2026 · Active series</div><div class="album-open">Open album ↗</div></div>
+        </a>
+        <a href="https://photos.app.goo.gl/d1CDA8cxEgC7bVDg7" target="_blank" class="album-card">
+            <div class="album-thumb" style="background:linear-gradient(135deg,#1a3a2a,#4caf70);display:flex;align-items:center;justify-content:center;"><span style="font-size:2.5rem;opacity:0.4;">📸</span></div>
+            <div class="album-body"><div class="album-name">Listen to Lead — Image Series 4</div><div class="album-meta">Apr 25, 2026 · Phase 2 rollout</div><div class="album-open">Open album ↗</div></div>
+        </a>
+        <a href="https://photos.app.goo.gl/qJw6Hd4FYuCoWhuZ6" target="_blank" class="album-card">
+            <div class="album-thumb" style="background:linear-gradient(135deg,var(--bark),var(--amber));display:flex;align-items:center;justify-content:center;"><span style="font-size:2.5rem;opacity:0.4;">🎤</span></div>
+            <div class="album-body"><div class="album-name">Public Speaking — Latest Batch</div><div class="album-meta">May 12, 2026 · How to Engage & Convince</div><div class="album-open">Open album ↗</div></div>
+        </a>
+    </div>
+
+    <!-- NEXT ACTIONS -->
+    <div class="section-head"><h2>Next Actions</h2></div>
+    <div class="section-rule"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:32px;">
+        <div class="notice notice-amber" style="margin-bottom:0;"><span class="notice-icon">🚀</span><div><div class="notice-title">Begin Mastering Chaos Teaser Content Now</div><div class="notice-text">Pre-launch teasers should start seeding immediately to build anticipation ahead of June publication. "Chaos is the new normal. Are you ready?" style hooks compound the warm audience already built.</div></div></div>
+        <div class="notice notice-amber" style="margin-bottom:0;"><span class="notice-icon">💰</span><div><div class="notice-title">DSP Activation — SmartyAds</div><div class="notice-text">Agreed at $100/month POC for Phase 2. Retargeting Book 1 engagers with Book 2 content. Scale to ~$300/month for the June Mastering Chaos launch. Amazon certified partner.</div></div></div>
+        <div class="notice notice-green" style="margin-bottom:0;"><span class="notice-icon">🔄</span><div><div class="notice-title">Retainer Renewal Due</div><div class="notice-text">$80 covers April + May ($40/month for 2 books). June renewal needed — particularly important with Mastering Chaos launch requiring a content surge week.</div></div></div>
+        <div class="notice notice-green" style="margin-bottom:0;"><span class="notice-icon">📊</span><div><div class="notice-title">Double Down on Empathy & Listening Angles</div><div class="notice-text">Listen to Lead empathy/listening hooks are top performers on both platforms. "Stage fright" also over-indexes on CTR (11.11%). Continue prioritising these angles in new content batches.</div></div></div>
+    </div>
+
+</div>
+
+<footer>
+    <div class="footer-brand">Atomic-Shelf</div>
+    <p>Robbin Laird · Leadership Series · Campaign Report · May 2026</p>
+    <div class="footer-rule"></div>
+    <p style="font-size:0.72rem;opacity:0.5;">By participating in this campaign, you confirm you hold the rights to the book content provided and grant Atomic-Shelf a limited licence to use it for the production of short-form promotional video content on your behalf.</p>
+</footer>
+
+<script>
+// ── TikTok chart — Overview.csv (May 12–24, non-zero window)
+const ttLabels = ['May 12','May 13','May 14','May 15','May 16','May 17','May 18','May 19','May 20','May 21','May 22','May 23','May 24'];
+const ttData   = [299, 285, 636, 349, 454, 400, 570, 793, 358, 778, 276, 0, 2];
+const ttMax    = Math.max(...ttData);
+
+new Chart(document.getElementById('ttChart').getContext('2d'), {
+    type: 'bar',
+    data: {
+        labels: ttLabels,
+        datasets: [{
+            label: 'Views',
+            data: ttData,
+            backgroundColor: ttData.map(v => v === ttMax ? 'rgba(0,0,0,0.75)' : 'rgba(0,0,0,0.28)'),
+            borderColor:     ttData.map(v => v === ttMax ? 'rgba(0,0,0,1)'    : 'rgba(0,0,0,0.45)'),
+            borderWidth: 1, borderRadius: 4,
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => ` ${c.parsed.y} views` } } },
+        scales: {
+            y: { beginAtZero: true, grid: { color: 'rgba(92,61,46,0.06)' }, ticks: { font: { family: 'DM Sans', size: 11 }, color: '#9b8878' } },
+            x: { grid: { display: false }, ticks: { font: { family: 'DM Sans', size: 10 }, color: '#9b8878', maxRotation: 45 } }
+        }
+    }
+});
+
+// ── YouTube chart — Totals.csv (Apr 7–May 24, only active window)
+const ytLabels = ['Apr 7','Apr 8','Apr 9','Apr 10','Apr 11','Apr 12','Apr 13','Apr 14','Apr 15','Apr 16','Apr 17','Apr 18','Apr 19','Apr 20','Apr 21','Apr 22','Apr 23','Apr 24','Apr 25','Apr 26','Apr 27','Apr 28','Apr 29','Apr 30','May 1','May 2','May 3','May 4','May 5','May 6','May 7','May 8','May 9','May 10','May 11','May 12','May 13','May 14','May 15','May 16','May 17','May 18','May 19','May 20','May 21','May 22','May 23','May 24'];
+const ytData   = [34,135,73,32,23,5,3,0,0,2,0,0,0,0,0,0,34,99,241,20,59,111,66,160,99,179,138,56,17,8,12,47,0,1,87,45,0,69,13,0,4,1,83,54,19,21,2,0];
+const ytMax    = Math.max(...ytData);
+
+new Chart(document.getElementById('ytChart').getContext('2d'), {
+    type: 'bar',
+    data: {
+        labels: ytLabels,
+        datasets: [{
+            label: 'Views',
+            data: ytData,
+            backgroundColor: ytData.map(v => v === ytMax ? 'rgba(204,0,0,0.85)' : 'rgba(204,0,0,0.3)'),
+            borderColor:     ytData.map(v => v === ytMax ? 'rgba(204,0,0,1)'    : 'rgba(204,0,0,0.5)'),
+            borderWidth: 1, borderRadius: 4,
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => ` ${c.parsed.y} views` } } },
+        scales: {
+            y: { beginAtZero: true, grid: { color: 'rgba(92,61,46,0.06)' }, ticks: { font: { family: 'DM Sans', size: 11 }, color: '#9b8878' } },
+            x: { grid: { display: false }, ticks: { font: { family: 'DM Sans', size: 9 }, color: '#9b8878', maxRotation: 55, maxTicksLimit: 20 } }
+        }
+    }
+});
+</script>
+</body>
+</html>

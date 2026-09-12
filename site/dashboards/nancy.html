@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Finding Strength — Nancy Ellen McLennan | Self-Help/Memoir Campaign | Atomic Shelf</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,900;1,400&family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+:root {
+  --cream: #f7f3ec;
+  --parchment: #ede6d6;
+  --warm-white: #faf8f4;
+  --surface: #ffffff;
+  --ink: #1e1a14;
+  --ink-mid: #3d3628;
+  --ink-soft: #6b5e48;
+  --gold: #a07c3a;
+  --gold-2: #c9a55a;
+  --gold-pale: #e8d4a0;
+  --gold-bg: #fdf6e3;
+  --sage: #5a7a52;
+  --sage-bg: #e8ede6;
+  --teal: #1D9E75;
+  --teal-bg: #e4f2ee;
+  --blue: #2468c0;
+  --blue-bg: #e6f0fb;
+  --red: #b53a2f;
+  --red-bg: #fce8e6;
+  --strength: #4a6fa5;
+  --strength-bg: #e8f0fa;
+  --warm: #c9a05a;
+  --rule: rgba(160,124,58,0.18);
+  --rule-lt: rgba(160,124,58,0.10);
+  --shadow-sm: 0 1px 4px rgba(30,26,20,0.06);
+  --shadow-md: 0 4px 20px rgba(30,26,20,0.09);
+  --r: 8px;
+  --r-lg: 12px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+a { color: inherit; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--parchment); }
+::-webkit-scrollbar-thumb { background: var(--gold-pale); border-radius: 3px; }
+
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(30,26,20,.96);
+  backdrop-filter: blur(14px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  height: 58px;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.nav::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--gold) 40%, var(--gold-2) 60%, transparent 100%);
+  opacity: .4;
+}
+.nav-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: #fdf4e8;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.nav-mark {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: linear-gradient(138deg, var(--strength) 0%, var(--warm) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .65rem;
+  font-weight: 700;
+  color: #fff;
+}
+.nav-brand em { font-style: italic; color: var(--gold-2); }
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a {
+  font-family: 'DM Mono', monospace;
+  font-size: .67rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.38);
+  transition: color .18s;
+}
+.nav-links a:hover { color: var(--gold-2); }
+.nav-pill {
+  font-family: 'DM Mono', monospace;
+  font-size: .62rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  background: rgba(74,111,165,.3);
+  border: 1px solid rgba(74,111,165,.45);
+  color: #8db5e8;
+  padding: 4px 12px;
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.nav-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #8db5e8;
+  box-shadow: 0 0 7px #8db5e8;
+  animation: pulse 2.5s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1}50%{opacity:.3} }
+
+.hero {
+  background: linear-gradient(160deg, #1e2a3a 0%, #16212e 55%, #0f1820 100%);
+  padding: 48px 40px 40px;
+  position: relative;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 60% 40%, rgba(74,111,165,.12) 0%, transparent 65%);
+}
+.hero-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 40px;
+}
+.hero-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: .65rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--gold-2);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.hero-eyebrow::before {
+  content: '';
+  width: 28px;
+  height: 1px;
+  background: var(--gold);
+}
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 900;
+  color: #fdf4e8;
+  line-height: 1.05;
+  letter-spacing: -.02em;
+  margin-bottom: 4px;
+}
+.hero-subtitle {
+  font-family: 'Lora', serif;
+  font-style: italic;
+  font-size: .9rem;
+  color: rgba(253,244,232,.5);
+  margin-bottom: 18px;
+}
+.hero-author {
+  font-size: .85rem;
+  color: rgba(253,244,232,.6);
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.hero-stats {
+  display: flex;
+  gap: 28px;
+  flex-wrap: wrap;
+  text-align: right;
+}
+.hs-item { text-align: right; }
+.hs-val {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: var(--gold-2);
+  line-height: 1;
+}
+.hs-lbl {
+  font-family: 'DM Mono', monospace;
+  font-size: .55rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(253,244,232,.35);
+}
+.main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 40px 80px;
+  position: relative;
+  z-index: 1;
+}
+.sec-label {
+  font-family: 'DM Mono', monospace;
+  font-size: .6rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.sec-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--rule-lt);
+}
+.card {
+  background: var(--surface);
+  border: 1px solid var(--rule-lt);
+  border-radius: var(--r-lg);
+  padding: 18px 22px;
+  box-shadow: var(--shadow-sm);
+  transition: all .2s ease;
+}
+.card:hover { box-shadow: var(--shadow-md); }
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+  margin-bottom: 24px;
+}
+.metric-box {
+  background: var(--surface);
+  border: 1px solid var(--rule-lt);
+  border-radius: var(--r);
+  padding: 14px 16px;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  transition: all .18s;
+}
+.metric-box:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.metric-icon { font-size: 1.5rem; margin-bottom: 6px; }
+.metric-val {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--ink);
+  line-height: 1;
+  margin-bottom: 3px;
+}
+.metric-lbl {
+  font-family: 'DM Mono', monospace;
+  font-size: .55rem;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.metric-sub { font-size: .65rem; color: var(--ink-soft); margin-top: 4px; }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 24px; }
+.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; margin-bottom: 24px; }
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--rule-lt);
+  gap: 12px;
+}
+.info-row:last-child { border-bottom: none; }
+.info-key { font-size: .7rem; color: var(--ink-soft); flex-shrink: 0; }
+.info-val { font-size: .75rem; font-weight: 500; color: var(--ink); text-align: right; }
+.info-val.gold { color: var(--gold); }
+.info-val.strength { color: var(--strength); font-weight: 600; }
+.info-val.blue { color: var(--blue); }
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: .58rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 40px;
+}
+.b-waiting { background: var(--gold-bg); color: var(--gold); }
+.b-sent { background: var(--blue-bg); color: var(--blue); }
+.b-ready { background: var(--teal-bg); color: var(--teal); }
+.action-box {
+  background: linear-gradient(135deg, var(--gold-bg), #fff8e8);
+  border-left: 4px solid var(--gold);
+  border-radius: var(--r);
+  padding: 12px 18px;
+  font-size: .78rem;
+  color: var(--ink-mid);
+  margin-bottom: 24px;
+}
+.video-list { display: flex; flex-direction: column; gap: 3px; }
+.video-item {
+  display: grid;
+  grid-template-columns: 30px 1fr auto;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: var(--r);
+  background: var(--warm-white);
+  border: 1px solid var(--rule-lt);
+  font-size: .75rem;
+}
+.video-item.sample { background: var(--strength-bg); border-color: var(--strength); }
+.video-num {
+  font-family: 'DM Mono', monospace;
+  font-size: .6rem;
+  color: var(--ink-soft);
+  text-align: center;
+}
+.video-title { font-size: .73rem; color: var(--ink); }
+.video-badge {
+  font-size: .55rem;
+  padding: 2px 6px;
+  border-radius: 40px;
+  white-space: nowrap;
+}
+.vb-sample { background: var(--strength-bg); color: var(--strength); }
+.footer {
+  background: #1e1a14;
+  padding: 28px 40px;
+  text-align: center;
+  color: rgba(253,244,232,.3);
+  font-size: .7rem;
+}
+.links-grid { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 24px; }
+.drw-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--warm-white);
+  border: 1px solid var(--rule-lt);
+  border-radius: var(--r);
+  padding: 5px 10px;
+  font-size: .7rem;
+  font-weight: 500;
+  transition: all .14s;
+}
+.drw-link:hover { background: var(--gold-bg); border-color: rgba(160,124,58,.35); transform: translateY(-1px); }
+.progress-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.progress-label {
+  font-size: .72rem;
+  color: var(--ink-mid);
+  min-width: 140px;
+}
+.progress-track {
+  flex: 1;
+  height: 5px;
+  background: var(--parchment);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 1s ease;
+}
+.pf-strength { background: linear-gradient(90deg, var(--strength) 0%, var(--warm) 100%); }
+.pf-gold { background: linear-gradient(90deg, var(--gold) 0%, var(--gold-2) 100%); }
+.progress-pct {
+  font-family: 'Playfair Display', serif;
+  font-size: .85rem;
+  font-weight: 700;
+  color: var(--gold);
+  min-width: 38px;
+  text-align: right;
+}
+.timeline-marker {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 12px 0;
+  padding: 10px;
+  background: var(--warm-white);
+  border-radius: var(--r);
+}
+.tl-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.tl-dot.sent { background: var(--blue); }
+.tl-dot.waiting { background: var(--gold); animation: pulse 2s infinite; }
+.tl-dot.future { background: var(--sage); }
+@media (max-width: 900px) {
+  .nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  .hero-inner { grid-template-columns: 1fr; }
+  .main { padding: 24px 20px; }
+  .two-col, .three-col { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <div class="nav-brand"><div class="nav-mark">AS</div>Atomic <em>Shelf</em></div>
+  <ul class="nav-links"><li><a href="#">Dashboard</a></li><li><a href="#">Prospects</a></li><li><a href="#">Nancy Ellen McLennan</a></li></ul>
+  <div class="nav-pill"><span class="nav-dot"></span>Awaiting Response · Samples Sent</div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-eyebrow">Self-Help / Memoir · Finding Strength</div>
+      <h1 class="hero-title">Finding<br>Strength</h1>
+      <div class="hero-subtitle">A journey of resilience and personal growth</div>
+      <div class="hero-author"><span>Nancy Ellen McLennan</span><span class="hero-author-dot"></span><span>Self-Help / Memoir</span><span class="hero-author-dot"></span><span>📧 Samples Sent Apr 6</span></div>
+    </div>
+    <div class="hero-stats">
+      <div class="hs-item"><div class="hs-val">📤</div><div class="hs-lbl">Samples sent</div></div>
+      <div class="hs-item"><div class="hs-val">⏳</div><div class="hs-lbl">Awaiting reply</div></div>
+      <div class="hs-item"><div class="hs-val">📱</div><div class="hs-lbl">@nancyellen.books</div></div>
+    </div>
+  </div>
+</div>
+
+<main class="main">
+  <!-- Status Overview Metrics -->
+  <div class="metrics-grid">
+    <div class="metric-box"><div class="metric-icon">📖</div><div class="metric-val">Finding Strength</div><div class="metric-lbl">Self-Help / Memoir</div><div class="metric-sub">Resilience · Growth · Healing</div></div>
+    <div class="metric-box"><div class="metric-icon">📧</div><div class="metric-val">Apr 6, 2026</div><div class="metric-lbl">Samples sent</div><div class="metric-sub">Video samples delivered</div></div>
+    <div class="metric-box"><div class="metric-icon">💰</div><div class="metric-val">$20</div><div class="metric-lbl">Monthly retainer</div><div class="metric-sub">Upon campaign start</div></div>
+    <div class="metric-box"><div class="metric-icon">📱</div><div class="metric-val">@nancyellen.books</div><div class="metric-lbl">TikTok handle</div><div class="metric-sub">Reserved · Ready</div></div>
+    <div class="metric-box"><div class="metric-icon">📅</div><div class="metric-val">Apr 6, 2026</div><div class="metric-lbl">Last contact</div><div class="metric-sub">49 days ago</div></div>
+  </div>
+
+  <!-- Campaign Timeline -->
+  <div class="section-block">
+    <div class="sec-label">Campaign timeline</div>
+    <div class="card">
+      <div class="timeline-marker">
+        <div class="tl-dot sent"></div>
+        <div style="flex:1"><strong>April 6, 2026</strong> — Video samples sent to author</div>
+        <div style="font-size:.65rem; color:var(--blue);">📤 Confirmation sent</div>
+      </div>
+      <div class="timeline-marker">
+        <div class="tl-dot waiting"></div>
+        <div style="flex:1"><strong>Current</strong> — Awaiting response / confirmation</div>
+        <div style="font-size:.65rem; color:var(--gold);">⏳ Pending reply (49 days)</div>
+      </div>
+      <div class="timeline-marker">
+        <div class="tl-dot future"></div>
+        <div style="flex:1"><strong>Next step</strong> — Send reminder email / follow-up</div>
+      </div>
+      <div class="timeline-marker">
+        <div class="tl-dot future"></div>
+        <div style="flex:1"><strong>Upon confirmation</strong> — Build campaign & launch trial</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Two Column: Details -->
+  <div class="two-col">
+    <div class="card">
+      <div class="sec-label" style="margin-bottom: 12px;">Author & book details</div>
+      <div class="info-row"><span class="info-key">Author name</span><span class="info-val">Nancy Ellen McLennan</span></div>
+      <div class="info-row"><span class="info-key">Email</span><span class="info-val">nancyellenbooks@gmail.com</span></div>
+      <div class="info-row"><span class="info-key">Book title</span><span class="info-val strength">Finding Strength</span></div>
+      <div class="info-row"><span class="info-key">Genre</span><span class="info-val">Self-Help / Memoir</span></div>
+      <div class="info-row"><span class="info-key">Core themes</span><span class="info-val">Resilience · Personal growth · Healing</span></div>
+      <div class="info-row"><span class="info-key">TikTok handle</span><span class="info-val">@nancyellen.books</span></div>
+      <div class="info-row"><span class="info-key">Campaign status</span><span class="info-val gold">Awaiting confirmation</span></div>
+    </div>
+    <div class="card">
+      <div class="sec-label" style="margin-bottom: 12px;">Production & content</div>
+      <div class="progress-row"><span class="progress-label">Sample videos</span><div class="progress-track"><div class="progress-fill pf-strength" style="width:100%"></div></div><span class="progress-pct">Sent Apr 6</span></div>
+      <div class="progress-row"><span class="progress-label">Campaign framework</span><div class="progress-track"><div class="progress-fill pf-strength" style="width:100%"></div></div><span class="progress-pct">Ready</span></div>
+      <div class="progress-row"><span class="progress-label">Productions page</span><div class="progress-track"><div class="progress-fill pf-gold" style="width:0%"></div></div><span class="progress-pct">Pending</span></div>
+      <div class="progress-row"><span class="progress-label">Full production</span><div class="progress-track"><div class="progress-fill pf-gold" style="width:0%"></div></div><span class="progress-pct">Awaiting green light</span></div>
+    </div>
+  </div>
+
+  <!-- Sample Video Series Preview -->
+  <div class="section-block">
+    <div class="sec-label">📹 Finding Strength — sample videos (sent April 6, 2026)</div>
+    <div class="video-list" id="strengthVideos"></div>
+  </div>
+
+  <!-- Three Column: Status Details -->
+  <div class="three-col">
+    <div class="card">
+      <div class="sec-label" style="margin-bottom: 8px;">📤 What has been sent</div>
+      <ul style="margin-left: 18px; font-size: .72rem; color: var(--ink-mid); line-height: 1.6;">
+        <li>Sample video content (April 6, 2026)</li>
+        <li>Campaign proposal overview</li>
+        <li>TikTok strategy for self-help/memoir niche</li>
+        <li>Pricing & retainer information ($20/month)</li>
+        <li>Sample script examples</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="sec-label" style="margin-bottom: 8px;">⏳ Awaiting from author</div>
+      <ul style="margin-left: 18px; font-size: .72rem; color: var(--ink-mid); line-height: 1.6;">
+        <li>Confirmation to proceed with campaign</li>
+        <li>Feedback on sample videos</li>
+        <li>Approval to build campaign page</li>
+        <li>Trial start date confirmation</li>
+        <li>Any questions or requested revisions</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="sec-label" style="margin-bottom: 8px;">📋 Next steps (upon confirmation)</div>
+      <ul style="margin-left: 18px; font-size: .72rem; color: var(--ink-mid); line-height: 1.6;">
+        <li>Build Atomic Shelf productions page</li>
+        <li>Launch 7-day trial campaign</li>
+        <li>Produce full video series</li>
+        <li>Activate TikTok @nancyellen.books</li>
+        <li>Begin daily posting schedule</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Action Box -->
+  <div class="action-box">
+    <strong>📧 Status update:</strong> Sample videos sent April 6, 2026. Awaiting author confirmation to build productions page and launch trial campaign. Follow-up reminder recommended.
+  </div>
+
+  <!-- Two Column: Additional Info -->
+  <div class="two-col">
+    <div class="card">
+      <div class="sec-label" style="margin-bottom: 8px;">Campaign specifications</div>
+      <div class="info-row"><span class="info-key">Content type</span><span class="info-val">Inspirational / Self-Help Shorts</span></div>
+      <div class="info-row"><span class="info-key">Trial duration</span><span class="info-val">7 days (standard)</span></div>
+      <div class="info-row"><span class="info-key">Posting frequency</span><span class="info-val">2-3 videos/day during trial</span></div>
+      <div class="info-row"><span class="info-key">Full campaign</span><span class="info-val">$20/month retainer after trial</span></div>
+      <div class="info-row"><span class="info-key">Primary platform</span><span class="info-val">TikTok (@nancyellen.books)</span></div>
+      <div class="info-row"><span class="info-key">Secondary platform</span><span class="info-val">YouTube Shorts (optional)</span></div>
+    </div>
+    <div class="card">
+      <div class="sec-label" style="margin-bottom: 8px;">Contact & follow-up</div>
+      <div class="info-row"><span class="info-key">Author email</span><span class="info-val blue">nancyellenbooks@gmail.com</span></div>
+      <div class="info-row"><span class="info-key">Last contact</span><span class="info-val">April 6, 2026 (samples sent)</span></div>
+      <div class="info-row"><span class="info-key">Days since contact</span><span class="info-val gold">49 days</span></div>
+      <div class="info-row"><span class="info-key">Follow-up status</span><span class="info-val">Reminder email ready</span></div>
+      <div class="info-row"><span class="info-key">Next action</span><span class="info-val">Send follow-up / check-in</span></div>
+    </div>
+  </div>
+
+  <!-- Market Opportunity Note -->
+  <div class="card" style="background: var(--strength-bg); margin-bottom: 24px;">
+    <div class="sec-label" style="margin-bottom: 6px;">Market opportunity</div>
+    <div style="font-size: .72rem; color: var(--ink-mid); line-height: 1.5;">
+      Self-help and memoir content performs strongly on BookTok. The #selfhelp, #personalgrowth, #mentalhealth, and #findingstrength hashtags have significant engagement. Short-form video is ideal for inspirational messages, author backstory, and practical advice from the book.
+    </div>
+  </div>
+
+  <!-- Quick Links -->
+  <div class="section-block">
+    <div class="sec-label">Quick links</div>
+    <div class="links-grid">
+      <a href="#" class="drw-link">📹 Sample Video Preview</a>
+      <a href="#" class="drw-link">📋 Campaign Framework</a>
+      <a href="#" class="drw-link">📱 TikTok @nancyellen.books</a>
+      <a href="mailto:nancyellenbooks@gmail.com?subject=Finding%20Strength%20Campaign%20-%20Following%20Up" class="drw-link" style="background: var(--strength-bg);">✉️ Send Follow-up Email</a>
+    </div>
+  </div>
+
+  <!-- Data Summary -->
+  <div class="card" style="background: var(--strength-bg); margin-top: 8px;">
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; text-align: center; font-size: .7rem;">
+      <div><strong>Self-Help</strong><br>Genre focus</div>
+      <div><strong>Apr 6</strong><br>Samples sent</div>
+      <div><strong>$20/mo</strong><br>Retainer</div>
+      <div><strong>49 days</strong><br>Awaiting reply</div>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="footer-brand" style="color:#fdf4e8;">Atomic <em style="color:var(--gold-2);">Shelf</em></div>
+  <div class="footer-sub">Finding Strength · Nancy Ellen McLennan · Self-Help / Memoir · Samples Sent · Awaiting Response</div>
+</footer>
+
+<script>
+(function() {
+  // Sample videos sent to author
+  const strengthVideos = [
+    { title: "Finding Strength — Welcome to Your Journey", type: "sample" },
+    { title: "What Does 'Finding Strength' Mean to You?", type: "sample" },
+    { title: "The Moment Everything Changed", type: "sample" },
+    { title: "Resilience in Difficult Times", type: "sample" },
+    { title: "Small Steps to Personal Growth", type: "sample" },
+    { title: "Healing Is Not Linear", type: "sample" },
+    { title: "The Power of Vulnerability", type: "sample" },
+    { title: "Finding Your Inner Voice", type: "sample" },
+    { title: "Turning Pain into Purpose", type: "sample" },
+    { title: "You Are Stronger Than You Know", type: "sample" },
+    { title: "Daily Habits for Resilience", type: "sample" },
+    { title: "The Science of Strength", type: "sample" },
+    { title: "Overcoming Self-Doubt", type: "sample" },
+    { title: "Building a Support System", type: "sample" },
+    { title: "Finding Strength — Full Trailer", type: "sample" }
+  ];
+
+  const container = document.getElementById('strengthVideos');
+  if(container) {
+    container.innerHTML = strengthVideos.map((v, idx) => {
+      return `<div class="video-item sample">
+        <span class="video-num">${(idx+1).toString().padStart(2,'0')}</span>
+        <span class="video-title">${v.title}</span>
+        <span class="video-badge vb-sample">📤 Sample Sent (Apr 6)</span>
+      </div>`;
+    }).join('');
+  }
+})();
+</script>
+</body>
+</html>

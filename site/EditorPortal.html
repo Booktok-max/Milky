@@ -1,0 +1,1549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Atomic Shelf · Editor Portal</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23E0913C'/%3E%3Cstop offset='1' stop-color='%23A6431F'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='%232B1D10'/%3E%3Ccircle cx='32' cy='32' r='26' fill='none' stroke='url(%23g)' stroke-width='2.5'/%3E%3Ctext x='32' y='42' font-family='Georgia,serif' font-size='28' font-weight='700' text-anchor='middle' fill='url(%23g)'%3EAS%3C/text%3E%3C/svg%3E">
+<style>
+:root{
+  /* ===== Warm spiced-shelf palette ===== */
+  --cream:#FBF6EA;--cream2:#F6EBD2;--cream3:#EEDCA8;
+  --saffron:#E0913C;--saffron-d:#C6721E;--saffron-dk:#95500F;
+  --rust:#C15A3C;--rust-d:#A03F26;
+  --clove:#8B4A9C;--clove-bg:rgba(139,74,156,.09);--clove-bd:rgba(139,74,156,.28);
+  --moss:#3C8A5E;--moss-d:#296B45;--moss-lt:#EAF5EE;
+  --bark:#A17A4C;--bark-d:#7A5A2E;--bark-dk:#5C3D1E;
+  --espresso:#3A2413;--ink:#241505;
+  --red:#C0392B;--red-bg:rgba(192,57,43,.1);--red-bd:rgba(192,57,43,.28);
+
+  --bg:var(--cream);--surf:#FFFCF4;--card:#FFFDF8;--bd:#E4CCA4;--bd-lt:#F0E2C0;
+  --text:var(--ink);--muted:var(--bark-d);
+
+  --r:10px;--r-sm:7px;--r-lg:16px;--r-xl:24px;
+  --sh:0 2px 12px rgba(58,36,19,.07);--sh-md:0 8px 28px rgba(58,36,19,.12);--sh-lg:0 20px 56px rgba(58,36,19,.16);
+
+  --fB:Georgia,'Times New Roman',serif;
+  --fD:'Iowan Old Style','Palatino Linotype',Georgia,serif;
+  --fM:'Courier New',monospace;
+
+  --nav-h:60px;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{font-size:17px}
+body{background:
+  radial-gradient(ellipse 900px 500px at 15% -10%, rgba(224,145,60,.14), transparent 60%),
+  radial-gradient(ellipse 700px 500px at 100% 0%, rgba(60,138,94,.09), transparent 55%),
+  var(--bg);
+  color:var(--text);font-family:var(--fB);min-height:100vh}
+
+#shell{display:flex;flex-direction:column;min-height:100vh}
+#topbar{
+  position:sticky;top:0;z-index:100;
+  height:var(--nav-h);
+  background:linear-gradient(120deg,#2B1B0C,#241505 60%);
+  backdrop-filter:blur(12px);
+  border-bottom:2px solid rgba(224,145,60,.28);
+  display:flex;align-items:center;gap:0;padding:0 22px;
+  box-shadow:0 4px 18px rgba(36,21,5,.25);
+}
+#topbar .brand{
+  display:flex;align-items:center;gap:11px;
+  font-family:var(--fD);font-size:1.18rem;font-weight:700;color:#FBF6EA;
+  margin-right:30px;flex-shrink:0;letter-spacing:.01em;
+}
+#topbar .brand svg{width:30px;height:30px}
+#topbar .brand .slash{color:rgba(224,145,60,.45);margin:0 5px}
+#topbar .brand .editor-chip{font-family:var(--fM);font-size:.66rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--saffron);background:rgba(224,145,60,.14);border:1px solid rgba(224,145,60,.32);padding:4px 10px;border-radius:20px}
+
+#nav-tabs{display:flex;align-items:stretch;gap:3px;flex:1;overflow-x:auto;scrollbar-width:none}
+#nav-tabs::-webkit-scrollbar{display:none}
+.nav-tab{
+  display:flex;align-items:center;gap:7px;
+  font-family:var(--fM);font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  color:rgba(251,246,234,.5);
+  padding:0 15px;height:var(--nav-h);
+  border:none;background:none;cursor:pointer;white-space:nowrap;
+  border-bottom:3px solid transparent;
+  transition:color .15s,border-color .15s;
+  position:relative;
+}
+.nav-tab:hover{color:rgba(251,246,234,.85)}
+.nav-tab.active{color:#FBF6EA;border-bottom-color:var(--saffron)}
+.nav-tab .badge{
+  background:var(--moss-d);color:#fff;
+  font-size:.56rem;font-weight:700;
+  min-width:17px;height:17px;border-radius:9px;
+  display:inline-flex;align-items:center;justify-content:center;
+  padding:0 4px;
+}
+.nav-tab .badge.gold{background:var(--saffron-dk)}
+#topbar-right{display:flex;align-items:center;gap:12px;margin-left:auto;flex-shrink:0;padding-left:16px}
+.switch-btn{font-family:var(--fM);font-size:.6rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:rgba(251,246,234,.45);background:none;border:1px solid rgba(251,246,234,.15);border-radius:var(--r-sm);padding:6px 11px;cursor:pointer;white-space:nowrap}
+.switch-btn:hover{color:#FBF6EA;border-color:rgba(251,246,234,.35)}
+
+#main{padding:26px 22px 64px;max-width:900px;margin:0 auto;width:100%}
+
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+.hero{
+  background:linear-gradient(148deg,var(--card),var(--cream2));
+  border:2px solid var(--bd);border-radius:var(--r-lg);
+  box-shadow:var(--sh-md);padding:24px 26px;margin-bottom:22px;
+  position:relative;overflow:hidden;
+}
+.hero::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--moss-d),var(--saffron),var(--rust))}
+.hero-greeting{font-family:var(--fM);font-size:.62rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--moss-d);margin-bottom:4px}
+.hero-title{font-family:var(--fD);font-size:1.85rem;font-weight:700;color:var(--ink)}
+.earnings-strip{display:flex;gap:11px;flex-wrap:wrap;margin-top:16px;align-items:center}
+.e-tile{background:var(--surf);border:1px solid var(--bd-lt);border-radius:var(--r);padding:11px 18px;display:inline-flex;align-items:baseline;gap:9px}
+.e-tile .v{font-family:var(--fD);font-size:1.55rem;font-weight:700;color:var(--moss-d)}
+.e-tile .l{font-family:var(--fM);font-size:.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+
+.level-strip{display:flex;align-items:center;gap:12px;margin-top:16px;background:linear-gradient(90deg,rgba(224,145,60,.1),rgba(60,138,94,.08));border:1px solid rgba(224,145,60,.28);border-radius:var(--r);padding:12px 16px}
+.level-badge{width:42px;height:42px;border-radius:50%;background:conic-gradient(var(--saffron) var(--lvl-pct,0%), var(--bd-lt) var(--lvl-pct,0%) 100%);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.level-badge-inner{width:32px;height:32px;border-radius:50%;background:var(--card);display:flex;align-items:center;justify-content:center;font-family:var(--fD);font-weight:700;font-size:.82rem;color:var(--saffron-dk)}
+.level-meta{flex:1;min-width:0}
+.level-title{font-family:var(--fD);font-weight:700;font-size:.98rem;color:var(--ink)}
+.level-sub{font-family:var(--fM);font-size:.62rem;color:var(--muted);margin-top:2px}
+.level-lifetime{font-family:var(--fM);font-size:.62rem;color:var(--moss-d);margin-top:3px}
+.level-pts{font-family:var(--fD);font-weight:700;font-size:1.15rem;color:var(--saffron-dk);white-space:nowrap}
+
+.sec-hdr{font-family:var(--fM);font-size:.64rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin:26px 0 12px;display:flex;align-items:center;gap:10px}
+.sec-hdr::after{content:'';flex:1;height:1px;background:var(--bd-lt)}
+
+.task-card{background:var(--card);border:1px solid var(--bd-lt);border-radius:var(--r);box-shadow:var(--sh);padding:16px 18px;margin-bottom:11px;transition:box-shadow .15s,border-color .15s}
+.task-card:hover{box-shadow:var(--sh-md);border-color:var(--bd)}
+.task-book{font-family:var(--fD);font-size:1.12rem;font-weight:700;color:var(--ink)}
+.task-book-link{cursor:pointer;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px}
+.task-step{font-family:var(--fM);font-size:.7rem;color:var(--bark-dk);margin-top:4px}
+.task-meta{font-family:var(--fM);font-size:.62rem;color:var(--muted);margin-top:7px;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.task-links{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+.task-link{font-family:var(--fM);font-size:.66rem;font-weight:700;color:var(--clove);text-decoration:none;background:var(--clove-bg);border:1px solid var(--clove-bd);padding:5px 11px;border-radius:20px}
+.task-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.tbtn{font-family:var(--fM);font-size:.66rem;font-weight:700;border-radius:var(--r-sm);border:1px solid var(--bd);background:var(--surf);color:var(--bark-dk);padding:8px 15px;cursor:pointer;transition:all .12s}
+.tbtn:hover{background:var(--cream);border-color:var(--bd)}
+.tbtn.primary{background:var(--moss-d);color:#fff;border-color:var(--moss-d)}
+.tbtn.primary:hover{background:var(--moss)}
+.tbtn.gold{background:linear-gradient(120deg,var(--saffron-d),var(--rust-d));color:#fff;border-color:var(--saffron-dk)}
+.tbtn.gold:hover{filter:brightness(1.08)}
+
+.pill{display:inline-flex;align-items:center;font-family:var(--fM);font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:3px 9px;border-radius:20px;border:1px solid var(--bd);background:var(--surf);color:var(--muted)}
+.pill.locked{background:var(--red-bg);color:var(--red);border-color:var(--red-bd)}
+.pill.soft{background:rgba(224,145,60,.15);color:var(--saffron-dk);border-color:rgba(224,145,60,.32)}
+.pill.open{background:var(--moss-lt);color:var(--moss-d);border-color:rgba(60,138,94,.32)}
+
+.time-form{display:flex;gap:8px;align-items:center;margin-top:11px;padding-top:11px;border-top:1px solid var(--bd-lt);flex-wrap:wrap}
+.time-form input,.time-form select{font-family:var(--fB);font-size:.8rem;border:1px solid var(--bd);border-radius:var(--r-sm);padding:7px 10px;background:var(--surf);color:var(--text)}
+.time-form input[type=number]{width:84px}
+
+.book-context-panel{background:var(--card);border:2px solid var(--saffron);border-radius:var(--r-lg);box-shadow:var(--sh-md);padding:18px 20px;margin-bottom:20px}
+.book-context-hdr{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:11px}
+.book-context-title{font-family:var(--fD);font-size:1.28rem;font-weight:700;color:var(--ink)}
+.book-context-sub{font-size:.86rem;color:var(--bark-d);margin-top:2px}
+.book-context-meta{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:13px}
+.ctx-links{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:15px}
+.ctx-checklist{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:7px}
+.ctx-step{display:flex;align-items:center;gap:7px;font-size:.78rem;color:var(--bark-dk);padding:6px 9px;border-radius:var(--r-sm);background:var(--surf);border:1px solid var(--bd-lt)}
+.ctx-step.done{color:var(--moss-d);background:rgba(60,138,94,.07);border-color:rgba(60,138,94,.28)}
+.ctx-step-dot{width:15px;height:15px;border-radius:50%;border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;font-size:.6rem;flex-shrink:0}
+.ctx-step.done .ctx-step-dot{background:var(--moss-d);border-color:var(--moss-d);color:#fff}
+
+.author-search-wrap{position:relative;margin-bottom:9px}
+.author-search{width:100%;font-family:var(--fB);font-size:.9rem;padding:10px 13px 10px 36px;border:1px solid var(--bd);border-radius:var(--r);background:var(--surf);color:var(--text)}
+.author-search-wrap::before{content:'🔍';position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:.8rem;opacity:.55}
+
+.batch-bar{display:flex;align-items:center;gap:10px;border-radius:var(--r);padding:10px 13px;margin-bottom:9px}
+.batch-bar.claim-bar{background:rgba(224,145,60,.09);border:1px solid rgba(224,145,60,.38)}
+.batch-bar.complete-bar{background:var(--moss-lt);border:1px solid rgba(60,138,94,.32)}
+
+.empty-note{font-family:var(--fM);font-size:.72rem;color:var(--muted);font-style:italic;padding:9px 0}
+.center-state{text-align:center;padding:64px 20px;color:var(--muted)}
+.center-state .ico{font-size:2.6rem;margin-bottom:13px}
+.center-state .ttl{font-family:var(--fD);font-size:1.3rem;font-weight:700;color:var(--bark-dk);margin-bottom:9px}
+
+.login-card{background:var(--card);border:2px solid var(--bd);border-radius:var(--r-lg);box-shadow:var(--sh-md);padding:30px;max-width:380px;margin:52px auto 0}
+.login-card label{display:block;font-family:var(--fM);font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin:15px 0 6px}
+.login-card input{width:100%;font-family:var(--fB);font-size:.94rem;padding:10px 12px;border:1px solid var(--bd);border-radius:var(--r-sm);background:var(--surf);color:var(--text)}
+.login-card button{width:100%;margin-top:17px;background:linear-gradient(120deg,var(--moss-d),var(--moss));color:#fff;border:none;padding:12px;border-radius:var(--r-sm);font-family:var(--fM);font-size:.76rem;font-weight:700;cursor:pointer}
+.login-err{color:var(--red);font-size:.78rem;margin-top:11px;text-align:center}
+
+.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(8px);background:var(--ink);color:#FBF6EA;padding:11px 22px;border-radius:var(--r);font-family:var(--fB);font-size:.86rem;box-shadow:var(--sh-lg);z-index:999;opacity:0;transition:opacity .18s,transform .18s;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+.chart-tooltip{position:fixed;z-index:1000;background:rgba(36,21,5,.96);color:#FBF6EA;border-radius:var(--r-sm);padding:11px 14px;font-family:var(--fB);font-size:.78rem;line-height:1.6;box-shadow:var(--sh-lg);pointer-events:none;max-width:270px;transform:translate(-50%,-100%) translateY(-12px)}
+.chart-tooltip .tt-hdr{font-family:var(--fM);font-size:.58rem;color:var(--cream3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px}
+.chart-tooltip .tt-row{padding:2px 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:15px;margin-bottom:22px}
+.stat-card{background:var(--card);border:1px solid var(--bd-lt);border-radius:var(--r-lg);box-shadow:var(--sh);padding:20px 22px;position:relative;overflow:hidden}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.stat-card.sage::before{background:linear-gradient(90deg,var(--moss-d),var(--moss))}
+.stat-card.gold::before{background:linear-gradient(90deg,var(--saffron-dk),var(--saffron))}
+.stat-card.plum::before{background:linear-gradient(90deg,var(--clove),#B26FC4)}
+.stat-card.bark::before{background:linear-gradient(90deg,var(--rust-d),var(--rust))}
+
+.stat-label{font-family:var(--fM);font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:7px}
+.stat-value{font-family:var(--fD);font-size:2.3rem;font-weight:700;line-height:1;color:var(--ink)}
+.stat-sub{font-family:var(--fM);font-size:.62rem;color:var(--muted);margin-top:6px}
+
+.chart-card{background:var(--card);border:1px solid var(--bd-lt);border-radius:var(--r-lg);box-shadow:var(--sh);padding:22px 24px;margin-bottom:18px}
+.chart-card-hdr{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:19px;flex-wrap:wrap}
+.chart-card-title{font-family:var(--fD);font-size:1.12rem;font-weight:700;color:var(--ink)}
+.chart-card-sub{font-family:var(--fM);font-size:.6rem;color:var(--muted)}
+
+.chart-legend{display:flex;gap:13px;flex-wrap:wrap}
+.legend-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px}
+.legend-item{font-family:var(--fM);font-size:.62rem;color:var(--muted)}
+
+.today-tiles{display:flex;gap:11px;flex-wrap:wrap;margin-bottom:22px}
+.today-tile{background:var(--surf);border:1px solid var(--bd-lt);border-radius:var(--r);padding:11px 15px;flex:1;min-width:92px;text-align:center}
+.today-tile .v{font-family:var(--fD);font-size:1.28rem;font-weight:700;color:var(--moss-d);display:block;line-height:1.2}
+.today-tile .l{font-family:var(--fM);font-size:.55rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+
+.h-bar-row{display:flex;align-items:center;gap:11px;margin-bottom:11px}
+.h-bar-label{font-size:.78rem;color:var(--text);flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.h-bar-track{flex:1;height:13px;background:var(--bd-lt);border-radius:7px;overflow:hidden}
+.h-bar-fill{height:100%;border-radius:7px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+.h-bar-val{font-family:var(--fM);font-size:.64rem;font-weight:700;color:var(--bark-dk);flex-shrink:0;min-width:56px;text-align:right}
+
+.window-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(72px,1fr));gap:9px;margin-bottom:22px}
+.window-tile{background:var(--surf);border:1px solid var(--bd-lt);border-radius:var(--r-sm);padding:11px 4px;text-align:center}
+.window-tile .wv{font-family:var(--fD);font-size:1.18rem;font-weight:700;color:var(--ink)}
+.window-tile .wl{font-family:var(--fM);font-size:.54rem;color:var(--muted);text-transform:uppercase;margin-top:2px}
+.window-tile .wh{font-family:var(--fM);font-size:.54rem;color:var(--moss-d);margin-top:2px}
+
+.book-donut-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:11px;margin-bottom:4px}
+.book-donut-card{display:flex;align-items:center;gap:11px;background:var(--surf);border:1px solid var(--bd-lt);border-radius:var(--r);padding:11px;cursor:pointer;transition:border-color .12s,background .12s}
+.book-donut-card:hover{border-color:var(--saffron);background:rgba(224,145,60,.05)}
+.book-donut{width:56px;height:56px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.book-donut-inner{width:39px;height:39px;border-radius:50%;background:var(--card);display:flex;align-items:center;justify-content:center;font-family:var(--fM);font-weight:700;font-size:.64rem;color:var(--moss-d)}
+.book-donut-meta{min-width:0;flex:1}
+.book-donut-title{font-size:.8rem;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.book-donut-sub{font-family:var(--fM);font-size:.6rem;color:var(--muted);margin-top:2px}
+
+.act-row{display:flex;align-items:center;gap:11px;padding:10px 15px;border-bottom:1px solid var(--bd-lt)}
+.act-row:last-child{border-bottom:none}
+.act-icon{font-size:.95rem;flex-shrink:0;width:22px;text-align:center}
+.act-label{flex:1;min-width:0}
+.act-label .name{font-size:.82rem;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.act-label .meta{font-family:var(--fM);font-size:.62rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px}
+.act-ago{font-family:var(--fM);font-size:.6rem;color:var(--muted);white-space:nowrap}
+
+.bk-table{background:var(--surf);border:1px solid var(--bd-lt);border-radius:var(--r);overflow:hidden;margin-bottom:4px}
+.bk-hdr,.bk-row{display:grid;grid-template-columns:1fr 52px 72px 96px;gap:6px;padding:8px 13px;align-items:center}
+.bk-hdr{font-family:var(--fM);font-size:.56rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid var(--bd-lt)}
+.bk-row{border-bottom:1px solid var(--bd-lt);font-size:.8rem}
+.bk-row:last-child{border-bottom:none}
+.bk-row .earned{font-family:var(--fM);font-size:.7rem;font-weight:700;color:var(--moss-d);text-align:right}
+.bk-row .count,.bk-row .time{font-family:var(--fM);font-size:.7rem;color:var(--muted);text-align:right}
+
+.bar-interactive{cursor:default}
+.bar-interactive:hover rect{opacity:.85}
+.curve-interactive{cursor:default}
+
+@keyframes barGrow{from{transform:scaleY(0);transform-origin:bottom}to{transform:scaleY(1);transform-origin:bottom}}
+.animated-bar{animation:barGrow .5s cubic-bezier(.4,0,.2,1) both}
+@keyframes drawLine{from{stroke-dashoffset:var(--len,1000)}to{stroke-dashoffset:0}}
+.animated-line{stroke-dasharray:var(--len,1000);animation:drawLine 1s cubic-bezier(.4,0,.2,1) both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+.live-ago{color:var(--muted)}
+
+/* --- Insights / gamification / gantt / suggestions --- */
+.suggest-card{background:linear-gradient(140deg,rgba(224,145,60,.1),rgba(60,138,94,.07));border:1.5px solid rgba(224,145,60,.35);border-radius:var(--r-lg);padding:18px 20px;margin-bottom:20px}
+.suggest-hdr{display:flex;align-items:center;gap:9px;font-family:var(--fD);font-size:1.05rem;font-weight:700;color:var(--ink);margin-bottom:12px}
+.suggest-row{display:flex;gap:11px;align-items:flex-start;padding:9px 0;border-top:1px dashed rgba(161,122,76,.28)}
+.suggest-row:first-of-type{border-top:none}
+.suggest-ico{font-size:1.05rem;flex-shrink:0;width:24px;text-align:center}
+.suggest-text{font-size:.86rem;color:var(--bark-dk);line-height:1.5}
+.suggest-text b{color:var(--ink)}
+
+.gantt-row{display:grid;grid-template-columns:150px 1fr;gap:12px;align-items:center;margin-bottom:9px}
+.gantt-label{min-width:0}
+.gantt-label .t{font-size:.78rem;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gantt-label .s{font-family:var(--fM);font-size:.56rem;color:var(--muted)}
+.gantt-track{position:relative;height:22px;background:var(--bd-lt);border-radius:6px;overflow:hidden}
+.gantt-done{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,var(--moss-d),var(--moss));border-radius:6px}
+.gantt-marker{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--rust-d)}
+.gantt-marker::after{content:'▾';position:absolute;top:-13px;left:50%;transform:translateX(-50%);font-size:.6rem;color:var(--rust-d)}
+
+.points-progress{margin-top:10px}
+.points-track{height:10px;background:var(--bd-lt);border-radius:6px;overflow:hidden}
+.points-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--saffron-d),var(--rust-d))}
+
+.pay-table{background:var(--surf);border:1px solid var(--bd-lt);border-radius:var(--r);overflow:hidden;margin-top:4px}
+.pay-hdr,.pay-row{display:grid;grid-template-columns:1fr 100px 110px;gap:6px;padding:9px 13px;align-items:center}
+.pay-hdr{font-family:var(--fM);font-size:.56rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid var(--bd-lt)}
+.pay-row{border-bottom:1px solid var(--bd-lt);font-size:.8rem}
+.pay-row:last-child{border-bottom:none}
+.pay-row .amt{font-family:var(--fM);font-size:.74rem;font-weight:700;color:var(--moss-d);text-align:right}
+.pay-row .dt{font-family:var(--fM);font-size:.66rem;color:var(--muted)}
+
+@media(max-width:520px){
+  html{font-size:16px}
+  #topbar{padding:0 12px}
+  .nav-tab{padding:0 10px;font-size:.6rem}
+  #main{padding:16px 12px 60px}
+  .stat-value{font-size:1.7rem}
+  .gantt-row{grid-template-columns:96px 1fr}
+  .pay-hdr,.pay-row{grid-template-columns:1fr 76px 90px}
+}
+</style>
+</head>
+<body>
+
+<div id="shell">
+  <div id="topbar">
+    <div class="brand">
+      <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+        <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E0913C"/><stop offset="1" stop-color="#A6431F"/></linearGradient></defs>
+        <rect width="64" height="64" rx="14" fill="#241505"/>
+        <circle cx="32" cy="32" r="26" fill="none" stroke="url(#g)" stroke-width="2.5"/>
+        <text x="32" y="42" font-family="Georgia,serif" font-size="28" font-weight="700" text-anchor="middle" fill="url(#g)">AS</text>
+      </svg>
+      <span>Atomic Shelf</span>
+      <span class="slash">·</span>
+      <span class="editor-chip" id="editorChip">—</span>
+    </div>
+    <div id="nav-tabs">
+      <button class="nav-tab active" data-tab="home" onclick="switchTab('home')">🏠 Home</button>
+      <button class="nav-tab" data-tab="claimed" onclick="switchTab('claimed')">
+        📋 My Tasks <span class="badge" id="claimedBadge">0</span>
+      </button>
+      <button class="nav-tab" data-tab="board" onclick="switchTab('board')">
+        📌 Open Board <span class="badge gold" id="openBadge">0</span>
+      </button>
+      <button class="nav-tab" data-tab="stats" onclick="switchTab('stats')">📊 Insights</button>
+    </div>
+    <div id="topbar-right">
+      <button class="switch-btn" onclick="logoutEditor()">Switch ↩</button>
+    </div>
+  </div>
+
+  <div id="main">
+    <div class="center-state" id="loadingState">
+      <div class="ico">⏳</div>
+      <div class="ttl">Loading portal…</div>
+    </div>
+  </div>
+</div>
+
+<div id="chartTooltip" class="chart-tooltip" style="display:none"></div>
+<div id="_toast" class="toast"></div>
+
+<script>
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxVeYwh11JZz8GlI9T8rTxTnAuqONu9iNnq8c0Gl4HRVcaoKtcrKpdIwX3mzT22hWx4/exec';
+
+const STEP_LABELS = {
+  'Hook Written':'Hook Written','Script Approved':'Script Approved','Seed Images Created':'Seed Images Created',
+  'B-Roll Sourced':'B-Roll Sourced','First Draft Complete':'First Draft Complete','Client Review Sent':'Client Review Sent',
+  'Client Approved':'Client Approved','Captions Added':'Captions Added','Hashtags Added':'Hashtags & Hooks Set',
+  'Thumbnail Created':'Thumbnail Created','Posted TikTok':'Posted to TikTok','Posted YouTube':'Posted to YouTube',
+  'Analytics Logged':'Analytics Logged','New Followers Added':'New Followers Added',
+  'TikTok Follows (150)':'Follow 150 on TikTok','YouTube Engagement':'YouTube Engagement',
+};
+const CHECKLIST_STEP_ORDER = ['Hook Written','Script Approved','Seed Images Created','B-Roll Sourced',
+  'First Draft Complete','Client Review Sent','Client Approved','Captions Added','Hashtags Added',
+  'Thumbnail Created','Posted TikTok','Posted YouTube','Analytics Logged','New Followers Added'];
+const BUCKET_ORDER = ['Pre-Production','Production','Publishing','Following/Engagement','Analytics','Other'];
+const MY_ACT_ICONS = {task_claim:'🤝',task_complete:'🎯',time_log:'⏱',payout_request:'💸',payout_paid:'💰',payout_rejected:'🚫',correction:'✏'};
+const TIME_WINDOWS_ = [
+  {label:'3h',ms:3*3600000},{label:'12h',ms:12*3600000},{label:'24h',ms:24*3600000},
+  {label:'3d',ms:72*3600000},{label:'1wk',ms:7*86400000},{label:'30d',ms:30*86400000},
+];
+const TOTAL_CAMPAIGN_WEEKS = 20; // BookTok Video Content Generator system runs 20 weekly batches per book
+const DOW_LABELS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const LEVELS = [
+  {name:'Apprentice Editor',min:0},{name:'Reel Wrangler',min:150},{name:'Hook Specialist',min:400},
+  {name:'Cut & Caption Pro',min:800},{name:'Campaign Ace',min:1500},{name:'Shelf Legend',min:2600},
+];
+
+const esc = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+function fmtKes(n){ return 'KES '+ Math.round(n||0).toLocaleString(); }
+function monthKeyFromDate(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0'); }
+function getParams(){ const p=new URLSearchParams(window.location.search); return{editor:(p.get('editor')||'').trim()}; }
+
+// --- local-time day/week/month bucket helpers (fixes cross-timezone date drift in charts) ---
+function localDayStart_(ts){const d=new Date(ts);d.setHours(0,0,0,0);return d.getTime();}
+function localWeekStart_(ts){const d=new Date(ts);d.setHours(0,0,0,0);const dow=d.getDay();d.setDate(d.getDate()-dow);return d.getTime();}
+function localMonthStart_(ts){const d=new Date(ts);d.setHours(0,0,0,0);d.setDate(1);return d.getTime();}
+
+let RAW_DATA=null, EDITOR_NAME='', SESSION_TOKEN='', _pollInterval=null;
+let ACTIVE_TAB='home';
+let BOOK_CONTEXT_ID=null;
+let OPEN_AUTHOR_FILTER='';
+let SELECTED_TASKS=new Set(), TASK_INDEX={};
+let SELECTED_COMPLETE=new Set(), MY_TASK_INDEX={};
+let TODAY_CHART_DATA={}, BOOK_PROGRESS_DATA={}, PEAK_HOUR_DATA={};
+
+function fetchFromBridge(){
+  return new Promise((resolve,reject)=>{
+    const cb='epCb_'+Date.now();
+    const script=document.createElement('script');
+    const auth=SESSION_TOKEN?'&token='+encodeURIComponent(SESSION_TOKEN)+'&editor='+encodeURIComponent(EDITOR_NAME):'';
+    script.src=APPS_SCRIPT_URL+'?callback='+cb+'&t='+Date.now()+auth;
+    window[cb]=(data)=>{delete window[cb];document.head.removeChild(script);resolve(data);};
+    script.onerror=()=>{delete window[cb];document.head.removeChild(script);reject(new Error('Apps Script request failed'));};
+    document.head.appendChild(script);
+  });
+}
+
+async function postAction(body){
+  const r=await fetch(APPS_SCRIPT_URL,{method:'POST',body:JSON.stringify({...body,token:body.action==='login'?undefined:SESSION_TOKEN,editor:body.editor||EDITOR_NAME})});
+  const data=await r.json();
+  if(data&&data.error==='auth'){logoutEditor();return data;}
+  return data;
+}
+
+const EDITOR_LOGIN_KEY='atomicShelfEditorLogin';
+function getSavedLogin_(){try{const r=localStorage.getItem(EDITOR_LOGIN_KEY);if(!r)return null;const p=JSON.parse(r);return p&&p.editorName&&p.token?p:null;}catch(_){return null;}}
+function saveLogin_(n,token){try{localStorage.setItem(EDITOR_LOGIN_KEY,JSON.stringify({editorName:n,token,ts:Date.now()}));}catch(_){}}
+function logoutEditor(){try{localStorage.removeItem(EDITOR_LOGIN_KEY);}catch(_){}SESSION_TOKEN='';location.reload();}
+function knownEditors_(){
+  const set=new Set();
+  (RAW_DATA?.taskBoard||[]).forEach(t=>{if(t.claimedBy)set.add(String(t.claimedBy).trim());});
+  (RAW_DATA?.books||[]).forEach(b=>{const ed=(b.account&&b.account.editorName)||b['Editor Name']||b.editor;if(ed)set.add(String(ed).trim());});
+  return[...set].filter(Boolean).sort((a,z)=>a.localeCompare(z));
+}
+
+function bookById_(bid){return(RAW_DATA.books||[]).find(b=>b.id===bid)||null;}
+function isPaidBook_(b){
+  if(!b)return false;
+  if(parseFloat(b.retainer)>0)return true;
+  return/paid|active/i.test(String(b.paymentStatus||''))&&!/unpaid|not paid|pending/i.test(String(b.paymentStatus||''));
+}
+function taskPriority_(t){
+  const b=bookById_(t.bookId);
+  const paid=isPaidBook_(b)?1:0;
+  const curWeek=b?(b.currentWeek||1):1;
+  const behind=Math.max(0,curWeek-(t.weekNum||curWeek));
+  const active=b&&/active/i.test(String(b.campaignStatus||''))?1:0;
+  return{paid,urgency:behind*2+active,behind};
+}
+function myTasks_(){
+  return(RAW_DATA.taskBoard||[]).filter(t=>(t.claimedBy||'').toLowerCase()===EDITOR_NAME.toLowerCase()&&(t.status==='locked'||t.status==='soft_claimed'));
+}
+function openTasks_(){
+  return(RAW_DATA.taskBoard||[])
+    .filter(t=>t.status==='open'||(t.status==='soft_claimed'&&(t.claimedBy||'').toLowerCase()!==EDITOR_NAME.toLowerCase()))
+    .sort((a,z)=>{
+      const pa=taskPriority_(a),pz=taskPriority_(z);
+      if(pz.paid!==pa.paid)return pz.paid-pa.paid;
+      if(pz.urgency!==pa.urgency)return pz.urgency-pa.urgency;
+      return(a.weekNum||0)-(z.weekNum||0);
+    });
+}
+function myEarningsThisMonth_(){
+  const period=monthKeyFromDate(new Date());
+  return(RAW_DATA.payrollAdjustments||[])
+    .filter(a=>a.period===period&&(a.editor||'').toLowerCase()===EDITOR_NAME.toLowerCase())
+    .reduce((s,a)=>s+(a.type==='deduction'?-a.amountKes:a.amountKes),0);
+}
+function myPendingBalance_(){
+  return(RAW_DATA.payrollAdjustments||[])
+    .filter(a=>(a.editor||'').toLowerCase()===EDITOR_NAME.toLowerCase())
+    .reduce((s,a)=>s+(a.type==='deduction'?-a.amountKes:a.amountKes),0);
+}
+function myOpenPayoutRequest_(){
+  return(RAW_DATA.payoutRequests||[]).find(r=>(r.editor||'').toLowerCase()===EDITOR_NAME.toLowerCase()&&r.status==='pending')||null;
+}
+function myActivityAll_(){
+  const all=[];
+  const map=RAW_DATA.activityLogs||{};
+  Object.keys(map).forEach(bid=>(map[bid]||[]).forEach(e=>{
+    if((e.editor||'').toLowerCase()===EDITOR_NAME.toLowerCase())all.push(e);
+  }));
+  all.sort((a,z)=>(z.ts||0)-(a.ts||0));
+  return all;
+}
+function isToday_(ts){if(!ts)return false;const d=new Date(ts),n=new Date();return d.getFullYear()===n.getFullYear()&&d.getMonth()===n.getMonth()&&d.getDate()===n.getDate();}
+function minutesInLogs_(logs){return logs.reduce((s,e)=>{if(e.type!=='time_log')return s;const m=/^(\d+)m logged/.exec(e.label||'');return s+(m?parseInt(m[1],10):0);},0);}
+function myBookIds_(){
+  const set=new Set();
+  const map=RAW_DATA.activityLogs||{};
+  Object.keys(map).forEach(bid=>{
+    const entries=map[bid]||[];
+    if(entries.some(e=>(e.editor||'').toLowerCase()===EDITOR_NAME.toLowerCase()))set.add(bid);
+  });
+  return[...set];
+}
+
+function formatAgo(ts){if(!ts)return null;const d=Math.floor((Date.now()-ts)/1000);if(d<60)return`${d}s ago`;if(d<3600)return`${Math.floor(d/60)}m ago`;if(d<86400)return`${Math.floor(d/3600)}h ago`;return`${Math.floor(d/86400)}d ago`;}
+function agoSpan(ts){return ts?`<span class="live-ago" data-ts="${ts}">${formatAgo(ts)||''}</span>`:'';}
+function refreshAgoLabels(){document.querySelectorAll('.live-ago[data-ts]').forEach(el=>{const ts=parseInt(el.getAttribute('data-ts'),10);const t=ts?formatAgo(ts):null;if(t)el.textContent=t;});}
+if(!window._agoInterval){window._agoInterval=setInterval(refreshAgoLabels,30000);}
+
+function switchTab(tab){
+  ACTIVE_TAB=tab;
+  document.querySelectorAll('.nav-tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.toggle('active',p.id==='panel-'+tab));
+}
+
+function showChartTooltip(evt,html){
+  const el=document.getElementById('chartTooltip');
+  if(!el)return;
+  el.innerHTML=html;el.style.display='block';
+  el.style.left=evt.clientX+'px';el.style.top=evt.clientY+'px';
+}
+function hideChartTooltip(){const el=document.getElementById('chartTooltip');if(el)el.style.display='none';}
+
+function pillFor_(t){
+  if(t.status==='locked')return`<span class="pill locked">🔒 Locked${t.claimedBy&&t.claimedBy.toLowerCase()!==EDITOR_NAME.toLowerCase()?' · '+esc(t.claimedBy):''}</span>`;
+  if(t.status==='soft_claimed')return`<span class="pill soft">🤝 Soft Claimed${t.claimedBy&&t.claimedBy.toLowerCase()!==EDITOR_NAME.toLowerCase()?' · '+esc(t.claimedBy):''}</span>`;
+  return`<span class="pill open">🟢 Open</span>`;
+}
+function taskLinksHtml_(t){
+  const l=t.links||{};const items=[];
+  if(l.prodDoc)items.push(`<a class="task-link" href="${esc(l.prodDoc)}" target="_blank" rel="noopener">📄 Production Doc</a>`);
+  if(l.photos)items.push(`<a class="task-link" href="${esc(l.photos)}" target="_blank" rel="noopener">📸 Photos</a>`);
+  if(l.videos)items.push(`<a class="task-link" href="${esc(l.videos)}" target="_blank" rel="noopener">🎬 Videos</a>`);
+  if(l.weekly)items.push(`<a class="task-link" href="${esc(l.weekly)}" target="_blank" rel="noopener">🔗 Weekly Link</a>`);
+  return items.length?`<div class="task-links">${items.join('')}</div>`:'';
+}
+function taskKey_(t){return`${t.bookId}__${t.weekNum}__${t.stepKey}`.replace(/[^a-zA-Z0-9_]/g,'_');}
+
+function groupByBucket_(tasks){
+  const grouped={};
+  tasks.forEach(t=>{const k=t.bucket||'Other';(grouped[k]=grouped[k]||[]).push(t);});
+  return BUCKET_ORDER.filter(k=>grouped[k]).map(k=>({bucket:k,tasks:grouped[k]}));
+}
+function renderBucketedTasks_(tasks,cardFn,emptyNote){
+  if(!tasks.length)return`<div class="empty-note">${emptyNote}</div>`;
+  return groupByBucket_(tasks).map(g=>`
+    <div class="sec-hdr" style="margin-top:14px">${esc(g.bucket)} (${g.tasks.length})</div>
+    ${g.tasks.map(cardFn).join('')}
+  `).join('');
+}
+function groupByAuthor_(tasks){
+  const grouped={};
+  tasks.forEach(t=>{const k=t.author||'Unknown';(grouped[k]=grouped[k]||[]).push(t);});
+  return Object.keys(grouped).sort((a,z)=>a.localeCompare(z)).map(k=>({author:k,tasks:grouped[k]}));
+}
+function renderAuthorGroupedTasks_(tasks,cardFn,emptyNote){
+  if(!tasks.length)return`<div class="empty-note">${emptyNote}</div>`;
+  return groupByAuthor_(tasks).map(g=>`
+    <div class="sec-hdr" style="margin-top:14px">✍ ${esc(g.author)} (${g.tasks.length})</div>
+    ${g.tasks.map(cardFn).join('')}
+  `).join('');
+}
+
+function buildMyTaskCard_(t){
+  const k=taskKey_(t);MY_TASK_INDEX[k]=t;
+  return`<div class="task-card">
+    <label style="display:flex;align-items:center;gap:7px;cursor:pointer">
+      <input type="checkbox" style="width:17px;height:17px" onchange="toggleCompleteSelect('${k}',this.checked)" ${SELECTED_COMPLETE.has(k)?'checked':''}>
+      <span class="task-book task-book-link" onclick="event.preventDefault();viewBookContext('${esc(t.bookId)}')">${esc(t.bookTitle)}</span>
+    </label>
+    <div class="task-step">${esc(STEP_LABELS[t.stepKey]||t.stepKey)} · Week ${t.weekNum}</div>
+    <div class="task-meta">${pillFor_(t)}</div>
+    ${taskLinksHtml_(t)}
+    <div class="task-actions">
+      <button class="tbtn primary" onclick="markTaskComplete('${esc(t.bookId)}','${esc(t.author)}','${esc(t.bookTitle)}',${t.weekNum},'${esc(t.stepKey)}')">✓ Mark Complete</button>
+    </div>
+    <div class="time-form">
+      <input type="number" id="min-${k}" placeholder="Minutes" min="1">
+      <select id="type-${k}">
+  <option value="Script Writing">Script Writing</option>
+  <option value="Video Editing">Video Editing</option>
+  <option value="Client Communication">Client Communication</option>
+  <option value="Research">Research</option>
+  <option value="Publishing">Publishing</option>
+  <option value="Analytics Review">Analytics Review</option>
+  <option value="Hook Writing">Hook Writing</option>
+  <option value="Thumbnail Design">Thumbnail Design</option>
+  <option value="Caption Writing">Caption Writing</option>
+  <option value="General">General</option>
+</select>
+      <button class="tbtn" onclick="logTimeForTask('${esc(t.author)}','${esc(t.bookTitle)}','${k}')">⏱ Log Time</button>
+    </div>
+  </div>`;
+}
+function toggleCompleteSelect(k,checked){if(checked)SELECTED_COMPLETE.add(k);else SELECTED_COMPLETE.delete(k);renderCompleteBar();}
+function clearCompleteSelection(){SELECTED_COMPLETE.clear();document.querySelectorAll('#myTasksList input[type=checkbox]').forEach(c=>{c.checked=false;});renderCompleteBar();}
+function renderCompleteBar(){
+  const el=document.getElementById('completeBar');if(!el)return;
+  const n=SELECTED_COMPLETE.size;
+  el.innerHTML=n?`<div class="batch-bar complete-bar">
+    <span style="font-family:var(--fM);font-size:.74rem;font-weight:700;color:var(--moss-d);flex:1">${n} task${n>1?'s':''} selected</span>
+    <button class="tbtn" onclick="clearCompleteSelection()">Clear</button>
+    <button class="tbtn primary" onclick="completeSelectedTasks()">✓ Complete ${n}</button>
+  </div>`:'';
+}
+async function completeSelectedTasks(){
+  const keys=Array.from(SELECTED_COMPLETE);if(!keys.length)return;
+  showToast(`⏳ Completing ${keys.length} task${keys.length>1?'s':''}…`);
+  let ok=0,fail=0,totalPayout=0;
+  for(const k of keys){
+    const t=MY_TASK_INDEX[k];if(!t){fail++;continue;}
+    const r=await postAction({action:'completeTaskClaim',bookId:t.bookId,author:t.author,title:t.bookTitle,weekNum:t.weekNum,stepKey:t.stepKey,editor:EDITOR_NAME});
+    if(r&&r.success){ok++;totalPayout+=r.payout||0;}else fail++;
+  }
+  SELECTED_COMPLETE.clear();
+  showToast(fail?`✅ Completed ${ok}, ${fail} failed`:`✅ Completed ${ok} — ${fmtKes(totalPayout)} earned`);
+  await refreshAndRender();
+}
+
+function filteredOpenTasks_(){
+  const term=OPEN_AUTHOR_FILTER.trim().toLowerCase();
+  const tasks=openTasks_();
+  if(!term)return tasks;
+  return tasks.filter(t=>(t.author||'').toLowerCase().includes(term)||(t.bookTitle||'').toLowerCase().includes(term));
+}
+function buildOpenTaskCard_(t){
+  const p=taskPriority_(t);const k=taskKey_(t);TASK_INDEX[k]=t;
+  const chips=[
+    p.paid?'<span class="pill open">💰 Paid client</span>':'',
+    p.behind>0?`<span class="pill locked">⏰ ${p.behind}w overdue</span>`:'',
+  ].join('');
+  const checkbox=t.status==='open'?`<label style="display:flex;align-items:center;gap:7px;cursor:pointer;flex:1">
+    <input type="checkbox" style="width:17px;height:17px" onchange="toggleTaskSelect('${k}',this.checked)" ${SELECTED_TASKS.has(k)?'checked':''}>
+    <span class="task-book task-book-link" onclick="event.preventDefault();viewBookContext('${esc(t.bookId)}')">${esc(t.bookTitle)}</span>
+  </label>`:`<div class="task-book task-book-link" onclick="viewBookContext('${esc(t.bookId)}')">${esc(t.bookTitle)}</div>`;
+  return`<div class="task-card">
+    ${checkbox}
+    <div class="task-step">${esc(STEP_LABELS[t.stepKey]||t.stepKey)} · Week ${t.weekNum}</div>
+    <div class="task-meta">${pillFor_(t)}${chips}</div>
+    ${taskLinksHtml_(t)}
+    <div class="task-actions">
+      ${t.status==='open'?`<button class="tbtn gold" onclick="claimTask('${esc(t.bookId)}','${esc(t.author)}','${esc(t.bookTitle)}',${t.weekNum},'${esc(t.stepKey)}','hard')">🔒 Claim Task</button>`:''}
+    </div>
+  </div>`;
+}
+function toggleTaskSelect(k,checked){if(checked)SELECTED_TASKS.add(k);else SELECTED_TASKS.delete(k);renderClaimBar();}
+function clearTaskSelection(){SELECTED_TASKS.clear();document.querySelectorAll('#openBoardList input[type=checkbox]').forEach(c=>{c.checked=false;});renderClaimBar();}
+function renderClaimBar(){
+  const el=document.getElementById('claimBar');if(!el)return;
+  const n=SELECTED_TASKS.size;
+  el.innerHTML=n?`<div class="batch-bar claim-bar">
+    <span style="font-family:var(--fM);font-size:.74rem;font-weight:700;color:var(--saffron-dk);flex:1">${n} task${n>1?'s':''} selected</span>
+    <button class="tbtn" onclick="clearTaskSelection()">Clear</button>
+    <button class="tbtn gold" onclick="claimSelectedTasks()">🔒 Claim ${n}</button>
+  </div>`:'';
+}
+async function claimSelectedTasks(){
+  const keys=Array.from(SELECTED_TASKS);if(!keys.length)return;
+  showToast(`⏳ Claiming ${keys.length} task${keys.length>1?'s':''}…`);
+  let ok=0,fail=0;
+  for(const k of keys){
+    const t=TASK_INDEX[k];if(!t){fail++;continue;}
+    const r=await postAction({action:'claimTask',bookId:t.bookId,author:t.author,title:t.bookTitle,weekNum:t.weekNum,stepKey:t.stepKey,editor:EDITOR_NAME,mode:'hard'});
+    if(r&&r.success)ok++;else fail++;
+  }
+  SELECTED_TASKS.clear();
+  showToast(fail?`🔒 Claimed ${ok}, ${fail} failed`:`🔒 Claimed ${ok} task${ok>1?'s':''}`);
+  await refreshAndRender();
+}
+function onAuthorSearchInput(val){OPEN_AUTHOR_FILTER=val;renderOpenBoard();}
+function renderOpenBoard(){
+  const el=document.getElementById('openBoardList');if(!el)return;
+  TASK_INDEX={};
+  el.innerHTML=renderAuthorGroupedTasks_(filteredOpenTasks_(),buildOpenTaskCard_,'No open tasks match that search.');
+  renderClaimBar();
+}
+
+function viewBookContext(bid){BOOK_CONTEXT_ID=bid;renderAll();}
+function closeBookContext(){BOOK_CONTEXT_ID=null;renderAll();}
+function buildBookContextPanel_(){
+  if(!BOOK_CONTEXT_ID)return'';
+  const rawBook=(RAW_DATA.books||[]).find(b=>b.id===BOOK_CONTEXT_ID);
+  if(!rawBook)return'';
+  const links=rawBook.links||{};
+  const linkDefs=[
+    ['📄 Production Doc',links.prodDoc],['📸 Photos Album',links.photos],
+    ['🎬 Videos Album',links.videos],['🌐 Campaign Page',links.campaign],['🔗 Weekly Link',links.weekly],
+  ].filter(([,url])=>url);
+  const steps=rawBook.currentWeekSteps||{};
+  const checklistHtml=CHECKLIST_STEP_ORDER.map(key=>{
+    const done=!!steps[key];
+    return`<div class="ctx-step${done?' done':''}"><span class="ctx-step-dot">${done?'✓':''}</span>${esc(STEP_LABELS[key]||key)}</div>`;
+  }).join('');
+  return`<div class="book-context-panel">
+    <div class="book-context-hdr">
+      <div>
+        <div class="book-context-title">${esc(rawBook.title)}</div>
+        <div class="book-context-sub">${esc(rawBook.author)}${rawBook.genre?' · '+esc(rawBook.genre):''}</div>
+      </div>
+      <button class="tbtn" onclick="closeBookContext()">✕ Close</button>
+    </div>
+    <div class="book-context-meta">
+      <span class="pill">${esc(rawBook.campaignStatus||'—')}</span>
+      <span class="pill">Week ${rawBook.currentWeek||1}</span>
+    </div>
+    <div class="ctx-links">${linkDefs.length
+      ?linkDefs.map(([label,url])=>`<a class="task-link" href="${esc(url)}" target="_blank" rel="noopener">${label}</a>`).join('')
+      :'<div class="empty-note">No links added yet.</div>'}</div>
+    <div class="ctx-checklist">${checklistHtml}</div>
+  </div>`;
+}
+
+// ---- time bucketing (local-time correct) ----
+function bucketEntries_(items,getTsKey,getVal){
+  const times=items.map(i=>getTsKey(i)).filter(Boolean);
+  if(!times.length)return null;
+  const minTs=Math.min(...times),maxTs=Math.max(...times);
+  const rangeDays=Math.max(1,(maxTs-minTs)/86400000);
+  let startFn,fmt;
+  if(rangeDays<=21){startFn=localDayStart_;fmt=d=>d.toLocaleDateString(undefined,{month:'short',day:'numeric'});}
+  else if(rangeDays<=140){startFn=localWeekStart_;fmt=d=>d.toLocaleDateString(undefined,{month:'short',day:'numeric'});}
+  else{startFn=localMonthStart_;fmt=d=>d.toLocaleDateString(undefined,{month:'short',year:'2-digit'});}
+  const buckets={};
+  items.forEach(i=>{const ts=getTsKey(i);if(!ts)return;const start=startFn(ts);buckets[start]=(buckets[start]||0)+getVal(i);});
+  const keys=Object.keys(buckets).map(Number).sort((a,z)=>a-z).slice(-20);
+  return{keys,buckets,fmt};
+}
+
+// ---- bucketing that keeps the LAST value seen per bucket (for cumulative/running-total series) ----
+function bucketCumulative_(points){
+  // points: [{ts, cum}], assumed sorted ascending by ts
+  if(!points||!points.length)return null;
+  const times=points.map(p=>p.ts);
+  const minTs=Math.min(...times),maxTs=Math.max(...times);
+  const rangeDays=Math.max(1,(maxTs-minTs)/86400000);
+  let startFn,fmt;
+  if(rangeDays<=21){startFn=localDayStart_;fmt=d=>d.toLocaleDateString(undefined,{month:'short',day:'numeric'});}
+  else if(rangeDays<=140){startFn=localWeekStart_;fmt=d=>d.toLocaleDateString(undefined,{month:'short',day:'numeric'});}
+  else{startFn=localMonthStart_;fmt=d=>d.toLocaleDateString(undefined,{month:'short',year:'2-digit'});}
+  const buckets={};
+  points.forEach(p=>{const start=startFn(p.ts);buckets[start]=p.cum;}); // later points overwrite -> last value per bucket
+  const keys=Object.keys(buckets).map(Number).sort((a,z)=>a-z).slice(-26);
+  return{keys,buckets,fmt};
+}
+
+// ---- smooth curved line/area chart (catmull-rom -> bezier) ----
+function catmullRomPath_(pts){
+  if(pts.length<2)return'';
+  if(pts.length===2)return`M ${pts[0][0]},${pts[0][1]} L ${pts[1][0]},${pts[1][1]}`;
+  let d=`M ${pts[0][0]},${pts[0][1]}`;
+  for(let i=0;i<pts.length-1;i++){
+    const p0=pts[i-1]||pts[i], p1=pts[i], p2=pts[i+1], p3=pts[i+2]||p2;
+    const c1x=p1[0]+(p2[0]-p0[0])/6, c1y=p1[1]+(p2[1]-p0[1])/6;
+    const c2x=p2[0]-(p3[0]-p1[0])/6, c2y=p2[1]-(p3[1]-p1[1])/6;
+    d+=` C ${c1x},${c1y} ${c2x},${c2y} ${p2[0]},${p2[1]}`;
+  }
+  return d;
+}
+function svgCurveChart_({keys,buckets,fmt,height=130,color1,color2,gradId,tooltipFn,valuePrefix,allowNegative}){
+  if(!keys||!keys.length)return'<div class="empty-note">No data yet.</div>';
+  const vals=keys.map(k=>buckets[k]);
+  const max=Math.max(1,...vals);
+  const min=allowNegative?Math.min(0,...vals):0;
+  const span=Math.max(1,max-min);
+  const stepW=Math.max(52,Math.min(88,720/Math.max(1,keys.length-1||1)));
+  const totalW=Math.max(280,(keys.length-1)*stepW+40);
+  const padTop=22,padBottom=26;
+  const chartH=height;
+  const pts=keys.map((k,i)=>{
+    const v=buckets[k];
+    const x=20+i*stepW;
+    const y=padTop+(chartH-padTop-padBottom)*(1-((v-min)/span));
+    return[x,y,v,k];
+  });
+  const linePts=pts.map(p=>[p[0],p[1]]);
+  const linePath=catmullRomPath_(linePts);
+  const baseY=padTop+(chartH-padTop-padBottom)*(1-((0-min)/span));
+  const areaPath=`${linePath} L ${pts[pts.length-1][0]},${baseY} L ${pts[0][0]},${baseY} Z`;
+  const dots=pts.map(([x,y,v,k],i)=>`
+    <g class="curve-interactive" onmousemove="showChartTooltip(event,${JSON.stringify(`<div class='tt-hdr'>${esc(fmt(new Date(k)))}</div><div class='tt-row'>${esc(tooltipFn(v))}</div>`).replace(/"/g,'&quot;')})" onmouseleave="hideChartTooltip()">
+      <circle cx="${x}" cy="${y}" r="12" fill="transparent"/>
+      <circle cx="${x}" cy="${y}" r="4.5" fill="${color2}" stroke="#FFFDF8" stroke-width="2"/>
+      ${v?`<text x="${x}" y="${y-11}" text-anchor="middle" font-family="Courier New,monospace" font-size="10.5" font-weight="700" fill="var(--bark-dk)">${valuePrefix||''}${v}</text>`:''}
+      <text x="${x}" y="${chartH-6}" text-anchor="middle" font-family="Courier New,monospace" font-size="9" fill="var(--muted)">${esc(fmt(new Date(k)))}</text>
+    </g>`).join('');
+  return`<div style="overflow-x:auto;padding-bottom:4px">
+    <svg viewBox="0 0 ${totalW} ${chartH}" style="width:100%;min-width:${Math.min(totalW,320)}px;height:auto;overflow:visible" preserveAspectRatio="xMinYMid meet">
+      <defs>
+        <linearGradient id="${gradId}" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="${color1}" stop-opacity=".38"/><stop offset="1" stop-color="${color1}" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <line x1="0" y1="${baseY}" x2="${totalW}" y2="${baseY}" stroke="var(--bd-lt)" stroke-width="1"/>
+      <path d="${areaPath}" fill="url(#${gradId})"/>
+      <path d="${linePath}" fill="none" stroke="${color2}" stroke-width="2.75" stroke-linecap="round" class="animated-line" style="--len:1400"/>
+      ${dots}
+    </svg>
+  </div>`;
+}
+
+// ---- pie / donut chart from label:value map ----
+const PIE_COLORS=['#E0913C','#3C8A5E','#8B4A9C','#C15A3C','#A17A4C','#C6721E'];
+function pieChartSVG_(entries,size=170){
+  const total=entries.reduce((s,e)=>s+e.value,0)||1;
+  let acc=0;
+  const cx=size/2,cy=size/2,r=size/2-6;
+  const slices=entries.map((e,i)=>{
+    const start=acc/total*360;acc+=e.value;const end=acc/total*360;
+    const large=(end-start)>180?1:0;
+    const sx=cx+r*Math.cos((start-90)*Math.PI/180), sy=cy+r*Math.sin((start-90)*Math.PI/180);
+    const ex=cx+r*Math.cos((end-90)*Math.PI/180), ey=cy+r*Math.sin((end-90)*Math.PI/180);
+    const color=PIE_COLORS[i%PIE_COLORS.length];
+    const pct=Math.round(e.value/total*100);
+    return`<path d="M ${cx},${cy} L ${sx},${sy} A ${r},${r} 0 ${large} 1 ${ex},${ey} Z" fill="${color}" opacity=".92"
+      onmousemove="showChartTooltip(event,'<div class=&quot;tt-hdr&quot;>${esc(e.label)}</div><div class=&quot;tt-row&quot;>${pct}% · ${esc(String(e.value))}</div>')" onmouseleave="hideChartTooltip()"/>`;
+  }).join('');
+  const legend=entries.map((e,i)=>`<span class="legend-item"><span class="legend-dot" style="background:${PIE_COLORS[i%PIE_COLORS.length]}"></span>${esc(e.label)} · ${Math.round(e.value/total*100)}%</span>`).join('');
+  return`<div style="display:flex;gap:20px;flex-wrap:wrap;align-items:center">
+    <svg viewBox="0 0 ${size} ${size}" style="width:${size}px;height:${size}px;flex-shrink:0"><circle cx="${cx}" cy="${cy}" r="${r+3}" fill="var(--surf)"/>${slices}<circle cx="${cx}" cy="${cy}" r="${r*0.52}" fill="var(--card)"/></svg>
+    <div class="chart-legend" style="flex-direction:column;gap:8px">${legend}</div>
+  </div>`;
+}
+
+function showBarTip(evt,{header,value}){
+  showChartTooltip(evt,`<div class="tt-hdr">${header}</div><div class="tt-row">${value}</div>`);
+}
+
+function buildTodayChartHTML_(){
+  const allActs=myActivityAll_();
+  const todays=allActs.filter(e=>isToday_(e.ts)).sort((a,z)=>(a.ts||0)-(z.ts||0));
+
+  const tasksCompleted=todays.filter(e=>e.type==='task_complete').length;
+  const tasksClaimed=todays.filter(e=>e.type==='task_claim').length;
+  const minutesLogged=minutesInLogs_(todays);
+  const hoursLogged=Math.round(minutesLogged/60*10)/10;
+  const earnedToday=(RAW_DATA.payrollAdjustments||[])
+    .filter(a=>(a.editor||'').toLowerCase()===EDITOR_NAME.toLowerCase()&&a.type==='addition'&&a.recordedAt&&isToday_(new Date(a.recordedAt).getTime()))
+    .reduce((s,a)=>s+(a.amountKes||0),0);
+
+  const tiles=`<div class="today-tiles">
+    <div class="today-tile"><span class="v">${todays.length}</span><span class="l">Activities</span></div>
+    <div class="today-tile"><span class="v">${tasksCompleted}</span><span class="l">Completed</span></div>
+    <div class="today-tile"><span class="v">${tasksClaimed}</span><span class="l">Claimed</span></div>
+    <div class="today-tile"><span class="v">${hoursLogged}h</span><span class="l">Logged</span></div>
+    <div class="today-tile"><span class="v">${fmtKes(earnedToday)}</span><span class="l">Earned</span></div>
+  </div>`;
+
+  if(!todays.length){
+    return`<div class="chart-card">
+      <div class="chart-card-hdr"><span class="chart-card-title">📅 Today</span></div>
+      ${tiles}
+      <div class="empty-note">Nothing logged yet today — claims, completions and time logs will appear here as you work.</div>
+    </div>`;
+  }
+
+  TODAY_CHART_DATA={};
+  todays.forEach(e=>{const h=new Date(e.ts).getHours();if(!TODAY_CHART_DATA[h])TODAY_CHART_DATA[h]={count:0,items:[]};TODAY_CHART_DATA[h].count++;TODAY_CHART_DATA[h].items.push(e);});
+  const nowHour=new Date().getHours();
+  const activeHours=Object.keys(TODAY_CHART_DATA).map(Number);
+  const startHour=Math.min(...activeHours);
+  const hours=[];for(let h=startHour;h<=nowHour;h++)hours.push(h);
+
+  const max=Math.max(1,...hours.map(h=>(TODAY_CHART_DATA[h]&&TODAY_CHART_DATA[h].count)||0));
+  const hourLabel=h=>{const d=new Date();d.setHours(h,0,0,0);return d.toLocaleTimeString(undefined,{hour:'numeric'});};
+  const barW=40,gap=9,chartH=120;
+  const totalW=Math.max(hours.length*(barW+gap),280);
+
+  const bars=hours.map((h,i)=>{
+    const d=TODAY_CHART_DATA[h]||{count:0,items:[]};
+    const pct=d.count?Math.max(8,Math.round((d.count/max)*100)):4;
+    const bH=Math.max(Math.round(chartH*pct/100),3);
+    const x=i*(barW+gap);const y=chartH-bH;
+    const isNow=h===nowHour;
+    return`<g class="bar-interactive" onmousemove="showTodayBarTip(event,${h})" onmouseleave="hideChartTooltip()">
+      <rect x="${x}" y="${y}" width="${barW}" height="${bH}" rx="6" fill="${isNow?'url(#todayNow)':'url(#todayGrad)'}" opacity="${d.count?1:.35}"/>
+      ${d.count?`<text x="${x+barW/2}" y="${y-6}" text-anchor="middle" font-family="Courier New,monospace" font-size="11" font-weight="700" fill="var(--bark-dk)">${d.count}</text>`:''}
+      <text x="${x+barW/2}" y="${chartH+16}" text-anchor="middle" font-family="Courier New,monospace" font-size="9" fill="${isNow?'var(--moss-d)':'var(--muted)'}">${esc(hourLabel(h))}${isNow?'◀':''}</text>
+    </g>`;
+  }).join('');
+
+  return`<div class="chart-card">
+    <div class="chart-card-hdr">
+      <span class="chart-card-title">📅 Today</span>
+      <span class="chart-card-sub">Hover any bar for details</span>
+    </div>
+    ${tiles}
+    <div style="overflow-x:auto;padding-bottom:4px">
+      <svg viewBox="0 0 ${totalW} ${chartH+28}" style="width:100%;min-width:${Math.min(totalW,320)}px;height:auto;overflow:visible" preserveAspectRatio="xMinYMid meet">
+        <defs>
+          <linearGradient id="todayGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#E0913C"/><stop offset="1" stop-color="#296B45"/>
+          </linearGradient>
+          <linearGradient id="todayNow" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#F2B15C"/><stop offset="1" stop-color="#3C8A5E"/>
+          </linearGradient>
+        </defs>
+        <line x1="0" y1="${chartH}" x2="${totalW}" y2="${chartH}" stroke="var(--bd-lt)" stroke-width="1"/>
+        ${bars}
+      </svg>
+    </div>
+  </div>`;
+}
+function showTodayBarTip(evt,hour){
+  const d=TODAY_CHART_DATA[hour];
+  const startD=new Date();startD.setHours(hour,0,0,0);
+  const endD=new Date(startD.getTime()+3600000);
+  const label=startD.toLocaleTimeString(undefined,{hour:'numeric'})+' – '+endD.toLocaleTimeString(undefined,{hour:'numeric'});
+  let html;
+  if(!d||!d.count){html=`<div class="tt-hdr">${esc(label)}</div><div class="tt-row">No activity</div>`;}
+  else{
+    const rows=d.items.slice(0,8).map(e=>`<div class="tt-row">${MY_ACT_ICONS[e.type]||'•'} ${esc(e.label||'')}${e.bookTitle?' <span style="opacity:.6">· '+esc(e.bookTitle)+'</span>':''}</div>`).join('');
+    const more=d.items.length>8?`<div class="tt-row" style="opacity:.6">+${d.items.length-8} more…</div>`:'';
+    html=`<div class="tt-hdr">${esc(label)} · ${d.count} ${d.count===1?'activity':'activities'}</div>${rows}${more}`;
+  }
+  showChartTooltip(evt,html);
+}
+
+function buildStatsCardsHTML_(allActs){
+  const pending=myPendingBalance_();
+  const monthEarnings=myEarningsThisMonth_();
+  const tasksCompleted=allActs.filter(e=>e.type==='task_complete').length;
+  const totalMins=minutesInLogs_(allActs);
+  const hrs=Math.round(totalMins/60*10)/10;
+  return`<div class="stats-grid">
+    <div class="stat-card sage">
+      <div class="stat-label">Pending Balance</div>
+      <div class="stat-value" style="color:var(--moss-d)">${fmtKes(pending)}</div>
+      <div class="stat-sub">Earned this month: ${fmtKes(monthEarnings)}</div>
+    </div>
+    <div class="stat-card gold">
+      <div class="stat-label">Tasks Completed</div>
+      <div class="stat-value">${tasksCompleted.toLocaleString()}</div>
+      <div class="stat-sub">Total across all books</div>
+    </div>
+    <div class="stat-card plum">
+      <div class="stat-label">Hours Logged</div>
+      <div class="stat-value">${hrs.toLocaleString()}</div>
+      <div class="stat-sub">Across ${allActs.filter(e=>e.type==='time_log').length} sessions</div>
+    </div>
+    <div class="stat-card bark">
+      <div class="stat-label">Total Activities</div>
+      <div class="stat-value">${allActs.length.toLocaleString()}</div>
+      <div class="stat-sub">Claims, completions, time logs</div>
+    </div>
+  </div>`;
+}
+
+function buildActivityTimelineHTML_(allActs){
+  const result=bucketEntries_(allActs,e=>e.ts,()=>1);
+  if(!result)return'';
+  const{keys,buckets,fmt}=result;
+  const chart=svgCurveChart_({keys,buckets,fmt,height:150,color1:'#3C8A5E',color2:'#296B45',gradId:'actGrad',
+    tooltipFn:v=>`${v} ${v===1?'activity':'activities'}`});
+  return`<div class="chart-card">
+    <div class="chart-card-hdr">
+      <span class="chart-card-title">📈 Activity Over Time</span>
+      <span class="chart-card-sub">${allActs.length} total events</span>
+    </div>
+    ${chart}
+  </div>`;
+}
+
+// ---- All-earnings-in-one-graph: cumulative lifetime earnings, with every historical
+// payout (paid, pending, rejected) plotted as markers along the same timeline ----
+function myPayrollEvents_(){
+  return(RAW_DATA.payrollAdjustments||[])
+    .filter(a=>(a.editor||'').toLowerCase()===EDITOR_NAME.toLowerCase()&&a.recordedAt)
+    .map(a=>({ts:new Date(a.recordedAt).getTime(),amt:a.type==='deduction'?-(a.amountKes||0):(a.amountKes||0),reason:a.reason||(a.type==='deduction'?'Deduction':'Earning'),type:a.type}))
+    .filter(e=>!isNaN(e.ts))
+    .sort((a,z)=>a.ts-z.ts);
+}
+function myPayoutHistory_(){
+  return(RAW_DATA.payoutRequests||[])
+    .filter(r=>(r.editor||'').toLowerCase()===EDITOR_NAME.toLowerCase())
+    .map(r=>({ts:new Date(r.paidAt||r.decidedAt||r.requestedAt).getTime(),amountKes:r.amountKes||0,status:r.status||'pending',requestedAt:r.requestedAt}))
+    .filter(e=>!isNaN(e.ts))
+    .sort((a,z)=>z.ts-a.ts);
+}
+let EARNINGS_MARKER_DATA={};
+function buildEarningsHistoryHTML_(){
+  const events=myPayrollEvents_();
+  if(!events.length)return'';
+
+  let running=0;
+  const cumPoints=events.map(e=>{running+=e.amt;return{ts:e.ts,cum:Math.round(running)};});
+  const result=bucketCumulative_(cumPoints);
+  if(!result)return'';
+  const{keys,buckets,fmt}=result;
+
+  const chart=svgCurveChart_({keys,buckets,fmt,height:170,color1:'#E0913C',color2:'#C6721E',gradId:'earnHistGrad',
+    tooltipFn:v=>'Total to date: '+fmtKes(v),allowNegative:true});
+
+  const lifetimeEarned=events.filter(e=>e.amt>0).reduce((s,e)=>s+e.amt,0);
+  const lifetimeDeducted=events.filter(e=>e.amt<0).reduce((s,e)=>s+Math.abs(e.amt),0);
+  const payouts=myPayoutHistory_();
+  const paidOut=payouts.filter(p=>p.status==='paid').reduce((s,p)=>s+p.amountKes,0);
+
+  // marker row of every historical payout, newest first
+  EARNINGS_MARKER_DATA=payouts;
+  const markerIcon={paid:'💰',pending:'⏳',rejected:'🚫'};
+  const markerClass={paid:'open',pending:'soft',rejected:'locked'};
+  const payoutRows=payouts.length?payouts.map((p,i)=>`<div class="pay-row">
+      <div>${markerIcon[p.status]||'•'} ${esc(p.status.charAt(0).toUpperCase()+p.status.slice(1))}</div>
+      <div class="amt">${fmtKes(p.amountKes)}</div>
+      <div class="dt">${esc(new Date(p.ts).toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'}))}</div>
+    </div>`).join(''):`<div class="empty-note">No payout requests recorded yet.</div>`;
+
+  return`<div class="chart-card">
+    <div class="chart-card-hdr">
+      <span class="chart-card-title">💰 Lifetime Earnings</span>
+      <span class="chart-card-sub">Running total, every addition &amp; deduction to date</span>
+    </div>
+    <div class="stats-grid" style="margin-bottom:18px">
+      <div class="stat-card sage"><div class="stat-label">Total Earned</div><div class="stat-value" style="font-size:1.5rem;color:var(--moss-d)">${fmtKes(lifetimeEarned)}</div><div class="stat-sub">Lifetime, before deductions</div></div>
+      <div class="stat-card gold"><div class="stat-label">Paid Out</div><div class="stat-value" style="font-size:1.5rem">${fmtKes(paidOut)}</div><div class="stat-sub">Across ${payouts.filter(p=>p.status==='paid').length} completed payout${payouts.filter(p=>p.status==='paid').length===1?'':'s'}</div></div>
+      <div class="stat-card bark"><div class="stat-label">Deductions</div><div class="stat-value" style="font-size:1.5rem">${fmtKes(lifetimeDeducted)}</div><div class="stat-sub">Lifetime, all corrections</div></div>
+    </div>
+    ${chart}
+    <div class="sec-hdr" style="margin-top:20px">Payout History <span style="font-weight:400;font-size:.85em;color:var(--muted);text-transform:none;letter-spacing:0">— ${payouts.length} request${payouts.length===1?'':'s'}, all time</span></div>
+    <div class="pay-table">
+      <div class="pay-hdr"><div>Status</div><div style="text-align:right">Amount</div><div>Date</div></div>
+      ${payoutRows}
+    </div>
+  </div>`;
+}
+
+function buildWindowGridHTML_(allActs){
+  const now=Date.now();
+  const cells=TIME_WINDOWS_.map(w=>{
+    const inW=allActs.filter(e=>e.ts&&(now-e.ts)<=w.ms);
+    const hrs=Math.round(minutesInLogs_(inW)/60*10)/10;
+    return`<div class="window-tile">
+      <div class="wv">${inW.length}</div>
+      <div class="wl">Last ${w.label}</div>
+      ${hrs>0?`<div class="wh">${hrs}h</div>`:''}
+    </div>`;
+  }).join('');
+  return`<div class="chart-card">
+    <div class="chart-card-hdr"><span class="chart-card-title">⏰ Recent Activity Windows</span></div>
+    <div class="window-grid">${cells}</div>
+  </div>`;
+}
+
+function buildSessionTypesHTML_(allActs){
+  const counts={},minutes={};
+  allActs.forEach(e=>{
+    if(e.type!=='time_log')return;
+    const m=/^(\d+)m logged · (.+)$/.exec(e.label||'');
+    if(!m)return;
+    const mins=parseInt(m[1],10),type=m[2]||'General';
+    counts[type]=(counts[type]||0)+1;minutes[type]=(minutes[type]||0)+mins;
+  });
+  const types=Object.keys(minutes);if(!types.length)return'';
+  const entries=types.sort((a,z)=>minutes[z]-minutes[a]).map(t=>({label:t,value:minutes[t]}));
+  return`<div class="chart-card">
+    <div class="chart-card-hdr"><span class="chart-card-title">🕐 Time by Session Type</span><span class="chart-card-sub">minutes logged</span></div>
+    ${pieChartSVG_(entries)}
+  </div>`;
+}
+
+function buildActivityMixHTML_(allActs){
+  const counts={};
+  allActs.forEach(e=>{const label=e.type==='task_claim'?'Claims':e.type==='task_complete'?'Completions':e.type==='time_log'?'Time Logs':e.type==='payout_request'||e.type==='payout_paid'?'Payouts':'Other';counts[label]=(counts[label]||0)+1;});
+  const entries=Object.keys(counts).map(k=>({label:k,value:counts[k]})).sort((a,z)=>z.value-a.value);
+  if(!entries.length)return'';
+  return`<div class="chart-card">
+    <div class="chart-card-hdr"><span class="chart-card-title">🥧 Activity Mix</span><span class="chart-card-sub">all-time</span></div>
+    ${pieChartSVG_(entries)}
+  </div>`;
+}
+
+function buildTopBooksHTML_(allActs){
+  const counts={};
+  allActs.forEach(e=>{if(!e.bookTitle)return;counts[e.bookTitle]=(counts[e.bookTitle]||0)+1;});
+  const entries=Object.keys(counts).map(k=>({title:k,count:counts[k]})).sort((a,z)=>z.count-a.count).slice(0,6);
+  if(!entries.length)return'';
+  const max=entries[0].count;
+  const rows=entries.map(e=>{
+    const pct=Math.max(4,Math.round((e.count/max)*100));
+    return`<div class="h-bar-row">
+      <div class="h-bar-label" style="width:130px">${esc(e.title)}</div>
+      <div class="h-bar-track"><div class="h-bar-fill" style="width:${pct}%;background:linear-gradient(90deg,#3C8A5E,#296B45)"></div></div>
+      <div class="h-bar-val">${e.count}</div>
+    </div>`;
+  }).join('');
+  return`<div class="chart-card">
+    <div class="chart-card-hdr"><span class="chart-card-title">📚 Most Active Books</span></div>
+    ${rows}
+  </div>`;
+}
+
+function buildBookProgressHTML_(){
+  const bids=myBookIds_();
+  const books=bids.map(bid=>bookById_(bid)).filter(Boolean);
+  if(!books.length)return'';
+  BOOK_PROGRESS_DATA={};
+  const cards=books
+    .map(b=>{
+      const steps=b.currentWeekSteps||{};
+      const total=CHECKLIST_STEP_ORDER.length;
+      const doneKeys=CHECKLIST_STEP_ORDER.filter(k=>steps[k]);
+      const pct=total?Math.round(doneKeys.length/total*100):0;
+      BOOK_PROGRESS_DATA[b.id]={title:b.title,pct,doneKeys};
+      return{b,pct,doneKeys};
+    })
+    .sort((x,z)=>x.pct-z.pct)
+    .map(({b,pct})=>{
+      const steps=b.currentWeekSteps||{};
+      const doneCount=CHECKLIST_STEP_ORDER.filter(k=>steps[k]).length;
+      return`<div class="book-donut-card" onmousemove="showBookTooltip(event,'${esc(b.id)}')" onmouseleave="hideChartTooltip()">
+        <div class="book-donut" style="background:conic-gradient(var(--moss-d) 0% ${pct}%, var(--bd-lt) ${pct}% 100%)">
+          <div class="book-donut-inner">${pct}%</div>
+        </div>
+        <div class="book-donut-meta">
+          <div class="book-donut-title">${esc(b.title)}</div>
+          <div class="book-donut-sub">${doneCount}/${CHECKLIST_STEP_ORDER.length} steps · Wk ${b.currentWeek||1}</div>
+        </div>
+      </div>`;
+    }).join('');
+  return`<div class="chart-card">
+    <div class="chart-card-hdr">
+      <span class="chart-card-title">📖 Books This Week</span>
+      <span class="chart-card-sub">${books.length} covered</span>
+    </div>
+    <div class="book-donut-grid">${cards}</div>
+  </div>`;
+}
+function showBookTooltip(evt,bid){
+  const d=BOOK_PROGRESS_DATA[bid];if(!d)return;
+  const doneSet=new Set(d.doneKeys);
+  const rows=CHECKLIST_STEP_ORDER.map(k=>`<div class="tt-row">${doneSet.has(k)?'✅':'⬜'} ${esc(STEP_LABELS[k]||k)}</div>`).join('');
+  showChartTooltip(evt,`<div class="tt-hdr">${esc(d.title)} · ${d.pct}% this week</div>${rows}`);
+}
+
+// ---- Peak Hours: aggregate all-time activity by hour-of-day + by day-of-week ----
+function peakHoursAnalysis_(allActs){
+  const byHour=new Array(24).fill(0);
+  const byDow=new Array(7).fill(0);
+  allActs.forEach(e=>{if(!e.ts)return;const d=new Date(e.ts);byHour[d.getHours()]++;byDow[d.getDay()]++;});
+  let peakHour=0,peakHourVal=-1;
+  byHour.forEach((v,h)=>{if(v>peakHourVal){peakHourVal=v;peakHour=h;}});
+  let peakDow=0,peakDowVal=-1;
+  byDow.forEach((v,d)=>{if(v>peakDowVal){peakDowVal=v;peakDow=d;}});
+  return{byHour,byDow,peakHour,peakHourVal,peakDow,peakDowVal};
+}
+function buildPeakHoursHTML_(allActs){
+  if(!allActs.length)return'';
+  const{byHour,byDow,peakHour,peakDow}=peakHoursAnalysis_(allActs);
+  PEAK_HOUR_DATA=byHour;
+  const max=Math.max(1,...byHour);
+  const hourLabel=h=>{const d=new Date();d.setHours(h,0,0,0);return d.toLocaleTimeString(undefined,{hour:'numeric'});};
+  const barW=22,gap=4,chartH=90;
+  const totalW=24*(barW+gap);
+  const bars=byHour.map((v,h)=>{
+    const pct=v?Math.max(6,Math.round((v/max)*100)):3;
+    const bH=Math.max(Math.round(chartH*pct/100),2);
+    const x=h*(barW+gap);const y=chartH-bH;
+    const isPeak=h===peakHour&&v>0;
+    return`<g class="bar-interactive" onmousemove="showBarTip(event,{header:'${esc(hourLabel(h))}',value:'${v} activit${v===1?'y':'ies'} all-time'})" onmouseleave="hideChartTooltip()">
+      <rect x="${x}" y="${y}" width="${barW}" height="${bH}" rx="4" fill="${isPeak?'url(#peakGradHot)':'url(#peakGrad)'}"/>
+      ${h%3===0?`<text x="${x+barW/2}" y="${chartH+14}" text-anchor="middle" font-family="Courier New,monospace" font-size="8.5" fill="var(--muted)">${esc(hourLabel(h))}</text>`:''}
+    </g>`;
+  }).join('');
+  const dowMax=Math.max(1,...byDow);
+  const dowRows=DOW_LABELS.map((lbl,i)=>{
+    const pct=Math.max(4,Math.round((byDow[i]/dowMax)*100));
+    return`<div class="h-bar-row">
+      <div class="h-bar-label" style="width:44px">${lbl}${i===peakDow?' 🔥':''}</div>
+      <div class="h-bar-track"><div class="h-bar-fill" style="width:${pct}%;background:${i===peakDow?'linear-gradient(90deg,var(--rust-d),var(--saffron))':'linear-gradient(90deg,#A17A4C,#7A5A2E)'}"></div></div>
+      <div class="h-bar-val">${byDow[i]}</div>
+    </div>`;
+  }).join('');
+  return`<div class="chart-card">
+    <div class="chart-card-hdr">
+      <span class="chart-card-title">🔥 Peak Hours</span>
+      <span class="chart-card-sub">All-time · busiest at ${esc(hourLabel(peakHour))}</span>
+    </div>
+    <div style="overflow-x:auto;padding-bottom:4px;margin-bottom:20px">
+      <svg viewBox="0 0 ${totalW} ${chartH+22}" style="width:100%;min-width:${Math.min(totalW,340)}px;height:auto;overflow:visible" preserveAspectRatio="xMinYMid meet">
+        <defs>
+          <linearGradient id="peakGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#A17A4C"/><stop offset="1" stop-color="#7A5A2E"/></linearGradient>
+          <linearGradient id="peakGradHot" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E0913C"/><stop offset="1" stop-color="#A03F26"/></linearGradient>
+        </defs>
+        <line x1="0" y1="${chartH}" x2="${totalW}" y2="${chartH}" stroke="var(--bd-lt)" stroke-width="1"/>
+        ${bars}
+      </svg>
+    </div>
+    <div class="sec-hdr" style="margin-top:0">By Day of Week</div>
+    ${dowRows}
+  </div>`;
+}
+
+// ---- Simulated Gantt roadmap across claimed books ----
+function buildGanttHTML_(){
+  const bids=myBookIds_();
+  const books=bids.map(bid=>bookById_(bid)).filter(Boolean).sort((a,z)=>(z.currentWeek||1)-(a.currentWeek||1));
+  if(!books.length)return'';
+  const rows=books.map(b=>{
+    const cur=Math.min(TOTAL_CAMPAIGN_WEEKS,b.currentWeek||1);
+    const pct=Math.round((cur/TOTAL_CAMPAIGN_WEEKS)*100);
+    return`<div class="gantt-row">
+      <div class="gantt-label"><div class="t">${esc(b.title)}</div><div class="s">${esc(b.author||'')}</div></div>
+      <div>
+        <div class="gantt-track">
+          <div class="gantt-done" style="width:${pct}%"></div>
+          <div class="gantt-marker" style="left:${pct}%"></div>
+        </div>
+        <div class="s" style="font-family:var(--fM);font-size:.58rem;color:var(--muted);margin-top:4px">Week ${cur} of ${TOTAL_CAMPAIGN_WEEKS} · ${pct}% through campaign</div>
+      </div>
+    </div>`;
+  }).join('');
+  return`<div class="chart-card">
+    <div class="chart-card-hdr">
+      <span class="chart-card-title">🗺️ Campaign Roadmap</span>
+      <span class="chart-card-sub">Simulated · assumes ${TOTAL_CAMPAIGN_WEEKS}-week campaign arc</span>
+    </div>
+    ${rows}
+  </div>`;
+}
+
+// ---- Points / gamification ----
+function computeStreakWithGrace_(days){
+  // Walk backward from today. Today doesn't have to be logged yet (day still in progress) —
+  // it counts as a bonus day if present but never breaks the streak if absent.
+  // Every earlier day must have activity, EXCEPT we forgive exactly one missed day total
+  // so a single off day doesn't wipe out an otherwise long streak.
+  let cursor=localDayStart_(Date.now());
+  let streak=0;
+  if(days.has(cursor))streak++;
+  cursor-=86400000;
+  let graceLeft=1;
+  while(true){
+    if(days.has(cursor)){
+      streak++;
+      cursor-=86400000;
+    } else if(graceLeft>0){
+      graceLeft--;
+      cursor-=86400000;
+    } else {
+      break;
+    }
+  }
+  return{streak,graceUsed:graceLeft===0};
+}
+function computePoints_(allActs){
+  const claims=allActs.filter(e=>e.type==='task_claim').length;
+  const completes=allActs.filter(e=>e.type==='task_complete').length;
+  const minutes=minutesInLogs_(allActs);
+  const days=new Set(allActs.filter(e=>e.ts).map(e=>localDayStart_(e.ts)));
+  const{streak,graceUsed}=computeStreakWithGrace_(days);
+  const points=claims*5+completes*25+Math.round(minutes/10)+streak*8;
+  let level=LEVELS[0],next=LEVELS[1];
+  for(let i=0;i<LEVELS.length;i++){if(points>=LEVELS[i].min){level=LEVELS[i];next=LEVELS[i+1]||null;}}
+  const pctToNext=next?Math.min(100,Math.round(((points-level.min)/(next.min-level.min))*100)):100;
+  return{points,claims,completes,minutes,streak,graceUsed,level,next,pctToNext};
+}
+function buildLevelStripHTML_(g){
+  const hrs=Math.round(g.minutes/60*10)/10;
+  return`<div class="level-strip" style="--lvl-pct:${g.pctToNext}%">
+    <div class="level-badge"><div class="level-badge-inner">${g.pctToNext}%</div></div>
+    <div class="level-meta">
+      <div class="level-title">${esc(g.level.name)}${g.streak>1?` · 🔥 ${g.streak}-day streak`:''}${g.graceUsed?' <span title="One missed day is forgiven">🛡️</span>':''}</div>
+      <div class="level-sub">${g.next?`${(g.next.min-g.points).toLocaleString()} pts to ${esc(g.next.name)}`:'Top level reached'}</div>
+      <div class="level-lifetime">📈 Lifetime: ${g.completes.toLocaleString()} completed · ${g.claims.toLocaleString()} claimed · ${hrs.toLocaleString()}h logged</div>
+      <div class="points-progress"><div class="points-track"><div class="points-fill" style="width:${g.pctToNext}%"></div></div></div>
+    </div>
+    <div class="level-pts">${g.points.toLocaleString()} pts</div>
+  </div>`;
+}
+function buildPointsCardHTML_(g){
+  return`<div class="chart-card">
+    <div class="chart-card-hdr">
+      <span class="chart-card-title">🏆 Points &amp; Level</span>
+      <span class="chart-card-sub">Claims ×5 · Completions ×25 · 10 min logged = 1pt · Streak day ×8 · 1-day grace period</span>
+    </div>
+    <div class="stats-grid" style="margin-bottom:0">
+      <div class="stat-card gold"><div class="stat-label">Total Points</div><div class="stat-value">${g.points.toLocaleString()}</div><div class="stat-sub">${esc(g.level.name)} · never resets</div></div>
+      <div class="stat-card sage"><div class="stat-label">Current Streak</div><div class="stat-value">${g.streak}${g.streak?' 🔥':''}</div><div class="stat-sub">${g.graceUsed?'1 missed day forgiven':'consecutive active days'}</div></div>
+      <div class="stat-card plum"><div class="stat-label">Next Milestone</div><div class="stat-value" style="font-size:1.3rem">${g.next?esc(g.next.name):'Maxed out'}</div><div class="stat-sub">${g.next?g.pctToNext+'% of the way there':'You reached the top level'}</div></div>
+    </div>
+  </div>`;
+}
+
+// ---- Intelligent workload suggestions ----
+function buildSuggestions_(allActs,openBoard){
+  const sug=[];
+  if(allActs.length>=3){
+    const{byHour,peakHour,peakHourVal}=peakHoursAnalysis_(allActs);
+    const hourLabel=h=>{const d=new Date();d.setHours(h,0,0,0);return d.toLocaleTimeString(undefined,{hour:'numeric'});};
+    if(peakHourVal>0){
+      const nowH=new Date().getHours();
+      const near=Math.abs(nowH-peakHour)<=1;
+      sug.push({ico:'⚡',text:`You get the most done around <b>${esc(hourLabel(peakHour))}</b>.${near?" You're close to that window right now — good time to knock out a task.":' Consider scheduling focused work around that hour.'}`});
+    }
+  }
+  const overduePaid=openBoard.filter(t=>{const p=taskPriority_(t);return p.paid&&p.behind>0;});
+  if(overduePaid.length>0){
+    sug.push({ico:'⏰',text:`<b>${overduePaid.length} paid-client task${overduePaid.length>1?'s are':' is'}</b> overdue on the open board — claiming one of these helps keep priority clients on schedule.`});
+  }
+  const mine=myTasks_();
+  if(mine.length>=4){
+    sug.push({ico:'📦',text:`You're holding <b>${mine.length} claimed tasks</b> right now. Wrapping a few before claiming more keeps your queue moving and payouts flowing sooner.`});
+  } else if(mine.length===0 && openBoard.length>0){
+    sug.push({ico:'🎯',text:`Your task list is clear — the open board has <b>${openBoard.length} task${openBoard.length>1?'s':''}</b> waiting, sorted paid &amp; overdue first.`});
+  }
+  const g=computePoints_(allActs);
+  if(g.streak>=1){
+    sug.push({ico:'🔥',text:`You're on a <b>${g.streak}-day streak</b>. Log any activity today to keep it going${g.streak>=3?" — you're building real momentum.":'.'}`});
+  } else if(allActs.length>0){
+    sug.push({ico:'🌱',text:`No active streak right now — completing or logging one task today starts a new one. Missing a single day won't reset it either — you get one grace day.`});
+  }
+  if(!sug.length){
+    sug.push({ico:'👋',text:`Once you've claimed and logged a bit of work, this panel will start surfacing personalized workload suggestions based on your patterns.`});
+  }
+  return sug.slice(0,4);
+}
+function buildSuggestCardHTML_(allActs,openBoard){
+  const rows=buildSuggestions_(allActs,openBoard).map(s=>`<div class="suggest-row"><div class="suggest-ico">${s.ico}</div><div class="suggest-text">${s.text}</div></div>`).join('');
+  return`<div class="suggest-card"><div class="suggest-hdr">🧭 Workload Suggestions</div>${rows}</div>`;
+}
+
+function buildBreakdownTableHTML_(allActs){
+  const counts={},minutes={};
+  allActs.forEach(e=>{
+    const t=e.type||'other';counts[t]=(counts[t]||0)+1;
+    if(t==='time_log'){const m=/^(\d+)m logged/.exec(e.label||'');if(m)minutes[t]=(minutes[t]||0)+parseInt(m[1],10);}
+  });
+  const earn=myEarningsByType_();
+  const rows=[
+    {label:'Tasks Claimed',icon:'🤝',count:counts.task_claim||0,time:'—',earned:'—'},
+    {label:'Tasks Completed',icon:'🎯',count:counts.task_complete||0,time:'—',earned:earn.bountyTotal?fmtKes(earn.bountyTotal):'—'},
+    {label:'Time Logged',icon:'⏱',count:counts.time_log||0,time:minutes.time_log?(Math.round(minutes.time_log/60*10)/10)+'h':'—',earned:'—'},
+    {label:'Payouts Requested',icon:'💸',count:counts.payout_request||0,time:'—',earned:'—'},
+    {label:'Payouts Paid',icon:'💰',count:counts.payout_paid||0,time:'—',earned:'—'},
+    {label:'Other Earnings',icon:'✚',count:'—',time:'—',earned:earn.otherTotal?fmtKes(earn.otherTotal):'—'},
+  ].filter(r=>r.count!==0||r.earned!=='—');
+  if(!rows.length)return'';
+  return`<div class="chart-card">
+    <div class="chart-card-hdr"><span class="chart-card-title">📋 Activity Breakdown</span></div>
+    <div class="bk-table">
+      <div class="bk-hdr"><div>Activity</div><div style="text-align:right">Count</div><div style="text-align:right">Time</div><div style="text-align:right">Earned</div></div>
+      ${rows.map(r=>`<div class="bk-row">
+        <div>${r.icon} ${esc(r.label)}</div>
+        <div class="count">${r.count}</div>
+        <div class="time">${r.time}</div>
+        <div class="earned">${r.earned}</div>
+      </div>`).join('')}
+    </div>
+  </div>`;
+}
+function myEarningsByType_(){
+  const adj=(RAW_DATA.payrollAdjustments||[]).filter(a=>(a.editor||'').toLowerCase()===EDITOR_NAME.toLowerCase());
+  const additions=adj.filter(a=>a.type==='addition');
+  const bounty=additions.filter(a=>/task bounty/i.test(a.reason||''));
+  const other=additions.filter(a=>!/task bounty/i.test(a.reason||''));
+  return{bountyTotal:bounty.reduce((s,a)=>s+(a.amountKes||0),0),otherTotal:other.reduce((s,a)=>s+(a.amountKes||0),0)};
+}
+
+function buildRecentFeedHTML_(allActs){
+  const acts=allActs.slice(0,10);
+  if(!acts.length)return'';
+  const rows=acts.map(e=>`<div class="act-row">
+    <div class="act-icon">${MY_ACT_ICONS[e.type]||'•'}</div>
+    <div class="act-label">
+      <div class="name">${esc(e.label||'')}</div>
+      <div class="meta">${esc(e.bookTitle||'')}${e.detail?' · '+esc(e.detail):''}</div>
+    </div>
+    <div class="act-ago">${agoSpan(e.ts)}</div>
+  </div>`).join('');
+  return`<div class="chart-card">
+    <div class="chart-card-hdr">
+      <span class="chart-card-title">🕑 Recent Activity</span>
+      <span class="chart-card-sub">Last ${acts.length} of ${allActs.length.toLocaleString()}</span>
+    </div>
+    <div style="background:var(--surf);border:1px solid var(--bd-lt);border-radius:var(--r);overflow:hidden">${rows}</div>
+  </div>`;
+}
+
+function buildStatsPanel_(){
+  const allActs=myActivityAll_();
+  const open=openTasks_();
+  if(!allActs.length){
+    return`${buildSuggestCardHTML_(allActs,open)}<div class="center-state"><div class="ico">📊</div><div class="ttl">No data yet</div><p>Claim tasks, log time and mark them complete to see your insights here.</p></div>`;
+  }
+  const g=computePoints_(allActs);
+  return`
+    ${buildSuggestCardHTML_(allActs,open)}
+    ${buildPointsCardHTML_(g)}
+    ${buildStatsCardsHTML_(allActs)}
+    ${buildEarningsHistoryHTML_()}
+    ${buildTodayChartHTML_()}
+    ${buildPeakHoursHTML_(allActs)}
+    ${buildGanttHTML_()}
+    ${buildActivityTimelineHTML_(allActs)}
+    ${buildWindowGridHTML_(allActs)}
+    ${buildActivityMixHTML_(allActs)}
+    ${buildSessionTypesHTML_(allActs)}
+    ${buildTopBooksHTML_(allActs)}
+    ${buildBookProgressHTML_()}
+    ${buildBreakdownTableHTML_(allActs)}
+    ${buildRecentFeedHTML_(allActs)}
+  `;
+}
+
+async function requestPayout(){
+  const pending=myPendingBalance_();
+  if(pending<=0){showToast('⚠ No pending balance to request');return;}
+  if(!confirm(`Request payout of ${fmtKes(pending)}? An admin will review it.`))return;
+  showToast('⏳ Sending request…');
+  const r=await postAction({action:'requestPayout',editor:EDITOR_NAME});
+  if(r&&r.success){showToast(`💸 Payout requested — ${fmtKes(r.amountKes)}`);await refreshAndRender();}
+  else showToast(`⚠ ${r?.error||'Failed — check connection'}`);
+}
+
+function renderAll(){
+  const mine=myTasks_();
+  const open=openTasks_();
+  const pending=myPendingBalance_();
+  const monthEarnings=myEarningsThisMonth_();
+  const openReq=myOpenPayoutRequest_();
+  const g=computePoints_(myActivityAll_());
+
+  document.getElementById('editorChip').textContent=EDITOR_NAME;
+  document.getElementById('claimedBadge').textContent=mine.length;
+  document.getElementById('openBadge').textContent=open.length;
+
+  const main=document.getElementById('main');
+  main.innerHTML=`
+    <div id="panel-home" class="tab-panel${ACTIVE_TAB==='home'?' active':''}">
+      <div class="hero">
+        <div class="hero-greeting">Editor Portal</div>
+        <div class="hero-title">Hi ${esc(EDITOR_NAME)} 👋</div>
+        <div class="earnings-strip">
+          <div class="e-tile"><span class="v">${fmtKes(pending)}</span><span class="l">Pending Balance</span></div>
+          <div class="e-tile"><span class="v" style="font-size:1.15rem">${fmtKes(monthEarnings)}</span><span class="l">This Month</span></div>
+          <div class="e-tile"><span class="v" style="font-size:1.15rem">${mine.length}</span><span class="l">Active Tasks</span></div>
+          ${openReq
+            ?`<div class="e-tile" style="border-style:dashed"><span class="v" style="font-size:.95rem">⏳ ${fmtKes(openReq.amountKes)}</span><span class="l">Payout pending ${agoSpan(new Date(openReq.requestedAt).getTime())}</span></div>`
+            :(pending>0?`<button class="tbtn gold" onclick="requestPayout()">💸 Request Payout</button>`:'')}
+        </div>
+        ${buildLevelStripHTML_(g)}
+      </div>
+
+      ${buildSuggestCardHTML_(myActivityAll_(),open)}
+
+      <div class="sec-hdr">My Tasks (${mine.length}) <span style="font-weight:400;font-size:.75em;color:var(--muted);text-transform:none;letter-spacing:0">— go to <a href="#" onclick="event.preventDefault();switchTab('claimed')" style="color:var(--moss-d)">My Tasks tab</a> to complete them</span></div>
+      ${mine.length===0
+        ?`<div class="empty-note">Nothing claimed yet — head to the <a href="#" onclick="event.preventDefault();switchTab('board')" style="color:var(--moss-d)">Open Board</a> to grab work.</div>`
+        :`<div>${mine.slice(0,3).map(t=>`<div class="task-card">
+            <div class="task-book task-book-link" onclick="viewBookContext('${esc(t.bookId)}')">${esc(t.bookTitle)}</div>
+            <div class="task-step">${esc(STEP_LABELS[t.stepKey]||t.stepKey)} · Week ${t.weekNum}</div>
+            <div class="task-meta">${pillFor_(t)}</div>
+            ${taskLinksHtml_(t)}
+          </div>`).join('')}
+          ${mine.length>3?`<div style="font-family:var(--fM);font-size:.66rem;color:var(--muted);padding:5px 2px">+${mine.length-3} more — <a href="#" onclick="event.preventDefault();switchTab('claimed')" style="color:var(--moss-d)">see all</a></div>`:''}</div>`}
+
+      ${buildBookContextPanel_()}
+
+      <div class="sec-hdr">Open Board <span style="font-weight:400;font-size:.75em;color:var(--muted);text-transform:none;letter-spacing:0">— ${open.length} available, paid &amp; overdue first</span></div>
+      <div style="text-align:center;padding:14px;background:var(--card);border:1px solid var(--bd-lt);border-radius:var(--r)">
+        <button class="tbtn gold" onclick="switchTab('board')" style="font-size:.74rem">📌 View Open Board (${open.length} tasks) →</button>
+      </div>
+    </div>
+
+    <div id="panel-claimed" class="tab-panel${ACTIVE_TAB==='claimed'?' active':''}">
+      ${buildBookContextPanel_()}
+      <div class="sec-hdr">My Claimed Tasks (${mine.length})</div>
+      <div id="completeBar"></div>
+      <div id="myTasksList">${(()=>{MY_TASK_INDEX={};return renderBucketedTasks_(mine,buildMyTaskCard_,'Nothing claimed yet — grab a task from the open board.');})()}</div>
+    </div>
+
+    <div id="panel-board" class="tab-panel${ACTIVE_TAB==='board'?' active':''}">
+      ${buildBookContextPanel_()}
+      <div class="sec-hdr">Open Bounty Board (${open.length}) <span style="font-weight:400;font-size:.75em;color:var(--muted);text-transform:none;letter-spacing:0">— paid clients &amp; overdue work first</span></div>
+      <div class="author-search-wrap">
+        <input type="text" class="author-search" id="authorSearch" placeholder="Search by author or title…" value="${esc(OPEN_AUTHOR_FILTER)}" oninput="onAuthorSearchInput(this.value)">
+      </div>
+      <div id="claimBar"></div>
+      <div id="openBoardList">${(()=>{TASK_INDEX={};return renderAuthorGroupedTasks_(filteredOpenTasks_(),buildOpenTaskCard_,'No open tasks right now — check back soon.');})()}</div>
+    </div>
+
+    <div id="panel-stats" class="tab-panel${ACTIVE_TAB==='stats'?' active':''}">
+      ${buildStatsPanel_()}
+    </div>
+  `;
+
+  renderClaimBar();
+  renderCompleteBar();
+}
+
+async function claimTask(bookId,author,title,weekNum,stepKey,mode){
+  showToast('⏳ Claiming…');
+  const r=await postAction({action:'claimTask',bookId,author,title,weekNum,stepKey,editor:EDITOR_NAME,mode});
+  if(r&&r.success){showToast('🔒 Task claimed');await refreshAndRender();}
+  else showToast(`⚠ ${r?.error||'Failed — check connection'}`);
+}
+async function markTaskComplete(bookId,author,title,weekNum,stepKey){
+  showToast('⏳ Marking complete…');
+  const r=await postAction({action:'completeTaskClaim',bookId,author,title,weekNum,stepKey,editor:EDITOR_NAME});
+  if(r&&r.success){showToast(`✅ Done — ${fmtKes(r.payout)} bounty logged`);await refreshAndRender();}
+  else showToast(`⚠ ${r?.error||'Failed — check connection'}`);
+}
+async function logTimeForTask(author,title,k){
+  const minutes=parseInt(document.getElementById('min-'+k)?.value);
+  const type=document.getElementById('type-'+k)?.value||'General';
+  if(!minutes||minutes<=0){showToast('⚠ Enter minutes first');return;}
+  showToast('⏳ Logging time…');
+  const r=await postAction({action:'saveTimeSession',author,title,editor:EDITOR_NAME,durationMinutes:minutes,sessionType:type,notes:''});
+  if(r&&r.success)showToast(`⏱ ${minutes} min logged`);
+  else showToast(`⚠ ${r?.error||'Failed — check connection'}`);
+}
+
+function showToast(msg){
+  const t=document.getElementById('_toast');
+  t.textContent=msg;t.classList.add('show');
+  clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('show'),2600);
+}
+
+async function refreshAndRender(){RAW_DATA=await fetchFromBridge();renderAll();}
+
+function renderNamePicker(errorMsg){
+  const prefill=getParams().editor||'';
+  const opts=knownEditors_();
+  document.getElementById('main').innerHTML=`
+    <div class="hero"><div class="hero-greeting">Atomic Shelf</div><div class="hero-title">Who's working today?</div></div>
+    <div class="login-card">
+      <label>Your Name</label>
+      <input id="login-name" list="editor-suggestions" placeholder="e.g. Nelly" value="${esc(prefill)}" autofocus>
+      <datalist id="editor-suggestions">${opts.map(n=>`<option value="${esc(n)}"></option>`).join('')}</datalist>
+      <label>Password</label>
+      <input id="login-pass" type="password" placeholder="Your password">
+      <button onclick="submitEditorName()">Continue →</button>
+      ${errorMsg?`<div class="login-err">${esc(errorMsg)}</div>`:''}
+    </div>`;
+  const inp=document.getElementById('login-name');
+  if(inp)inp.addEventListener('keydown',e=>{if(e.key==='Enter')submitEditorName();});
+}
+async function submitEditorName(){
+  const editorName=(document.getElementById('login-name')?.value||'').trim();
+  const password=(document.getElementById('login-pass')?.value||'');
+  if(!editorName){renderNamePicker('Enter your name to continue.');return;}
+  if(!password){renderNamePicker('Enter your password to continue.');return;}
+  const btn=document.querySelector('.login-card button');
+  if(btn){btn.disabled=true;btn.textContent='Checking…';}
+  try{
+    const r=await postAction({action:'login',editor:editorName,password});
+    if(r&&r.success&&r.token){
+      SESSION_TOKEN=r.token;EDITOR_NAME=editorName;
+      saveLogin_(editorName,r.token);
+      startDashboard_();
+    }else{
+      renderNamePicker(r?.error||'Incorrect name or password.');
+    }
+  }catch(e){
+    renderNamePicker('Could not reach the server — check your connection.');
+  }
+}
+function startDashboard_(){
+  renderAll();
+  if(_pollInterval)clearInterval(_pollInterval);
+  _pollInterval=setInterval(()=>{refreshAndRender().catch(()=>{});},60*1000);
+}
+
+async function boot(){
+  try{
+    const saved=getSavedLogin_();
+    if(saved){EDITOR_NAME=saved.editorName;SESSION_TOKEN=saved.token;}
+    RAW_DATA=await fetchFromBridge();
+    if(!RAW_DATA.success){ if(RAW_DATA.error==='auth'){logoutEditor();return;} throw new Error(RAW_DATA.error||'Bridge returned an error'); }
+    if(saved){startDashboard_();return;}
+    renderNamePicker();
+  }catch(e){
+    document.getElementById('main').innerHTML=`<div class="center-state"><div class="ico">⚠</div><div class="ttl">Couldn't load</div><p style="color:var(--red)">${esc(e.message)}</p></div>`;
+  }
+}
+
+boot();
+</script>
+</body>
+</html>

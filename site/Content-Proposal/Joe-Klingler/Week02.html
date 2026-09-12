@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mash Up — Week 2 Content Calendar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;700&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream-base: #fafafa;
+    --paper-texture: rgba(230, 226, 216, 0.2); /* A very light textured background feel */
+    --equation-light: rgba(0, 0, 0, 0.03); /* Extremely light equation background pattern */
+    --card-bg: #ffffff;
+    --text-main: #2a2a2a; /* Charcoal black, easier on eyes than pure black */
+    --text-head: #1a1a1a;
+    --copper-main: #a67c52; /* Copper accent based on cover text */
+    --copper-dark: #7a5a3a;
+    --slate: #5a6a7a;
+    --border-subtle: rgba(166, 124, 82, 0.15); /* Subtly colored border */
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--cream-base);
+    color: var(--text-main);
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── BACKGROUND EQUATION PATTERN ── */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='10' y='20' font-family='JetBrains Mono' font-size='10' fill='rgba(166, 124, 82, 0.1)'%3Ef(x) = ∫[x₀,x₁] sin(t)dt%3C/text%3E%3Ctext x='50' y='60' font-family='JetBrains Mono' font-size='10' fill='rgba(166, 124, 82, 0.1)'%3E∑[n=1,∞] 1/n² = π²/6%3C/text%3E%3Ctext x='10' y='100' font-family='JetBrains Mono' font-size='10' fill='rgba(166, 124, 82, 0.1)'%3E∂²u/∂t² = c²(∂²u/∂x² + ∂²u/∂y²)%3C/text%3E%3Ctext x='80' y='140' font-family='JetBrains Mono' font-size='10' fill='rgba(166, 124, 82, 0.1)'%3ELog₂ (4) + eⁱπ = 1%3C/text%3E%3C/svg%3E");
+    background-size: 400px 400px;
+    opacity: 0.8; /* Subtle overall page pattern */
+    pointer-events: none;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: linear-gradient(to bottom, var(--paper-texture) 0%, var(--cream-base) 100%);
+    border-bottom: 2px solid var(--border-subtle);
+  }
+
+  .hero-glow {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 900px; height: 900px;
+    background: radial-gradient(circle, rgba(166,124,82,0.06) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    padding: 100px 48px 80px;
+    text-align: center;
+    animation: fadeUp 1s ease both;
+  }
+
+  .hero-eyebrow {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--copper-main);
+    border-bottom: 1px solid var(--border-subtle);
+    padding-bottom: 8px;
+    margin-bottom: 30px;
+  }
+
+  .hero-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(40px, 8vw, 84px);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -1px;
+    color: var(--text-head);
+    margin-bottom: 12px;
+    text-transform: uppercase;
+  }
+
+  .hero-title em {
+    display: block;
+    font-style: normal;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: clamp(20px, 3.5vw, 32px);
+    color: var(--copper-dark);
+    letter-spacing: 0;
+    line-height: 1.4;
+    margin-top: 10px;
+  }
+
+  .hero-author {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 16px;
+    color: var(--slate);
+    margin: 28px 0 48px;
+  }
+
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    background: #ffffff;
+    padding: 20px 40px;
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+  }
+
+  .stat { text-align: center; }
+
+  .stat-num {
+    font-family: 'Oswald', sans-serif;
+    font-size: 32px;
+    color: var(--copper-main);
+    line-height: 1;
+    display: block;
+  }
+
+  .stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--slate);
+    margin-top: 8px;
+    display: block;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    max-width: 680px;
+    margin: 60px auto;
+    padding: 0 40px;
+  }
+
+  .divider-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border-subtle);
+  }
+
+  .divider-mark {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--copper-dark);
+  }
+
+  /* ── INTRO ── */
+  .intro {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 40px 60px;
+    text-align: center;
+  }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--copper-main);
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .intro p {
+    font-size: 18px;
+    color: var(--text-main);
+  }
+
+  /* ── WEEK BANNER ── */
+  .week-banner {
+    max-width: 1080px;
+    margin: 0 auto 30px;
+    padding: 0 40px;
+    display: flex;
+    align-items: center;
+    gap: 28px;
+  }
+
+  .week-banner-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border-subtle);
+  }
+
+  .week-banner-text {
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(24px, 4vw, 36px);
+    color: var(--text-head);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  .week-banner-text span {
+    color: var(--copper-main);
+  }
+
+  .week-dates {
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--slate);
+    margin-bottom: 60px;
+    padding: 0 40px;
+  }
+
+  /* ── CALENDAR CARDS ── */
+  .calendar {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 40px 100px;
+  }
+
+  .video-card {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    background: var(--card-bg);
+    border: 1px solid var(--border-subtle);
+    border-left: 4px solid var(--copper-dark);
+    margin-bottom: 8px;
+    transition: all 0.3s ease;
+    animation: fadeUp 0.5s ease both;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+  }
+
+  .video-card:hover {
+    border-left-color: var(--copper-main);
+    box-shadow: 0 8px 30px rgba(166, 124, 82, 0.08);
+    transform: translateX(4px);
+  }
+
+  .video-card:first-child { border-radius: 6px 6px 0 0; }
+  .video-card:last-child  { border-radius: 0 0 6px 6px; }
+
+  .card-date {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 12px;
+    background: rgba(166, 124, 82, 0.02); /* Very light copper tint */
+    border-right: 1px solid var(--border-subtle);
+    text-align: center;
+  }
+
+  .date-day {
+    font-family: 'Oswald', sans-serif;
+    font-size: 38px;
+    color: var(--text-head);
+    line-height: 1;
+  }
+
+  .date-month {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--copper-main);
+    margin-top: 6px;
+  }
+
+  .date-vid {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--slate);
+    margin-top: 12px;
+    background: #ffffff;
+    padding: 2px 6px;
+    border-radius: 2px;
+    border: 1px solid var(--border-subtle);
+  }
+
+  .card-body {
+    padding: 32px;
+  }
+
+  .card-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 24px;
+    color: var(--text-head);
+    line-height: 1.3;
+    margin-bottom: 6px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .card-hook {
+    font-family: 'Inter', sans-serif;
+    color: var(--copper-main);
+    font-size: 16px;
+    margin-bottom: 24px;
+    font-style: italic;
+  }
+
+  .card-sections {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+
+  .section-block h4 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-head);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border-subtle);
+    padding-bottom: 8px;
+  }
+
+  .section-block p {
+    font-size: 14px;
+    color: var(--text-main);
+    line-height: 1.6;
+  }
+
+  /* ── COPY BUTTON ── */
+  .copy-btn {
+    background: transparent;
+    border: 1px solid var(--border-subtle);
+    color: var(--copper-main);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.2s;
+  }
+
+  .copy-btn:hover {
+    background: rgba(166, 124, 82, 0.05);
+    border-color: var(--copper-main);
+  }
+
+  .copy-btn.copied {
+    background: var(--copper-main);
+    color: #ffffff;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    text-align: center;
+    padding: 60px 40px;
+    border-top: 1px solid var(--border-subtle);
+    background: #ffffff;
+  }
+
+  .footer-cross {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 20px;
+    color: var(--copper-dark);
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .footer-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 22px;
+    color: var(--text-head);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .footer-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--slate);
+    margin-top: 10px;
+    text-transform: uppercase;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .card-sections { grid-template-columns: 1fr; gap: 20px; }
+    .video-card { grid-template-columns: 90px 1fr; }
+    .card-body { padding: 24px 20px; }
+    .hero-content { padding: 80px 24px 60px; }
+    .calendar, .intro, .week-banner { padding-left: 20px; padding-right: 20px; }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">Content Proposal · YouTube &amp; TikTok</div>
+    <h1 class="hero-title">
+      Mash Up
+      <em>(Detective Qigiq)</em>
+    </h1>
+    <p class="hero-author">by Joe Klingler</p>
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-num">15</span>
+        <span class="stat-label">Videos · Week 2</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">4.1★</span>
+        <span class="stat-label">800+ Ratings</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">15–30s</span>
+        <span class="stat-label">Audio Length</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider">
+  <div class="divider-line"></div>
+  <div class="divider-mark">[ f(x) QED ]</div>
+  <div class="divider-line"></div>
+</div>
+
+<section class="intro">
+  <span class="section-label">Campaign Deep Dive</span>
+  <p>Week 2 continues the intense launch campaign. 15 new videos, covering Days 8-14. We're moving beyond initial introductions and diving into the core of the techno-thriller: the mathematical precision of the killer's work, Qigiq's old-school investigative methods facing complete tech failure, and the moral questions surrounding digital ownership.</p>
+</section>
+
+<div class="week-banner">
+  <div class="week-banner-line"></div>
+  <div class="week-banner-text">Week <span>Two</span></div>
+  <div class="week-banner-line"></div>
+</div>
+<div class="week-dates">May 29 – June 4, 2026 · Videos 16 – 30</div>
+
+<section class="calendar">
+
+  <div class="video-card" style="animation-delay:0.1s">
+    <div class="card-date">
+      <div class="date-day">29</div>
+      <div class="date-month">May</div>
+      <div class="date-vid">Video 16</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">Instinct Over Code</div>
+      <div class="card-hook">"One knows the code. The other knows a killer."</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'They say modern killers are caught with data. Detective Qigiq used to agree. Then he moved to San Francisco. While his partner Kandy hacks firewalls, Qigiq searches for old-school blood evidence in the tech capital. Code doesn't catch everyone. Meet the analog cop who refuses to be left behind.')">Copy</button></h4>
+          <p>They say modern killers are caught with data. Detective Qigiq used to agree. Then he moved to San Francisco. While his partner Kandy hacks firewalls, Qigiq searches for old-school blood evidence in the tech capital. Code doesn't catch everyone. Meet the analog cop who refuses to be left behind.</p>
+        </div>
+        <div class="section-block">
+          <h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'Instinct vs. Code. Detective Qigiq might be out of his head in SF, but his old-school Fairbanks instincts still matter in a grisly murder investigation. Find out if experience can defeat technology in MASH UP by Joe Klingler. Link in bio! #MashUpBook #JoeKlingler #AnalogCop #TechnoThriller #BookTok')">Copy</button></h4>
+          <p>Instinct vs. Code. Detective Qigiq might be out of his head in SF, but his old-school Fairbanks instincts still matter in a grisly murder investigation. Find out if experience can defeat technology in MASH UP by Joe Klingler. Link in bio! #MashUpBook #JoeKlingler #AnalogCop #TechnoThriller #BookTok</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-card" style="animation-delay:0.15s">
+    <div class="card-date">
+      <div class="date-day">29</div>
+      <div class="date-month">May</div>
+      <div class="date-vid">Video 17</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">Kandy's Unchained Rule</div>
+      <div class="card-hook">"Her rule? Break every other rule."</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'Kandy Dreeson is talented, rule-bending, and refuses to let a little thing like ethics stop a high-stakes cyber-hunt. When criminals are this sophisticated, police procedures become an anchor. Kandy Dreeson is the badass tech detective unchained. She breaks the rules so the rest of us stay safe.')">Copy</button></h4>
+          <p>Kandy Dreeson is talented, rule-bending, and refuses to let a little thing like ethics stop a high-stakes cyber-hunt. When criminals are this sophisticated, police procedures become an anchor. Kandy Dreeson is the badass tech detective unchained. She breaks the rules so the rest of us stay safe.</p>
+        </div>
+        <div class="section-block">
+          <h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'Kandy Dreeson does not play by the book. Meet the rule-bending tech detective tracking digital ghosts in San Francisco in Joe Klingler\'s intense techno-thriller MASH UP. Grab your copy today! #MashUpBook #KandyDreeson #CyberCrime #WomenInTech #ThrillerFiction')">Copy</button></h4>
+          <p>Kandy Dreeson does not play by the book. Meet the rule-bending tech detective tracking digital ghosts in San Francisco in Joe Klingler's intense techno-thriller MASH UP. Grab your copy today! #MashUpBook #KandyDreeson #CyberCrime #WomenInTech #ThrillerFiction</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-card" style="animation-delay:0.2s">
+    <div class="card-date">
+      <div class="date-day">30</div>
+      <div class="date-month">May</div>
+      <div class="date-vid">Video 18</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">The Cello Player's Gift</div>
+      <div class="card-hook">"It wasn't a box. It was a mathematical proof."</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'They thought it was just another missing person case. Then the box arrived. Creepy, personal belongings of a vanished cello player, delivered to her panicked roommate. This wasn\'t a random kidnapping. This was a mathematical proof. And the answer is blood.')">Copy</button></h4>
+          <p>They thought it was just another missing person case. Then the box arrived. Creepy, personal belongings of a vanished cello player, delivered to her panicked roommate. This wasn't a random kidnapping. This was a mathematical proof. And the answer is blood.</p>
+        </div>
+        <div class="section-block">
+          <h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'A grisly mystery that strives to address the ethics... One Amazon box changes everything for Detective Qigiq and Kandy Dreeson. Dive into the terrifying opening scene of Joe Klingler\'s MASH UP. #MashUpBook #MysteryReads #ThrillerScene #AmazonDelivery #CelloPlayer')">Copy</button></h4>
+          <p>A grisly mystery that strives to address the ethics... One Amazon box changes everything for Detective Qigiq and Kandy Dreeson. Dive into the terrifying opening scene of Joe Klingler's MASH UP. #MashUpBook #MysteryReads #ThrillerScene #AmazonDelivery #CelloPlayer</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-card" style="animation-delay:0.2s">
+    <div class="card-date">
+      <div class="date-day">30</div>
+      <div class="date-month">May</div>
+      <div class="date-vid">Video 19</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">F112358's First Note</div>
+      <div class="card-hook">"A shocking clue. But is it real?"</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'A vanished musician. A terrifying box. And then, a single cryptic video appears on YouTube. Posted by an anonymous user named F112358. It’s a shocking video, a cyber-clue, a terrifying first note in a murderous composition. Is it a confession, or the start of the final act?')">Copy</button></h4>
+          <p>A vanished musician. A terrifying box. And then, a single cryptic video appears on YouTube. Posted by an anonymous user named F112358. It’s a shocking video, a cyber-clue, a terrifying first note in a murderous composition. Is it a confession, or the start of the final act?</p>
+        </div>
+        <div class="section-block">
+          <h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'A shocking video on YouTube posted by F112358. Meet the faceless killer terrifying San Francisco in Joe Klingler\'s MASH UP. Grab your copy to find out who\'s watching. #MashUpBook #YouTubeThriller #AnonymousAccount #FacelessKiller #BookTok')">Copy</button></h4>
+          <p>A shocking video on YouTube posted by F112358. Meet the faceless killer terrifying San Francisco in Joe Klingler's MASH UP. Grab your copy to find out who's watching. #MashUpBook #YouTubeThriller #AnonymousAccount #FacelessKiller #BookTok</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-card" style="animation-delay:0.2s">
+    <div class="card-date">
+      <div class="date-day">31</div>
+      <div class="date-month">May</div>
+      <div class="date-vid">Video 20</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">The Stalker Virus</div>
+      <div class="card-hook">"Targeting music fans? It targets your life."</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'You thought computer viruses just crashed your system. Joe Klingler’s MASH UP introduces something deadlier. A new kind of virus that targets music fans, indexing their digital footprints, feeding their lives to a real-world stalker. Disconnect your devices, because this mathematical proof... is terrifyingly plausible.')">Copy</button></h4>
+          <p>You thought computer viruses just crashed your system. Joe Klingler’s MASH UP introduces something deadlier. A new kind of virus that targets music fans, indexing their digital footprints, feeding their lives to a real-world stalker. Disconnect your devices, because this mathematical proof... is terrifyingly plausible.</p>
+        </div>
+        <div class="section-block">
+          <h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'A mysterious Internet-virus that appears to attack music fans. Dive into the terrifying cyber-stalking nightmare of MASH UP by Joe Klingler. #MashUpBook #StalkerVirus #CyberSecurity #ComputerVirus #TechnoThriller')">Copy</button></h4>
+          <p>A mysterious Internet-virus that appears to attack music fans. Dive into the terrifying cyber-stalking nightmare of MASH UP by Joe Klingler. #MashUpBook #StalkerVirus #CyberSecurity #ComputerVirus #TechnoThriller</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-card" style="animation-delay:0.2s">
+    <div class="card-date">
+      <div class="date-day">31</div>
+      <div class="date-month">May</div>
+      <div class="date-vid">Video 21</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">The Theft You Deserve</div>
+      <div class="card-hook">"It’s not piracy when they ask for what they're owed."</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'Downloading one song seems harmless, right? The killer in MASH UP disagrees. He thinks content ownership is a moral equation, and he has a lethal method for collecting what is owed. This is not piracy. This is a debt that gets paid in blood. Who is the *real* victim in this grisly thriller?')">Copy</button></h4>
+          <p>Downloading one song seems harmless, right? The killer in MASH UP disagrees. He thinks content ownership is a moral equation, and he has a lethal method for collecting what is owed. This is not piracy. This is a debt that gets paid in blood. Who is the *real* victim in this grisly thriller?</p>
+        </div>
+        <div class="section-block">
+          <h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'Grisly mystery that strives to address the ethics... Is music piracy victimless? MASH UP by Joe Klingler asks the tough moral questions in an intense techno-thriller. Grab your copy to find out! #MashUpBook #DigitalPiracy #ContentOwnership #CopyrightEthics #BookTok')">Copy</button></h4>
+          <p>Grisly mystery that strives to address the ethics... Is music piracy victimless? MASH UP by Joe Klingler asks the tough moral questions in an intense techno-thriller. Grab your copy to find out! #MashUpBook #DigitalPiracy #ContentOwnership #CopyrightEthics #BookTok</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-card" style="animation-delay:0.2s">
+    <div class="card-date">
+      <div class="date-day">1</div>
+      <div class="date-month">Jun</div>
+      <div class="date-vid">Video 22</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">Kandy's Digital Tracing</div>
+      <div class="card-hook">"No footprint is ever really erased."</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'Kandy Dreeson knows criminals think they are ghosts. Rule-bending tech detective? Her rule-bending is simple: she will use the killer\'s mathematical precision against him. From YouTube uploads to Craigslist ads, no footprint is ever truly erased. Meet the woman unravelling a deadly web of cyber-clues.')">Copy</button></h4>
+          <p>Kandy Dreeson knows criminals think they are ghosts. Rule-bending tech detective? Her rule-bending is simple: she will use the killer's mathematical precision against him. From YouTube uploads to Craigslist ads, no footprint is ever truly erased. Meet the woman unravelling a deadly web of cyber-clues.</p>
+        </div>
+        <div class="section-block">
+          <h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'Unravelling a web of cyber-clues... Kandy Dreeson is the young, talented, rule-bending tech detective you need. Grab your copy of MASH UP today! #MashUpBook #KandyDreeson #DigitalForensics #CyberSecurity #ThrillerFiction')">Copy</button></h4>
+          <p>Unravelling a web of cyber-clues... Kandy Dreeson is the young, talented, rule-bending tech detective you need. Grab your copy of MASH UP today! #MashUpBook #KandyDreeson #DigitalForensics #CyberSecurity #ThrillerFiction</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-card" style="animation-delay:0.2s">
+    <div class="card-date">
+      <div class="date-day">1</div>
+      <div class="date-month">Jun</div>
+      <div class="date-vid">Video 23</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">Qigiq's Total Tech Failure</div>
+      <div class="card-hook">" Instinct might be the only weapon left."</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'Instinct over data, right? That’s easy to say until the data fails completely. Detective Qigiq is out of his head in SF, facing total tech failure against a deadly stalker. But when the system crashes and the power goes out, his Fairbanks survival instincts are the only weapon that cannot be hacked.')">Copy</button></h4>
+          <p>Instinct over data, right? That’s easy to say until the data fails completely. Detective Qigiq is out of his head in SF, facing total tech failure against a deadly stalker. But when the system crashes and the power goes out, his Fairbanks survival instincts are the only weapon that cannot be hacked.</p>
+        </div>
+        <div class="section-block">
+          <h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'Qigiq faced failure before... This time is different. Can his Alaskan instincts survive the complete tech-meltdown in Joe Klingler\'s MASH UP? Link in bio! #MashUpBook #InstinctVsData #AnalogCop #AlaskanSurvival #TechnoThriller')">Copy</button></h4>
+          <p>Qigiq faced failure before... This time is different. Can his Alaskan instincts survive the complete tech-meltdown in Joe Klingler's MASH UP? Link in bio! #MashUpBook #InstinctVsData #AnalogCop #AlaskanSurvival #TechnoThriller</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-card" style="animation-delay:0.2s">
+    <div class="card-date">
+      <div class="date-day">2</div>
+      <div class="date-month">Jun</div>
+      <div class="date-vid">Video 24</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">The Power of a Craigslist Ad</div>
+      <div class="card-hook">"It’s just an ad. It’s also a weapon."</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'You thought Craigslist was just for finding old furniture. In Joe Klingler’s MASH UP, it is a mathematical equation, and the curious power of a single ad can unravel a web of cyber-clues or hide a deadly predator. Qigiq might not understand the internet, but Kandy Dreeson knows: everything has a trace.')">Copy</button></h4>
+          <p>You thought Craigslist was just for finding old furniture. In Joe Klingler’s MASH UP, it is a mathematical equation, and the curious power of a single ad can unravel a web of cyber-clues or hide a deadly predator. Qigiq might not understand the internet, but Kandy Dreeson knows: everything has a trace.</p>
+        </div>
+        <div class="section-block">
+          <h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'Curious power of a craigslist ad... Can a simple ad hide a serial killer? Meet the faceless stalker unravelling San Francisco in MASH UP by Joe Klingler. #CraigslistThriller #AnonymousStalker #CyberSleuth #MashUpBook #JoeKlingler')">Copy</button></h4>
+          <p>Curious power of a craigslist ad... Can a simple ad hide a serial killer? Meet the faceless stalker unravelling San Francisco in MASH UP by Joe Klingler. #CraigslistThriller #AnonymousStalker #CyberSleuth #MashUpBook #JoeKlingler</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-card" style="animation-delay:0.2s">
+    <div class="card-date">
+      <div class="date-day">2</div>
+      <div class="date-month">Jun</div>
+      <div class="date-vid">Video 25</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">San Francisco Gothic</div>
+      <div class="card-hook">"The tech capital is hiding a brutish mathematical gothic."</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'San Francisco. Tech capital, home to billionaires and startups. But in Joe Klingler\'s intense techno-thriller, it’s a brutish mathematical gothic, full of local settings unravelling a web of cyber-clues. Dive into the foggy streets where old-school Fairbanks instinct meets lethal modern method in MASH UP.')">Copy</button></h4>
+          <p>San Francisco. Tech capital, home to billionaires and startups. But in Joe Klingler's intense techno-thriller, it’s a brutish mathematical gothic, full of local settings unravelling a web of cyber-clues. Dive into the foggy streets where old-school Fairbanks instinct meets lethal modern method in MASH UP.</p>
+        </div>
+        <div class="section-block">
+          <h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'A grisly mystery that strives to address... San Francisco settings unravelling a web of cyber-clues. Kirkus calls it a techno-thriller... Grab your copy of MASH UP today! #MashUpBook #SanFranciscoGothic #LocalThriller #SFReads #Atmospheric')">Copy</button></h4>
+          <p>A grisly mystery that strives to address... San Francisco settings unravelling a web of cyber-clues. Kirkus calls it a techno-thriller... Grab your copy of MASH UP today! #MashUpBook #SanFranciscoGothic #LocalThriller #SFReads #Atmospheric</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-card" style="animation-delay:0.2s">
+    <div class="card-date">
+      <div class="date-day">3</div>
+      <div class="date-month">Jun</div>
+      <div class="date-vid">Video 26</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">Qigiq's Fairbanks Secret</div>
+      <div class="card-hook">"He faced failure before. But why?"</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'Instinct vs. Code? Qigiq might be out of his head in SF, but his partners method? This talented young detective? We know *her* story. But what is Detective Qigiq’s Fairbanks secret? Kirkus calls it a techno-thriller... we call it an odd couple partnership that works... when the data fails completely.')">Copy</button></h4>
+          <p>Instinct vs. Code? Qigiq might be out of his head in SF, but his partners method? This talented young detective? We know *her* story. But what is Detective Qigiq’s Fairbanks secret? Kirkus calls it a techno-thriller... we call it an odd couple partnership that works... when the data fails completely.</p>
+        </div>
+        <div class="section-block">
+          <h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'Instinct Vs. Code... Faced failure before... kirkus reviews calls it a techno-thriller... What is the backstory Qigiq is hiding? Meet the Fairbanks cop facing total tech failure in Joe Klingler\'s MASH UP. #MashUpBook #DetectiveQigiq #BackstoryHint #OddCouple #InstinctVsData')">Copy</button></h4>
+          <p>Instinct Vs. Code... Faced failure before... kirkus reviews calls it a techno-thriller... What is the backstory Qigiq is hiding? Meet the Fairbanks cop facing total tech failure in Joe Klingler's MASH UP. #MashUpBook #DetectiveQigiq #BackstoryHint #OddCouple #InstinctVsData</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-card" style="animation-delay:0.2s">
+    <div class="card-date">
+      <div class="date-day">3</div>
+      <div class="date-month">Jun</div>
+      <div class="date-vid">Video 27</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">Kandy's Rule-Bending Method</div>
+      <div class="card-hook">"Break every rule. catch one ghost."</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'Kandy Dreeson is young, talented, and rule-bending, unravelling a web of cyber-clues with mathematical precision. To catch a digital stalker unchained, her method is simple: break *every other rule*. Code doesn't erase footprints... it just makes them harder to find. Kirkus calls it a techno-thriller... unputdownable.')">Copy</button></h4>
+          <p>Kandy Dreeson is young, talented, and rule-bending, unravelling a web of cyber-clues with mathematical precision. To catch a digital stalker unchained, her method is simple: break *every other rule*. Code doesn't erase footprints... it just makes them harder to find. Kirkus calls it a techno-thriller... unputdownable.</p>
+        </div>
+        <div class="section-block">
+          <h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'Rule-bending... Unravelling a web of cyber-clues... kirkus calls it effortlessly clever prose. Meet Kandy Dreeson in MASH UP by Joe Klingler. #MashUpBook #KandyDreeson #RuleBending #WomenInTech #CyberSleuth')">Copy</button></h4>
+          <p>Rule-bending... Unravelling a web of cyber-clues... kirkus calls it effortlessly clever prose. Meet Kandy Dreeson in MASH UP by Joe Klingler. #MashUpBook #KandyDreeson #RuleBending #WomenInTech #CyberSleuth</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-card" style="animation-delay:0.2s">
+    <div class="card-date">
+      <div class="date-day">4</div>
+      <div class="date-month">Jun</div>
+      <div class="date-vid">Video 28</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">Critical Acclaim: Techno-Thriller</div>
+      <div class="card-hook">"Techno-thriller done right. Kirkus agrees."</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, ' critics call it effortlessly clever prose... kirkus calls it a thoughtful, well-constructed tale about digital music piracy... and grisly mystery. If you love fast-paced police procedurals that get the technology right, Joe Klingler’s MASH UP is your next unputdownable read. Find out why it has over 800 ratings.')">Copy</button></h4>
+          <p>critics call it effortlessly clever prose... kirkus calls it a thoughtful, well-constructed tale about digital music piracy... and grisly mystery. If you love fast-paced police procedurals that get the technology right, Joe Klingler’s MASH UP is your next unputdownable read. Find out why it has over 800 ratings.</p>
+        </div>
+        <div class="section-block">
+          <h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'Critics agree: MASH UP is a techno-thriller done right. Thoughtful, well-constructed... grisly mystery... effortlessly clever prose... Kirkus calls it unputdownable. Grab your copy to find out why! #BookReview #KirkusReviews #JoeKlingler #MASHUPBook #TechnoThriller')">Copy</button></h4>
+          <p>Critics agree: MASH UP is a techno-thriller done right. Thoughtful, well-constructed... grisly mystery... effortlessly clever prose... Kirkus calls it unputdownable. Grab your copy to find out why! #BookReview #KirkusReviews #JoeKlingler #MASHUPBook #TechnoThriller</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-card" style="animation-delay:0.2s">
+    <div class="card-date">
+      <div class="date-day">4</div>
+      <div class="date-month">Jun</div>
+      <div class="date-vid">Video 29</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">Odd Couple: Qigiq & Kandy</div>
+      <div class="card-hook">"Odd couple? Try perfect partnership."</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'faced failure before... but qigiq might not be done yet... his Fairbanks secret? meet his rule-bending partners method... talented young detective kandy dreeson tracing digital ghosts unchained... kirkus calls it effortlessly clever prose. Qigiq and Kandy aren\'t an odd couple; they\'re the only hope San Francisco has.')">Copy</button></h4>
+          <p>faced failure before... but qigiq might not be done yet... his Fairbanks secret? meet his rule-bending partners method... talented young detective kandy dreeson tracing digital ghosts unchained... kirkus calls it effortlessly clever prose. Qigiq and Kandy aren't an odd couple; they're the only hope San Francisco has.</p>
+        </div>
+        <div class="section-block">
+          <h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'Odd couple? meet the perfect partnership unravelling a web of cyber-clues unchained... Kirkus calls it effortlessly clever prose. Qigiq and Kandy are the future of unputdownable techno-thrillers. #MashUpBook #OddCouplePartnership #QigiqAndKandy #DetectiveReads #BookTok')">Copy</button></h4>
+          <p>Odd couple? meet the perfect partnership unravelling a web of cyber-clues unchained... Kirkus calls it effortlessly clever prose. Qigiq and Kandy are the future of unputdownable techno-thrillers. #MashUpBook #OddCouplePartnership #QigiqAndKandy #DetectiveReads #BookTok</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-card" style="animation-delay:0.2s">
+    <div class="card-date">
+      <div class="date-day">4</div>
+      <div class="date-month">Jun</div>
+      <div class="date-vid">Video 30</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">MASH UP: You are watching</div>
+      <div class="card-hook">"Log on. Lock up. Stay alive."</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'A grisly mathematical gothic is unravelling a web of cyber-clues... Instinct Vs. Code... Faced failure before... meet the Fairbanks cop facing complete tech failure unchained... Kirkus calls it an unputdownable techno-thriller. A missing musician. A lethal computer virus. San Francisco local settings... MASH UP is watching you right now.')">Copy</button></h4>
+          <p>A grisly mathematical gothic is unravelling a web of cyber-clues... Instinct Vs. Code... Faced failure before... meet the Fairbanks cop facing complete tech failure unchained... Kirkus calls it an unputdownable techno-thriller. A missing musician. A lethal computer virus. San Francisco local settings... MASH UP is watching you right now.</p>
+        </div>
+        <div class="section-block">
+          <h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'Log on. Lock up. Stay alive. Kirkus calls it effortlessly clever prose... unputdownable techno-thriller. MASH UP by Joe Klingler. Grab your copy to find out why unravelling local settings? because MASH UP is watching you right now. Link in bio! #MashUpBook #TechnoThriller #unputdownable #FinalCTA #JoeKlingler')">Copy</button></h4>
+          <p>Log on. Lock up. Stay alive. Kirkus calls it effortlessly clever prose... unputdownable techno-thriller. MASH UP by Joe Klingler. Grab your copy to find out why unravelling local settings? because MASH UP is watching you right now. Link in bio! #MashUpBook #TechnoThriller #unputdownable #FinalCTA #JoeKlingler</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<footer class="footer">
+  <span class="footer-cross">[ f(x) QED ]</span>
+  <div class="footer-title">Mash Up — Joe Klingler</div>
+  <div class="footer-sub">Week 2 Content Proposal · May 29 – June 4, 2026 · Videos 16 – 30 · YouTube &amp; TikTok</div>
+</footer>
+
+<script>
+function copyText(btn, text) {
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = 'COPIED';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = orig;
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+</script>
+
+</body>
+</html>

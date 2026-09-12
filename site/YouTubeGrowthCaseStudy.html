@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>From 100 to 4,230 Subscribers in 90 Days — What Indie Authors Can Learn</title>
+<link rel="icon" type="image/svg+xml" href="https://atomic-shelf.com/atomic-shelf.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --ink: #0E0C1A;
+  --ink-2: #1C1830;
+  --ivory: #F7F2E8;
+  --ivory-2: #EDE6D4;
+  --ivory-3: #E0D8C4;
+  --copper: #C8832A;
+  --copper-2: #E09A40;
+  --copper-pale: #FBF0DC;
+  --copper-glow: rgba(200,131,42,0.20);
+  --rose: #C4606A;
+  --teal: #2D7A78;
+  --stone: #6B6078;
+  --muted: #9490A0;
+  --border: rgba(14,12,26,0.10);
+  --card: #FDFAF3;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--ivory);
+  color: var(--ink);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* paper grain */
+body::before {
+  content: '';
+  position: fixed; inset: 0; pointer-events: none; z-index: 999; opacity: 0.10;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.80' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='0.05'/%3E%3C/svg%3E");
+}
+
+/* ── LAYOUT ── */
+.page { max-width: 860px; margin: 0 auto; padding: 0 2rem; }
+.page-wide { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+
+/* ── HERO ── */
+.hero {
+  background: var(--ink);
+  padding: 5rem 2rem 4rem;
+  position: relative;
+  overflow: hidden;
+}
+.hero::after {
+  content: '"';
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 30vw;
+  font-weight: 900;
+  color: rgba(200,131,42,0.06);
+  position: absolute;
+  right: -2vw; top: -6vh;
+  line-height: 1;
+  pointer-events: none;
+}
+.hero-inner { max-width: 800px; margin: 0 auto; position: relative; z-index: 1; }
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 0.60rem; font-weight: 600; letter-spacing: 0.26em; text-transform: uppercase;
+  color: var(--copper-2); margin-bottom: 1.6rem;
+}
+.hero-eyebrow span { display: block; width: 22px; height: 1.5px; background: var(--copper-2); }
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.2rem, 5vw, 4.4rem);
+  font-weight: 900; line-height: 1.02; letter-spacing: -0.03em;
+  color: #fff; margin-bottom: 1.4rem;
+}
+.hero h1 em { font-style: italic; color: var(--copper-2); }
+.hero-sub {
+  font-size: 1.04rem; color: rgba(255,255,255,0.44); line-height: 1.82;
+  max-width: 56ch; margin-bottom: 2.4rem;
+}
+.hero-meta {
+  display: flex; align-items: center; gap: 1.4rem; flex-wrap: wrap;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+.hero-meta-item { font-size: 0.75rem; color: rgba(255,255,255,0.28); }
+.hero-meta-item strong { color: rgba(255,255,255,0.52); font-weight: 500; display: block; }
+.hero-meta-sep { width: 1px; height: 28px; background: rgba(255,255,255,0.10); }
+
+/* ── STAT BAR ── */
+.stat-bar {
+  background: var(--copper);
+  padding: 2.2rem 2rem;
+}
+.stat-bar-inner {
+  max-width: 860px; margin: 0 auto;
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+.stat-item { text-align: center; }
+.stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.6rem; font-weight: 700; color: #fff;
+  line-height: 1; letter-spacing: -0.04em; margin-bottom: 0.2rem;
+}
+.stat-label { font-size: 0.70rem; color: rgba(255,255,255,0.72); letter-spacing: 0.04em; line-height: 1.4; }
+
+/* ── ARTICLE BODY ── */
+.article-body { padding: 4.5rem 2rem; }
+.article-inner { max-width: 700px; margin: 0 auto; }
+
+.section-eyebrow {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 0.58rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--copper); margin-bottom: 0.8rem;
+}
+.section-eyebrow::before { content: ''; display: block; width: 18px; height: 1.5px; background: var(--copper); }
+
+h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.7rem, 3vw, 2.6rem);
+  font-weight: 700; line-height: 1.08; letter-spacing: -0.025em;
+  color: var(--ink); margin-bottom: 1.1rem;
+}
+h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.25rem; font-weight: 600; line-height: 1.2; color: var(--ink);
+  margin: 2.4rem 0 0.7rem;
+}
+p { font-size: 0.97rem; color: var(--stone); line-height: 1.88; margin-bottom: 1.3rem; }
+p:last-child { margin-bottom: 0; }
+strong { color: var(--ink); font-weight: 600; }
+
+/* ── PHASE CARDS ── */
+.phases { display: flex; flex-direction: column; gap: 1.1rem; margin: 2.4rem 0; }
+.phase-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  overflow: hidden;
+  position: relative;
+}
+.phase-card::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+  background: var(--copper);
+}
+.phase-header {
+  display: flex; align-items: center; gap: 1.2rem;
+  padding: 1.4rem 1.8rem;
+  background: var(--ivory-2);
+  border-bottom: 1px solid var(--border);
+}
+.phase-n {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.6rem; font-weight: 900; color: rgba(200,131,42,0.22);
+  line-height: 1; letter-spacing: -0.04em; min-width: 3rem;
+}
+.phase-label-wrap {}
+.phase-label {
+  font-size: 0.58rem; font-weight: 700; letter-spacing: 0.20em; text-transform: uppercase;
+  color: var(--copper); margin-bottom: 0.2rem;
+}
+.phase-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem; font-weight: 600; color: var(--ink);
+}
+.phase-body { padding: 1.4rem 1.8rem; }
+.phase-body p { margin-bottom: 0.9rem; }
+.phase-stats {
+  display: flex; gap: 2rem; flex-wrap: wrap;
+  margin-top: 1.2rem; padding-top: 1.2rem;
+  border-top: 1px solid rgba(200,131,42,0.12);
+}
+.mini-stat {}
+.mini-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.7rem; font-weight: 700; color: var(--copper);
+  line-height: 1; letter-spacing: -0.04em;
+}
+.mini-label { font-size: 0.70rem; color: var(--muted); margin-top: 0.1rem; }
+
+/* ── PULLQUOTE ── */
+.pullquote {
+  margin: 2.8rem 0;
+  padding: 2rem 2.2rem;
+  background: var(--ink);
+  border-radius: 18px;
+  position: relative;
+}
+.pullquote::before {
+  content: '\201C';
+  font-family: 'Playfair Display', serif;
+  font-size: 5rem; font-weight: 900;
+  color: rgba(200,131,42,0.30);
+  position: absolute; top: -0.3rem; left: 1.4rem;
+  line-height: 1;
+}
+.pullquote p {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 1.16rem; color: rgba(255,255,255,0.78);
+  line-height: 1.70; margin-bottom: 1rem;
+  padding-left: 1.6rem;
+}
+.pullquote cite {
+  display: block; padding-left: 1.6rem;
+  font-style: normal; font-size: 0.72rem; font-weight: 600;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--copper-2);
+}
+
+/* ── KEY LESSON ── */
+.lesson-box {
+  background: var(--copper-pale);
+  border: 1.5px solid rgba(200,131,42,0.28);
+  border-radius: 18px;
+  padding: 1.8rem 2rem;
+  margin: 2.4rem 0;
+}
+.lesson-label {
+  font-size: 0.58rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--copper); margin-bottom: 0.6rem;
+}
+.lesson-box p { color: var(--ink); margin-bottom: 0; }
+
+/* ── INSIGHT GRID ── */
+.insight-section { background: var(--ivory-2); padding: 4rem 2rem; }
+.insight-section-inner { max-width: 860px; margin: 0 auto; }
+.insight-section-inner > .section-eyebrow { margin-bottom: 0.8rem; }
+.insight-section-inner > h2 { margin-bottom: 2.4rem; }
+.insight-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 1.1rem;
+}
+.insight-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.6rem 1.8rem;
+  transition: transform 0.24s, box-shadow 0.24s;
+}
+.insight-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 36px rgba(14,12,26,0.10);
+}
+.insight-num {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 2.8rem; font-weight: 900;
+  color: rgba(200,131,42,0.18);
+  line-height: 1; margin-bottom: 0.6rem;
+  letter-spacing: -0.04em;
+}
+.insight-card h4 {
+  font-size: 0.97rem; font-weight: 600; color: var(--ink);
+  margin-bottom: 0.5rem; line-height: 1.3;
+}
+.insight-card p { font-size: 0.84rem; color: var(--muted); line-height: 1.72; margin: 0; }
+
+/* ── TIMELINE VIZ ── */
+.timeline-section { padding: 4rem 2rem; }
+.timeline-section-inner { max-width: 860px; margin: 0 auto; }
+.timeline {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1px; background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 18px; overflow: hidden;
+  margin-top: 2rem;
+}
+.tl-col {
+  background: var(--card);
+  padding: 1.8rem 1.6rem;
+}
+.tl-col:nth-child(2) { background: var(--ink); }
+.tl-period {
+  font-size: 0.58rem; font-weight: 700; letter-spacing: 0.20em; text-transform: uppercase;
+  color: var(--copper); margin-bottom: 0.6rem;
+}
+.tl-col:nth-child(2) .tl-period { color: var(--copper-2); }
+.tl-col-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.05rem; font-weight: 600; color: var(--ink);
+  margin-bottom: 1.2rem; line-height: 1.2;
+}
+.tl-col:nth-child(2) .tl-col-title { color: #fff; }
+.tl-metrics { display: flex; flex-direction: column; gap: 0.8rem; }
+.tl-metric-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem; font-weight: 700; color: var(--copper);
+  line-height: 1; letter-spacing: -0.04em;
+}
+.tl-col:nth-child(2) .tl-metric-num { color: var(--copper-2); }
+.tl-metric-label { font-size: 0.70rem; color: var(--muted); margin-top: 0.05rem; }
+.tl-col:nth-child(2) .tl-metric-label { color: rgba(255,255,255,0.38); }
+.tl-note {
+  margin-top: 1.2rem; padding-top: 1.2rem;
+  border-top: 1px solid rgba(200,131,42,0.12);
+  font-size: 0.78rem; color: var(--muted); line-height: 1.68; font-style: italic;
+}
+.tl-col:nth-child(2) .tl-note {
+  color: rgba(255,255,255,0.32);
+  border-top-color: rgba(200,131,42,0.22);
+}
+
+/* ── TAKEAWAY SECTION ── */
+.takeaway-section {
+  background: var(--ink);
+  padding: 5rem 2rem;
+  position: relative; overflow: hidden;
+}
+.takeaway-section::before {
+  content: '';
+  position: absolute; top: -30%; left: 50%; transform: translateX(-50%);
+  width: 600px; height: 600px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(200,131,42,0.12) 0%, transparent 66%);
+  pointer-events: none;
+}
+.takeaway-inner { max-width: 700px; margin: 0 auto; position: relative; z-index: 1; }
+.takeaway-inner .section-eyebrow { color: var(--copper-2); }
+.takeaway-inner .section-eyebrow::before { background: var(--copper-2); }
+.takeaway-inner h2 { color: #fff; margin-bottom: 1.4rem; }
+.takeaway-inner > p { color: rgba(255,255,255,0.46); margin-bottom: 2rem; }
+.takeaway-pills { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 2rem; }
+.takeaway-pill {
+  background: rgba(200,131,42,0.14);
+  border: 1px solid rgba(200,131,42,0.28);
+  color: var(--copper-2);
+  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em;
+  padding: 0.4rem 1rem; border-radius: 99px;
+}
+
+/* ── FOOTER STRIP ── */
+.footer-strip {
+  background: var(--ink-2, #1C1830);
+  padding: 2rem;
+  text-align: center;
+  border-top: 1px solid rgba(200,131,42,0.14);
+}
+.footer-strip p {
+  font-size: 0.78rem; color: rgba(255,255,255,0.22); margin: 0;
+}
+.footer-strip a { color: var(--copper-2); text-decoration: none; }
+.footer-strip a:hover { text-decoration: underline; }
+
+/* ── DIVIDER ── */
+.divider { height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); margin: 0; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 700px) {
+  .stat-bar-inner { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+  .insight-grid { grid-template-columns: 1fr; }
+  .timeline { grid-template-columns: 1fr; }
+  .hero h1 { font-size: 2rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { transition-duration: 0.01ms !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow"><span></span>Case Study · YouTube Shorts</div>
+    <h1>From 100 to 4,230 subscribers<br>in <em>90 days</em> — without<br>creating more content</h1>
+    <p class="hero-sub">
+      Creator Lola K. Marquez didn't get a viral moment. She got a system. Here's what happened
+      when she stopped uploading manually and let automation handle the publishing — and what
+      every author building an audience on video can take from it.
+    </p>
+    <div class="hero-meta">
+      <div class="hero-meta-item"><strong>Creator</strong>Lola K. Marquez</div>
+      <div class="hero-meta-sep"></div>
+      <div class="hero-meta-item"><strong>Platform</strong>YouTube Shorts</div>
+      <div class="hero-meta-sep"></div>
+      <div class="hero-meta-item"><strong>Duration</strong>90 days</div>
+      <div class="hero-meta-sep"></div>
+      <div class="hero-meta-item"><strong>Content type</strong>Short-form video</div>
+      <div class="hero-meta-sep"></div>
+      <div class="hero-meta-item"><strong>Posting cadence</strong>3× per day (automated)</div>
+    </div>
+  </div>
+</section>
+
+<!-- STAT BAR -->
+<div class="stat-bar">
+  <div class="stat-bar-inner">
+    <div class="stat-item">
+      <div class="stat-num">4,230</div>
+      <div class="stat-label">Subscribers after 90 days</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">11.5M</div>
+      <div class="stat-label">Total views generated</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">23K hrs</div>
+      <div class="stat-label">Watch time accumulated</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">1M+</div>
+      <div class="stat-label">Impressions in final month</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ARTICLE BODY -->
+<section class="article-body">
+  <div class="article-inner">
+
+    <div class="section-eyebrow">The Setup</div>
+    <h2>The content was already there. The problem was the publishing.</h2>
+
+    <p>
+      When Lola K. Marquez started this experiment, her YouTube channel sat at just over 100 subscribers.
+      But she wasn't a beginner — she already had a steady pipeline of short-form content running across
+      other platforms. The problem wasn't creation. It was the daily grind of uploading, captioning, and
+      managing a publishing schedule across multiple channels.
+    </p>
+
+    <p>
+      The hypothesis was simple: what if she automated distribution to YouTube Shorts and posted
+      consistently — three videos per day — for 90 days? No new content strategy. No bigger budget.
+      Just the same content, reliably deployed.
+    </p>
+
+    <div class="pullquote">
+      <p>I already had the content. The real challenge was staying consistent with publishing,
+      especially across multiple platforms.</p>
+      <cite>— Lola K. Marquez</cite>
+    </div>
+
+    <p>
+      She connected her existing workflow to a repurposing tool that automatically delivered videos
+      to YouTube on a fixed schedule. Once the automation was live, the channel ran itself.
+      What followed was a textbook demonstration of what consistency — not virality — actually looks like
+      when it compounds over time.
+    </p>
+
+    <div class="section-eyebrow" style="margin-top:2.6rem;">The Journey</div>
+    <h2>Three phases, three different realities</h2>
+    <p>The 90 days didn't unfold evenly. They followed a curve that any content creator would
+    recognize — and that most quit before they reach.</p>
+
+    <div class="phases">
+
+      <!-- Phase 1 -->
+      <div class="phase-card">
+        <div class="phase-header">
+          <div class="phase-n">01</div>
+          <div class="phase-label-wrap">
+            <div class="phase-label">Days 1–30</div>
+            <div class="phase-title">Slow but real — the algorithm is watching</div>
+          </div>
+        </div>
+        <div class="phase-body">
+          <p>
+            The first month looked modest from the outside. About 180 new subscribers and 60,000 views —
+            meaningful, but far from explosive. Individual Shorts varied wildly: some reached 10,000 views,
+            others barely registered. Comments and engagement were light.
+          </p>
+          <p>
+            But something critical was happening under the surface. The publishing schedule was holding
+            — automatically, without daily effort. While results were quiet, the system wasn't. YouTube was
+            being fed a consistent signal, and it was beginning to test her content with different audience segments.
+          </p>
+          <div class="phase-stats">
+            <div class="mini-stat">
+              <div class="mini-num">~180</div>
+              <div class="mini-label">New subscribers</div>
+            </div>
+            <div class="mini-stat">
+              <div class="mini-num">60K</div>
+              <div class="mini-label">Total views</div>
+            </div>
+            <div class="mini-stat">
+              <div class="mini-num">3×/day</div>
+              <div class="mini-label">Posting cadence</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase 2 -->
+      <div class="phase-card">
+        <div class="phase-header">
+          <div class="phase-n">02</div>
+          <div class="phase-label-wrap">
+            <div class="phase-label">Days 30–60</div>
+            <div class="phase-title">The algorithm picks its winners</div>
+          </div>
+        </div>
+        <div class="phase-body">
+          <p>
+            Month two is where the curve broke upward. As more Shorts accumulated on the channel, several
+            videos began pulling dramatically more reach. Multiple videos broke 2 million views each. 
+            Watch time spiked to 13,000 hours in a single month. Engagement deepened — more comments,
+            more shares, more new subscribers arriving at a clip.
+          </p>
+          <p>
+            Lola also crossed the thresholds needed to apply for the YouTube Partner Program. What looked
+            like a quiet start in month one had become, in retrospect, the runway that month two needed.
+            The platform wasn't ignoring her — it was profiling which content to push, and now it had
+            enough data to act.
+          </p>
+          <div class="phase-stats">
+            <div class="mini-stat">
+              <div class="mini-num">7.5M</div>
+              <div class="mini-label">Views in this period</div>
+            </div>
+            <div class="mini-stat">
+              <div class="mini-num">13K hrs</div>
+              <div class="mini-label">Watch time</div>
+            </div>
+            <div class="mini-stat">
+              <div class="mini-num">2,400</div>
+              <div class="mini-label">Total subscribers</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase 3 -->
+      <div class="phase-card">
+        <div class="phase-header">
+          <div class="phase-n">03</div>
+          <div class="phase-label-wrap">
+            <div class="phase-label">Days 60–90</div>
+            <div class="phase-title">The compound effect kicks in</div>
+          </div>
+        </div>
+        <div class="phase-body">
+          <p>
+            The final month confirmed what months one and two had been building toward. 3.2 million views.
+            9,000 more watch hours. Over 1 million impressions in a single month. The channel finished the
+            90-day experiment at 4,230 subscribers — growing from roughly 100–150 at the start.
+          </p>
+          <p>
+            None of this required a viral hit. No single video "saved" the channel. The growth came from
+            a library of content, built up through relentless consistency, finally being surfaced to enough
+            of the right audiences at the right time.
+          </p>
+          <div class="phase-stats">
+            <div class="mini-stat">
+              <div class="mini-num">3.2M</div>
+              <div class="mini-label">Views</div>
+            </div>
+            <div class="mini-stat">
+              <div class="mini-num">9K hrs</div>
+              <div class="mini-label">Watch time</div>
+            </div>
+            <div class="mini-stat">
+              <div class="mini-num">1,500</div>
+              <div class="mini-label">New subscribers</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /phases -->
+
+    <div class="lesson-box">
+      <div class="lesson-label">✦ The core lesson</div>
+      <p>
+        <strong>You don't need every video to go viral. You need a system that keeps content
+        flowing long enough for your winners to find their audience.</strong> The algorithm doesn't
+        reward brilliance on demand — it rewards consistency over time.
+      </p>
+    </div>
+
+    <div class="section-eyebrow" style="margin-top:2.6rem;">How It Worked</div>
+    <h2>What automation actually changed</h2>
+
+    <p>
+      The repurposing tool in Lola's workflow served one primary function: it removed the friction
+      between content existing and content being published. Once configured, videos were automatically
+      delivered to YouTube Shorts on schedule — no manual uploads, no missed days, no decision fatigue
+      about what to post and when.
+    </p>
+
+    <p>
+      Lola's own account of the experience points to four concrete differences the automation made:
+    </p>
+
+    <h3>Publishing became invisible</h3>
+    <p>
+      Instead of a daily routine of uploading, tagging, and scheduling, the pipeline handled delivery
+      automatically. The channel kept growing while Lola focused on her primary platforms and content creation.
+    </p>
+
+    <h3>Consistency became sustainable</h3>
+    <p>
+      Three Shorts per day is not a schedule most creators could maintain manually over 90 days.
+      Automation made it trivially easy — not because the work disappeared, but because the work had already
+      been done. The content existed. Distributing it was just logistics.
+    </p>
+
+    <h3>Maintenance dropped to nearly zero</h3>
+    <p>
+      After initial setup, Lola checked the workflow roughly once a week — primarily to confirm
+      everything was running. There were no daily decisions to make, no uploads to track.
+    </p>
+
+    <div class="pullquote">
+      <p>Once the system was set up, I didn't really have to think about YouTube every day. The videos
+      kept publishing on their own, and suddenly the channel started growing while I was focusing on
+      other things.</p>
+      <cite>— Lola K. Marquez</cite>
+    </div>
+
+    <p>
+      This is the underrated power of systematic distribution. The creative work — the actual videos —
+      was done. The bottleneck was operational. Removing it didn't require a bigger team, more budget,
+      or a new creative strategy. It just required a smarter workflow.
+    </p>
+
+  </div>
+</section>
+
+<!-- TIMELINE COMPARISON -->
+<section class="timeline-section" style="background: var(--ivory-2);">
+  <div class="timeline-section-inner">
+    <div class="section-eyebrow">Month by Month</div>
+    <h2>How the numbers compounded</h2>
+
+    <div class="timeline">
+      <div class="tl-col">
+        <div class="tl-period">Days 1–30</div>
+        <div class="tl-col-title">Quiet start</div>
+        <div class="tl-metrics">
+          <div>
+            <div class="tl-metric-num">~180</div>
+            <div class="tl-metric-label">Subscribers gained</div>
+          </div>
+          <div>
+            <div class="tl-metric-num">60K</div>
+            <div class="tl-metric-label">Views</div>
+          </div>
+        </div>
+        <div class="tl-note">
+          Inconsistent individual video performance. The algorithm is testing content
+          with different audiences. Most creators quit here.
+        </div>
+      </div>
+
+      <div class="tl-col">
+        <div class="tl-period">Days 30–60</div>
+        <div class="tl-col-title">The breakthrough</div>
+        <div class="tl-metrics">
+          <div>
+            <div class="tl-metric-num">2,400</div>
+            <div class="tl-metric-label">Cumulative subscribers</div>
+          </div>
+          <div>
+            <div class="tl-metric-num">7.5M</div>
+            <div class="tl-metric-label">Views this period</div>
+          </div>
+          <div>
+            <div class="tl-metric-num">13K hrs</div>
+            <div class="tl-metric-label">Watch time</div>
+          </div>
+        </div>
+        <div class="tl-note">
+          Multiple Shorts reach 2M–4M views. YouTube Partner Program
+          application submitted. Engagement deepens significantly.
+        </div>
+      </div>
+
+      <div class="tl-col">
+        <div class="tl-period">Days 60–90</div>
+        <div class="tl-col-title">Full compound</div>
+        <div class="tl-metrics">
+          <div>
+            <div class="tl-metric-num">4,230</div>
+            <div class="tl-metric-label">Final subscriber count</div>
+          </div>
+          <div>
+            <div class="tl-metric-num">11.5M</div>
+            <div class="tl-metric-label">Total views (all 90 days)</div>
+          </div>
+          <div>
+            <div class="tl-metric-num">1M+</div>
+            <div class="tl-metric-label">Impressions in month 3</div>
+          </div>
+        </div>
+        <div class="tl-note">
+          The library reaches critical mass. Distribution grows faster than
+          new content is even published. The system is compounding.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- INSIGHTS -->
+<section class="insight-section">
+  <div class="insight-section-inner">
+    <div class="section-eyebrow">What This Means for Authors</div>
+    <h2>Four things to take from this experiment</h2>
+
+    <div class="insight-grid">
+
+      <div class="insight-card">
+        <div class="insight-num">01</div>
+        <h4>The content you already have is likely enough to start</h4>
+        <p>Lola didn't create new content for YouTube. She redistributed what already existed
+        elsewhere. If you've been posting anywhere — TikTok, Instagram, short videos of any kind —
+        you likely have raw material for a second channel right now.</p>
+      </div>
+
+      <div class="insight-card">
+        <div class="insight-num">02</div>
+        <h4>Month one is not the test. Month three is.</h4>
+        <p>The first 30 days produced 60,000 views. The last 30 days produced 3.2 million.
+        The difference wasn't better content — it was accumulated history. Algorithms reward
+        channels that have been consistently publishing, not ones that spiked once and disappeared.</p>
+      </div>
+
+      <div class="insight-card">
+        <div class="insight-num">03</div>
+        <h4>Manual publishing is the single biggest bottleneck for most creators</h4>
+        <p>Three Shorts a day manually — captioning, thumbnails, scheduling — is unsustainable
+        for most people over 90 days. The experiment only worked because the operational work
+        was handled by automation. Removing that bottleneck is worth more than most content upgrades.</p>
+      </div>
+
+      <div class="insight-card">
+        <div class="insight-num">04</div>
+        <h4>Platform presence compounds even when you're not actively working it</h4>
+        <p>While Lola focused on her main platforms, YouTube was growing in the background.
+        A channel with a steady publishing cadence builds watch history, keyword signals, and
+        audience data that continues generating discovery long after a video is uploaded.</p>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- TAKEAWAY -->
+<section class="takeaway-section">
+  <div class="takeaway-inner">
+    <div class="section-eyebrow">The Bottom Line</div>
+    <h2>Consistency, systemized, is a growth strategy.</h2>
+    <p>
+      Lola's results weren't the product of a breakthrough idea or a larger team. They were the
+      product of an ordinary content workflow — already running on other platforms — redirected
+      through a distribution system and left to compound for 90 days. The content did the work.
+      The system kept it going.
+    </p>
+    <p>
+      For any author building a video presence, the question isn't "how do I go viral?" It's:
+      "what does my publishing infrastructure look like when I'm not watching?" That question is
+      worth answering before you spend another dollar on content production.
+    </p>
+
+    <div class="takeaway-pills">
+      <span class="takeaway-pill">Consistency over virality</span>
+      <span class="takeaway-pill">Repurpose existing content</span>
+      <span class="takeaway-pill">Automate distribution</span>
+      <span class="takeaway-pill">Month 3 is when it pays off</span>
+      <span class="takeaway-pill">Platform history compounds</span>
+      <span class="takeaway-pill">Volume creates discovery chances</span>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER STRIP -->
+<div class="footer-strip">
+  <p>Case study based on publicly reported results from Lola K. Marquez via <a href="https://repurpose.io" target="_blank" rel="noopener">Repurpose.io</a>. Results are not typical and depend on content quality, niche, and consistency of execution. <a href="https://atomic-shelf.com" target="_blank" rel="noopener">At Atomic-Shelf, we aim to establish similar cadence for the growth of your subscriber and follower base</a>.</p>
+</div>
+
+</body>
+</html>

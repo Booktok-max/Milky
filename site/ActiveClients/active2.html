@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Atomic Shelf · Author Command Centre</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#fdf8f0;--surface:#fff;--surface2:#faf4ea;
+  --border:#e6d3bb;--border-lt:#f0e6d5;
+  --amber:#c47a2a;--amber-lt:#fef3dc;
+  --dark:#2c1a12;--text:#1e1108;--text2:#6b5440;--text3:#9d8070;
+  --r:10px;--r-sm:7px;--r-lg:18px;
+}
+body{font-family:'Outfit',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+
+/* ── HEADER ── */
+.hdr{background:var(--dark);padding:13px 22px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:50;box-shadow:0 2px 12px rgba(0,0,0,.25);}
+.logo{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:600;color:#fef3dc;white-space:nowrap;letter-spacing:-.01em;}
+.logo span{color:var(--amber);}
+.srch-wrap{position:relative;flex:1;max-width:340px;}
+.srch-wrap svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,.4);pointer-events:none;}
+.srch{width:100%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:40px;padding:7px 14px 7px 34px;color:#fff;font-family:inherit;font-size:.82rem;outline:none;}
+.srch::placeholder{color:rgba(255,255,255,.38);}
+.srch:focus{border-color:rgba(196,122,42,.6);background:rgba(255,255,255,.14);}
+.hdr-right{display:flex;gap:8px;margin-left:auto;}
+.btn-sm{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.75);padding:6px 14px;border-radius:40px;font-size:.73rem;font-family:inherit;cursor:pointer;display:flex;align-items:center;gap:5px;}
+.btn-sm:hover{background:rgba(255,255,255,.18);color:#fff;}
+
+/* ── FILTER TABS ── */
+.tabs{background:var(--surface);border-bottom:1px solid var(--border-lt);padding:0 22px;display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;}
+.tabs::-webkit-scrollbar{display:none;}
+.tab{padding:11px 14px;font-size:.75rem;font-weight:500;color:var(--text3);cursor:pointer;white-space:nowrap;border:none;border-bottom:2px solid transparent;background:none;font-family:inherit;display:flex;align-items:center;gap:5px;transition:color .12s,border-color .12s;}
+.tab:hover{color:var(--text);}
+.tab.on{color:var(--amber);border-bottom-color:var(--amber);}
+.pill{background:var(--amber-lt);color:var(--amber);border-radius:40px;padding:1px 7px;font-size:.67rem;font-family:'DM Mono',monospace;}
+.tab.on .pill{background:var(--amber);color:#fff;}
+
+/* ── CONTROLS BAR ── */
+.ctrl{padding:11px 22px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border-lt);background:var(--surface);}
+.ctrl-lbl{font-size:.75rem;color:var(--text3);}
+.sel{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:5px 10px;font-size:.75rem;font-family:inherit;color:var(--text2);cursor:pointer;outline:none;}
+.sel:focus{border-color:var(--amber);}
+.view-tog{display:flex;gap:4px;margin-left:auto;}
+.vbtn{padding:5px 12px;border-radius:var(--r-sm);background:none;border:1px solid var(--border);color:var(--text3);cursor:pointer;font-size:.73rem;font-family:inherit;transition:all .12s;}
+.vbtn.on{background:var(--dark);color:#fef3dc;border-color:var(--dark);}
+
+/* ── STATS ── */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;padding:14px 22px;background:var(--surface2);border-bottom:1px solid var(--border-lt);}
+.stat{background:var(--surface);border:1px solid var(--border-lt);border-radius:var(--r);padding:12px 14px;}
+.stat-lbl{font-size:.64rem;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;font-family:'DM Mono',monospace;}
+.stat-val{font-size:1.45rem;font-weight:600;font-family:'DM Mono',monospace;color:var(--text);margin-top:3px;}
+.stat-sub{font-size:.66rem;color:var(--text3);margin-top:1px;}
+
+/* ── MAIN CONTENT ── */
+.main{padding:18px 22px;}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(296px,1fr));gap:13px;}
+
+/* ── AUTHOR CARD ── */
+.card{background:var(--surface);border:1px solid var(--border-lt);border-radius:var(--r-lg);padding:17px;cursor:pointer;transition:transform .15s,box-shadow .15s;position:relative;}
+.card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.08);}
+.card.s-active{border-left:3px solid #22c55e;}
+.card.s-needs{border-left:3px solid #ef4444;}
+.card.s-awaiting{border-left:3px solid #f59e0b;}
+.card.s-content{border-left:3px solid #14b8a6;}
+.card.s-prospect{border-left:3px solid #f97316;}
+.card.s-low{border-left:3px solid #94a3b8;}
+.card.s-old-check{border-left:3px solid #94a3b8;}
+.c-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:7px;}
+.c-name{font-family:'Cormorant Garamond',serif;font-size:1.08rem;font-weight:600;color:var(--text);line-height:1.2;}
+.c-book{font-size:.77rem;color:var(--amber);font-style:italic;margin-bottom:9px;}
+.c-meta{display:flex;flex-wrap:wrap;gap:5px;align-items:center;}
+.c-foot{display:flex;gap:6px;margin-top:11px;border-top:1px solid var(--border-lt);padding-top:9px;}
+.vip-dot{display:inline-block;width:6px;height:6px;background:#f59e0b;border-radius:50%;margin-right:5px;vertical-align:middle;}
+.vip-tag{font-size:.63rem;color:#b45309;font-family:'DM Mono',monospace;margin-top:1px;}
+
+/* ── LIST VIEW ── */
+.list-hdr{display:grid;grid-template-columns:2fr 1.6fr 1fr 1fr 1fr 110px;gap:10px;padding:7px 14px;font-size:.63rem;font-family:'DM Mono',monospace;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;}
+.lst{display:flex;flex-direction:column;gap:5px;}
+.row{background:var(--surface);border:1px solid var(--border-lt);border-radius:var(--r);padding:11px 14px;display:grid;grid-template-columns:2fr 1.6fr 1fr 1fr 1fr 110px;align-items:center;gap:10px;cursor:pointer;transition:box-shadow .12s;}
+.row:hover{box-shadow:0 4px 12px rgba(0,0,0,.07);border-color:var(--border);}
+.r-name{font-family:'Cormorant Garamond',serif;font-size:.97rem;font-weight:600;}
+.r-book{font-size:.72rem;color:var(--text3);font-style:italic;}
+.r-acts{display:flex;gap:5px;justify-content:flex-end;}
+
+/* ── STATUS BADGES ── */
+.badge{display:inline-flex;align-items:center;padding:2px 9px;border-radius:40px;font-size:.63rem;font-weight:500;letter-spacing:.03em;white-space:nowrap;}
+.b-active{background:#dcfce7;color:#166534;}
+.b-needs{background:#fee2e2;color:#991b1b;}
+.b-awaiting{background:#fef3c7;color:#92400e;}
+.b-content{background:#ccfbf1;color:#134e4a;}
+.b-prospect{background:#ffedd5;color:#c2410c;}
+.b-low{background:#f1f5f9;color:#475569;}
+.b-old-check{background:#f1f5f9;color:#475569;}
+
+/* ── DAYS BADGE ── */
+.dbadge{font-family:'DM Mono',monospace;font-size:.63rem;padding:2px 7px;border-radius:40px;}
+.d-fresh{background:#dcfce7;color:#166534;}
+.d-ok{background:#fef3c7;color:#92400e;}
+.d-stale{background:#ffedd5;color:#9a3412;}
+.d-urgent{background:#fee2e2;color:#991b1b;}
+.d-none{background:#f1f5f9;color:#64748b;}
+
+/* ── INVOICE CHIP ── */
+.ichip{font-size:.63rem;font-family:'DM Mono',monospace;padding:2px 7px;border-radius:4px;}
+.i-paid{background:#dcfce7;color:#166534;}
+.i-due{background:#fef3c7;color:#92400e;}
+.i-pend{background:#f1f5f9;color:#475569;}
+.i-na{color:var(--text3);font-size:.63rem;font-family:'DM Mono',monospace;}
+
+/* ── EMAIL CHIP ── */
+.email-chip{font-size:.68rem;color:var(--text3);font-family:'DM Mono',monospace;background:var(--surface2);padding:2px 7px;border-radius:4px;cursor:pointer;}
+.email-chip:hover{background:var(--border-lt);}
+
+/* ── BUTTONS ── */
+.btn-contact{font-size:.7rem;font-family:inherit;padding:4px 11px;border-radius:var(--r-sm);border:1px solid var(--border);background:var(--surface2);color:var(--text2);cursor:pointer;transition:all .1s;white-space:nowrap;}
+.btn-contact:hover{background:var(--border-lt);}
+.btn-contact.done{background:#dcfce7;border-color:#86efac;color:#166534;}
+.btn-view{font-size:.7rem;font-family:inherit;padding:4px 11px;border-radius:var(--r-sm);border:none;background:var(--dark);color:#fef3dc;cursor:pointer;margin-left:auto;}
+.btn-view:hover{background:#3d2518;}
+
+/* ── DRAWER ── */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.32);z-index:98;opacity:0;pointer-events:none;transition:opacity .25s;}
+.overlay.on{opacity:1;pointer-events:auto;}
+.drawer{position:fixed;top:0;right:0;width:560px;max-width:95vw;height:100vh;overflow-y:auto;background:var(--surface);z-index:99;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);box-shadow:-16px 0 48px rgba(0,0,0,.12);}
+.drawer.on{transform:translateX(0);}
+.d-hdr{background:var(--dark);padding:18px 22px;position:sticky;top:0;z-index:1;}
+.d-close{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.1);border:none;color:#fff;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center;}
+.d-close:hover{background:rgba(255,255,255,.2);}
+.d-name{font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:600;color:#fef3dc;line-height:1.15;}
+.d-book{font-size:.82rem;color:rgba(196,122,42,.9);font-style:italic;margin-top:3px;}
+.d-badges{margin-top:9px;display:flex;gap:6px;flex-wrap:wrap;align-items:center;}
+.d-body{padding:22px;}
+.d-sec{margin-bottom:22px;}
+.d-sec-ttl{font-size:.64rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);font-family:'DM Mono',monospace;margin-bottom:8px;padding-bottom:5px;border-bottom:1px solid var(--border-lt);}
+.igrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.ibox{background:var(--surface2);border-radius:var(--r-sm);padding:10px 12px;}
+.ibox-lbl{font-size:.63rem;color:var(--text3);font-family:'DM Mono',monospace;margin-bottom:3px;}
+.ibox-val{font-size:.82rem;color:var(--text);font-weight:500;word-break:break-all;}
+.notes-ro{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);padding:13px;font-size:.78rem;color:var(--text);line-height:1.65;white-space:pre-line;}
+.notes-ed{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);padding:13px;font-size:.78rem;color:var(--text);font-family:inherit;min-height:110px;resize:vertical;line-height:1.65;outline:none;}
+.notes-ed:focus{border-color:var(--amber);}
+.btn-save{background:var(--amber);color:#fff;border:none;padding:7px 16px;border-radius:var(--r-sm);font-size:.78rem;font-family:inherit;cursor:pointer;margin-top:7px;}
+.btn-save:hover{background:#a8631e;}
+.log-item{background:var(--surface2);border-left:3px solid var(--amber);padding:7px 11px;border-radius:0 var(--r-sm) var(--r-sm) 0;font-size:.73rem;color:var(--text2);}
+.log-date{font-family:'DM Mono',monospace;font-size:.64rem;color:var(--text3);}
+.lchip{display:inline-flex;align-items:center;gap:5px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--r-sm);padding:5px 11px;font-size:.73rem;color:var(--text2);text-decoration:none;margin:0 5px 5px 0;}
+.lchip:hover{background:var(--border-lt);color:var(--amber);}
+.d-qact{display:flex;gap:7px;flex-wrap:wrap;}
+
+/* ── EMPTY STATE ── */
+.empty{text-align:center;padding:56px 22px;color:var(--text3);}
+.empty-ttl{font-family:'Cormorant Garamond',serif;font-size:1.35rem;margin-bottom:7px;color:var(--text2);}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(70px);background:var(--dark);color:#fef3dc;padding:9px 18px;border-radius:40px;font-size:.78rem;z-index:200;transition:transform .28s;pointer-events:none;}
+.toast.on{transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="hdr">
+  <div class="logo">Atomic <span>Shelf</span></div>
+  <div class="srch-wrap">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input class="srch" id="srch" type="text" placeholder="Search authors, books, email…" oninput="onSearch(this.value)">
+  </div>
+  <div class="hdr-right">
+    <button class="btn-sm" onclick="exportCSV()">
+      <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Export CSV
+    </button>
+  </div>
+</header>
+
+<!-- FILTER TABS -->
+<nav class="tabs" id="tabs"></nav>
+
+<!-- CONTROLS -->
+<div class="ctrl">
+  <span class="ctrl-lbl">Sort by:</span>
+  <select class="sel" id="sortSel" onchange="onSort(this.value)">
+    <option value="urgency">Urgency (days since contact)</option>
+    <option value="name">Name A–Z</option>
+    <option value="invoice">Invoice status</option>
+    <option value="status">Status priority</option>
+  </select>
+  <div class="view-tog">
+    <button class="vbtn on" id="vg" onclick="setView('grid')">
+      <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      Grid
+    </button>
+    <button class="vbtn" id="vl" onclick="setView('list')">
+      <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+      List
+    </button>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats" id="stats"></div>
+
+<!-- MAIN -->
+<div class="main" id="main"></div>
+
+<!-- DRAWER OVERLAY -->
+<div class="overlay" id="ov" onclick="closeDrawer()"></div>
+
+<!-- DETAIL DRAWER -->
+<aside class="drawer" id="drw"></aside>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════════════
+const AUTHORS = [
+  {id:"daniel_voelker",name:"Daniel Voelker",status:"active",vipTag:"10-Month Prepaid",primaryProject:"Return to Hawaii: A Donovan Cross Novel",projects:["Return to Hawaii: A Donovan Cross Novel"],email:"daniel.voelker59@gmail.com",social:"@returnhawaiidonovancross",timeline:"April 13, 2026 – February 13, 2027 (10 months)",notes:"✅ FULL 10-MONTH PREPAID RETAINER ($200) – PAID IN FULL.\nReceipt Date: April 12, 2026. Transaction ID: ATOMIC-RTH-2412-10M.\n📌 Content Dashboard active: 11 cinematic series & 104+ pieces of content produced.\n2-3 daily faceless BookTok videos + YouTube Shorts syndication.\n📊 Guarantee: 10k+ views month one, growing to 20k-30k/month by month two. Weekly reports every Monday.\n📞 Key comms: Nick apologised for Feb 14 delay, offered free first week. Daniel confirmed 'Looks great' on Feb 18.\n✅ Payment completed. Priority support & strategy access granted.",links:[{label:"📄 Content Dashboard",url:"https://atomic-shelf.com/Productions/Daniel_V_Return_To_Hawaii"},{label:"📁 Google Drive Folder",url:"https://drive.google.com/drive/folders/1KPgmvnwb7uT7MYMpQD6BuE3LQ0203Mut"},{label:"🧾 Official Receipt",url:"https://atomic-shelf.com/Productions/Receipts/Return_To_Hawaii"}],invoiceInfo:"PAID IN FULL ($200) – April 12, 2026",lastContact:"May 12, 2026",nextAction:"Monitor weekly reports; Drive folder updated daily; continue 10-month content push."},
+  {id:"wayne_turner",name:"Wayne Turner",status:"active",primaryProject:"Seaside Glitter",projects:["Seaside Glitter"],email:"seasideglitterbooks@gmail.com",social:"@seasideglitter",timeline:"Feb 12 – ongoing",notes:"Invoice PAID. Series 1 ready. Target: 10k-15k views, 2k followers.",links:[{label:"📄 Productions Page",url:"/Productions/Seaside_Glitter_by_Wayne_Turner"}],invoiceInfo:"PAID",lastContact:"Apr 12, 2026",nextAction:"Post series 1 and schedule follow-up"},
+  {id:"robert_walker",name:"Robert Walker",status:"active",primaryProject:"Six Moons Seven Gods",projects:["Six Moons Seven Gods"],email:"contact@robertwalker.com",social:"@robertwalker4382",timeline:"Mar 3 – Apr 20",notes:"Series 3 voiceovers done. Report + invoice due Apr 20.",links:[{label:"📄 Productions Page",url:"/Productions/Six_Moons_Seven_Gods_Robert_Walker"}],invoiceInfo:"Due Apr 20",lastContact:"Apr 10, 2026",nextAction:"Confirm final assets"},
+  {id:"robbin_laird",name:"Robbin Laird",status:"active",primaryProject:"Public Speaking for Professionals",projects:["Public Speaking for Professionals"],email:"publicspeakingprobooks@gmail.com",social:"@publicspeakingpro.books",timeline:"Apr 6 – ongoing",notes:"LIVE on TikTok. YouTube access granted. Weekend report due.",links:[{label:"📄 Productions Page",url:"/Productions/Robbin_Lairds_Public_Speaking_for_Professionals"}],invoiceInfo:"Pending final report",lastContact:"Apr 12, 2026",nextAction:"Collect weekend analytics"},
+  {id:"daniel_zane_bryan",name:"Daniel Zane Bryan",status:"active",primaryProject:"Indoor Vegetable Gardening",projects:["The Plant Nook","Indoor Vegetable Gardening"],email:"smallspacegardenbooks@gmail.com",social:"@smallspacegarden.books",timeline:"Apr 6 – ongoing",notes:"Multi-project. Live on TikTok. YouTube access.",links:[{label:"📄 Productions Page",url:"/Productions/Daniel_Zane_Bryan_Indoor_Vegetable_Gardening"}],invoiceInfo:"Awaiting invoice",lastContact:"Apr 11, 2026",nextAction:"Send combined report"},
+  {id:"shelia",name:"Shelia",status:"active",primaryProject:"Clair Senses",projects:["Clair Senses"],email:"shelia@clairbooks.com",social:"@clair_senses",timeline:"Mar 25 – ongoing",notes:"Psychic development series. Production in progress.",links:[{label:"📄 Productions Page",url:"/Productions/Shelia_Clair_Senses"}],invoiceInfo:"Monthly retainer",lastContact:"Apr 9, 2026",nextAction:"Draft new intuitive clips"},
+  {id:"jad_el_khoury",name:"Jad El Khoury",status:"active",primaryProject:"Jad's 5 Books",projects:["Jad's 5 Books","The Jade Necklace"],email:"powerpages30@gmail.com",social:"@atomic.shelf",timeline:"Apr 6 – ongoing",notes:"LIVE on TikTok. Editor access decision pending.",links:[{label:"📄 Productions Page",url:"/Productions/Jad_P_The_Jade_Necklace"}],invoiceInfo:"Pending invoice",lastContact:"Apr 12, 2026",nextAction:"Confirm editor access"},
+  {id:"ray_strong",name:"Ray Strong",status:"active",primaryProject:"Flight of the Zephyr",projects:["Flight of the Zephyr"],email:"zephyrsflightbooks@gmail.com",social:"@zephyrsflight.books",timeline:"Apr 11 – Apr 18",notes:"Editor access granted. 7 videos queued. Inventory ends Apr 17. Invoice due Apr 18.",links:[{label:"📄 Productions Page",url:"/Productions/Ray_Strong_ZF"}],invoiceInfo:"Due Apr 18",lastContact:"Apr 12, 2026",nextAction:"Replenish content inventory ASAP"},
+  {id:"luciano_nisi",name:"Luciano Nisi",status:"active",primaryProject:"Paramedic + Trail Ready + Crossing Border",projects:["Paramedic","Trail Ready","Crossing Border"],email:"luciano@nisi.books",social:"@lucianonisi",timeline:"Mar 15 – Apr 25",notes:"Three medical/action titles. Content bundle in production.",links:[{label:"📄 Productions Page",url:"/Productions/Luciano_Nisi_Trilogy"}],invoiceInfo:"Est. May 10",lastContact:"Apr 8, 2026",nextAction:"Finalise paramedic reels"},
+  {id:"ns_wikarski",name:"N.S. Wikarski",status:"active",primaryProject:"The Granite Key",projects:["The Granite Key"],email:"wikarski@arkana.com",social:"@nswikarski",timeline:"Apr 1 – Apr 30",notes:"Mystery/thriller campaign gaining traction.",links:[{label:"📄 Productions Page",url:"/Productions/The_Granite_Key"}],invoiceInfo:"50% upfront",lastContact:"Apr 10, 2026",nextAction:"Schedule zoom review"},
+  {id:"ryan_ambrose",name:"Ryan Ambrose",status:"active",primaryProject:"A Pawn in Dire Game",projects:["A Pawn in Dire Game"],email:"ryanambrose@darklit.com",social:"@ryanambrose",timeline:"Apr 5 – Apr 20",notes:"Dark fantasy series. Short-form content performing well.",links:[{label:"📄 Productions Page",url:"/Productions/Pawn_Dire_Game"}],invoiceInfo:"Due Apr 22",lastContact:"Apr 11, 2026",nextAction:"Post reaction teaser"},
+  {id:"kyle_hogg",name:"Kyle Hogg",status:"active",primaryProject:"Would You Believe It",projects:["Would You Believe It"],email:"kyle@hoggmedia.com",social:"@kylehogg",timeline:"Mar 28 – Apr 18",notes:"Comedic storytelling. Viral potential.",links:[{label:"📄 Productions Page",url:"/Productions/Would_You_Believe_It"}],invoiceInfo:"Paid",lastContact:"Apr 12, 2026",nextAction:"Release 3 new reels"},
+  {id:"vv_sinclair",name:"VV Sinclair",status:"active",primaryProject:"Timewrecked",projects:["Timewrecked"],email:"vv@sinclairbooks.com",social:"@timewrecked",timeline:"Apr 2 – Apr 23",notes:"Sci-fi time travel. Editor needed.",links:[{label:"📄 Productions Page",url:"/Productions/Timewrecked_VV"}],invoiceInfo:"Pending",lastContact:"Apr 9, 2026",nextAction:"Send draft storyboards"},
+  {id:"paul_bauer",name:"Paul Bauer",status:"active",primaryProject:"Everything I Wish I Knew When I Was 18",projects:["Everything I Wish I Knew When I Was 18"],email:"paul@bauermedia.com",social:"@paulbauerofficial",timeline:"Apr 10 – Apr 25",notes:"Inspirational / self-help. Large following potential.",links:[{label:"📄 Productions Page",url:"/Productions/Paul_Bauer_18"}],invoiceInfo:"Quote sent",lastContact:"Apr 10, 2026",nextAction:"Confirm video style"},
+  {id:"nicola_briggs",name:"Nicola Briggs",status:"active",primaryProject:"Peacock on the Moon",projects:["Peacock on the Moon"],email:"nicola@briggslit.com",social:"@nicolabriggs",timeline:"Apr 8 – Apr 29",notes:"Literary fiction. Atmospheric reels planned.",links:[{label:"📄 Productions Page",url:"/Productions/Peacock_Moon"}],invoiceInfo:"Est. May 1",lastContact:"Apr 11, 2026",nextAction:"Mood board review"},
+  {id:"jc_brandt",name:"J.C. Brandt",status:"active",primaryProject:"J.C. Brandt Series",projects:["J.C. Brandt Series"],email:"jcbrandtbooks@gmail.com",social:"@jcbrandt.books",timeline:"Mar 2026 – ongoing",notes:"Content report HTML produced. Production page live. Technical edits applied (replaced Google Photos widgets with clickable cards).",links:[{label:"📄 Productions Page",url:"/Productions/JC_Brandt"}],invoiceInfo:"Pending",lastContact:"Apr 2026",nextAction:"Deliver updated content report"},
+  {id:"charles_santana",name:"Charles Santana",status:"active",primaryProject:"Vibe Check",projects:["Vibe Check"],email:"vibecheck.books@gmail.com",social:"@vibecheck.books",timeline:"Mar 2026 – ongoing",notes:"Campaign active. Vibe Check content series in production.",links:[{label:"📄 Productions Page",url:"/Productions/Charles_Santana_Vibe_Check"}],invoiceInfo:"Pending",lastContact:"Apr 2026",nextAction:"Push next content batch"},
+  {id:"jill_featherstone",name:"Jill Featherstone",status:"needs",primaryProject:"Tiger Lily",projects:["The Tale of Tiger Lily"],email:"kunajillbooks@gmail.com",social:"@jillfeatherstonetl",timeline:"Mar 18 – Apr 18",notes:"⚠️ 0 videos posted. Chase reply urgently.",links:[{label:"📄 Productions Page",url:"/Productions/Jill_Featherstones_The_Tale_of_Tiger_Lily"}],invoiceInfo:"On hold",lastContact:"Apr 8, 2026",nextAction:"URGENT call/email"},
+  {id:"alexis_koetting",name:"Alexis Koetting",status:"needs",primaryProject:"Encore",projects:["Encore"],email:"alexis@koettingart.com",social:"@alexiskoetting",timeline:"Mar 13 – Apr 12 (Trial ended)",notes:"Trial ended. Send invoice ASAP.",links:[{label:"📄 Productions Page",url:"/Productions/Encore_by_Alexis_Koetting"}],invoiceInfo:"Invoice due",lastContact:"Apr 12, 2026",nextAction:"Send final invoice"},
+  {id:"steve_morris",name:"Steve Morris",status:"needs",primaryProject:"Mother of Trees",projects:["Mother of Trees"],email:"stevemorrisbooks@gmail.com",social:"@stevemorris.books",timeline:"Mar 8 – Apr 8 (Closed)",notes:"Grimoire found. Re-engagement email sent.",links:[{label:"📄 Productions Page",url:"/Productions/Steve_Morris_Mother_Trees"}],invoiceInfo:"Expired",lastContact:"Apr 9, 2026",nextAction:"Follow up"},
+  {id:"eliza_mcjames",name:"Eliza McJames",status:"needs",primaryProject:"Magnolia Inn",projects:["Magnolia Inn"],email:"magnoliainnbooks@gmail.com",social:"@magnoliain.books",timeline:"Feb 25 – Mar 28 (Closed)",notes:"Content ready. Accounts disabled. Chase reply.",links:[{label:"📄 Productions Page",url:"/Productions/Magnolia_Inn"}],invoiceInfo:"Pending restart",lastContact:"Apr 5, 2026",nextAction:"Relaunch proposal"},
+  {id:"zev_bagel",name:"Zev Bagel",status:"awaiting",primaryProject:"The Last Jew in Hania",projects:["The Last Jew in Hania"],email:"zevbagelbooks@gmail.com",social:"@zevbagel.books",timeline:"Not started",notes:"Samples sent. Build productions page once confirmed.",links:[],invoiceInfo:"—",lastContact:"Apr 7, 2026",nextAction:"Follow up"},
+  {id:"nancy_mclennan",name:"Nancy Ellen McLennan",status:"awaiting",primaryProject:"Finding Strength",projects:["Finding Strength"],email:"nancyellenbooks@gmail.com",social:"@nancyellen.books",timeline:"Not started",notes:"Samples sent.",links:[],invoiceInfo:"—",lastContact:"Apr 6, 2026",nextAction:"Reminder"},
+  {id:"todd_carolyn",name:"Todd & Carolyn",status:"awaiting",primaryProject:"7 Day Marriage Challenge",projects:["7 Day Marriage Challenge"],email:"relationshiprockbooks@gmail.com",social:"@relationshiprock.books",timeline:"Not started",notes:"Samples sent.",links:[],invoiceInfo:"—",lastContact:"Apr 5, 2026",nextAction:"Follow-up"},
+  {id:"l_wilder",name:"L. Wilder",status:"awaiting",primaryProject:"Seven (Satan's Fury MC)",projects:["Seven (Satan's Fury MC)"],email:"satansfurymcbooks@gmail.com",social:"@satansfurymc.books",timeline:"Not started",notes:"High-value prospect. Await response.",links:[],invoiceInfo:"—",lastContact:"Apr 9, 2026",nextAction:"VIP follow-up"},
+  {id:"spiros_scafidas",name:"Spiros Scafidas",status:"awaiting",primaryProject:"The Subtle Art of Becoming Yourself",projects:["The Subtle Art of Becoming Yourself"],email:"subtleartbooks@gmail.com",social:"@subtleart.books",timeline:"Not started",notes:"Follow-up sent.",links:[{label:"📄 Productions Page",url:"/Productions/Spiros_Scafidas_The_Art_of_Being_Yourself"}],invoiceInfo:"—",lastContact:"Apr 10, 2026",nextAction:"Reminder email"},
+  {id:"amoghavarsha_patil",name:"Amoghavarsha V Patil",status:"content",primaryProject:"ANAADHI",projects:["ANAADHI"],email:"N/A",social:"Instagram only",timeline:"Confirmed not started",notes:"Produce videos + captions. Author posts own content.",links:[],invoiceInfo:"Quote stage",lastContact:"Apr 1, 2026",nextAction:"Draft content pack"},
+  {id:"kurosh_taromi",name:"Kurosh Taromi",status:"content",primaryProject:"When a Mom Kisses Her Daughter + Funny Sharks",projects:["When a Mom Kisses Her Daughter","Funny Sharks & Poems"],email:"momkissesdaughterbooks@gmail.com",social:"@momkisses.books",timeline:"Samples sent",notes:"Two children's books. Produce trial content.",links:[],invoiceInfo:"Pending confirmation",lastContact:"Apr 11, 2026",nextAction:"Create sample reel"},
+  {id:"ryan_silver",name:"Ryan Silver",status:"prospect",primaryProject:"Silver and the Stone",projects:["Silver and the Stone"],email:"silverandthestonebooks@gmail.com",social:"@silverandstone.books",timeline:"Not confirmed",notes:"Samples sent.",links:[],invoiceInfo:"—",lastContact:"Apr 8, 2026",nextAction:"Check interest"},
+  {id:"shaun_kokoro",name:"Shaun Kokoro",status:"prospect",primaryProject:"Kokoro",projects:["Kokoro"],email:"kokoro.books@gmail.com",social:"@kokoro.books",timeline:"Not confirmed",notes:"Samples sent.",links:[],invoiceInfo:"—",lastContact:"Apr 7, 2026",nextAction:"Follow-up call"},
+  {id:"paul_mcallister",name:"Paul McAllister",status:"low",primaryProject:"Tilley's Tail",projects:["Tilley's Tail"],email:"tilleystailbooks@gmail.com",social:"@tilleystail",timeline:"Mar 15 – Apr 15",notes:"Trial running. No marketing budget.",links:[],invoiceInfo:"N/A",lastContact:"Apr 4, 2026",nextAction:"Monitor engagement"},
+  {id:"grace_anderson",name:"Dr. Grace Anderson",status:"old-check",primaryProject:"The Relationship Blueprint",projects:["The Relationship Blueprint"],email:"grace@andersoncoach.com",social:"@drgrace",timeline:"Past project",notes:"OLD AUTHOR – check if still interested. Previously missed videos. Follow-up needed.",links:[],invoiceInfo:"Inactive",lastContact:"Feb 2026",nextAction:"REACH OUT: ask interest for new campaign"}
+];
+
+// ═══════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════
+let filter='all',sort='urgency',view='grid',q='';
+
+// ═══════════════════════════════════════════════════
+// UTILITIES
+// ═══════════════════════════════════════════════════
+function parseDate(s){
+  if(!s||s==='—'||s==='N/A') return null;
+  const my=s.match(/^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+(\d{4})$/i);
+  if(my) return new Date(`${my[1]} 1, ${my[2]}`);
+  const full=s.match(/^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+(\d+),?\s*(\d{4})?/i);
+  if(full) return new Date(`${full[1]} ${full[2]}, ${full[3]||new Date().getFullYear()}`);
+  const d=new Date(s); return isNaN(d)?null:d;
+}
+
+function daysSince(a){
+  const stored=localStorage.getItem('as_lc_'+a.id);
+  const d=parseDate(stored||a.lastContact);
+  if(!d) return null;
+  return Math.max(0,Math.floor((Date.now()-d)/(864e5)));
+}
+
+function daysBadge(days,status){
+  if(days===null) return {cls:'d-none',lbl:'—'};
+  if(days===0) return {cls:'d-fresh',lbl:'Today'};
+  if(days<=3) return {cls:'d-fresh',lbl:days+'d ago'};
+  if(days<=7) return {cls:'d-ok',lbl:days+'d ago'};
+  if(days<=14) return {cls:'d-stale',lbl:days+'d ago'};
+  return {cls:'d-urgent',lbl:days+'d ago'};
+}
+
+function invChip(info){
+  if(!info||info==='—'||info==='N/A') return '<span class="i-na">—</span>';
+  const u=info.toUpperCase();
+  if(u==='PAID'||u.startsWith('PAID')) return '<span class="ichip i-paid">PAID</span>';
+  if(u.includes('PAID')) return '<span class="ichip i-paid">PAID</span>';
+  if(u.includes('DUE')||u.includes('INVOICE DUE')) return '<span class="ichip i-due">DUE</span>';
+  if(u.includes('PENDING')||u.includes('AWAITING')) return '<span class="ichip i-due">PENDING</span>';
+  if(u.includes('EXPIRED')||u.includes('INACTIVE')) return '<span class="ichip i-due">EXPIRED</span>';
+  return `<span class="ichip i-pend">${info.slice(0,14)}</span>`;
+}
+
+const SB={active:['b-active','Active'],needs:['b-needs','Needs Attention'],awaiting:['b-awaiting','Awaiting'],content:['b-content','Create Content'],prospect:['b-prospect','Prospect'],low:['b-low','Low Priority'],'old-check':['b-old-check','Check Interest']};
+function badge(status){const[c,l]=SB[status]||['b-low','Unknown'];return `<span class="badge ${c}">${l}</span>`;}
+
+const SP={needs:0,active:1,awaiting:2,content:3,prospect:4,low:5,'old-check':6};
+function pri(a){return SP[a.status]??7;}
+function urgency(a){return pri(a)*1000+(daysSince(a)??999);}
+
+function lc(a){
+  const s=localStorage.getItem('as_lc_'+a.id);
+  if(s){const d=new Date(s);return d.toDateString()===new Date().toDateString()?'Today':d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});}
+  return a.lastContact||'—';
+}
+function isToday(id){const s=localStorage.getItem('as_lc_'+id);return s&&new Date(s).toDateString()===new Date().toDateString();}
+
+function getLog(id){try{return JSON.parse(localStorage.getItem('as_log_'+id)||'[]');}catch{return [];}}
+function addLog(id,note){const l=getLog(id);l.unshift({d:new Date().toISOString(),n:note});localStorage.setItem('as_log_'+id,JSON.stringify(l.slice(0,20)));}
+
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2500);}
+
+function markContacted(id,e){
+  if(e)e.stopPropagation();
+  localStorage.setItem('as_lc_'+id,new Date().toISOString());
+  addLog(id,'Marked as contacted');
+  renderAll();
+  toast('✓ Marked as contacted today');
+}
+
+function copyEmail(email,e){
+  if(e)e.stopPropagation();
+  navigator.clipboard.writeText(email).then(()=>toast('Copied: '+email));
+}
+
+// ═══════════════════════════════════════════════════
+// FILTER & SORT
+// ═══════════════════════════════════════════════════
+function filtered(){
+  let list=AUTHORS;
+  if(filter!=='all') list=list.filter(a=>a.status===filter);
+  if(q){const lq=q.toLowerCase();list=list.filter(a=>[a.name,a.primaryProject,a.email,a.social||'',a.notes].join(' ').toLowerCase().includes(lq));}
+  return [...list].sort((a,b)=>{
+    if(sort==='urgency') return urgency(a)-urgency(b);
+    if(sort==='name') return a.name.localeCompare(b.name);
+    if(sort==='status') return pri(a)-pri(b);
+    if(sort==='invoice'){const iv=s=>{const u=(s||'').toUpperCase();if(u.includes('PAID'))return 0;if(u.includes('DUE')||u.includes('PENDING'))return 1;return 2;};return iv(a.invoiceInfo)-iv(b.invoiceInfo);}
+    return 0;
+  });
+}
+
+// ═══════════════════════════════════════════════════
+// STATS
+// ═══════════════════════════════════════════════════
+function renderStats(){
+  const all=AUTHORS;
+  const active=all.filter(a=>a.status==='active').length;
+  const needs=all.filter(a=>a.status==='needs').length;
+  const paid=all.filter(a=>(a.invoiceInfo||'').toUpperCase().includes('PAID')).length;
+  const overdue=all.filter(a=>{const d=daysSince(a);return d!==null&&d>7&&a.status!=='low'&&a.status!=='old-check';}).length;
+  document.getElementById('stats').innerHTML=`
+    <div class="stat"><div class="stat-lbl">Total Authors</div><div class="stat-val">${all.length}</div><div class="stat-sub">in roster</div></div>
+    <div class="stat"><div class="stat-lbl">Active</div><div class="stat-val" style="color:#166534">${active}</div><div class="stat-sub">live campaigns</div></div>
+    <div class="stat"><div class="stat-lbl">Needs Attention</div><div class="stat-val" style="color:#991b1b">${needs}</div><div class="stat-sub">require action</div></div>
+    <div class="stat"><div class="stat-lbl">Paid Invoices</div><div class="stat-val" style="color:#166534">${paid}</div><div class="stat-sub">confirmed</div></div>
+    <div class="stat"><div class="stat-lbl">Contact Overdue</div><div class="stat-val" style="color:${overdue>0?'#b45309':'#166534'}">${overdue}</div><div class="stat-sub">&gt;7 days since contact</div></div>`;
+}
+
+// ═══════════════════════════════════════════════════
+// TABS
+// ═══════════════════════════════════════════════════
+function renderTabs(){
+  const tabs=[{k:'all',l:'All'},{k:'active',l:'Active'},{k:'needs',l:'Needs Attention'},{k:'awaiting',l:'Awaiting'},{k:'content',l:'Create Content'},{k:'prospect',l:'Prospects'},{k:'low',l:'Low Priority'},{k:'old-check',l:'Old Authors'}];
+  const counts={};AUTHORS.forEach(a=>{counts[a.status]=(counts[a.status]||0)+1;});
+  document.getElementById('tabs').innerHTML=tabs.map(t=>`<button class="tab ${filter===t.k?'on':''}" onclick="setFilter('${t.k}')">${t.l} <span class="pill">${t.k==='all'?AUTHORS.length:(counts[t.k]||0)}</span></button>`).join('');
+}
+
+// ═══════════════════════════════════════════════════
+// CARDS
+// ═══════════════════════════════════════════════════
+function card(a){
+  const d=daysSince(a),b=daysBadge(d,a.status),td=isToday(a.id);
+  return `<div class="card s-${a.status}" onclick="openDrawer('${a.id}')">
+    <div class="c-head">
+      <div><div class="c-name">${a.vipTag?'<span class="vip-dot"></span>':''}${a.name}</div>${a.vipTag?`<div class="vip-tag">${a.vipTag}</div>`:''}</div>
+      ${badge(a.status)}
+    </div>
+    <div class="c-book">📖 ${a.primaryProject}</div>
+    <div class="c-meta">
+      <span class="dbadge ${b.cls}">${b.lbl}</span>
+      ${invChip(a.invoiceInfo)}
+      <span class="email-chip" onclick="copyEmail('${a.email}',event)" title="Copy email">${a.email.length>22?a.email.slice(0,21)+'…':a.email}</span>
+    </div>
+    <div class="c-foot">
+      <button class="btn-contact ${td?'done':''}" onclick="markContacted('${a.id}',event)">${td?'✓ Contacted':'○ Mark Contacted'}</button>
+      <button class="btn-view" onclick="event.stopPropagation();openDrawer('${a.id}')">View →</button>
+    </div>
+  </div>`;
+}
+
+function row(a){
+  const d=daysSince(a),b=daysBadge(d,a.status),td=isToday(a.id);
+  return `<div class="row" onclick="openDrawer('${a.id}')">
+    <div><div class="r-name">${a.vipTag?'<span class="vip-dot"></span>':''}${a.name}</div><div class="r-book">${a.primaryProject}</div></div>
+    <div style="font-size:.72rem;color:var(--text3)">${a.email}</div>
+    ${badge(a.status)}
+    <span class="dbadge ${b.cls}">${b.lbl}</span>
+    ${invChip(a.invoiceInfo)}
+    <div class="r-acts">
+      <button class="btn-contact ${td?'done':''}" onclick="markContacted('${a.id}',event)" style="font-size:.67rem;padding:3px 9px">${td?'✓':'○'}</button>
+      <button class="btn-view" onclick="event.stopPropagation();openDrawer('${a.id}')" style="font-size:.67rem;padding:3px 9px">View</button>
+    </div>
+  </div>`;
+}
+
+// ═══════════════════════════════════════════════════
+// MAIN RENDER
+// ═══════════════════════════════════════════════════
+function renderAll(){
+  renderTabs();renderStats();
+  const list=filtered();
+  const el=document.getElementById('main');
+  if(!list.length){el.innerHTML='<div class="empty"><div class="empty-ttl">No authors found</div><p>Adjust your search or filter.</p></div>';return;}
+  if(view==='list'){
+    el.innerHTML=`<div class="list-hdr"><div>Author / Book</div><div>Email</div><div>Status</div><div>Last Contact</div><div>Invoice</div><div style="text-align:right">Actions</div></div><div class="lst">${list.map(row).join('')}</div>`;
+  } else {
+    el.innerHTML=`<div class="grid">${list.map(card).join('')}</div>`;
+  }
+}
+
+// ═══════════════════════════════════════════════════
+// DRAWER
+// ═══════════════════════════════════════════════════
+function openDrawer(id){
+  const a=AUTHORS.find(x=>x.id===id);if(!a) return;
+  const d=daysSince(a),b=daysBadge(d,a.status),td=isToday(a.id);
+  const note=localStorage.getItem('as_note_'+a.id)||'';
+  const log=getLog(a.id);
+  const logHtml=log.length?log.slice(0,8).map(e=>`<div class="log-item"><div class="log-date">${new Date(e.d).toLocaleString('en-GB',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'})}</div>${e.n}</div>`).join(''):'<div style="font-size:.73rem;color:var(--text3)">No actions logged yet.</div>';
+  const links=a.links&&a.links.length?a.links.map(l=>`<a href="${l.url}" target="_blank" class="lchip">${l.label}</a>`).join(''):'<span style="font-size:.73rem;color:var(--text3)">No links added</span>';
+  const projs=a.projects.map(p=>`<span style="display:inline-block;background:var(--surface2);border:1px solid var(--border-lt);border-radius:6px;padding:3px 9px;font-size:.73rem;margin:0 4px 4px 0">📘 ${p}</span>`).join('');
+  document.getElementById('drw').innerHTML=`
+    <div class="d-hdr">
+      <button class="d-close" onclick="closeDrawer()">✕</button>
+      <div class="d-name">${a.vipTag?'<span class="vip-dot" style="background:#f59e0b;margin-right:5px"></span>':''}${a.name}</div>
+      <div class="d-book">${a.primaryProject}</div>
+      <div class="d-badges">${badge(a.status)}<span class="dbadge ${b.cls}">${b.lbl}</span>${invChip(a.invoiceInfo)}${a.vipTag?`<span style="background:#fef3c7;color:#92400e;font-size:.63rem;font-family:'DM Mono',monospace;padding:2px 7px;border-radius:4px">${a.vipTag}</span>`:''}</div>
+    </div>
+    <div class="d-body">
+      <div class="d-sec">
+        <div class="d-sec-ttl">Key Info</div>
+        <div class="igrid">
+          <div class="ibox"><div class="ibox-lbl">Email</div><div class="ibox-val">${a.email} <button onclick="copyEmail('${a.email}')" style="background:none;border:none;cursor:pointer;font-size:.67rem;color:var(--amber);font-family:inherit">copy</button></div></div>
+          <div class="ibox"><div class="ibox-lbl">Social</div><div class="ibox-val">${a.social||'—'}</div></div>
+          <div class="ibox"><div class="ibox-lbl">Timeline</div><div class="ibox-val" style="font-size:.75rem">${a.timeline}</div></div>
+          <div class="ibox"><div class="ibox-lbl">Last Contact</div><div class="ibox-val">${lc(a)}</div></div>
+          <div class="ibox" style="grid-column:1/-1"><div class="ibox-lbl">Next Action</div><div class="ibox-val" style="color:var(--amber)">→ ${a.nextAction||'—'}</div></div>
+        </div>
+      </div>
+      <div class="d-sec"><div class="d-sec-ttl">Projects</div><div>${projs}</div></div>
+      <div class="d-sec"><div class="d-sec-ttl">Internal Notes</div><div class="notes-ro">${a.notes}</div></div>
+      <div class="d-sec">
+        <div class="d-sec-ttl">My Notes <span style="font-size:.6rem;color:var(--text3)">(saved locally in this browser)</span></div>
+        <textarea class="notes-ed" id="ned_${a.id}" placeholder="Add your own notes…">${note}</textarea>
+        <button class="btn-save" onclick="saveNote('${a.id}')">Save Note</button>
+      </div>
+      <div class="d-sec">
+        <div class="d-sec-ttl">Quick Actions</div>
+        <div class="d-qact">
+          <button class="btn-contact ${td?'done':''}" onclick="markContacted('${a.id}')">${td?'✓ Contacted Today':'○ Mark Contacted'}</button>
+          <button class="btn-contact" onclick="copyEmail('${a.email}')">📋 Copy Email</button>
+        </div>
+      </div>
+      <div class="d-sec"><div class="d-sec-ttl">Links</div><div>${links}</div></div>
+      <div class="d-sec">
+        <div class="d-sec-ttl">Action Log</div>
+        <div style="display:flex;flex-direction:column;gap:5px">${logHtml}</div>
+      </div>
+      <div style="font-size:.65rem;color:var(--text3);text-align:center;padding-top:14px;border-top:1px solid var(--border-lt)">Atomic Shelf · Author Command Centre · Notes persist in your browser</div>
+    </div>`;
+  document.getElementById('drw').classList.add('on');
+  document.getElementById('ov').classList.add('on');
+}
+
+function closeDrawer(){
+  document.getElementById('drw').classList.remove('on');
+  document.getElementById('ov').classList.remove('on');
+}
+
+function saveNote(id){
+  const v=document.getElementById('ned_'+id)?.value||'';
+  localStorage.setItem('as_note_'+id,v);
+  addLog(id,`Note updated: "${v.slice(0,55)}${v.length>55?'…':''}"`);
+  toast('✓ Note saved');renderAll();
+}
+
+// ═══════════════════════════════════════════════════
+// CONTROLS
+// ═══════════════════════════════════════════════════
+function onSearch(v){q=v.trim();renderAll();}
+function setFilter(k){filter=k;renderAll();}
+function onSort(v){sort=v;renderAll();}
+function setView(v){view=v;document.getElementById('vg').classList.toggle('on',v==='grid');document.getElementById('vl').classList.toggle('on',v==='list');renderAll();}
+
+// ═══════════════════════════════════════════════════
+// CSV EXPORT
+// ═══════════════════════════════════════════════════
+function exportCSV(){
+  const H=['Name','Status','Primary Project','Email','Social','Timeline','Invoice','Last Contact','Next Action','Days Since Contact'];
+  const rows=AUTHORS.map(a=>[a.name,a.status,a.primaryProject,a.email,a.social||'',a.timeline,a.invoiceInfo||'',lc(a),a.nextAction||'',daysSince(a)!==null?daysSince(a)+'d':'—']);
+  const csv=[H,...rows].map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const url=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
+  const el=document.createElement('a');el.href=url;el.download=`atomic-shelf-${new Date().toISOString().slice(0,10)}.csv`;el.click();
+  URL.revokeObjectURL(url);toast('⬇ CSV exported');
+}
+
+// ═══════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════
+renderAll();
+</script>
+</body>
+</html>

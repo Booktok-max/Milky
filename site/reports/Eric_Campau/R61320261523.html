@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Atomic Shelf · Author Dashboard</title>
+<link rel="icon" type="image/svg+xml" href="https://atomic-shelf.com/atomic-shelf.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Jost:wght@300;400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --w100:#FBF7ED;--w200:#F5EDCF;--w300:#E8D89A;--w400:#D4B95A;--w500:#C9A84C;--w600:#B8860B;--w700:#8B6914;--w800:#5C4209;
+  --b100:#F2EBE0;--b200:#E0CEBC;--b300:#C4A882;--b400:#9E7B52;--b500:#7A5C2E;--b600:#5C3D1E;--b700:#3D2B1A;--b800:#1E1208;
+  --f100:#EBF5F0;--f200:#C4E0D2;--f300:#88C4A8;--f400:#4CAF80;--f500:#2D7A52;--f600:#1E5C3A;--f700:#133D28;
+  --blue:#2471A3;--blue-bg:rgba(36,113,163,.10);--blue-bd:rgba(36,113,163,.28);
+  --orange:#CA6F1E;--orange-bg:rgba(202,111,30,.10);--orange-bd:rgba(202,111,30,.28);
+  --purple:#7D3C98;--purple-bg:rgba(125,60,152,.10);--purple-bd:rgba(125,60,152,.28);
+  --teal:#0D7377;--teal-bg:rgba(13,115,119,.10);--teal-bd:rgba(13,115,119,.28);
+  --red:#C0392B;--red-bg:rgba(192,57,43,.10);--red-bd:rgba(192,57,43,.28);
+  --bg:var(--w100);--surface:#FFFCF5;--card:#FFFEFA;--border:var(--b200);--border-lt:#EDE5D4;
+  --text:var(--b800);--muted:var(--b400);--muted-lt:var(--b300);
+  --r-sm:6px;--r:10px;--r-md:14px;--r-lg:20px;--r-xl:28px;
+  --sh-sm:0 2px 8px rgba(30,18,8,.08);--sh:0 4px 20px rgba(30,18,8,.12);--sh-md:0 8px 36px rgba(30,18,8,.16);
+  --font-d:'Playfair Display',Georgia,serif;--font-b:'Jost',system-ui,sans-serif;--font-m:'DM Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-b);font-size:14px;line-height:1.65;background:var(--bg);color:var(--text);min-height:100vh}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse 70% 50% at 5% 100%,rgba(30,92,58,.06) 0%,transparent 60%),
+             radial-gradient(ellipse 50% 70% at 95% 0%,rgba(201,168,76,.07) 0%,transparent 55%)}
+a{color:var(--f500);text-decoration:none}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--w200)}::-webkit-scrollbar-thumb{background:var(--b300);border-radius:3px}
+
+/* Header */
+.hdr{background:linear-gradient(160deg,#162A1C 0%,#0D1F10 45%,#1C0E04 100%);border-bottom:2px solid;
+  border-image:linear-gradient(90deg,var(--f600),var(--w500),var(--f600)) 1;padding:20px 28px;
+  display:flex;align-items:center;gap:14px;box-shadow:0 4px 32px rgba(10,25,8,.55);position:relative;z-index:2}
+.logo-emblem{width:42px;height:42px;border-radius:10px;background:linear-gradient(138deg,var(--w400),#D4A030);
+  display:flex;align-items:center;justify-content:center;box-shadow:0 2px 18px rgba(201,168,76,.5);overflow:hidden;flex-shrink:0}
+.logo-emblem img{width:27px;height:27px;object-fit:contain}
+.logo-text{display:flex;flex-direction:column;line-height:1}
+.logo-name{font-family:var(--font-d);font-size:1.5rem;font-weight:700;color:#F0E8D0}
+.logo-name em{font-style:italic;color:var(--w400)}
+.logo-tag{font-family:var(--font-m);font-size:.56rem;color:rgba(168,216,196,.6);letter-spacing:.18em;text-transform:uppercase;margin-top:3px}
+.hdr-right{margin-left:auto;text-align:right}
+.hdr-author{font-family:var(--font-d);font-size:1.05rem;color:#F0E8D0;font-weight:600}
+.hdr-sub{font-family:var(--font-m);font-size:.6rem;color:rgba(168,216,196,.65);margin-top:2px;letter-spacing:.08em}
+.sync-pill{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.07);border:1px solid rgba(45,122,82,.3);
+  border-radius:40px;padding:5px 13px;font-family:var(--font-m);font-size:.6rem;color:rgba(168,216,196,.8);letter-spacing:.06em;margin-top:6px}
+.sync-dot{width:7px;height:7px;border-radius:50%;background:var(--f400);box-shadow:0 0 8px var(--f400)}
+.sync-dot.syncing{background:var(--w400);box-shadow:0 0 8px var(--w400);animation:spin 1s linear infinite}
+.sync-dot.error{background:var(--red);box-shadow:0 0 8px var(--red)}
+.sync-dot.live{animation:pulse 2.5s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.65)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.wrap{max-width:880px;margin:0 auto;padding:28px 20px 80px;position:relative;z-index:1}
+
+/* Welcome */
+.welcome{text-align:center;margin-bottom:26px}
+.welcome h1{font-family:var(--font-d);font-size:2.1rem;font-weight:700;color:var(--b800);margin-bottom:6px}
+.welcome p{color:var(--b500);font-size:.92rem}
+
+/* Book card */
+.bcard{background:linear-gradient(148deg,#FFFCF5,var(--w200));border:2px solid var(--border);border-radius:var(--r-xl);
+  overflow:hidden;box-shadow:var(--sh-md);margin-bottom:22px;position:relative}
+.bcard::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;
+  background:linear-gradient(90deg,var(--f600),var(--w400),var(--f500),var(--w600))}
+.bcard-body{padding:24px 26px}
+.bc-title{font-family:var(--font-d);font-size:1.7rem;font-weight:700;color:var(--b800);line-height:1.15}
+.bc-genre{font-size:.8rem;color:var(--b500);margin-top:4px;font-weight:500}
+.bc-badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.mtag{display:inline-flex;align-items:center;gap:5px;font-family:var(--font-m);font-size:.62rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:.07em;padding:4px 12px;border-radius:40px}
+.tag-active{background:rgba(45,122,82,.12);color:var(--f600);border:1px solid rgba(45,122,82,.3)}
+.tag-trial{background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-bd)}
+.tag-prospect{background:var(--orange-bg);color:var(--orange);border:1px solid var(--orange-bd)}
+.tag-awaiting{background:rgba(201,168,76,.15);color:var(--w700);border:1px solid rgba(201,168,76,.3)}
+.tag-paid{background:rgba(45,122,82,.12);color:var(--f600);border:1px solid rgba(45,122,82,.3)}
+.tag-pending{background:rgba(201,168,76,.15);color:var(--w700);border:1px solid rgba(201,168,76,.3)}
+.tag-week{background:linear-gradient(135deg,var(--b700),#2A1A0A);color:#F5E8C8}
+
+/* Stat tiles */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;margin:20px 0}
+.stile{background:var(--surface);border:1px solid var(--border-lt);border-radius:var(--r-md);padding:14px 12px;text-align:center}
+.stile-v{font-family:var(--font-d);font-size:1.7rem;font-weight:700;color:var(--b800);line-height:1;margin-bottom:5px}
+.stile-v.green{color:var(--f600)}.stile-v.gold{color:var(--w700)}.stile-v.purple{color:var(--purple)}.stile-v.teal{color:var(--teal)}
+.stile-l{font-family:var(--font-m);font-size:.52rem;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.11em}
+
+/* Progress bar */
+.prog-wrap{margin:18px 0}
+.prog-lbl{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+.prog-lbl-l{font-family:var(--font-m);font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.13em;color:var(--muted)}
+.prog-lbl-r{font-family:var(--font-m);font-size:.8rem;font-weight:700;color:var(--f600)}
+.prog-bar-bg{height:10px;background:var(--b100);border-radius:6px;overflow:hidden}
+.prog-bar-fill{height:100%;background:linear-gradient(90deg,var(--f600),var(--w500));border-radius:6px;transition:width .6s ease}
+
+/* Section blocks */
+.sect{margin-top:22px}
+.sect-hdr{font-family:var(--font-d);font-size:1.1rem;font-weight:600;color:var(--b700);margin-bottom:12px;
+  display:flex;align-items:center;gap:9px}
+.sect-hdr::after{content:'';flex:1;height:1px;background:var(--border-lt)}
+
+/* Checklist */
+.cl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px}
+.cl-item{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border-lt);
+  border-radius:var(--r-sm);padding:9px 13px;transition:opacity .15s}
+.cl-item.done{opacity:.55}
+.cl-dot{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;font-size:.7rem;font-weight:800;border:2px solid var(--b300)}
+.cl-item.done .cl-dot{background:var(--f500);border-color:var(--f500);color:#fff}
+.cl-item:not(.done) .cl-dot{color:transparent}
+.cl-label{font-size:.82rem;font-weight:600;color:var(--text)}
+.cl-item.done .cl-label{text-decoration:line-through;color:var(--muted)}
+
+/* Asset / account links */
+.link-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.link-card{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--border-lt);
+  border-radius:var(--r-md);padding:14px 16px;transition:all .15s}
+.link-card.has-link{cursor:pointer}
+.link-card.has-link:hover{border-color:var(--w500);background:var(--w100);transform:translateY(-1px);box-shadow:var(--sh-sm)}
+.link-ico{font-size:1.5rem;flex-shrink:0;width:38px;height:38px;display:flex;align-items:center;justify-content:center;
+  background:var(--w200);border-radius:var(--r-sm)}
+.link-meta{flex:1;min-width:0}
+.link-title{font-size:.84rem;font-weight:700;color:var(--b800)}
+.link-sub{font-family:var(--font-m);font-size:.62rem;color:var(--muted);margin-top:2px}
+.link-sub.ready{color:var(--f600);font-weight:700}
+.link-arrow{font-size:1rem;color:var(--w600);flex-shrink:0}
+
+/* Month / week tracker */
+.month-pill-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.month-pill{font-family:var(--font-m);font-size:.62rem;font-weight:700;padding:5px 13px;border-radius:40px;
+  border:1px solid var(--border-lt);background:var(--surface);color:var(--muted)}
+.month-pill.now{background:rgba(45,122,82,.12);border-color:rgba(45,122,82,.3);color:var(--f600)}
+
+/* Empty / error states */
+.empty-state{text-align:center;padding:70px 30px;color:var(--muted)}
+.empty-ico{font-size:2.6rem;margin-bottom:14px;opacity:.35}
+.empty-title{font-family:var(--font-d);font-size:1.5rem;font-weight:600;color:var(--b500);margin-bottom:8px}
+.empty-sub{font-size:.85rem;color:var(--muted);margin-bottom:20px;line-height:1.7}
+.retry-btn{background:var(--b700);color:#F5E8C8;padding:10px 26px;border-radius:var(--r);font-size:.86rem;font-weight:700;border:none;cursor:pointer}
+
+/* Footer */
+.foot{text-align:center;margin-top:30px;font-family:var(--font-m);font-size:.62rem;color:var(--muted-lt);letter-spacing:.06em}
+.foot a{color:var(--w700);font-weight:700}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="logo-emblem">
+    <img src="https://atomic-shelf.com/atomic-shelf.svg" alt="AS" onerror="this.parentNode.innerHTML='<span style=\'font-family:var(--font-d);font-size:.9rem;font-weight:700;color:var(--b800)\'>AS</span>'">
+  </div>
+  <div class="logo-text">
+    <div class="logo-name">Atomic <em>Shelf</em></div>
+    <div class="logo-tag">Author Dashboard</div>
+  </div>
+  <div class="hdr-right">
+    <div class="hdr-author" id="hdrAuthor">Loading…</div>
+    <div class="sync-pill"><div class="sync-dot syncing" id="syncDot"></div><span id="syncLbl">Connecting</span></div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="welcome">
+    <h1 id="welcomeName">Welcome back</h1>
+    <p>Here's a live look at your TikTok &amp; YouTube book campaign — straight from the production team.</p>
+  </div>
+
+  <div id="content">
+    <div class="empty-state">
+      <div class="empty-ico">⟳</div>
+      <div class="empty-title">Loading your campaign</div>
+      <div class="empty-sub">Fetching the latest data…</div>
+    </div>
+  </div>
+
+  <div class="foot">Atomic Shelf · Updates sync automatically · Questions? Reply to your campaign email</div>
+</div>
+
+<script>
+/* ══════════════════════════ CONFIG ══════════════════════════ */
+const PORTAL_URL = 'https://script.google.com/macros/s/AKfycbzjwmspYOb9Cdd00sPjtCthLT6MbAWU4M__fxLdmikdKX4RZIhWbzNkVLZzlW_xIgb0/exec';
+const MONTH_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+// Author this dashboard belongs to. Override via ?author=Name in the URL.
+const params = new URLSearchParams(window.location.search);
+const AUTHOR_NAME = (params.get('author') || 'Eric Matt Campau').trim();
+
+// Client-facing checklist — friendlier labels than the internal production board
+const CLIENT_STEPS = [
+  {key:'Hook Written',          label:'Hook written'},
+  {key:'Script Approved',       label:'Script approved'},
+  {key:'Seed Images Created',   label:'Seed images created'},
+  {key:'B-Roll Sourced',        label:'B-roll sourced'},
+  {key:'First Draft Complete',  label:'First draft complete'},
+  {key:'Client Review Sent',    label:'Sent to you for review'},
+  {key:'Client Approved',       label:'Approved by you'},
+  {key:'Captions Added',        label:'Captions added'},
+  {key:'Hashtags Added',        label:'Hashtags & hooks set'},
+  {key:'Thumbnail Created',     label:'Thumbnail created'},
+  {key:'Posted TikTok',         label:'Posted to TikTok'},
+  {key:'Posted YouTube',        label:'Posted to YouTube'},
+  {key:'Posted Pinterest',      label:'Posted to Pinterest'},
+  {key:'Analytics Logged',      label:'Analytics logged'},
+];
+
+/* ══════════════════════════ UTILS ══════════════════════════ */
+const esc = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+const isUrl = s => s && typeof s === 'string' && s.startsWith('http') && !s.toLowerCase().includes('none');
+const numV = v => { if(!v) return 0; const n = parseFloat(String(v).replace(/[^0-9.]/g,'')); return isNaN(n) ? 0 : n; };
+function normBool(v){if(v===true||v===1)return true;if(v===false||v===0)return false;if(typeof v==='string'){const s=v.trim().toUpperCase();if(s==='TRUE'||s==='1')return true}return false}
+function normStatus(raw){const s=(raw||'').toLowerCase().trim();if(s.includes('needs'))return'needs';if(s.includes('awaiting'))return'awaiting';if(s.includes('low'))return'low';if(s.includes('prospect'))return'prospect';if(s.includes('trial'))return'trial';if(s.includes('active')||s.includes('create'))return'active';if(s.includes('archive'))return'archived';return'prospect'}
+function statusTagClass(st){return{active:'tag-active',trial:'tag-trial',prospect:'tag-prospect',awaiting:'tag-awaiting',needs:'tag-awaiting',low:'tag-prospect'}[st]||'tag-prospect'}
+function statusLabel(st){return{active:'Campaign Active',trial:'Trial Campaign',prospect:'Getting Started',awaiting:'Awaiting Next Step',needs:'In Progress',low:'In Progress',archived:'Campaign Complete'}[st]||'In Progress'}
+
+function fetchJSONP(url){return new Promise((res,rej)=>{const cb='__asJP_'+Date.now()+'_'+Math.random().toString(36).slice(2);const s=document.createElement('script');const t=setTimeout(()=>{cleanup();rej(new Error('Timeout'))},18000);function cleanup(){clearTimeout(t);delete window[cb];if(s.parentNode)s.remove()}window[cb]=data=>{cleanup();res(data)};s.onerror=()=>{cleanup();rej(new Error('Network error'))};s.src=url+(url.includes('?')?'&':'?')+'callback='+cb;document.head.appendChild(s)})}
+
+function setSyncState(state){
+  const dot=document.getElementById('syncDot'),lbl=document.getElementById('syncLbl');
+  if(!dot||!lbl)return;
+  dot.className='sync-dot'+(state==='syncing'?' syncing':state==='error'?' error':' live');
+  lbl.textContent=state==='syncing'?'Syncing…':state==='error'?'Offline':'Live';
+}
+
+/* ══════════════════════════ CAMPAIGN WEEK CALC ══════════════════════════ */
+function getCampaignWeekInfo(b){
+  const raw=b['Campaign Live Date'];if(!raw)return null;
+  const liveDate=new Date(raw);if(isNaN(liveDate.getTime()))return null;
+  const live=new Date(Date.UTC(liveDate.getFullYear(),liveDate.getMonth(),liveDate.getDate()));
+  const today=new Date();
+  const todayUTC=new Date(Date.UTC(today.getFullYear(),today.getMonth(),today.getDate()));
+  const diffDays=Math.floor((todayUTC-live)/86400000);
+  if(diffDays<0)return{started:false,daysUntil:Math.abs(diffDays),liveDate:live};
+  const campaignWeek=Math.floor(diffDays/7)+1;
+  const campaignMonth=Math.floor(diffDays/28)+1;
+  const dayOfWeek=diffDays%7+1;
+  return{started:true,campaignWeek,campaignMonth,dayOfWeek,liveDate:live};
+}
+
+/* ══════════════════════════ RENDER ══════════════════════════ */
+function getProgress(b){return CLIENT_STEPS.filter(s=>normBool(b[s.key])).length}
+
+function buildBookCard(b){
+  const st=normStatus(b['Campaign Status']);
+  const done=getProgress(b),pct=Math.round(done/CLIENT_STEPS.length*100);
+  const views=numV(b['Total Views']);
+  const wk=getCampaignWeekInfo(b);
+  const { month: cm, year: cy } = (()=>{const n=new Date();return{month:n.getMonth(),year:n.getFullYear()}})();
+  const calLabel=`${MONTH_NAMES[cm]} ${cy}`;
+
+  // Campaign week / month badge
+  let weekBadge='';
+  if(wk && wk.started){
+    weekBadge=`<span class="mtag tag-week">📅 Campaign Week ${wk.campaignWeek} · Month ${wk.campaignMonth}</span>`;
+  }else if(wk && !wk.started){
+    weekBadge=`<span class="mtag tag-week">🔜 Launches in ${wk.daysUntil} day${wk.daysUntil!==1?'s':''} — ${wk.liveDate.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}</span>`;
+  }else{
+    weekBadge=`<span class="mtag tag-week">📅 ${calLabel}</span>`;
+  }
+
+  // Payment tag
+  const payRaw=(b['Payment Status']||'').trim();
+  let payTag='';
+  if(payRaw){
+    const isPaid=/paid|complete|cleared/i.test(payRaw)&&!/pending|due|unpaid/i.test(payRaw);
+    payTag=`<span class="mtag ${isPaid?'tag-paid':'tag-pending'}">💰 ${esc(payRaw.split(' - ')[0])}</span>`;
+  }
+
+  // Assets — Google Photos albums only (no production docs)
+  const seedAlbum = b['Google Photos Album URL'];
+  const videoAlbum = b['Google Photos Videos Link'];
+  let assetsHTML = '';
+  if(isUrl(seedAlbum) || isUrl(videoAlbum)){
+    assetsHTML = `<div class="sect">
+      <div class="sect-hdr">🖼 Your Assets</div>
+      <div class="link-grid">
+        ${isUrl(seedAlbum)?`
+        <div class="link-card has-link" onclick="window.open('${esc(seedAlbum)}','_blank')">
+          <div class="link-ico">📸</div>
+          <div class="link-meta">
+            <div class="link-title">Seed Images Album</div>
+            <div class="link-sub ready">Ready to view ↗</div>
+          </div>
+          <div class="link-arrow">↗</div>
+        </div>`:''}
+        ${isUrl(videoAlbum)?`
+        <div class="link-card has-link" onclick="window.open('${esc(videoAlbum)}','_blank')">
+          <div class="link-ico">🎬</div>
+          <div class="link-meta">
+            <div class="link-title">Video Assets Album</div>
+            <div class="link-sub ready">Ready to view ↗</div>
+          </div>
+          <div class="link-arrow">↗</div>
+        </div>`:''}
+      </div>
+    </div>`;
+  } else {
+    assetsHTML = `<div class="sect">
+      <div class="sect-hdr">🖼 Your Assets</div>
+      <div class="link-grid">
+        <div class="link-card">
+          <div class="link-ico" style="opacity:.4">📸</div>
+          <div class="link-meta">
+            <div class="link-title" style="color:var(--muted)">Assets in progress</div>
+            <div class="link-sub">Albums will appear here once ready</div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  // Active accounts — TikTok & YouTube only
+  const tiktok = b['TikTok Account'];
+  const youtube = b['YouTube Account'];
+  let accountsHTML = '';
+  if(isUrl(tiktok) || isUrl(youtube)){
+    accountsHTML = `<div class="sect">
+      <div class="sect-hdr">📲 Active Accounts</div>
+      <div class="link-grid">
+        ${isUrl(tiktok)?`
+        <div class="link-card has-link" onclick="window.open('${esc(tiktok)}','_blank')">
+          <div class="link-ico">𝕋</div>
+          <div class="link-meta"><div class="link-title">TikTok Channel</div><div class="link-sub ready">View profile ↗</div></div>
+          <div class="link-arrow">↗</div>
+        </div>`:''}
+        ${isUrl(youtube)?`
+        <div class="link-card has-link" onclick="window.open('${esc(youtube)}','_blank')">
+          <div class="link-ico">▶</div>
+          <div class="link-meta"><div class="link-title">YouTube Channel</div><div class="link-sub ready">View channel ↗</div></div>
+          <div class="link-arrow">↗</div>
+        </div>`:''}
+      </div>
+    </div>`;
+  }
+
+  // This week's checklist
+  const checklistHTML = `<div class="sect">
+    <div class="sect-hdr">✅ This Week's Production Checklist</div>
+    <div class="cl-grid">
+      ${CLIENT_STEPS.map(s=>{
+        const d=normBool(b[s.key]);
+        return `<div class="cl-item${d?' done':''}"><div class="cl-dot">${d?'✓':''}</div><div class="cl-label">${esc(s.label)}</div></div>`;
+      }).join('')}
+    </div>
+  </div>`;
+
+  return `<div class="bcard">
+    <div class="bcard-body">
+      <div class="bc-title">${esc(b['Book Title']||'Untitled')}</div>
+      ${b['Series / Collection']?`<div class="bc-genre">${esc(b['Series / Collection'])}</div>`:''}
+      <div class="bc-badges">
+        <span class="mtag ${statusTagClass(st)}">${statusLabel(st)}</span>
+        ${weekBadge}
+        ${b['Genre']?`<span class="mtag" style="background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-bd)">📚 ${esc(b['Genre'])}</span>`:''}
+        ${payTag}
+      </div>
+
+      <div class="prog-wrap">
+        <div class="prog-lbl">
+          <span class="prog-lbl-l">This Week's Progress</span>
+          <span class="prog-lbl-r">${pct}% · ${done}/${CLIENT_STEPS.length} steps</span>
+        </div>
+        <div class="prog-bar-bg"><div class="prog-bar-fill" style="width:${pct}%"></div></div>
+      </div>
+
+      <div class="stat-grid">
+        <div class="stile"><div class="stile-v gold">${views>999?(views/1000).toFixed(1)+'K':(views||'—')}</div><div class="stile-l">Total Views</div></div>
+        <div class="stile"><div class="stile-v green">${pct}%</div><div class="stile-l">Week Progress</div></div>
+        ${wk&&wk.started?`<div class="stile"><div class="stile-v purple">Week ${wk.campaignWeek}</div><div class="stile-l">Campaign Week</div></div>`:''}
+        ${wk&&wk.started?`<div class="stile"><div class="stile-v teal">Month ${wk.campaignMonth}</div><div class="stile-l">Campaign Month</div></div>`:''}
+      </div>
+
+      ${checklistHTML}
+      ${assetsHTML}
+      ${accountsHTML}
+    </div>
+  </div>`;
+}
+
+function showError(msg){
+  document.getElementById('content').innerHTML = `<div class="empty-state">
+    <div class="empty-ico">⚠</div>
+    <div class="empty-title">Could not load your campaign</div>
+    <div class="empty-sub">${esc(msg)}</div>
+    <button class="retry-btn" onclick="loadDashboard()">↺ Retry</button>
+  </div>`;
+}
+
+function showNoBooks(){
+  document.getElementById('content').innerHTML = `<div class="empty-state">
+    <div class="empty-ico">📭</div>
+    <div class="empty-title">No campaign found</div>
+    <div class="empty-sub">We couldn't find a campaign under "${esc(AUTHOR_NAME)}".<br>If this seems wrong, reply to your campaign email and we'll take a look.</div>
+  </div>`;
+}
+
+/* ══════════════════════════ INIT ══════════════════════════ */
+async function loadDashboard(){
+  setSyncState('syncing');
+  document.getElementById('hdrAuthor').textContent = AUTHOR_NAME;
+  document.getElementById('welcomeName').textContent = `Welcome back, ${AUTHOR_NAME.split(' ')[0]}`;
+  document.getElementById('content').innerHTML = `<div class="empty-state">
+    <div class="empty-ico">⟳</div>
+    <div class="empty-title">Loading your campaign</div>
+    <div class="empty-sub">Fetching the latest data…</div>
+  </div>`;
+
+  try{
+    const res = await fetchJSONP(PORTAL_URL+'?action=read');
+    if(!res || !res.data || !res.data.length){
+      setSyncState('error');
+      showError('No data returned from the production sheet.');
+      return;
+    }
+
+    // Merge live checklist state from the checklist log, same as the internal board
+    const cm={};
+    if(res.checklist){
+      const sorted=[...res.checklist].sort((a,z)=>new Date(a['Last Updated']||0)-new Date(z['Last Updated']||0));
+      sorted.forEach(r=>{const k=(r['Author Name']||'').trim().toLowerCase()+'||'+(r['Book Title']||'').trim().toLowerCase();cm[k]=r});
+    }
+    const BOOKS = res.data;
+    BOOKS.forEach(b=>{
+      const k=(b['Author Name']||'').trim().toLowerCase()+'||'+(b['Book Title']||'').trim().toLowerCase();
+      const remote=cm[k]||null;
+      CLIENT_STEPS.forEach(s=>{b[s.key]=remote?normBool(remote[s.key]):normBool(b[s.key])});
+    });
+
+    const target=AUTHOR_NAME.trim().toLowerCase();
+    const mine = BOOKS.filter(b=>(b['Author Name']||'').trim().toLowerCase()===target
+                                || (b['Author Name']||'').trim().toLowerCase().includes(target));
+
+    setSyncState('live');
+
+    if(!mine.length){ showNoBooks(); return; }
+
+    document.getElementById('content').innerHTML = mine.map(buildBookCard).join('');
+
+  }catch(e){
+    setSyncState('error');
+    showError('Connection failed: '+e.message);
+  }
+}
+
+loadDashboard();
+setInterval(loadDashboard, 5*60*1000); // auto-refresh every 5 minutes
+</script>
+</body>
+</html>

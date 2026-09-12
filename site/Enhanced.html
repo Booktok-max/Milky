@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="Atomic‑Shelf Enhanced — $50/month book marketing plan."/>
+<title>Atomic‑Shelf | Enhanced Plan — Secure Checkout</title>
+<link rel="icon" type="image/svg+xml" href="https://atomic-shelf.com/book-and-people-spring-svgrepo-com.svg"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --ink: #130f0b;
+  --cream: #f9f5ef;
+  --warm: #f2ebe0;
+  --amber: #b8712a;
+  --amber-light: #d4943d;
+  --amber-pale: #f7eadb;
+  --stone: #5a4b3e;
+  --muted: #8a7868;
+  --border: rgba(184,113,42,0.18);
+  --card: #fffcf7;
+  --dark: #1c1612;
+  --dark2: #252018;
+  --shadow-amber: 0 24px 64px rgba(184,113,42,0.18);
+  --shadow-soft: 0 8px 40px rgba(19,15,11,0.08);
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+
+body{
+  font-family:'Outfit',sans-serif;
+  background:var(--cream);
+  color:var(--ink);
+  line-height:1.65;
+  overflow-x:hidden;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:999;opacity:0.35;
+}
+
+body::after{
+  content:'';position:fixed;
+  top:-20%;left:50%;transform:translateX(-50%);
+  width:900px;height:600px;border-radius:50%;
+  background:radial-gradient(ellipse,rgba(184,113,42,0.09) 0%,transparent 70%);
+  pointer-events:none;z-index:0;
+}
+
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1rem 4vw;
+  background:rgba(249,245,239,0.88);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+}
+
+.logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.6rem;font-weight:700;
+  color:var(--ink);letter-spacing:-0.02em;
+  text-decoration:none;
+  display:flex;align-items:center;gap:2px;
+}
+.logo-dash{color:var(--amber)}
+
+.nav-back{
+  font-size:.83rem;font-weight:500;color:var(--stone);
+  text-decoration:none;
+  display:flex;align-items:center;gap:.45rem;
+  transition:color .2s;letter-spacing:.01em;
+}
+.nav-back:hover{color:var(--amber)}
+.nav-back svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;transition:transform .2s}
+.nav-back:hover svg{transform:translateX(-3px)}
+
+/* ── MAIN PAGE WRAPPER ── */
+.page-wrapper{
+  width:100%;max-width:1080px;
+  padding:7rem 3vw 5rem;
+  position:relative;z-index:1;
+  display:grid;
+  grid-template-columns:1fr 420px;
+  gap:3.5rem;
+  align-items:start;
+}
+
+/* LEFT COLUMN — stacked sections */
+.left-col{
+  display:flex;
+  flex-direction:column;
+  gap:2.5rem;
+}
+
+/* SECTION 1: Plan intro + features */
+.plan-intro{ animation: fadeUp .8s ease both; }
+
+.plan-eyebrow{
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-size:.73rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--amber);border:1px solid rgba(184,113,42,.25);
+  background:rgba(184,113,42,.06);
+  padding:.38rem .95rem;border-radius:99px;margin-bottom:1.75rem;
+}
+
+h1{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2.6rem,4.5vw,4rem);
+  font-weight:700;line-height:1.08;
+  letter-spacing:-0.015em;
+  color:var(--ink);margin-bottom:1.25rem;
+}
+h1 em{ font-style:italic;color:var(--amber); }
+
+.hero-desc{
+  font-size:1rem;color:var(--stone);
+  max-width:44ch;line-height:1.8;
+  margin-bottom:2rem;font-weight:400;
+}
+
+.stepup-bar{
+  display:flex;align-items:center;gap:.75rem;
+  padding:.9rem 1.1rem;
+  background:var(--dark);border-radius:10px;
+  margin-bottom:2rem;
+}
+.stepup-icon{font-size:1.15rem;flex-shrink:0}
+.stepup-text{font-size:.82rem;color:rgba(255,255,255,.55);line-height:1.5}
+.stepup-text strong{color:rgba(255,255,255,.88);font-weight:600}
+
+.features-heading{
+  font-size:.73rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:1.35rem;
+}
+
+.feature-list{
+  list-style:none;display:flex;flex-direction:column;gap:.75rem;
+}
+
+.feature-item{
+  display:flex;align-items:flex-start;gap:1rem;
+  padding:.9rem 1.15rem;background:var(--card);
+  border:1.5px solid var(--border);border-radius:10px;
+  transition:border-color .25s, box-shadow .25s;
+  animation: fadeUp .8s ease both;
+}
+.feature-item:nth-child(1){animation-delay:.12s}
+.feature-item:nth-child(2){animation-delay:.21s}
+.feature-item:nth-child(3){animation-delay:.30s}
+.feature-item:nth-child(4){animation-delay:.39s}
+.feature-item:hover{border-color:rgba(184,113,42,.38);box-shadow:var(--shadow-soft)}
+
+.feature-icon{
+  width:36px;height:36px;flex-shrink:0;
+  background:var(--amber-pale);border-radius:8px;
+  display:flex;align-items:center;justify-content:center;font-size:1.05rem;
+}
+.feature-title{font-size:.9rem;font-weight:600;color:var(--ink);margin-bottom:.18rem}
+.feature-sub{font-size:.8rem;color:var(--muted);line-height:1.55}
+
+/* SECTION 2: Image card */
+.img-card{
+  background:var(--card);
+  border:1.5px solid var(--border);
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:var(--shadow-soft);
+  animation: fadeUp .8s .2s ease both;
+}
+
+.img-card-header{
+  padding:1rem 1.25rem .75rem;
+  display:flex;align-items:center;gap:.6rem;
+  border-bottom:1px solid var(--border);
+  background:var(--warm);
+}
+.img-card-label{
+  font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--stone);
+}
+.img-card-badge{
+  margin-left:auto;
+  font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--amber);background:rgba(184,113,42,.1);
+  border:1px solid rgba(184,113,42,.22);
+  padding:.22rem .65rem;border-radius:99px;
+}
+
+.img-card-body{
+  padding:1.25rem;
+}
+
+.pay-guide-img{
+  width:100%;border-radius:8px;
+  border:1px solid var(--border);
+  display:block;
+}
+
+/* SECTION 3: Payment instructions */
+.pay-instructions{
+  background:var(--dark);
+  border-radius:16px;
+  overflow:hidden;
+  animation: fadeUp .8s .28s ease both;
+  position:relative;
+}
+.pay-instructions::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse at 10% 50%,rgba(184,113,42,.15) 0%,transparent 55%),
+    radial-gradient(ellipse at 90% 20%,rgba(184,113,42,.08) 0%,transparent 50%);
+  pointer-events:none;
+}
+
+.pay-instructions-inner{
+  padding:1.75rem 2rem;
+  position:relative;z-index:1;
+}
+
+.pay-guide-eyebrow{
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-size:.7rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--amber);border:1px solid rgba(184,113,42,.3);
+  background:rgba(184,113,42,.1);
+  padding:.32rem .85rem;border-radius:99px;
+  margin-bottom:1.1rem;
+}
+
+.pay-guide-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(1.5rem,2.5vw,2rem);
+  font-weight:700;line-height:1.1;
+  color:#fff;letter-spacing:-0.01em;
+  margin-bottom:.75rem;
+}
+
+.pay-guide-intro{
+  font-size:.87rem;color:rgba(255,255,255,.5);
+  line-height:1.8;
+  margin-bottom:1.5rem;
+}
+
+.pay-guide-steps{
+  list-style:none;display:flex;flex-direction:column;gap:1rem;
+  margin-bottom:1.5rem;
+}
+.pay-guide-steps li{
+  display:flex;align-items:flex-start;gap:.85rem;
+}
+.pay-guide-step-n{
+  background:var(--amber);color:#fff;
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.1rem;font-weight:700;
+  width:28px;height:28px;border-radius:7px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;margin-top:2px;
+}
+.pay-guide-step-title{
+  font-size:.88rem;font-weight:600;color:#fff;
+  margin-bottom:.2rem;line-height:1.3;
+}
+.pay-guide-step-desc{
+  font-size:.8rem;color:rgba(255,255,255,.45);line-height:1.65;
+}
+.pay-guide-step-desc strong{color:rgba(255,255,255,.8);}
+
+.pay-guide-tip{
+  display:flex;align-items:flex-start;gap:.85rem;
+  background:rgba(184,113,42,.12);
+  border:1px solid rgba(184,113,42,.3);
+  border-radius:10px;
+  padding:.9rem 1.1rem;
+  font-size:.82rem;color:rgba(255,255,255,.55);line-height:1.7;
+}
+.pay-guide-tip-icon{flex-shrink:0;font-size:1.1rem;line-height:1.4}
+.pay-guide-tip strong{color:#fff;font-weight:600;}
+
+/* Testimonial (kept in left col after features) */
+.testimonial{
+  background:var(--dark);border-radius:14px;
+  padding:1.6rem 1.75rem;border:1px solid rgba(255,255,255,.06);
+  position:relative;animation: fadeUp .8s .52s ease both;
+}
+.quote-mark{
+  font-family:'Cormorant Garamond',serif;
+  font-size:4.5rem;font-weight:700;color:var(--amber);
+  line-height:.6;position:absolute;top:1rem;left:1.5rem;opacity:.35;
+}
+.testimonial-text{
+  font-size:.88rem;color:rgba(255,255,255,.65);
+  line-height:1.8;font-style:italic;
+  padding-left:.5rem;position:relative;z-index:1;margin-bottom:.9rem;
+}
+.testimonial-author{
+  font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  color:rgba(255,255,255,.35);padding-left:.5rem;
+}
+
+/* ── PAYMENT CARD ── */
+.payment-card{
+  background:var(--card);border:1.5px solid var(--border);
+  border-radius:20px;overflow:hidden;
+  box-shadow:var(--shadow-amber);
+  position:sticky;top:6.5rem;
+  animation: fadeUp .7s .15s ease both;
+}
+
+.card-header{
+  background:var(--dark);padding:2rem 2rem 1.75rem;
+  position:relative;overflow:hidden;
+}
+.card-header::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse at 20% 10%,rgba(184,113,42,.28) 0%,transparent 55%),
+    radial-gradient(ellipse at 80% 90%,rgba(184,113,42,.12) 0%,transparent 50%);
+}
+
+.card-plan-name{
+  font-size:.72rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(184,113,42,.75);margin-bottom:.5rem;position:relative;z-index:1;
+}
+.card-price-row{
+  display:flex;align-items:flex-end;gap:.35rem;
+  margin-bottom:.3rem;position:relative;z-index:1;
+}
+.card-price{
+  font-family:'Cormorant Garamond',serif;
+  font-size:4.2rem;font-weight:700;color:#fff;line-height:1;
+}
+.card-price sup{font-size:1.8rem;font-weight:400;vertical-align:top;margin-top:.6rem}
+.card-period{font-size:.9rem;color:rgba(255,255,255,.4);align-self:flex-end;padding-bottom:.35rem}
+.card-tagline{font-size:.82rem;color:rgba(255,255,255,.45);position:relative;z-index:1;}
+
+.card-body{padding:1.75rem 2rem 2rem}
+
+.card-includes{
+  font-size:.72rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:1.1rem;
+}
+
+.card-features{list-style:none;margin-bottom:1.75rem;display:flex;flex-direction:column;gap:.5rem}
+.card-features li{
+  display:flex;align-items:center;gap:.7rem;
+  font-size:.875rem;color:var(--stone);padding:.3rem 0;
+  border-bottom:1px solid rgba(184,113,42,.08);
+}
+.card-features li:last-child{border-bottom:none}
+.cf-arrow{
+  color:var(--amber);font-size:.7rem;flex-shrink:0;
+  background:var(--amber-pale);width:20px;height:20px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+}
+
+/* ── CHECKOUT FORM ── */
+.checkout-form-wrap{
+  border-top:1px solid var(--border);
+  padding-top:1.5rem;margin-bottom:1.25rem;
+}
+
+.form-heading{
+  font-size:.72rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:1rem;
+}
+
+.form-row{display:flex;gap:.75rem;margin-bottom:.75rem;}
+.form-row.single{display:block;}
+
+.field-wrap{flex:1;display:flex;flex-direction:column;gap:.3rem;}
+.field-wrap label{
+  font-size:.72rem;font-weight:600;color:var(--stone);letter-spacing:.04em;
+}
+.field-wrap input{
+  padding:.65rem .85rem;
+  border:1.5px solid var(--border);
+  border-radius:8px;
+  background:var(--cream);
+  font-family:'Outfit',sans-serif;
+  font-size:.875rem;color:var(--ink);
+  outline:none;
+  transition:border-color .2s, box-shadow .2s;
+  width:100%;
+}
+.field-wrap input:focus{
+  border-color:var(--amber);
+  box-shadow:0 0 0 3px rgba(184,113,42,.1);
+}
+.field-wrap input::placeholder{color:var(--muted);opacity:.6;}
+.field-wrap input.error{border-color:#c0392b;}
+
+.form-error{
+  font-size:.75rem;color:#c0392b;
+  margin-bottom:.75rem;display:none;
+  padding:.5rem .75rem;
+  background:rgba(192,57,43,.06);
+  border-radius:6px;border:1px solid rgba(192,57,43,.2);
+}
+.form-error.visible{display:block;}
+
+.status-msg{
+  font-size:.8rem;padding:.6rem .85rem;border-radius:8px;
+  margin-bottom:.75rem;display:none;line-height:1.5;
+}
+.status-msg.info{
+  display:block;
+  background:rgba(184,113,42,.08);
+  border:1px solid rgba(184,113,42,.22);
+  color:var(--stone);
+}
+.status-msg.error-msg{
+  display:block;
+  background:rgba(192,57,43,.06);
+  border:1px solid rgba(192,57,43,.2);
+  color:#c0392b;
+}
+
+/* ── CTA BUTTON ── */
+.pay-btn{
+  display:flex;align-items:center;justify-content:center;gap:.5rem;
+  width:100%;padding:1.05rem 1.5rem;
+  background:var(--amber);color:#fff;
+  border:none;border-radius:10px;
+  font-family:'Outfit',sans-serif;
+  font-size:.95rem;font-weight:700;
+  letter-spacing:.03em;cursor:pointer;
+  box-shadow:0 8px 28px rgba(184,113,42,.35);
+  transition:all .25s cubic-bezier(.4,0,.2,1);
+  position:relative;overflow:hidden;
+  margin-bottom:1rem;
+  text-decoration:none;
+}
+.pay-btn::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,.12) 0%,transparent 60%);
+  pointer-events:none;
+}
+.pay-btn:hover:not(:disabled){
+  background:#a0601e;transform:translateY(-2px);
+  box-shadow:0 14px 36px rgba(184,113,42,.45);
+}
+.pay-btn:active:not(:disabled){transform:translateY(0)}
+.pay-btn:disabled{opacity:.6;cursor:not-allowed;transform:none;}
+
+.pay-btn-icon{transition:transform .2s;display:flex;align-items:center;}
+.pay-btn:hover:not(:disabled) .pay-btn-icon{transform:translateX(3px)}
+
+.spinner{
+  width:16px;height:16px;border-radius:50%;
+  border:2px solid rgba(255,255,255,.3);
+  border-top-color:#fff;
+  animation:spin .7s linear infinite;
+  display:none;
+}
+.pay-btn.loading .spinner{display:block;}
+.pay-btn.loading .btn-label{opacity:.7;}
+.pay-btn.loading .pay-btn-icon{display:none;}
+
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.security-note{
+  display:flex;align-items:center;justify-content:center;gap:.5rem;
+  font-size:.76rem;color:var(--muted);margin-bottom:1.5rem;
+}
+.security-note svg{width:13px;height:13px;stroke:var(--muted);fill:none;stroke-width:2;flex-shrink:0}
+
+.card-divider{
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--border),transparent);
+  margin:1.25rem 0;
+}
+
+.upgrade-nudge{
+  background:rgba(184,113,42,.05);border:1px solid rgba(184,113,42,.14);
+  border-radius:10px;padding:1rem 1.15rem;
+  display:flex;align-items:flex-start;gap:.85rem;margin-bottom:1rem;
+}
+.upgrade-nudge-icon{font-size:1.2rem;flex-shrink:0;line-height:1}
+.upgrade-nudge-text{font-size:.78rem;color:var(--stone);line-height:1.6}
+.upgrade-nudge-text strong{color:var(--ink);font-weight:600;display:block;margin-bottom:.18rem}
+
+.guarantee{
+  background:rgba(184,113,42,.05);border:1px solid rgba(184,113,42,.14);
+  border-radius:10px;padding:1rem 1.15rem;
+  display:flex;align-items:flex-start;gap:.85rem;
+}
+.guarantee-icon{font-size:1.35rem;flex-shrink:0;line-height:1}
+.guarantee-text{font-size:.78rem;color:var(--stone);line-height:1.6}
+.guarantee-text strong{color:var(--ink);font-weight:600;display:block;margin-bottom:.18rem}
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(26px)}
+  to{opacity:1;transform:none}
+}
+
+@media(max-width:800px){
+  .page-wrapper{
+    grid-template-columns:1fr;gap:2rem;padding:6.5rem 5vw 4rem;
+  }
+  .payment-card{position:static}
+  h1{font-size:2.6rem}
+  .form-row{flex-direction:column;gap:.75rem;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="logo">Atomic<span class="logo-dash">&#8209;</span>Shelf</a>
+  <a href="/#pricing" class="nav-back">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    Back to plans
+  </a>
+</nav>
+
+<div class="page-wrapper">
+
+  <!-- LEFT COLUMN — stacked top to bottom -->
+  <div class="left-col">
+
+    <!-- 1. Plan intro + features -->
+    <div class="plan-intro">
+      <div class="plan-eyebrow">✦ Enhanced Plan</div>
+      <h1>More content.<br>More depth.<br><em>More reach.</em></h1>
+      <p class="hero-desc">
+        The Enhanced plan layers professional book trailers and long-form YouTube content on top of a high-volume short-form engine — giving your book a presence that stretches across every corner of the internet.
+      </p>
+
+      <div class="stepup-bar">
+        <span class="stepup-icon">⬆️</span>
+        <div class="stepup-text"><strong>A step up from Essentials.</strong> Everything in the base plan, plus a cinematic trailer, long-form video, and avatar narration — all at $50/month.</div>
+      </div>
+
+      <div class="features-heading">What's included</div>
+      <ul class="feature-list">
+        <li class="feature-item">
+          <div class="feature-icon">🎬</div>
+          <div>
+            <div class="feature-title">80 Premium Short-Form Videos / Month</div>
+            <div class="feature-sub">20 more videos than Essentials — more frequency, more algorithmic momentum, more reader discovery.</div>
+          </div>
+        </li>
+        <li class="feature-item">
+          <div class="feature-icon">🎥</div>
+          <div>
+            <div class="feature-title">1 Professional Book Trailer</div>
+            <div class="feature-sub">A cinematic, genre-crafted trailer that captures your book's soul and stops the scroll every time it's seen.</div>
+          </div>
+        </li>
+        <li class="feature-item">
+          <div class="feature-icon">📺</div>
+          <div>
+            <div class="feature-title">Long-Form YouTube Videos</div>
+            <div class="feature-sub">In-depth content designed for deeper reader connection and long-term search discoverability on YouTube.</div>
+          </div>
+        </li>
+        <li class="feature-item">
+          <div class="feature-icon">🗣️</div>
+          <div>
+            <div class="feature-title">Avatar Narration Included</div>
+            <div class="feature-sub">Professional AI avatar narration brings your story to life — no voiceover needed on your end.</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- 2. Image card -->
+    <div class="img-card">
+      <div class="img-card-header">
+        <span style="font-size:1rem">💳</span>
+        <div class="img-card-label">Payment screen — select this option</div>
+        <div class="img-card-badge">Step 1</div>
+      </div>
+      <div class="img-card-body">
+        <img
+          src="https://atomic-shelf.com/Payment%20Options.png"
+          alt="Payment options screen — select Visa/Mastercard/Discover"
+          class="pay-guide-img"
+        />
+      </div>
+    </div>
+
+    <!-- 3. Payment instructions -->
+    <div class="pay-instructions">
+      <div class="pay-instructions-inner">
+        <div class="pay-guide-eyebrow">⚠ Before you pay — read this</div>
+        <h2 class="pay-guide-title">Complete your payment without issues</h2>
+        <p class="pay-guide-intro">Pesapal is our payment processor, trusted across East Africa. Select Visa / Mastercard / Discover on the first screen, then fill in your details as normal.</p>
+
+        <ol class="pay-guide-steps">
+          <li>
+            <div class="pay-guide-step-n">1</div>
+            <div>
+              <div class="pay-guide-step-title">Use your correct billing address</div>
+              <div class="pay-guide-step-desc">Enter the address your card is registered to — street, city, postcode, and the country your bank is in. This is the most common reason cards are declined.</div>
+            </div>
+          </li>
+          <li>
+            <div class="pay-guide-step-n">2</div>
+            <div>
+              <div class="pay-guide-step-title">Double-check your card details</div>
+              <div class="pay-guide-step-desc">Card number, expiry, and CVV — small typos are easy to miss. Make sure the name matches exactly what's on the card.</div>
+            </div>
+          </li>
+        </ol>
+
+        <div class="pay-guide-tip">
+          <span class="pay-guide-tip-icon">🌍</span>
+          <div><strong>Still declined?</strong> Try setting the country field to <strong>Kenya</strong> — because Pesapal is headquartered in Nairobi, this almost always does the trick.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Testimonial -->
+    <div class="testimonial">
+      <div class="quote-mark">&ldquo;</div>
+      <p class="testimonial-text">The book trailer they made for me got shared by three BookTok accounts I'd never heard of. It's become the centrepiece of everything — I send that link to every reader who asks about my book.</p>
+      <div class="testimonial-author">— Indie author, Thriller genre</div>
+    </div>
+
+  </div>
+
+  <!-- RIGHT COLUMN — sticky payment card -->
+  <div class="payment-card">
+    <div class="card-header">
+      <div class="card-plan-name">Enhanced Plan</div>
+      <div class="card-price-row">
+        <div class="card-price"><sup>$</sup>50</div>
+        <div class="card-period">/ month</div>
+      </div>
+      <div class="card-tagline">Charged to your card today. Renews monthly.</div>
+    </div>
+
+    <div class="card-body">
+      <div class="card-includes">Plan includes</div>
+      <ul class="card-features">
+        <li><span class="cf-arrow">→</span> 80 premium short-form videos</li>
+        <li><span class="cf-arrow">→</span> 1 professional book trailer</li>
+        <li><span class="cf-arrow">→</span> Long-form YouTube videos</li>
+        <li><span class="cf-arrow">→</span> Avatar narration included</li>
+        <li><span class="cf-arrow">→</span> TikTok, YouTube Shorts, Pinterest &amp; X</li>
+        <li><span class="cf-arrow">→</span> Weekly performance insights</li>
+      </ul>
+
+      <div class="checkout-form-wrap">
+        <div class="form-heading">Your details</div>
+
+        <div class="form-row">
+          <div class="field-wrap">
+            <label for="firstName">First name</label>
+            <input type="text" id="firstName" placeholder="Jane" autocomplete="given-name"/>
+          </div>
+          <div class="field-wrap">
+            <label for="lastName">Last name</label>
+            <input type="text" id="lastName" placeholder="Smith" autocomplete="family-name"/>
+          </div>
+        </div>
+
+        <div class="form-row single">
+          <div class="field-wrap">
+            <label for="email">Email address</label>
+            <input type="email" id="email" placeholder="jane@example.com" autocomplete="email"/>
+          </div>
+        </div>
+
+        <div class="form-row single" style="margin-bottom:1.25rem;">
+          <div class="field-wrap">
+            <label for="bookTitle">Book title <span style="color:var(--muted);font-weight:400">(optional)</span></label>
+            <input type="text" id="bookTitle" placeholder="e.g. The Midnight Garden"/>
+          </div>
+        </div>
+
+        <div class="form-error" id="formError">Please fill in your name and a valid email address.</div>
+        <div class="status-msg" id="statusMsg"></div>
+
+        <button class="pay-btn" id="payBtn" onclick="handleCheckout()">
+          <div class="spinner"></div>
+          <span class="btn-label">Pay $50 Now — Start My Plan</span>
+          <span class="pay-btn-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </span>
+        </button>
+      </div>
+
+      <div class="security-note">
+        <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        Secure checkout via Pesapal
+      </div>
+
+      <div class="card-divider"></div>
+
+      <div class="upgrade-nudge">
+        <div class="upgrade-nudge-icon">💡</div>
+        <div class="upgrade-nudge-text">
+          <strong>Need Amazon retargeting too?</strong>
+          Consider the Starter plan at $199/mo — it adds a $75 Amazon DSP budget and podcast episodes on top of everything here.
+        </div>
+      </div>
+
+      <div class="guarantee">
+        <div class="guarantee-icon">🛡️</div>
+        <div class="guarantee-text">
+          <strong>Month-to-month, no lock-in</strong>
+          Your card will be charged $50 today. Cancel before your next billing date and you won't be charged again — no penalties, no long-term commitment.
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const PESAPAL_WEBAPP = 'https://script.google.com/macros/s/AKfycbw-6cDJG6GlEEkaUu_NsvlBpaG0YOiocWG8I3s-BoP7i01ZJACpXHw8Dqla_gDwuuB6_g/exec';
+
+async function handleCheckout() {
+  const firstName = document.getElementById('firstName').value.trim();
+  const lastName  = document.getElementById('lastName').value.trim();
+  const email     = document.getElementById('email').value.trim();
+  const bookTitle = document.getElementById('bookTitle').value.trim();
+  const errorEl   = document.getElementById('formError');
+  const statusEl  = document.getElementById('statusMsg');
+  const btn       = document.getElementById('payBtn');
+
+  errorEl.classList.remove('visible');
+  statusEl.className = 'status-msg';
+  statusEl.textContent = '';
+  ['firstName','lastName','email'].forEach(id => {
+    document.getElementById(id).classList.remove('error');
+  });
+
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  let valid = true;
+  if (!firstName) { document.getElementById('firstName').classList.add('error'); valid = false; }
+  if (!lastName)  { document.getElementById('lastName').classList.add('error');  valid = false; }
+  if (!emailOk)   { document.getElementById('email').classList.add('error');     valid = false; }
+
+  if (!valid) {
+    errorEl.textContent = 'Please fill in your name and a valid email address.';
+    errorEl.classList.add('visible');
+    return;
+  }
+
+  btn.disabled = true;
+  btn.classList.add('loading');
+  statusEl.className = 'status-msg info';
+  statusEl.textContent = 'Processing your payment — you\'ll be charged $50 today…';
+
+  try {
+    const params = new URLSearchParams({
+      action:    'invoice',
+      amount:    '50',
+      currency:  'USD',
+      desc:      'Atomic Shelf — Enhanced Plan',
+      firstName,
+      lastName,
+      email,
+      author:    bookTitle || (firstName + ' ' + lastName),
+      plan:      'Enhanced',
+    });
+
+    const res  = await fetch(PESAPAL_WEBAPP + '?' + params.toString());
+    const data = await res.json();
+
+    if (data.redirect_url) {
+      window.location.href = data.redirect_url;
+    } else {
+      throw new Error(data.error || 'No redirect URL returned');
+    }
+  } catch (err) {
+    btn.disabled = false;
+    btn.classList.remove('loading');
+    statusEl.className = 'status-msg error-msg';
+    statusEl.textContent = 'Something went wrong: ' + err.message + '. Please try again or contact support.';
+  }
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') {
+    const inputs = ['firstName','lastName','email','bookTitle'];
+    if (inputs.includes(document.activeElement.id)) handleCheckout();
+  }
+});
+</script>
+</body>
+</html>

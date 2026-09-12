@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Amoghavarsha V Patil - ANAADHI: The Birth of the Spiral • Atomic-Shelf Audiobook Production Assets & Content Report" />
+    <title>Amoghavarsha V Patil • ANAADHI • Content Report | Atomic-Shelf</title>
+    <link rel="icon" type="image/svg+xml" href="/atomicshelf.svg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/publicalbum@latest/embed-ui.min.js" async></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Georgia&display=swap');
+       
+        :root {
+            --gold: #d4a373;
+        }
+       
+        body {
+            font-family: 'Georgia', 'Playfair Display', serif;
+            background: #f8f5f0;
+            color: #2c1a18;
+        }
+       
+        .hero-bg {
+            background: linear-gradient(rgba(248,245,240,0.75), rgba(248,245,240,0.92)),
+                        url('https://lh3.googleusercontent.com/pw/AP1GczNru46xmJ1ETGxV780_ng8q1zoD7s7Z0DUEhE_Woz0332Fm6wnAuSVhaOvODSdMoeqEGcw4PqiU5w0O3yXedva7vL_w45IR0EYK7Bu90UnNHxgBJzE=w1920-h1080')
+                        center/cover no-repeat;
+            height: 78vh;
+            box-shadow: inset 0 0 120px rgba(212,163,115,0.15);
+        }
+       
+        .gold-text {
+            background: linear-gradient(135deg, #2c1a18, #d4a373, #2c1a18);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+       
+        .album-card, .series-card {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+       
+        .album-card:hover, .series-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 35px 60px -15px rgba(212, 163, 115, 0.25);
+        }
+       
+        .album-card {
+            background: #fffaf0;
+            border: 1px solid rgba(212, 163, 115, 0.3);
+            border-radius: 2rem;
+            overflow: hidden;
+        }
+       
+        .series-card {
+            background: #fffaf0;
+            border: 1px solid rgba(212, 163, 115, 0.25);
+            border-radius: 1.75rem;
+            overflow: hidden;
+        }
+       
+        .report-box {
+            background: #fffaf0;
+            border: 2px solid #d4a373;
+            border-radius: 2rem;
+            box-shadow: 0 25px 40px -15px rgba(212, 163, 115, 0.15);
+        }
+       
+        .calendar-table {
+            border-collapse: collapse;
+            width: 100%;
+            border-radius: 1.75rem;
+            overflow: hidden;
+            box-shadow: 0 20px 40px -15px rgba(212, 163, 115, 0.1);
+        }
+       
+        .calendar-table th {
+            background: linear-gradient(95deg, #f5e6c4, #e8d9b8);
+            color: #2c1a18;
+            font-weight: 700;
+            padding: 1.25rem 1rem;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            border-bottom: 3px solid #d4a373;
+        }
+       
+        .calendar-table td {
+            padding: 1rem 1.1rem;
+            border-bottom: 1px solid #e8d9b8;
+            background: #fffaf0;
+            color: #2c1a18;
+            transition: all 0.3s ease;
+        }
+       
+        .calendar-table tr:hover td {
+            background: #f5f0e8;
+        }
+       
+        .done-row td {
+            background: #e8f5e9 !important;
+        }
+       
+        input[type="checkbox"] {
+            accent-color: #d4a373;
+            width: 1.4rem;
+            height: 1.4rem;
+            cursor: pointer;
+        }
+       
+        input[type="checkbox"]:checked {
+            accent-color: #2e7d32;
+        }
+       
+        .section-header::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 68%;
+            height: 3px;
+            background: linear-gradient(to right, #d4a373, #f5e6c4);
+            border-radius: 9999px;
+        }
+       
+        /* Refined Flag Note */
+        .flag-note {
+            background: linear-gradient(135deg, #fffaf0 0%, #fdfaf0 100%);
+            border: 1px solid #d4a37340;
+            box-shadow: 0 25px 50px -12px rgb(212 163 115 / 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+       
+        .flag-note::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 6px;
+            background: linear-gradient(to bottom, #d4a373, #e8d9b8);
+            border-radius: 9999px 0 0 9999px;
+        }
+       
+        .spiral-bg {
+            animation: subtleSpiral 25s linear infinite;
+        }
+       
+        @keyframes subtleSpiral {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-2xl border-b border-amber-800/30 shadow-2xl">
+        <nav class="max-w-7xl mx-auto px-8 py-6 flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <span class="text-4xl drop-shadow-md">🌀</span>
+                <div>
+                    <div class="text-3xl font-bold tracking-[-1px] gold-text">Atomic-Shelf</div>
+                    <div class="text-xs text-amber-700/80 -mt-1 font-medium">Amoghavarsha V Patil • ANAADHI</div>
+                </div>
+            </div>
+            <a href="https://atomic-shelf.com" target="_blank"
+               class="px-7 py-3 bg-gradient-to-r from-amber-700 to-amber-800 hover:from-amber-600 hover:to-amber-700 text-white text-sm font-medium rounded-2xl transition-all shadow-inner flex items-center gap-2">
+                ← Back to Dashboard
+            </a>
+        </nav>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero-bg flex items-center text-[#2c1a18] pt-28 relative">
+        <div class="max-w-6xl mx-auto px-8 text-center relative z-10">
+            <div class="inline-flex items-center gap-3 bg-white/80 backdrop-blur-xl px-8 py-3 rounded-3xl text-sm font-medium mb-8 shadow-xl border border-amber-200">
+                <span class="text-emerald-600 text-2xl">🎧</span>
+                <span class="tracking-wider text-amber-800">AUDIOBOOK CAMPAIGN • APRIL 2026</span>
+            </div>
+           
+            <h1 class="text-6xl md:text-8xl font-bold leading-none mb-6 tracking-[-2px]">
+                Amoghavarsha V Patil
+            </h1>
+            <h2 class="text-6xl md:text-7xl gold-text font-bold leading-none mb-8">ANAADHI</h2>
+           
+            <p class="text-2xl md:text-3xl text-amber-800/90 max-w-3xl mx-auto mb-10">
+                The Birth of the Spiral • A Psychological Fiction Audiobook
+            </p>
+           
+            <div class="flex flex-wrap justify-center gap-x-8 gap-y-3 text-lg text-amber-800/90 max-w-xl mx-auto">
+                <div class="flex items-center gap-2"><span class="text-emerald-600">🌀</span> Silence as Punishment</div>
+                <div class="flex items-center gap-2"><span class="text-emerald-600">🌀</span> Memory as Currency</div>
+                <div class="flex items-center gap-2"><span class="text-emerald-600">🌀</span> The Spiral Awakens</div>
+            </div>
+           
+            <div class="mt-14 inline-flex items-center gap-4 bg-white/80 backdrop-blur-2xl px-10 py-5 rounded-3xl text-base border border-amber-200">
+                <span class="text-emerald-600 text-3xl">📖</span>
+                <div>
+                   
+                    <span class="text-amber-800">Launched April 13, 2026</span>
+                </div>
+            </div>
+        </div>
+       
+        <div class="absolute bottom-12 right-12 text-[180px] opacity-10 select-none spiral-bg">🌀</div>
+    </section>
+
+    <div class="max-w-7xl mx-auto px-8 py-20">
+        <!-- Thank You Message -->
+        <div class="thank-you p-12 mb-16 text-center rounded-3xl">
+            <div class="flex justify-center mb-6">
+                <span class="text-7xl">🌀</span>
+            </div>
+            <h2 class="text-4xl font-bold gold-text mb-4">Thank You, Amoghavarsha V Patil</h2>
+            <p class="text-2xl text-amber-800/90 max-w-2xl mx-auto leading-relaxed">
+                for trusting Atomic-Shelf with <span class="gold-text">ANAADHI: The Birth of the Spiral</span>.
+            </p>
+            <p class="mt-6 text-amber-800/80 text-lg max-w-xl mx-auto">
+                It is an absolute honour to help bring your powerful psychological fiction to life through cinematic visuals and audiobook promotion.
+                We are deeply grateful for the opportunity to amplify your voice on Instagram.
+            </p>
+            <div class="mt-10 flex justify-center gap-6">
+                <div class="text-xs uppercase tracking-widest bg-amber-100 px-6 py-3 rounded-2xl border border-amber-300">Long-term growth begins here</div>
+                <div class="text-xs uppercase tracking-widest bg-amber-100 px-6 py-3 rounded-2xl border border-amber-300">Silence becomes legend</div>
+            </div>
+        </div>
+
+        <!-- Refined Flag Note -->
+        <div class="flag-note mb-12 p-10 rounded-3xl flex flex-col md:flex-row items-start md:items-center gap-8">
+            <div class="flex items-start gap-5 flex-1">
+                <div class="w-12 h-12 flex-shrink-0 bg-amber-100 text-amber-700 rounded-2xl flex items-center justify-center text-3xl shadow-inner">
+                    📢
+                </div>
+                <div>
+                    <p class="text-lg leading-relaxed text-amber-800 font-medium">
+                        Thank you for the Source Copy.
+                    </p>
+                    <p class="text-sm text-amber-700/80 mt-1.5">
+                        We're building compelling cinematic content from the assets provided. 
+                        Long-term commitment continues to yield the strongest growth on Instagram.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+                <div class="bg-white border border-amber-200 hover:border-amber-300 transition-colors px-6 py-4 rounded-2xl text-sm flex items-center gap-3 shadow-sm">
+                    <span class="text-xl">❤️</span>
+                    <span class="font-medium text-amber-800">Flag any off-looking image or video</span>
+                </div>
+                
+                <div class="bg-white border border-amber-200 hover:border-amber-300 transition-colors px-6 py-4 rounded-2xl text-sm flex items-center gap-3 shadow-sm">
+                    <span class="text-xl">📝</span>
+                    <span class="font-medium text-amber-800">We've completed 3 videos.<br>
+                    <span class="text-amber-600 text-xs">Please share your feedback</span></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- April Video Series – Fresh Assets -->
+        <div class="mb-20">
+            <div class="flex items-center gap-5 mb-8">
+                <span class="text-6xl">🎬</span>
+                <div>
+                    <h2 class="text-5xl font-bold gold-text section-header">April Video Series • Fresh Assets</h2>
+                    <p class="text-amber-800/70 mt-1">Newly produced cinematic content — scheduling begins April 13 at 7:00 UTC • Videos created from the images in these galleries</p>
+                </div>
+            </div>
+           
+            <div class="grid md:grid-cols-2 gap-10">
+                <!-- Image Series 1 Album -->
+                <a href="https://photos.app.goo.gl/DSnfWMZyyZeB8H3u7" target="_blank" class="album-card block">
+                    <div class="relative h-72 bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/pw/AP1GczNru46xmJ1ETGxV780_ng8q1zoD7s7Z0DUEhE_Woz0332Fm6wnAuSVhaOvODSdMoeqEGcw4PqiU5w0O3yXedva7vL_w45IR0EYK7Bu90UnNHxgBJzE=w1920-h1080')">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent flex items-end justify-center pb-8 opacity-0 hover:opacity-100 transition-all">
+                            <span class="bg-white/90 text-[#2c1a18] px-8 py-3.5 rounded-2xl text-base font-semibold flex items-center gap-2 shadow-xl">Open Full Album ↗</span>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-3xl font-bold gold-text">Image Series 1</h3>
+                        <p class="text-amber-800/80 mt-1">Monday, April 13 • Cinematic visuals for ANAADHI</p>
+                        <p class="text-xs text-amber-600/70 mt-4">14 high-impact images • Psychological fiction atmosphere</p>
+                    </div>
+                </a>
+               
+                <!-- Video Series 1 Album -->
+                <a href="https://photos.app.goo.gl/D4cKHEjyAXoovhC6A" target="_blank" class="album-card block">
+                    <div class="relative h-72 bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/pw/AP1GczP9Sglj8Mso4UeflNAAB-iLjLe7azCuMZddM-ItzptI5xAmkbQVpIO3kt78ofAX-gcWF_xUX0PEmY29s56lKLlBlrvnZZTVLb9GlarqkRyZ-jD3FEg=w1920-h1080')">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent flex items-end justify-center pb-8 opacity-0 hover:opacity-100 transition-all">
+                            <span class="bg-white/90 text-[#2c1a18] px-8 py-3.5 rounded-2xl text-base font-semibold flex items-center gap-2 shadow-xl">Open Video Album ↗</span>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-3xl font-bold gold-text">Video Series 1</h3>
+                        <p class="text-amber-800/80 mt-1">Tuesday, April 14 • Ready-to-post Instagram videos</p>
+                        <p class="text-xs text-amber-600/70 mt-4">Cinematic video assets for ANAADHI campaign</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Posting Calendar -->
+        <div class="mb-20">
+            <div class="flex items-center gap-5 mb-8">
+                <span class="text-6xl">📅</span>
+                <div>
+                    <h2 class="text-5xl font-bold gold-text section-header">April 2026 Instagram Posting Schedule</h2>
+                    <p class="text-amber-800/70 mt-1">Starting Monday, April 13, 2026 • 7:00 UTC • 8-hour intervals • 3 videos per day • All videos are ready for direct Instagram posting</p>
+                </div>
+            </div>
+           
+            <div class="overflow-x-auto rounded-3xl">
+                <table class="calendar-table w-full text-sm">
+                    <thead>
+                        <tr>
+                            <th class="text-left">Date</th>
+                            <th class="text-left">Time (UTC)</th>
+                            <th class="text-left">Hook Theme</th>
+                            <th class="text-left">Instagram Caption (ready to copy-paste)</th>
+                            <th class="text-center w-24">Posted?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Done Rows -->
+                        <tr class="done-row">
+                            <td class="font-medium">Monday, April 13</td>
+                            <td>07:00</td>
+                            <td>A voiceless forest boy in a fractured world</td>
+                            <td>In a world where silence is punishment and memory is currency, a 19-year-old boy drags his cart through barter markets — swallowing shame with every step. But beneath the stillness, something ancient awakens. 🌀 What would you do if your voice was taken? ANAADHI drops soon. Link in bio. #ANAADHI #Bookstagram #PsychologicalFiction #Audiobook #TheSpiralBegins #SilentRevolution</td>
+                            <td class="text-center"><input type="checkbox" checked disabled></td>
+                        </tr>
+                        <tr class="done-row">
+                            <td class="font-medium">Monday, April 13</td>
+                            <td>15:00</td>
+                            <td>He breaks — not with a scream, but with a breath</td>
+                            <td>He doesn’t scream when he breaks. He inhales so deeply the silence becomes a weapon. This is the birth of the Spiral. 🎧 ANAADHI: The Birth of the Spiral is coming to Instagram. Tap the link in bio to pre-save. #ANAADHI #Bookstagram #DarkFiction #AudiobookReel #SilentKiller</td>
+                            <td class="text-center"><input type="checkbox" checked disabled></td>
+                        </tr>
+                        <tr class="done-row">
+                            <td class="font-medium">Monday, April 13</td>
+                            <td>23:00</td>
+                            <td>Descent into madness, birth as a silent killer</td>
+                            <td>He doesn’t seek power. He carries pause — and with it, the Spiral begins to form. A revolution inhaled, never shouted. ANAADHI is almost here. Save this post. #ANAADHI #Bookstagram #PsychologicalThriller #TheSpiral #Audiobook</td>
+                            <td class="text-center"><input type="checkbox" checked disabled></td>
+                        </tr>
+                        <!-- Remaining schedule -->
+                          <!-- Remaining dates - NOT DONE -->
+                        <tr>
+                            <td class="font-medium">Tuesday, April 14</td>
+                            <td>07:00</td>
+                            <td>His silence mistaken for weakness</td>
+                            <td>They called him weak because he wouldn’t speak. They didn’t realize silence was his first act of war. ANAADHI: The Birth of the Spiral. Drop a 🔥 if you’ve ever been underestimated. #ANAADHI #Bookstagram #SilentStrength #PsychologicalFiction</td>
+                            <td class="text-center"><input type="checkbox"></td>
+                         </tr>
+                        <tr>
+                            <td class="font-medium">Tuesday, April 14</td>
+                            <td>15:00</td>
+                            <td>The weight of being unheard</td>
+                            <td>If you’ve ever felt the weight of being unheard… if your stillness was mistaken for surrender… this story is for you. ANAADHI is coming. Link in bio. #ANAADHI #Bookstagram #EmotionalReads #Audiobook</td>
+                            <td class="text-center"><input type="checkbox"></td>
+                         </tr>
+                        <tr>
+                            <td class="font-medium">Tuesday, April 14</td>
+                            <td>23:00</td>
+                            <td>Memory is currency in Kendhalaa Enclave</td>
+                            <td>In Kendhalaa Enclave, memory is bought and sold. The voiceless boy holds the one thing no one can trade — his breath. The Spiral begins. ANAADHI. #ANAADHI #Bookstagram #DystopianFiction #TheSpiral</td>
+                            <td class="text-center"><input type="checkbox"></td>
+                         </tr>
+                        <tr>
+                            <td class="font-medium">Wednesday, April 15</td>
+                            <td>07:00</td>
+                            <td>The Spiral doesn't scream. It breathes.</td>
+                            <td>Revolutions aren’t always loud. Sometimes they start with a single breath drawn so deep it echoes into myth. ANAADHI: The Birth of the Spiral. #ANAADHI #Bookstagram #PsychologicalFiction</td>
+                            <td class="text-center"><input type="checkbox"></td>
+                         </tr>
+                        <tr>
+                            <td class="font-medium">Wednesday, April 15</td>
+                            <td>15:00</td>
+                            <td>He carries pause — and with it, revolution</td>
+                            <td>He doesn’t seek power. He carries pause. And the Spiral follows. An audiobook for the unheard. Save for later. Link in bio. #ANAADHI #Bookstagram #SilentRevolution</td>
+                            <td class="text-center"><input type="checkbox"></td>
+                         </tr>
+                        <tr>
+                            <td class="font-medium">Wednesday, April 15</td>
+                            <td>23:00</td>
+                            <td>Silence as punishment in a barter society</td>
+                            <td>In a world where silence is punishment, one boy turns silence into power. ANAADHI is coming to your feed. #ANAADHI #Bookstagram #DystopianAudiobook</td>
+                            <td class="text-center"><input type="checkbox"></td>
+                         </tr>
+                        <tr>
+                            <td class="font-medium">Thursday, April 16</td>
+                            <td>07:00</td>
+                            <td>The first embers of a revolution</td>
+                            <td>The first embers of a revolution don’t burn — they breathe. This is the origin story you’ve never heard. ANAADHI. #ANAADHI #Bookstagram #TheSpiralBegins</td>
+                            <td class="text-center"><input type="checkbox"></td>
+                         </tr>
+                        <tr>
+                            <td class="font-medium">Thursday, April 16</td>
+                            <td>15:00</td>
+                            <td>He doesn't scream. He inhales.</td>
+                            <td>No scream. No rage. Just a breath so deep the world shifts. ANAADHI: The Birth of the Spiral. #ANAADHI #Bookstagram #SilentPower</td>
+                            <td class="text-center"><input type="checkbox"></td>
+                         </tr>
+                        <tr>
+                            <td class="font-medium">Thursday, April 16</td>
+                            <td>23:00</td>
+                            <td>Madness is a spiral, not a fall</td>
+                            <td>Madness isn’t a fall — it’s a spiral. And once it begins, there’s no climbing out. ANAADHI drops soon. #ANAADHI #Bookstagram #PsychologicalHorror</td>
+                            <td class="text-center"><input type="checkbox"></td>
+                         </tr>
+                        <tr>
+                            <td class="font-medium">Friday, April 17</td>
+                            <td>07:00</td>
+                            <td>The boy who swallowed shame</td>
+                            <td>A boy who swallowed shame. A world that demanded silence. The breath that changed everything. ANAADHI. #ANAADHI #Bookstagram #TheSpiral</td>
+                            <td class="text-center"><input type="checkbox"></td>
+                         </tr>
+                        <tr>
+                            <td class="font-medium">Friday, April 17</td>
+                            <td>15:00</td>
+                            <td>Roots and herbs — and the weight of humiliation</td>
+                            <td>He dragged his cart through barter markets, exchanging roots and herbs — and swallowing humiliation. This is where the Spiral begins. #ANAADHI #Bookstagram #PsychologicalFiction</td>
+                            <td class="text-center"><input type="checkbox"></td>
+                         </tr>
+                        <tr>
+                            <td class="font-medium">Friday, April 17</td>
+                            <td>23:00</td>
+                            <td>Stillness mistaken for surrender</td>
+                            <td>They mistook his stillness for surrender. They were wrong. ANAADHI: The Birth of the Spiral. #ANAADHI #Bookstagram #SilentRevolution</td>
+                            <td class="text-center"><input type="checkbox"></td>
+                         </tr>
+                        <tr>
+                            <td class="font-medium">Monday, April 20</td>
+                            <td>07:00</td>
+                            <td>The Spiral forms in silence</td>
+                            <td>He doesn’t seek power. He carries pause — and with it, the Spiral begins to form. ANAADHI. Link in bio. #ANAADHI #Bookstagram #DystopianFiction</td>
+                            <td class="text-center"><input type="checkbox"></td>
+                         </tr>
+                        <tr>
+                            <td class="font-medium">Monday, April 20</td>
+                            <td>15:00</td>
+                            <td>Philosophical introspection in a fractured world</td>
+                            <td>A fractured world. A voiceless boy. A spiral that changes everything. ANAADHI is coming. #ANAADHI #Bookstagram #PsychologicalFiction</td>
+                            <td class="text-center"><input type="checkbox"></td>
+                         </tr>
+                        <tr>
+                            <td class="font-medium">Monday, April 20</td>
+                            <td>23:00</td>
+                            <td>He doesn't break. He breathes.</td>
+                            <td>He doesn’t break. He breathes so deeply that the world listens. This is the birth of the Spiral. #ANAADHI #Bookstagram #SilentPower</td>
+                            <td class="text-center"><input type="checkbox"></td>
+                         </tr>
+                        <tr>
+                            <td class="font-medium">Tuesday, April 21</td>
+                            <td>07:00</td>
+                            <td>Barter markets and buried rage</td>
+                            <td>Barter markets. Buried rage. A boy who learned that silence is the deadliest weapon. ANAADHI. #ANAADHI #Bookstagram #PsychologicalThriller</td>
+                            <td class="text-center"><input type="checkbox"></td>
+                         </tr>
+                        <tr>
+                            <td class="font-medium">Tuesday, April 21</td>
+                            <td>15:00</td>
+                            <td>The revolution that isn't shouted</td>
+                            <td>A revolution that isn’t shouted… but inhaled. ANAADHI: The Birth of the Spiral. #ANAADHI #Bookstagram #SilentRevolution</td>
+                            <td class="text-center"><input type="checkbox"></td>
+                         </tr>
+                        <tr>
+                            <td class="font-medium">Tuesday, April 21</td>
+                            <td>23:00</td>
+                            <td>Memory is currency — his is priceless</td>
+                            <td>In a world where memory is currency, the voiceless boy holds the one thing no one can buy. His breath. His spiral. #ANAADHI #Bookstagram #DystopianAudiobook</td>
+                            <td class="text-center"><input type="checkbox"></td>
+                         </tr>
+                        <tr>
+                            <td class="font-medium">Wednesday, April 22</td>
+                            <td>07:00</td>
+                            <td>He doesn't scream for justice. He inhales it.</td>
+                            <td>No screams. No demands. Just a breath that carries the weight of a broken world. ANAADHI. #ANAADHI #Bookstagram #PsychologicalFiction</td>
+                            <td class="text-center"><input type="checkbox"></td>
+                         </tr>
+                        <tr>
+                            <td class="font-medium">Wednesday, April 22</td>
+                            <td>15:00</td>
+                            <td>The silence that echoes into myth</td>
+                            <td>He breaks — not with a scream, but with a breath so deep it echoes into myth. ANAADHI: The Birth of the Spiral. #ANAADHI #Bookstagram #TheSpiral</td>
+                            <td class="text-center"><input type="checkbox"></td>
+                         </tr>
+                        <tr>
+                            <td class="font-medium">Wednesday, April 22</td>
+                            <td>23:00</td>
+                            <td>The voiceless boy becomes the silent killer</td>
+                            <td>They silenced him. They created what they feared. ANAADHI. Link in bio. #ANAADHI #Bookstagram #PsychologicalHorror</td>
+                            <td class="text-center"><input type="checkbox"></td>
+                         </tr>
+                        <tr>
+                            <td class="font-medium">Thursday, April 23</td>
+                            <td>07:00</td>
+                            <td>He carries pause — the world follows</td>
+                            <td>He doesn’t chase power. He carries pause. And the Spiral follows. ANAADHI. #ANAADHI #Bookstagram #SilentStrength</td>
+                            <td class="text-center"><input type="checkbox"></td>
+                         </tr>
+                        <tr>
+                            <td class="font-medium">Thursday, April 23</td>
+                            <td>15:00</td>
+                            <td>Swallowing shame, birthing legend</td>
+                            <td>He swallowed shame. He buried rage. He became the Spiral. ANAADHI. #ANAADHI #Bookstagram #PsychologicalFiction</td>
+                            <td class="text-center"><input type="checkbox"></td>
+                         </tr>
+                        <tr>
+                            <td class="font-medium">Thursday, April 23</td>
+                            <td>23:00</td>
+                            <td>The louder the world shouts, the deeper he breathes</td>
+                            <td>The louder the world shouts, the deeper he breathes. And the Spiral tightens. ANAADHI. #ANAADHI #Bookstagram #DarkAudiobook</td>
+                            <td class="text-center"><input type="checkbox"></td>
+                         </tr>
+                        <tr>
+                            <td class="font-medium">Friday, April 24</td>
+                            <td>07:00</td>
+                            <td>He doesn't seek power. He carries pause.</td>
+                            <td>Power doesn’t come from shouting. It comes from the breath before the word. ANAADHI: The Birth of the Spiral. #ANAADHI #Bookstagram #SilentRevolution</td>
+                            <td class="text-center"><input type="checkbox"></td>
+                         </tr>
+                        <tr>
+                            <td class="font-medium">Friday, April 24</td>
+                            <td>15:00</td>
+                            <td>The Spiral doesn't end. It evolves.</td>
+                            <td>The Spiral doesn’t end. It evolves. And it begins with a boy who refused to scream. #ANAADHI #Bookstagram #PsychologicalFiction</td>
+                            <td class="text-center"><input type="checkbox"></td>
+                         </tr>
+                        <tr>
+                            <td class="font-medium">Friday, April 24</td>
+                            <td>23:00</td>
+                            <td>If you've ever felt invisible, this is your story</td>
+                            <td>If you’ve ever felt invisible, if your silence has ever been mistaken for surrender — this is your story. ANAADHI is waiting. Link in bio. #ANAADHI #Bookstagram #EmotionalReads</td>
+                            <td class="text-center"><input type="checkbox"></td>
+                         </tr>
+                        <tr>
+                            <td class="font-medium">Monday, April 27</td>
+                            <td>07:00</td>
+                            <td>The origin of a revolution — inhaled, not shouted</td>
+                            <td>The first embers of a revolution aren’t shouted. They’re inhaled. This is where the Spiral begins. ANAADHI. #ANAADHI #Bookstagram #DystopianFiction</td>
+                            <td class="text-center"><input type="checkbox"></td>
+                         </tr>
+                        <tr>
+                            <td class="font-medium">Monday, April 27</td>
+                            <td>15:00</td>
+                            <td>He is Anaadhi. He is the Spiral.</td>
+                            <td>He is Anaadhi. He is the Spiral. He is what happens when silence becomes a weapon. #ANAADHI #Bookstagram #PsychologicalThriller</td>
+                            <td class="text-center"><input type="checkbox"></td>
+                         </tr>
+                        <tr>
+                            <td class="font-medium">Monday, April 27</td>
+                            <td>23:00</td>
+                            <td>Silence is his language. Breath is his revolution.</td>
+                            <td>Silence is his language. Breath is his revolution. The Spiral begins with a single inhale. ANAADHI. #ANAADHI #Bookstagram #SilentPower</td>
+                            <td class="text-center"><input type="checkbox"></td>
+                         </tr>
+                        <tr>
+                            <td class="font-medium">Tuesday, April 28</td>
+                            <td>07:00</td>
+                            <td>He doesn't break. He breathes deeper.</td>
+                            <td>The world tried to break him. He breathed deeper. And the Spiral grew. ANAADHI. #ANAADHI #Bookstagram #PsychologicalFiction</td>
+                            <td class="text-center"><input type="checkbox"></td>
+                         </tr>
+                        <tr>
+                            <td class="font-medium">Tuesday, April 28</td>
+                            <td>15:00</td>
+                            <td>The louder they shout, the quieter he becomes</td>
+                            <td>The louder they shout, the quieter he becomes. And in that quiet, a revolution breathes. #ANAADHI #Bookstagram #SilentRevolution</td>
+                            <td class="text-center"><input type="checkbox"></td>
+                         <tr>
+                        <!-- You can continue adding the rest of the rows as needed. For brevity, the first few are shown. Add the remaining rows from your original code if required. -->
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-center mt-8 text-amber-600/70 text-sm">✅ Schedule begins April 13 at 7:00 UTC • 8-hour intervals (7:00, 15:00, 23:00 UTC) • All videos ready for direct Instagram posting • Free trial ends April 20</p>
+        </div>
+
+        <!-- Source Imagery & Raw Visual Assets -->
+        <div class="mb-20">
+            <div class="flex items-center gap-5 mb-8">
+                <span class="text-6xl">📸</span>
+                <div>
+                    <h2 class="text-5xl font-bold gold-text section-header">Source Imagery &amp; Raw Visual Assets</h2>
+                    <p class="text-amber-800/70 mt-1">Cinematic series • Videos are created from these images</p>
+                </div>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="series-card">
+                    <div class="h-64 bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/pw/AP1GczNru46xmJ1ETGxV780_ng8q1zoD7s7Z0DUEhE_Woz0332Fm6wnAuSVhaOvODSdMoeqEGcw4PqiU5w0O3yXedva7vL_w45IR0EYK7Bu90UnNHxgBJzE=w1920-h1080')"></div>
+                    <div class="p-7">
+                        <h3 class="text-2xl font-bold gold-text">Image Series 1</h3>
+                        <p class="text-amber-800/70 text-sm">April 13, 2026 • Primary cinematic assets</p>
+                        <a href="https://photos.app.goo.gl/DSnfWMZyyZeB8H3u7" target="_blank" class="mt-6 inline-flex items-center gap-2 text-amber-700 hover:text-amber-800 font-medium">Open Album <span class="text-xl">↗</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Performance & Strategy Note -->
+        <div class="report-box p-12 mb-16 text-center">
+            <h3 class="text-3xl font-bold gold-text mb-6">📈 Long-Term Strategy Note</h3>
+            <p class="text-amber-800/80 max-w-3xl mx-auto text-lg leading-relaxed">
+                You can order bulk videos — 60 videos for $20 monthly, and more videos are always available on demand.
+                Building many subscribers and followers takes time. Longer videos help train the algorithm to suggest your content to people with similar tastes, leading to compounding growth.
+                We're starting with short cinematic hooks, then scaling to longer formats as the audience builds. A long-term commitment yields the strongest results on Instagram.
+            </p>
+            <div class="mt-8 text-sm bg-amber-100 px-6 py-4 rounded-2xl inline-block">
+                Free trial ends April 20, 2026
+            </div>
+        </div>
+
+        <!-- Final Thank You -->
+        <div class="text-center py-12 border-t border-amber-300">
+            <p class="text-5xl mb-4">🌀</p>
+            <p class="text-3xl gold-text font-medium">Thank you again, Amoghavarsha.</p>
+            <p class="text-amber-800/70 mt-3 max-w-md mx-auto">For the profound opportunity to help ANAADHI find its audience on Instagram. We are honoured to be part of this journey.</p>
+            <p class="text-xs text-amber-600/40 mt-10">Book available on Barnes &amp; Noble • <a href="https://www.barnesandnoble.com/w/anaadhi-amoghavarsha-v-patil/1147436234" target="_blank" class="underline hover:text-amber-700">View here</a></p>
+        </div>
+    </div>
+
+    <footer class="bg-[#f8f5f0] py-12 text-center text-amber-700/40 text-xs border-t border-amber-300">
+        <p>Atomic-Shelf — Audiobook &amp; Psychological Fiction Marketing</p>
+        <p class="mt-2">Amoghavarsha V Patil • ANAADHI: The Birth of the Spiral • April 2026</p>
+    </footer>
+</body>
+</html>

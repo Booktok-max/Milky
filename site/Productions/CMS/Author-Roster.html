@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Atomic Shelf • Master Author Tracker | Daily Updates</title>
+    <link rel="icon" type="image/svg+xml" href="/atomicshelf.svg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f9f6f0 0%, #f0ebe2 100%);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+        .card {
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(2px);
+            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+        .status-active { background: #e3f7ec; color: #0b5e2e; border-left: 3px solid #2b9348; }
+        .status-needs { background: #ffe6e5; color: #b91c1c; border-left: 3px solid #f97316; }
+        .status-awaiting { background: #fff3cf; color: #a16207; border-left: 3px solid #fbbf24; }
+        .status-new { background: #e9eaff; color: #3730a3; border-left: 3px solid #818cf8; }
+        .status-low { background: #f3f4f6; color: #374151; border-left: 3px solid #9ca3af; }
+        .status-prospect { background: #ffefe2; color: #b45309; border-left: 3px solid #f97316; }
+        .status-content { background: #f0fdf4; color: #166534; border-left: 3px solid #22c55e; }
+        .table-container {
+            border-radius: 2rem;
+            overflow-x: auto;
+            box-shadow: 0 25px 45px -12px rgba(0,0,0,0.2);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        th {
+            background: #2b241c;
+            color: #fff7ed;
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.4px;
+            padding: 1.2rem 1rem;
+            border-bottom: 2px solid #5a4a3a;
+        }
+        td {
+            background: white;
+            padding: 1rem 1rem;
+            border-bottom: 1px solid #f0e7dd;
+            vertical-align: middle;
+            font-size: 0.85rem;
+            transition: background 0.2s;
+        }
+        tr:hover td { background-color: #fefaf5; }
+        .checkbox-cell { text-align: center; min-width: 70px; }
+        input[type="checkbox"] {
+            width: 1.25rem;
+            height: 1.25rem;
+            accent-color: #a5572c;
+            cursor: pointer;
+            transform: scale(1.05);
+            transition: transform 0.1s;
+        }
+        input[type="checkbox"]:hover { transform: scale(1.15); }
+        input[type="checkbox"]:disabled {
+            accent-color: #2b9348;
+            cursor: default;
+            opacity: 0.8;
+        }
+        .link-btn {
+            background: #f2ede5;
+            padding: 0.3rem 0.9rem;
+            border-radius: 2rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #4a2c2a;
+            text-decoration: none;
+            transition: all 0.2s;
+            display: inline-block;
+            margin: 0.2rem 0.25rem 0 0;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+        }
+        .link-btn:hover { background: #4a2c2a; color: white; transform: translateY(-1px); }
+        .link-btn-red { background: #fee2e2; color: #b91c1c; }
+        .link-btn-red:hover { background: #b91c1c; color: white; }
+        .link-btn-green { background: #dcfce7; color: #166534; }
+        .link-btn-green:hover { background: #166534; color: white; }
+        .link-btn-amber { background: #fef3c7; color: #92400e; }
+        .link-btn-amber:hover { background: #92400e; color: white; }
+        .summary-stats {
+            background: rgba(255,252,245,0.85);
+            backdrop-filter: blur(8px);
+            border-radius: 2rem;
+            border: 1px solid #e7dfd4;
+            padding: 1rem 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 0.8rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+        }
+        .stat-card {
+            background: white;
+            border-radius: 2rem;
+            padding: 0.5rem 1.4rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: #2d2a24;
+            border: 1px solid #f0e2d4;
+        }
+        .alert-chip {
+            background: #ffedd5;
+            color: #b45309;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            display: inline-block;
+            margin-left: 0.5rem;
+        }
+        .footer-note {
+            font-size: 0.7rem;
+            text-align: center;
+            border-top: 1px solid #e2d5c8;
+            padding-top: 1.8rem;
+            margin-top: 2.5rem;
+            color: #6b5a48;
+        }
+        h1 { font-family: 'Playfair Display', Georgia, serif; font-weight: 600; }
+        .ray-schedule {
+            background: #ecfdf5;
+            border-left: 4px solid #10b981;
+            padding: 0.3rem 0.6rem;
+            border-radius: 16px;
+            font-size: 0.7rem;
+        }
+        .section-divider td {
+            background: #f9f6f0 !important;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #6b5a48;
+            padding: 0.5rem 1rem;
+            border-bottom: 1px solid #e7dfd4;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <header class="bg-white/90 backdrop-blur-md border-b border-[#dccfc0] sticky top-0 z-20 shadow-sm">
+        <div class="max-w-7xl mx-auto px-6 py-5 flex flex-wrap justify-between items-center">
+            <div class="flex items-center gap-4">
+                <span class="text-4xl drop-shadow">📋✨</span>
+                <div>
+                    <h1 class="text-3xl md:text-4xl font-bold text-[#2c1a18] tracking-tight">Atomic Shelf · Master Author Tracker</h1>
+                    <p class="text-xs text-stone-500 mt-0.5">Daily accountability • Updated April 13, 2026 • v4</p>
+                </div>
+            </div>
+            <a href="https://atomic-shelf.com" class="text-sm bg-[#4a2c2a] hover:bg-[#2f1e1b] text-white px-6 py-2.5 rounded-full transition shadow-md">← Dashboard</a>
+        </div>
+    </header>
+    <div class="max-w-7xl mx-auto px-6 py-12">
+        <!-- Summary stats -->
+        <div class="summary-stats">
+            <div class="stat-card">📌 Total Authors: 23</div>
+            <div class="stat-card">✅ ACTIVE: 9</div>
+            <div class="stat-card">⚠️ NEEDS ATTENTION: 4</div>
+            <div class="stat-card">🎨 CREATE CONTENT: 2</div>
+            <div class="stat-card">⏳ AWAITING RESPONSE: 5</div>
+            <div class="stat-card">🔮 PROSPECTS: 2</div>
+            <div class="stat-card">🟡 LOW PRIORITY: 1</div>
+        </div>
+        <div class="table-container">
+            <table class="w-full text-sm">
+                <thead>
+                    <tr>
+                        <th class="text-left rounded-tl-2xl">Author / Book</th>
+                        <th class="text-left">Status</th>
+                        <th class="text-left">Timeline / Invoice</th>
+                        <th class="text-left">Contact / Handle</th>
+                        <th class="text-left">Quick Links & Notes</th>
+                        <th class="text-center w-20 rounded-tr-2xl">✅ Today<br><span class="font-normal text-xs">(Apr 13)</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- SECTION: ACTIVE -->
+                    <tr class="section-divider"><td colspan="6">✅ Active Authors (9)</td></tr>
+
+                    <!-- Wayne Turner -->
+                    <tr style="background: #f0fdf4;">
+                        <td class="font-semibold text-[#2c1a18]">Wayne Turner — Seaside Glitter</td>
+                        <td><span class="status-badge status-active">ACTIVE</span></td>
+                        <td>Feb 12 – ongoing</td>
+                        <td>seasideglitterbooks@gmail.com<br><span class="text-stone-500 text-xs">@seasideglitter</span></td>
+                        <td>
+                            <a href="https://atomic-shelf.com/Productions/Seaside_Glitter_by_Wayne_Turner" target="_blank" class="link-btn">📄 Productions Page</a>
+                            <span class="text-xs text-stone-500 block mt-1">Invoice PAID ✅ • Series 1 created, not posted. Add to albums & post. Target: 10k-15k views, 2k followers.</span>
+                        </td>
+                        <td class="checkbox-cell"><input type="checkbox" checked disabled></td>
+                    </tr>
+
+                    <!-- Robert Walker -->
+                    <tr>
+                        <td class="font-semibold">Robert Walker — Six Moons Seven Gods</td>
+                        <td><span class="status-badge status-active">ACTIVE</span></td>
+                        <td>Mar 3 – Apr 20</td>
+                        <td>To be confirmed<br><span class="text-stone-500 text-xs">@robertwalker4382</span></td>
+                        <td>
+                            <a href="https://atomic-shelf.com/Productions/Six_Moons_Seven_Gods_Robert_Walker" target="_blank" class="link-btn">📄 Productions Page</a>
+                            <span class="text-xs text-amber-700 block mt-1">Series 3 voiceovers done. Post from Apr 12. Report + invoice due Apr 20.</span>
+                        </td>
+                        <td class="checkbox-cell"><input type="checkbox"></td>
+                    </tr>
+
+                    <!-- Daniel Voelker -->
+                    <tr style="background: #fff8f8;">
+                        <td class="font-semibold">Daniel Voelker — Return to Hawaii</td>
+                        <td><span class="status-badge status-active">ACTIVE</span></td>
+                        <td>Feb 20 – Apr 7 (Closed)<br><span class="text-emerald-600 text-xs font-bold">10 months subscribed! ✅</span></td>
+                        <td>To be confirmed<br><span class="text-stone-500 text-xs">@returnhawaiidonovancross</span></td>
+                        <td>
+                            <a href="https://atomic-shelf.com/Productions/Daniel_V_Return_To_Hawaii" target="_blank" class="link-btn">📄 Productions Page</a>
+                            <span class="text-xs text-emerald-700 block mt-1">Invoice paid successfully.</span>
+                        </td>
+                        <td class="checkbox-cell"><input type="checkbox"></td>
+                    </tr>
+
+                    <!-- Charles Santana -->
+                    <tr>
+                        <td class="font-semibold">Charles Santana — Vibe Check</td>
+                        <td><span class="status-badge status-active">ACTIVE</span></td>
+                        <td>Mar 2 – Mar 30 (Closed)</td>
+                        <td>powerpages30@gmail.com<br><span class="text-stone-500 text-xs">@charlessantana641</span></td>
+                        <td>
+                            <a href="#" class="link-btn link-btn-amber">📧 Emailed re: invoice</a>
+                            <span class="text-xs text-amber-700 block mt-1">Await payment.</span>
+                        </td>
+                        <td class="checkbox-cell"><input type="checkbox"></td>
+                    </tr>
+
+                    <!-- Robbin Laird -->
+                    <tr>
+                        <td class="font-semibold">Robbin Laird — Public Speaking for Professionals</td>
+                        <td><span class="status-badge status-active">ACTIVE</span></td>
+                        <td>Apr 6 – Apr 13</td>
+                        <td>publicspeakingprobooks@gmail.com<br><span class="text-stone-500 text-xs">@publicspeakingpro.books</span></td>
+                        <td>
+                            <a href="https://atomic-shelf.com/Productions/Robbin_Lairds_Public_Speaking_for_Professionals" target="_blank" class="link-btn">📄 Productions Page</a>
+                            <span class="text-xs text-green-700 block mt-1">✅ LIVE on TikTok • YouTube access GRANTED • Weekend report due.</span>
+                        </td>
+                        <td class="checkbox-cell"><input type="checkbox"></td>
+                    </tr>
+
+                    <!-- Daniel Zane Bryan -->
+                    <tr>
+                        <td class="font-semibold">Daniel Zane Bryan — Indoor Vegetable Gardening</td>
+                        <td><span class="status-badge status-active">ACTIVE</span></td>
+                        <td>Apr 6 – Apr 13</td>
+                        <td>smallspacegardenbooks@gmail.com<br><span class="text-stone-500 text-xs">@smallspacegarden.books</span></td>
+                        <td>
+                            <a href="https://atomic-shelf.com/Productions/Daniel_Zane_Bryan_Indoor_Vegetable_Gardening" target="_blank" class="link-btn">📄 Productions Page</a>
+                            <span class="text-xs text-green-700 block mt-1">✅ LIVE on TikTok • YouTube access GRANTED • Weekend report due.</span>
+                        </td>
+                        <td class="checkbox-cell"><input type="checkbox"></td>
+                    </tr>
+
+                    <!-- Jad El Khoury -->
+                    <tr>
+                        <td class="font-semibold">Jad El Khoury — The Jade Necklace</td>
+                        <td><span class="status-badge status-active">ACTIVE</span></td>
+                        <td>Apr 6 – Apr 13</td>
+                        <td>powerpages30@gmail.com<br><span class="text-stone-500 text-xs">@atomic.shelf (main account)</span></td>
+                        <td>
+                            <a href="https://atomic-shelf.com/Productions/Jad_P_The_Jade_Necklace" target="_blank" class="link-btn">📄 Productions Page</a>
+                            <span class="text-xs text-amber-700 block mt-1">✅ LIVE on TikTok • Contact Jad for editor access decision.</span>
+                        </td>
+                        <td class="checkbox-cell"><input type="checkbox"></td>
+                    </tr>
+
+                    <!-- Ray Strong -->
+                    <tr class="bg-gradient-to-r from-amber-50 to-white">
+                        <td class="font-semibold text-[#a5572c]">🔥 Ray Strong — Zephyr's Flight</td>
+                        <td><span class="status-badge status-active">ACTIVE</span></td>
+                        <td>Apr 11 – Apr 18</td>
+                        <td>zephyrsflightbooks@gmail.com<br><span class="text-stone-500 text-xs">@zephyrsflight.books</span></td>
+                        <td>
+                            <a href="https://atomic-shelf.com/Productions/Ray_Strong_ZF" target="_blank" class="link-btn">📄 Productions Page</a>
+                            <span class="text-xs text-green-700 block mt-1">✅ Editor access granted. 7 videos queued.</span>
+                            <span class="alert-chip">⚠️ Inventory ends Apr 17. Replenish ASAP. Invoice due Apr 18.</span>
+                        </td>
+                        <td class="checkbox-cell"><input type="checkbox"></td>
+                    </tr>
+
+                    <!-- J.C. Brandt -->
+                    <tr>
+                        <td class="font-semibold">J.C. Brandt — Friend of the Monsters</td>
+                        <td><span class="status-badge status-active">ACTIVE</span></td>
+                        <td>Mar 20 – Apr 20</td>
+                        <td>monsterbrandtbooks@gmail.com<br><span class="text-stone-500 text-xs">@friendofmonsters.books</span></td>
+                        <td>
+                            <a href="https://atomic-shelf.com/Productions/J_Brandt_Friend_of_the_Monsters" target="_blank" class="link-btn">📄 Productions Page</a>
+                            <span class="text-xs text-green-700 block mt-1">✅ Account rebuilt • Emailed • Trial active.</span>
+                        </td>
+                        <td class="checkbox-cell"><input type="checkbox"></td>
+                    </tr>
+
+                    <!-- SECTION: NEEDS ATTENTION -->
+                    <tr class="section-divider"><td colspan="6">⚠️ Needs Attention (4)</td></tr>
+
+                    <!-- Jill Featherstone -->
+                    <tr>
+                        <td class="font-semibold">Jill Featherstone — Tiger Lily</td>
+                        <td><span class="status-badge status-needs">NEEDS ATTENTION</span></td>
+                        <td>Mar 18 – Apr 18</td>
+                        <td>kunajillbooks@gmail.com<br><span class="text-stone-500 text-xs">@jillfeatherstonetl</span></td>
+                        <td>
+                            <a href="https://atomic-shelf.com/Productions/Jill_Featherstones_The_Tale_of_Tiger_Lily" target="_blank" class="link-btn">📄 Productions Page</a>
+                            <span class="text-xs text-red-600 block mt-1">0 videos posted. Chase reply urgently. Get approval today.</span>
+                        </td>
+                        <td class="checkbox-cell"><input type="checkbox"></td>
+                    </tr>
+
+                    <!-- Alexis Koetting -->
+                    <tr>
+                        <td class="font-semibold">Alexis Koetting — Encore</td>
+                        <td><span class="status-badge status-needs">NEEDS ATTENTION</span></td>
+                        <td>Mar 13 – Apr 12 (Trial ended)</td>
+                        <td>To be confirmed</td>
+                        <td>
+                            <a href="https://atomic-shelf.com/Productions/Encore_by_Alexis_Koetting" target="_blank" class="link-btn">📄 Productions Page</a>
+                            <span class="text-xs text-red-600 block mt-1">Trial end reminder sent ✅ Page updated ✅ Send invoice ASAP.</span>
+                        </td>
+                        <td class="checkbox-cell"><input type="checkbox"></td>
+                    </tr>
+
+                    <!-- Steve Morris -->
+                    <tr>
+                        <td class="font-semibold">Steve Morris — Mother of Trees</td>
+                        <td><span class="status-badge status-needs">NEEDS ATTENTION</span></td>
+                        <td>Mar 8 – Apr 8 (Closed)</td>
+                        <td>stevemorrisbooks@gmail.com<br><span class="text-stone-500 text-xs">@stevemorris.books</span></td>
+                        <td>
+                            <span class="text-xs text-emerald-700 block">Grimoire found ✅ Re-engagement email sent.</span>
+                            <span class="text-xs block mt-1">Use sjmorriswrites.com/grimoire for all content. Await reply.</span>
+                        </td>
+                        <td class="checkbox-cell"><input type="checkbox"></td>
+                    </tr>
+
+                    <!-- Eliza McJames -->
+                    <tr>
+                        <td class="font-semibold">Eliza McJames — Magnolia Inn</td>
+                        <td><span class="status-badge status-needs">NEEDS ATTENTION</span></td>
+                        <td>Feb 25 – Mar 28 (Closed)</td>
+                        <td>magnoliainnbooks@gmail.com<br><span class="text-stone-500 text-xs">@magnoliain.books</span></td>
+                        <td>
+                            <a href="https://atomic-shelf.com/Productions/Magnolia_Inn" target="_blank" class="link-btn">📄 Productions Page</a>
+                            <span class="text-xs text-red-600 block mt-1">Content ready. Accounts disabled. Chase reply from Eliza. Relaunch accounts.</span>
+                        </td>
+                        <td class="checkbox-cell"><input type="checkbox"></td>
+                    </tr>
+
+                    <!-- SECTION: CREATE CONTENT -->
+                    <tr class="section-divider"><td colspan="6">🎨 Create Content (2)</td></tr>
+
+                    <!-- Amoghavarsha V Patil -->
+                    <tr>
+                        <td class="font-semibold">Amoghavarsha V Patil — ANAADHI</td>
+                        <td><span class="status-badge status-content">CREATE CONTENT</span></td>
+                        <td>Confirmed, not started</td>
+                        <td>N/A (Instagram only)</td>
+                        <td>
+                            <span class="text-xs block mt-1">Produce videos + captions. Deliver to author. Instagram focus only. Author posts own content.</span>
+                        </td>
+                        <td class="checkbox-cell"><input type="checkbox"></td>
+                    </tr>
+
+                    <!-- Kurosh Taromi -->
+                    <tr>
+                        <td class="font-semibold">Kurosh Taromi — When a Mom Kisses Her Daughter + Funny Sharks & Poems</td>
+                        <td><span class="status-badge status-content">CREATE CONTENT</span></td>
+                        <td>Samples sent, awaiting confirmation</td>
+                        <td>momkissesdaughterbooks@gmail.com (suggested)<br><span class="text-stone-500 text-xs">@momkisses.books (suggested)</span></td>
+                        <td>
+                            <span class="text-xs block mt-1">Produce trial content. Build productions page. Two books. #MomTok + #KidsBookTok.</span>
+                        </td>
+                        <td class="checkbox-cell"><input type="checkbox"></td>
+                    </tr>
+
+                    <!-- SECTION: AWAITING RESPONSE -->
+                    <tr class="section-divider"><td colspan="6">⏳ Awaiting Response (5)</td></tr>
+
+                    <!-- Zev Bagel -->
+                    <tr>
+                        <td class="font-semibold">Zev Bagel — The Last Jew in Hania</td>
+                        <td><span class="status-badge status-awaiting">AWAITING RESPONSE</span></td>
+                        <td>Not started</td>
+                        <td>zevbagelbooks@gmail.com<br><span class="text-stone-500 text-xs">@zevbagel.books (suggested)</span></td>
+                        <td>
+                            <span class="text-xs block mt-1">Samples sent. Build productions page once confirmed. ⚠️ Create account when confirmed.</span>
+                        </td>
+                        <td class="checkbox-cell"><input type="checkbox"></td>
+                    </tr>
+
+                    <!-- Nancy Ellen McLennan -->
+                    <tr>
+                        <td class="font-semibold">Nancy Ellen McLennan — Finding Strength</td>
+                        <td><span class="status-badge status-awaiting">AWAITING RESPONSE</span></td>
+                        <td>Not started</td>
+                        <td>nancyellenbooks@gmail.com<br><span class="text-stone-500 text-xs">@nancyellen.books (suggested)</span></td>
+                        <td>
+                            <span class="text-xs block mt-1">Samples sent. Await confirmation. ⚠️ Create account when confirmed.</span>
+                        </td>
+                        <td class="checkbox-cell"><input type="checkbox"></td>
+                    </tr>
+
+                    <!-- Todd & Carolyn -->
+                    <tr>
+                        <td class="font-semibold">Todd & Carolyn — 7 Day Marriage Challenge</td>
+                        <td><span class="status-badge status-awaiting">AWAITING RESPONSE</span></td>
+                        <td>Not started</td>
+                        <td>relationshiprockbooks@gmail.com<br><span class="text-stone-500 text-xs">@relationshiprock.books (suggested)</span></td>
+                        <td>
+                            <span class="text-xs block mt-1">Samples sent. Await confirmation. ⚠️ Create account when confirmed.</span>
+                        </td>
+                        <td class="checkbox-cell"><input type="checkbox"></td>
+                    </tr>
+
+                    <!-- L. Wilder -->
+                    <tr>
+                        <td class="font-semibold">L. Wilder — Seven (Satan's Fury MC)</td>
+                        <td><span class="status-badge status-awaiting">AWAITING RESPONSE</span></td>
+                        <td>Not started</td>
+                        <td>satansfurymcbooks@gmail.com<br><span class="text-stone-500 text-xs">@satansfurymc.books (suggested)</span></td>
+                        <td>
+                            <span class="text-xs block mt-1">Samples sent. Productions page pending. High-value prospect. ⚠️ Create account when confirmed.</span>
+                        </td>
+                        <td class="checkbox-cell"><input type="checkbox"></td>
+                    </tr>
+
+                    <!-- Spiros Scafidas -->
+                    <tr>
+                        <td class="font-semibold">Spiros Scafidas — The Subtle Art of Becoming Yourself</td>
+                        <td><span class="status-badge status-awaiting">AWAITING RESPONSE</span></td>
+                        <td>Not started</td>
+                        <td>subtleartbooks@gmail.com<br><span class="text-stone-500 text-xs">@subtleart.books (suggested)</span></td>
+                        <td>
+                            <a href="https://atomic-shelf.com/Productions/Spiros_Scafidas_The_Art_of_Being_Yourself" target="_blank" class="link-btn">📄 Productions Page</a>
+                            <span class="text-xs block mt-1">Follow-up sent. Await reply. ⚠️ Create account when confirmed.</span>
+                        </td>
+                        <td class="checkbox-cell"><input type="checkbox"></td>
+                    </tr>
+
+                    <!-- SECTION: PROSPECTS -->
+                    <tr class="section-divider"><td colspan="6">🔮 Prospects (2)</td></tr>
+
+                    <!-- Ryan Silver -->
+                    <tr>
+                        <td class="font-semibold">Ryan — Silver and the Stone</td>
+                        <td><span class="status-badge status-prospect">PROSPECT</span></td>
+                        <td>Not confirmed</td>
+                        <td>silverandthestonebooks@gmail.com<br><span class="text-stone-500 text-xs">@silverandstone.books (suggested)</span></td>
+                        <td>
+                            <span class="text-xs block mt-1">Samples sent. Await confirmation.</span>
+                        </td>
+                        <td class="checkbox-cell"><input type="checkbox"></td>
+                    </tr>
+
+                    <!-- Shaun Kokoro -->
+                    <tr>
+                        <td class="font-semibold">Shaun — Kokoro</td>
+                        <td><span class="status-badge status-prospect">PROSPECT</span></td>
+                        <td>Not confirmed</td>
+                        <td>kokoro.books@gmail.com<br><span class="text-stone-500 text-xs">@kokoro.books (suggested)</span></td>
+                        <td>
+                            <span class="text-xs block mt-1">Samples sent. Await confirmation.</span>
+                        </td>
+                        <td class="checkbox-cell"><input type="checkbox"></td>
+                    </tr>
+
+                    <!-- SECTION: LOW PRIORITY -->
+                    <tr class="section-divider"><td colspan="6">🟡 Low Priority (1)</td></tr>
+
+                    <!-- Paul McAllister -->
+                    <tr>
+                        <td class="font-semibold">Paul McAllister — Tilley's Tail</td>
+                        <td><span class="status-badge status-low">LOW PRIORITY</span></td>
+                        <td>Mar 15 – Apr 15</td>
+                        <td>tilleystailbooks@gmail.com<br><span class="text-stone-500 text-xs">@tilleystail</span></td>
+                        <td>
+                            <span class="text-xs block mt-1">Trial running. No marketing budget. No invoice expected.</span>
+                        </td>
+                        <td class="checkbox-cell"><input type="checkbox"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Key Alerts -->
+        <div class="mt-8 space-y-4">
+            <div class="bg-amber-50 border-l-8 border-amber-500 p-5 rounded-2xl shadow-sm">
+                <div class="font-bold text-amber-800">🔥 Ray Strong — Zephyr's Flight</div>
+                <p class="text-sm text-stone-700 mt-1">Inventory ends Apr 17. Replenish content ASAP. Invoice due Apr 18.</p>
+            </div>
+            <div class="bg-red-50 border-l-8 border-red-500 p-5 rounded-2xl shadow-sm">
+                <div class="font-bold text-red-800">🚨 Alexis Koetting — Trial Ended Apr 12</div>
+                <p class="text-sm text-stone-700 mt-1">Send invoice ASAP.</p>
+            </div>
+            <div class="bg-orange-50 border-l-8 border-orange-500 p-5 rounded-2xl shadow-sm">
+                <div class="font-bold text-orange-800">💳 Daniel Voelker — 10 Months Prepaid ✅</div>
+                <p class="text-sm text-stone-700 mt-1">Fully paid through February 2027. Campaign continues smoothly.</p>
+            </div>
+        </div>
+
+        <div class="footer-note">
+            <div class="flex flex-wrap justify-between items-center gap-4">
+                <div class="flex gap-4 text-xs">
+                    <span><span class="inline-block w-3 h-3 rounded-full bg-green-600"></span> Active</span>
+                    <span><span class="inline-block w-3 h-3 rounded-full bg-red-500"></span> Needs Attention</span>
+                    <span><span class="inline-block w-3 h-3 rounded-full bg-emerald-400"></span> Create Content</span>
+                    <span><span class="inline-block w-3 h-3 rounded-full bg-yellow-500"></span> Awaiting Response</span>
+                    <span><span class="inline-block w-3 h-3 rounded-full bg-orange-400"></span> Prospect</span>
+                    <span><span class="inline-block w-3 h-3 rounded-full bg-gray-400"></span> Low Priority</span>
+                </div>
+            </div>
+            <div class="mt-5 pt-2 border-t border-stone-200 text-stone-400 text-[10px] flex justify-between">
+                <span>📌 Updated with latest email threads & status changes • v4 • April 13, 2026</span>
+                <span>Atomic Shelf Master Roster • Built for Nick Talam • atomic-shelf.com</span>
+            </div>
+        </div>
+    </div>
+    <footer class="bg-[#2b241c] text-stone-300 py-6 mt-8 text-center text-xs">
+        <p>Atomic Shelf — Master Author Tracker | Daily accountability</p>
+        <p class="mt-1 opacity-70">✨ v4 • 9 Active • 4 Needs Attention • 23 authors tracked</p>
+    </footer>
+</body>
+</html>

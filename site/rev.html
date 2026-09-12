@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Atomic‑Shelf | 60 Videos Free</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#FDFCF8;
+  --bg-warm:#F7F2E8;
+  --ink:#0E0C1A;
+  --muted:#6B6078;
+  --light:#9490A0;
+  --copper:#C8832A;
+  --copper-2:#E09A40;
+  --copper-pale:#FBF0DC;
+  --radius:16px;
+  --radius-sm:10px;
+  --max:680px;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* Typography */
+h1,h2,h3{font-family:'Playfair Display',serif;letter-spacing:-0.02em;line-height:1.1;}
+h1{font-size:clamp(2.6rem,6vw,4.2rem);font-weight:700;}
+h2{font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:600;}
+p.lead{font-size:1.15rem;color:var(--muted);max-width:48ch;line-height:1.7;}
+a{color:var(--copper);text-decoration:none;}
+
+/* Layout */
+.container{max-width:1100px;margin:0 auto;padding:0 1.5rem;}
+section{padding:5rem 0;}
+.text-center{text-align:center;}
+
+/* Nav */
+nav{
+  position:fixed;inset:0 0 auto 0;z-index:100;
+  background:rgba(253,252,248,0.9);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(14,12,26,0.06);
+}
+.nav-inner{
+  max-width:1100px;margin:0 auto;padding:1rem 1.5rem;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.logo{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:var(--ink);letter-spacing:-0.03em;}
+.logo span{color:var(--copper);}
+
+/* Buttons */
+.btn{
+  display:inline-flex;align-items:center;gap:0.4rem;
+  padding:0.85rem 1.6rem;border-radius:var(--radius-sm);
+  font-size:0.92rem;font-weight:600;border:none;cursor:pointer;transition:all .2s;
+}
+.btn-primary{background:var(--copper);color:#fff;}
+.btn-primary:hover{background:#b0711e;transform:translateY(-1px);}
+.btn-outline{background:transparent;color:var(--ink);border:1.5px solid rgba(14,12,26,0.14);}
+.btn-outline:hover{border-color:var(--copper);color:var(--copper);}
+
+/* Hero */
+.hero{
+  min-height:100vh;display:flex;flex-direction:column;justify-content:center;
+  padding-top:6rem;padding-bottom:3rem;position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;top:-10%;right:-10%;width:500px;height:500px;
+  background:radial-gradient(circle,rgba(200,131,42,0.12),transparent 60%);
+  pointer-events:none;
+}
+.hero .container{position:relative;z-index:1;}
+.badge{
+  display:inline-flex;align-items:center;gap:0.5rem;
+  background:var(--copper-pale);color:var(--copper);
+  font-size:0.72rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;
+  padding:0.4rem 0.9rem;border-radius:99px;margin-bottom:1.5rem;border:1px solid rgba(200,131,42,0.2);
+}
+.hero h1{margin-bottom:1.25rem;}
+.hero h1 em{font-style:italic;color:var(--copper);}
+.hero .lead{margin-bottom:2.5rem;}
+
+/* Form */
+.signup-form{
+  display:flex;gap:0.6rem;flex-wrap:wrap;margin-bottom:1.25rem;max-width:460px;
+}
+.signup-form input{
+  flex:1;min-width:240px;padding:0.9rem 1.1rem;border-radius:var(--radius-sm);
+  border:1.5px solid rgba(14,12,26,0.12);background:#fff;font-size:0.95rem;
+  font-family:inherit;outline:none;transition:border-color .2s;
+}
+.signup-form input:focus{border-color:var(--copper);}
+.signup-form .btn{padding:0.9rem 1.4rem;}
+.under-form{font-size:0.82rem;color:var(--light);}
+
+/* Trust */
+.trust{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:1.5rem 2.5rem;
+  margin-top:3.5rem;padding-top:2.5rem;border-top:1px solid rgba(14,12,26,0.06);
+}
+.trust-item{display:flex;align-items:center;gap:0.5rem;font-size:0.82rem;color:var(--muted);font-weight:500;}
+.dot{width:5px;height:5px;border-radius:50%;background:var(--copper);}
+
+/* Cards */
+.grid-3{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-top:3rem;
+}
+.card{
+  background:#fff;border:1px solid rgba(14,12,26,0.07);border-radius:var(--radius);
+  padding:2rem;transition:all .25s;
+}
+.card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(14,12,26,0.06);border-color:rgba(200,131,42,0.25);}
+.card-icon{
+  width:44px;height:44px;border-radius:12px;background:var(--copper-pale);color:var(--copper);
+  display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:1.1rem;
+}
+.card h3{font-size:1.15rem;margin-bottom:0.4rem;font-family:'Inter',sans-serif;font-weight:600;}
+.card p{font-size:0.9rem;color:var(--muted);line-height:1.65;}
+
+/* Steps */
+.steps{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:3rem;position:relative;
+}
+.steps::before{
+  content:'';position:absolute;top:20px;left:60px;right:60px;height:1px;
+  background:linear-gradient(90deg,var(--copper),rgba(200,131,42,0.1));z-index:0;
+}
+.step{position:relative;z-index:1;text-align:center;}
+.step-num{
+  width:40px;height:40px;border-radius:50%;margin:0 auto 1rem;
+  background:#fff;border:1.5px solid rgba(200,131,42,0.35);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Playfair Display',serif;font-weight:700;color:var(--copper);font-size:1rem;
+}
+.step h4{font-size:1rem;margin-bottom:0.3rem;}
+.step p{font-size:0.88rem;color:var(--muted);}
+
+/* CTA Section */
+.cta-band{
+  background:var(--ink);color:#fff;border-radius:var(--radius);
+  padding:4rem 2rem;text-align:center;position:relative;overflow:hidden;
+}
+.cta-band::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 20% 50%,rgba(200,131,42,0.15),transparent 50%);
+  pointer-events:none;
+}
+.cta-band h2{position:relative;z-index:1;margin-bottom:0.75rem;}
+.cta-band p{position:relative;z-index:1;color:rgba(255,255,255,0.5);margin-bottom:1.75rem;max-width:46ch;margin-inline:auto;}
+
+/* Footer */
+footer{padding:2.5rem 0;text-align:center;font-size:0.8rem;color:var(--light);border-top:1px solid rgba(14,12,26,0.06);}
+
+/* Responsive */
+@media(max-width:800px){
+  .grid-3,.steps{grid-template-columns:1fr;}
+  .steps::before{display:none;}
+  .step{text-align:left;display:flex;gap:1rem;}
+  .step-num{flex-shrink:0;margin:0;}
+}
+@media(max-width:480px){
+  .hero h1{font-size:2.4rem;}
+  .signup-form .btn{width:100%;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo">Atomic<span>‑</span>Shelf</a>
+    <a href="#get-started" class="btn btn-outline">Get 60 free videos</a>
+  </div>
+</nav>
+
+<section class="hero" id="get-started">
+  <div class="container">
+    <div class="badge">✦ No credit card required</div>
+    <h1>Get <em>60 videos</em> for your book.<br>Completely free.</h1>
+    <p class="lead">
+      Atomic‑Shelf is the creative studio built for indie authors. We script, produce, and deliver a month of scroll-stopping content — so you can stop fighting the algorithm and get back to writing.
+    </p>
+
+    <form class="signup-form" onsubmit="event.preventDefault();alert('Thanks! We will be in touch shortly.');">
+      <input type="email" placeholder="Enter your email address" required/>
+      <button type="submit" class="btn btn-primary">Claim 60 free videos →</button>
+    </form>
+    <p class="under-form">Join 160+ authors. Cancel anytime. No hidden fees.</p>
+
+    <div class="trust">
+      <div class="trust-item"><span class="dot"></span>160+ authors served</div>
+      <div class="trust-item"><span class="dot"></span>12.7M+ views generated</div>
+      <div class="trust-item"><span class="dot"></span>Amazon DSP Certified</div>
+      <div class="trust-item"><span class="dot"></span>5 content formats</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container text-center">
+    <h2>Everything you need to go from invisible to unmissable.</h2>
+    <p class="lead" style="margin:1rem auto 0;">A full creative team behind your book — not a tool you log into.</p>
+
+    <div class="grid-3">
+      <div class="card">
+        <div class="card-icon">✍️</div>
+        <h3>Scripts & Creative</h3>
+        <p>Our writers study your genre and reader psychology, then craft hooks that stop the scroll.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🎬</div>
+        <h3>Video Production</h3>
+        <p>Cinematic trailers, TikToks, Reels, Shorts, and long-form — produced and ready to post.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🎵</div>
+        <h3>Original Audio</h3>
+        <p>Custom theme music and avatar narration that makes your book instantly recognizable.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--bg-warm);">
+  <div class="container text-center">
+    <h2>How it works</h2>
+    <p class="lead" style="margin:1rem auto 0;">From signup to published in 48 hours.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div>
+          <h4>Tell us about your book</h4>
+          <p>Share your title, genre, and a link. Our team does the rest.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div>
+          <h4>We build your content</h4>
+          <p>Scripts, video, music, and captions — all matched to your story.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div>
+          <h4>You post and grow</h4>
+          <p>Download, schedule, and watch the algorithm start working for you.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="cta-band">
+      <h2>Ready to give your book a studio?</h2>
+      <p>Start with 60 free videos. If you love it, stay on for $50/mo. If not, walk away with a month of content — on us.</p>
+      <a href="#get-started" class="btn btn-primary btn-lg" style="font-size:1rem;padding:1rem 2rem;">Get 60 videos free →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    © 2026 Atomic‑Shelf. Built for indie authors.
+  </div>
+</footer>
+
+</body>
+</html>

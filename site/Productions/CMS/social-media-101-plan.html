@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Social Media 101 — Content Calendar · Atomic‑Shelf Essentials</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#0d0f14;
+  --surface:#13161d;
+  --card:#181c25;
+  --card2:#1d2230;
+  --border:#252a38;
+  --accent:#4f8ef7;
+  --accent2:#a78bfa;
+  --gold:#f5c842;
+  --green:#34d399;
+  --text:#e8eaf2;
+  --muted:#7a82a0;
+  --faint:#2a3046;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* ── HEADER ── */
+header{
+  background:linear-gradient(135deg,#0d0f14 0%,#131825 60%,#0f1520 100%);
+  border-bottom:1px solid var(--border);
+  padding:3.5rem 5vw 3rem;
+  position:relative;
+  overflow:hidden;
+}
+header::before{
+  content:'';
+  position:absolute;top:-60px;right:-80px;
+  width:500px;height:500px;border-radius:50%;
+  background:radial-gradient(ellipse,rgba(79,142,247,.13) 0%,transparent 65%);
+  pointer-events:none;
+}
+header::after{
+  content:'';
+  position:absolute;bottom:-40px;left:10%;
+  width:300px;height:300px;border-radius:50%;
+  background:radial-gradient(ellipse,rgba(167,139,250,.08) 0%,transparent 65%);
+  pointer-events:none;
+}
+.header-inner{max-width:1200px;margin:0 auto;position:relative;z-index:1}
+.plan-badge{
+  display:inline-flex;align-items:center;gap:.5rem;
+  background:rgba(79,142,247,.12);
+  border:1px solid rgba(79,142,247,.3);
+  border-radius:99px;
+  padding:.3rem .85rem;
+  font-size:.7rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:1.25rem;
+}
+.plan-dot{width:6px;height:6px;background:var(--accent);border-radius:50%;animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2rem,4vw,3.2rem);
+  font-weight:700;line-height:1.1;
+  color:#fff;margin-bottom:.6rem;
+  letter-spacing:-.02em;
+}
+h1 span{color:var(--accent);font-style:italic}
+
+.header-sub{
+  font-size:.95rem;color:var(--muted);
+  margin-bottom:1.75rem;line-height:1.7;max-width:60ch;
+}
+.header-meta{
+  display:flex;flex-wrap:wrap;gap:1rem;align-items:center;
+}
+.meta-chip{
+  display:flex;align-items:center;gap:.5rem;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:8px;padding:.45rem .9rem;
+  font-size:.78rem;color:var(--muted);
+}
+.meta-chip strong{color:var(--text);font-weight:600}
+.book-link{
+  display:inline-flex;align-items:center;gap:.5rem;
+  background:var(--accent);color:#fff;
+  border-radius:8px;padding:.5rem 1.1rem;
+  font-size:.82rem;font-weight:600;
+  text-decoration:none;
+  transition:all .2s;
+  letter-spacing:.02em;
+}
+.book-link:hover{background:#3b7de8;transform:translateY(-1px)}
+.book-link svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2}
+
+/* ── LAYOUT ── */
+main{max-width:1200px;margin:0 auto;padding:3rem 5vw 5rem}
+
+.month-header{
+  display:flex;align-items:center;gap:1rem;
+  margin-bottom:2rem;padding-bottom:1rem;
+  border-bottom:1px solid var(--border);
+}
+.month-label{
+  font-family:'Playfair Display',serif;
+  font-size:1.5rem;color:#fff;
+}
+.video-count{
+  font-size:.72rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);
+  background:var(--surface);border:1px solid var(--border);
+  padding:.25rem .65rem;border-radius:99px;
+}
+
+/* ── DAY GROUP ── */
+.day-group{margin-bottom:2.5rem}
+.day-label{
+  display:flex;align-items:center;gap:.75rem;
+  margin-bottom:1rem;
+}
+.day-number{
+  font-size:.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--accent);
+  background:rgba(79,142,247,.1);
+  border:1px solid rgba(79,142,247,.2);
+  border-radius:6px;
+  padding:.25rem .65rem;
+}
+.day-date{font-size:.82rem;color:var(--muted);font-weight:400}
+.day-cards{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1rem;
+}
+@media(max-width:800px){.day-cards{grid-template-columns:1fr}}
+
+/* ── VIDEO CARD ── */
+.video-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:14px;
+  overflow:hidden;
+  transition:border-color .25s,box-shadow .25s;
+}
+.video-card:hover{
+  border-color:rgba(79,142,247,.35);
+  box-shadow:0 8px 32px rgba(0,0,0,.35);
+}
+.card-top{
+  background:var(--card2);
+  padding:.75rem 1rem;
+  display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid var(--border);
+}
+.video-num{
+  font-family:'DM Mono',monospace;
+  font-size:.7rem;color:var(--muted);letter-spacing:.08em;
+}
+.platform-tag{
+  font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--accent2);
+  background:rgba(167,139,250,.1);
+  border:1px solid rgba(167,139,250,.2);
+  border-radius:99px;padding:.18rem .55rem;
+}
+
+.card-body{padding:1rem}
+
+.section-label{
+  font-size:.62rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem;
+}
+.section-label span{
+  display:inline-block;width:6px;height:6px;border-radius:50%;
+}
+.label-vo span{background:var(--gold)}
+.label-desc span{background:var(--green)}
+
+.vo-text,.desc-text{
+  font-size:.82rem;line-height:1.75;color:var(--text);
+  background:rgba(255,255,255,.03);
+  border:1px solid var(--faint);
+  border-radius:8px;
+  padding:.75rem .85rem;
+  margin-bottom:.65rem;
+  min-height:72px;
+}
+.desc-text{
+  font-size:.78rem;color:var(--muted);
+  min-height:52px;
+}
+.hashtags{
+  font-family:'DM Mono',monospace;
+  font-size:.72rem;color:var(--accent);
+  margin-top:.35rem;line-height:1.8;
+  word-break:break-all;
+}
+
+.copy-btn{
+  display:inline-flex;align-items:center;gap:.4rem;
+  background:transparent;
+  border:1px solid var(--border);
+  border-radius:7px;
+  padding:.35rem .75rem;
+  font-size:.72rem;font-weight:500;color:var(--muted);
+  cursor:pointer;
+  transition:all .18s;
+  font-family:'DM Sans',sans-serif;
+  margin-top:.25rem;
+}
+.copy-btn:hover{border-color:var(--accent);color:var(--accent);background:rgba(79,142,247,.08)}
+.copy-btn.copied{border-color:var(--green);color:var(--green);background:rgba(52,211,153,.08)}
+.copy-btn svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2}
+
+.section-divider{height:1px;background:var(--faint);margin:.85rem 0}
+
+/* ── FOOTER ── */
+footer{
+  border-top:1px solid var(--border);
+  padding:2rem 5vw;
+  text-align:center;
+  font-size:.75rem;color:var(--muted);
+}
+footer a{color:var(--accent);text-decoration:none}
+
+/* ── SEARCH / FILTER ── */
+.toolbar{
+  display:flex;align-items:center;gap:1rem;flex-wrap:wrap;
+  margin-bottom:2.5rem;
+  padding:.75rem 1rem;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:12px;
+}
+.search-box{
+  flex:1;min-width:180px;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:.5rem .85rem;
+  color:var(--text);
+  font-family:'DM Sans',sans-serif;
+  font-size:.85rem;
+  outline:none;
+}
+.search-box:focus{border-color:var(--accent)}
+.search-box::placeholder{color:var(--muted)}
+.toolbar-info{font-size:.78rem;color:var(--muted);white-space:nowrap}
+.toolbar-info strong{color:var(--text)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="plan-badge"><span class="plan-dot"></span> Atomic‑Shelf · Essentials Plan</div>
+    <h1>Social Media <span>101</span><br>Content Calendar</h1>
+    <p class="header-sub">
+      60 short-form videos for <em>Awakening the Dinosaur</em> by Daniel Zane Bryan — 2 videos per day, 30 days of content. Copy voiceovers and descriptions directly into your creation workflow.
+    </p>
+    <div class="header-meta">
+      <div class="meta-chip">📅 <strong>30 days</strong> of content</div>
+      <div class="meta-chip">🎬 <strong>60 videos</strong> total</div>
+      <div class="meta-chip">📲 TikTok · Reels · Shorts · Pinterest</div>
+      <a href="https://www.amazon.com/SOCIAL-MEDIA-101-AWAKENING-Platforms/dp/B09873GWQR" target="_blank" rel="noopener" class="book-link">
+        <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        View on Amazon
+      </a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="toolbar">
+    <input class="search-box" type="search" id="searchBox" placeholder="🔍  Search videos, topics, hashtags…" oninput="filterCards()"/>
+    <div class="toolbar-info">Showing <strong id="visibleCount">60</strong> of <strong>60</strong> videos</div>
+  </div>
+
+  <div class="month-header">
+    <div class="month-label">May – June 2026</div>
+    <div class="video-count">60 Videos</div>
+  </div>
+
+  <div id="allCards"></div>
+</main>
+
+<footer>
+  Generated by <a href="https://atomic-shelf.com">Atomic‑Shelf</a> · Essentials Plan · <a href="https://www.amazon.com/SOCIAL-MEDIA-101-AWAKENING-Platforms/dp/B09873GWQR" target="_blank">Social Media 101 on Amazon</a>
+</footer>
+
+<script>
+const BOOK_LINK = "https://www.amazon.com/SOCIAL-MEDIA-101-AWAKENING-Platforms/dp/B09873GWQR";
+
+// 60 videos: 2 per day, 30 days starting May 12, 2026
+const videos = [
+  // Day 1 - May 12
+  {
+    vo: "Are you a digital dinosaur? Don't worry — this book was written just for you. Social Media 101: Awakening the Dinosaur breaks down every major platform so you can finally feel confident online. We're talking Facebook, Instagram, TikTok, LinkedIn, and more — all explained in plain English. Whether you're 25 or 75, this guide has you covered. Grab your copy on Amazon today — link in bio!",
+    title: "Are You a Digital Dinosaur?",
+    desc: "Feeling left behind by social media? This beginner's guide breaks down 11 major platforms in plain English. Perfect for anyone ready to finally get comfortable online. 🦕📱",
+    tags: "#SocialMedia101 #DigitalDinosaur #BeginnerGuide #SocialMediaTips #BookRecommendation #NewBook #TechForBeginners #AmazonBooks #ReadingCommunity #BookTok"
+  },
+  {
+    vo: "What even IS social media? According to the dictionary, it's any digital platform where people create online communities to share information and ideas. But here's what that really means for you: it means you can connect with family across the globe, promote your small business, and stay informed — all from your phone. Social Media 101 walks you through all of it, step by step. Find it on Amazon!",
+    title: "What Even IS Social Media?",
+    desc: "Social media defined — and why it actually matters for your daily life. This book explains everything from the basics up. No tech degree required. 📖✨",
+    tags: "#WhatIsSocialMedia #SocialMediaBasics #TechForEveryone #DigitalLiteracy #SocialMedia101 #BookClub #LearnOnline #AmazonKindle #BeginnerFriendly #ModernCommunication"
+  },
+  // Day 2 - May 13
+  {
+    vo: "Did you know the first true social media site launched all the way back in 1997? It was called Six Degrees and it let users create profiles and connect with friends — sound familiar? From there, the world never looked back. Facebook, Twitter, Instagram — all built on that original idea. Social Media 101 gives you the full history, from Usenet to TikTok. Available now on Amazon!",
+    title: "Social Media Started in 1997 — Here's How",
+    desc: "The history of social media goes back further than you think! From Six Degrees to TikTok, this book covers it all. A fascinating read for curious minds. 🌐📅",
+    tags: "#SocialMediaHistory #SixDegrees #InternetHistory #TechHistory #SocialMedia101 #DidYouKnow #BookFacts #AwakeningTheDinosaur #BookTok #DigitalWorld"
+  },
+  {
+    vo: "Before email, before smartphones, before the internet — humans were still finding ways to connect. Pony Express. Carrier pigeons. Telegraph messages. And now? TikTok videos and Instagram reels. Social media is just the latest chapter in human communication — and Social Media 101 is your guide to this chapter. Don't get left behind. Grab your copy on Amazon — link in bio.",
+    title: "From Carrier Pigeons to TikTok",
+    desc: "Human beings have always found ways to communicate across distances. Social media is just the newest chapter. This book helps you write yours. 🕊️➡️📱",
+    tags: "#HumanCommunication #TechEvolution #SocialMediaHistory #DigitalAge #SocialMedia101 #BookTok #AmazonBooks #FunFacts #TechTips #ModernWorld"
+  },
+  // Day 3 - May 14
+  {
+    vo: "Here's something that surprises people: social media isn't just for selfies. Businesses use it to reach millions of customers. Charities use it to raise funds. Schools use it to teach. Even law enforcement uses it to fight crime. Social media is a multi-billion dollar industry that touches every part of life. And Social Media 101 teaches you how to be part of it. Get your copy on Amazon today!",
+    title: "Social Media Is Bigger Than You Think",
+    desc: "Social media isn't just fun — it's a multi-billion dollar industry reshaping business, education, and even law enforcement. Learn how to use it to your advantage. 💼📈",
+    tags: "#SocialMediaBusiness #DigitalMarketing #SmallBusiness #SocialMedia101 #BookRecommendation #OnlineBusiness #MarketingTips #LearnSocialMedia #AmazonBooks #Entrepreneur"
+  },
+  {
+    vo: "Small businesses used to struggle to compete with big corporations when it came to marketing. Those days are over. Social media completely levels the playing field. A small bakery can reach just as many people as a national chain — for free. Social Media 101 shows you exactly how to use these platforms to grow your brand and reach your audience. Link in bio to grab it on Amazon!",
+    title: "Social Media Levels the Playing Field",
+    desc: "Small businesses no longer have to outspend big brands. Social media gives everyone an equal shot — and this book shows you how to take it. 🏪⚡",
+    tags: "#SmallBusiness #SocialMediaMarketing #LevelThePlaying Field #MarketingStrategy #SocialMedia101 #BusinessGrowth #Entrepreneur #BookTok #AmazonKindle #DigitalMarketing"
+  },
+  // Day 4 - May 15
+  {
+    vo: "Hashtags — they're everywhere. But what actually are they? Originally called the pound sign, the hashtag was adopted by Twitter users as a way to tag topics and reach specific audiences. Now they're on every platform. Social Media 101 breaks down hashtags, emojis, tags, and all the buzzwords that make social media tick — in plain English. Grab the book on Amazon — link in bio!",
+    title: "What Even Is a Hashtag?",
+    desc: "Hashtags, tags, emojis — what do they all mean? Social Media 101 demystifies all the buzzwords so you can post with confidence. #NoMoreConfusion 😄",
+    tags: "#Hashtags #WhatIsAHashtag #SocialMediaTips #SocialMedia101 #BeginnersGuide #TikTokTips #InstagramTips #BookTok #LearnSocialMedia #DigitalLiteracy"
+  },
+  {
+    vo: "Ever wonder why people add emojis to everything online? It's not just decoration. When you're texting or posting, the reader can't hear your tone of voice or see your face. An emoji fills that gap — it tells the reader whether you're joking, happy, sad, or excited. Social Media 101 explains how digital communication works and how to use it like a pro. On Amazon now — link in bio!",
+    title: "Why Everyone Uses Emojis Online",
+    desc: "Emojis aren't just cute — they replace facial expressions and tone of voice in digital communication. Learn the language of the internet with Social Media 101. 😊📱",
+    tags: "#Emojis #WhatAreEmojis #SocialMediaTips #DigitalCommunication #SocialMedia101 #OnlineCommunication #BookTok #TechTips #LearnOnline #InternetLanguage"
+  },
+  // Day 5 - May 16
+  {
+    vo: "Blogging, bookmarking, media sharing, messaging, professional networks, review sites — did you know all of these count as social media? There are more types than most people realize! Social Media 101 maps out every category, explains what each one is for, and introduces the top apps in each. It's the ultimate orientation to the digital world. Available on Amazon — grab it today!",
+    title: "There Are 7 Types of Social Media",
+    desc: "Most people only know 2 or 3 types of social media. This book covers all 7 categories — from blogging to professional networks to review sites. Mind = blown. 🤯",
+    tags: "#TypesOfSocialMedia #SocialMediaCategories #BloggingTips #PinterestTips #LinkedInTips #SocialMedia101 #BookRecommendation #DigitalWorld #AmazonBooks #TechForBeginners"
+  },
+  {
+    vo: "Pinterest, Reddit, Quora, Yelp — these are all social media platforms, and they all work very differently. Pinterest is about bookmarking beautiful visuals. Reddit is a massive discussion forum. Quora answers your questions. And Yelp reviews local businesses. Social Media 101 covers all of them so you know exactly which platform fits your goals. Get the book on Amazon — link in bio!",
+    title: "Pinterest, Reddit, Yelp — All Social Media?",
+    desc: "Yes, Pinterest, Reddit, Quora, and Yelp are all social media! Each one serves a different purpose. This book helps you figure out which ones are right for you. 📌🔍",
+    tags: "#Pinterest #Reddit #Yelp #Quora #SocialMediaPlatforms #SocialMedia101 #BookClub #DigitalLiteracy #LearnOnline #AmazonKindle"
+  },
+  // Day 6 - May 17
+  {
+    vo: "Building communities online is one of the most powerful things social media can do. Gamers connect to play together. People with shared spiritual beliefs find each other. Causes raise money from donors around the world. Social media builds the kind of connections that weren't possible 30 years ago. Social Media 101 helps you tap into that power. Grab it on Amazon — link in bio!",
+    title: "The Power of Online Communities",
+    desc: "From gaming clans to charitable causes — social media builds communities that would be impossible without the internet. Learn how to find yours. 🌍🤝",
+    tags: "#OnlineCommunity #CommunityBuilding #SocialMedia101 #DigitalConnections #BookTok #SocialMediaTips #AmazonBooks #TechForGood #BeginnerGuide #ConnectOnline"
+  },
+  {
+    vo: "Social media has 10 major advantages — and Social Media 101 walks through every single one. Building communities. Building relationships. Supporting causes and charities. Inclusivity. Knowledge sharing. Staying informed. Making connections. Promoting businesses. Social awareness. Even stopping crime. These aren't small things. They're life-changing. Ready to learn? Find the book on Amazon now!",
+    title: "10 Advantages of Social Media You Need to Know",
+    desc: "Social media has 10 major advantages that can genuinely change your life. This book lists them all — and teaches you how to use every one. 💪✅",
+    tags: "#SocialMediaAdvantages #BenefitsOfSocialMedia #SocialMedia101 #OnlineAdvantages #BookTok #DigitalWorld #LearnSocialMedia #AmazonBooks #PositiveSocialMedia #TechTips"
+  },
+  // Day 7 - May 18
+  {
+    vo: "Social media can be addictive — especially for teenagers. It can lead to anti-social behavior, cyberbullying, fraud, and even health problems like poor posture and eye strain. These are real risks, and Social Media 101 doesn't sugarcoat them. The book covers 10 major disadvantages so you can use social media smartly and safely. Find it on Amazon — link in bio!",
+    title: "The Real Dangers of Social Media",
+    desc: "Social media has a dark side too — addiction, cyberbullying, scams, and health issues. Social Media 101 covers all 10 disadvantages so you can protect yourself. ⚠️",
+    tags: "#SocialMediaDangers #CyberBullying #OnlineSafety #SocialMedia101 #DigitalSafety #InternetSafety #BookTok #AmazonBooks #TeenOnlineSafety #DigitalLiteracy"
+  },
+  {
+    vo: "Cyberstalking is a real danger online — and most people don't know how to protect themselves. Social Media 101 covers privacy protection on social media, explaining how your personal information becomes a valuable commodity the moment you go online. You'll learn how to keep your data safe and avoid falling victim to scams or stalkers. Available on Amazon now — link in bio!",
+    title: "Protect Your Privacy Online",
+    desc: "Your personal info is a valuable commodity online. Social Media 101 teaches you how to protect your privacy on every platform and stay safe from scams. 🛡️🔒",
+    tags: "#PrivacyProtection #OnlineSafety #SocialMediaPrivacy #CyberSecurity #SocialMedia101 #ProtectYourself #DigitalSafety #AmazonBooks #BookTok #StaySafeOnline"
+  },
+  // Day 8 - May 19
+  {
+    vo: "Facebook launched in 2006. Twitter followed the same year. Then Tumblr in 2007. Every year since then, a new platform springs up — and somehow the giants just keep evolving and growing. If you've been trying to keep up but keep falling behind, Social Media 101 is exactly what you need. It's the ultimate catch-up guide. Grab it on Amazon today!",
+    title: "How Social Media Exploded After 2006",
+    desc: "Facebook, Twitter, Tumblr — the golden era of social media began in 2006. This book tells the whole story and helps you get up to speed fast. 🚀📅",
+    tags: "#Facebook #Twitter #SocialMediaHistory #DigitalTimeline #SocialMedia101 #TechHistory #BookTok #AmazonBooks #DidYouKnow #InternetEvolution"
+  },
+  {
+    vo: "Social Media 101 is part of a series called Digital Skills for the Modern World by author Daniel Zane Bryan. Daniel has a PhD in addiction studies and has spent his career researching how people interact with information — and that depth shows in this book. It's thorough, practical, and written for real people, not tech insiders. Get it on Amazon — link in bio!",
+    title: "Meet the Author: Daniel Zane Bryan",
+    desc: "Daniel Zane Bryan — PhD, researcher, and author — wrote Social Media 101 to save you the legwork of figuring out the digital world alone. One stop shop for everything social media. 📚",
+    tags: "#DanielZaneBryan #AuthorSpotlight #BookRecommendation #SocialMedia101 #DigitalSkills #BookTok #AmazonBooks #NewBook #NonFiction #ReadingCommunity"
+  },
+  // Day 9 - May 20
+  {
+    vo: "Think about it: before social media, smaller businesses had almost no way to compete with big corporations in advertising. They simply didn't have the marketing budget. Now? A well-crafted Instagram post or TikTok video can go viral and reach millions for free. Social Media 101 helps small business owners take advantage of this completely. Available on Amazon — grab it now!",
+    title: "Why Small Businesses Need Social Media",
+    desc: "Before social media, small businesses couldn't afford to compete with big brands. Now they can. This book shows you how to use it strategically for your business. 🏪💡",
+    tags: "#SmallBusinessMarketing #SocialMediaForBusiness #Entrepreneur #BusinessGrowth #SocialMedia101 #MarketingStrategy #OnlineMarketing #BookTok #AmazonBooks #FreePR"
+  },
+  {
+    vo: "LinkedIn. Meetup. AngelList. PartnerUp. These are professional networking sites — a type of social media most beginners completely overlook. But for anyone building a career or a business, they can be game-changers. Social Media 101 covers professional networks in depth, including who they're for and how to use them. Grab your copy on Amazon — link in bio!",
+    title: "LinkedIn and Beyond — Professional Social Media",
+    desc: "LinkedIn is just the start. Professional networking platforms can transform your career — and Social Media 101 covers them all. Your next opportunity might be one post away. 💼🌐",
+    tags: "#LinkedIn #ProfessionalNetworking #CareerTips #SocialMedia101 #NetworkingOnline #BusinessNetwork #JobSearch #BookTok #AmazonBooks #CareerGrowth"
+  },
+  // Day 10 - May 21
+  {
+    vo: "Review networks like Yelp, TripAdvisor, and Zomato have completely changed the way businesses operate. One bad review can spread globally in minutes. One great review can bring hundreds of new customers. Social Media 101 explains how review culture works and how businesses can protect and manage their reputation online. Get it on Amazon — link in bio!",
+    title: "How Online Reviews Changed Everything",
+    desc: "One bad review can now reach people globally in minutes. Social Media 101 explains the power of review networks — and how to navigate them wisely. ⭐📣",
+    tags: "#OnlineReviews #Yelp #TripAdvisor #Zomato #SocialMedia101 #ReputationManagement #SmallBusiness #ReviewCulture #BookTok #AmazonBooks"
+  },
+  {
+    vo: "Media sharing networks like Instagram, Snapchat, and YouTube let you share images, music, and videos with the world. These platforms require you to create a profile, but once you're set up, you can reach an enormous audience. Social Media 101 gives you a quick user's guide for each one so you're never fumbling around. On Amazon now — link in bio!",
+    title: "Instagram, Snapchat & YouTube Explained",
+    desc: "Media sharing platforms are some of the most popular social networks — and also the most misunderstood for newcomers. This book gives you a quick guide for each one. 📸🎥",
+    tags: "#Instagram #Snapchat #YouTube #MediaSharing #SocialMedia101 #SocialMediaTips #BeginnerGuide #BookTok #AmazonBooks #ContentCreation"
+  },
+  // Day 11 - May 22
+  {
+    vo: "WhatsApp and Facebook Messenger let you video call individuals and groups. Skype is great for staying in touch AND hosting meetings. Zoom and Microsoft Teams are built for webinars and professional gatherings. These are all social media — and they proved their worth during the pandemic when the whole world went online. Social Media 101 covers all of them. Grab it on Amazon!",
+    title: "Zoom, WhatsApp & Messenger Are Social Media Too",
+    desc: "WhatsApp, Zoom, Skype, Microsoft Teams — these messaging and meeting apps ARE social media, and they were lifelines during the pandemic. This book explains them all. 💬📹",
+    tags: "#WhatsApp #Zoom #Skype #MicrosoftTeams #MessagingApps #SocialMedia101 #OnlineMeetings #PandemicTech #BookTok #AmazonBooks"
+  },
+  {
+    vo: "Reddit, Quora, and online forums are where some of the most meaningful conversations on the internet happen. These discussion networks are places where you can ask anything and get genuine answers from real people. Social Media 101 explains how forums work and how to use them to your advantage — personally and professionally. Available on Amazon — link in bio!",
+    title: "Reddit & Quora — The Power of Online Forums",
+    desc: "Online forums and discussion networks are where real conversations happen. Reddit, Quora, and others can be powerful tools — if you know how to use them. 💬🧵",
+    tags: "#Reddit #Quora #OnlineForums #DiscussionNetwork #SocialMedia101 #CommunityOnline #BookTok #AmazonBooks #DigitalLiteracy #InternetCulture"
+  },
+  // Day 12 - May 23
+  {
+    vo: "Social media has a remarkable ability to raise awareness — for social issues, for new innovations, and for causes that need support. No matter who you are on social media, there is always something new to grab your attention and open your eyes to what's going on in the world. Social Media 101 helps you harness that awareness deliberately. Get it on Amazon — link in bio!",
+    title: "Social Media and Social Awareness",
+    desc: "Social media raises awareness like nothing else can — for social issues, innovations, and causes that matter. Learn how to use that power for good. 🌍💛",
+    tags: "#SocialAwareness #SocialJustice #Advocacy #SocialMedia101 #OnlineActivism #CauseMarketing #BookTok #AmazonBooks #DigitalForGood #MakeADifference"
+  },
+  {
+    vo: "Here's something most people never think about: social media can help stop crime. Community awareness groups on Facebook and neighborhood apps alert residents to local dangers. Law enforcement agencies use social media to track and stop criminal activity. Social Media 101 is full of surprising insights like these about how social media shapes the world. On Amazon now!",
+    title: "How Social Media Helps Stop Crime",
+    desc: "Social media community forums and law enforcement agencies are using platforms to fight crime in real time. One of the most surprising benefits covered in this book! 🚔👁️",
+    tags: "#SocialMediaSafety #CommunityWatch #CrimePrevention #SocialMedia101 #DigitalSafety #OnlineCommunity #BookTok #AmazonBooks #DidYouKnow #PublicSafety"
+  },
+  // Day 13 - May 24
+  {
+    vo: "Social media has made the world more inclusive — and that's something to celebrate. People with disabilities can connect and socialize virtually. Those who struggle in social situations can find their confidence online. No matter who you are or where you come from, social media shows you that you have something in common with others around the world. Social Media 101 celebrates that. Grab it on Amazon!",
+    title: "Social Media Is For Everyone",
+    desc: "Social media is one of the most inclusive inventions of the modern age — breaking down barriers of disability, distance, and social anxiety. This book is for everyone. 🌈♿",
+    tags: "#Inclusivity #InclusiveTech #SocialMediaForAll #AccessibilityOnline #SocialMedia101 #DigitalInclusion #BookTok #AmazonBooks #ConnectOnline #TechForGood"
+  },
+  {
+    vo: "Knowledge is power — and social media puts knowledge at everyone's fingertips. YouTube alone has millions of tutorials, self-help videos, and documentaries. Even education departments now use social media as a teaching tool. Social Media 101 is the meta-example: a book that teaches you how to use the tools that teach you everything else. Get it on Amazon — link in bio!",
+    title: "Social Media Is a Learning Powerhouse",
+    desc: "YouTube tutorials. Online courses. Expert forums. Social media has become one of the most powerful learning tools ever created. This book helps you tap into it. 🎓📲",
+    tags: "#OnlineLearning #YouTube #LifelongLearning #DigitalEducation #SocialMedia101 #KnowledgeSharing #BookTok #AmazonBooks #LearnOnline #TechTips"
+  },
+  // Day 14 - May 25
+  {
+    vo: "If you've written a book, run a business, or simply have something to share — social media is the most cost-effective promotion tool ever created. It gives you a wider reach and more exposure than almost any other method — often for completely free. Social Media 101 is your guide to promoting yourself and your brand online. Find it on Amazon — link in bio!",
+    title: "Promote Your Book or Business Online",
+    desc: "Social media is the most cost-effective marketing tool ever created. Whether you have a book, a brand, or a blog — this guide shows you how to promote it. 📢💡",
+    tags: "#BookMarketing #AuthorMarketing #PromoteYourBook #SocialMedia101 #ContentMarketing #OnlinePromotion #BookTok #AmazonBooks #IndieAuthor #MarketingTips"
+  },
+  {
+    vo: "Social media makes it easy for people from everywhere to connect — without ever leaving their homes. You can become a virtual globetrotter, meeting people from Tokyo to Toronto from your couch. Social Media 101 celebrates this incredible potential and shows you how to build meaningful connections online. Available on Amazon now — link in bio!",
+    title: "Become a Virtual Globetrotter",
+    desc: "You don't need a plane ticket to explore the world anymore. Social media connects you with people from everywhere. Social Media 101 shows you how to make those connections real. ✈️🌐",
+    tags: "#GlobalConnections #VirtualTravel #OnlineCommunity #SocialMedia101 #MakeConnections #BookTok #AmazonBooks #DigitalWorld #ConnectOnline #FriendshipOnline"
+  },
+  // Day 15 - May 26
+  {
+    vo: "Addiction. Anti-social behavior. Bad influences. Cyberbullying. Cyberstalking. Fraud. Health problems. Glamorizing unhealthy trends. Relationship problems. Scams. These are the 10 disadvantages of social media, and Social Media 101 covers every single one so you can go in with open eyes. Knowledge is protection. Get the book on Amazon — link in bio!",
+    title: "10 Disadvantages of Social Media",
+    desc: "Social media has real risks — addiction, cyberbullying, fraud, health issues, and more. Social Media 101 covers all 10 so you can protect yourself and your family. ⚠️🛡️",
+    tags: "#SocialMediaRisks #CyberSafety #OnlineDangers #SocialMedia101 #DigitalWellbeing #CyberBullying #OnlineScams #BookTok #AmazonBooks #DigitalSafety"
+  },
+  {
+    vo: "Cyberbullying is a massive problem online. Fake accounts. Hidden identities. Threats, rumors, and embarrassing photos used as weapons. If you have kids or teenagers who use social media — or if you've experienced this yourself — Social Media 101 helps you understand how it happens and what to do about it. On Amazon now — link in bio!",
+    title: "Cyberbullying — What Every Parent Should Know",
+    desc: "Fake accounts, hidden identities, threats and rumors — cyberbullying is real and devastating. This book helps parents and teens understand it and stay protected. 💔🚫",
+    tags: "#Cyberbullying #OnlineSafety #ParentingTips #TeenSocialMedia #SocialMedia101 #DigitalParenting #KidsSafety #BookTok #AmazonBooks #AntiCyberbullying"
+  },
+  // Day 16 - May 27
+  {
+    vo: "Fraud and scams on social media are more sophisticated than ever. Phishing. Hidden charges. Cash grabs. Chain letters. Fraudsters will go to extraordinary lengths to trick you out of your money and personal information. Social Media 101 teaches you how to spot and avoid every type of online scam. Don't be a victim — get the book on Amazon!",
+    title: "Online Fraud and Scams — How to Spot Them",
+    desc: "Scammers and fraudsters are everywhere online. Social Media 101 teaches you how to identify and avoid phishing, hidden charges, cash grabs, and more. 🎣🚨",
+    tags: "#OnlineScams #FraudPrevention #Phishing #DigitalSafety #SocialMedia101 #StaySafeOnline #CyberSecurity #BookTok #AmazonBooks #ProtectYourself"
+  },
+  {
+    vo: "Social media addiction is especially dangerous for teenagers — and it's more common than most parents realize. Kids can spend hours scrolling, losing sleep, neglecting exercise, and pulling away from real-world relationships. Social Media 101 addresses this head-on, giving parents and teens the tools to use social media in a healthy, balanced way. Grab it on Amazon — link in bio!",
+    title: "Is Social Media Addictive? The Truth",
+    desc: "Social media addiction is real — and it hits teenagers especially hard. This book gives you the honest truth and practical tools for healthier screen habits. 📵💙",
+    tags: "#SocialMediaAddiction #ScreenTime #DigitalWellbeing #TeenSocialMedia #SocialMedia101 #HealthyScreenTime #BookTok #AmazonBooks #ParentingTips #MentalHealth"
+  },
+  // Day 17 - May 28
+  {
+    vo: "The Merriam-Webster dictionary defines social media as 'forms of electronic communication through which users create online communities to share information, ideas, personal messages, and other content.' That's a great starting point — but Social Media 101 takes you so much deeper. Eleven platforms. Practical guides. Real-world tips. All on Amazon!",
+    title: "The Official Definition of Social Media",
+    desc: "Merriam-Webster has a definition, but Social Media 101 has the full picture — 11 platforms explained with practical guides for every one. Start learning today. 📖🔎",
+    tags: "#SocialMediaDefinition #WhatIsSocialMedia #SocialMedia101 #DigitalLiteracy #BookTok #LearnOnline #AmazonBooks #Dictionary #TechBasics #BeginnerFriendly"
+  },
+  {
+    vo: "Here's the truth: technology is changing at an alarmingly rapid rate. And every time technology changes, so do the apps and platforms built on top of it. If you want to keep up with the times, you need a solid foundation. Social Media 101 gives you that foundation — and it's written in plain English for everyday people. Get your copy on Amazon today!",
+    title: "Keep Up With a Fast-Changing Digital World",
+    desc: "Technology evolves faster every year — and so does social media. Social Media 101 gives you the foundation you need to keep up, no matter what comes next. ⚡🌐",
+    tags: "#TechEvolution #DigitalFuture #KeepingUp #SocialMedia101 #DigitalSkills #FutureProof #BookTok #AmazonBooks #TechTips #LifelongLearning"
+  },
+  // Day 18 - May 29
+  {
+    vo: "Social media for charity is one of the most powerful applications of these platforms. With a global reach, anyone raising money for a cause can now reach donors they would never have found otherwise. Social Media 101 covers this angle — using social media for causes, charities, and community good. Grab it on Amazon — link in bio!",
+    title: "How Social Media Powers Charity",
+    desc: "Want to raise money for a cause? Social media's global reach means your charity appeal can reach thousands — or millions — of potential donors. Here's how. ❤️🌍",
+    tags: "#CharityMarketing #Fundraising #SocialMediaForGood #Nonprofits #SocialMedia101 #OnlineFundraising #BookTok #AmazonBooks #CauseMarketing #GiveBack"
+  },
+  {
+    vo: "Blogging started as people writing diary-style entries on simple webpages. Now it's a multi-billion dollar industry with platforms like WordPress, Squarespace, and Wix making it easier than ever to start. Social Media 101 covers blogging as a social media type — including the best platforms to use and how to get started. On Amazon now — link in bio!",
+    title: "Blogging Is Still Powerful in 2026",
+    desc: "Blogging evolved from diary entries to a multi-billion dollar industry. Social Media 101 covers everything you need to start your own blog and build an audience. ✍️💻",
+    tags: "#Blogging #BlogTips #WordPress #Squarespace #SocialMedia101 #ContentCreator #StartABlog #BookTok #AmazonBooks #WritingCommunity"
+  },
+  // Day 19 - May 30
+  {
+    vo: "YouTube launched in 2005 and completely changed the internet forever. It introduced a brand new kind of social media — one built entirely around video. Now it's the second largest search engine in the world. Social Media 101 covers YouTube in depth, showing you how to use it whether you're watching or creating. Get it on Amazon — link in bio!",
+    title: "YouTube Changed the Internet Forever",
+    desc: "YouTube launched in 2005 and became the second largest search engine in the world. Social Media 101 teaches you how to use it — as a viewer and a creator. 🎥🔴",
+    tags: "#YouTube #YouTubeTips #VideoMarketing #SocialMedia101 #YouTubeMarketing #ContentCreator #BookTok #AmazonBooks #OnlineVideo #DigitalMarketing"
+  },
+  {
+    vo: "Bookmarking sites like Pinterest let you collect, organize, and share content you love — and they're one of the most underrated marketing tools for authors, businesses, and creators. Social Media 101 explains how bookmarking works and why platforms like Pinterest can drive serious traffic to your content. Grab it on Amazon — link in bio!",
+    title: "Pinterest — The Underrated Powerhouse",
+    desc: "Pinterest and other bookmarking sites are one of the most underrated marketing tools available. Social Media 101 explains how to use them to drive traffic and build your brand. 📌✨",
+    tags: "#Pinterest #PinterestMarketing #Bookmarking #SocialMedia101 #ContentMarketing #TrafficTips #BookTok #AmazonBooks #VisualMarketing #BlogTraffic"
+  },
+  // Day 20 - May 31
+  {
+    vo: "Social media has built communities around nearly every shared interest imaginable. Gamers. Readers. Spiritual seekers. Artists. Parents. Travelers. No matter who you are, there is a community waiting for you online. Social Media 101 shows you how to find your people — and how to build your own community from scratch. On Amazon now — link in bio!",
+    title: "Find Your People Online",
+    desc: "There's a social media community for every interest imaginable. Social Media 101 helps you find yours — and shows you how to build your own community from scratch. 🤝💬",
+    tags: "#OnlineCommunity #FindYourTribe #SocialMediaCommunity #SocialMedia101 #CommunityBuilding #BookTok #AmazonBooks #DigitalConnections #ConnectOnline #Belonging"
+  },
+  {
+    vo: "Did you know the late 1970s introduced home computers AND Usenet — the very first bulletin board for public discussion? Before social media, before the internet, Usenet let ordinary people share information across a network. That's where it all started. Social Media 101 traces this fascinating history. Available on Amazon — link in bio!",
+    title: "Usenet — The Original Social Network",
+    desc: "Before Facebook, before Twitter, before the internet as we know it — there was Usenet. The world's first public bulletin board. Social Media 101 tells the whole story. 🖥️📡",
+    tags: "#Usenet #InternetHistory #SocialMediaHistory #FirstSocialNetwork #SocialMedia101 #TechHistory #BookTok #AmazonBooks #DidYouKnow #DigitalPioneers"
+  },
+  // Day 21 - June 1
+  {
+    vo: "The rise of computers in the 1940s opened up a world of new communication possibilities. The first emails were shared in 1966. That's almost 60 years ago! Communication has come so far — and it's moving faster than ever. Social Media 101 puts all of this in context so you can appreciate how far we've come. Get it on Amazon — link in bio!",
+    title: "The First Email Was Sent in 1966",
+    desc: "The first email was shared in 1966 — nearly 60 years ago! Communication technology has come so far, so fast. Social Media 101 puts it all in context. 📧⏳",
+    tags: "#EmailHistory #FirstEmail #TechTimeline #SocialMediaHistory #SocialMedia101 #DidYouKnow #TechFacts #BookTok #AmazonBooks #InternetHistory"
+  },
+  {
+    vo: "TikTok was created specifically to optimize the sharing of videos and photos — and it's taken over the world. But it's just one of 11 platforms covered in Social Media 101. Whether you want to use TikTok, Instagram, LinkedIn, or YouTube, this book gives you a quick guide for every single one. Start reading today — it's on Amazon!",
+    title: "TikTok Took Over the World — Here's Why",
+    desc: "TikTok was built from the ground up for video sharing — and it conquered the planet. Social Media 101 covers TikTok and 10 other major platforms in plain English. 🎵📱",
+    tags: "#TikTok #TikTokTips #SocialMedia101 #TikTokForBeginners #ShortFormVideo #SocialMediaPlatforms #BookTok #AmazonBooks #DigitalMarketing #ContentCreator"
+  },
+  // Day 22 - June 2
+  {
+    vo: "The World Wide Web opened in 1989. But it wasn't until 1994 that the very first chat room was created — The Palace. Users had avatars, gathered in virtual rooms called palaces, and chatted in real time. Sound familiar? That's the direct ancestor of every Discord server and Facebook group today. Social Media 101 tells the full story. Grab it on Amazon!",
+    title: "The First Chat Room Was Created in 1994",
+    desc: "The Palace — created in 1994 — was the world's first chat room. From those humble beginnings came Discord, Facebook Groups, Reddit, and everything in between. 💬🏛️",
+    tags: "#ChatRoom #ThePalace #InternetHistory #SocialMediaHistory #SocialMedia101 #TechHistory #DidYouKnow #BookTok #AmazonBooks #DigitalTimeline"
+  },
+  {
+    vo: "Friendster launched in 2002 and introduced social gaming to the world. It paved the way for MySpace, which became massive because users could customize their profiles and upload music. Then came Facebook. Then Twitter. Then the world as we know it. Social Media 101 takes you through every chapter of this story. On Amazon — link in bio!",
+    title: "From Friendster to Facebook — The Evolution",
+    desc: "Friendster introduced social gaming. MySpace let you customize your page. Then Facebook changed everything. Social Media 101 traces this incredible evolution. 📱📅",
+    tags: "#Friendster #MySpace #Facebook #SocialMediaEvolution #SocialMedia101 #TechHistory #InternetNostalgia #BookTok #AmazonBooks #DigitalTimeline"
+  },
+  // Day 23 - June 3
+  {
+    vo: "Tags are one of those features most beginners don't fully understand. When you tag someone in a post or photo, you're creating a link to their profile — notifying them AND giving your content more reach. For businesses, this is marketing gold. Social Media 101 breaks down tags, hashtags, and every other social media feature in simple terms. Get it on Amazon!",
+    title: "What Are Tags — And Why They Matter",
+    desc: "Tagging someone in a post links to their profile, notifies them, AND extends your content's reach. It's a simple feature with powerful marketing potential. Social Media 101 explains it all. 🏷️🔗",
+    tags: "#Tagging #SocialMediaTags #SocialMediaTips #ContentReach #SocialMedia101 #MarketingTips #BookTok #AmazonBooks #InstagramTips #FacebookTips"
+  },
+  {
+    vo: "Social media gives anyone with an internet connection a global reach. Let that sink in. One post. One video. One comment — and the whole world can potentially see it. Businesses learned this early. Individuals are learning it now. Social Media 101 teaches you how to harness that reach intentionally and effectively. Find it on Amazon — link in bio!",
+    title: "One Post Can Reach the Entire World",
+    desc: "Anyone with internet access now has global reach. Social Media 101 teaches you how to harness that reach deliberately — for your book, business, or brand. 🌍📡",
+    tags: "#GlobalReach #OnlinePresence #SocialMedia101 #ContentStrategy #DigitalMarketing #BookTok #AmazonBooks #OnlineMarketing #Entrepreneur #CreateContent"
+  },
+  // Day 24 - June 4
+  {
+    vo: "Not sure which social media platform is right for you? Social Media 101 ranks the 11 most popular platforms in order and gives you a quick guide for each one. You'll know exactly where to start, what to post, and how to grow. Whether your goal is personal or professional, there's a platform built for your purpose. Grab the book on Amazon!",
+    title: "Which Platform Is Right For You?",
+    desc: "11 platforms ranked in order with quick-start guides for each one. Social Media 101 helps you find the right platform for your goals — personal or professional. 🎯📱",
+    tags: "#WhichSocialMedia #SocialMediaPlatforms #SocialMedia101 #PlatformComparison #BeginnerGuide #BookTok #AmazonBooks #ChooseYourPlatform #SocialMediaStrategy #DigitalMarketing"
+  },
+  {
+    vo: "Health problems from social media are real — but often overlooked. Staring at a screen for hours can damage your eyes, cause carpal tunnel syndrome, create bad posture, and lead to mental health issues. Social media addiction even disrupts sleep and exercise routines. Social Media 101 discusses all of this so you can use social media wisely. On Amazon now!",
+    title: "The Hidden Health Costs of Social Media",
+    desc: "Eye strain. Carpal tunnel. Bad posture. Poor sleep. Social media addiction has real physical and mental health consequences. This book helps you use platforms wisely. 🏥👁️",
+    tags: "#DigitalHealth #ScreenTimeHealth #SocialMediaHealth #SocialMedia101 #MentalHealth #PhysicalHealth #BookTok #AmazonBooks #HealthyDigitalLife #Wellbeing"
+  },
+  // Day 25 - June 5
+  {
+    vo: "Social Media 101 covers Instagram in depth — and for good reason. With over two billion users, Instagram is one of the most powerful platforms for reaching readers, customers, and followers. The book gives you a practical guide: what to post, when to post, how to grow, and what to avoid. Available on Amazon — link in bio!",
+    title: "Instagram — A Practical Beginner's Guide",
+    desc: "Instagram has over 2 billion users. Social Media 101 gives you a practical quick-start guide for the platform — what to post, how to grow, and what to avoid. 📸🌸",
+    tags: "#Instagram #InstagramTips #InstagramForBeginners #SocialMedia101 #InstagramMarketing #SocialMediaTips #BookTok #AmazonBooks #ContentCreator #GrowOnInstagram"
+  },
+  {
+    vo: "The six degrees of separation concept — the idea that you're connected to every person on earth through just six social links — inspired the world's first social media site. Today, with social media, those degrees have collapsed to almost nothing. You can reach anyone, anywhere. Social Media 101 shows you how to use that power strategically. Get it on Amazon!",
+    title: "Six Degrees of Separation — Now Zero",
+    desc: "Six Degrees of Separation inspired the world's first social media site. Today, those degrees have collapsed. Social Media 101 shows you how to reach anyone, anywhere. 🌐🔗",
+    tags: "#SixDegrees #SixDegreesOfSeparation #SocialMediaHistory #DigitalConnections #SocialMedia101 #BookTok #AmazonBooks #InterestingFacts #CommunicationHistory #NetworkTheory"
+  },
+  // Day 26 - June 6
+  {
+    vo: "If you have a book to sell, social media is your best friend. Authors who use social media correctly see real, measurable results — more reviews, more visibility, and more sales. Social Media 101 was written partly for people exactly like you: writers, creators, and entrepreneurs who want to use digital platforms to get their work in front of the right audience. On Amazon now!",
+    title: "Authors — Social Media Is Your Best Marketing Tool",
+    desc: "Authors who use social media see real results — more reviews, more visibility, more sales. Social Media 101 is your guide to getting your book in front of the right audience. 📚🚀",
+    tags: "#AuthorMarketing #BookMarketing #IndieAuthor #AuthorsOfInstagram #SocialMedia101 #BookPromotion #BookTok #AmazonBooks #WritingCommunity #GetMoreReviews"
+  },
+  {
+    vo: "Social media networks like Facebook and Twitter are where people go to stay connected with friends and family — but they're also where culture happens. Memes, trends, viral moments — it all starts on social networks. Social Media 101 covers both the personal and cultural dimensions of social networks and how they shape modern life. Find it on Amazon!",
+    title: "Social Networks — Where Culture Happens",
+    desc: "Memes. Trends. Viral moments. Social networks are where modern culture happens — and this book helps you participate intentionally, not accidentally. 🗣️🔥",
+    tags: "#SocialNetworks #ViralContent #Memes #TrendingNow #SocialMedia101 #ModernCulture #BookTok #AmazonBooks #FacebookTips #TwitterTips"
+  },
+  // Day 27 - June 7
+  {
+    vo: "Online relationships can cause real-world problems — marriage issues, breakups, and emotional entanglements with strangers. Many people don't realize that flirting or maintaining a secret online relationship crosses real boundaries. Social Media 101 discusses relationship risks online — and how to protect yourself and your relationships. Get it on Amazon — link in bio!",
+    title: "Social Media and Relationship Problems",
+    desc: "Online relationships can cause real-world damage — including marriage problems and breakups. Social Media 101 addresses this honestly and shows you how to protect yourself. 💔⚠️",
+    tags: "#RelationshipProblems #OnlineRelationships #SocialMediaRisks #DigitalSafety #SocialMedia101 #MarriageTips #BookTok #AmazonBooks #RelationshipAdvice #OnlineSafety"
+  },
+  {
+    vo: "Did you know that people who glamorize unhealthy trends on social media can influence millions? Drug and alcohol abuse, radical views, dangerous diet culture — all amplified by insta-stars and influencers. Social Media 101 teaches you how to recognize these influences and make smarter choices about what you consume and share online. Available on Amazon now!",
+    title: "Beware Glamorized Unhealthy Trends",
+    desc: "Insta-stars and influencers can normalize dangerous trends — from substance abuse to radical diets. Social Media 101 teaches you to recognize and resist these influences. 🚩👀",
+    tags: "#UnhealthyTrends #InfluencerCulture #BodyImage #SocialMediaInfluence #SocialMedia101 #MediaLiteracy #BookTok #AmazonBooks #DigitalWellbeing #CriticalThinking"
+  },
+  // Day 28 - June 8
+  {
+    vo: "Keeping informed about world events is one of the greatest advantages of social media — when used wisely. Platforms aggregate news in real time, giving you access to global perspectives instantly. But Social Media 101 also teaches you how to spot misinformation and consume news intelligently. A must-read for anyone who follows news on social media. On Amazon now!",
+    title: "Stay Informed — But Stay Smart",
+    desc: "Social media keeps you informed about the world — but it also spreads misinformation. Social Media 101 teaches you how to stay current while thinking critically. 📰🧠",
+    tags: "#StayInformed #FakeNews #MediaLiteracy #NewsOnSocialMedia #SocialMedia101 #CriticalThinking #BookTok #AmazonBooks #DigitalLiteracy #TruthMatters"
+  },
+  {
+    vo: "Your personal information is a valuable commodity in the technology age. The moment you go online, you leave a digital footprint. Spambots and criminals can see more than you think. Social Media 101 gives you a practical chapter on privacy protection — how to lock down your accounts and keep your data from falling into the wrong hands. Grab it on Amazon!",
+    title: "Your Personal Data Is Valuable — Protect It",
+    desc: "Spambots, scammers, and even vindictive acquaintances can access your personal info online. Social Media 101 shows you how to protect your digital footprint. 🦶🔒",
+    tags: "#DataPrivacy #DigitalFootprint #ProtectYourData #CyberSecurity #SocialMedia101 #OnlinePrivacy #BookTok #AmazonBooks #PrivacyTips #StaySafeOnline"
+  },
+  // Day 29 - June 9
+  {
+    vo: "Social Media 101: Awakening the Dinosaur. It's a 144-page reference guide that covers everything you need to know about social media — history, platforms, terminology, advantages, disadvantages, marketing, and privacy. And it's available right now on Amazon for just $5.99 on Kindle or $10.74 in paperback. Link in bio — grab your copy today!",
+    title: "Get Social Media 101 on Amazon",
+    desc: "144 pages. 11 platforms. Everything you need to know about social media — in one book. Available on Kindle for $5.99 and paperback for $10.74. Link in bio! 📖💛",
+    tags: "#SocialMedia101 #GetTheBook #AwakeningTheDinosaur #BookRecommendation #AmazonBooks #BookTok #NewBook #DigitalSkills #MustRead #OnSaleNow"
+  },
+  {
+    vo: "What readers are saying about Social Media 101: 'A great breakdown of the realities of what social media is.' 'Whether you want to help someone new to social media or just get more information yourself — this book is a great resource and I recommend it!' That's from a real Amazon reviewer. Four point six stars out of five. Link in bio to get your copy!",
+    title: "What Readers Say About Social Media 101",
+    desc: "4.6 stars on Amazon. Readers call it 'a great resource' and 'a highly recommended go-to social media book.' See for yourself why beginners and pros both love it. ⭐⭐⭐⭐⭐",
+    tags: "#BookReviews #AmazonReviews #SocialMedia101 #ReaderReview #BookTok #BookRecommendation #WhatPeopleSay #FiveStars #AmazonBooks #ReadingCommunity"
+  },
+  // Day 30 - June 10
+  {
+    vo: "We've covered a lot this month: the history of social media, the 11 top platforms, hashtags, emojis, tags, blogging, bookmarking, media sharing, professional networks, review sites, advantages, disadvantages, privacy, and so much more. And every single topic in this video series is covered in depth in Social Media 101 by Daniel Zane Bryan. Available on Amazon now — link in bio!",
+    title: "Everything You've Learned This Month — In One Book",
+    desc: "History. Platforms. Terminology. Advantages. Disadvantages. Privacy. All of it — covered in Social Media 101 by Daniel Zane Bryan. One book to rule the digital world. 🏆📱",
+    tags: "#SocialMedia101 #MonthlyWrapUp #DigitalSkills #BookSummary #AmazonBooks #BookTok #AwakeningTheDinosaur #DigitalLiteracy #OneLessToLearn #MustReadBook"
+  },
+  {
+    vo: "If this content series has been valuable — imagine having all of it in one handy reference guide you can come back to anytime. That's exactly what Social Media 101 is. Eleven platforms. A brief history. Practical guides. Advantages and disadvantages. Privacy tips. All written in plain English by someone who spent years researching it so you don't have to. Grab it on Amazon — link in bio. You deserve to thrive in the digital world!",
+    title: "Your Digital Journey Starts With This Book",
+    desc: "Everything from this series — and more — is in Social Media 101. Your ultimate reference guide to the digital world. Grab it on Amazon today and start thriving online. 🚀📚",
+    tags: "#SocialMedia101 #DigitalJourney #BeginnerToExpert #AmazonBooks #BookTok #AwakeningTheDinosaur #DigitalSkills #FinalVideo #ThankYou #ReadingCommunity"
+  }
+];
+
+// Generate dates: May 12 to June 10, 2026, 2 per day
+const startDate = new Date(2026, 4, 12); // May 12
+const platforms = ["TikTok","YouTube Shorts","Instagram Reels","Pinterest Video","TikTok","YouTube Shorts","Instagram Reels","Pinterest Video","TikTok","YouTube Shorts","Instagram Reels","Pinterest Video","TikTok","YouTube Shorts"];
+
+function formatDate(d) {
+  return d.toLocaleDateString('en-US', {weekday:'long', month:'long', day:'numeric', year:'numeric'});
+}
+
+function buildCards() {
+  const container = document.getElementById('allCards');
+  let html = '';
+  for (let day = 0; day < 30; day++) {
+    const date = new Date(startDate);
+    date.setDate(startDate.getDate() + day);
+    const v1 = videos[day * 2];
+    const v2 = videos[day * 2 + 1];
+    const p1 = platforms[day % 8];
+    const p2 = platforms[(day + 4) % 8];
+    html += `
+    <div class="day-group" data-day="${day+1}">
+      <div class="day-label">
+        <div class="day-number">Day ${day+1}</div>
+        <div class="day-date">${formatDate(date)}</div>
+      </div>
+      <div class="day-cards">
+        ${buildCard(day*2+1, v1, p1)}
+        ${buildCard(day*2+2, v2, p2)}
+      </div>
+    </div>`;
+  }
+  container.innerHTML = html;
+}
+
+function buildCard(num, v, platform) {
+  return `
+  <div class="video-card" data-search="${(v.title+' '+v.vo+' '+v.desc+' '+v.tags).toLowerCase()}">
+    <div class="card-top">
+      <div class="video-num">VIDEO #${String(num).padStart(2,'0')}</div>
+      <div class="platform-tag">${platform}</div>
+    </div>
+    <div class="card-body">
+      <div class="section-label label-vo"><span></span>🎙️ VOICEOVER SCRIPT</div>
+      <div class="vo-text" id="vo-${num}">${v.vo}</div>
+      <button class="copy-btn" onclick="copyText('vo-${num}', this)">
+        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        Copy Voiceover
+      </button>
+
+      <div class="section-divider"></div>
+
+      <div class="section-label label-desc"><span></span>📝 VIDEO TITLE & DESCRIPTION</div>
+      <div class="desc-text" id="desc-${num}"><strong>${v.title}</strong><br/><br/>${v.desc}<br/><br/><span class="hashtags">${v.tags}</span></div>
+      <button class="copy-btn" onclick="copyText('desc-${num}', this)">
+        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        Copy Description
+      </button>
+    </div>
+  </div>`;
+}
+
+function copyText(id, btn) {
+  const el = document.getElementById(id);
+  const text = el.innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.classList.add('copied');
+    btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 20 4 14"/></svg> Copied!`;
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> ${id.startsWith('vo') ? 'Copy Voiceover' : 'Copy Description'}`;
+    }, 2000);
+  });
+}
+
+function filterCards() {
+  const q = document.getElementById('searchBox').value.toLowerCase();
+  const cards = document.querySelectorAll('.video-card');
+  let visible = 0;
+  cards.forEach(c => {
+    const show = !q || c.dataset.search.includes(q);
+    c.style.display = show ? '' : 'none';
+    if (show) visible++;
+  });
+  document.getElementById('visibleCount').textContent = visible;
+
+  // Show/hide day groups
+  document.querySelectorAll('.day-group').forEach(dg => {
+    const anyVisible = [...dg.querySelectorAll('.video-card')].some(c => c.style.display !== 'none');
+    dg.style.display = anyVisible ? '' : 'none';
+  });
+}
+
+buildCards();
+</script>
+</body>
+</html>

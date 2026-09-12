@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="Atomic Shelf results — TikTok and YouTube performance, Kindle Unlimited reads, preorders, and sales lift by plan."/>
+<title>Results — Atomic Shelf</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,400;1,9..144,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet"/>
+<style>
+:root{--ink:#1C1209;--paper:#F5EDD8;--paper-2:#EDE0C4;--paper-3:#E5D7B8;--copper:#A8461E;--copper-l:#C8673C;--teal:#2E5A4E;--card:#FAF4E4;--stone:#5E4A30;--rule:rgba(28,18,9,0.13);--r:2px;--topnav-h:68px;}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--paper);color:var(--ink);line-height:1.65;-webkit-font-smoothing:antialiased;padding-top:var(--topnav-h);}
+h1,h2,h3,h4{font-family:'Fraunces',serif;letter-spacing:-0.015em;}
+.section{padding:7vh 8vw;position:relative;}
+.section-inner{max-width:1080px;margin:0 auto;width:100%;}
+.section.p1{background:var(--paper);}.section.p2{background:var(--paper-2);}
+.eyebrow{font-family:'Fraunces',serif;font-style:italic;font-size:0.88rem;color:var(--copper);margin-bottom:1.4rem;display:flex;align-items:center;gap:0.8rem;}
+.eyebrow::after{content:'';flex:0 0 36px;height:1px;background:var(--copper);opacity:0.35;}
+
+.topnav{position:fixed;top:0;left:0;right:0;z-index:600;display:flex;align-items:center;justify-content:space-between;padding:0 4vw;height:var(--topnav-h);background:rgba(245,237,216,0.92);backdrop-filter:blur(14px) saturate(1.3);border-bottom:1px solid var(--rule);}
+.topnav-logo{font-family:'Fraunces',serif;font-weight:700;font-size:1.32rem;color:var(--ink);text-decoration:none;letter-spacing:-0.02em;}
+.topnav-logo .accent{color:var(--copper);}
+.topnav-links{display:flex;align-items:center;gap:2.1rem;list-style:none;}
+.topnav-links a{color:var(--stone);text-decoration:none;font-size:0.85rem;font-weight:500;transition:color 0.2s;position:relative;padding:4px 0;}
+.topnav-links a:hover{color:var(--copper);}
+.topnav-links a.current{color:var(--copper);}
+.topnav-links a.current::after{content:'';position:absolute;left:0;right:0;bottom:-3px;height:2px;background:var(--copper);border-radius:2px;}
+.topnav-cta{background:var(--copper);color:#fff;padding:0.58rem 1.3rem;border-radius:var(--r);font-size:0.82rem;font-weight:600;text-decoration:none;transition:all 0.2s;white-space:nowrap;}
+.topnav-cta:hover{background:var(--copper-l);transform:translateY(-1px);}
+.topnav-mobile-toggle{display:none;background:none;border:1.5px solid var(--rule);border-radius:6px;width:38px;height:38px;align-items:center;justify-content:center;cursor:pointer;color:var(--ink);}
+@media(max-width:880px){.topnav-links{display:none;position:fixed;top:var(--topnav-h);left:0;right:0;background:var(--paper);border-bottom:1px solid var(--rule);flex-direction:column;align-items:flex-start;gap:0;padding:0.5rem 6vw 1.2rem;}.topnav-links.open{display:flex;}.topnav-links a{width:100%;padding:0.75rem 0;border-bottom:1px solid var(--rule);}.topnav-mobile-toggle{display:flex;}.topnav-cta{display:none;}.topnav-links.open .topnav-cta{display:inline-block;margin-top:0.6rem;}}
+
+.xlink{display:inline-flex;align-items:center;gap:5px;color:var(--copper);font-weight:600;text-decoration:none;border-bottom:1.5px solid rgba(168,70,30,0.32);padding-bottom:1px;transition:all 0.2s;}
+.xlink:hover{border-bottom-color:var(--copper);color:var(--copper-l);gap:8px;}
+.xlink::after{content:'→';font-size:0.92em;transition:transform 0.2s;}
+.xlink:hover::after{transform:translateX(2px);}
+
+.page-hero{padding:8vh 8vw 3vh;max-width:900px;}
+.page-hero h1{font-size:clamp(2.4rem,5vw,4rem);line-height:1.04;font-weight:600;margin-bottom:1.2rem;max-width:18ch;}
+.page-hero p{font-size:1.05rem;color:var(--stone);max-width:58ch;line-height:1.9;}
+
+.metric-band{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin:2.5rem 0;}
+@media(max-width:860px){.metric-band{grid-template-columns:1fr 1fr;}}
+.metric-card{background:var(--card);border:1px solid var(--rule);border-radius:var(--r);padding:1.8rem;}
+.metric-num{font-family:'Fraunces',serif;font-weight:700;font-size:2.2rem;color:var(--ink);letter-spacing:-0.03em;line-height:1;margin-bottom:0.4rem;}
+.metric-num .s{color:var(--copper);}
+.metric-label{font-size:0.82rem;color:var(--stone);line-height:1.5;}
+
+.results-table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--rule);border-radius:var(--r);overflow:hidden;font-size:0.88rem;}
+.results-table th,.results-table td{padding:0.9rem 1.1rem;text-align:left;border-bottom:1px solid var(--rule);}
+.results-table th{background:var(--ink);color:rgba(245,237,216,0.85);font-family:'Fraunces',serif;font-weight:600;font-size:0.86rem;}
+.results-table tr:last-child td{border-bottom:none;}
+.results-table td.num{font-family:'Fraunces',serif;font-weight:600;color:var(--teal);}
+.results-table-wrap{overflow-x:auto;margin-top:2rem;}
+
+.note-block{background:rgba(168,70,30,0.06);border:1px solid rgba(168,70,30,0.2);border-radius:var(--r);padding:1.4rem 1.6rem;font-size:0.86rem;color:var(--stone);line-height:1.75;margin-top:1.6rem;}
+.note-block strong{color:var(--copper);}
+
+.btn{display:inline-flex;align-items:center;gap:6px;padding:0.82rem 1.85rem;border-radius:var(--r);font-size:0.86rem;font-weight:600;text-decoration:none;transition:all 0.2s;cursor:pointer;border:1.5px solid transparent;}
+.btn-copper{background:var(--copper);color:#fff;border-color:var(--copper);}
+.btn-copper:hover{background:var(--copper-l);border-color:var(--copper-l);transform:translateY(-1px);}
+
+footer{background:var(--ink);color:rgba(245,237,216,0.55);padding:3.4rem 8vw 2.2rem;font-size:0.8rem;}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2.4rem;max-width:1080px;margin:0 auto;padding-bottom:2.2rem;border-bottom:1px solid rgba(245,237,216,0.1);}
+@media(max-width:760px){.footer-grid{grid-template-columns:1fr 1fr;}}
+.footer-logo{font-family:'Fraunces',serif;font-weight:700;font-size:1.4rem;color:#fff;margin-bottom:0.7rem;}
+.footer-logo .accent{color:var(--copper-l);}
+.footer-desc{color:rgba(245,237,216,0.42);line-height:1.75;max-width:34ch;}
+.footer-col h5{color:rgba(245,237,216,0.85);font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.9rem;}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:0.55rem;}
+footer a{color:rgba(245,237,216,0.55);text-decoration:none;transition:color 0.2s;}
+footer a:hover{color:var(--copper-l);}
+.footer-bottom{max-width:1080px;margin:0 auto;padding-top:1.6rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.6rem;color:rgba(245,237,216,0.32);}
+</style>
+</head>
+<body>
+
+<nav class="topnav" id="topnav">
+  <a href="index.html" class="topnav-logo">Atomic<span class="accent">&#8209;</span>Shelf</a>
+  <ul class="topnav-links" id="topnavLinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="results.html" class="current">Results</a></li>
+    <li><a href="faq.html">FAQ</a></li>
+    <li><a href="index.html#pricing">Pricing</a></li>
+    <li><a href="mailto:nick@atomic-shelf.com" class="topnav-cta">Talk to us</a></li>
+  </ul>
+  <button class="topnav-mobile-toggle" id="navToggle" aria-label="Menu">☰</button>
+</nav>
+
+<div class="page-hero section-inner">
+  <div class="eyebrow">Results</div>
+  <h1>What running the system actually moves.</h1>
+  <p>No ad-spend figures, no vanity metrics — just what shows up in your dashboards: video views, content clicks, Kindle Unlimited page reads, preorders, and sales. Figures below are 90-day averages across active clients; actuals vary by genre and starting audience.</p>
+</div>
+
+<section class="section p1">
+  <div class="section-inner">
+    <div class="metric-band">
+      <div class="metric-card"><div class="metric-num">3.2<span class="s">×</span></div><div class="metric-label">average sales-and-borrow lift within 90 days on Momentum and above</div></div>
+      <div class="metric-card"><div class="metric-num">+20<span class="s">%</span></div><div class="metric-label">average listing conversion lift after an A+ page rebuild</div></div>
+      <div class="metric-card"><div class="metric-num">2,400<span class="s">+</span></div><div class="metric-label">average free-promo downloads per newsletter feature</div></div>
+      <div class="metric-card"><div class="metric-num">6<span class="s">–8 wks</span></div><div class="metric-label">typical preorder runway before a launch-day rank spike</div></div>
+    </div>
+
+    <h2 style="font-size:1.7rem;margin-bottom:0.4rem;">By plan, by month 3</h2>
+    <p style="color:var(--stone);font-size:0.92rem;max-width:60ch;">The same table shown on the <a href="index.html#pricing" class="xlink">pricing page</a>, side by side for easy comparison.</p>
+
+    <div class="results-table-wrap">
+      <table class="results-table">
+        <thead>
+          <tr><th>Metric</th><th>Foundation</th><th>Momentum</th><th>Growth</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Video views / mo</td><td class="num">15k–40k</td><td class="num">—</td><td class="num">—</td></tr>
+          <tr><td>Content clicks / mo</td><td class="num">300–800</td><td class="num">400–900</td><td class="num">900–2,000</td></tr>
+          <tr><td>Listing visits / mo</td><td class="num">120–350</td><td class="num">—</td><td class="num">—</td></tr>
+          <tr><td>Preorders secured</td><td>—</td><td class="num">80–180</td><td class="num">200–420</td></tr>
+          <tr><td>Free promo downloads</td><td>—</td><td class="num">1,200–2,400</td><td class="num">2,400–4,800</td></tr>
+          <tr><td>Reviews gained</td><td>—</td><td class="num">6–10</td><td class="num">18–25</td></tr>
+          <tr><td>KU page reads boost</td><td>—</td><td class="num">+40–80%</td><td class="num">+90–150%</td></tr>
+          <tr><td>Estimated sales lift</td><td class="num">+8–15%</td><td class="num">+25–45%</td><td class="num">+60–110%</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note-block">
+      <strong>Why these ranges are wide:</strong> genre matters more than plan. A thriller with strong comp titles and a full backlist behaves very differently to a debut picture book. These are averages across active clients — talk to us and we'll give you a realistic estimate for your specific book before you commit to a plan.
+    </div>
+
+    <div style="margin-top:2.5rem;display:flex;gap:1rem;flex-wrap:wrap;">
+      <a href="index.html#pricing" class="btn btn-copper">See plans &amp; pricing</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo">Atomic<span class="accent">&#8209;</span>Shelf</div>
+      <p class="footer-desc">Video, reviews, preorders, free promos, reader lists, and managed Amazon advertising — one team, one system, built for indie authors.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Site</h5>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="results.html">Results</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Plans</h5>
+      <ul><li><a href="index.html#pricing">Pricing</a></li></ul>
+    </div>
+    <div class="footer-col">
+      <h5>Contact</h5>
+      <ul><li><a href="mailto:nick@atomic-shelf.com">nick@atomic-shelf.com</a></li></ul>
+    </div>
+  </div>
+  <div class="footer-bottom"><span>© 2026 Atomic Shelf. All rights reserved.</span></div>
+</footer>
+
+<script>
+document.getElementById('navToggle').addEventListener('click',()=>{document.getElementById('topnavLinks').classList.toggle('open');});
+</script>
+</body>
+</html>

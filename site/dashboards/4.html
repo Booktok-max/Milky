@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="AI-powered book marketing for indie authors — bespoke video production, reader list-building apps, ARC review campaigns, listing optimization, and certified Amazon advertising that turns views into verified sales."/>
+<title>Atomic‑Shelf | AI-Powered Book Marketing for Indie Authors</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600;1,700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --ink:#0E0C1A; --ink-2:#1C1830; --ink-3:#2A2640;
+  --ivory:#F7F2E8; --ivory-2:#EDE6D4; --ivory-3:#E0D8C4;
+  --copper:#C8832A; --copper-2:#E09A40; --copper-pale:#FBF0DC;
+  --copper-glow:rgba(200,131,42,0.20); --copper-dim:rgba(200,131,42,0.12);
+  --rose:#C4606A; --rose-pale:#FAECEE; --rose-dim:rgba(196,96,106,0.12);
+  --teal:#2D7A78; --teal-pale:#E2F2F1; --teal-dim:rgba(45,122,120,0.12);
+  --stone:#6B6078; --muted:#9490A0; --card:#FDFAF3;
+  --border:rgba(14,12,26,0.10); --border-c:rgba(200,131,42,0.18);
+  --shadow-sm:0 2px 16px rgba(14,12,26,0.06); --shadow-md:0 8px 40px rgba(14,12,26,0.10); --shadow-lg:0 20px 72px rgba(14,12,26,0.14);
+  --r:20px; --r-sm:12px; --r-xs:8px;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--ivory);color:var(--ink);line-height:1.7;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;opacity:0.14;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.80' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='0.05'/%3E%3C/svg%3E");}
+h1,h2,h3{font-family:'Playfair Display',serif;line-height:1.02;letter-spacing:-0.02em;}
+h1{font-size:clamp(2.8rem,5.8vw,5.6rem);font-weight:900;line-height:1.0;letter-spacing:-0.03em;}
+h2{font-size:clamp(2rem,3.8vw,3.6rem);font-weight:700;line-height:1.04;letter-spacing:-0.025em;}
+h3{font-size:clamp(1.3rem,1.8vw,1.65rem);font-weight:600;line-height:1.12;}
+h4{font-size:0.95rem;font-weight:600;line-height:1.4;}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:0.62rem;font-weight:600;letter-spacing:0.24em;text-transform:uppercase;color:var(--copper);margin-bottom:1rem;}
+.eyebrow-line{display:block;width:24px;height:1.5px;background:var(--copper);flex-shrink:0;}
+.eyebrow.center{justify-content:center;}
+.pill{display:inline-flex;align-items:center;gap:0.4rem;padding:0.28rem 0.9rem;border-radius:99px;font-size:0.68rem;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;width:fit-content;}
+.pill-copper{background:var(--copper-pale);color:var(--copper);border:1px solid rgba(200,131,42,0.24);}
+.pill-rose{background:var(--rose-pale);color:var(--rose);border:1px solid rgba(196,96,106,0.24);}
+.pill-teal{background:var(--teal-pale);color:var(--teal);border:1px solid rgba(45,122,120,0.24);}
+.pill-dark{background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.55);border:1px solid rgba(255,255,255,0.12);}
+.btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.82rem 1.9rem;border-radius:var(--r-xs);font-size:0.88rem;font-weight:600;text-decoration:none;letter-spacing:0.01em;transition:all 0.22s;cursor:pointer;border:none;}
+.btn-copper{background:var(--copper);color:#fff;box-shadow:0 6px 24px var(--copper-glow);}
+.btn-copper:hover{background:#b0711e;transform:translateY(-2px);box-shadow:0 12px 36px var(--copper-glow);}
+.btn-outline{border:1.5px solid rgba(14,12,26,0.20);color:var(--ink);background:transparent;}
+.btn-outline:hover{border-color:var(--copper);color:var(--copper);}
+.btn-ghost{border:1.5px solid rgba(255,255,255,0.16);color:rgba(255,255,255,0.7);background:transparent;}
+.btn-ghost:hover{border-color:rgba(255,255,255,0.42);color:#fff;}
+.btn-lg{padding:1rem 2.3rem;font-size:0.94rem;}
+.container{max-width:1260px;margin:0 auto;}
+.section{padding:7rem 6vw;}
+.divider{height:1px;margin:0 6vw;background:linear-gradient(90deg,transparent,var(--border),transparent);}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:1.1rem 5vw;background:rgba(247,242,232,0.88);backdrop-filter:blur(28px) saturate(1.5);border-bottom:1px solid var(--border);transition:all 0.3s;}
+nav.scrolled{padding:0.75rem 5vw;box-shadow:0 4px 48px rgba(14,12,26,0.08);}
+.logo{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;color:var(--ink);letter-spacing:-0.04em;text-decoration:none;display:flex;align-items:center;}
+.logo-dash{color:var(--copper);}
+.nav-links{display:flex;gap:2rem;list-style:none;font-size:0.83rem;font-weight:500;}
+.nav-links a{color:var(--stone);text-decoration:none;transition:color 0.2s;}
+.nav-links a:hover{color:var(--copper);}
+.nav-cta{background:var(--ink);color:#fff;padding:0.6rem 1.35rem;border-radius:var(--r-xs);font-size:0.82rem;font-weight:600;text-decoration:none;transition:all 0.22s;}
+.nav-cta:hover{background:var(--copper);transform:translateY(-1px);}
+.hero{min-height:100vh;display:grid;grid-template-columns:1.1fr 0.9fr;padding-top:5rem;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;top:0;left:0;width:62%;height:100%;pointer-events:none;background:radial-gradient(ellipse at 20% 40%,rgba(200,131,42,0.08) 0%,transparent 58%),radial-gradient(ellipse at 70% 80%,rgba(196,96,106,0.05) 0%,transparent 50%);}
+.hero-left{padding:5rem 3.5vw 5rem 7vw;display:flex;flex-direction:column;justify-content:center;position:relative;z-index:1;}
+.hero-tag{display:inline-flex;align-items:center;gap:0.6rem;background:var(--copper-pale);border:1.5px solid rgba(200,131,42,0.26);color:var(--copper);font-size:0.68rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;padding:0.38rem 1rem;border-radius:99px;margin-bottom:2rem;width:fit-content;}
+.hero h1{color:var(--ink);margin-bottom:1.3rem;}
+.hero h1 em{font-style:italic;color:var(--copper);position:relative;display:inline-block;}
+.hero-sub{font-size:1.05rem;color:var(--stone);max-width:48ch;margin-bottom:2.4rem;line-height:1.84;font-weight:400;}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:2.8rem;}
+.hero-right{background:var(--ink);position:relative;overflow:hidden;display:flex;align-items:center;}
+.hero-right::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 20% 20%,rgba(200,131,42,0.22) 0%,transparent 52%),radial-gradient(ellipse at 85% 85%,rgba(45,122,120,0.12) 0%,transparent 50%);}
+.hero-panel{position:relative;z-index:1;padding:4.5rem 4vw 4rem 4.5vw;width:100%;}
+.hero-panel-label{font-size:0.6rem;font-weight:600;letter-spacing:0.26em;text-transform:uppercase;color:rgba(255,255,255,0.24);margin-bottom:2.5rem;}
+.hero-stats{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;margin-bottom:2.5rem;}
+.hero-stat{padding-left:1.1rem;border-left:2px solid rgba(200,131,42,0.4);}
+.hero-stat-num{font-family:'Playfair Display',serif;font-size:3.2rem;font-weight:700;color:#fff;line-height:1;letter-spacing:-0.04em;margin-bottom:0.2rem;}
+.hero-stat-label{font-size:0.72rem;color:rgba(255,255,255,0.36);letter-spacing:0.04em;}
+.hero-quote{background:rgba(255,255,255,0.032);border:1px solid rgba(255,255,255,0.06);border-radius:var(--r-sm);padding:1.2rem 1.4rem;font-size:0.85rem;color:rgba(255,255,255,0.42);line-height:1.8;font-style:italic;}
+.hero-quote strong{color:rgba(255,255,255,0.80);font-style:normal;font-weight:500;}
+.trust-bar{background:var(--ink-2);padding:1.2rem 6vw;display:flex;flex-wrap:wrap;justify-content:center;gap:1rem 2rem;}
+.trust-item{display:flex;align-items:center;gap:0.5rem;font-size:0.76rem;color:rgba(255,255,255,0.38);font-weight:500;}
+.trust-dot{width:4px;height:4px;border-radius:50%;background:var(--copper-2);flex-shrink:0;}
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;}
+.svc{background:var(--card);border:1px solid rgba(14,12,26,0.08);border-radius:var(--r);padding:2rem;box-shadow:var(--shadow-sm);transition:all 0.3s cubic-bezier(0.4,0,0.2,1);position:relative;overflow:hidden;}
+.svc::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--copper),var(--copper-2));transform:scaleX(0);transform-origin:left;transition:transform 0.32s;}
+.svc:hover::after{transform:scaleX(1);}
+.svc:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg);border-color:rgba(200,131,42,0.22);}
+.svc-icon{width:68px;height:68px;border-radius:16px;background:var(--copper-pale);display:flex;align-items:center;justify-content:center;font-size:2.1rem;margin-bottom:1.2rem;transition:background 0.26s,transform 0.26s;}
+.svc:hover .svc-icon{background:var(--copper);transform:scale(1.06);}
+.svc h3{font-size:1.16rem;margin-bottom:0.5rem;color:var(--ink);}
+.svc p{font-size:0.86rem;color:var(--muted);line-height:1.76;}
+.svc.dsp-wide{background:linear-gradient(138deg,var(--ink) 0%,var(--ink-3) 100%);border-color:rgba(200,131,42,0.3);grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start;}
+.svc.dsp-wide h3{color:#fff;}
+.svc.dsp-wide p{color:rgba(255,255,255,0.46);}
+.svc.dsp-wide .svc-icon{background:rgba(200,131,42,0.16);}
+.dsp-wide-stats{display:flex;gap:2rem;margin-top:1.4rem;padding-top:1.4rem;border-top:1px solid rgba(255,255,255,0.07);flex-wrap:wrap;}
+.dsps-num{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:700;color:var(--copper-2);line-height:1;letter-spacing:-0.04em;margin-bottom:0.1rem;}
+.dsps-label{font-size:0.7rem;color:rgba(255,255,255,0.34);}
+.apps-band{background:var(--ivory-2);border:1px solid rgba(14,12,26,0.08);border-radius:var(--r);padding:2rem;margin-top:1.1rem;display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;}
+.app-card{background:var(--card);border:1px solid var(--border-c);border-radius:var(--r-sm);padding:1.5rem;}
+.app-card h4{font-size:1rem;color:var(--ink);margin-bottom:0.4rem;}
+.app-card p{font-size:0.82rem;color:var(--muted);line-height:1.65;}
+.funnel-track{display:grid;grid-template-columns:repeat(5,1fr);background:var(--card);border:1px solid rgba(14,12,26,0.08);border-radius:var(--r);box-shadow:var(--shadow-md);overflow:hidden;margin-top:3rem;}
+.funnel-step{padding:2rem 1.5rem;border-right:1px solid rgba(14,12,26,0.07);transition:background 0.24s;position:relative;}
+.funnel-step:last-child{border-right:none;}
+.funnel-step:hover{background:var(--copper-pale);}
+.funnel-n{font-family:'Playfair Display',serif;font-style:italic;font-size:3.4rem;font-weight:900;color:rgba(200,131,42,0.13);line-height:1;margin-bottom:0.7rem;letter-spacing:-0.04em;transition:color 0.24s;}
+.funnel-step:hover .funnel-n{color:rgba(200,131,42,0.55);}
+.funnel-phase{font-size:0.6rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--copper);margin-bottom:0.35rem;}
+.funnel-step h4{font-size:0.94rem;color:var(--ink);margin-bottom:0.4rem;}
+.funnel-step p{font-size:0.80rem;color:var(--muted);line-height:1.62;}
+.process-section{background:var(--ink);}
+.process-section .eyebrow{color:rgba(200,131,42,0.82);}
+.process-section h2{color:#fff;margin-bottom:3rem;}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;}
+.step-circle{width:52px;height:52px;border-radius:50%;background:rgba(200,131,42,0.08);border:1.5px solid rgba(200,131,42,0.26);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--copper);margin-bottom:1.5rem;transition:all 0.28s;}
+.step:hover .step-circle{background:var(--copper);color:#fff;border-color:var(--copper);box-shadow:0 0 24px var(--copper-glow);}
+.step h3{font-size:1.12rem;color:#fff;margin-bottom:0.45rem;}
+.step p{font-size:0.83rem;color:rgba(255,255,255,0.4);line-height:1.78;}
+.results-section{background:var(--ivory);}
+.results-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;margin-top:3rem;}
+.result-card{background:var(--card);border:1px solid rgba(14,12,26,0.07);border-radius:var(--r);padding:2.3rem;box-shadow:var(--shadow-sm);transition:all 0.28s;}
+.result-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg);border-color:rgba(200,131,42,0.2);}
+.result-num{font-family:'Playfair Display',serif;font-size:3.8rem;font-weight:700;color:var(--copper);line-height:1;letter-spacing:-0.04em;margin-bottom:0.2rem;}
+.result-label{font-size:0.82rem;color:var(--stone);margin-bottom:0.9rem;font-weight:500;}
+.result-desc{font-size:0.85rem;color:var(--muted);line-height:1.72;}
+.pricing-section{background:var(--ivory-2);}
+.billing-wrap{display:flex;flex-direction:column;align-items:center;gap:1.1rem;margin:0 auto 3.5rem;}
+.billing-toggle{display:inline-flex;background:var(--ivory-3);border:1px solid rgba(14,12,26,0.12);border-radius:99px;padding:5px;gap:3px;}
+.bill-btn{padding:0.52rem 1.2rem;border-radius:99px;font-size:0.80rem;font-weight:600;border:none;cursor:pointer;background:transparent;color:var(--muted);transition:all 0.22s;position:relative;}
+.bill-btn.active{background:var(--card);color:var(--ink);box-shadow:0 2px 10px rgba(14,12,26,0.08);}
+.bill-btn .badge{position:absolute;top:-9px;right:-5px;background:var(--copper);color:#fff;font-size:0.52rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.16rem 0.45rem;border-radius:99px;white-space:nowrap;}
+.billing-note{font-size:0.80rem;color:var(--stone);background:var(--copper-pale);border:1px solid rgba(200,131,42,0.2);padding:0.45rem 1.2rem;border-radius:99px;}
+.billing-note strong{color:var(--copper);}
+.pricing-clarity{background:var(--card);border:1.5px solid rgba(14,12,26,0.08);border-radius:var(--r);padding:1.8rem 2.2rem;margin-bottom:3rem;display:grid;grid-template-columns:auto 1fr 1fr;gap:2rem;align-items:center;}
+.clarity-icon{font-size:2.6rem;}
+.clarity-tier{padding:1.2rem 1.4rem;border-radius:var(--r-sm);}
+.clarity-tier.co{background:var(--teal-pale);border:1.5px solid rgba(45,122,120,0.26);}
+.clarity-tier.ca{background:var(--copper-pale);border:1.5px solid rgba(200,131,42,0.26);}
+.clarity-tier-label{font-size:0.60rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:0.35rem;}
+.clarity-tier.co .clarity-tier-label{color:var(--teal);}
+.clarity-tier.ca .clarity-tier-label{color:var(--copper);}
+.clarity-tier h4{color:var(--ink);margin-bottom:0.28rem;}
+.clarity-tier p{font-size:0.80rem;color:var(--muted);line-height:1.6;}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;}
+.pricing-grid-bottom{display:grid;grid-template-columns:repeat(2,1fr);gap:1.1rem;margin-top:1.1rem;max-width:calc(66.666% + 0.36rem);}
+.plan{background:var(--card);border:1.5px solid rgba(14,12,26,0.08);border-radius:var(--r);padding:2.2rem;display:flex;flex-direction:column;position:relative;transition:all 0.32s cubic-bezier(0.4,0,0.2,1);box-shadow:var(--shadow-sm);}
+.plan:hover{transform:translateY(-7px);box-shadow:var(--shadow-lg);}
+.plan.featured{border-color:var(--copper);background:linear-gradient(148deg,#fdfaf3 0%,#fef6e4 100%);box-shadow:0 12px 50px rgba(200,131,42,0.14);}
+.plan-badge{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--copper);color:#fff;font-size:0.60rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;padding:0.28rem 1.2rem;border-radius:99px;white-space:nowrap;}
+.plan-name{font-size:0.66rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:0.55rem;}
+.price-main{font-family:'Playfair Display',serif;font-size:3.4rem;font-weight:700;color:var(--ink);line-height:1;letter-spacing:-0.04em;display:block;}
+.price-sub{font-size:0.78rem;color:var(--muted);display:block;margin-top:0.1rem;}
+.price-detail{font-size:0.80rem;color:var(--stone);font-weight:500;margin-top:0.22rem;display:none;}
+.price-save{display:none;align-items:center;gap:0.3rem;background:var(--copper-pale);border:1px solid rgba(200,131,42,0.2);color:var(--copper);font-size:0.70rem;font-weight:700;padding:0.22rem 0.7rem;border-radius:99px;margin-top:0.55rem;width:fit-content;}
+.ad-note{background:var(--copper-pale);border:1px solid rgba(200,131,42,0.2);border-radius:var(--r-xs);padding:0.7rem 0.9rem;font-size:0.76rem;color:var(--stone);line-height:1.55;margin-bottom:1.2rem;}
+.plan.has-ads .ad-note{display:block;}
+.plan:not(.has-ads) .ad-note{display:none;}
+.ad-note strong{color:var(--copper);font-weight:600;}
+.plan-divider{height:1px;background:var(--border);margin:1.1rem 0;}
+.plan-features{list-style:none;flex:1;margin-bottom:1.4rem;}
+.plan-features li{font-size:0.855rem;color:var(--stone);padding:0.44rem 0;border-bottom:1px solid rgba(200,131,42,0.06);display:flex;align-items:flex-start;gap:0.6rem;line-height:1.5;}
+.plan-features li::before{content:'→';color:var(--copper);font-size:0.70rem;margin-top:0.22rem;flex-shrink:0;}
+.plan-features li.dsp-perk{background:linear-gradient(90deg,rgba(200,131,42,0.07),transparent);border-radius:var(--r-xs);padding-left:0.6rem;border-bottom-color:rgba(200,131,42,0.14);color:var(--ink);font-weight:500;}
+.plan-features li.dsp-perk::before{color:var(--copper);content:'✦';}
+.plan-team{background:var(--ivory-2);border:1px solid rgba(14,12,26,0.07);border-radius:var(--r-sm);padding:1.1rem;margin-bottom:1.4rem;}
+.plan-team-hdr{font-size:0.60rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);margin-bottom:0.8rem;}
+.avs{display:flex;gap:0.4rem;margin-bottom:0.75rem;flex-wrap:wrap;}
+.av{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.62rem;font-weight:700;color:#fff;flex-shrink:0;border:2px solid var(--card);}
+.av-0{background:var(--copper);}.av-1{background:var(--rose);}.av-2{background:var(--teal);}.av-3{background:#7B4A8A;}.av-4{background:#2A6494;}.av-5{background:#3A7A44;}.av-6{background:#874A1A;}
+.team-title{font-size:0.83rem;font-weight:600;color:var(--ink);margin-bottom:0.22rem;}
+.team-desc{font-size:0.76rem;color:var(--muted);line-height:1.6;}
+.plan-btn{display:block;text-align:center;padding:0.88rem;border-radius:var(--r-xs);font-size:0.86rem;font-weight:600;text-decoration:none;letter-spacing:0.01em;transition:all 0.22s;border:none;cursor:pointer;}
+.pb-outline{border:1.5px solid rgba(14,12,26,0.18);color:var(--ink);}
+.pb-outline:hover{border-color:var(--copper);color:var(--copper);}
+.pb-copper{background:var(--copper);color:#fff;box-shadow:0 5px 20px var(--copper-glow);}
+.pb-copper:hover{background:#b0711e;transform:translateY(-1px);}
+.pb-ink{background:var(--ink);color:#fff;}
+.pb-ink:hover{background:var(--ink-2);transform:translateY(-1px);}
+.plan.orbit-plan{background:linear-gradient(148deg,var(--ink) 0%,var(--ink-3) 100%);border-color:rgba(200,131,42,0.36);}
+.plan.orbit-plan:hover{box-shadow:0 22px 72px rgba(200,131,42,0.18);}
+.plan.orbit-plan .plan-name{color:rgba(255,255,255,0.32);}
+.plan.orbit-plan .price-main{color:#fff;font-size:1.5rem;line-height:1.3;}
+.plan.orbit-plan .price-sub{color:rgba(255,255,255,0.38);}
+.plan.orbit-plan .plan-divider{background:rgba(255,255,255,0.08);}
+.plan.orbit-plan .plan-features li{color:rgba(255,255,255,0.56);border-bottom-color:rgba(255,255,255,0.06);}
+.plan.orbit-plan .plan-features li::before{color:var(--copper-2);}
+.plan.orbit-plan .plan-features li.dsp-perk{background:linear-gradient(90deg,rgba(200,131,42,0.18),transparent);color:rgba(255,255,255,0.9);border-bottom-color:rgba(200,131,42,0.18);}
+.plan.orbit-plan .plan-features li.dsp-perk::before{color:var(--copper-2);}
+.plan.orbit-plan .plan-team{background:rgba(255,255,255,0.045);border-color:rgba(255,255,255,0.07);}
+.plan.orbit-plan .plan-team-hdr{color:rgba(255,255,255,0.26);}
+.plan.orbit-plan .team-title{color:#fff;}
+.plan.orbit-plan .team-desc{color:rgba(255,255,255,0.38);}
+.plan.orbit-plan .ad-note{background:rgba(200,131,42,0.13);border-color:rgba(200,131,42,0.3);color:rgba(255,255,255,0.58);}
+.plan.orbit-plan .ad-note strong{color:var(--copper-2);}
+.orbit-seat-cta{background:rgba(200,131,42,0.14);border:1.5px solid rgba(200,131,42,0.36);border-radius:var(--r-sm);padding:1.2rem 1.3rem;margin-bottom:1.4rem;}
+.orbit-seat-cta-label{font-size:0.58rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--copper-2);margin-bottom:0.5rem;}
+.orbit-seat-cta h4{font-family:'Playfair Display',serif;font-style:italic;font-size:1.22rem;color:#fff;margin-bottom:0.45rem;line-height:1.2;}
+.orbit-seat-cta p{font-size:0.78rem;color:rgba(255,255,255,0.5);line-height:1.6;margin-bottom:0.9rem;}
+.orbit-seat-cta .pb-orbit{display:block;text-align:center;padding:0.78rem;border-radius:var(--r-xs);background:var(--copper);color:#fff;font-size:0.84rem;font-weight:600;text-decoration:none;transition:all 0.22s;letter-spacing:0.01em;}
+.orbit-seat-cta .pb-orbit:hover{background:#b0711e;transform:translateY(-1px);}
+.faq-inner{max-width:800px;margin:0 auto;}
+.faq-list{margin-top:3rem;display:flex;flex-direction:column;gap:7px;}
+.faq-card{background:var(--card);border:1px solid rgba(14,12,26,0.08);border-radius:var(--r-sm);overflow:hidden;transition:border-color 0.2s;box-shadow:var(--shadow-sm);}
+.faq-card.open,.faq-card:hover{border-color:rgba(200,131,42,0.32);}
+.faq-q{width:100%;background:none;border:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;padding:1.2rem 1.5rem;text-align:left;font-family:'DM Sans',sans-serif;font-size:0.94rem;font-weight:500;color:var(--ink);transition:color 0.2s;gap:1.4rem;}
+.faq-q:hover{color:var(--copper);}
+.faq-icon{width:28px;height:28px;border-radius:50%;background:var(--ivory-3);border:1px solid rgba(14,12,26,0.10);display:flex;align-items:center;justify-content:center;font-size:0.9rem;color:var(--muted);flex-shrink:0;transition:all 0.22s;}
+.faq-card.open .faq-icon{background:var(--copper);border-color:var(--copper);color:#fff;transform:rotate(45deg);}
+.faq-a{display:none;padding:1rem 1.5rem 1.2rem;font-size:0.88rem;color:var(--stone);line-height:1.84;border-top:1px solid rgba(14,12,26,0.07);}
+.faq-card.open .faq-a{display:block;}
+.faq-a a{color:var(--copper);text-decoration:underline;}
+.cta-section{padding:7rem 6vw;text-align:center;background:linear-gradient(140deg,var(--ink) 0%,#1E1428 100%);position:relative;overflow:hidden;}
+.cta-section h2{color:#fff;margin-bottom:0.9rem;position:relative;}
+.cta-section p{color:rgba(255,255,255,0.42);font-size:1.04rem;margin-bottom:2.4rem;position:relative;max-width:52ch;margin-left:auto;margin-right:auto;}
+.cta-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;position:relative;}
+footer{background:var(--ink);padding:4rem 6vw 2.2rem;}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr;gap:3rem;padding-bottom:2.8rem;border-bottom:1px solid rgba(255,255,255,0.06);}
+.footer-logo{font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:700;color:#fff;letter-spacing:-0.04em;margin-bottom:0.8rem;display:block;}
+.footer-desc{font-size:0.85rem;color:rgba(255,255,255,0.35);line-height:1.82;max-width:30ch;}
+.footer-col h5{font-size:0.62rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.18);margin-bottom:1.1rem;}
+.footer-col ul{list-style:none;}
+.footer-col li{margin-bottom:0.55rem;}
+.footer-col a{color:rgba(255,255,255,0.34);text-decoration:none;font-size:0.85rem;transition:color 0.2s;}
+.footer-col a:hover{color:var(--copper-2);}
+.footer-bottom{padding-top:1.8rem;display:flex;justify-content:space-between;align-items:center;font-size:0.74rem;color:rgba(255,255,255,0.18);flex-wrap:wrap;gap:0.5rem;}
+.fade-up{opacity:0;transform:translateY(28px);transition:opacity 0.68s ease,transform 0.68s ease;}
+.fade-up.in{opacity:1;transform:none;}
+.section-header{margin-bottom:3.5rem;}
+.section-sub{font-size:1.02rem;color:var(--stone);max-width:52ch;margin-top:0.7rem;line-height:1.82;}
+[data-count]{font-variant-numeric:tabular-nums;}
+.sticky-cta{position:fixed;bottom:0;left:0;right:0;z-index:250;display:none;align-items:center;justify-content:space-between;gap:1rem;background:var(--ink);padding:0.85rem 1.1rem;box-shadow:0 -8px 32px rgba(14,12,26,0.28);transform:translateY(100%);transition:transform 0.3s ease;border-top:1px solid rgba(200,131,42,0.28);}
+.sticky-cta.show{transform:translateY(0);}
+.sticky-cta-text{color:#fff;font-size:0.80rem;}
+.sticky-cta-text strong{color:var(--copper-2);display:block;font-size:0.9rem;}
+.sticky-cta .btn{padding:0.62rem 1.25rem;font-size:0.82rem;flex-shrink:0;}
+@media(max-width:1100px){.services-grid{grid-template-columns:repeat(2,1fr);}.svc.dsp-wide{grid-column:1/-1;}.pricing-grid{grid-template-columns:repeat(2,1fr);}.pricing-grid-bottom{grid-template-columns:repeat(2,1fr);max-width:100%;}.funnel-track{grid-template-columns:repeat(3,1fr);}.pricing-clarity{grid-template-columns:1fr 1fr;}.clarity-icon{display:none;}.apps-band{grid-template-columns:1fr;}}
+@media(max-width:860px){.hero{grid-template-columns:1fr;}.hero-left{padding:6rem 6vw 4rem;}.hero-right{min-height:48vh;}.steps{grid-template-columns:1fr 1fr;}.results-grid{grid-template-columns:1fr;}.footer-top{grid-template-columns:1fr;}.nav-links{display:none;}.funnel-track{grid-template-columns:1fr 1fr;}.funnel-step{border-right:none;border-bottom:1px solid rgba(14,12,26,0.07);}.pricing-grid{grid-template-columns:1fr;}.pricing-grid-bottom{grid-template-columns:1fr;max-width:100%;}.sticky-cta{display:flex;}body{padding-bottom:64px;}}
+@media(max-width:600px){.services-grid{grid-template-columns:1fr;}.dsp-wide-stats{gap:1.2rem;}.steps{grid-template-columns:1fr;}.funnel-track{grid-template-columns:1fr;}.billing-toggle{flex-direction:column;border-radius:16px;}.bill-btn{border-radius:12px;}}
+@media(prefers-reduced-motion:reduce){.fade-up{opacity:1;transform:none;transition:none;}*{transition-duration:0.01ms !important;}}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="#" class="logo">Atomic<span class="logo-dash">&#8209;</span>Shelf</a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#apps">Reader Apps</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+  <a href="#pricing" class="nav-cta">View Plans</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-left fade-up">
+    <div class="hero-tag">✦ AI-Powered Book Marketing for Indie Authors</div>
+    <h1>Your book deserves<br>readers — not just<br><em>algorithms</em></h1>
+    <p class="hero-sub">
+      We run the full growth stack for your book: AI-engineered short-form video, reader-list
+      building apps, ARC review campaigns, listing optimization, and hands-on Amazon advertising
+      management — one team, one system, built to turn strangers into readers and readers into buyers.
+    </p>
+    <div class="hero-btns">
+      <a href="#pricing" class="btn btn-copper btn-lg">See Plans &amp; Pricing →</a>
+      <a href="#services" class="btn btn-outline btn-lg">Our Stack</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-panel">
+      <div class="hero-panel-label">Signature Results</div>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="hero-stat-num" data-count="60" data-suffix="+">0</div><div class="hero-stat-label">Videos Monthly</div></div>
+        <div class="hero-stat"><div class="hero-stat-num" data-count="5">0</div><div class="hero-stat-label">Content Formats</div></div>
+        <div class="hero-stat"><div class="hero-stat-num" data-count="160" data-suffix="+">0</div><div class="hero-stat-label">Authors in the System</div></div>
+        <div class="hero-stat"><div class="hero-stat-num" data-count="3.2" data-suffix="×">0</div><div class="hero-stat-label">Avg. Sales Lift</div></div>
+      </div>
+      <div class="hero-quote">
+        <strong>Precision over volume:</strong> Every asset is machine-optimized and human-curated — engineered to match your genre, your readers, and the exact moment they're ready to buy.
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="trust-bar">
+  <div class="trust-item"><span class="trust-dot"></span>12.7M+ views generated</div>
+  <div class="trust-item"><span class="trust-dot"></span>AI-native production pipeline</div>
+  <div class="trust-item"><span class="trust-dot"></span>Certified Amazon Advertising Partner</div>
+  <div class="trust-item"><span class="trust-dot"></span>BookTok &amp; YouTube specialists</div>
+  <div class="trust-item"><span class="trust-dot"></span>ARC &amp; Review Campaigns</div>
+</div>
+
+<section id="services" class="section">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="eyebrow"><span class="eyebrow-line"></span>Our Stack</div>
+      <h2>Content that converts</h2>
+      <p class="section-sub">A unified growth system — engineered to move your book from obscurity to owned audience, and from screen to sale.</p>
+    </div>
+    <div class="services-grid fade-up">
+      <div class="svc">
+        <div class="svc-icon">📝</div>
+        <span class="pill pill-copper" style="margin-bottom:0.85rem;">Creative</span>
+        <h3>Script &amp; Creative Direction</h3>
+        <p>Our AI ingests your story, genre signals, and reader psychology — then our creative team shapes output that hits the right emotional notes, every time.</p>
+      </div>
+      <div class="svc">
+        <div class="svc-icon">🎬</div>
+        <span class="pill pill-copper" style="margin-bottom:0.85rem;">Production</span>
+        <h3>Cinematic Video Production</h3>
+        <p>Premium AI-generated video assets, book trailers, and long-form content — produced at a scale and consistency no traditional studio can match.</p>
+      </div>
+      <div class="svc">
+        <div class="svc-icon">🎙️</div>
+        <span class="pill pill-rose" style="margin-bottom:0.85rem;">Audio</span>
+        <h3>Theme Songs &amp; Podcasts</h3>
+        <p>Custom-composed music and AI-assisted author interviews that capture your book's emotional signature and compound into a loyal audience.</p>
+      </div>
+      <div class="svc">
+        <div class="svc-icon">⭐</div>
+        <span class="pill pill-teal" style="margin-bottom:0.85rem;">Reviews</span>
+        <h3>ARC &amp; Review Campaigns</h3>
+        <p>We recruit, brief, and follow up with advance reader copy readers across our network — building the honest early review base that gives every other channel credibility.</p>
+      </div>
+      <div class="svc">
+        <div class="svc-icon">🖼️</div>
+        <span class="pill pill-teal" style="margin-bottom:0.85rem;">Amazon</span>
+        <h3>Listing &amp; A+ Optimization</h3>
+        <p>Character panels, hero banners, review highlights, and copy rewrites — built to convert every visitor your content and campaigns deliver.</p>
+      </div>
+      <div class="svc dsp-wide">
+        <div>
+          <div class="svc-icon">📡</div>
+          <span class="pill pill-dark" style="margin-bottom:0.85rem;">Full-Funnel Advertising</span>
+          <h3>Managed Amazon Advertising</h3>
+          <p>The endgame. From Starter tier upward, we take over ad management end to end — deploying and optimizing your budget across Amazon's advertising ecosystem so every warm viewer your content builds gets a second, third, and fourth chance to convert. You approve the strategy; we run the console.</p>
+        </div>
+        <div>
+          <div class="dsp-wide-stats">
+            <div><div class="dsps-num">3.2×</div><div class="dsps-label">Avg. sales lift</div></div>
+            <div><div class="dsps-num">+20%</div><div class="dsps-label">Listing conversion lift</div></div>
+            <div><div class="dsps-num">160+</div><div class="dsps-label">Authors managed</div></div>
+          </div>
+          <p style="font-size:0.84rem;color:rgba(255,255,255,0.38);line-height:1.74;margin-top:1.4rem;">Every warm viewer your videos build becomes a retargetable, trackable asset — reached again at the exact moment purchase intent peaks.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="apps" class="section">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="eyebrow"><span class="eyebrow-line"></span>Proprietary Tech</div>
+      <h2>Reader lists,<br>built for your genre</h2>
+      <p class="section-sub">We've built our own in-house apps for growing a real, owned reader list — the asset that keeps paying off long after a single launch window closes.</p>
+    </div>
+    <div class="apps-band fade-up">
+      <div class="app-card">
+        <h4>📖 ShelfMates — Adult Fiction</h4>
+        <p>Our reader-matching app for adult genre fiction — romance, thriller, fantasy, and beyond. Authors get direct access to a growing pool of genre-tagged readers who've opted in to hear about new releases in exactly their niche.</p>
+      </div>
+      <div class="app-card">
+        <h4>🧸 StoryPals — Children's Books</h4>
+        <p>A dedicated list-building app for children's authors and parents, matching new picture books and early readers to families already looking in that age range and category.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="section">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="eyebrow"><span class="eyebrow-line"></span>The Full Stack</div>
+      <h2>How the machine turns<br>views into sales</h2>
+      <p class="section-sub">Every stage is engineered to feed the next. Organic content trains the algorithm. Reviews and lists build trust and reach. Advertising and an optimized listing close the sale.</p>
+    </div>
+    <div class="funnel-track fade-up">
+      <div class="funnel-step">
+        <div class="funnel-n">1</div>
+        <div class="funnel-phase">Organic</div>
+        <h4>Content deploys</h4>
+        <p>AI-engineered videos go live across TikTok, YouTube Shorts, and Reels — genre-calibrated and optimized for discovery.</p>
+      </div>
+      <div class="funnel-step">
+        <div class="funnel-n">2</div>
+        <div class="funnel-phase">Trust</div>
+        <h4>ARC reviews land</h4>
+        <p>Early reviews from our ARC network give your listing the social proof shoppers look for before buying an unfamiliar author.</p>
+      </div>
+      <div class="funnel-step">
+        <div class="funnel-n">3</div>
+        <div class="funnel-phase">Listing</div>
+        <h4>Page optimization activates</h4>
+        <p>Your Amazon listing is upgraded into an editorial experience — optimized copy, banners, and social proof that convert intent into action.</p>
+      </div>
+      <div class="funnel-step">
+        <div class="funnel-n">4</div>
+        <div class="funnel-phase">Lists</div>
+        <h4>Reader lists compound</h4>
+        <p>ShelfMates and StoryPals grow an owned audience you can reach again for every future release, at zero marginal ad cost.</p>
+      </div>
+      <div class="funnel-step">
+        <div class="funnel-n">5</div>
+        <div class="funnel-phase">Advertising</div>
+        <h4>Sales close at scale</h4>
+        <p>Managed ad campaigns retarget warm readers at the exact moment purchase intent peaks. Every sale is attributed and fed back into the loop.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="process" class="section process-section">
+  <div class="container">
+    <div class="eyebrow fade-up"><span class="eyebrow-line"></span>Our Process</div>
+    <h2 class="fade-up">How we engineer your<br>book's growth</h2>
+    <div class="steps fade-up">
+      <div class="step">
+        <div class="step-circle">1</div>
+        <h3>Book Intake &amp; Analysis</h3>
+        <p>We feed your story, genre, comp titles, and audience data into our research stack — surfacing your book's highest-leverage marketing angles.</p>
+      </div>
+      <div class="step">
+        <div class="step-circle">2</div>
+        <h3>Content &amp; ARC Strategy</h3>
+        <p>A content calendar, ARC reviewer outreach, and precision scripts — engineered for maximum emotional resonance with your target reader.</p>
+      </div>
+      <div class="step">
+        <div class="step-circle">3</div>
+        <h3>Production &amp; Deployment</h3>
+        <p>Premium assets produced and published at scale, your listing rebuilt, and your book added to our reader-list apps.</p>
+      </div>
+      <div class="step">
+        <div class="step-circle">4</div>
+        <h3>Advertising &amp; Optimization</h3>
+        <p>Ad campaigns launch and our system continuously optimizes for compound growth — learning with every impression.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section results-section">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="eyebrow"><span class="eyebrow-line"></span>Real Results</div>
+      <h2>What the system delivers</h2>
+    </div>
+    <div class="results-grid">
+      <div class="result-card fade-up">
+        <div class="result-num" data-count="12.7" data-suffix="M+">0</div>
+        <div class="result-label">Total views generated</div>
+        <div class="result-desc">Across TikTok, YouTube, Instagram, and Facebook for our full author roster — tracked and attributed.</div>
+      </div>
+      <div class="result-card fade-up">
+        <div class="result-num" data-count="3.2" data-suffix="×">0</div>
+        <div class="result-label">Avg. sales lift in 90 days</div>
+        <div class="result-desc">Authors on Growth+ plans see over triple their pre-campaign sales velocity once advertising hits full efficiency.</div>
+      </div>
+      <div class="result-card fade-up">
+        <div class="result-num" data-count="160" data-suffix="+">0</div>
+        <div class="result-label">Authors in the system</div>
+        <div class="result-desc">From debut novelists to established indie authors — across every genre, every audience size, every starting point.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing" class="section pricing-section">
+  <div class="container">
+    <div class="section-header fade-up" style="text-align:center;">
+      <div class="eyebrow center"><span class="eyebrow-line"></span>Curated Tiers<span class="eyebrow-line"></span></div>
+      <h2>Your growth stack,<br>priced for authors</h2>
+      <p class="section-sub" style="margin:0.7rem auto 0;max-width:56ch;">
+        Production, review campaigns, listing work, and reader-list access are included at every paid tier.
+        Plans above Foundation include a managed advertising budget we deploy and optimize on your behalf.
+      </p>
+    </div>
+
+    <div class="billing-wrap fade-up">
+      <div class="billing-toggle">
+        <button class="bill-btn active" onclick="setBilling('monthly',this)">Monthly</button>
+        <button class="bill-btn" onclick="setBilling('3month',this)">3 Months <span class="badge">10% off</span></button>
+        <button class="bill-btn" onclick="setBilling('6month',this)">6 Months <span class="badge">20% off</span></button>
+        <button class="bill-btn" onclick="setBilling('12month',this)">12 Months <span class="badge">25% off</span></button>
+      </div>
+      <div class="billing-note" id="billing-note">Pay month-to-month. Cancel anytime.</div>
+    </div>
+
+    <div class="pricing-clarity fade-up">
+      <div class="clarity-icon">💡</div>
+      <div class="clarity-tier co">
+        <div class="clarity-tier-label">Content only</div>
+        <h4>Foundation</h4>
+        <p>Every dollar goes to video production, review outreach, and listing work. No ad spend — let organic and reviews work first.</p>
+        <span class="pill pill-teal" style="margin-top:0.45rem;">✦ Foundation ($79/mo) — entry-level tier</span>
+      </div>
+      <div class="clarity-tier ca">
+        <div class="clarity-tier-label">Content + Advertising</div>
+        <h4>Momentum, Growth, Surge &amp; Orbit</h4>
+        <p>Your subscription funds production plus a dedicated, professionally managed ad budget deployed across Amazon's advertising ecosystem.</p>
+        <span class="pill pill-copper" style="margin-top:0.45rem;">✦ Momentum ($249) and above</span>
+      </div>
+    </div>
+
+    <div class="pricing-grid">
+
+      <div class="plan fade-up" data-base="79" data-orbit="false">
+        <div class="plan-name">Foundation</div>
+        <div class="price-main">$79</div>
+        <span class="price-sub">per month</span>
+        <span class="price-detail"></span>
+        <span class="price-save"></span>
+        <div class="plan-divider"></div>
+        <ul class="plan-features">
+          <li>80 short-form videos per month</li>
+          <li>1 professional book trailer</li>
+          <li>Long-form YouTube videos</li>
+          <li>Listing copy audit &amp; rewrite</li>
+          <li>Access to ShelfMates / StoryPals list-building</li>
+          <li>100% content production — no ad spend</li>
+        </ul>
+        <div class="plan-team">
+          <div class="plan-team-hdr">Your Creative Team</div>
+          <div class="avs"><div class="av av-0">AM</div></div>
+          <div class="team-title">1 Senior Content Manager</div>
+          <div class="team-desc">Owns your entire content pipeline from script to publish, plus weekly strategy check-ins.</div>
+        </div>
+        <a href="mailto:nick@atomic-shelf.com" class="plan-btn pb-outline">Choose Foundation</a>
+      </div>
+
+      <div class="plan has-ads fade-up" data-base="249" data-orbit="false">
+        <div class="plan-type"><span class="pill pill-copper">📡 Content + Ads</span></div>
+        <div class="plan-name">Momentum</div>
+        <div class="price-main">$249</div>
+        <span class="price-sub">per month</span>
+        <span class="price-detail"></span>
+        <span class="price-save"></span>
+        <div class="ad-note"><strong>$90/mo managed ad budget included</strong>, deployed and optimized across Amazon's advertising ecosystem by our team.</div>
+        <div class="plan-divider"></div>
+        <ul class="plan-features">
+          <li>All Foundation features</li>
+          <li>Full social media management</li>
+          <li>ARC campaign — 10 reviews targeted</li>
+          <li>Basic A+ listing build</li>
+          <li>$90 managed advertising budget</li>
+        </ul>
+        <div class="plan-team">
+          <div class="plan-team-hdr">Your Creative Team</div>
+          <div class="avs"><div class="av av-0">AM</div></div>
+          <div class="team-title">1 Dedicated Account Manager</div>
+          <div class="team-desc">Your full-service point of contact for content, reviews, and ad performance.</div>
+        </div>
+        <a href="mailto:nick@atomic-shelf.com" class="plan-btn pb-outline">Select Momentum</a>
+      </div>
+
+      <div class="plan featured has-ads fade-up" data-base="499" data-orbit="false">
+        <div class="plan-badge">Most Popular</div>
+        <div class="plan-type"><span class="pill pill-copper">📡 Content + Ads</span></div>
+        <div class="plan-name">Growth</div>
+        <div class="price-main">$499</div>
+        <span class="price-sub">per month</span>
+        <span class="price-detail"></span>
+        <span class="price-save"></span>
+        <div class="ad-note"><strong>$300/mo managed ad budget included</strong>, deployed and optimized across Amazon's advertising ecosystem by our team.</div>
+        <div class="plan-divider"></div>
+        <ul class="plan-features">
+          <li>100+ premium videos monthly</li>
+          <li>2 cinematic book trailers</li>
+          <li>Original theme song</li>
+          <li>ARC campaign — 25 reviews targeted</li>
+          <li>Premium A+ listing build</li>
+          <li>Priority placement in ShelfMates / StoryPals</li>
+          <li>$300 managed advertising budget</li>
+        </ul>
+        <div class="plan-team">
+          <div class="plan-team-hdr">Your Creative Team</div>
+          <div class="avs"><div class="av av-0">AM</div><div class="av av-1">DS</div></div>
+          <div class="team-title">2 Account Managers</div>
+          <div class="team-desc">One leads creative production, one drives your advertising strategy.</div>
+        </div>
+        <a href="mailto:nick@atomic-shelf.com" class="plan-btn pb-copper">Join Growth</a>
+      </div>
+
+    </div>
+
+    <div class="pricing-grid-bottom fade-up">
+
+      <div class="plan has-ads" data-base="899" data-orbit="false">
+        <div class="plan-type"><span class="pill pill-rose">🚀 Full Suite</span></div>
+        <div class="plan-name">Surge</div>
+        <div class="price-main">$899</div>
+        <span class="price-sub">per month</span>
+        <span class="price-detail"></span>
+        <span class="price-save"></span>
+        <div class="ad-note"><strong>$500/mo managed ad budget included</strong>, deployed and optimized across Amazon's advertising ecosystem by our team.</div>
+        <div class="plan-divider"></div>
+        <ul class="plan-features">
+          <li>150+ cinematic videos monthly</li>
+          <li>3+ premium trailers</li>
+          <li>Custom theme song</li>
+          <li>ARC campaign — 50 reviews targeted</li>
+          <li>Full A+ listing suite, refreshed quarterly</li>
+          <li>Full access — both ShelfMates &amp; StoryPals</li>
+          <li>$500 managed advertising budget</li>
+        </ul>
+        <div class="plan-team">
+          <div class="plan-team-hdr">Your Creative Team</div>
+          <div class="avs"><div class="av av-0">CD</div><div class="av av-1">PS</div><div class="av av-2">PS</div><div class="av av-3">DM</div></div>
+          <div class="team-title">A Dedicated Team of 4</div>
+          <div class="team-desc">A creative director, two production specialists, and an advertising manager — your private marketing pod.</div>
+        </div>
+        <a href="mailto:nick@atomic-shelf.com" class="plan-btn pb-ink">Activate Surge</a>
+      </div>
+
+      <div class="plan orbit-plan has-ads" data-base="0" data-orbit="true">
+        <div class="plan-badge" style="background:linear-gradient(90deg,var(--copper),var(--copper-2));">Enterprise</div>
+        <div class="plan-type"><span class="pill pill-dark">🚀 Full Suite + Dedicated Seat</span></div>
+        <div class="plan-name">Orbit</div>
+        <div class="price-main">Your own dedicated<br><em style="color:var(--copper-2);">advertising seat</em></div>
+        <span class="price-sub" style="color:rgba(255,255,255,0.36);">Custom quote — speak with us</span>
+        <div class="ad-note"><strong>$1,000+/mo managed ad budget</strong>, on your exclusive advertising seat.</div>
+        <div class="plan-divider"></div>
+        <ul class="plan-features">
+          <li>Up to 720 videos per month — 1 per hour</li>
+          <li>Multiple trailers &amp; creative assets</li>
+          <li>Full custom music composition</li>
+          <li>Unlimited ARC review recruitment</li>
+          <li class="dsp-perk">Your own dedicated advertising seat — enterprise-grade, under your brand</li>
+          <li>Dedicated brand strategist</li>
+          <li>Priority support &amp; weekly reporting</li>
+        </ul>
+        <div class="orbit-seat-cta">
+          <div class="orbit-seat-cta-label">✦ Exclusive access pathway</div>
+          <h4>Claim your own seat</h4>
+          <p>Orbit authors get a dedicated advertising presence — not a shared pool. Pricing is bespoke. Start with a conversation.</p>
+          <a href="mailto:nick@atomic-shelf.com" class="pb-orbit">Request access →</a>
+        </div>
+        <div class="plan-team">
+          <div class="plan-team-hdr">Your Creative Team</div>
+          <div class="avs"><div class="av av-0">BD</div><div class="av av-1">CS</div><div class="av av-2">P1</div><div class="av av-3">P2</div><div class="av av-4">DM</div><div class="av av-5">PS</div><div class="av av-6">QA</div></div>
+          <div class="team-title">Your 7-Person Brand Studio</div>
+          <div class="team-desc">A brand director, creative strategist, two producers, an advertising manager, platform specialist, and QA lead.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="faq" class="section">
+  <div class="faq-inner container">
+    <div class="section-header fade-up">
+      <div class="eyebrow"><span class="eyebrow-line"></span>FAQ</div>
+      <h2>How the system works</h2>
+    </div>
+    <div class="faq-list fade-up">
+
+      <div class="faq-card open">
+        <button class="faq-q" onclick="toggleFaq(this)">What does my subscription cover — content or ads?<span class="faq-icon">+</span></button>
+        <div class="faq-a">It depends on the tier. <strong>Foundation ($79/mo) is 100% content, reviews, and listing work</strong> — no ad spend at all. From <strong>Momentum ($249/mo) upward</strong>, your subscription covers production, reviews, and listing work <em>plus</em> a dedicated advertising budget that our team deploys and optimizes for you. Use the billing toggle above to see exact multi-month totals.</div>
+      </div>
+
+      <div class="faq-card">
+        <button class="faq-q" onclick="toggleFaq(this)">What is the Orbit dedicated seat, and how is it different?<span class="faq-icon">+</span></button>
+        <div class="faq-a">Most campaigns run through a shared managed-service pool. The Orbit plan gives you a <strong>dedicated, named advertising seat</strong> under your own brand, not mixed with other advertisers. This unlocks custom audience segments, higher spend ceilings, and priority placements. Pricing is bespoke because ad budgets vary — email <a href="mailto:nick@atomic-shelf.com">nick@atomic-shelf.com</a> to discuss what makes sense for your catalogue.</div>
+      </div>
+
+      <div class="faq-card">
+        <button class="faq-q" onclick="toggleFaq(this)">How do ARC review campaigns work?<span class="faq-icon">+</span></button>
+        <div class="faq-a">We recruit readers from our own network who match your genre, send them an advance copy, and follow up to encourage an honest review once your book is live. Higher tiers target a larger volume of reviews and get priority placement in our recruitment queue.</div>
+      </div>
+
+      <div class="faq-card">
+        <button class="faq-q" onclick="toggleFaq(this)">What are ShelfMates and StoryPals?<span class="faq-icon">+</span></button>
+        <div class="faq-a">They're our own reader list-building apps — <strong>ShelfMates</strong> for adult genre fiction and <strong>StoryPals</strong> for children's books. Readers opt in by genre or age range, and every author on a paid plan gets access to that pool for future releases, at no extra ad cost.</div>
+      </div>
+
+      <div class="faq-card">
+        <button class="faq-q" onclick="toggleFaq(this)">How quickly will I see results?<span class="faq-icon">+</span></button>
+        <div class="faq-a">Most authors see meaningful engagement within the first 2–3 weeks of content deployment. Consistent sales momentum typically builds over 60–90 days as reviews land, the listing is optimized, and advertising ramps up.</div>
+      </div>
+
+      <div class="faq-card">
+        <button class="faq-q" onclick="toggleFaq(this)">Do I need an existing audience?<span class="faq-icon">+</span></button>
+        <div class="faq-a">No. Many of our highest-performing clients started with zero followers, zero reviews, and zero platform presence. Our system builds momentum from scratch — account setup, content deployment, and review recruitment are part of every plan.</div>
+      </div>
+
+      <div class="faq-card">
+        <button class="faq-q" onclick="toggleFaq(this)">How do multi-month discounts work?<span class="faq-icon">+</span></button>
+        <div class="faq-a">Commit to 3 months and save 10%. 6 months saves 20%. 12 months saves 25%. The billing toggle in the pricing section shows your total payment — so you know exactly what you're committing to, not just the discounted monthly equivalent.</div>
+      </div>
+
+      <div class="faq-card">
+        <button class="faq-q" onclick="toggleFaq(this)">Can I upgrade or change plans?<span class="faq-icon">+</span></button>
+        <div class="faq-a">Yes. Upgrade at any time — the system scales with you. Downgrades take effect at the next billing cycle. We recommend Momentum or Growth for the best initial balance of content output and advertising return.</div>
+      </div>
+
+      <div class="faq-card">
+        <button class="faq-q" onclick="toggleFaq(this)">What genres do you work with?<span class="faq-icon">+</span></button>
+        <div class="faq-a">All of them. Romance, fantasy, thriller, literary fiction, non-fiction, Christian fiction, sci-fi, self-help, and children's books. Scripts, video styles, review recruitment, and list placement are always calibrated to your specific genre.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <h2 class="fade-up">Put the whole system<br>to work for your book</h2>
+  <p class="fade-up">Join 160+ authors who've deployed the full stack — content, reviews, reader lists, listing optimization, and managed advertising that compounds month after month.</p>
+  <div class="cta-btns fade-up">
+    <a href="#pricing" class="btn btn-copper btn-lg">Choose Your Tier →</a>
+    <a href="mailto:nick@atomic-shelf.com" class="btn btn-ghost btn-lg">Talk to Us</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-top">
+    <div>
+      <span class="footer-logo">Atomic<span style="color:var(--copper-2)">&#8209;</span>Shelf</span>
+      <p class="footer-desc">AI-powered video production and full-funnel marketing — engineered for authors who want their stories to reach the readers who need them most.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Navigate</h5>
+      <ul>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#apps">Reader Apps</a></li>
+        <li><a href="#process">Process</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Contact</h5>
+      <ul>
+        <li><a href="mailto:powerpages30@gmail.com">powerpages30@gmail.com</a></li>
+        <li><a href="mailto:nick@atomic-shelf.com">nick@atomic-shelf.com</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Atomic‑Shelf. All rights reserved.</span>
+    <span>AI-Powered Book Marketing</span>
+  </div>
+</footer>
+
+<div class="sticky-cta" id="sticky-cta">
+  <div class="sticky-cta-text"><strong>Put the system to work</strong>Managed advertising included</div>
+  <a href="#pricing" class="btn btn-copper">View Plans</a>
+</div>
+
+<script>
+window.addEventListener('scroll',()=>{
+  document.getElementById('nav').classList.toggle('scrolled',scrollY>40);
+  document.getElementById('sticky-cta').classList.toggle('show',scrollY>300);
+});
+const obs=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');});},{threshold:0.07});
+document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});}});
+});
+function toggleFaq(btn){
+  const card=btn.closest('.faq-card');
+  const open=card.classList.contains('open');
+  document.querySelectorAll('.faq-card').forEach(c=>c.classList.remove('open'));
+  if(!open)card.classList.add('open');
+}
+const BILLING={monthly:{discount:0,months:1},'3month':{discount:0.10,months:3},'6month':{discount:0.20,months:6},'12month':{discount:0.25,months:12}};
+const NOTES={monthly:'Pay month-to-month. Cancel anytime.','3month':'Billed every 3 months — lock in 10% off.','6month':'Billed every 6 months — save 20% vs monthly.','12month':'Billed annually — maximum savings at 25% off.'};
+function fmt(n){return n.toLocaleString('en-US');}
+function setBilling(period,btn){
+  document.querySelectorAll('.bill-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const{discount,months}=BILLING[period];
+  const noteEl=document.getElementById('billing-note');
+  document.querySelectorAll('.plan[data-base]').forEach(plan=>{
+    if(plan.dataset.orbit==='true')return;
+    const base=parseFloat(plan.dataset.base);
+    const mainEl=plan.querySelector('.price-main');
+    const subEl=plan.querySelector('.price-sub');
+    const detailEl=plan.querySelector('.price-detail');
+    const saveEl=plan.querySelector('.price-save');
+    if(!mainEl)return;
+    if(months===1){
+      mainEl.textContent='$'+fmt(base);subEl.textContent='per month';detailEl.style.display='none';saveEl.style.display='none';
+    }else{
+      const discMo=Math.round(base*(1-discount));
+      const total=discMo*months;
+      const savings=Math.round(base*months-total);
+      mainEl.textContent='$'+fmt(total);
+      subEl.textContent='total for '+months+' months';
+      detailEl.textContent='$'+fmt(discMo)+'/mo equivalent';
+      detailEl.style.display='block';
+      saveEl.textContent='Save $'+fmt(savings);
+      saveEl.style.display='inline-flex';
+    }
+  });
+  noteEl.innerHTML=discount>0?'<strong>Save '+Math.round(discount*100)+'%</strong> — '+NOTES[period]:NOTES[period];
+}
+function animCount(el){
+  const target=parseFloat(el.dataset.count);
+  const suffix=el.dataset.suffix||'';
+  const dur=1400;const start=performance.now();
+  function update(now){
+    const p=Math.min((now-start)/dur,1);
+    const ease=1-Math.pow(1-p,3);
+    const cur=target*ease;
+    el.textContent=(target%1!==0?cur.toFixed(1):Math.floor(cur))+suffix;
+    if(p<1)requestAnimationFrame(update);
+  }
+  requestAnimationFrame(update);
+}
+const countObs=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting&&!e.target.dataset.counted){e.target.dataset.counted='true';animCount(e.target);}});},{threshold:0.3});
+document.querySelectorAll('[data-count]').forEach(el=>countObs.observe(el));
+</script>
+</body>
+</html>

@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="Atomic‑Shelf Growth — $300/month."/>
+<title>Atomic‑Shelf | Growth Plan — Secure Checkout</title>
+<link rel="icon" type="image/svg+xml" href="https://atomic-shelf.com/book-and-people-spring-svgrepo-com.svg"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --ink: #130f0b;
+  --cream: #f9f5ef;
+  --warm: #f2ebe0;
+  --amber: #b8712a;
+  --amber-light: #d4943d;
+  --amber-pale: #f7eadb;
+  --stone: #5a4b3e;
+  --muted: #8a7868;
+  --border: rgba(184,113,42,0.18);
+  --card: #fffcf7;
+  --dark: #1c1612;
+  --shadow-amber: 0 28px 72px rgba(184,113,42,0.22);
+  --shadow-soft: 0 8px 40px rgba(19,15,11,0.08);
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+
+body{
+  font-family:'Outfit',sans-serif;
+  background:var(--cream);
+  color:var(--ink);
+  line-height:1.65;
+  overflow-x:hidden;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:999;opacity:0.35;
+}
+
+body::after{
+  content:'';position:fixed;
+  top:-25%;left:50%;transform:translateX(-50%);
+  width:1100px;height:700px;border-radius:50%;
+  background:radial-gradient(ellipse,rgba(184,113,42,0.13) 0%,transparent 65%);
+  pointer-events:none;z-index:0;
+}
+
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1rem 4vw;
+  background:rgba(249,245,239,0.88);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+}
+.logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.6rem;font-weight:700;
+  color:var(--ink);letter-spacing:-0.02em;
+  text-decoration:none;
+  display:flex;align-items:center;gap:2px;
+}
+.logo-dash{color:var(--amber)}
+.nav-back{
+  font-size:.83rem;font-weight:500;color:var(--stone);
+  text-decoration:none;
+  display:flex;align-items:center;gap:.45rem;
+  transition:color .2s;letter-spacing:.01em;
+}
+.nav-back:hover{color:var(--amber)}
+.nav-back svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;transition:transform .2s}
+.nav-back:hover svg{transform:translateX(-3px)}
+
+.popular-banner{
+  width:100%;
+  background:var(--amber);
+  text-align:center;
+  padding:.6rem 1rem;
+  font-size:.76rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:#fff;
+  position:fixed;top:64px;left:0;right:0;z-index:190;
+  display:flex;align-items:center;justify-content:center;gap:.6rem;
+}
+.banner-star{opacity:.7}
+
+/* ── MAIN PAGE WRAPPER ── */
+.page-wrapper{
+  width:100%;max-width:1080px;
+  padding:9rem 3vw 5rem;
+  position:relative;z-index:1;
+  display:grid;
+  grid-template-columns:1fr 440px;
+  gap:3.5rem;
+  align-items:start;
+}
+
+/* LEFT COLUMN — stacked sections */
+.left-col{
+  display:flex;
+  flex-direction:column;
+  gap:2.5rem;
+}
+
+.plan-intro{ animation: fadeUp .8s ease both; }
+
+.plan-eyebrow{
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-size:.73rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--amber);border:1px solid rgba(184,113,42,.3);
+  background:rgba(184,113,42,.08);
+  padding:.38rem .95rem;border-radius:99px;margin-bottom:1.75rem;
+}
+
+h1{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2.6rem,4.5vw,4.2rem);
+  font-weight:700;line-height:1.06;
+  letter-spacing:-0.015em;color:var(--ink);
+  margin-bottom:1.25rem;
+}
+h1 em{ font-style:italic;color:var(--amber); }
+
+.hero-desc{
+  font-size:1rem;color:var(--stone);
+  max-width:46ch;line-height:1.8;
+  margin-bottom:2rem;font-weight:400;
+}
+
+.proof-row{
+  display:flex;gap:1.5rem;margin-bottom:.25rem;flex-wrap:wrap;
+}
+.proof-pill{
+  display:flex;align-items:center;gap:.55rem;
+  background:var(--card);
+  border:1.5px solid var(--border);
+  border-radius:99px;
+  padding:.5rem 1rem;
+  font-size:.78rem;font-weight:600;color:var(--stone);
+}
+.proof-pill-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--amber);flex-shrink:0;
+}
+
+.features-heading{
+  font-size:.73rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:1.35rem;
+}
+
+.feature-list{
+  list-style:none;display:flex;flex-direction:column;gap:.75rem;
+}
+
+.feature-item{
+  display:flex;align-items:flex-start;gap:1rem;
+  padding:.9rem 1.15rem;background:var(--card);
+  border:1.5px solid var(--border);border-radius:10px;
+  transition:border-color .25s, box-shadow .25s;
+  animation: fadeUp .8s ease both;
+}
+.feature-item:nth-child(1){animation-delay:.10s}
+.feature-item:nth-child(2){animation-delay:.18s}
+.feature-item:nth-child(3){animation-delay:.26s}
+.feature-item:nth-child(4){animation-delay:.34s}
+.feature-item:nth-child(5){animation-delay:.42s}
+.feature-item:hover{border-color:rgba(184,113,42,.42);box-shadow:var(--shadow-soft)}
+
+.feature-icon{
+  width:38px;height:38px;flex-shrink:0;
+  background:var(--amber-pale);border-radius:8px;
+  display:flex;align-items:center;justify-content:center;font-size:1.1rem;
+}
+.feature-title{font-size:.9rem;font-weight:600;color:var(--ink);margin-bottom:.18rem}
+.feature-sub{font-size:.8rem;color:var(--muted);line-height:1.55}
+
+/* DSP spotlight */
+.dsp-spotlight{
+  background:var(--dark);
+  border-radius:16px;
+  padding:1.75rem;
+  position:relative;overflow:hidden;
+  animation: fadeUp .8s .28s ease both;
+}
+.dsp-spotlight::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 10% 50%,rgba(184,113,42,.22) 0%,transparent 60%);
+  pointer-events:none;
+}
+.dsp-inner{position:relative;z-index:1}
+.dsp-label{
+  font-size:.7rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(184,113,42,.7);margin-bottom:.75rem;
+}
+.dsp-heading{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.5rem;font-weight:700;color:#fff;
+  margin-bottom:.65rem;line-height:1.2;
+}
+.dsp-desc{font-size:.85rem;color:rgba(255,255,255,.5);line-height:1.7;max-width:46ch}
+.dsp-budget{
+  display:inline-flex;align-items:center;gap:.5rem;
+  margin-top:1.1rem;
+  background:rgba(184,113,42,.15);
+  border:1px solid rgba(184,113,42,.3);
+  border-radius:99px;padding:.4rem 1rem;
+  font-size:.78rem;font-weight:700;color:var(--amber-light);
+  letter-spacing:.04em;
+}
+
+/* Dedicated DSP seat callout */
+.dsp-seat-callout{
+  margin-top:1.25rem;
+  padding:1rem 1.15rem;
+  background:rgba(184,113,42,.1);
+  border:1px solid rgba(184,113,42,.35);
+  border-radius:10px;
+  display:flex;align-items:flex-start;gap:.85rem;
+}
+.dsp-seat-icon{font-size:1.2rem;flex-shrink:0;line-height:1.3}
+.dsp-seat-text{font-size:.82rem;color:rgba(255,255,255,.65);line-height:1.65}
+.dsp-seat-text strong{color:#fff;font-weight:600;display:block;margin-bottom:.2rem}
+
+/* Image card */
+.img-card{
+  background:var(--card);
+  border:1.5px solid var(--border);
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:var(--shadow-soft);
+  animation: fadeUp .8s .34s ease both;
+}
+.img-card-header{
+  padding:1rem 1.25rem .75rem;
+  display:flex;align-items:center;gap:.6rem;
+  border-bottom:1px solid var(--border);
+  background:var(--warm);
+}
+.img-card-label{
+  font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--stone);
+}
+.img-card-badge{
+  margin-left:auto;
+  font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--amber);background:rgba(184,113,42,.1);
+  border:1px solid rgba(184,113,42,.22);
+  padding:.22rem .65rem;border-radius:99px;
+}
+.img-card-body{ padding:1.25rem; }
+.pay-guide-img{
+  width:100%;border-radius:8px;
+  border:1px solid var(--border);
+  display:block;
+}
+
+/* Payment instructions */
+.pay-instructions{
+  background:var(--dark);
+  border-radius:16px;
+  overflow:hidden;
+  animation: fadeUp .8s .4s ease both;
+  position:relative;
+}
+.pay-instructions::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse at 10% 50%,rgba(184,113,42,.15) 0%,transparent 55%),
+    radial-gradient(ellipse at 90% 20%,rgba(184,113,42,.08) 0%,transparent 50%);
+  pointer-events:none;
+}
+.pay-instructions-inner{
+  padding:1.75rem 2rem;
+  position:relative;z-index:1;
+}
+.pay-guide-eyebrow{
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-size:.7rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--amber);border:1px solid rgba(184,113,42,.3);
+  background:rgba(184,113,42,.1);
+  padding:.32rem .85rem;border-radius:99px;
+  margin-bottom:1.1rem;
+}
+.pay-guide-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(1.5rem,2.5vw,2rem);
+  font-weight:700;line-height:1.1;
+  color:#fff;letter-spacing:-0.01em;
+  margin-bottom:.75rem;
+}
+.pay-guide-intro{
+  font-size:.87rem;color:rgba(255,255,255,.5);
+  line-height:1.8;margin-bottom:1.5rem;
+}
+.pay-guide-steps{
+  list-style:none;display:flex;flex-direction:column;gap:1rem;
+  margin-bottom:1.5rem;
+}
+.pay-guide-steps li{display:flex;align-items:flex-start;gap:.85rem;}
+.pay-guide-step-n{
+  background:var(--amber);color:#fff;
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.1rem;font-weight:700;
+  width:28px;height:28px;border-radius:7px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;margin-top:2px;
+}
+.pay-guide-step-title{font-size:.88rem;font-weight:600;color:#fff;margin-bottom:.2rem;line-height:1.3;}
+.pay-guide-step-desc{font-size:.8rem;color:rgba(255,255,255,.45);line-height:1.65;}
+.pay-guide-step-desc strong{color:rgba(255,255,255,.8);}
+.pay-guide-tip{
+  display:flex;align-items:flex-start;gap:.85rem;
+  background:rgba(184,113,42,.12);
+  border:1px solid rgba(184,113,42,.3);
+  border-radius:10px;
+  padding:.9rem 1.1rem;
+  font-size:.82rem;color:rgba(255,255,255,.55);line-height:1.7;
+}
+.pay-guide-tip-icon{flex-shrink:0;font-size:1.1rem;line-height:1.4}
+.pay-guide-tip strong{color:#fff;font-weight:600;}
+
+/* Testimonial */
+.testimonial{
+  background:linear-gradient(135deg,var(--amber-pale) 0%,#fff8f0 100%);
+  border:1.5px solid rgba(184,113,42,.22);
+  border-radius:14px;
+  padding:1.6rem 1.75rem;
+  position:relative;
+  animation: fadeUp .8s .48s ease both;
+}
+.quote-mark{
+  font-family:'Cormorant Garamond',serif;
+  font-size:4.5rem;font-weight:700;color:var(--amber);
+  line-height:.6;position:absolute;top:1rem;left:1.5rem;opacity:.25;
+}
+.testimonial-text{
+  font-size:.88rem;color:var(--stone);
+  line-height:1.8;font-style:italic;
+  padding-left:.5rem;position:relative;z-index:1;margin-bottom:.9rem;
+}
+.testimonial-author{
+  font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--muted);padding-left:.5rem;
+}
+
+/* ── PAYMENT CARD ── */
+.payment-card{
+  background:var(--card);
+  border:2px solid var(--amber);
+  border-radius:22px;
+  overflow:hidden;
+  box-shadow:var(--shadow-amber);
+  position:sticky;top:8.5rem;
+  animation: fadeUp .7s .12s ease both;
+}
+.card-popular-badge{
+  background:var(--amber);
+  text-align:center;
+  padding:.55rem 1rem;
+  font-size:.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:#fff;
+}
+.card-header{
+  background:var(--dark);padding:1.75rem 2rem 1.6rem;
+  position:relative;overflow:hidden;
+}
+.card-header::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse at 15% 10%,rgba(184,113,42,.32) 0%,transparent 55%),
+    radial-gradient(ellipse at 80% 85%,rgba(184,113,42,.14) 0%,transparent 50%);
+}
+.card-plan-name{
+  font-size:.72rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(184,113,42,.8);margin-bottom:.5rem;position:relative;z-index:1;
+}
+.card-price-row{
+  display:flex;align-items:flex-end;gap:.35rem;
+  margin-bottom:.3rem;position:relative;z-index:1;
+}
+.card-price{
+  font-family:'Cormorant Garamond',serif;
+  font-size:4.2rem;font-weight:700;color:#fff;line-height:1;
+}
+.card-price sup{font-size:1.8rem;font-weight:400;vertical-align:top;margin-top:.6rem}
+.card-period{font-size:.9rem;color:rgba(255,255,255,.4);align-self:flex-end;padding-bottom:.35rem}
+.card-tagline{font-size:.82rem;color:rgba(255,255,255,.45);position:relative;z-index:1;}
+
+.card-body{padding:1.6rem 2rem 2rem}
+
+.card-includes{
+  font-size:.72rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:1.1rem;
+}
+.card-features{list-style:none;margin-bottom:1.6rem;display:flex;flex-direction:column;gap:.5rem}
+.card-features li{
+  display:flex;align-items:center;gap:.7rem;
+  font-size:.875rem;color:var(--stone);padding:.3rem 0;
+  border-bottom:1px solid rgba(184,113,42,.08);
+}
+.card-features li:last-child{border-bottom:none}
+.cf-arrow{
+  color:var(--amber);font-size:.7rem;flex-shrink:0;
+  background:var(--amber-pale);width:20px;height:20px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+}
+.cf-dsp{
+  background:rgba(184,113,42,.06);border-radius:6px;
+  margin:-2px 0;padding:.3rem .5rem .3rem 0 !important;
+}
+.cf-dsp .cf-arrow{background:var(--amber);color:#fff;}
+
+/* ── CHECKOUT FORM ── */
+.checkout-form-wrap{
+  border-top:1px solid var(--border);
+  padding-top:1.5rem;margin-bottom:1.25rem;
+}
+.form-heading{
+  font-size:.72rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:1rem;
+}
+.form-row{display:flex;gap:.75rem;margin-bottom:.75rem;}
+.form-row.single{display:block;}
+.field-wrap{flex:1;display:flex;flex-direction:column;gap:.3rem;}
+.field-wrap label{font-size:.72rem;font-weight:600;color:var(--stone);letter-spacing:.04em;}
+.field-wrap input{
+  padding:.65rem .85rem;
+  border:1.5px solid var(--border);
+  border-radius:8px;background:var(--cream);
+  font-family:'Outfit',sans-serif;
+  font-size:.875rem;color:var(--ink);
+  outline:none;transition:border-color .2s, box-shadow .2s;width:100%;
+}
+.field-wrap input:focus{
+  border-color:var(--amber);
+  box-shadow:0 0 0 3px rgba(184,113,42,.1);
+}
+.field-wrap input::placeholder{color:var(--muted);opacity:.6;}
+.field-wrap input.error{border-color:#c0392b;}
+
+.form-error{
+  font-size:.75rem;color:#c0392b;
+  margin-bottom:.75rem;display:none;
+  padding:.5rem .75rem;
+  background:rgba(192,57,43,.06);
+  border-radius:6px;border:1px solid rgba(192,57,43,.2);
+}
+.form-error.visible{display:block;}
+
+.status-msg{
+  font-size:.8rem;padding:.6rem .85rem;border-radius:8px;
+  margin-bottom:.75rem;display:none;line-height:1.5;
+}
+.status-msg.info{
+  display:block;background:rgba(184,113,42,.08);
+  border:1px solid rgba(184,113,42,.22);color:var(--stone);
+}
+.status-msg.error-msg{
+  display:block;background:rgba(192,57,43,.06);
+  border:1px solid rgba(192,57,43,.2);color:#c0392b;
+}
+
+/* ── CTA BUTTON ── */
+.pay-btn{
+  display:flex;align-items:center;justify-content:center;gap:.5rem;
+  width:100%;padding:1.1rem 1.5rem;
+  background:var(--amber);color:#fff;
+  border:none;border-radius:10px;
+  font-family:'Outfit',sans-serif;
+  font-size:.98rem;font-weight:700;
+  letter-spacing:.03em;cursor:pointer;
+  box-shadow:0 10px 32px rgba(184,113,42,.4);
+  transition:all .25s cubic-bezier(.4,0,.2,1);
+  position:relative;overflow:hidden;
+  margin-bottom:1rem;text-decoration:none;
+}
+.pay-btn::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,.13) 0%,transparent 60%);
+  pointer-events:none;
+}
+.pay-btn:hover:not(:disabled){
+  background:#a0601e;transform:translateY(-2px);
+  box-shadow:0 16px 40px rgba(184,113,42,.5);
+}
+.pay-btn:active:not(:disabled){transform:translateY(0)}
+.pay-btn:disabled{opacity:.6;cursor:not-allowed;transform:none;}
+.pay-btn-icon{transition:transform .2s;display:flex;align-items:center;}
+.pay-btn:hover:not(:disabled) .pay-btn-icon{transform:translateX(3px)}
+
+.spinner{
+  width:16px;height:16px;border-radius:50%;
+  border:2px solid rgba(255,255,255,.3);
+  border-top-color:#fff;
+  animation:spin .7s linear infinite;display:none;
+}
+.pay-btn.loading .spinner{display:block;}
+.pay-btn.loading .btn-label{opacity:.7;}
+.pay-btn.loading .pay-btn-icon{display:none;}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.security-note{
+  display:flex;align-items:center;justify-content:center;gap:.5rem;
+  font-size:.76rem;color:var(--muted);margin-bottom:1.4rem;
+}
+.security-note svg{width:13px;height:13px;stroke:var(--muted);fill:none;stroke-width:2;flex-shrink:0}
+
+.card-divider{
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--border),transparent);
+  margin:1.2rem 0;
+}
+
+/* Dedicated DSP seat card nudge */
+.dsp-seat-nudge{
+  background:rgba(184,113,42,.05);
+  border:1px solid rgba(184,113,42,.2);
+  border-radius:10px;padding:1rem 1.15rem;
+  display:flex;align-items:flex-start;gap:.85rem;
+  margin-bottom:1rem;
+  text-decoration:none;
+  transition:border-color .2s, background .2s, box-shadow .2s;
+  cursor:pointer;
+}
+.dsp-seat-nudge:hover{
+  border-color:rgba(184,113,42,.45);
+  background:rgba(184,113,42,.09);
+  box-shadow:var(--shadow-soft);
+}
+.dsp-seat-nudge-icon{font-size:1.2rem;flex-shrink:0;line-height:1}
+.dsp-seat-nudge-text{font-size:.78rem;color:var(--stone);line-height:1.6}
+.dsp-seat-nudge-text strong{color:var(--ink);font-weight:600;display:block;margin-bottom:.18rem}
+.dsp-seat-nudge-arrow{
+  margin-left:auto;flex-shrink:0;
+  font-size:.9rem;color:var(--amber);align-self:center;
+  transition:transform .2s;
+}
+.dsp-seat-nudge:hover .dsp-seat-nudge-arrow{transform:translateX(3px)}
+
+.guarantee{
+  background:rgba(184,113,42,.05);border:1px solid rgba(184,113,42,.14);
+  border-radius:10px;padding:1rem 1.15rem;
+  display:flex;align-items:flex-start;gap:.85rem;
+}
+.guarantee-icon{font-size:1.35rem;flex-shrink:0;line-height:1}
+.guarantee-text{font-size:.78rem;color:var(--stone);line-height:1.6}
+.guarantee-text strong{color:var(--ink);font-weight:600;display:block;margin-bottom:.18rem}
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(26px)}
+  to{opacity:1;transform:none}
+}
+
+@media(max-width:820px){
+  .page-wrapper{
+    grid-template-columns:1fr;gap:2rem;padding:8.5rem 5vw 4rem;
+  }
+  .payment-card{position:static}
+  h1{font-size:2.6rem}
+  .proof-row{gap:1rem}
+  .form-row{flex-direction:column;gap:.75rem;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="logo">Atomic<span class="logo-dash">&#8209;</span>Shelf</a>
+  <a href="/#pricing" class="nav-back">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    Back to plans
+  </a>
+</nav>
+
+
+
+<div class="page-wrapper">
+
+  <!-- LEFT COLUMN -->
+  <div class="left-col">
+
+    <!-- 1. Plan intro + features -->
+    <div class="plan-intro">
+      <div class="plan-eyebrow">✦ Growth Plan</div>
+      <h1>The full engine,<br>fully <em>unleashed.</em></h1>
+      <p class="hero-desc">
+        Growth is where everything comes together — a relentless volume of short-form video, two cinematic trailers, an original theme song, a podcast series, and $250 in Amazon DSP to close the loop between content and sales.
+      </p>
+
+      <div class="proof-row">
+        <div class="proof-pill"><span class="proof-pill-dot"></span>3.2× avg. sales lift in 90 days</div>
+        <div class="proof-pill"><span class="proof-pill-dot"></span>Amazon DSP included</div>
+      </div>
+    </div>
+
+    <!-- Features -->
+    <div>
+      <div class="features-heading">Everything in this plan</div>
+      <ul class="feature-list">
+        <li class="feature-item">
+          <div class="feature-icon">🎬</div>
+          <div>
+            <div class="feature-title">100+ Premium Short-Form Videos / Month</div>
+            <div class="feature-sub">Maximum algorithmic pressure — daily publishing across TikTok, YouTube Shorts, Pinterest, and X to keep your book in constant circulation.</div>
+          </div>
+        </li>
+        <li class="feature-item">
+          <div class="feature-icon">🎥</div>
+          <div>
+            <div class="feature-title">2 Cinematic Book Trailers</div>
+            <div class="feature-sub">Two distinct, genre-crafted trailers — different hooks, different angles — so you always have a fresh centrepiece to share.</div>
+          </div>
+        </li>
+        <li class="feature-item">
+          <div class="feature-icon">🎵</div>
+          <div>
+            <div class="feature-title">Original Theme Song</div>
+            <div class="feature-sub">Custom composed music that captures the soul of your book — used across your content for a cohesive, unforgettable brand sound.</div>
+          </div>
+        </li>
+        <li class="feature-item">
+          <div class="feature-icon">🎙️</div>
+          <div>
+            <div class="feature-title">Long-Form + Podcast Series</div>
+            <div class="feature-sub">YouTube deep-dives and podcast episodes that build loyal audiences who read everything you publish — not just your current title.</div>
+          </div>
+        </li>
+        <li class="feature-item">
+          <div class="feature-icon">🎯</div>
+          <div>
+            <div class="feature-title">$250 Amazon DSP Retargeting Budget (~$8/day)</div>
+            <div class="feature-sub">We target readers who watched your content but haven't purchased yet — reaching them directly on Amazon where buying intent peaks. That's roughly $8 in live ad spend every single day of the month.</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- 2. DSP spotlight with dedicated seat callout -->
+    <div class="dsp-spotlight">
+      <div class="dsp-inner">
+        <div class="dsp-label">Why Amazon DSP changes the game</div>
+        <div class="dsp-heading">Organic reach meets<br>purchase intent.</div>
+        <div class="dsp-desc">Most marketing stops at awareness. DSP retargeting closes the gap — we identify readers who engaged with your content and serve them ads directly on Amazon, where their credit card is already saved and one tap buys your book.</div>
+        <div class="dsp-budget">🛒 $250 DSP budget included — ~$8/day in live ad spend</div>
+
+        <div class="dsp-seat-callout">
+          <div class="dsp-seat-icon">🪑</div>
+          <div class="dsp-seat-text">
+            <strong>Publishing multiple books? You may qualify for Orbit — our dedicated DSP tier.</strong>
+            Authors whose catalogue spend exceeds $1,250/month unlock Orbit — a dedicated Amazon DSP seat (normally ~$5,000 to set up) with your own managed ad account, separate from the shared pool, and priority campaign optimisation.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Image card -->
+    <div class="img-card">
+      <div class="img-card-header">
+        <span style="font-size:1rem">💳</span>
+        <div class="img-card-label">Payment screen — select this option</div>
+        <div class="img-card-badge">Step 1</div>
+      </div>
+      <div class="img-card-body">
+        <img
+          src="https://atomic-shelf.com/Payment%20Options.png"
+          alt="Payment options screen — select Visa/Mastercard/Discover"
+          class="pay-guide-img"
+        />
+      </div>
+    </div>
+
+    <!-- 4. Payment instructions -->
+    <div class="pay-instructions">
+      <div class="pay-instructions-inner">
+        <div class="pay-guide-eyebrow">⚠ Before you pay — read this</div>
+        <h2 class="pay-guide-title">Complete your payment without issues</h2>
+        <p class="pay-guide-intro">Pesapal is our payment processor, trusted across East Africa. Select Visa / Mastercard / Discover on the first screen, then fill in your details as normal.</p>
+
+        <ol class="pay-guide-steps">
+          <li>
+            <div class="pay-guide-step-n">1</div>
+            <div>
+              <div class="pay-guide-step-title">Use your correct billing address</div>
+              <div class="pay-guide-step-desc">Enter the address your card is registered to — street, city, postcode, and the country your bank is in. This is the most common reason cards are declined.</div>
+            </div>
+          </li>
+          <li>
+            <div class="pay-guide-step-n">2</div>
+            <div>
+              <div class="pay-guide-step-title">Double-check your card details</div>
+              <div class="pay-guide-step-desc">Card number, expiry, and CVV — small typos are easy to miss. Make sure the name matches exactly what's on the card.</div>
+            </div>
+          </li>
+        </ol>
+
+        <div class="pay-guide-tip">
+          <span class="pay-guide-tip-icon">🌍</span>
+          <div><strong>Still declined?</strong> Try setting the country field to <strong>Kenya</strong> — because Pesapal is headquartered in Nairobi, this almost always does the trick.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. Testimonial -->
+    <div class="testimonial">
+      <div class="quote-mark">&ldquo;</div>
+      <p class="testimonial-text">The Growth plan was the turning point. The theme song alone became something readers kept mentioning — and the Amazon retargeting turned casual viewers into buyers I never would have reached otherwise.</p>
+      <div class="testimonial-author">— Indie author, Fantasy genre</div>
+    </div>
+
+  </div>
+
+  <!-- RIGHT COLUMN — sticky payment card -->
+  <div class="payment-card">
+
+    <div class="card-header">
+      <div class="card-plan-name">Growth Plan</div>
+      <div class="card-price-row">
+        <div class="card-price"><sup>$</sup>300</div>
+        <div class="card-period">/ month</div>
+      </div>
+      <div class="card-tagline">Charged to your card today. Renews monthly.</div>
+    </div>
+
+    <div class="card-body">
+      <div class="card-includes">Plan includes</div>
+      <ul class="card-features">
+        <li><span class="cf-arrow">→</span> 100+ premium short-form videos</li>
+        <li><span class="cf-arrow">→</span> 2 cinematic book trailers</li>
+        <li><span class="cf-arrow">→</span> Original theme song</li>
+        <li><span class="cf-arrow">→</span> Long-form + podcast series</li>
+        <li class="cf-dsp"><span class="cf-arrow">→</span> $250 Amazon DSP budget</li>
+        <li><span class="cf-arrow">→</span> TikTok, YouTube, Pinterest &amp; X</li>
+        <li><span class="cf-arrow">→</span> Weekly performance insights</li>
+      </ul>
+
+      <div class="checkout-form-wrap">
+        <div class="form-heading">Your details</div>
+
+        <div class="form-row">
+          <div class="field-wrap">
+            <label for="firstName">First name</label>
+            <input type="text" id="firstName" placeholder="Jane" autocomplete="given-name"/>
+          </div>
+          <div class="field-wrap">
+            <label for="lastName">Last name</label>
+            <input type="text" id="lastName" placeholder="Smith" autocomplete="family-name"/>
+          </div>
+        </div>
+
+        <div class="form-row single">
+          <div class="field-wrap">
+            <label for="email">Email address</label>
+            <input type="email" id="email" placeholder="jane@example.com" autocomplete="email"/>
+          </div>
+        </div>
+
+        <div class="form-row single" style="margin-bottom:1.25rem;">
+          <div class="field-wrap">
+            <label for="bookTitle">Book title <span style="color:var(--muted);font-weight:400">(optional)</span></label>
+            <input type="text" id="bookTitle" placeholder="e.g. The Midnight Garden"/>
+          </div>
+        </div>
+
+        <div class="form-error" id="formError">Please fill in your name and a valid email address.</div>
+        <div class="status-msg" id="statusMsg"></div>
+
+        <button class="pay-btn" id="payBtn" onclick="handleCheckout()">
+          <div class="spinner"></div>
+          <span class="btn-label">Pay $300 Now — Start My Plan</span>
+          <span class="pay-btn-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </span>
+        </button>
+      </div>
+
+      <div class="security-note">
+        <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        Secure checkout via Pesapal
+      </div>
+
+      <div class="card-divider"></div>
+
+      <a href="https://atomic-shelf.com/contact" class="dsp-seat-nudge">
+        <div class="dsp-seat-nudge-icon">🪑</div>
+        <div class="dsp-seat-nudge-text">
+          <strong>Multiple books? Unlock Orbit — our dedicated DSP tier.</strong>
+          Authors spending more than $1,250/mo across their catalogue unlock a dedicated Amazon DSP seat — a ~$5,000 setup normally included free. Get in touch to learn more.
+        </div>
+        <div class="dsp-seat-nudge-arrow">→</div>
+      </a>
+
+      <div class="guarantee">
+        <div class="guarantee-icon">🛡️</div>
+        <div class="guarantee-text">
+          <strong>Month-to-month, no lock-in</strong>
+          Your card will be charged $300 today. Cancel before your next billing date and you won't be charged again — no penalties, no long-term commitment.
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const PESAPAL_WEBAPP = 'https://script.google.com/macros/s/AKfycbw-6cDJG6GlEEkaUu_NsvlBpaG0YOiocWG8I3s-BoP7i01ZJACpXHw8Dqla_gDwuuB6_g/exec';
+
+async function handleCheckout() {
+  const firstName = document.getElementById('firstName').value.trim();
+  const lastName  = document.getElementById('lastName').value.trim();
+  const email     = document.getElementById('email').value.trim();
+  const bookTitle = document.getElementById('bookTitle').value.trim();
+  const errorEl   = document.getElementById('formError');
+  const statusEl  = document.getElementById('statusMsg');
+  const btn       = document.getElementById('payBtn');
+
+  errorEl.classList.remove('visible');
+  statusEl.className = 'status-msg';
+  statusEl.textContent = '';
+  ['firstName','lastName','email'].forEach(id => {
+    document.getElementById(id).classList.remove('error');
+  });
+
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  let valid = true;
+  if (!firstName) { document.getElementById('firstName').classList.add('error'); valid = false; }
+  if (!lastName)  { document.getElementById('lastName').classList.add('error');  valid = false; }
+  if (!emailOk)   { document.getElementById('email').classList.add('error');     valid = false; }
+
+  if (!valid) {
+    errorEl.textContent = 'Please fill in your name and a valid email address.';
+    errorEl.classList.add('visible');
+    return;
+  }
+
+  btn.disabled = true;
+  btn.classList.add('loading');
+  statusEl.className = 'status-msg info';
+  statusEl.textContent = 'Processing your payment — you\'ll be charged $300 today…';
+
+  try {
+    const params = new URLSearchParams({
+      action:    'invoice',
+      amount:    '300',
+      currency:  'USD',
+      desc:      'Atomic Shelf — Growth Plan',
+      firstName,
+      lastName,
+      email,
+      author:    bookTitle || (firstName + ' ' + lastName),
+      plan:      'Growth',
+    });
+
+    const res  = await fetch(PESAPAL_WEBAPP + '?' + params.toString());
+    const data = await res.json();
+
+    if (data.redirect_url) {
+      window.location.href = data.redirect_url;
+    } else {
+      throw new Error(data.error || 'No redirect URL returned');
+    }
+  } catch (err) {
+    btn.disabled = false;
+    btn.classList.remove('loading');
+    statusEl.className = 'status-msg error-msg';
+    statusEl.textContent = 'Something went wrong: ' + err.message + '. Please try again or contact support.';
+  }
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') {
+    const inputs = ['firstName','lastName','email','bookTitle'];
+    if (inputs.includes(document.activeElement.id)) handleCheckout();
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reza M. — Detective Qigiq Campaign Blueprint | Atomic Shelf</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,900;1,400&family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0b0f17;
+  --panel: #131a26;
+  --surface: #1a2333;
+  --border-glow: rgba(56, 189, 248, 0.15);
+  --border-faint: rgba(255, 255, 255, 0.06);
+  --ink: #f8fafc;
+  --ink-mid: #cbd5e1;
+  --ink-soft: #94a3b8;
+  
+  /* Noir / Mystery Palette */
+  --ice: #38bdf8;
+  --ice-bg: rgba(56, 189, 248, 0.08);
+  --amber: #f59e0b;
+  --amber-2: #fbbf24;
+  --amber-bg: rgba(245, 158, 11, 0.08);
+  --teal: #0d9488;
+  --teal-bg: rgba(13, 148, 136, 0.1);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  --r: 8px;
+  --r-lg: 14px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+a { color: inherit; text-decoration: none; }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--surface); border-radius: 3px; }
+
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(11, 15, 23, 0.92);
+  backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  height: 60px;
+  border-bottom: 1px solid var(--border-faint);
+}
+.nav::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--ice) 40%, var(--amber) 60%, transparent 100%);
+  opacity: .3;
+}
+.nav-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.nav-mark {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: linear-gradient(138deg, #0284c7 0%, var(--ice) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .65rem;
+  font-weight: 700;
+  color: #fff;
+}
+.nav-brand em { font-style: italic; color: var(--ice); }
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a {
+  font-family: 'DM Mono', monospace;
+  font-size: .67rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  transition: color .18s;
+}
+.nav-links a:hover { color: var(--ice); }
+.nav-pill {
+  font-family: 'DM Mono', monospace;
+  font-size: .62rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid var(--border-glow);
+  color: var(--ice);
+  padding: 4px 12px;
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.nav-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--ice);
+  box-shadow: 0 0 8px var(--ice);
+  animation: pulse 2.5s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1}50%{opacity:.4} }
+
+.hero {
+  background: linear-gradient(160deg, #0f172a 0%, #0b0f17 70%);
+  padding: 65px 40px 55px;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border-faint);
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 75% 30%, rgba(56, 189, 248, 0.08) 0%, transparent 60%);
+}
+.hero-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 40px;
+}
+.hero-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: .65rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ice);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.hero-eyebrow::before {
+  content: '';
+  width: 28px;
+  height: 1px;
+  background: var(--ice);
+}
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.4rem, 5vw, 3.4rem);
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.1;
+  letter-spacing: -.01em;
+  margin-bottom: 8px;
+}
+.hero-subtitle {
+  font-family: 'Lora', serif;
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--ink-mid);
+  margin-bottom: 22px;
+}
+.hero-author {
+  font-size: .88rem;
+  color: var(--ink-soft);
+  font-weight: 500;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.hero-author-dot { width: 4px; height: 4px; background: var(--surface); border-radius: 50%; }
+.hero-stats {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+.hs-item { text-align: right; }
+.hs-val {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: var(--amber);
+  line-height: 1;
+}
+.hs-lbl {
+  font-family: 'DM Mono', monospace;
+  font-size: .58rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-top: 4px;
+}
+
+.main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px 40px 100px;
+  position: relative;
+  z-index: 1;
+}
+.sec-label {
+  font-family: 'DM Mono', monospace;
+  font-size: .62rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.sec-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border-faint);
+}
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border-faint);
+  border-radius: var(--r-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  transition: all .22s ease;
+}
+.card:hover { border-color: rgba(255,255,255,0.1); box-shadow: var(--shadow); }
+
+.welcome-card {
+  background: linear-gradient(135deg, var(--panel), #162235);
+  border-left: 4px solid var(--ice);
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+  margin-bottom: 32px;
+}
+.metric-box {
+  background: var(--panel);
+  border: 1px solid var(--border-faint);
+  border-radius: var(--r);
+  padding: 20px;
+  position: relative;
+  transition: all .2s;
+}
+.metric-box:hover { transform: translateY(-2px); border-color: var(--border-glow); }
+.metric-icon { font-size: 1.6rem; margin-bottom: 8px; }
+.metric-val {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.1;
+  margin-bottom: 4px;
+}
+.metric-lbl {
+  font-family: 'DM Mono', monospace;
+  font-size: .6rem;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.metric-sub { font-size: .72rem; color: var(--ink-soft); margin-top: 6px; }
+
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 32px; }
+.three-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 32px; }
+
+.showcase-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin-bottom: 32px;
+}
+.showcase-card {
+  background: linear-gradient(145deg, var(--panel), var(--surface));
+  border: 1px solid var(--border-faint);
+  border-radius: var(--r);
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.showcase-main { display: flex; align-items: center; gap: 20px; }
+.showcase-icon {
+  font-size: 2.2rem;
+  background: rgba(255,255,255,0.03);
+  width: 55px; height: 55px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: var(--r);
+  border: 1px solid var(--border-faint);
+}
+.showcase-title { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 700; color: #fff; }
+.showcase-desc { font-size: .8rem; color: var(--ink-soft); margin-top: 2px; }
+.showcase-badge { font-size: .65rem; color: var(--ice); background: var(--ice-bg); border: 1px solid var(--border-glow); font-weight: 600; padding: 3px 12px; border-radius: 40px; }
+
+.progress-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+.progress-label { font-size: .78rem; color: var(--ink-mid); min-width: 150px; }
+.progress-track { flex: 1; height: 6px; background: #0f1622; border-radius: 99px; overflow: hidden; }
+.progress-fill { height: 100%; border-radius: 99px; transition: width 1s ease; }
+.pf-ice { background: linear-gradient(90deg, #0284c7 0%, var(--ice) 100%); }
+.pf-amber { background: linear-gradient(90deg, var(--amber) 0%, var(--amber-2) 100%); }
+.progress-pct { font-family: 'Playfair Display', serif; font-size: .95rem; font-weight: 700; color: var(--amber); min-width: 44px; text-align: right; }
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border-faint);
+  gap: 12px;
+}
+.info-row:last-child { border-bottom: none; }
+.info-key { font-size: .75rem; color: var(--ink-soft); flex-shrink: 0; }
+.info-val { font-size: .82rem; font-weight: 500; color: var(--ink); text-align: right; }
+.info-val.highlight-text { color: var(--amber); }
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: .62rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 40px;
+}
+.b-teal { background: var(--teal-bg); color: #2dd4bf; }
+.b-amber { background: var(--amber-bg); color: var(--amber-2); }
+
+.action-box {
+  background: linear-gradient(135deg, var(--ice-bg), rgba(56,189,248,0.02));
+  border-left: 4px solid var(--ice);
+  border-radius: var(--r);
+  padding: 18px 22px;
+  font-size: .85rem;
+  color: var(--ink-mid);
+  margin-bottom: 32px;
+}
+.action-title { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1.05rem; color: #fff; margin-bottom: 4px; }
+
+.video-list { display: flex; flex-direction: column; gap: 6px; }
+.video-item {
+  display: grid;
+  grid-template-columns: 34px 1fr auto;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  border-radius: var(--r);
+  background: rgba(255,255,255,0.01);
+  border: 1px solid var(--border-faint);
+}
+.video-num { font-family: 'DM Mono', monospace; font-size: .65rem; color: var(--ink-soft); }
+.video-title { font-size: .82rem; color: var(--ink); font-weight: 500; }
+.video-tag { font-family: 'DM Mono', monospace; font-size: .58rem; color: var(--ice); padding: 2px 10px; border-radius: 40px; background: var(--ice-bg); border: 1px solid var(--border-glow); }
+
+.links-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; }
+.drw-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--surface);
+  border: 1px solid var(--border-faint);
+  border-radius: var(--r);
+  padding: 8px 14px;
+  font-size: .76rem;
+  font-weight: 500;
+  transition: all .15s;
+}
+.drw-link:hover { background: rgba(255,255,255,0.04); border-color: var(--ice); transform: translateY(-1px); }
+
+.text-glow {
+  background: linear-gradient(120deg, var(--ice-bg) 0%, transparent 80%);
+  padding: 0 4px;
+  border-radius: 4px;
+}
+
+.footer {
+  background: #070a10;
+  padding: 40px;
+  text-align: center;
+  color: var(--ink-soft);
+  border-top: 1px solid var(--border-faint);
+  font-size: .8rem;
+}
+.footer-brand { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: #fff; margin-bottom: 6px; }
+
+@media (max-width: 900px) {
+  .nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  .hero-inner { grid-template-columns: 1fr; gap: 24px; }
+  .hero-stats { justify-content: left; text-align: left; }
+  .hs-item { text-align: left; }
+  .main { padding: 24px 20px; }
+  .two-col, .three-col, .showcase-card { grid-template-columns: 1fr; }
+  .showcase-card { align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-brand"><div class="nav-mark">AS</div>Atomic <em>Shelf</em></div>
+  <ul class="nav-links">
+    <li><a href="#">Strategy Roadmap</a></li>
+    <li><a href="#">Content Pipeline</a></li>
+    <li><a href="#">Reza M. Universe</a></li>
+  </ul>
+  <div class="nav-pill"><span class="nav-dot"></span>Campaign Blueprint Live</div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-eyebrow">Atmospheric Short-Form Narrative Architecture</div>
+      <h1 class="hero-title">Detective Qigiq<br>Series Launch</h1>
+      <div class="hero-subtitle">Visual Storytelling · Immersive Plot Hooks · Noir Aesthetics</div>
+      <div class="hero-author">
+        <span>Reza M.</span><span class="hero-author-dot"></span>
+        <span>Mystery / Crime Fiction</span><span class="hero-author-dot"></span>
+        <span>🎬 Serialization Sequence</span>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="hs-item"><div class="hs-val">🔍</div><div class="hs-lbl">Procedural Focus</div></div>
+      <div class="hs-item"><div class="hs-val">❄️</div><div class="hs-lbl">Atmospheric Tone</div></div>
+      <div class="hs-item"><div class="hs-val">📱</div><div class="hs-lbl">Unified Rollout</div></div>
+    </div>
+  </div>
+</div>
+
+<main class="main">
+
+  <!-- Welcome / Strategic Intent Card -->
+  <div class="welcome-card card" style="margin-bottom: 32px;">
+    <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap; justify-content: space-between;">
+      <div>
+        <div style="font-family: 'Playfair Display', serif; font-size: 1.35rem; font-weight: 600; color: var(--ice);">Welcome, Reza!</div>
+        <div style="font-size: .86rem; color: var(--ink-mid); margin-top: 4px;">Your comprehensive 1-month marketing blueprint has been built. We have mapped out a dark, premium visual framework optimized specifically to showcase the investigative depths of the <strong>Detective Qigiq</strong> universe.</div>
+      </div>
+      <div><span class="badge b-teal">✓ Architecture Locked</span></div>
+    </div>
+  </div>
+
+  <!-- Key Framework Dimensions -->
+  <div class="metrics-grid">
+    <div class="metric-box">
+      <div class="metric-icon">🗺️</div>
+      <div class="metric-val">1 Month</div>
+      <div class="metric-lbl">Visual Calendar</div>
+      <div class="metric-sub">Fully scheduled & ready</div>
+    </div>
+    <div class="metric-box">
+      <div class="metric-icon">🎥</div>
+      <div class="metric-val">Narrative</div>
+      <div class="metric-lbl">Content Style</div>
+      <div class="metric-sub">Suspenseful character hooks</div>
+    </div>
+    <div class="metric-box">
+      <div class="metric-icon">🎯</div>
+      <div class="metric-val">TikTok</div>
+      <div class="metric-lbl">Primary Engine</div>
+      <div class="metric-sub">Hub provisioned for release</div>
+    </div>
+    <div class="metric-box">
+      <div class="metric-icon">⚡</div>
+      <div class="metric-val">Concept</div>
+      <div class="metric-lbl">Current Phase</div>
+      <div class="metric-sub">Ready for initial rollout</div>
+    </div>
+  </div>
+
+  <!-- Core Showcase -->
+  <div class="section-block">
+    <div class="sec-label">📚 Core Focus — Detective Qigiq Universe</div>
+    <div class="showcase-grid">
+      <div class="showcase-card">
+        <div class="showcase-main">
+          <div class="showcase-icon">❄️</div>
+          <div>
+            <h3 class="showcase-title">The Detective Qigiq Mystery Series</h3>
+            <div class="showcase-desc">Crime Fiction / Procedural / Atmospheric Criminal Investigation</div>
+          </div>
+        </div>
+        <span class="showcase-badge">Strategy Set Active</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <!-- Readiness Assessment -->
+    <div class="card">
+      <div style="font-weight:600; margin-bottom: 20px; display: flex; align-items: center; gap: 8px;">📈 Launch Roadmap Status</div>
+      <div class="progress-row">
+        <span class="progress-label">1-Month Visual Calendar</span>
+        <div class="progress-track"><div class="progress-fill pf-ice" style="width:100%"></div></div>
+        <span class="progress-pct">Ready</span>
+      </div>
+      <div class="progress-row">
+        <span class="progress-label">Short-Form Narrative Hooks</span>
+        <div class="progress-track"><div class="progress-fill pf-ice" style="width:100%"></div></div>
+        <span class="progress-pct">Scripted</span>
+      </div>
+      <div class="progress-row">
+        <span class="progress-label">Atmospheric Sound Design</span>
+        <div class="progress-track"><div class="progress-fill pf-amber" style="width:85%"></div></div>
+        <span class="progress-pct">Curated</span>
+      </div>
+      <div class="progress-row">
+        <span class="progress-label">Pre-Production Framework</span>
+        <div class="progress-track"><div class="progress-fill pf-amber" style="width:90%"></div></div>
+        <span class="progress-pct">90%</span>
+      </div>
+      
+      <div style="margin-top: 24px; padding-top: 14px; border-top: 1px solid var(--border-faint);">
+        <div class="info-row"><span class="info-key">🎭 Creative Style</span><span class="info-val">High-tension, analytical case-file previews</span></div>
+        <div class="info-row"><span class="info-key">🔊 Sonic Footprint</span><span class="info-val">Cold ambiance, tactical noir pacing</span></div>
+      </div>
+    </div>
+
+    <!-- Targeted Channels -->
+    <div class="card">
+      <div style="font-weight:600; margin-bottom: 20px;">📱 Social Infrastructure Blueprint</div>
+      <div class="info-row"><span class="info-key">Primary Channel</span><span class="info-val">TikTok Hub (Configured)</span></div>
+      <div class="info-row"><span class="info-key">Cross-Distribution</span><span class="info-val">YouTube Shorts Integration</span></div>
+      <div class="info-row"><span class="info-key">Campaign Hub</span><span class="info-val" style="color: var(--ice);">atomic-shelf.com/Productions/Qigiq_Series</span></div>
+      <div class="info-row"><span class="info-key">Branding Focus</span><span class="info-val">Unified Author Account</span></div>
+      <div class="info-row"><span class="info-key">Target Audience</span><span class="info-val">Crime fiction buffs, mystery enthusiasts</span></div>
+      
+      <div style="margin-top: 16px; background: rgba(255,255,255,0.02); padding: 12px; border-radius: var(--r); font-size: .75rem; text-align: center; border: 1px dashed var(--border-faint);">
+        💡 <strong style="color: var(--amber);">Strategic Angle:</strong> Serialization loops focus heavily on mystery resolution teases to prompt immediate viewer click-throughs.
+      </div>
+    </div>
+  </div>
+
+  <!-- Narrative Architecture Map -->
+  <div class="section-block">
+    <div class="sec-label">🎬 Content Track Layout — Concept Teasers &amp; Narrative Arcs</div>
+    <div class="video-list" id="conceptList"></div>
+  </div>
+
+  <div class="three-col">
+    <!-- Pillar Advantages -->
+    <div class="card">
+      <div style="font-weight:600; margin-bottom: 12px; color: #fff;">💎 Strategic Advantages</div>
+      <ul style="margin-left: 16px; font-size: .78rem; color: var(--ink-mid); line-height: 1.8;">
+        <li><span class="text-glow">Highly stylized, atmospheric visual aesthetics</span> mimicking true-crime features.</li>
+        <li>Strong hook pacing constructed explicitly around cold case clues and procedural analysis.</li>
+        <li>Unified social strategy framing Reza M. as a master structural architect of mystery fiction.</li>
+      </ul>
+    </div>
+    
+    <!-- Next Operational Milestones -->
+    <div class="card">
+      <div style="font-weight:600; margin-bottom: 12px; color: #fff;">📋 Development Roadmap</div>
+      <ul style="margin-left: 16px; font-size: .78rem; color: var(--ink-mid); line-height: 1.8;">
+        <li>Final review of the 1-month short-form script architecture blueprints.</li>
+        <li>Locking sound profiles, localized pacing guidelines, and color grading patterns.</li>
+        <li>Initiate Phase I content production sequence upon final creative sign-off.</li>
+      </ul>
+    </div>
+
+    <!-- Production Pipeline Summary -->
+    <div class="card">
+      <div style="font-weight:600; margin-bottom: 12px; color: #fff;">📦 Creative Timelines</div>
+      <div class="info-row"><span class="info-key">Phase I Map</span><span class="info-val">Atmospheric Noir Teasers</span></div>
+      <div class="info-row"><span class="info-key">Phase II Map</span><span class="info-val">Investigative Evidence Hooks</span></div>
+      <div class="info-row"><span class="info-key">Phase III Map</span><span class="info-val">Clue Profiles & Suspense Beats</span></div>
+      <div class="info-row"><span class="info-key">Next Milestone</span><span class="info-val highlight-text">Creative Asset Rollout</span></div>
+    </div>
+  </div>
+
+  <!-- Final Strategy Action Prompt -->
+  <div class="action-box">
+    <div class="action-title">✨ Direct Creative Integration Plan</div>
+    The foundational structure for the Detective Qigiq campaign is locked in. By leveraging dark, chilling visual textures combined with tactical pacing, the campaign will capture the targeted crime and procedural readership. We are prepared to initiate asset deployment and begin formatting the launch templates immediately.
+  </div>
+
+  <!-- Quick Assets Access Links -->
+  <div class="section-block">
+    <div class="sec-label">🔗 Campaign Resources Portal</div>
+    <div class="links-grid">
+      <a href="#" class="drw-link">📋 Strategic Narrative Blueprint</a>
+      <a href="#" class="drw-link">🗺️ 1-Month Marketing Calendar</a>
+      <a href="#" class="drw-link">🎬 Visual Hook Script Repository</a>
+      <a href="#" class="drw-link">📁 Creative Asset Production Folder</a>
+    </div>
+  </div>
+
+</main>
+
+<footer class="footer">
+  <div class="footer-brand">Atomic <em style="color:var(--ice);">Shelf</em></div>
+  <div class="footer-sub">Reza M. Campaign Architecture — Detective Qigiq Series Launch Blueprint</div>
+</footer>
+
+<script>
+(function() {
+  const conceptTeasers = [
+    { title: "The Mind of Detective Qigiq: Introduction to the Noir Universe", tag: "Atmosphere Setting" },
+    { title: "Case File #001: The Clues That Left No Trace", tag: "Narrative Hook" },
+    { title: "The Cold Room: Uncovering Hidden Motives", tag: "Suspense Sequence" },
+    { title: "Anatomy of a Procedure: Crime Scene Breakdown", tag: "Investigative Arc" },
+    { title: "The Suspect Profiles: Psychological Tension Loop", tag: "Character Profile" },
+    { title: "Chilling Disclosures: The Final Piece of the Puzzle", tag: "Plot Teaser" }
+  ];
+
+  const container = document.getElementById('conceptList');
+  if(container) {
+    container.innerHTML = conceptTeasers.map((v, idx) => {
+      return `<div class="video-item">
+        <span class="video-num">${(idx+1).toString().padStart(2,'0')}</span>
+        <span class="video-title">${v.title}</span>
+        <span class="video-tag">${v.tag}</span>
+      </div>`;
+    }).join('');
+  }
+})();
+</script>
+</body>
+</html>

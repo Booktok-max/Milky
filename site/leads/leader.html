@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="AI-powered book marketing for indie authors — video production, reader-list apps, ARC review campaigns, listing optimization, and managed Amazon advertising."/>
+<title>Atomic Shelf — Your book deserves readers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,400;1,9..144,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --ink:      #1C1209;
+  --ink-mid:  #3A2410;
+  --paper:    #F5EDD8;
+  --paper-2:  #EDE0C4;
+  --paper-3:  #E5D7B8;
+  --copper:   #A8461E;
+  --copper-l: #C8673C;
+  --amber:    #B87820;
+  --teal:     #2E5A4E;
+  --card:     #FAF4E4;
+  --stone:    #5E4A30;
+  --muted:    #9A7E5C;
+  --rule:     rgba(28,18,9,0.13);
+  --r: 2px;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--paper);color:var(--ink);line-height:1.65;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+h1,h2,h3,h4{font-family:'Fraunces',serif;letter-spacing:-0.015em;}
+
+/* ── Sidebar nav ── */
+.sidenav{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:400;display:flex;flex-direction:column;background:rgba(245,237,216,0.9);backdrop-filter:blur(12px);border:1px solid var(--rule);border-right:none;border-radius:6px 0 0 6px;overflow:hidden;}
+.sidenav a{display:flex;align-items:center;gap:10px;padding:9px 16px 9px 13px;text-decoration:none;color:var(--stone);font-size:0.71rem;font-weight:500;transition:background 0.18s,color 0.18s;border-bottom:1px solid var(--rule);white-space:nowrap;}
+.sidenav a:last-child{border-bottom:none;}
+.sidenav a:hover{background:var(--paper-2);color:var(--ink);}
+.sidenav a.active{color:var(--copper);background:rgba(168,70,30,0.06);}
+.sidenav .dot{width:5px;height:5px;border-radius:50%;background:rgba(28,18,9,0.18);flex-shrink:0;transition:background 0.18s;}
+.sidenav a.active .dot{background:var(--copper);}
+.sidenav a:hover .dot{background:var(--stone);}
+@media(max-width:860px){.sidenav{display:none;}}
+
+/* ── Layout ── */
+.section{padding:9vh 8vw;position:relative;}
+.section-inner{max-width:1080px;margin:0 auto;width:100%;}
+.section.p1{background:var(--paper);}
+.section.p2{background:var(--paper-2);}
+.section.p3{background:var(--paper-3);}
+
+.eyebrow{font-family:'Fraunces',serif;font-style:italic;font-size:0.88rem;color:var(--copper);margin-bottom:1.6rem;display:flex;align-items:center;gap:0.8rem;}
+.eyebrow::after{content:'';flex:0 0 36px;height:1px;background:var(--copper);opacity:0.35;}
+
+.section-rule{border:none;border-top:1px solid var(--rule);}
+
+/* ── Reveal ── */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity 0.7s cubic-bezier(0.22,1,0.36,1),transform 0.7s cubic-bezier(0.22,1,0.36,1);}
+.reveal.in{opacity:1;transform:none;}
+.d1{transition-delay:0.1s;}.d2{transition-delay:0.2s;}.d3{transition-delay:0.32s;}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none;}}
+
+/* ── Buttons ── */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:0.82rem 1.85rem;border-radius:var(--r);font-size:0.86rem;font-weight:600;text-decoration:none;transition:all 0.2s;cursor:pointer;border:1.5px solid transparent;}
+.btn-copper{background:var(--copper);color:#fff;border-color:var(--copper);}
+.btn-copper:hover{background:var(--copper-l);border-color:var(--copper-l);transform:translateY(-1px);}
+.btn-ghost-light{border-color:rgba(245,237,216,0.28);color:var(--paper);}
+.btn-ghost-light:hover{border-color:rgba(245,237,216,0.6);color:#fff;}
+.btn-outline{border-color:var(--ink);color:var(--ink);}
+.btn-outline:hover{background:var(--ink);color:#fff;}
+
+/* ═══════════════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════════════ */
+#hero{background:var(--paper);min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:10vh 8vw 8vh;overflow:hidden;}
+.hero-layout{display:grid;grid-template-columns:1fr 440px;gap:4rem;align-items:center;max-width:1080px;margin:0 auto;width:100%;}
+@media(max-width:960px){.hero-layout{grid-template-columns:1fr;}}
+
+.hero-tag{display:inline-flex;align-items:center;gap:8px;font-size:0.73rem;color:var(--muted);margin-bottom:2rem;}
+.hero-tag-rule{width:24px;height:1px;background:var(--copper);opacity:0.5;}
+.hero-numeral{font-family:'Fraunces',serif;font-weight:700;font-size:clamp(5.5rem,14vw,10.5rem);line-height:0.9;letter-spacing:-0.045em;color:var(--ink);margin-bottom:1.6rem;}
+.hero-numeral .accent{color:var(--copper);}
+.hero-claim{font-family:'Fraunces',serif;font-weight:300;font-style:italic;font-size:clamp(1.2rem,2vw,1.6rem);color:var(--stone);max-width:34ch;line-height:1.6;margin-bottom:1rem;}
+.hero-sub{font-size:0.95rem;color:var(--muted);max-width:52ch;line-height:1.9;margin-bottom:2.6rem;}
+.hero-btns{display:flex;gap:0.85rem;flex-wrap:wrap;}
+
+/* ── Engraving illustration frame ── */
+.engrave-frame{position:relative;border:1px solid rgba(28,18,9,0.18);border-radius:3px;padding:0;overflow:hidden;background:var(--paper);}
+.engrave-frame svg{display:block;width:100%;height:auto;}
+
+/* ═══════════════════════════════════════════════════
+   BENEFIT ROWS
+═══════════════════════════════════════════════════ */
+.benefit-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:5rem;align-items:center;}
+.benefit-grid.flip{direction:rtl;}
+.benefit-grid.flip>*{direction:ltr;}
+@media(max-width:860px){.benefit-grid,.benefit-grid.flip{grid-template-columns:1fr;direction:ltr;gap:2.8rem;}}
+.benefit-body h2{font-size:clamp(2rem,3.8vw,3rem);font-weight:600;line-height:1.06;max-width:16ch;margin-bottom:1.4rem;}
+.benefit-body p{font-size:1rem;color:var(--stone);max-width:50ch;line-height:1.9;}
+.benefit-features{list-style:none;margin-top:1.6rem;}
+.benefit-features li{font-size:0.86rem;color:var(--stone);padding:0.45rem 0;border-top:1px solid var(--rule);display:flex;align-items:flex-start;gap:7px;}
+.benefit-features li::before{content:'›';color:var(--copper);flex-shrink:0;}
+.benefit-features li:first-child{border-top:none;}
+
+.stat-badge{display:inline-flex;align-items:baseline;gap:0.2rem;font-family:'Fraunces',serif;font-weight:700;font-size:clamp(2.8rem,5vw,4rem);color:var(--ink);letter-spacing:-0.04em;margin-bottom:0.4rem;}
+.stat-badge .s{color:var(--copper);}
+.stat-label-text{font-size:0.82rem;color:var(--muted);line-height:1.5;margin-bottom:1.4rem;}
+
+/* ═══════════════════════════════════════════════════
+   FUNNEL
+═══════════════════════════════════════════════════ */
+.funnel-head{font-size:clamp(2rem,4vw,3.2rem);font-weight:600;line-height:1.05;max-width:18ch;margin-bottom:2.8rem;}
+.funnel-step{display:grid;grid-template-columns:70px 1fr;gap:1.4rem;padding:1.7rem 0;border-top:1px solid var(--rule);align-items:start;}
+.funnel-step:last-child{border-bottom:1px solid var(--rule);}
+.funnel-index{font-family:'Fraunces',serif;font-style:italic;font-weight:300;font-size:2.2rem;color:var(--copper);line-height:1;padding-top:2px;}
+.funnel-step h4{font-size:1.08rem;font-weight:600;margin-bottom:0.3rem;}
+.funnel-step p{font-size:0.91rem;color:var(--stone);line-height:1.8;max-width:55ch;}
+
+/* ═══════════════════════════════════════════════════
+   APPS
+═══════════════════════════════════════════════════ */
+.apps-intro{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;margin-bottom:2.8rem;}
+@media(max-width:860px){.apps-intro{grid-template-columns:1fr;gap:1.4rem;}}
+.apps-intro h2{font-size:clamp(2rem,3.8vw,3rem);font-weight:600;line-height:1.06;max-width:16ch;}
+.apps-intro p{font-size:1rem;color:var(--stone);line-height:1.9;padding-top:0.4rem;}
+.app-cards{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;}
+@media(max-width:640px){.app-cards{grid-template-columns:1fr;}}
+.app-card{background:var(--card);border:1px solid var(--rule);border-radius:var(--r);padding:2.2rem;position:relative;overflow:hidden;transition:border-color 0.2s,transform 0.2s;}
+.app-card:hover{border-color:rgba(168,70,30,0.32);transform:translateY(-3px);}
+.app-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--copper),var(--amber));opacity:0;transition:opacity 0.2s;}
+.app-card:hover::after{opacity:1;}
+.app-genre{display:inline-block;font-size:0.7rem;font-weight:600;color:var(--copper);background:rgba(168,70,30,0.07);border-radius:99px;padding:3px 10px;margin-bottom:0.9rem;}
+.app-card h4{font-family:'Fraunces',serif;font-size:1.35rem;font-weight:600;margin-bottom:0.6rem;}
+.app-card p{font-size:0.89rem;color:var(--stone);line-height:1.8;}
+
+/* ═══════════════════════════════════════════════════
+   PRICING
+═══════════════════════════════════════════════════ */
+.pricing-head{font-size:clamp(2rem,3.8vw,3rem);font-weight:600;line-height:1.06;max-width:20ch;margin-bottom:1.1rem;}
+.pricing-sub{font-size:1rem;color:var(--stone);max-width:52ch;line-height:1.85;}
+.billing-toggle{display:inline-flex;background:var(--paper-3);border:1px solid var(--rule);border-radius:99px;padding:4px;gap:2px;margin:2rem 0 0.5rem;}
+.billing-btn{padding:0.46rem 1.05rem;border-radius:99px;font-size:0.75rem;font-weight:600;border:none;cursor:pointer;background:transparent;color:var(--muted);transition:all 0.2s;}
+.billing-btn.active{background:var(--card);color:var(--ink);box-shadow:0 1px 6px rgba(28,18,9,0.09);}
+.billing-note{font-size:0.79rem;color:var(--stone);margin-bottom:2rem;}
+.plans-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1rem;}
+@media(max-width:900px){.plans-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:580px){.plans-grid{grid-template-columns:1fr;}}
+.plan{background:var(--card);border:1px solid var(--rule);border-radius:var(--r);padding:2rem 1.8rem;display:flex;flex-direction:column;transition:border-color 0.2s,transform 0.2s;}
+.plan:hover{transform:translateY(-4px);border-color:rgba(168,70,30,0.3);}
+.plan.featured{border-color:var(--copper);background:#fff;position:relative;}
+.plan.featured::before{content:'Most popular';position:absolute;top:-1px;right:1.3rem;background:var(--copper);color:#fff;font-size:0.67rem;font-weight:700;padding:3px 10px;border-radius:0 0 6px 6px;letter-spacing:0.03em;}
+.plan-name{font-family:'Fraunces',serif;font-weight:600;font-size:1.12rem;margin-bottom:0.55rem;}
+.plan-price{font-family:'Fraunces',serif;font-weight:700;font-size:2.5rem;letter-spacing:-0.03em;line-height:1;}
+.plan-price-sub{display:block;font-size:0.75rem;color:var(--muted);margin-top:0.15rem;margin-bottom:0.9rem;}
+.plan-ad-badge{display:inline-flex;align-items:center;gap:5px;font-size:0.73rem;color:var(--copper);font-weight:600;background:rgba(168,70,30,0.07);border-radius:4px;padding:4px 9px;margin-bottom:1.1rem;}
+.plan ul{list-style:none;flex:1;margin-bottom:1.5rem;border-top:1px solid var(--rule);}
+.plan li{font-size:0.82rem;color:var(--stone);padding:0.42rem 0;border-bottom:1px solid var(--rule);display:flex;align-items:flex-start;gap:7px;}
+.plan li::before{content:'›';color:var(--copper);flex-shrink:0;}
+.plan-cta{display:block;text-align:center;padding:0.76rem;border-radius:var(--r);font-size:0.83rem;font-weight:600;text-decoration:none;border:1.5px solid var(--ink);color:var(--ink);transition:all 0.2s;}
+.plan-cta:hover{background:var(--ink);color:#fff;}
+.plan.featured .plan-cta{background:var(--copper);border-color:var(--copper);color:#fff;}
+.plan.featured .plan-cta:hover{background:var(--copper-l);border-color:var(--copper-l);}
+.enterprise-bar{background:var(--ink);border-radius:var(--r);padding:2.2rem 2.4rem;display:flex;justify-content:space-between;align-items:center;gap:2rem;flex-wrap:wrap;}
+.enterprise-bar h4{font-family:'Fraunces',serif;font-weight:600;font-size:1.25rem;color:#fff;}
+.enterprise-bar p{font-size:0.84rem;color:rgba(245,237,216,0.44);margin-top:0.3rem;max-width:46ch;}
+
+/* ── Close ── */
+#close{background:var(--paper-3);min-height:60vh;display:flex;flex-direction:column;justify-content:center;overflow:hidden;}
+#close .section-inner{position:relative;z-index:1;}
+#close h2{font-size:clamp(2.2rem,5vw,4rem);max-width:16ch;line-height:1.05;margin-bottom:1.3rem;}
+#close p{color:var(--stone);font-size:1rem;max-width:50ch;line-height:1.9;margin-bottom:2.2rem;}
+
+footer{background:var(--ink);color:rgba(245,237,216,0.3);padding:2rem 8vw;display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.6rem;font-size:0.77rem;border-top:1px solid rgba(245,237,216,0.07);}
+footer a{color:rgba(245,237,216,0.44);text-decoration:none;}
+footer a:hover{color:var(--copper-l);}
+</style>
+</head>
+<body>
+
+<!-- SVG defs (reusable patterns) — invisible, referenced throughout -->
+<svg width="0" height="0" style="position:absolute" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Hatching patterns at varying densities -->
+    <pattern id="h-fine" x="0" y="0" width="5" height="5" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="2.5" x2="5" y2="2.5" stroke="#3A2410" stroke-width="0.45"/>
+    </pattern>
+    <pattern id="h-med" x="0" y="0" width="4" height="4" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="2" x2="4" y2="2" stroke="#3A2410" stroke-width="0.6"/>
+    </pattern>
+    <pattern id="h-dense" x="0" y="0" width="2.8" height="2.8" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="1.4" x2="2.8" y2="1.4" stroke="#3A2410" stroke-width="0.7"/>
+    </pattern>
+    <pattern id="d-fine" x="0" y="0" width="7" height="7" patternUnits="userSpaceOnUse">
+      <line x1="-1" y1="8" x2="8" y2="-1" stroke="#3A2410" stroke-width="0.5"/>
+    </pattern>
+    <pattern id="d-med" x="0" y="0" width="5" height="5" patternUnits="userSpaceOnUse">
+      <line x1="-1" y1="6" x2="6" y2="-1" stroke="#3A2410" stroke-width="0.6"/>
+    </pattern>
+    <pattern id="d-dense" x="0" y="0" width="3.5" height="3.5" patternUnits="userSpaceOnUse">
+      <line x1="-1" y1="4.5" x2="4.5" y2="-1" stroke="#3A2410" stroke-width="0.7"/>
+    </pattern>
+    <pattern id="d-rev" x="0" y="0" width="7" height="7" patternUnits="userSpaceOnUse">
+      <line x1="-1" y1="-1" x2="8" y2="8" stroke="#3A2410" stroke-width="0.5"/>
+    </pattern>
+    <pattern id="x-fine" x="0" y="0" width="6" height="6" patternUnits="userSpaceOnUse">
+      <line x1="-1" y1="7" x2="7" y2="-1" stroke="#3A2410" stroke-width="0.45"/>
+      <line x1="-1" y1="-1" x2="7" y2="7" stroke="#3A2410" stroke-width="0.45"/>
+    </pattern>
+    <pattern id="x-med" x="0" y="0" width="4.5" height="4.5" patternUnits="userSpaceOnUse">
+      <line x1="-1" y1="5.5" x2="5.5" y2="-1" stroke="#3A2410" stroke-width="0.55"/>
+      <line x1="-1" y1="-1" x2="5.5" y2="5.5" stroke="#3A2410" stroke-width="0.55"/>
+    </pattern>
+    <pattern id="v-fine" x="0" y="0" width="5" height="5" patternUnits="userSpaceOnUse">
+      <line x1="2.5" y1="0" x2="2.5" y2="5" stroke="#3A2410" stroke-width="0.45"/>
+    </pattern>
+    <!-- Copper-tinted hatch for accent shapes -->
+    <pattern id="h-copper" x="0" y="0" width="4" height="4" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="2" x2="4" y2="2" stroke="#A8461E" stroke-width="0.55"/>
+    </pattern>
+    <pattern id="d-copper" x="0" y="0" width="5" height="5" patternUnits="userSpaceOnUse">
+      <line x1="-1" y1="6" x2="6" y2="-1" stroke="#A8461E" stroke-width="0.55"/>
+    </pattern>
+  </defs>
+</svg>
+
+<!-- ░░ Sidebar nav ░░ -->
+<nav class="sidenav" id="sidenav">
+  <a href="#hero"       data-section="hero"><span class="dot"></span>Open</a>
+  <a href="#production" data-section="production"><span class="dot"></span>Content</a>
+  <a href="#reviews"    data-section="reviews"><span class="dot"></span>Reviews</a>
+  <a href="#ads"        data-section="ads"><span class="dot"></span>Advertising</a>
+  <a href="#funnel"     data-section="funnel"><span class="dot"></span>How it works</a>
+  <a href="#apps"       data-section="apps"><span class="dot"></span>Reader apps</a>
+  <a href="#pricing"    data-section="pricing"><span class="dot"></span>Pricing</a>
+</nav>
+
+<!-- ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+     HERO
+░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ -->
+<section id="hero" class="section p1">
+  <div class="hero-layout">
+    <!-- Left: text -->
+    <div>
+      <div class="hero-tag reveal in">
+        <span class="hero-tag-rule"></span>
+        Atomic Shelf — book marketing for indie authors
+      </div>
+      <div class="hero-numeral reveal in" id="heroNum">3.2<span class="accent">×</span></div>
+      <p class="hero-claim reveal in d1">the average sales lift our authors see within 90 days of running the full stack.</p>
+      <p class="hero-sub reveal in d2">Video, reviews, reader lists, listing pages, and managed Amazon advertising — run as one connected system, not five separate vendors.</p>
+      <div class="hero-btns reveal in d3">
+        <a href="#pricing" class="btn btn-copper">See plans &amp; pricing</a>
+        <a href="#production" class="btn btn-outline">Read the chapters</a>
+      </div>
+    </div>
+
+    <!-- Right: engraved open book illustration -->
+    <div class="engrave-frame reveal in d2">
+      <svg viewBox="0 0 440 520" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;height:auto;">
+        <!-- Outer ornamental border (banknote style double rule) -->
+        <rect x="8" y="8" width="424" height="504" fill="none" stroke="#1C1209" stroke-width="1.2"/>
+        <rect x="12" y="12" width="416" height="496" fill="none" stroke="#1C1209" stroke-width="0.4"/>
+        <!-- Corner ornaments -->
+        <g stroke="#A8461E" stroke-width="0.7" fill="none" opacity="0.7">
+          <path d="M8,28 L8,8 L28,8"/>
+          <path d="M412,8 L432,8 L432,28"/>
+          <path d="M8,492 L8,512 L28,512"/>
+          <path d="M432,492 L432,512 L412,512"/>
+        </g>
+
+        <!-- Book spine (center vertical) -->
+        <rect x="215" y="62" width="10" height="396" fill="url(#x-med)" stroke="#1C1209" stroke-width="0.8"/>
+
+        <!-- Left page body -->
+        <path d="M70,68 Q142,54 215,62 L215,458 Q142,466 70,452 Z"
+              fill="url(#h-fine)" stroke="#1C1209" stroke-width="0.9"/>
+        <!-- Left page shadow near spine -->
+        <path d="M185,62 Q200,60 215,62 L215,458 Q200,460 185,458 Z"
+              fill="url(#h-med)" stroke="none" opacity="0.5"/>
+        <!-- Left page text lines (simulated typography) -->
+        <g stroke="#1C1209" stroke-width="0.5" opacity="0.35">
+          <line x1="88" y1="108" x2="196" y2="104"/>
+          <line x1="88" y1="118" x2="196" y2="114"/>
+          <line x1="88" y1="128" x2="196" y2="124"/>
+          <line x1="88" y1="138" x2="185" y2="134"/>
+          <line x1="88" y1="155" x2="196" y2="151"/>
+          <line x1="88" y1="165" x2="196" y2="161"/>
+          <line x1="88" y1="175" x2="190" y2="171"/>
+          <line x1="88" y1="185" x2="196" y2="181"/>
+          <line x1="88" y1="195" x2="182" y2="191"/>
+          <line x1="88" y1="212" x2="196" y2="208"/>
+          <line x1="88" y1="222" x2="196" y2="218"/>
+          <line x1="88" y1="232" x2="188" y2="228"/>
+          <line x1="88" y1="242" x2="196" y2="238"/>
+          <line x1="88" y1="252" x2="196" y2="248"/>
+          <line x1="88" y1="270" x2="196" y2="266"/>
+          <line x1="88" y1="280" x2="192" y2="276"/>
+          <line x1="88" y1="290" x2="196" y2="286"/>
+          <line x1="88" y1="300" x2="196" y2="296"/>
+          <line x1="88" y1="310" x2="180" y2="306"/>
+          <line x1="88" y1="327" x2="196" y2="323"/>
+          <line x1="88" y1="337" x2="196" y2="333"/>
+          <line x1="88" y1="347" x2="186" y2="343"/>
+          <line x1="88" y1="357" x2="196" y2="353"/>
+          <line x1="88" y1="375" x2="196" y2="371"/>
+          <line x1="88" y1="385" x2="196" y2="381"/>
+          <line x1="88" y1="395" x2="180" y2="391"/>
+          <line x1="88" y1="405" x2="196" y2="401"/>
+          <line x1="88" y1="415" x2="196" y2="411"/>
+          <line x1="88" y1="425" x2="185" y2="421"/>
+        </g>
+        <!-- Left page chapter drop cap area -->
+        <rect x="88" y="82" width="42" height="16" fill="url(#d-copper)" stroke="none" opacity="0.6"/>
+
+        <!-- Right page body -->
+        <path d="M225,62 Q298,54 370,68 L370,452 Q298,466 225,458 Z"
+              fill="url(#h-fine)" stroke="#1C1209" stroke-width="0.9"/>
+        <!-- Right page shadow near spine -->
+        <path d="M225,62 Q240,60 255,62 L255,458 Q240,460 225,458 Z"
+              fill="url(#h-med)" stroke="none" opacity="0.5"/>
+        <!-- Right page text lines -->
+        <g stroke="#1C1209" stroke-width="0.5" opacity="0.35">
+          <line x1="244" y1="108" x2="352" y2="104"/>
+          <line x1="244" y1="118" x2="352" y2="114"/>
+          <line x1="244" y1="128" x2="352" y2="124"/>
+          <line x1="244" y1="138" x2="345" y2="134"/>
+          <line x1="244" y1="155" x2="352" y2="151"/>
+          <line x1="244" y1="165" x2="352" y2="161"/>
+          <line x1="244" y1="175" x2="340" y2="171"/>
+          <line x1="244" y1="185" x2="352" y2="181"/>
+          <line x1="244" y1="195" x2="342" y2="191"/>
+          <line x1="244" y1="212" x2="352" y2="208"/>
+          <line x1="244" y1="222" x2="352" y2="218"/>
+          <line x1="244" y1="232" x2="338" y2="228"/>
+          <line x1="244" y1="242" x2="352" y2="238"/>
+          <line x1="244" y1="252" x2="350" y2="248"/>
+        </g>
+        <!-- Illustration on right page: stacked books / shelves -->
+        <g transform="translate(244,270)">
+          <!-- Shelf board -->
+          <rect x="0" y="120" width="108" height="6" fill="url(#h-dense)" stroke="#1C1209" stroke-width="0.6"/>
+          <!-- Book 1 (tall) -->
+          <rect x="6" y="70" width="18" height="50" fill="url(#v-fine)" stroke="#1C1209" stroke-width="0.7"/>
+          <rect x="6" y="70" width="18" height="6" fill="url(#h-med)" stroke="#1C1209" stroke-width="0.4"/>
+          <!-- Book 2 (wide) -->
+          <rect x="26" y="80" width="24" height="40" fill="url(#d-fine)" stroke="#1C1209" stroke-width="0.7"/>
+          <rect x="26" y="80" width="24" height="5" fill="url(#d-dense)" stroke="#1C1209" stroke-width="0.4"/>
+          <!-- Book 3 -->
+          <rect x="52" y="74" width="16" height="46" fill="url(#x-fine)" stroke="#1C1209" stroke-width="0.7"/>
+          <!-- Book 4 (open/leaning) -->
+          <path d="M70,120 L80,75 L86,75 L86,120 Z" fill="url(#d-med)" stroke="#1C1209" stroke-width="0.7"/>
+          <!-- Book 5 -->
+          <rect x="88" y="85" width="14" height="35" fill="url(#h-med)" stroke="#1C1209" stroke-width="0.7"/>
+          <rect x="88" y="85" width="14" height="5" fill="url(#h-dense)" stroke="#1C1209" stroke-width="0.4"/>
+          <!-- Shelf 2 above -->
+          <rect x="0" y="60" width="108" height="5" fill="url(#h-dense)" stroke="#1C1209" stroke-width="0.6"/>
+          <!-- Small books on shelf 2 -->
+          <rect x="4" y="32" width="10" height="28" fill="url(#v-fine)" stroke="#1C1209" stroke-width="0.6"/>
+          <rect x="16" y="36" width="14" height="24" fill="url(#d-fine)" stroke="#1C1209" stroke-width="0.6"/>
+          <rect x="32" y="30" width="8" height="30" fill="url(#x-fine)" stroke="#1C1209" stroke-width="0.6"/>
+          <rect x="42" y="34" width="12" height="26" fill="url(#h-fine)" stroke="#1C1209" stroke-width="0.6"/>
+          <rect x="56" y="28" width="10" height="32" fill="url(#d-med)" stroke="#1C1209" stroke-width="0.6"/>
+          <rect x="68" y="35" width="8" height="25" fill="url(#v-fine)" stroke="#1C1209" stroke-width="0.6"/>
+          <rect x="78" y="32" width="14" height="28" fill="url(#h-med)" stroke="#1C1209" stroke-width="0.6"/>
+          <rect x="94" y="37" width="10" height="23" fill="url(#d-fine)" stroke="#1C1209" stroke-width="0.6"/>
+          <!-- Stars row (rating motif) -->
+          <g stroke="#A8461E" stroke-width="0.8" fill="none" transform="translate(10,8)">
+            <polygon points="0,-7 1.7,-2.4 6.6,-2.4 2.7,0.9 4.1,5.6 0,2.9 -4.1,5.6 -2.7,0.9 -6.6,-2.4 -1.7,-2.4"/>
+            <polygon points="18,-7 19.7,-2.4 24.6,-2.4 20.7,0.9 22.1,5.6 18,2.9 13.9,5.6 15.3,0.9 11.4,-2.4 16.3,-2.4"/>
+            <polygon points="36,-7 37.7,-2.4 42.6,-2.4 38.7,0.9 40.1,5.6 36,2.9 31.9,5.6 33.3,0.9 29.4,-2.4 34.3,-2.4"/>
+            <polygon points="54,-7 55.7,-2.4 60.6,-2.4 56.7,0.9 58.1,5.6 54,2.9 49.9,5.6 51.3,0.9 47.4,-2.4 52.3,-2.4"/>
+            <polygon points="72,-7 73.7,-2.4 78.6,-2.4 74.7,0.9 76.1,5.6 72,2.9 67.9,5.6 69.3,0.9 65.4,-2.4 70.3,-2.4"/>
+          </g>
+        </g>
+
+        <!-- Top decorative header band -->
+        <rect x="70" y="56" width="300" height="8" fill="url(#d-copper)" stroke="none" opacity="0.5"/>
+
+        <!-- Ornamental wave at bottom (guilloche-style) -->
+        <g stroke="#A8461E" stroke-width="0.6" fill="none" opacity="0.45" transform="translate(70,466)">
+          <path d="M0,6 C10,0 20,12 30,6 C40,0 50,12 60,6 C70,0 80,12 90,6 C100,0 110,12 120,6 C130,0 140,12 150,6 C160,0 170,12 180,6 C190,0 200,12 210,6 C220,0 230,12 240,6 C250,0 260,12 270,6 C280,0 290,12 300,6"/>
+          <path d="M0,10 C10,4 20,16 30,10 C40,4 50,16 60,10 C70,4 80,16 90,10 C100,4 110,16 120,10 C130,4 140,16 150,10 C160,4 170,16 180,10 C190,4 200,16 210,10 C220,4 230,16 240,10 C250,4 260,16 270,10 C280,4 290,16 300,10"/>
+        </g>
+
+        <!-- "ATOMIC SHELF" micro label in engraved style -->
+        <text x="220" y="496" text-anchor="middle" font-family="'Fraunces',serif" font-style="italic" font-size="9" fill="#1C1209" opacity="0.4" letter-spacing="2">ATOMIC SHELF</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+     CHAPTER 1 — Video Production
+░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ -->
+<hr class="section-rule"/>
+<section class="section p1" id="production">
+  <div class="section-inner">
+    <div class="eyebrow reveal">Chapter One</div>
+    <div class="benefit-grid">
+      <div class="benefit-body reveal">
+        <h2>Video that a studio can't make at this pace</h2>
+        <p>Every script starts from your story and your genre's reader psychology, then goes through AI-engineered production and human creative direction. The result is consistent, on-brand video at a volume no traditional studio can sustain.</p>
+        <div class="stat-badge reveal d1">60<span class="s">+</span></div>
+        <div class="stat-label-text reveal d1">short-form videos produced monthly, minimum</div>
+        <ul class="benefit-features reveal d2">
+          <li>Book trailers &amp; long-form YouTube</li>
+          <li>Custom theme songs on higher tiers</li>
+          <li>Genre-calibrated scripts, every time</li>
+          <li>Multi-platform: TikTok, Shorts, Reels</li>
+        </ul>
+      </div>
+
+      <!-- Film reel engraving -->
+      <div class="engrave-frame reveal d1">
+        <svg viewBox="0 0 380 420" xmlns="http://www.w3.org/2000/svg">
+          <rect x="6" y="6" width="368" height="408" fill="none" stroke="#1C1209" stroke-width="1.1"/>
+          <rect x="10" y="10" width="360" height="400" fill="none" stroke="#1C1209" stroke-width="0.35"/>
+          <!-- Corner marks -->
+          <g stroke="#A8461E" stroke-width="0.6" fill="none" opacity="0.65">
+            <path d="M6,22 L6,6 L22,6"/><path d="M358,6 L374,6 L374,22"/>
+            <path d="M6,398 L6,414 L22,414"/><path d="M374,398 L374,414 L358,414"/>
+          </g>
+
+          <!-- Film strip left -->
+          <rect x="22" y="22" width="40" height="376" fill="url(#h-dense)" stroke="#1C1209" stroke-width="0.7"/>
+          <!-- Sprocket holes left -->
+          <g fill="#F5EDD8" stroke="#1C1209" stroke-width="0.6">
+            <rect x="28" y="36" width="28" height="18" rx="2"/>
+            <rect x="28" y="70" width="28" height="18" rx="2"/>
+            <rect x="28" y="104" width="28" height="18" rx="2"/>
+            <rect x="28" y="138" width="28" height="18" rx="2"/>
+            <rect x="28" y="172" width="28" height="18" rx="2"/>
+            <rect x="28" y="206" width="28" height="18" rx="2"/>
+            <rect x="28" y="240" width="28" height="18" rx="2"/>
+            <rect x="28" y="274" width="28" height="18" rx="2"/>
+            <rect x="28" y="308" width="28" height="18" rx="2"/>
+            <rect x="28" y="342" width="28" height="18" rx="2"/>
+            <rect x="28" y="362" width="28" height="18" rx="2"/>
+          </g>
+          <!-- Film strip right -->
+          <rect x="318" y="22" width="40" height="376" fill="url(#h-dense)" stroke="#1C1209" stroke-width="0.7"/>
+          <!-- Sprocket holes right -->
+          <g fill="#F5EDD8" stroke="#1C1209" stroke-width="0.6">
+            <rect x="324" y="36" width="28" height="18" rx="2"/>
+            <rect x="324" y="70" width="28" height="18" rx="2"/>
+            <rect x="324" y="104" width="28" height="18" rx="2"/>
+            <rect x="324" y="138" width="28" height="18" rx="2"/>
+            <rect x="324" y="172" width="28" height="18" rx="2"/>
+            <rect x="324" y="206" width="28" height="18" rx="2"/>
+            <rect x="324" y="240" width="28" height="18" rx="2"/>
+            <rect x="324" y="274" width="28" height="18" rx="2"/>
+            <rect x="324" y="308" width="28" height="18" rx="2"/>
+            <rect x="324" y="342" width="28" height="18" rx="2"/>
+            <rect x="324" y="362" width="28" height="18" rx="2"/>
+          </g>
+
+          <!-- Main frame: large film reel -->
+          <circle cx="190" cy="210" r="148" fill="url(#h-fine)" stroke="#1C1209" stroke-width="1"/>
+          <!-- Reel hub -->
+          <circle cx="190" cy="210" r="38" fill="url(#x-med)" stroke="#1C1209" stroke-width="0.9"/>
+          <circle cx="190" cy="210" r="14" fill="#F5EDD8" stroke="#1C1209" stroke-width="0.8"/>
+          <!-- Reel spokes -->
+          <g stroke="#1C1209" stroke-width="1.8" fill="none">
+            <line x1="190" y1="172" x2="190" y2="70"/>
+            <line x1="190" y1="248" x2="190" y2="350"/>
+            <line x1="152" y1="189" x2="62" y2="140"/>
+            <line x1="228" y1="231" x2="318" y2="280"/>
+            <line x1="152" y1="231" x2="62" y2="280"/>
+            <line x1="228" y1="189" x2="318" y2="140"/>
+          </g>
+          <!-- Spoke hatching -->
+          <g fill="url(#d-dense)" stroke="none" opacity="0.7">
+            <polygon points="190,172 184,186 196,186"/>
+            <polygon points="190,248 184,234 196,234"/>
+            <polygon points="152,189 158,200 166,192"/>
+            <polygon points="228,231 222,220 214,228"/>
+            <polygon points="152,231 165,226 158,214"/>
+            <polygon points="228,189 215,194 222,206"/>
+          </g>
+          <!-- Reel perforations ring -->
+          <circle cx="190" cy="210" r="100" fill="none" stroke="#1C1209" stroke-width="0.5" stroke-dasharray="4,8"/>
+          <circle cx="190" cy="210" r="120" fill="none" stroke="#1C1209" stroke-width="0.4" stroke-dasharray="2,12"/>
+
+          <!-- Play triangle in center -->
+          <polygon points="182,200 182,220 202,210" fill="url(#d-copper)" stroke="#A8461E" stroke-width="0.8"/>
+
+          <!-- Decorative guilloche ring -->
+          <g stroke="#A8461E" stroke-width="0.5" fill="none" opacity="0.4">
+            <path d="M190,62 C200,80 215,74 220,90 C225,106 210,112 210,128 C210,144 225,150 220,166 C215,182 200,176 190,192"/>
+            <path d="M190,62 C180,80 165,74 160,90 C155,106 170,112 170,128 C170,144 155,150 160,166 C165,182 180,176 190,192"/>
+          </g>
+
+          <!-- Label text in banner across reel -->
+          <path id="arcTop" d="M100,210 A90,90 0 0,1 280,210" fill="none"/>
+          <text font-family="'Fraunces',serif" font-style="italic" font-size="10" fill="#1C1209" opacity="0.5" letter-spacing="1.5">
+            <textPath href="#arcTop" startOffset="50%" text-anchor="middle">VIDEO PRODUCTION</textPath>
+          </text>
+          <path id="arcBot" d="M100,210 A90,90 0 0,0 280,210" fill="none"/>
+          <text font-family="'Fraunces',serif" font-style="italic" font-size="9" fill="#1C1209" opacity="0.4" letter-spacing="1">
+            <textPath href="#arcBot" startOffset="50%" text-anchor="middle">ATOMIC SHELF</textPath>
+          </text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+     CHAPTER 2 — Reviews
+░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ -->
+<hr class="section-rule"/>
+<section class="section p2" id="reviews">
+  <div class="section-inner">
+    <div class="eyebrow reveal">Chapter Two</div>
+    <div class="benefit-grid flip">
+      <div class="benefit-body reveal">
+        <h2>Trust, before you spend a dollar on ads</h2>
+        <p>Strangers don't buy from an author with zero reviews. We recruit and manage advance reader copy campaigns so your listing has honest, early social proof — the thing every other channel depends on to convert.</p>
+        <div class="stat-badge reveal d1">50<span class="s">+</span></div>
+        <div class="stat-label-text reveal d1">reviews targeted per ARC campaign at our top tier</div>
+        <ul class="benefit-features reveal d2">
+          <li>Readers recruited from our own network</li>
+          <li>Genre-matched, briefed, and followed up</li>
+          <li>Built before your ads ever launch</li>
+          <li>Honest reviews — no incentivised ratings</li>
+        </ul>
+      </div>
+
+      <!-- Quill & stars engraving -->
+      <div class="engrave-frame reveal d1">
+        <svg viewBox="0 0 380 420" xmlns="http://www.w3.org/2000/svg">
+          <rect x="6" y="6" width="368" height="408" fill="none" stroke="#1C1209" stroke-width="1.1"/>
+          <rect x="10" y="10" width="360" height="400" fill="none" stroke="#1C1209" stroke-width="0.35"/>
+          <g stroke="#A8461E" stroke-width="0.6" fill="none" opacity="0.65">
+            <path d="M6,22 L6,6 L22,6"/><path d="M358,6 L374,6 L374,22"/>
+            <path d="M6,398 L6,414 L22,414"/><path d="M374,398 L374,414 L358,414"/>
+          </g>
+
+          <!-- Background hatch -->
+          <rect x="22" y="22" width="336" height="376" fill="url(#h-fine)" opacity="0.3"/>
+
+          <!-- Ink inkwell -->
+          <ellipse cx="130" cy="330" rx="48" ry="20" fill="url(#x-med)" stroke="#1C1209" stroke-width="0.8"/>
+          <path d="M82,330 L90,280 Q130,260 170,280 L178,330 Z" fill="url(#x-fine)" stroke="#1C1209" stroke-width="0.8"/>
+          <ellipse cx="130" cy="280" rx="40" ry="10" fill="url(#h-dense)" stroke="#1C1209" stroke-width="0.7"/>
+          <!-- Ink surface shimmer -->
+          <ellipse cx="130" cy="280" rx="28" ry="5" fill="url(#d-copper)" stroke="none" opacity="0.5"/>
+
+          <!-- Quill feather -->
+          <g transform="translate(190,60) rotate(-35)">
+            <!-- Quill shaft -->
+            <line x1="0" y1="0" x2="0" y2="240" stroke="#1C1209" stroke-width="1.2"/>
+            <!-- Left vane barbs -->
+            <g stroke="#1C1209" stroke-width="0.5" opacity="0.8">
+              <line x1="0" y1="20" x2="-32" y2="36"/>
+              <line x1="0" y1="30" x2="-38" y2="48"/>
+              <line x1="0" y1="40" x2="-44" y2="62"/>
+              <line x1="0" y1="50" x2="-48" y2="76"/>
+              <line x1="0" y1="60" x2="-50" y2="90"/>
+              <line x1="0" y1="70" x2="-50" y2="104"/>
+              <line x1="0" y1="80" x2="-48" y2="118"/>
+              <line x1="0" y1="90" x2="-46" y2="128"/>
+              <line x1="0" y1="100" x2="-42" y2="138"/>
+              <line x1="0" y1="110" x2="-38" y2="146"/>
+              <line x1="0" y1="120" x2="-32" y2="152"/>
+              <line x1="0" y1="130" x2="-24" y2="154"/>
+              <line x1="0" y1="140" x2="-16" y2="152"/>
+              <line x1="0" y1="150" x2="-8" y2="160"/>
+            </g>
+            <!-- Right vane barbs -->
+            <g stroke="#1C1209" stroke-width="0.5" opacity="0.8">
+              <line x1="0" y1="20" x2="24" y2="32"/>
+              <line x1="0" y1="30" x2="30" y2="44"/>
+              <line x1="0" y1="40" x2="35" y2="58"/>
+              <line x1="0" y1="50" x2="38" y2="72"/>
+              <line x1="0" y1="60" x2="40" y2="86"/>
+              <line x1="0" y1="70" x2="40" y2="100"/>
+              <line x1="0" y1="80" x2="38" y2="114"/>
+              <line x1="0" y1="90" x2="36" y2="124"/>
+              <line x1="0" y1="100" x2="32" y2="132"/>
+              <line x1="0" y1="110" x2="26" y2="138"/>
+              <line x1="0" y1="120" x2="18" y2="142"/>
+              <line x1="0" y1="130" x2="10" y2="140"/>
+            </g>
+            <!-- Quill tip (nib) -->
+            <path d="M-4,200 L0,240 L4,200 Q0,210 -4,200" fill="url(#d-dense)" stroke="#1C1209" stroke-width="0.6"/>
+          </g>
+
+          <!-- Five stars row -->
+          <g stroke="#A8461E" stroke-width="1" fill="url(#d-copper)" opacity="0.85" transform="translate(50,360)">
+            <polygon points="0,-12 2.9,-4.1 11.4,-4.1 4.7,1.6 7.2,9.7 0,4.9 -7.2,9.7 -4.7,1.6 -11.4,-4.1 -2.9,-4.1"/>
+            <polygon points="30,-12 32.9,-4.1 41.4,-4.1 34.7,1.6 37.2,9.7 30,4.9 22.8,9.7 25.3,1.6 18.6,-4.1 27.1,-4.1"/>
+            <polygon points="60,-12 62.9,-4.1 71.4,-4.1 64.7,1.6 67.2,9.7 60,4.9 52.8,9.7 55.3,1.6 48.6,-4.1 57.1,-4.1"/>
+            <polygon points="90,-12 92.9,-4.1 101.4,-4.1 94.7,1.6 97.2,9.7 90,4.9 82.8,9.7 85.3,1.6 78.6,-4.1 87.1,-4.1"/>
+            <polygon points="120,-12 122.9,-4.1 131.4,-4.1 124.7,1.6 127.2,9.7 120,4.9 112.8,9.7 115.3,1.6 108.6,-4.1 117.1,-4.1"/>
+          </g>
+          <!-- ARC label -->
+          <text x="190" y="388" text-anchor="middle" font-family="'Fraunces',serif" font-style="italic" font-size="10" fill="#1C1209" opacity="0.4" letter-spacing="2">ADVANCE READER COPY</text>
+
+          <!-- Ornamental divider top -->
+          <g stroke="#A8461E" stroke-width="0.6" fill="none" opacity="0.4" transform="translate(50,32)">
+            <line x1="0" y1="6" x2="108" y2="6"/>
+            <circle cx="114" cy="6" r="3"/>
+            <line x1="120" y1="6" x2="160" y2="6"/>
+            <circle cx="166" cy="6" r="5"/>
+            <line x1="172" y1="6" x2="212" y2="6"/>
+            <circle cx="218" cy="6" r="3"/>
+            <line x1="224" y1="6" x2="280" y2="6"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+     CHAPTER 3 — Advertising
+░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ -->
+<hr class="section-rule"/>
+<section class="section p1" id="ads">
+  <div class="section-inner">
+    <div class="eyebrow reveal">Chapter Three</div>
+    <div class="benefit-grid">
+      <div class="benefit-body reveal">
+        <h2>Ad management you approve, not operate</h2>
+        <p>From Momentum upward, your subscription includes a managed advertising budget. Our team deploys and optimizes it across Amazon's advertising ecosystem, retargeting every warm viewer your content built at the exact moment purchase intent peaks.</p>
+        <div class="stat-badge reveal d1">+20<span class="s">%</span></div>
+        <div class="stat-label-text reveal d1">average listing conversion lift after optimization</div>
+        <ul class="benefit-features reveal d2">
+          <li>Certified Amazon Advertising Partner</li>
+          <li>A+ listing builds included at every ad tier</li>
+          <li>Full attribution, fed back into the system</li>
+          <li>No wasted spend on cold audiences</li>
+        </ul>
+      </div>
+
+      <!-- Compass & rising chart engraving -->
+      <div class="engrave-frame reveal d1">
+        <svg viewBox="0 0 380 420" xmlns="http://www.w3.org/2000/svg">
+          <rect x="6" y="6" width="368" height="408" fill="none" stroke="#1C1209" stroke-width="1.1"/>
+          <rect x="10" y="10" width="360" height="400" fill="none" stroke="#1C1209" stroke-width="0.35"/>
+          <g stroke="#A8461E" stroke-width="0.6" fill="none" opacity="0.65">
+            <path d="M6,22 L6,6 L22,6"/><path d="M358,6 L374,6 L374,22"/>
+            <path d="M6,398 L6,414 L22,414"/><path d="M374,398 L374,414 L358,414"/>
+          </g>
+
+          <!-- Grid background (chart paper feel) -->
+          <g stroke="#1C1209" stroke-width="0.3" opacity="0.14">
+            <line x1="22" y1="80" x2="358" y2="80"/>
+            <line x1="22" y1="140" x2="358" y2="140"/>
+            <line x1="22" y1="200" x2="358" y2="200"/>
+            <line x1="22" y1="260" x2="358" y2="260"/>
+            <line x1="22" y1="320" x2="358" y2="320"/>
+            <line x1="80" y1="22" x2="80" y2="398"/>
+            <line x1="140" y1="22" x2="140" y2="398"/>
+            <line x1="200" y1="22" x2="200" y2="398"/>
+            <line x1="260" y1="22" x2="260" y2="398"/>
+            <line x1="320" y1="22" x2="320" y2="398"/>
+          </g>
+
+          <!-- Large compass rose -->
+          <g transform="translate(190,195)">
+            <!-- Outer circle -->
+            <circle cx="0" cy="0" r="130" fill="url(#h-fine)" stroke="#1C1209" stroke-width="0.8"/>
+            <circle cx="0" cy="0" r="120" fill="none" stroke="#1C1209" stroke-width="0.35"/>
+            <circle cx="0" cy="0" r="108" fill="none" stroke="#1C1209" stroke-width="0.35"/>
+            <!-- Degree ticks (every 15°) -->
+            <g stroke="#1C1209" stroke-width="0.6">
+              <line x1="0" y1="-108" x2="0" y2="-120"/>
+              <line x1="54" y1="-93.5" x2="58" y2="-100.6"/>
+              <line x1="93.5" y1="-54" x2="100.6" y2="-58"/>
+              <line x1="108" y1="0" x2="120" y2="0"/>
+              <line x1="93.5" y1="54" x2="100.6" y2="58"/>
+              <line x1="54" y1="93.5" x2="58" y2="100.6"/>
+              <line x1="0" y1="108" x2="0" y2="120"/>
+              <line x1="-54" y1="93.5" x2="-58" y2="100.6"/>
+              <line x1="-93.5" y1="54" x2="-100.6" y2="58"/>
+              <line x1="-108" y1="0" x2="-120" y2="0"/>
+              <line x1="-93.5" y1="-54" x2="-100.6" y2="-58"/>
+              <line x1="-54" y1="-93.5" x2="-58" y2="-100.6"/>
+            </g>
+            <!-- Cardinal spikes N S E W -->
+            <polygon points="0,-130 -10,-30 0,-14 10,-30" fill="url(#d-dense)" stroke="#1C1209" stroke-width="0.7"/>
+            <polygon points="0,130 -10,30 0,14 10,30" fill="url(#h-med)" stroke="#1C1209" stroke-width="0.7"/>
+            <polygon points="130,0 30,-10 14,0 30,10" fill="url(#h-med)" stroke="#1C1209" stroke-width="0.7"/>
+            <polygon points="-130,0 -30,-10 -14,0 -30,10" fill="url(#h-med)" stroke="#1C1209" stroke-width="0.7"/>
+            <!-- Ordinal spikes (NE SW etc) -->
+            <polygon points="92,-92 20,-36 12,-12 36,-20" fill="url(#d-copper)" stroke="#A8461E" stroke-width="0.6" opacity="0.7"/>
+            <polygon points="-92,92 -20,36 -12,12 -36,20" fill="url(#d-copper)" stroke="#A8461E" stroke-width="0.6" opacity="0.7"/>
+            <polygon points="92,92 20,36 12,12 36,20" fill="url(#d-fine)" stroke="#1C1209" stroke-width="0.6"/>
+            <polygon points="-92,-92 -20,-36 -12,-12 -36,-20" fill="url(#d-fine)" stroke="#1C1209" stroke-width="0.6"/>
+            <!-- Hub circle -->
+            <circle cx="0" cy="0" r="14" fill="url(#x-med)" stroke="#1C1209" stroke-width="0.8"/>
+            <circle cx="0" cy="0" r="6" fill="#F5EDD8" stroke="#1C1209" stroke-width="0.6"/>
+            <!-- N label -->
+            <text x="0" y="-136" text-anchor="middle" font-family="'Fraunces',serif" font-style="italic" font-size="11" fill="#1C1209" opacity="0.7">N</text>
+          </g>
+
+          <!-- Rising bar chart bottom overlay -->
+          <g transform="translate(36,370)" opacity="0.75">
+            <!-- Bars rising left to right -->
+            <rect x="0"   y="-30" width="22" height="30" fill="url(#d-fine)" stroke="#1C1209" stroke-width="0.6"/>
+            <rect x="28"  y="-48" width="22" height="48" fill="url(#d-med)" stroke="#1C1209" stroke-width="0.6"/>
+            <rect x="56"  y="-62" width="22" height="62" fill="url(#d-dense)" stroke="#1C1209" stroke-width="0.6"/>
+            <rect x="84"  y="-78" width="22" height="78" fill="url(#x-fine)" stroke="#1C1209" stroke-width="0.6"/>
+            <rect x="112" y="-95" width="22" height="95" fill="url(#x-med)" stroke="#1C1209" stroke-width="0.6"/>
+            <rect x="140" y="-110" width="22" height="110" fill="url(#d-dense)" stroke="#1C1209" stroke-width="0.6"/>
+            <rect x="168" y="-124" width="22" height="124" fill="url(#x-med)" stroke="#1C1209" stroke-width="0.6"/>
+            <rect x="196" y="-136" width="22" height="136" fill="url(#x-fine)" stroke="#1C1209" stroke-width="0.6"/>
+            <!-- +20% arrow marker -->
+            <g stroke="#A8461E" stroke-width="1" fill="none">
+              <line x1="230" y1="-136" x2="280" y2="-136"/>
+              <line x1="275" y1="-141" x2="280" y2="-136" />
+              <line x1="275" y1="-131" x2="280" y2="-136"/>
+            </g>
+            <text x="236" y="-142" font-family="'Fraunces',serif" font-style="italic" font-size="9" fill="#A8461E" opacity="0.9">+20%</text>
+            <!-- Baseline -->
+            <line x1="-4" y1="0" x2="224" y2="0" stroke="#1C1209" stroke-width="0.8"/>
+          </g>
+
+          <!-- Label arc -->
+          <path id="compassArc" d="M90,195 A100,100 0 0,1 290,195" fill="none"/>
+          <text font-family="'Fraunces',serif" font-style="italic" font-size="9" fill="#1C1209" opacity="0.4" letter-spacing="1.5">
+            <textPath href="#compassArc" startOffset="50%" text-anchor="middle">MANAGED ADVERTISING</textPath>
+          </text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+     FUNNEL
+░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ -->
+<section class="section p2" id="funnel">
+  <div class="section-inner">
+    <div class="eyebrow reveal">How it fits together</div>
+    <h2 class="funnel-head reveal">Every stage feeds the next one</h2>
+    <div>
+      <div class="funnel-step reveal"><div class="funnel-index">i</div><div><h4>Content deploys</h4><p>Genre-calibrated video goes live across TikTok, YouTube Shorts, and Reels — optimized for discovery in your exact niche.</p></div></div>
+      <div class="funnel-step reveal d1"><div class="funnel-index">ii</div><div><h4>Reviews land</h4><p>ARC readers leave the early, honest reviews that give your listing credibility with strangers who've never heard of you.</p></div></div>
+      <div class="funnel-step reveal d1"><div class="funnel-index">iii</div><div><h4>The listing converts</h4><p>Optimized copy, A+ banners, and social proof turn the traffic content and reviews send into completed purchases.</p></div></div>
+      <div class="funnel-step reveal d2"><div class="funnel-index">iv</div><div><h4>Reader lists compound</h4><p>ShelfMates and StoryPals grow an owned audience you can reach again at zero marginal ad cost on every future release.</p></div></div>
+      <div class="funnel-step reveal d2"><div class="funnel-index">v</div><div><h4>Advertising closes the sale</h4><p>Managed campaigns retarget warm readers right when purchase intent peaks, and every sale feeds attribution data back into the loop.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+     APPS
+░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ -->
+<hr class="section-rule"/>
+<section class="section p1" id="apps">
+  <div class="section-inner">
+    <div class="eyebrow reveal">Proprietary tech</div>
+    <div class="apps-intro">
+      <h2 class="reveal">Reader lists built for your genre</h2>
+      <p class="reveal d1">Our in-house apps grow a real, owned reader list — the asset that keeps paying off long after a single launch window closes.</p>
+    </div>
+    <div class="app-cards">
+      <div class="app-card reveal d1">
+        <span class="app-genre">Adult fiction</span>
+        <h4>ShelfMates</h4>
+        <p>Reader-matching for romance, thriller, fantasy, and beyond. Authors get direct access to genre-tagged readers who've opted in to hear about new releases in exactly their niche.</p>
+      </div>
+      <div class="app-card reveal d2">
+        <span class="app-genre">Children's books</span>
+        <h4>StoryPals</h4>
+        <p>List-building for children's authors and parents, matching new picture books and early readers to families already looking in that age range and category.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+     PRICING
+░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ -->
+<section class="section p2" id="pricing">
+  <div class="section-inner">
+    <div class="eyebrow reveal">Plans</div>
+    <h2 class="pricing-head reveal">Your growth stack, priced for authors</h2>
+    <p class="pricing-sub reveal d1">Production, reviews, and listing work included at every paid tier. Momentum and above add a managed advertising budget we deploy on your behalf.</p>
+
+    <div class="reveal d1">
+      <div class="billing-toggle">
+        <button class="billing-btn active" onclick="setBilling('monthly',this)">Monthly</button>
+        <button class="billing-btn" onclick="setBilling('3month',this)">3 mo · 10% off</button>
+        <button class="billing-btn" onclick="setBilling('6month',this)">6 mo · 20% off</button>
+        <button class="billing-btn" onclick="setBilling('12month',this)">12 mo · 25% off</button>
+      </div>
+      <div class="billing-note" id="billingNote">Pay month-to-month. Cancel anytime.</div>
+    </div>
+
+    <div class="plans-grid reveal d2">
+      <div class="plan" data-base="79">
+        <div class="plan-name">Foundation</div>
+        <div class="plan-price">$79</div>
+        <span class="plan-price-sub">per month</span>
+        <ul>
+          <li>80 short-form videos monthly</li>
+          <li>1 professional book trailer</li>
+          <li>Listing copy audit &amp; rewrite</li>
+          <li>ShelfMates / StoryPals access</li>
+          <li>Content only — no ad spend</li>
+        </ul>
+        <a href="mailto:nick@atomic-shelf.com" class="plan-cta">Choose Foundation</a>
+      </div>
+      <div class="plan featured" data-base="249">
+        <div class="plan-name">Momentum</div>
+        <div class="plan-price">$249</div>
+        <span class="plan-price-sub">per month</span>
+        <div class="plan-ad-badge">$90/mo ad budget included</div>
+        <ul>
+          <li>All Foundation features</li>
+          <li>Full social media management</li>
+          <li>ARC campaign — 10 reviews targeted</li>
+          <li>Basic A+ listing build</li>
+        </ul>
+        <a href="mailto:nick@atomic-shelf.com" class="plan-cta">Select Momentum</a>
+      </div>
+      <div class="plan" data-base="499">
+        <div class="plan-name">Growth</div>
+        <div class="plan-price">$499</div>
+        <span class="plan-price-sub">per month</span>
+        <div class="plan-ad-badge">$300/mo ad budget included</div>
+        <ul>
+          <li>100+ premium videos monthly</li>
+          <li>2 cinematic trailers, 1 theme song</li>
+          <li>ARC campaign — 25 reviews targeted</li>
+          <li>Premium A+ listing build</li>
+        </ul>
+        <a href="mailto:nick@atomic-shelf.com" class="plan-cta">Join Growth</a>
+      </div>
+    </div>
+
+    <div class="enterprise-bar reveal d3">
+      <div>
+        <h4>Surge &amp; Orbit — for full-time authors and catalogues</h4>
+        <p>$899/mo for a dedicated team of four, or a bespoke dedicated advertising seat under your own brand at Orbit. Pricing is custom.</p>
+      </div>
+      <a href="mailto:nick@atomic-shelf.com" class="btn btn-copper">Talk to us</a>
+    </div>
+  </div>
+</section>
+
+<!-- ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+     CLOSE
+░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ -->
+<section class="section p3" id="close">
+  <div class="section-inner">
+    <!-- Engraved banner / seal motif -->
+    <div class="reveal" style="margin-bottom:2.4rem;">
+      <svg viewBox="0 0 600 80" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:600px;height:auto;display:block;">
+        <rect x="1" y="1" width="598" height="78" fill="none" stroke="#1C1209" stroke-width="0.8"/>
+        <rect x="4" y="4" width="592" height="72" fill="url(#h-fine)" stroke="none" opacity="0.25"/>
+        <g stroke="#A8461E" stroke-width="0.6" fill="none" opacity="0.5">
+          <line x1="1" y1="1" x2="22" y2="1"/>  <line x1="1" y1="1" x2="1" y2="18"/>
+          <line x1="578" y1="1" x2="599" y2="1"/> <line x1="599" y1="1" x2="599" y2="18"/>
+          <line x1="1" y1="62" x2="1" y2="79"/>  <line x1="1" y1="79" x2="22" y2="79"/>
+          <line x1="578" y1="79" x2="599" y2="79"/> <line x1="599" y1="62" x2="599" y2="79"/>
+        </g>
+        <!-- Guilloche wave top/bottom -->
+        <g stroke="#A8461E" stroke-width="0.5" fill="none" opacity="0.4">
+          <path d="M30,12 C42,6 54,18 66,12 C78,6 90,18 102,12 C114,6 126,18 138,12 C150,6 162,18 174,12 C186,6 198,18 210,12 C222,6 234,18 246,12 C258,6 270,18 282,12 C294,6 306,18 318,12 C330,6 342,18 354,12 C366,6 378,18 390,12 C402,6 414,18 426,12 C438,6 450,18 462,12 C474,6 486,18 498,12 C510,6 522,18 534,12 C546,6 558,18 570,12"/>
+          <path d="M30,68 C42,62 54,74 66,68 C78,62 90,74 102,68 C114,62 126,74 138,68 C150,62 162,74 174,68 C186,62 198,74 210,68 C222,62 234,74 246,68 C258,62 270,74 282,68 C294,62 306,74 318,68 C330,62 342,74 354,68 C366,62 378,74 390,68 C402,62 414,74 426,68 C438,62 450,74 462,68 C474,62 486,74 498,68 C510,62 522,74 534,68 C546,62 558,74 570,68"/>
+        </g>
+        <!-- Center text -->
+        <text x="300" y="46" text-anchor="middle" dominant-baseline="middle" font-family="'Fraunces',serif" font-style="italic" font-size="16" fill="#1C1209" letter-spacing="3">PUT THE WHOLE SYSTEM TO WORK</text>
+      </svg>
+    </div>
+    <h2 class="reveal">For your book.</h2>
+    <p class="reveal d1">Join 160+ authors running the full stack — content, reviews, reader lists, listing optimization, and managed advertising that compounds every month.</p>
+    <div class="hero-btns reveal d2">
+      <a href="#pricing" class="btn btn-copper">Choose your tier</a>
+      <a href="mailto:nick@atomic-shelf.com" class="btn btn-outline">Talk to us</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 Atomic Shelf. All rights reserved.</span>
+  <span><a href="mailto:nick@atomic-shelf.com">nick@atomic-shelf.com</a></span>
+</footer>
+
+<script>
+/* Reveal */
+const ro = new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('in')})},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+
+/* Count-up */
+(()=>{
+  const el=document.getElementById('heroNum'), t=3.2, dur=1800, s=performance.now();
+  function tick(n){const p=Math.min((n-s)/dur,1),e=1-Math.pow(1-p,3);el.innerHTML=(t*e).toFixed(1)+'<span class="accent">×</span>';if(p<1)requestAnimationFrame(tick);}
+  requestAnimationFrame(tick);
+})();
+
+/* Nav active */
+const secs=document.querySelectorAll('section[id]'), navLinks=document.querySelectorAll('.sidenav a');
+const ao=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){navLinks.forEach(l=>l.classList.remove('active'));const m=document.querySelector('.sidenav a[href="#'+x.target.id+'"]');if(m)m.classList.add('active');}})},{threshold:0.4});
+secs.forEach(s=>ao.observe(s));
+
+/* Pricing */
+const BILLING={monthly:{d:0,m:1},'3month':{d:.1,m:3},'6month':{d:.2,m:6},'12month':{d:.25,m:12}};
+const NOTES={monthly:'Pay month-to-month. Cancel anytime.','3month':'Billed every 3 months — 10% off.','6month':'Billed every 6 months — 20% off.','12month':'Billed annually — 25% off.'};
+function setBilling(period,btn){
+  document.querySelectorAll('.billing-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');
+  const{d,m}=BILLING[period];
+  document.querySelectorAll('.plan[data-base]').forEach(p=>{
+    const base=+p.dataset.base, pe=p.querySelector('.plan-price'), se=p.querySelector('.plan-price-sub');
+    if(m===1){pe.textContent='$'+base;se.textContent='per month';}
+    else{const dm=Math.round(base*(1-d)),tot=dm*m;pe.textContent='$'+tot.toLocaleString('en-US');se.textContent='total for '+m+' months ($'+dm+'/mo)';}
+  });
+  document.getElementById('billingNote').textContent=NOTES[period];
+}
+</script>
+</body>
+</html>

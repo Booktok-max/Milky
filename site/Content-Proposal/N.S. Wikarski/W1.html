@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Granite Key — Week 1 Launch | Arkana Thriller Content Calendar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  :root {
+    --stone-dark: #1f1b16;
+    --limestone: #e8e0d3;
+    --parchment: #f5efe7;
+    --sandstone: #d6cbbc;
+    --ochre: #b48c48;
+    --ochre-deep: #8b5e2c;
+    --slate: #5a4a3a;
+    --clay: #7a6852;
+    --ivory: #fefaf5;
+    --border-light: #ddd0be;
+    --glyph: #a5834b;
+  }
+
+  body {
+    background: var(--parchment);
+    color: var(--stone-dark);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.5;
+  }
+
+  /* ancient texture overlay */
+  .texture-bg {
+    position: fixed;
+    inset: 0;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" opacity="0.08"><path fill="none" d="M0 0 L400 0 L400 300 L0 300 Z" stroke="none"/><circle cx="30" cy="40" r="2" fill="%238b5e2c"/><circle cx="180" cy="120" r="1.5" fill="%238b5e2c"/><circle cx="340" cy="220" r="2" fill="%238b5e2c"/><path d="M10 280 L50 260 L90 275" stroke="%238b5e2c" stroke-width="0.6" fill="none"/><path d="M300 50 L340 40 L370 65" stroke="%238b5e2c" stroke-width="0.6" fill="none"/></svg>');
+    background-repeat: repeat;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 32px;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* hero */
+  .hero {
+    padding: 64px 0 32px;
+    border-bottom: 2px solid var(--border-light);
+    margin-bottom: 48px;
+  }
+
+  .series-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--limestone);
+    padding: 6px 20px 6px 18px;
+    border-radius: 40px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    color: var(--ochre-deep);
+    margin-bottom: 28px;
+    border: 1px solid var(--sandstone);
+  }
+
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(48px, 8vw, 88px);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--stone-dark);
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+
+  .hero-sub {
+    font-size: 18px;
+    color: var(--slate);
+    max-width: 680px;
+    margin-bottom: 36px;
+    border-left: 3px solid var(--ochre);
+    padding-left: 24px;
+    font-weight: 400;
+  }
+
+  .week-stats {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: end;
+    gap: 24px;
+    margin-top: 24px;
+  }
+
+  .week-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--ochre-deep);
+  }
+
+  .stat-group {
+    display: flex;
+    gap: 36px;
+  }
+
+  .stat {
+    text-align: center;
+  }
+  .stat-number {
+    font-weight: 700;
+    font-size: 28px;
+    color: var(--ochre-deep);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .stat-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 500;
+    color: var(--clay);
+  }
+
+  /* intro card */
+  .campaign-note {
+    background: var(--ivory);
+    border-radius: 24px;
+    padding: 32px 40px;
+    margin: 32px 0 56px;
+    border: 1px solid var(--border-light);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.02);
+  }
+  .campaign-note p {
+    font-size: 17px;
+    line-height: 1.55;
+    color: #2c241c;
+  }
+  .campaign-note strong {
+    color: var(--ochre-deep);
+    font-weight: 600;
+  }
+
+  /* calendar grid */
+  .calendar {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 80px;
+  }
+
+  /* card */
+  .video-card {
+    background: white;
+    border-radius: 20px;
+    border: 1px solid var(--border-light);
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    overflow: hidden;
+  }
+  .video-card:hover {
+    border-color: var(--ochre);
+    box-shadow: 0 12px 28px rgba(139,94,44,0.1);
+    transform: translateY(-2px);
+  }
+
+  .card-row {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .date-side {
+    background: var(--limestone);
+    width: 110px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 12px;
+    border-right: 1px solid var(--border-light);
+    text-align: center;
+  }
+  .date-daynum {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 46px;
+    font-weight: 600;
+    color: var(--ochre-deep);
+    line-height: 1;
+  }
+  .date-weekday {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--slate);
+    margin-top: 4px;
+  }
+  .vid-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    background: var(--sandstone);
+    padding: 3px 10px;
+    border-radius: 30px;
+    margin-top: 12px;
+    color: var(--stone-dark);
+    font-weight: 500;
+  }
+
+  .content-main {
+    flex: 1;
+    padding: 24px 28px;
+  }
+  .card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--stone-dark);
+    margin-bottom: 6px;
+  }
+  .card-hook {
+    font-size: 15px;
+    font-style: italic;
+    color: var(--ochre);
+    margin-bottom: 22px;
+    border-left: 3px solid var(--ochre);
+    padding-left: 14px;
+    font-weight: 500;
+  }
+
+  .two-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 26px;
+  }
+  .script-card {
+    background: var(--parchment);
+    border-radius: 16px;
+    padding: 16px 18px;
+    border: 1px solid #e2d5c4;
+  }
+  .script-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+  .script-header h4 {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--ochre-deep);
+  }
+  .copy-btn {
+    background: transparent;
+    border: 1px solid var(--border-light);
+    padding: 4px 12px;
+    border-radius: 40px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.2s;
+    color: var(--slate);
+  }
+  .copy-btn:hover {
+    background: var(--ochre-deep);
+    border-color: var(--ochre-deep);
+    color: white;
+  }
+  .copy-btn.copied {
+    background: #5f6b53;
+    border-color: #5f6b53;
+    color: white;
+  }
+  .script-text {
+    font-size: 14px;
+    line-height: 1.55;
+    color: #2f2a24;
+  }
+
+  @media (max-width: 720px) {
+    .container { padding: 0 20px; }
+    .two-columns { grid-template-columns: 1fr; gap: 18px; }
+    .date-side { width: 90px; padding: 16px 8px; }
+    .content-main { padding: 20px; }
+    .campaign-note { padding: 24px; }
+    .stat-group { gap: 24px; }
+  }
+  @media (max-width: 550px) {
+    .card-row { flex-direction: column; }
+    .date-side { width: 100%; flex-direction: row; justify-content: space-between; border-right: none; border-bottom: 1px solid var(--border-light); padding: 12px 20px; }
+    .vid-number { margin-top: 0; }
+  }
+
+  footer {
+    border-top: 1px solid var(--border-light);
+    padding: 48px 32px;
+    text-align: center;
+    background: var(--limestone);
+    margin-top: 40px;
+  }
+  .footer-glyph {
+    font-size: 26px;
+    color: var(--ochre);
+    margin-bottom: 12px;
+    opacity: 0.7;
+  }
+  @keyframes fadeSlide {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .video-card {
+    animation: fadeSlide 0.45s ease forwards;
+    opacity: 0;
+  }
+</style>
+</head>
+<body>
+<div class="texture-bg"></div>
+<div class="container">
+  <div class="hero">
+    <div class="series-badge">
+      <span>🗝️</span> ARKANA ARCHAEOLOGY THRILLERS · BOOK 1
+    </div>
+    <h1>The Granite Key</h1>
+    <div class="hero-sub">
+      N.S. Wikarski — A lost artifact. A coded truth. A secret society & a deadly cult.<br>
+      Week 1 content proposal for YouTube & TikTok Shorts · 15 videos · 15–30s voiceovers.
+    </div>
+    <div class="week-stats">
+      <div class="week-title">Week One · The Key Unlocks</div>
+      <div class="stat-group">
+        <div class="stat"><div class="stat-number">15</div><div class="stat-label">short videos</div></div>
+        <div class="stat"><div class="stat-number">7 days</div><div class="stat-label">2/day + finale 3</div></div>
+        <div class="stat"><div class="stat-number">15–30s</div><div class="stat-label">voiceover length</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="campaign-note">
+    <p><strong>✦ Launch two days from today.</strong> Daily schedule: 2 videos per day (Mon–Sat) & 3 videos on Sunday. Each short teases ancient mysteries, secret societies, and high-stakes treasure-hunt suspense. Scripts are optimized for fast pacing, designed to hook thriller lovers, archaeological mystery fans, and readers of Dan Brown / Kate Quinn. Copy buttons let you grab ready-to-post voiceovers and YouTube descriptions. <strong>#TheGraniteKey #ArkanaSaga #ArchaeologyThriller</strong></p>
+  </div>
+
+  <div class="calendar" id="calendarRoot"></div>
+</div>
+
+<footer>
+  <div class="footer-glyph">⛏️ ⌛ ✦</div>
+  <div style="font-family:'Cormorant Garamond', serif; font-size: 20px;">The Granite Key — N.S. Wikarski</div>
+  <div style="font-size: 12px; margin-top: 10px; color: #5a4a3a;">Week 1 proposal · Book 1 of the Arkana Archaeology Thrillers · YouTube & TikTok ready</div>
+</footer>
+
+<script>
+  // start date: two days from now
+  const startDate = new Date();
+  startDate.setDate(startDate.getDate() + 2);
+  const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  
+  // helper to format: "May 21"
+  function formatDate(offset) {
+    const d = new Date(startDate);
+    d.setDate(startDate.getDate() + offset);
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  }
+  function getWeekday(offset) {
+    const d = new Date(startDate);
+    d.setDate(startDate.getDate() + offset);
+    return weekdays[d.getDay()];
+  }
+
+  // video data: dayOffset (0=day1), title, hook, script, description
+  const videos = [
+    { day:0, order:1, title:"The Murder That Started Everything", hook:"A shopkeeper dies over a strange stone — and a 3,000-year hunt begins.", script:"A quiet shop. A brutal murder. The only clue? A granite key carved with symbols no one can read. Cassie doesn't know it yet, but her sister's death wasn't random — it was a warning. 'The Granite Key' by N.S. Wikarski launches the Arkana Saga. If you love ancient secrets and deadly cults, this thriller is for you.", description:"A murder, a mysterious artifact, and a secret society. Book 1 of the Arkana Archaeology Thrillers. The Granite Key — available on Kindle and paperback. #TheGraniteKey #ArkanaSaga #ArchaeologyThriller #N.S.Wikarski #BookTok" },
+    { day:0, order:2, title:"What Is the Granite Key?", hook:"Not just an artifact — it's the first clue to a lost civilization.", script:"The Granite Key is carved with symbols that predate the Minoans. It's a piece of a puzzle that could rewrite history — or unleash an ancient curse. Two factions race to claim it: the Arkana, protectors of forgotten truth, and a fanatical cult bent on world domination. Who will find the answers first? Start the hunt today.", description:"What secrets does the Granite Key hold? N.S. Wikarski blends archaeology, conspiracy, and pulse-pounding action. Download The Granite Key now. #GraniteKey #SecretHistory #ThrillerBooks #ArkanaSeries" },
+    { day:1, order:3, title:"Cassie's Nightmare Vision", hook:"She sees the future. And it terrifies her.", script:"Cassie has always had strange dreams. But when she dreams of glass breaking and her sister in danger — and it comes true — she realizes her gift might be real. But that gift makes her a target. The cult wants her. The Arkana needs her. And the truth about her bloodline will change everything.", description:"Psychic visions, ancient artifacts and a heroine caught between worlds. The Granite Key by N.S. Wikarski. Add to your TBR. #Cassie #PsychicThriller #ArchaeologyMystery #BookRecommendation" },
+    { day:1, order:4, title:"The Arkana: Guardians of Lost Truth", hook:"A secret society that has hidden history for millennia.", script:"Who is the Arkana? They've been safeguarding archaeological secrets for over two thousand years — evidence of matriarchal civilizations, advanced ancient tech, and the truth about human origins. They don't seek power. They seek the day when humanity is ready for the truth. But the cult known as the 'Raptors' wants to weaponize that knowledge.", description:"Secret societies, lost artifacts and a battle for the past. The Granite Key is book one of the Arkana Archaeology Thrillers. #ArkanaSociety #HiddenHistory #ThrillerReader #N.S.Wikarski" },
+    { day:2, order:5, title:"The Cult That Wants the End of Days", hook:"They believe the old gods are coming back — and we won't survive.", script:"The Fellowship — a violent extremist cult — believes the ancient gods were real and that the Granite Key can resurrect their reign. Led by a ruthless visionary, they'll kill anyone in their way. Cassie must stay ahead of them, but she's only one woman. Good thing she has the Arkana watching her back... mostly.", description:"A doomsday cult, a desperate heroine, and a race across the Mediterranean. Start the series with The Granite Key. #ThrillerNovel #CultSuspense #ArchaeologyAdventure" },
+    { day:2, order:6, title:"Crete: Island of Ancient Shadows", hook:"The hunt moves to the land of the Minotaur.", script:"From the streets of Chicago to the ruins of Knossos — Cassie follows the trail of the Granite Key to Crete. Ancient palaces, underground chambers, and a labyrinth of clues left by a forgotten priestess. But the cult is right behind her. History isn't just dusty books. It's a trap.", description:"Travel to Crete in this high-stakes archaeological thriller. The Granite Key — pulse-pounding mystery for fans of Dan Brown. #CreteMystery #ArchaeologicalThriller #TheGraniteKey" },
+    { day:3, order:7, title:"The Power of Psychometry", hook:"She touches an object — and sees its past.", script:"Cassie’s ability isn't just dreams. When she touches certain artifacts, she experiences their history: the hands that held them, the emotions, the violence. It’s a gift — and a curse. That's why the Arkana calls her 'The Key.' She might be the only one who can unlock the Granite Key’s true secret.", description:"Paranormal suspense meets historical mystery. The Granite Key is available on Kindle Unlimited. #Psychometry #ParanormalThriller #ArkanaSeries" },
+    { day:3, order:8, title:"Erik: The Protector With Secrets", hook:"He’s lethal, loyal, and hiding something.", script:"Erik is Arkana’s top field agent: ex-military, fiercely protective, and absolutely closed off. He guards Cassie not just because he's ordered to — but because he knows more about her family than he's telling. Their uneasy alliance might crack under pressure. Or it might save the world.", description:"Action, mystery and complex characters. The Granite Key is the start of an 8-book series. Grab your copy today. #ErikAndCassie #ThrillerRomance #ActionAdventureBooks" },
+    { day:4, order:9, title:"The Mountain Mother Cipher", hook:"One secret leads to another — a code hidden for centuries.", script:"The Granite Key points to a second artifact: the Mountain Mother Cipher. An astronomical riddle carved in stone. It reveals the location of something the cult will kill for — a weapon that can 'reset' civilization. But who built it? And why? The deeper Cassie digs, the more terrifying the truth becomes.", description:"Ancient codes, celestial puzzles and a race against time. Read The Granite Key now — Book 1 of the Arkana Archaeology Thrillers. #CodeBreaker #AncientMystery #N.S.Wikarski" },
+    { day:4, order:10, title:"Faye: The Matriarch of Arkana", hook:"She’s seen empires fall. She won't let this one.", script:"Faye leads the Arkana with quiet wisdom and steel resolve. She's been protecting ancient truths for decades. But the Fellowship is unlike any enemy she's faced — they believe the apocalypse is a good thing. To stop them, Faye must trust a young woman with nightmares she can't control and a future she never asked for.", description:"Strong female protagonists, hidden history, and edge-of-your-seat suspense. The Granite Key — 4.0 stars and over 1,200 reviews. #WomenWriters #HistoricalThriller #ArkanaSaga" },
+    { day:5, order:11, title:"What the Cult Believes", hook:"They want to destroy modern civilization — to bring back the old gods.", script:"The Fellowship preaches that a matriarchal golden age was destroyed by a flood — and that the 'old ones' will return if certain artifacts are assembled. They see genocide as purification. Cassie must stop them before they find the final piece. But to stop a monster, you have to understand it. And that's where things get dark.", description:"Dark cults, forbidden archaeology, and a heroine who refuses to back down. Start with The Granite Key. #CultThriller #ArchaeologyFiction #BookSeries" },
+    { day:5, order:12, title:"The Atlantis Connection", hook:"What if Atlantis wasn't a myth — but a warning?", script:"The Arkana believes that the legend of Atlantis records a real ancient civilization destroyed by cataclysm. And the Fellowship wants to repeat that destruction, believing it will cleanse humanity. The Granite Key might be the map to stop them — or the trigger that starts it all. History is a puzzle. The answer might kill us.", description:"Atlantis, ancient apocalypse and secret societies collide in this gripping thriller. The Granite Key by N.S. Wikarski. #AtlantisMystery #LostCivilization #ThrillerReads" },
+    { day:6, order:13, title:"Final Descent into the Labyrinth", hook:"The final clue lies beneath the earth.", script:"The cult has kidnapped someone Cassie loves. To save them, she must enter the subterranean labyrinth of an ancient temple — where the Granite Key's final secret waits. But the labyrinth is booby-trapped, pitch black, and the cult is already inside. This is no longer a treasure hunt. It's a fight for survival.", description:"Claustrophobic suspense, ancient traps and a heart-stopping finale. The Granite Key — available in Kindle, paperback and audiobook. #Labyrinth #ThrillerFinale #ActionPacked" },
+    { day:6, order:14, title:"The Revelation That Changes Everything", hook:"The truth about Cassie's bloodline — and humanity's forgotten past.", script:"In the heart of the labyrinth, Cassie discovers a mural depicting a world before patriarchy — where women led, peace reigned, and a cosmic event wiped it all out. The cult wants to erase modern society to bring that world back. But Cassie realizes: you can't heal the present by destroying it. She must choose: save the cult's 'truth' or save the future.", description:"Mind-blowing twists, archaeological speculation, and a heroine's ultimate choice. Don't miss The Granite Key. #Book1 #ArkanaSeries #MustReadThrillers" },
+    { day:6, order:15, title:"The Granite Key — Start the Hunt Today", hook:"Over 1,200 reviews. 4 stars. The series begins here.", script:"Three thousand years of secrets. Two rival societies. One woman who can unlock it all. The Granite Key by N.S. Wikarski is the thriller that readers call 'a fast-paced ride through history and danger.' Kindle, paperback, and Kindle Unlimited. If you love The Da Vinci Code, you'll devour this. Start the Arkana Saga tonight.", description:"The first book in the addictive Arkana Archaeology Thriller series. Praise: 'A real page turner' — Amazon reviewer. Get The Granite Key now. #TheGraniteKey #N.S.Wikarski #ArchaeologyMystery #ThrillerCommunity #BookTok" }
+  ];
+
+  const calendarDiv = document.getElementById('calendarRoot');
+  function buildCalendar() {
+    calendarDiv.innerHTML = '';
+    videos.forEach((v, idx) => {
+      const dateStr = formatDate(v.day);
+      const weekdayName = getWeekday(v.day);
+      const vidLabel = `Video ${v.order}`;
+      
+      const card = document.createElement('div');
+      card.className = 'video-card';
+      card.style.animationDelay = `${idx * 0.02}s`;
+      card.innerHTML = `
+        <div class="card-row">
+          <div class="date-side">
+            <div class="date-daynum">${dateStr.split(' ')[1]}</div>
+            <div class="date-weekday">${weekdayName}</div>
+            <div class="vid-number">${vidLabel}</div>
+          </div>
+          <div class="content-main">
+            <div class="card-title">${v.title}</div>
+            <div class="card-hook">“${v.hook}”</div>
+            <div class="two-columns">
+              <div class="script-card">
+                <div class="script-header">
+                  <h4>🎙️ Voiceover script · 15–30s</h4>
+                  <button class="copy-btn" data-script="${escapeHtml(v.script)}">Copy</button>
+                </div>
+                <div class="script-text">${escapeHtml(v.script)}</div>
+              </div>
+              <div class="script-card">
+                <div class="script-header">
+                  <h4>📝 YouTube description + hashtags</h4>
+                  <button class="copy-btn" data-script="${escapeHtml(v.description)}">Copy</button>
+                </div>
+                <div class="script-text">${escapeHtml(v.description)}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+      calendarDiv.appendChild(card);
+    });
+    // attach copy events after render
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const textToCopy = btn.getAttribute('data-script');
+        navigator.clipboard.writeText(textToCopy).then(() => {
+          const originalText = btn.textContent;
+          btn.textContent = 'Copied!';
+          btn.classList.add('copied');
+          setTimeout(() => {
+            btn.textContent = originalText;
+            btn.classList.remove('copied');
+          }, 1800);
+        }).catch(() => {
+          alert('Press Ctrl+C to copy');
+        });
+      });
+    });
+  }
+
+  function escapeHtml(str) {
+    return str.replace(/[&<>]/g, function(m) {
+      if (m === '&') return '&amp;';
+      if (m === '<') return '&lt;';
+      if (m === '>') return '&gt;';
+      return m;
+    }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+      return c;
+    });
+  }
+
+  buildCalendar();
+</script>
+</body>
+</html>

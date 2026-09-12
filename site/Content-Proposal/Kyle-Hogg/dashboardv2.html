@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Would You Believe It — Campaign Dashboard | Atomic Shelf</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,900;1,400&family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+:root {
+  --cream: #f7f3ec;
+  --parchment: #ede6d6;
+  --warm-white: #faf8f4;
+  --surface: #ffffff;
+  --ink: #1e1a14;
+  --ink-mid: #3d3628;
+  --ink-soft: #6b5e48;
+  --gold: #a07c3a;
+  --gold-2: #c9a55a;
+  --gold-pale: #e8d4a0;
+  --gold-bg: #fdf6e3;
+  --sage: #5a7a52;
+  --sage-bg: #e8ede6;
+  --teal: #1D9E75;
+  --teal-bg: #e4f2ee;
+  --blue: #2468c0;
+  --blue-bg: #e6f0fb;
+  --red: #b53a2f;
+  --red-bg: #fce8e6;
+  --rule: rgba(160,124,58,0.18);
+  --rule-lt: rgba(160,124,58,0.10);
+  --shadow-sm: 0 1px 4px rgba(30,26,20,0.06);
+  --shadow: 0 4px 20px rgba(30,26,20,0.09);
+  --shadow-lg: 0 10px 40px rgba(30,26,20,0.13);
+  --r: 8px;
+  --r-lg: 12px;
+  --r-xl: 16px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+a { color: inherit; text-decoration: none; }
+button { cursor: pointer; font-family: 'DM Sans', sans-serif; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--parchment); }
+::-webkit-scrollbar-thumb { background: var(--gold-pale); border-radius: 3px; }
+
+/* ── NAV ── */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(30,26,20,.96);
+  backdrop-filter: blur(14px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  height: 58px;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.nav::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--gold) 40%, var(--gold-2) 60%, transparent 100%);
+  opacity: .4;
+}
+.nav-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: #fdf4e8;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.nav-mark {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: linear-gradient(138deg, var(--gold) 0%, var(--gold-2) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .65rem;
+  font-weight: 700;
+  color: #fff;
+  font-family: 'DM Sans', sans-serif;
+  letter-spacing: .04em;
+}
+.nav-brand em { font-style: italic; color: var(--gold-2); }
+.nav-links {
+  display: flex;
+  gap: 28px;
+  list-style: none;
+}
+.nav-links a {
+  font-family: 'DM Mono', monospace;
+  font-size: .67rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.38);
+  transition: color .18s;
+}
+.nav-links a:hover { color: var(--gold-2); }
+.nav-pill {
+  font-family: 'DM Mono', monospace;
+  font-size: .62rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  background: rgba(90,122,82,.3);
+  border: 1px solid rgba(90,122,82,.45);
+  color: #7ecf75;
+  padding: 4px 12px;
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.nav-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #4ade80;
+  box-shadow: 0 0 7px #4ade80;
+  animation: pulse 2.5s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1}50%{opacity:.3} }
+
+/* ── HERO ── */
+.hero {
+  background: linear-gradient(160deg, #2a1f10 0%, #1e1a14 55%, #12100c 100%);
+  padding: 60px 40px 50px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 60% 40%, rgba(160,124,58,.12) 0%, transparent 65%);
+}
+.hero-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 40px;
+}
+.hero-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: .65rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--gold-2);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.hero-eyebrow::before {
+  content: '';
+  display: block;
+  width: 28px;
+  height: 1px;
+  background: var(--gold);
+}
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  font-weight: 900;
+  color: #fdf4e8;
+  line-height: 1.02;
+  letter-spacing: -.02em;
+  margin-bottom: 6px;
+}
+.hero-subtitle {
+  font-family: 'Lora', serif;
+  font-style: italic;
+  font-size: 1.05rem;
+  color: rgba(253,244,232,.45);
+  margin-bottom: 22px;
+}
+.hero-author {
+  font-size: .88rem;
+  color: rgba(253,244,232,.6);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.hero-author-dot {
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--gold);
+}
+.hero-stats {
+  display: flex;
+  gap: 28px;
+  flex-wrap: wrap;
+  text-align: right;
+}
+.hs-item { text-align: right; }
+.hs-val {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: var(--gold-2);
+  line-height: 1;
+}
+.hs-lbl {
+  font-family: 'DM Mono', monospace;
+  font-size: .58rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(253,244,232,.35);
+  margin-top: 3px;
+}
+
+/* ── MAIN ── */
+.main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 36px 40px 100px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── SECTION LABEL ── */
+.sec-label {
+  font-family: 'DM Mono', monospace;
+  font-size: .62rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.sec-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--rule-lt);
+}
+
+/* ── CARDS ── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--rule-lt);
+  border-radius: var(--r-lg);
+  padding: 20px 24px;
+  box-shadow: var(--shadow-sm);
+}
+.card-dark {
+  background: linear-gradient(138deg, #1e1a14 0%, #2a2218 100%);
+  border: 1px solid rgba(255,255,255,.06);
+  border-radius: var(--r-lg);
+  padding: 22px 26px;
+}
+
+/* ── METRIC GRID ── */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+  margin-bottom: 28px;
+}
+.metric-box {
+  background: var(--surface);
+  border: 1px solid var(--rule-lt);
+  border-radius: var(--r);
+  padding: 18px 20px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: transform .18s, box-shadow .18s;
+}
+.metric-box:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+.metric-box-accent {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  border-radius: 3px 3px 0 0;
+}
+.metric-val {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--ink);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.metric-lbl {
+  font-family: 'DM Mono', monospace;
+  font-size: .6rem;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.metric-sub {
+  font-size: .72rem;
+  color: var(--ink-soft);
+  margin-top: 2px;
+}
+
+/* ── PROGRESS ── */
+.progress-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+.progress-row:last-child { margin-bottom: 0; }
+.progress-label {
+  font-size: .78rem;
+  color: var(--ink-mid);
+  min-width: 140px;
+}
+.progress-track {
+  flex: 1;
+  height: 6px;
+  background: var(--parchment);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 1.2s cubic-bezier(.4,0,.2,1);
+}
+.pf-gold { background: linear-gradient(90deg, var(--gold) 0%, var(--gold-2) 100%); }
+.pf-sage { background: linear-gradient(90deg, var(--sage) 0%, #7ecf75 100%); }
+.pf-blue { background: linear-gradient(90deg, var(--blue) 0%, #60a5fa 100%); }
+.progress-pct {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: var(--gold);
+  min-width: 44px;
+  text-align: right;
+}
+
+/* ── 2 COL GRID ── */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 28px; }
+.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 28px; }
+
+/* ── INFO ROWS ── */
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--rule-lt);
+  gap: 12px;
+}
+.info-row:last-child { border-bottom: none; }
+.info-key {
+  font-size: .74rem;
+  color: var(--ink-soft);
+  flex-shrink: 0;
+}
+.info-val {
+  font-size: .8rem;
+  font-weight: 500;
+  color: var(--ink);
+  text-align: right;
+}
+.info-val.gold { color: var(--gold); }
+.info-val.sage { color: var(--sage); }
+.info-val.red { color: var(--red); }
+.info-val.blue { color: var(--blue); }
+
+/* ── BADGES ── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: .62rem;
+  font-weight: 600;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 40px;
+}
+.b-active { background: var(--sage-bg); color: var(--sage); border: 1px solid rgba(90,122,82,.25); }
+.b-trial { background: var(--blue-bg); color: var(--blue); border: 1px solid rgba(36,104,192,.22); }
+.b-paid { background: var(--teal-bg); color: var(--teal); border: 1px solid rgba(29,158,117,.22); }
+.b-amber { background: var(--gold-bg); color: var(--gold); border: 1px solid rgba(160,124,58,.28); }
+.b-red { background: var(--red-bg); color: var(--red); border: 1px solid rgba(181,58,47,.22); }
+
+/* ── VIDEO LIST ── */
+.video-list { display: flex; flex-direction: column; gap: 3px; }
+.video-item {
+  display: grid;
+  grid-template-columns: 34px 1fr auto auto;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  border-radius: var(--r);
+  background: var(--warm-white);
+  border: 1px solid var(--rule-lt);
+  transition: all .15s;
+}
+.video-item:hover { border-color: var(--gold-pale); box-shadow: var(--shadow-sm); }
+.video-item.posted {
+  background: var(--sage-bg);
+  border-color: rgba(90,122,82,.18);
+  opacity: .75;
+}
+.video-item.today {
+  background: var(--gold-bg);
+  border-color: rgba(160,124,58,.3);
+}
+.video-item.upcoming { opacity: .55; }
+.video-num {
+  font-family: 'DM Mono', monospace;
+  font-size: .65rem;
+  color: var(--ink-soft);
+  text-align: center;
+}
+.video-title {
+  font-size: .8rem;
+  color: var(--ink);
+  font-weight: 400;
+  line-height: 1.3;
+}
+.video-item.posted .video-title {
+  text-decoration: line-through;
+  color: var(--ink-soft);
+}
+.video-date {
+  font-family: 'DM Mono', monospace;
+  font-size: .6rem;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+.video-badge {
+  font-family: 'DM Mono', monospace;
+  font-size: .57rem;
+  letter-spacing: .05em;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 40px;
+  white-space: nowrap;
+}
+.vb-posted { background: var(--sage-bg); color: var(--sage); }
+.vb-today { background: var(--gold-bg); color: var(--gold); }
+.vb-scheduled { background: var(--parchment); color: var(--ink-soft); }
+
+/* ── WEEK CHIPS ── */
+.week-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 28px; }
+.week-chip {
+  font-family: 'DM Mono', monospace;
+  font-size: .62rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: 40px;
+  border: 1px solid var(--rule);
+  color: var(--ink-soft);
+  background: var(--surface);
+  transition: all .15s;
+  cursor: default;
+}
+.week-chip.active {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: #fff;
+  font-weight: 600;
+}
+.week-chip.upcoming { opacity: .6; }
+
+/* ── PLATFORM CARDS ── */
+.platforms-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 28px;
+}
+.platform-card {
+  background: var(--surface);
+  border: 1px solid var(--rule-lt);
+  border-radius: var(--r);
+  padding: 14px 16px;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+}
+.platform-card-top {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 10px;
+  font-size: 1.2rem;
+}
+.platform-name {
+  font-family: 'DM Mono', monospace;
+  font-size: .6rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 4px;
+}
+.platform-handle {
+  font-size: .76rem;
+  font-weight: 500;
+  color: var(--ink);
+  word-break: break-all;
+}
+.platform-status-lbl {
+  font-size: .68rem;
+  margin-top: 6px;
+}
+
+/* ── ACTION BOX ── */
+.action-box {
+  background: #fdf6e3;
+  border: 1px solid rgba(160,124,58,.35);
+  border-left: 4px solid var(--gold);
+  border-radius: var(--r);
+  padding: 14px 18px;
+  font-size: .82rem;
+  color: var(--ink-mid);
+  line-height: 1.55;
+  margin-bottom: 28px;
+}
+.action-box strong { font-weight: 600; color: var(--gold); }
+
+/* ── NOTES BOX ── */
+.notes-box {
+  background: var(--surface);
+  border: 1px solid var(--rule-lt);
+  border-radius: var(--r);
+  padding: 16px 20px;
+  font-size: .8rem;
+  color: var(--ink-mid);
+  line-height: 1.7;
+  margin-bottom: 28px;
+}
+
+/* ── TIMELINE ── */
+.timeline { display: flex; flex-direction: column; gap: 10px; }
+.timeline-item { display: flex; align-items: center; gap: 12px; }
+.tl-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.tl-dot.done { background: var(--sage); }
+.tl-dot.active { background: var(--gold); box-shadow: 0 0 0 3px rgba(160,124,58,.22); }
+.tl-dot.future { background: var(--parchment); border: 2px solid var(--gold-pale); }
+.tl-label { font-size: .8rem; color: var(--ink-mid); font-weight: 500; flex: 1; }
+.tl-date {
+  font-family: 'DM Mono', monospace;
+  font-size: .62rem;
+  color: var(--ink-soft);
+  letter-spacing: .04em;
+}
+
+/* ── CHART ── */
+.chart-wrap {
+  position: relative;
+  width: 100%;
+}
+
+/* ── REVIEW STARS ── */
+.stars-row { display: flex; flex-direction: column; gap: 6px; }
+.star-row { display: flex; align-items: center; gap: 8px; }
+.star-label {
+  font-family: 'DM Mono', monospace;
+  font-size: .62rem;
+  color: var(--ink-soft);
+  min-width: 18px;
+  text-align: right;
+}
+.star-track {
+  flex: 1;
+  height: 7px;
+  background: var(--parchment);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.star-fill {
+  height: 100%;
+  border-radius: 99px;
+  background: var(--gold-2);
+}
+.star-count {
+  font-family: 'DM Mono', monospace;
+  font-size: .62rem;
+  color: var(--ink-soft);
+  min-width: 28px;
+}
+
+/* ── LINKS GRID ── */
+.links-grid { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 28px; }
+.drw-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--warm-white);
+  border: 1px solid var(--rule-lt);
+  border-radius: var(--r);
+  padding: 7px 13px;
+  font-size: .74rem;
+  font-weight: 500;
+  color: var(--ink-mid);
+  transition: all .14s;
+}
+.drw-link:hover { background: var(--gold-bg); border-color: rgba(160,124,58,.35); color: var(--gold); }
+
+/* ── FOOTER ── */
+.footer {
+  background: linear-gradient(160deg, #1e1a14 0%, #12100c 100%);
+  padding: 36px 40px;
+  text-align: center;
+  border-top: 1px solid rgba(255,255,255,.05);
+  position: relative;
+}
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--gold) 40%, var(--gold-2) 60%, transparent 100%);
+  opacity: .4;
+}
+.footer-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: #fdf4e8;
+  margin-bottom: 6px;
+}
+.footer-brand em { font-style: italic; color: var(--gold-2); }
+.footer-sub {
+  font-family: 'DM Mono', monospace;
+  font-size: .6rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(253,244,232,.3);
+}
+
+/* ── SECTION SPACER ── */
+.section-block { margin-bottom: 32px; }
+
+@media (max-width: 900px) {
+  .nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  .hero { padding: 40px 20px 36px; }
+  .hero-inner { grid-template-columns: 1fr; }
+  .hero-stats { justify-content: flex-start; }
+  .main { padding: 24px 20px 70px; }
+  .two-col, .three-col { grid-template-columns: 1fr; }
+  .platforms-grid { grid-template-columns: 1fr 1fr; }
+  .video-item { grid-template-columns: 28px 1fr auto; }
+  .video-date { display: none; }
+}
+@media (max-width: 480px) {
+  .metrics-grid { grid-template-columns: 1fr 1fr; }
+  .platforms-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-brand">
+    <div class="nav-mark">AS</div>
+    Atomic <em>Shelf</em>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#metrics">Metrics</a></li>
+    <li><a href="#progress">Progress</a></li>
+    <li><a href="#videos">Videos</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+    <li><a href="#platforms">Platforms</a></li>
+  </ul>
+  <div class="nav-pill">
+    <span class="nav-dot"></span>
+    Active Trial
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-eyebrow">Trial Week · Campaign Dashboard · May 22–28, 2026</div>
+      <h1 class="hero-title">Would You<br>Believe It?</h1>
+      <div class="hero-subtitle">A Guide to Finding Faith for Skeptics</div>
+      <div class="hero-author">
+        <span>Kyle Hogg</span>
+        <span class="hero-author-dot"></span>
+        <span>Faith / Spirituality</span>
+        <span class="hero-author-dot"></span>
+        <span>YouTube · TikTok</span>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="hs-item">
+        <div class="hs-val" id="heroTrialPct">—</div>
+        <div class="hs-lbl">Trial progress</div>
+      </div>
+      <div class="hs-item">
+        <div class="hs-val">4.9★</div>
+        <div class="hs-lbl">Amazon rating</div>
+      </div>
+      <div class="hs-item">
+        <div class="hs-val">75</div>
+        <div class="hs-lbl">Total videos</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- METRICS -->
+  <div id="metrics" class="section-block">
+    <div class="sec-label">Key metrics</div>
+    <div class="metrics-grid">
+      <div class="metric-box">
+        <div class="metric-box-accent" style="background: var(--gold);"></div>
+        <div class="metric-val" id="mTrialDay">—</div>
+        <div class="metric-lbl">Trial day</div>
+        <div class="metric-sub" id="mTrialLeft">—</div>
+      </div>
+      <div class="metric-box">
+        <div class="metric-box-accent" style="background: var(--sage);"></div>
+        <div class="metric-val">15</div>
+        <div class="metric-lbl">Trial videos</div>
+        <div class="metric-sub">This week</div>
+      </div>
+      <div class="metric-box">
+        <div class="metric-box-accent" style="background: var(--blue);"></div>
+        <div class="metric-val">75</div>
+        <div class="metric-lbl">Total planned</div>
+        <div class="metric-sub">5 weeks + trial</div>
+      </div>
+      <div class="metric-box">
+        <div class="metric-box-accent" style="background: var(--gold-2);"></div>
+        <div class="metric-val">4.9★</div>
+        <div class="metric-lbl">Amazon rating</div>
+        <div class="metric-sub">116 reviews</div>
+      </div>
+      <div class="metric-box">
+        <div class="metric-box-accent" style="background: var(--teal);"></div>
+        <div class="metric-val">93%</div>
+        <div class="metric-lbl">5-star share</div>
+        <div class="metric-sub">108 of 116</div>
+      </div>
+      <div class="metric-box">
+        <div class="metric-box-accent" style="background: var(--sage);"></div>
+        <div class="metric-val">$20</div>
+        <div class="metric-lbl">Monthly retainer</div>
+        <div class="metric-sub" style="color:var(--sage);">Paid ✓</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROGRESS + TIMELINE -->
+  <div id="progress" class="section-block">
+    <div class="sec-label">Progress</div>
+    <div class="two-col">
+      <div class="card">
+        <div style="font-size:.82rem;font-weight:500;color:var(--ink);margin-bottom:18px;">Campaign timeline</div>
+        <div class="progress-row">
+          <span class="progress-label">Trial week (7 days)</span>
+          <div class="progress-track"><div class="progress-fill pf-gold" id="barTrial" style="width:0%"></div></div>
+          <span class="progress-pct" id="pctTrial">—</span>
+        </div>
+        <div class="progress-row">
+          <span class="progress-label">5-week campaign</span>
+          <div class="progress-track"><div class="progress-fill pf-sage" id="barCampaign" style="width:0%"></div></div>
+          <span class="progress-pct" id="pctCampaign">0%</span>
+        </div>
+        <div class="progress-row">
+          <span class="progress-label">Amazon rating</span>
+          <div class="progress-track"><div class="progress-fill pf-blue" style="width:98%"></div></div>
+          <span class="progress-pct">4.9</span>
+        </div>
+        <div class="progress-row">
+          <span class="progress-label">Videos posted</span>
+          <div class="progress-track"><div class="progress-fill pf-gold" id="barVideos" style="width:0%"></div></div>
+          <span class="progress-pct" id="pctVideos">—</span>
+        </div>
+      </div>
+      <div class="card">
+        <div style="font-size:.82rem;font-weight:500;color:var(--ink);margin-bottom:18px;">Campaign phases</div>
+        <div class="timeline" id="timelineEl"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WEEK SCHEDULE -->
+  <div class="section-block">
+    <div class="sec-label">Week schedule</div>
+    <div class="week-chips" id="weekChips"></div>
+  </div>
+
+  <!-- CAMPAIGN + BOOK DETAILS -->
+  <div class="two-col">
+    <div class="section-block">
+      <div class="sec-label">Campaign details</div>
+      <div class="card">
+        <div class="info-row"><span class="info-key">Author</span><span class="info-val">Kyle Hogg</span></div>
+        <div class="info-row"><span class="info-key">Email</span><span class="info-val">pkhogg28@gmail.com</span></div>
+        <div class="info-row"><span class="info-key">Genre</span><span class="info-val">Faith / Spirituality</span></div>
+        <div class="info-row"><span class="info-key">Trial start</span><span class="info-val">May 22, 2026</span></div>
+        <div class="info-row"><span class="info-key">Trial end</span><span class="info-val">May 28, 2026</span></div>
+        <div class="info-row"><span class="info-key">Essentials start</span><span class="info-val">May 29, 2026</span></div>
+        <div class="info-row"><span class="info-key">Campaign end</span><span class="info-val">Jul 2, 2026</span></div>
+        <div class="info-row"><span class="info-key">Monthly retainer</span><span class="info-val sage">$20 / month</span></div>
+        <div class="info-row"><span class="info-key">Payment status</span><span class="info-val sage">Paid ✓</span></div>
+        <div class="info-row"><span class="info-key">Last contact</span><span class="info-val">May 20, 2026</span></div>
+        <div class="info-row"><span class="info-key">Editor invite</span><span class="info-val gold">powerpages30@gmail.com</span></div>
+        <div class="info-row"><span class="info-key">Campaign page</span><span class="info-val"><a href="https://atomic-shelf.com/Content-Proposal/Kyle-Hogg/Dashboard" target="_blank" style="color:var(--blue);">View dashboard ↗</a></span></div>
+      </div>
+    </div>
+    <div class="section-block">
+      <div class="sec-label">Book details</div>
+      <div class="card">
+        <div class="info-row"><span class="info-key">Title</span><span class="info-val">Would You Believe It?</span></div>
+        <div class="info-row"><span class="info-key">Full title</span><span class="info-val" style="font-size:.72rem;">A Guide to Finding Faith for Skeptics</span></div>
+        <div class="info-row"><span class="info-key">Amazon rating</span><span class="info-val gold">4.9 ★</span></div>
+        <div class="info-row"><span class="info-key">Review count</span><span class="info-val">116</span></div>
+        <div class="info-row"><span class="info-key">5-star share</span><span class="info-val">93% (108 reviews)</span></div>
+        <div class="info-row"><span class="info-key">4-star share</span><span class="info-val">7% (8 reviews)</span></div>
+        <div class="info-row"><span class="info-key">Page count</span><span class="info-val">118 pages</span></div>
+        <div class="info-row"><span class="info-key">Kindle price</span><span class="info-val">$3.99</span></div>
+        <div class="info-row"><span class="info-key">Paperback price</span><span class="info-val">$12.99</span></div>
+        <div class="info-row"><span class="info-key">Author background</span><span class="info-val" style="font-size:.72rem;">15 yrs scripture study &amp; ministry</span></div>
+        <div class="info-row"><span class="info-key">TikTok handle</span><span class="info-val"><a href="https://www.tiktok.com/@kylehogg" target="_blank" style="color:var(--blue);">@kylehogg ↗</a></span></div>
+        <div class="info-row"><span class="info-key">YouTube</span><span class="info-val gold">Setup pending</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PLATFORMS -->
+  <div id="platforms" class="section-block">
+    <div class="sec-label">Platforms</div>
+    <div class="platforms-grid">
+      <div class="platform-card">
+        <div class="platform-card-top" style="background:#010101;">
+          <span style="color:#fff;font-size:1rem;font-weight:700;">TK</span>
+        </div>
+        <div class="platform-name">TikTok</div>
+        <div class="platform-handle">@kylehogg</div>
+        <div class="platform-status-lbl"><span class="badge b-active">Active</span></div>
+      </div>
+      <div class="platform-card">
+        <div class="platform-card-top" style="background:#ff0000;">
+          <span style="color:#fff;font-size:1rem;font-weight:700;">YT</span>
+        </div>
+        <div class="platform-name">YouTube</div>
+        <div class="platform-handle">Pending setup</div>
+        <div class="platform-status-lbl"><span class="badge b-amber">Action needed</span></div>
+      </div>
+      <div class="platform-card">
+        <div class="platform-card-top" style="background:#e6edf4;">
+          <span style="color:#2468c0;font-size:.72rem;font-weight:700;">PAGE</span>
+        </div>
+        <div class="platform-name">Campaign page</div>
+        <div class="platform-handle" style="font-size:.7rem;">atomic-shelf.com</div>
+        <div class="platform-status-lbl"><span class="badge b-active">Live</span></div>
+      </div>
+      <div class="platform-card">
+        <div class="platform-card-top" style="background:var(--parchment);">
+          <span style="color:var(--ink-soft);font-size:.72rem;font-weight:700;">PI</span>
+        </div>
+        <div class="platform-name">Pinterest</div>
+        <div class="platform-handle">—</div>
+        <div class="platform-status-lbl"><span class="badge b-amber">Not set up</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LINKS -->
+  <div class="section-block">
+    <div class="sec-label">Quick links</div>
+    <div class="links-grid">
+      <a href="https://www.tiktok.com/@kylehogg" target="_blank" class="drw-link">📱 TikTok</a>
+      <a href="https://atomic-shelf.com/Content-Proposal/Kyle-Hogg/Dashboard" target="_blank" class="drw-link">📄 Campaign Dashboard</a>
+      <a href="https://atomic-shelf.com/Content-Proposal/Kyle-Hogg/Week01" target="_blank" class="drw-link">📅 Week 01 Calendar</a>
+      <a href="https://photos.app.goo.gl/Kr2XUzDwBuc2eqVz8" target="_blank" class="drw-link">🎬 Channel Trailer</a>
+      <a href="https://photos.app.goo.gl/C1iL369RzxcTYD8v5" target="_blank" class="drw-link">📷 Week 01 Assets</a>
+      <a href="https://photos.app.goo.gl/XS2Z4QckC7VvLMdLA" target="_blank" class="drw-link">📷 Week 02 Assets</a>
+      <a href="https://photos.app.goo.gl/3GwaZ96oSZPU9Xyc9" target="_blank" class="drw-link">📷 Week 03 Assets</a>
+      <a href="https://photos.app.goo.gl/X9tT7xAh7MJ4wvu37" target="_blank" class="drw-link">📷 Week 04 Assets</a>
+      <a href="https://photos.app.goo.gl/Z58JRyPsmCddKTMJ7" target="_blank" class="drw-link">📷 Week 05 Assets</a>
+    </div>
+  </div>
+
+  <!-- PENDING ACTION -->
+  <div class="section-block">
+    <div class="sec-label">Pending action</div>
+    <div class="action-box">
+      <strong>⚠ Financial inquiry — respond urgently.</strong> Kyle asked what he is agreeing to financially. Clarify: the trial week (May 22–28) is free. The $20/month retainer begins on May 29 when the Essentials campaign starts. No charge if he doesn't proceed after the trial.
+    </div>
+  </div>
+
+  <!-- VIDEO TRACKER -->
+  <div id="videos" class="section-block">
+    <div class="sec-label">Trial week — video tracker (15 of 15)</div>
+    <div class="video-list" id="videoListEl"></div>
+  </div>
+
+  <!-- REVIEWS -->
+  <div id="reviews" class="two-col">
+    <div class="section-block">
+      <div class="sec-label">Amazon review breakdown</div>
+      <div class="card">
+        <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:18px;">
+          <span style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:900;color:var(--gold);line-height:1;">4.9</span>
+          <div>
+            <div style="font-size:.88rem;color:var(--gold);letter-spacing:.04em;">★★★★★</div>
+            <div style="font-size:.72rem;color:var(--ink-soft);margin-top:1px;">116 reviews</div>
+          </div>
+        </div>
+        <div class="stars-row">
+          <div class="star-row">
+            <span class="star-label">5★</span>
+            <div class="star-track"><div class="star-fill" style="width:93%"></div></div>
+            <span class="star-count">108</span>
+          </div>
+          <div class="star-row">
+            <span class="star-label">4★</span>
+            <div class="star-track"><div class="star-fill" style="width:7%;background:var(--parchment);border:1px solid var(--gold-pale);"></div></div>
+            <span class="star-count">8</span>
+          </div>
+          <div class="star-row">
+            <span class="star-label">3★</span>
+            <div class="star-track"><div class="star-fill" style="width:0%"></div></div>
+            <span class="star-count">0</span>
+          </div>
+          <div class="star-row">
+            <span class="star-label">2★</span>
+            <div class="star-track"><div class="star-fill" style="width:0%"></div></div>
+            <span class="star-count">0</span>
+          </div>
+          <div class="star-row">
+            <span class="star-label">1★</span>
+            <div class="star-track"><div class="star-fill" style="width:0%"></div></div>
+            <span class="star-count">0</span>
+          </div>
+        </div>
+        <div style="margin-top:18px;padding-top:14px;border-top:1px solid var(--rule-lt);">
+          <div class="chart-wrap" style="height:160px;">
+            <canvas id="ratingsChart" role="img" aria-label="Donut chart showing 108 five-star reviews and 8 four-star reviews out of 116 total">108 five-star reviews (93%) and 8 four-star reviews (7%) out of 116 total.</canvas>
+          </div>
+          <div style="display:flex;gap:16px;margin-top:8px;font-size:.72rem;color:var(--ink-soft);justify-content:center;">
+            <span style="display:flex;align-items:center;gap:5px;"><span style="width:10px;height:10px;border-radius:2px;background:var(--gold-2);display:inline-block;"></span>5-star 93%</span>
+            <span style="display:flex;align-items:center;gap:5px;"><span style="width:10px;height:10px;border-radius:2px;background:#c8bda8;display:inline-block;"></span>4-star 7%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="section-block">
+      <div class="sec-label">Selected reader quotes</div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div class="card" style="padding:16px 20px;">
+          <div style="font-family:'Lora',serif;font-style:italic;font-size:.82rem;color:var(--ink-mid);line-height:1.65;margin-bottom:8px;">"If someone can convince you of something, someone else can convince you out of it. This book doesn't convince your mind — it convicts your heart."</div>
+          <div style="font-family:'DM Mono',monospace;font-size:.6rem;color:var(--ink-soft);letter-spacing:.04em;">— Maddy · ★★★★★</div>
+        </div>
+        <div class="card" style="padding:16px 20px;">
+          <div style="font-family:'Lora',serif;font-style:italic;font-size:.82rem;color:var(--ink-mid);line-height:1.65;margin-bottom:8px;">"A great reminder of how we as Christians came to saving faith. Impactful and accessible."</div>
+          <div style="font-family:'DM Mono',monospace;font-size:.6rem;color:var(--ink-soft);letter-spacing:.04em;">— Lauren P · ★★★★★</div>
+        </div>
+        <div class="card" style="padding:16px 20px;">
+          <div style="font-family:'Lora',serif;font-style:italic;font-size:.82rem;color:var(--ink-mid);line-height:1.65;margin-bottom:8px;">"Feels like sitting with someone who wants to help you understand, not argue with you. Steady, respectful, full of practical examples."</div>
+          <div style="font-family:'DM Mono',monospace;font-size:.6rem;color:var(--ink-soft);letter-spacing:.04em;">— Jay Williams, Canada · ★★★★★</div>
+        </div>
+        <div class="card" style="padding:16px 20px;">
+          <div style="font-family:'Lora',serif;font-style:italic;font-size:.82rem;color:var(--ink-mid);line-height:1.65;margin-bottom:8px;">"Does an amazing job walking you through helpful steps to growing faith — God's existence, the truth of the Bible, the stories of Jesus."</div>
+          <div style="font-family:'DM Mono',monospace;font-size:.6rem;color:var(--ink-soft);letter-spacing:.04em;">— Jeff · ★★★★★</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NOTES -->
+  <div class="section-block">
+    <div class="sec-label">Campaign notes</div>
+    <div class="notes-box">
+      Trial week May 22–28. 3-month organic posting plan before Amazon DSP retargeting begins. Author asked about financial commitment on May 20 — response pending. YouTube channel setup required before Shorts can go live (editor invite: powerpages30@gmail.com). Full 5-week content pack ready with 75 videos, voiceover scripts, YouTube descriptions, and 5 photo albums. Channel trailer assets live at Google Photos. No Pinterest or YouTube accounts currently active.
+    </div>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-brand">Atomic <em>Shelf</em></div>
+  <div class="footer-sub">Would You Believe It? · Kyle Hogg · Trial Week May 22–28, 2026 · Campaign Dashboard · atomic-shelf.com</div>
+</footer>
+
+<script>
+(function () {
+
+  // ── DATES ──
+  const today      = new Date('2026-05-25T00:00:00');
+  const trialStart = new Date('2026-05-22T00:00:00');
+  const trialEnd   = new Date('2026-05-28T23:59:59');
+  const campEnd    = new Date('2026-07-02T23:59:59');
+
+  const daysIn   = Math.round((today - trialStart) / 864e5);
+  const daysLeft = Math.max(0, Math.round((trialEnd - today) / 864e5));
+  const trialPct = Math.round(Math.min(daysIn / 7 * 100, 100));
+  const campPct  = 0;
+
+  // hero
+  document.getElementById('heroTrialPct').textContent = trialPct + '%';
+
+  // metric boxes
+  document.getElementById('mTrialDay').textContent = 'Day ' + daysIn;
+  document.getElementById('mTrialLeft').textContent = daysLeft + ' day' + (daysLeft !== 1 ? 's' : '') + ' remaining';
+
+  // progress bars
+  document.getElementById('barTrial').style.width = trialPct + '%';
+  document.getElementById('pctTrial').textContent = trialPct + '%';
+  document.getElementById('pctCampaign').textContent = campPct + '%';
+
+  const videosPosted = 8; // videos 1-8 posted by May 25
+  const videosPct = Math.round(videosPosted / 15 * 100);
+  document.getElementById('barVideos').style.width = videosPct + '%';
+  document.getElementById('pctVideos').textContent = videosPct + '%';
+
+  // ── TIMELINE ──
+  const phases = [
+    { label: 'Trial week',            dates: 'May 22–28',      start: '2026-05-22', end: '2026-05-28' },
+    { label: 'Week 2 — Essentials',   dates: 'May 29–Jun 4',   start: '2026-05-29', end: '2026-06-04' },
+    { label: 'Week 3 — Essentials',   dates: 'Jun 5–11',       start: '2026-06-05', end: '2026-06-11' },
+    { label: 'Week 4 — Essentials',   dates: 'Jun 12–18',      start: '2026-06-12', end: '2026-06-18' },
+    { label: 'Week 5 — Essentials',   dates: 'Jun 19–25',      start: '2026-06-19', end: '2026-06-25' },
+    { label: 'Week 6 — Retarget/M2',  dates: 'Jun 26–Jul 2',   start: '2026-06-26', end: '2026-07-02' },
+  ];
+  const tlEl = document.getElementById('timelineEl');
+  phases.forEach(function (p) {
+    var s = new Date(p.start + 'T00:00:00');
+    var e = new Date(p.end + 'T23:59:59');
+    var dotCls = today > e ? 'done' : today >= s ? 'active' : 'future';
+    var item = document.createElement('div');
+    item.className = 'timeline-item';
+    item.innerHTML = '<div class="tl-dot ' + dotCls + '"></div>' +
+      '<span class="tl-label">' + p.label + '</span>' +
+      '<span class="tl-date">' + p.dates + '</span>';
+    tlEl.appendChild(item);
+  });
+
+  // ── WEEK CHIPS ──
+  var weeks = [
+    { label: 'Trial',   dates: 'May 22–28', active: true  },
+    { label: 'Week 2',  dates: 'May 29–Jun 4', active: false },
+    { label: 'Week 3',  dates: 'Jun 5–11',  active: false },
+    { label: 'Week 4',  dates: 'Jun 12–18', active: false },
+    { label: 'Week 5',  dates: 'Jun 19–25', active: false },
+    { label: 'Week 6',  dates: 'Jun 26–Jul 2', active: false },
+  ];
+  document.getElementById('weekChips').innerHTML = weeks.map(function (w) {
+    return '<span class="week-chip' + (w.active ? ' active' : ' upcoming') + '">' +
+      w.label + ' · ' + w.dates + '</span>';
+  }).join('');
+
+  // ── VIDEO TRACKER ──
+  var videos = [
+    { num: '01', title: 'The Question You\'ve Been Afraid to Ask',          date: 'May 22' },
+    { num: '02', title: 'What Is Faith, Actually?',                          date: 'May 22' },
+    { num: '03', title: 'Doubt Is Not Your Enemy',                           date: 'May 23' },
+    { num: '04', title: 'Faith and Reason Are Not at War',                   date: 'May 23' },
+    { num: '05', title: 'The Clearest Book on Faith You\'ll Ever Read',      date: 'May 24' },
+    { num: '06', title: 'Faith Is Received, Not Achieved',                   date: 'May 24' },
+    { num: '07', title: 'It Didn\'t Preach at Me. It Talked to Me.',        date: 'May 25' },
+    { num: '08', title: 'Even Lifelong Believers Need This Book',            date: 'May 25' },
+    { num: '09', title: 'It Convicts the Heart, Not Just the Mind',         date: 'May 26' },
+    { num: '10', title: 'Unbelief to Faith Is a Journey',                   date: 'May 26' },
+    { num: '11', title: '116 Reviews. 4.9 Stars.',                          date: 'May 27' },
+    { num: '12', title: 'Short Enough for an Afternoon. Deep Enough to Change You.', date: 'May 27' },
+    { num: '13', title: 'The Book That Clears Away the Barriers',           date: 'May 28' },
+    { num: '14', title: 'A Calm, Clear Guide Through Big Questions',        date: 'May 28' },
+    { num: '15', title: 'Would You Believe It?',                             date: 'May 28' },
+  ];
+
+  var postedDates   = ['May 22', 'May 23', 'May 24'];
+  var todayDates    = ['May 25'];
+
+  document.getElementById('videoListEl').innerHTML = videos.map(function (v) {
+    var isPosted  = postedDates.includes(v.date);
+    var isToday   = todayDates.includes(v.date);
+    var itemCls   = isPosted ? 'posted' : isToday ? 'today' : 'upcoming';
+    var badgeCls  = isPosted ? 'vb-posted' : isToday ? 'vb-today' : 'vb-scheduled';
+    var badgeTxt  = isPosted ? 'Posted' : isToday ? 'Today' : 'Scheduled';
+    return '<div class="video-item ' + itemCls + '">' +
+      '<span class="video-num">' + v.num + '</span>' +
+      '<span class="video-title">' + v.title + '</span>' +
+      '<span class="video-date">' + v.date + '</span>' +
+      '<span class="video-badge ' + badgeCls + '">' + badgeTxt + '</span>' +
+      '</div>';
+  }).join('');
+
+  // ── RATINGS CHART ──
+  new Chart(document.getElementById('ratingsChart'), {
+    type: 'doughnut',
+    data: {
+      labels: ['5-star (108)', '4-star (8)'],
+      datasets: [{
+        data: [108, 8],
+        backgroundColor: ['#c9a55a', '#c8bda8'],
+        borderWidth: 0,
+        hoverOffset: 6,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      cutout: '70%',
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: function (ctx) {
+              return ' ' + ctx.label + ' · ' + Math.round(ctx.parsed / 116 * 100) + '%';
+            }
+          }
+        }
+      }
+    }
+  });
+
+})();
+</script>
+</body>
+</html>

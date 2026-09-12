@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Would You Believe It? — Week 2 Content Calendar | Atomic Shelf</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+
+:root {
+  --black: #0d0f12;
+  --deep: #141920;
+  --char: #1b222c;
+  --ember: #d4882a;
+  --gold: #dfb15b;
+  --cream: #e2e8f0;
+  --mist: #94a3b8;
+  --light: #cbd5e1;
+  --white: #f8fafc;
+}
+
+* {
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  background:var(--black);
+  color:var(--cream);
+  font-family:'Cormorant Garamond', serif;
+  font-size:21px;
+  line-height:1.75;
+  overflow-x:hidden;
+}
+
+.hero{
+  position:relative;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+
+.hero-bg{
+  position:absolute;
+  inset:0;
+  background:
+  radial-gradient(circle at top, rgba(212,136,42,0.18), transparent 30%),
+  radial-gradient(circle at bottom, rgba(223,177,91,0.08), transparent 35%),
+  linear-gradient(to bottom, #12161d, #0d0f12);
+}
+
+.hero-grain{
+  position:absolute;
+  inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity:0.5;
+}
+
+.hero-content{
+  position:relative;
+  z-index:2;
+  max-width:900px;
+  padding:80px 60px;
+  text-align:center;
+}
+
+.hero-badge{
+  display:inline-block;
+  font-family:'Space Mono', monospace;
+  font-size:10px;
+  letter-spacing:4px;
+  text-transform:uppercase;
+  color:var(--ember);
+  border:1px solid var(--ember);
+  padding:6px 20px;
+  margin-bottom:32px;
+}
+
+.hero-sub{
+  font-family:'Cinzel', serif;
+  font-size:15px;
+  letter-spacing:5px;
+  text-transform:uppercase;
+  color:var(--mist);
+  margin-bottom:24px;
+}
+
+.hero-title{
+  font-family:'Cinzel', serif;
+  font-size:clamp(42px,6vw,76px);
+  font-weight:900;
+  line-height:1.1;
+  color:var(--white);
+  margin-bottom:16px;
+}
+
+.hero-title span{
+  display:block;
+  color:var(--gold);
+  font-size:clamp(24px,4vw,48px);
+  font-weight:400;
+  margin-top:10px;
+}
+
+.hero-author{
+  font-style:italic;
+  font-size:24px;
+  color:var(--light);
+  margin-bottom:48px;
+}
+
+.hero-meta{
+  display:flex;
+  gap:40px;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+
+.hero-meta-item{
+  text-align:center;
+}
+
+.hero-meta-item .num{
+  font-family:'Cinzel', serif;
+  font-size:36px;
+  font-weight:900;
+  color:var(--ember);
+}
+
+.hero-meta-item .label{
+  font-family:'Space Mono', monospace;
+  font-size:9px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--mist);
+}
+
+.divider{
+  width:80px;
+  height:1px;
+  background:linear-gradient(to right, transparent, var(--ember), transparent);
+  margin:64px auto;
+}
+
+.intro{
+  max-width:780px;
+  margin:0 auto;
+  padding:0 40px 80px;
+  text-align:center;
+}
+
+.section-label{
+  font-family:'Space Mono', monospace;
+  font-size:9px;
+  letter-spacing:5px;
+  text-transform:uppercase;
+  color:var(--ember);
+  margin-bottom:20px;
+}
+
+.intro p{
+  font-size:24px;
+  font-style:italic;
+  color:var(--light);
+  line-height:1.9;
+}
+
+.calendar{
+  max-width:1100px;
+  margin:0 auto;
+  padding:0 40px 120px;
+}
+
+.calendar-header{
+  text-align:center;
+  margin-bottom:64px;
+}
+
+.calendar-header h2{
+  font-family:'Cinzel', serif;
+  font-size:clamp(28px,4vw,48px);
+  color:var(--white);
+  margin-bottom:12px;
+}
+
+.calendar-header p{
+  color:var(--mist);
+  font-size:17px;
+  font-style:italic;
+}
+
+.video-card{
+  display:grid;
+  grid-template-columns:120px 1fr;
+  margin-bottom:16px;
+  background:var(--deep);
+  border:1px solid rgba(212,136,42,0.12);
+  border-radius:6px;
+  overflow:hidden;
+  transition:all 0.3s ease;
+}
+
+.video-card:hover{
+  border-color:rgba(212,136,42,0.4);
+  background:var(--char);
+}
+
+.card-date{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  background:rgba(212,136,42,0.05);
+  border-right:1px solid rgba(212,136,42,0.15);
+  padding:24px 16px;
+  text-align:center;
+}
+
+.date-num{
+  font-family:'Cinzel', serif;
+  font-size:32px;
+  font-weight:900;
+  color:var(--ember);
+}
+
+.date-month{
+  font-family:'Space Mono', monospace;
+  font-size:8px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--mist);
+  margin-top:4px;
+}
+
+.date-vid{
+  font-family:'Space Mono', monospace;
+  font-size:9px;
+  color:rgba(212,136,42,0.7);
+  margin-top:10px;
+  font-weight:bold;
+}
+
+.card-body{
+  padding:28px 36px;
+}
+
+.card-title{
+  font-family:'Cinzel', serif;
+  font-size:24px;
+  color:var(--white);
+  margin-bottom:8px;
+}
+
+.card-hook{
+  font-style:italic;
+  color:var(--gold);
+  font-size:18px;
+  margin-bottom:20px;
+}
+
+.card-sections{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:24px;
+}
+
+.section-block{
+  background:rgba(13,15,18,0.35);
+  padding:16px;
+  border-radius:4px;
+  border:1px solid rgba(255,255,255,0.03);
+}
+
+.section-block h4{
+  font-family:'Space Mono', monospace;
+  font-size:9px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--ember);
+  margin-bottom:12px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.section-block p{
+  font-size:17px;
+  color:var(--light);
+  line-height:1.8;
+}
+
+.section-block.desc p{
+  color:var(--mist);
+}
+
+.copy-btn{
+  background:transparent;
+  border:1px solid rgba(212,136,42,0.3);
+  color:var(--gold);
+  font-family:'Space Mono', monospace;
+  font-size:8px;
+  padding:2px 8px;
+  border-radius:3px;
+  cursor:pointer;
+  transition:all 0.2s;
+  text-transform:uppercase;
+}
+
+.copy-btn:hover{
+  background:var(--ember);
+  color:var(--white);
+}
+
+.footer{
+  text-align:center;
+  padding:60px 40px;
+  border-top:1px solid rgba(212,136,42,0.15);
+  background:rgba(20,25,32,0.6);
+}
+
+.footer-brand{
+  font-family:'Cinzel', serif;
+  font-size:22px;
+  font-weight:900;
+  color:var(--ember);
+  letter-spacing:4px;
+}
+
+.footer-note{
+  font-family:'Space Mono', monospace;
+  font-size:10px;
+  letter-spacing:2px;
+  color:var(--mist);
+  margin-top:10px;
+}
+
+@media(max-width:768px){
+
+  .card-sections{
+    grid-template-columns:1fr;
+  }
+
+  .video-card{
+    grid-template-columns:1fr;
+  }
+
+  .card-date{
+    border-right:none;
+    border-bottom:1px solid rgba(212,136,42,0.15);
+    flex-direction:row;
+    justify-content:flex-start;
+    gap:12px;
+  }
+
+  .date-vid{
+    margin-left:auto;
+    margin-top:0;
+  }
+
+  .card-body{
+    padding:20px;
+  }
+
+}
+
+</style>
+
+<script>
+
+function copyText(elementId, btn) {
+
+  var text = document.getElementById(elementId).innerText;
+
+  navigator.clipboard.writeText(text).then(function(){
+
+    var originalText = btn.innerText;
+
+    btn.innerText = "Copied!";
+
+    setTimeout(function(){
+      btn.innerText = originalText;
+    },1500);
+
+  });
+
+}
+
+</script>
+
+</head>
+
+<body>
+
+<section class="hero">
+
+<div class="hero-bg"></div>
+<div class="hero-grain"></div>
+
+<div class="hero-content">
+
+<div class="hero-badge">
+Week 2 Narrative Escalation
+</div>
+
+<div class="hero-sub">
+Skeptics · Emotional Resistance · Spiritual Longing
+</div>
+
+<h1 class="hero-title">
+Would You Believe It?
+<span>A Guide to Finding Faith for Skeptics</span>
+</h1>
+
+<p class="hero-author">
+by Kyle Hogg
+</p>
+
+<div class="hero-meta">
+
+<div class="hero-meta-item">
+<div class="num">15</div>
+<div class="label">Total Clips</div>
+</div>
+
+<div class="hero-meta-item">
+<div class="num">7</div>
+<div class="label">Days</div>
+</div>
+
+<div class="hero-meta-item">
+<div class="num">2x</div>
+<div class="label">Daily Videos</div>
+</div>
+
+<div class="hero-meta-item">
+<div class="num">3x</div>
+<div class="label">Final Day</div>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<div class="divider"></div>
+
+<section class="intro">
+
+<div class="section-label">
+Psychological Narrative Arc
+</div>
+
+<p>
+Week 2 pivots away from pure intellectual skepticism and moves directly into emotional resistance, buried longing, fear of surrender, exhaustion, vulnerability, and the terrifying possibility that faith might actually be true.
+</p>
+
+</section>
+
+<section class="calendar">
+
+<div class="calendar-header">
+
+<div class="section-label">
+Week 2 Deployment
+</div>
+
+<h2>
+Emotional Resistance Sequence
+</h2>
+
+<p>
+2 videos daily across 6 days, expanding to 3 clips on the final day for maximum emotional conversion pressure.
+</p>
+
+</div>
+
+<!-- VIDEO 01 -->
+
+<div class="video-card">
+
+<div class="card-date">
+<div class="date-num">29</div>
+<div class="date-month">May</div>
+<div class="date-vid">Clip 01</div>
+</div>
+
+<div class="card-body">
+
+<div class="card-title">
+The Defense Mechanism
+</div>
+
+<div class="card-hook">
+Focus: Sarcasm and cynicism as emotional self-protection.
+</div>
+
+<div class="card-sections">
+
+<div class="section-block">
+<h4>
+Voiceover Script
+<button class="copy-btn" onclick="copyText('vo1', this)">Copy</button>
+</h4>
+
+<p id="vo1">
+Maybe sarcasm was easier than honesty. Maybe cynicism felt safer than admitting you still hoped for something bigger. Because once you admit the possibility of God, suddenly the walls you spent years building start cracking open. And that possibility is terrifying.
+</p>
+
+</div>
+
+<div class="section-block desc">
+
+<h4>
+Video Description
+<button class="copy-btn" onclick="copyText('md1', this)">Copy</button>
+</h4>
+
+<p id="md1">
+Sometimes cynicism isn't intelligence. Sometimes it's protection. For the skeptics secretly exhausted by pretending they don't care anymore. #Skeptic #FaithJourney #ExistentialCrisis #BookTok #WouldYouBelieveIt #SpiritualQuestions
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- VIDEO 02 -->
+
+<div class="video-card">
+
+<div class="card-date">
+<div class="date-num">29</div>
+<div class="date-month">May</div>
+<div class="date-vid">Clip 02</div>
+</div>
+
+<div class="card-body">
+
+<div class="card-title">
+The Wall
+</div>
+
+<div class="card-hook">
+Focus: Logic becoming emotional armor.
+</div>
+
+<div class="card-sections">
+
+<div class="section-block">
+<h4>
+Voiceover Script
+<button class="copy-btn" onclick="copyText('vo2', this)">Copy</button>
+</h4>
+
+<p id="vo2">
+You called it logic. Rationality. Intellectual honesty. But deep down, maybe it was armor. Because if faith is actually true, then your entire life might need to change. And sometimes people resist truth not because it lacks evidence, but because it demands surrender.
+</p>
+
+</div>
+
+<div class="section-block desc">
+
+<h4>
+Video Description
+<button class="copy-btn" onclick="copyText('md2', this)">Copy</button>
+</h4>
+
+<p id="md2">
+The hardest truths are usually the ones that cost us something emotionally. #FaithAndReason #Overthinking #TruthSeeking #Skeptics #WouldYouBelieveIt #Philosophy
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- VIDEO 03 -->
+
+<div class="video-card">
+
+<div class="card-date">
+<div class="date-num">30</div>
+<div class="date-month">May</div>
+<div class="date-vid">Clip 03</div>
+</div>
+
+<div class="card-body">
+
+<div class="card-title">
+The Ache Beneath It
+</div>
+
+<div class="card-hook">
+Focus: The hidden emptiness underneath disbelief.
+</div>
+
+<div class="card-sections">
+
+<div class="section-block">
+<h4>
+Voiceover Script
+<button class="copy-btn" onclick="copyText('vo3', this)">Copy</button>
+</h4>
+
+<p id="vo3">
+You stopped believing years ago. But the ache never fully disappeared, did it? The quiet feeling that something is missing. The strange emptiness that success, entertainment, relationships, and endless scrolling never seem to fix.
+</p>
+
+</div>
+
+<div class="section-block desc">
+
+<h4>
+Video Description
+<button class="copy-btn" onclick="copyText('md3', this)">Copy</button>
+</h4>
+
+<p id="md3">
+Some emptiness survives every distraction. Maybe that's worth paying attention to. #Meaning #Searching #SpiritualAwakening #Existentialism #FaithJourney
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- VIDEO 04 -->
+
+<div class="video-card">
+
+<div class="card-date">
+<div class="date-num">30</div>
+<div class="date-month">May</div>
+<div class="date-vid">Clip 04</div>
+</div>
+
+<div class="card-body">
+
+<div class="card-title">
+The Fear of Surrender
+</div>
+
+<div class="card-hook">
+Focus: Fear of what faith would require.
+</div>
+
+<div class="card-sections">
+
+<div class="section-block">
+<h4>
+Voiceover Script
+<button class="copy-btn" onclick="copyText('vo4', this)">Copy</button>
+</h4>
+
+<p id="vo4">
+Maybe the real fear was never intellectual. Maybe it was personal. Because if God is real, then suddenly forgiveness, purpose, accountability, healing, and transformation become real too. And honestly? That level of change can feel overwhelming.
+</p>
+
+</div>
+
+<div class="section-block desc">
+
+<h4>
+Video Description
+<button class="copy-btn" onclick="copyText('md4', this)">Copy</button>
+</h4>
+
+<p id="md4">
+Sometimes resistance isn't about evidence. It's about the emotional cost of being changed. #Truth #Fear #InnerHealing #Faith #WouldYouBelieveIt
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- VIDEO 05 -->
+
+<div class="video-card">
+
+<div class="card-date">
+<div class="date-num">31</div>
+<div class="date-month">May</div>
+<div class="date-vid">Clip 05</div>
+</div>
+
+<div class="card-body">
+
+<div class="card-title">
+The Noise
+</div>
+
+<div class="card-hook">
+Focus: Exhaustion from endless online arguments.
+</div>
+
+<div class="card-sections">
+
+<div class="section-block">
+<h4>
+Voiceover Script
+<button class="copy-btn" onclick="copyText('vo5', this)">Copy</button>
+</h4>
+
+<p id="vo5">
+Debates. Podcasts. Comment sections. Reaction videos. Everyone screaming certainty at each other online while secretly feeling lost inside. Maybe the reason you're exhausted is because arguments alone were never meant to satisfy the soul.
+</p>
+
+</div>
+
+<div class="section-block desc">
+
+<h4>
+Video Description
+<button class="copy-btn" onclick="copyText('md5', this)">Copy</button>
+</h4>
+
+<p id="md5">
+The internet is full of arguments. But very few people are actually finding peace there. #Debates #Overthinking #SpiritualQuestions #FaithJourney #BookTok
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- VIDEO 06 -->
+
+<div class="video-card">
+
+<div class="card-date">
+<div class="date-num">31</div>
+<div class="date-month">May</div>
+<div class="date-vid">Clip 06</div>
+</div>
+
+<div class="card-body">
+
+<div class="card-title">
+The Silence Hits Different
+</div>
+
+<div class="card-hook">
+Focus: The terrifying honesty of silence.
+</div>
+
+<div class="card-sections">
+
+<div class="section-block">
+<h4>
+Voiceover Script
+<button class="copy-btn" onclick="copyText('vo6', this)">Copy</button>
+</h4>
+
+<p id="vo6">
+Eventually the distractions stop working. The noise fades. The room gets quiet. And suddenly you're left alone with the questions you've been outrunning for years. That's usually where the real search finally begins.
+</p>
+
+</div>
+
+<div class="section-block desc">
+
+<h4>
+Video Description
+<button class="copy-btn" onclick="copyText('md6', this)">Copy</button>
+</h4>
+
+<p id="md6">
+Silence exposes what distractions were hiding. #LateNightThoughts #ExistentialCrisis #SearchingForMeaning #TruthSeeking
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- VIDEO 07 -->
+
+<div class="video-card">
+
+<div class="card-date">
+<div class="date-num">01</div>
+<div class="date-month">Jun</div>
+<div class="date-vid">Clip 07</div>
+</div>
+
+<div class="card-body">
+
+<div class="card-title">
+The Memory of Peace
+</div>
+
+<div class="card-hook">
+Focus: Remembering a feeling long buried.
+</div>
+
+<div class="card-sections">
+
+<div class="section-block">
+<h4>
+Voiceover Script
+<button class="copy-btn" onclick="copyText('vo7', this)">Copy</button>
+</h4>
+
+<p id="vo7">
+Maybe you remember a moment from years ago when peace felt real. Before the bitterness. Before the heartbreak. Before the endless cynicism. And maybe some part of you still wonders if that peace can ever come back again.
+</p>
+
+</div>
+
+<div class="section-block desc">
+
+<h4>
+Video Description
+<button class="copy-btn" onclick="copyText('md7', this)">Copy</button>
+</h4>
+
+<p id="md7">
+Some memories refuse to die because they point toward something real. #Peace #Healing #SpiritualJourney #WouldYouBelieveIt
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- VIDEO 08 -->
+
+<div class="video-card">
+
+<div class="card-date">
+<div class="date-num">01</div>
+<div class="date-month">Jun</div>
+<div class="date-vid">Clip 08</div>
+</div>
+
+<div class="card-body">
+
+<div class="card-title">
+Afraid to Let Go
+</div>
+
+<div class="card-hook">
+Focus: Emotional vulnerability and surrender.
+</div>
+
+<div class="card-sections">
+
+<div class="section-block">
+<h4>
+Voiceover Script
+<button class="copy-btn" onclick="copyText('vo8', this)">Copy</button>
+</h4>
+
+<p id="vo8">
+Maybe you were never afraid of being wrong. Maybe you were afraid of opening your heart again after everything life has already taken from you. Real faith requires vulnerability. And vulnerability is terrifying after disappointment.
+</p>
+
+</div>
+
+<div class="section-block desc">
+
+<h4>
+Video Description
+<button class="copy-btn" onclick="copyText('md8', this)">Copy</button>
+</h4>
+
+<p id="md8">
+Sometimes the hardest thing isn't believing. It's trusting again after pain. #Vulnerability #HealingJourney #FaithJourney #SpiritualGrowth
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- VIDEO 09 -->
+
+<div class="video-card">
+
+<div class="card-date">
+<div class="date-num">02</div>
+<div class="date-month">Jun</div>
+<div class="date-vid">Clip 09</div>
+</div>
+
+<div class="card-body">
+
+<div class="card-title">
+The Search Never Stopped
+</div>
+
+<div class="card-hook">
+Focus: Realizing the search for truth never ended.
+</div>
+
+<div class="card-sections">
+
+<div class="section-block">
+<h4>
+Voiceover Script
+<button class="copy-btn" onclick="copyText('vo9', this)">Copy</button>
+</h4>
+
+<p id="vo9">
+You kept searching even after you claimed to stop believing. Different books. Different philosophies. Different distractions. But deep down, the search for meaning never actually left you.
+</p>
+
+</div>
+
+<div class="section-block desc">
+
+<h4>
+Video Description
+<button class="copy-btn" onclick="copyText('md9', this)">Copy</button>
+</h4>
+
+<p id="md9">
+People stop going to church all the time. Very few people actually stop searching for meaning. #MeaningOfLife #Searching #Truth #FaithAndReason
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- VIDEO 10 -->
+
+<div class="video-card">
+
+<div class="card-date">
+<div class="date-num">02</div>
+<div class="date-month">Jun</div>
+<div class="date-vid">Clip 10</div>
+</div>
+
+<div class="card-body">
+
+<div class="card-title">
+Maybe Faith Is Courage
+</div>
+
+<div class="card-hook">
+Focus: Reframing openness as strength.
+</div>
+
+<div class="card-sections">
+
+<div class="section-block">
+<h4>
+Voiceover Script
+<button class="copy-btn" onclick="copyText('vo10', this)">Copy</button>
+</h4>
+
+<p id="vo10">
+Maybe shutting everything down isn't strength. Maybe staying open to difficult truth actually requires more courage. Real faith isn't pretending to have every answer. It's having enough honesty to keep searching anyway.
+</p>
+
+</div>
+
+<div class="section-block desc">
+
+<h4>
+Video Description
+<button class="copy-btn" onclick="copyText('md10', this)">Copy</button>
+</h4>
+
+<p id="md10">
+It takes courage to stay emotionally open in a cynical world. #Courage #TruthSeeking #SpiritualQuestions #WouldYouBelieveIt
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- VIDEO 11 -->
+
+<div class="video-card">
+
+<div class="card-date">
+<div class="date-num">03</div>
+<div class="date-month">Jun</div>
+<div class="date-vid">Clip 11</div>
+</div>
+
+<div class="card-body">
+
+<div class="card-title">
+An Honest Invitation
+</div>
+
+<div class="card-hook">
+Focus: Removing pressure and manipulation.
+</div>
+
+<div class="card-sections">
+
+<div class="section-block">
+<h4>
+Voiceover Script
+<button class="copy-btn" onclick="copyText('vo11', this)">Copy</button>
+</h4>
+
+<p id="vo11">
+This isn't about emotional manipulation or pretending difficult questions don't exist. It's an honest invitation to think deeply, ask hard questions, and explore whether faith might actually survive scrutiny.
+</p>
+
+</div>
+
+<div class="section-block desc">
+
+<h4>
+Video Description
+<button class="copy-btn" onclick="copyText('md11', this)">Copy</button>
+</h4>
+
+<p id="md11">
+Honest faith should survive honest questions. #FaithAndReason #Apologetics #SpiritualConversation #SeekingTruth
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- VIDEO 12 -->
+
+<div class="video-card">
+
+<div class="card-date">
+<div class="date-num">03</div>
+<div class="date-month">Jun</div>
+<div class="date-vid">Clip 12</div>
+</div>
+
+<div class="card-body">
+
+<div class="card-title">
+Safe Enough to Ask
+</div>
+
+<div class="card-hook">
+Focus: Creating emotional safety for seekers.
+</div>
+
+<div class="card-sections">
+
+<div class="section-block">
+<h4>
+Voiceover Script
+<button class="copy-btn" onclick="copyText('vo12', this)">Copy</button>
+</h4>
+
+<p id="vo12">
+A lot of people stopped asking spiritual questions because they got tired of being judged for them. But questions are not enemies of faith. Honest questions are usually where real faith begins.
+</p>
+
+</div>
+
+<div class="section-block desc">
+
+<h4>
+Video Description
+<button class="copy-btn" onclick="copyText('md12', this)">Copy</button>
+</h4>
+
+<p id="md12">
+You should never be shamed for asking honest spiritual questions. #Questions #FaithJourney #SpiritualGrowth #WouldYouBelieveIt
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- VIDEO 13 -->
+
+<div class="video-card">
+
+<div class="card-date">
+<div class="date-num">04</div>
+<div class="date-month">Jun</div>
+<div class="date-vid">Clip 13</div>
+</div>
+
+<div class="card-body">
+
+<div class="card-title">
+Truth Is Not Afraid
+</div>
+
+<div class="card-hook">
+Focus: Faith surviving scrutiny.
+</div>
+
+<div class="card-sections">
+
+<div class="section-block">
+<h4>
+Voiceover Script
+<button class="copy-btn" onclick="copyText('vo13', this)">Copy</button>
+</h4>
+
+<p id="vo13">
+If something is genuinely true, it shouldn't collapse under honest investigation. Maybe the reason faith keeps surviving history, philosophy, suffering, and skepticism is because there is actually something real underneath it all.
+</p>
+
+</div>
+
+<div class="section-block desc">
+
+<h4>
+Video Description
+<button class="copy-btn" onclick="copyText('md13', this)">Copy</button>
+</h4>
+
+<p id="md13">
+Truth does not fear investigation. #TruthSeeking #Apologetics #FaithAndReason #ExistentialQuestions
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- VIDEO 14 -->
+
+<div class="video-card">
+
+<div class="card-date">
+<div class="date-num">04</div>
+<div class="date-month">Jun</div>
+<div class="date-vid">Clip 14</div>
+</div>
+
+<div class="card-body">
+
+<div class="card-title">
+Why Does This Feel Familiar?
+</div>
+
+<div class="card-hook">
+Focus: The emotional pull toward belief.
+</div>
+
+<div class="card-sections">
+
+<div class="section-block">
+<h4>
+Voiceover Script
+<button class="copy-btn" onclick="copyText('vo14', this)">Copy</button>
+</h4>
+
+<p id="vo14">
+You spent years trying not to believe. So why does this suddenly feel familiar? Why does some part of your soul still react when truth, grace, hope, and forgiveness are mentioned?
+</p>
+
+</div>
+
+<div class="section-block desc">
+
+<h4>
+Video Description
+<button class="copy-btn" onclick="copyText('md14', this)">Copy</button>
+</h4>
+
+<p id="md14">
+Some truths echo because they were always there underneath the noise. #Grace #FaithJourney #Healing #Truth
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- VIDEO 15 -->
+
+<div class="video-card">
+
+<div class="card-date">
+<div class="date-num">04</div>
+<div class="date-month">Jun</div>
+<div class="date-vid">Clip 15</div>
+</div>
+
+<div class="card-body">
+
+<div class="card-title">
+The Final Invitation
+</div>
+
+<div class="card-hook">
+Focus: Direct emotional conversion CTA.
+</div>
+
+<div class="card-sections">
+
+<div class="section-block">
+<h4>
+Voiceover Script
+<button class="copy-btn" onclick="copyText('vo15', this)">Copy</button>
+</h4>
+
+<p id="vo15">
+Maybe faith doesn't begin with certainty. Maybe it begins with enough honesty to admit the questions still matter. If you're exhausted by shallow answers and ready for a deeper conversation, start with Would You Believe It? by Kyle Hogg. Available now on Kindle, Paperback, and Audio.
+</p>
+
+</div>
+
+<div class="section-block desc">
+
+<h4>
+Video Description
+<button class="copy-btn" onclick="copyText('md15', this)">Copy</button>
+</h4>
+
+<p id="md15">
+For skeptics, overthinkers, exhausted cynics, and people secretly searching for hope again. Would You Believe It? by Kyle Hogg is available now. #BookTok #FaithJourney #WouldYouBelieveIt #SpiritualGrowth #TruthSeeking #KyleHogg
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<footer class="footer">
+
+<div class="footer-brand">
+ATOMIC SHELF
+</div>
+
+<div class="footer-note">
+Week 2 Emotional Resistance Rollout · Prepared for Kyle Hogg · June 2026
+</div>
+
+</footer>
+
+</body>
+</html>

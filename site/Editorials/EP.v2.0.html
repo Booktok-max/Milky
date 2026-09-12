@@ -1,0 +1,2569 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Atomic Shelf · Command Centre</title>
+
+<link rel="icon" type="image/svg+xml" href="https://atomic-shelf.com/atomic-shelf.svg"><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=Cabinet+Grotesk:wght@300;400;500;700;800;900&family=Fira+Code:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+a{color:inherit;text-decoration:none;}
+button{cursor:pointer;font-family:inherit;}
+img{display:block;}
+
+:root{
+  /* Palette — warm ink editorial */
+  --bg:#0e0b08;
+  --bg2:#141009;
+  --bg3:#1c1610;
+  --surface:#1e1912;
+  --surface2:#252018;
+  --surface3:#2c2720;
+  --border:#3a3228;
+  --border-lt:#322c22;
+  --border-faint:#28231a;
+
+  --ink:#fdf6ea;
+  --ink2:#f5e8d0;
+  --ink3:#c9b89a;
+  --ink4:#8a7660;
+  --ink5:#5a4e3e;
+
+  --gold:#d4a847;
+  --gold2:#e8c56a;
+  --gold3:#b88c2a;
+  --gold-lt:rgba(212,168,71,.12);
+  --gold-glow:rgba(212,168,71,.22);
+
+  --green:#3d9e6b;
+  --green-bg:rgba(61,158,107,.12);
+  --green-bd:rgba(61,158,107,.28);
+  --green-dk:#2d7a51;
+
+  --red:#c0392b;
+  --red-bg:rgba(192,57,43,.12);
+  --red-bd:rgba(192,57,43,.25);
+
+  --amber:#d97706;
+  --amber-bg:rgba(217,119,6,.12);
+  --amber-bd:rgba(217,119,6,.28);
+
+  --blue:#3b82f6;
+  --blue-bg:rgba(59,130,246,.12);
+  --blue-bd:rgba(59,130,246,.22);
+
+  --purple:#7c3aed;
+  --purple-bg:rgba(124,58,237,.12);
+  --purple-bd:rgba(124,58,237,.22);
+
+  --teal:#0d9488;
+  --teal-bg:rgba(13,148,136,.12);
+  --teal-bd:rgba(13,148,136,.22);
+
+  --slate:#64748b;
+  --slate-bg:rgba(100,116,139,.12);
+  --slate-bd:rgba(100,116,139,.22);
+
+  --orange:#ea580c;
+  --orange-bg:rgba(234,88,12,.12);
+  --orange-bd:rgba(234,88,12,.22);
+
+  --r:8px; --r-sm:6px; --r-md:10px; --r-lg:14px; --r-xl:20px;
+
+  --shadow-xs:0 1px 3px rgba(0,0,0,.35);
+  --shadow-sm:0 2px 12px rgba(0,0,0,.45),0 1px 3px rgba(0,0,0,.3);
+  --shadow:0 6px 24px rgba(0,0,0,.55),0 2px 8px rgba(0,0,0,.4);
+  --shadow-lg:0 16px 48px rgba(0,0,0,.65),0 4px 16px rgba(0,0,0,.45);
+  --shadow-xl:0 36px 80px rgba(0,0,0,.75),0 10px 28px rgba(0,0,0,.5);
+
+  --ff-display:'Cormorant Garamond',Georgia,serif;
+  --ff-body:'Cabinet Grotesk',system-ui,sans-serif;
+  --ff-mono:'Fira Code',monospace;
+}
+
+body{
+  font-family:var(--ff-body);
+  background:var(--bg);
+  color:var(--ink);
+  min-height:100vh;
+  font-size:15px;
+  line-height:1.6;
+}
+body::before{
+  content:'';position:fixed;inset:0;
+  background:
+    radial-gradient(ellipse 60% 40% at 20% 0%,rgba(212,168,71,.06) 0%,transparent 60%),
+    radial-gradient(ellipse 40% 60% at 80% 100%,rgba(61,158,107,.04) 0%,transparent 60%);
+  pointer-events:none;z-index:0;
+}
+
+::-webkit-scrollbar{width:4px;height:4px;}
+::-webkit-scrollbar-track{background:var(--bg2);}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+
+/* ────────────────────────────────────────
+   HEADER
+──────────────────────────────────────── */
+.hdr{
+  background:rgba(14,11,8,.92);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  padding:0 28px;
+  height:58px;
+  display:flex;
+  align-items:center;
+  gap:16px;
+  position:sticky;top:0;z-index:100;
+}
+.hdr::after{
+  content:'';position:absolute;bottom:-1px;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent 0%,var(--gold) 40%,var(--gold2) 60%,transparent 100%);
+  opacity:.4;
+}
+
+.logo{
+  display:flex;align-items:center;gap:12px;flex-shrink:0;
+}
+.logo-mark{
+  width:34px;height:34px;border-radius:8px;
+  background:linear-gradient(145deg,var(--gold3) 0%,var(--gold) 50%,var(--gold2) 100%);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--ff-mono);font-size:.62rem;font-weight:600;color:#0e0b08;
+  letter-spacing:.06em;box-shadow:0 2px 12px var(--gold-glow);
+}
+.logo-text{
+  font-family:var(--ff-display);
+  font-size:1.45rem;font-weight:500;
+  color:var(--ink);letter-spacing:.02em;line-height:1;
+}
+.logo-text em{font-style:italic;color:var(--gold);}
+
+.srch-wrap{position:relative;flex:1;max-width:360px;}
+.srch-ico{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--ink5);pointer-events:none;}
+.srch{
+  width:100%;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  padding:8px 14px 8px 34px;
+  color:var(--ink);
+  font-family:var(--ff-body);font-size:.84rem;
+  outline:none;transition:all .2s;
+}
+.srch::placeholder{color:var(--ink5);}
+.srch:focus{border-color:var(--gold3);background:var(--surface2);box-shadow:0 0 0 3px var(--gold-lt);}
+
+.hdr-right{display:flex;gap:6px;margin-left:auto;align-items:center;flex-shrink:0;}
+.hdr-btn{
+  background:var(--surface);border:1px solid var(--border);
+  color:var(--ink3);padding:7px 14px;border-radius:var(--r);
+  font-size:.74rem;font-weight:700;letter-spacing:.04em;
+  display:flex;align-items:center;gap:5px;transition:all .15s;white-space:nowrap;
+  font-family:var(--ff-body);
+}
+.hdr-btn:hover{background:var(--surface2);color:var(--ink);border-color:var(--border-lt);}
+.hdr-btn.gold{background:var(--gold-lt);border-color:var(--gold-bd, rgba(212,168,71,.3));color:var(--gold);}
+.hdr-btn.gold:hover{background:rgba(212,168,71,.2);color:var(--gold2);}
+.live-badge{
+  display:flex;align-items:center;gap:5px;
+  font-family:var(--ff-mono);font-size:.58rem;
+  color:var(--ink5);letter-spacing:.1em;white-space:nowrap;
+}
+.live-dot{width:6px;height:6px;border-radius:50%;background:#4ade80;box-shadow:0 0 8px #4ade80;animation:pulse 2.5s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.25;}}
+
+.view-toggle{display:flex;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;}
+.vt-btn{background:none;border:none;color:var(--ink5);padding:6px 11px;font-size:.82rem;transition:all .15s;display:flex;align-items:center;}
+.vt-btn.active{background:var(--gold-lt);color:var(--gold);}
+.vt-btn:hover:not(.active){color:var(--ink3);}
+
+/* ────────────────────────────────────────
+   STATS BAR
+──────────────────────────────────────── */
+.stats-bar{
+  background:var(--bg2);
+  border-bottom:1px solid var(--border);
+  padding:14px 28px;
+  display:flex;gap:0;
+  overflow-x:auto;scrollbar-width:none;
+}
+.stats-bar::-webkit-scrollbar{display:none;}
+.stat{
+  flex:1;min-width:75px;
+  padding:0 20px;
+  border-right:1px solid var(--border-faint);
+}
+.stat:first-child{padding-left:0;}
+.stat:last-child{border-right:none;}
+.stat-val{
+  font-family:var(--ff-display);
+  font-size:2.4rem;font-weight:300;
+  color:var(--ink);line-height:1;margin-bottom:2px;
+  letter-spacing:-.01em;
+}
+.stat-val.g{color:var(--green);}
+.stat-val.r{color:var(--red);}
+.stat-val.a{color:var(--gold);}
+.stat-val.tk{color:#e2e8f0;}
+.stat-lbl{
+  font-family:var(--ff-mono);
+  font-size:.55rem;color:var(--ink5);
+  text-transform:uppercase;letter-spacing:.1em;
+}
+
+/* ────────────────────────────────────────
+   CONTROLS
+──────────────────────────────────────── */
+.ctrl-wrap{
+  background:rgba(14,11,8,.96);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  position:sticky;top:58px;z-index:90;
+}
+.tabs-row{
+  display:flex;align-items:center;
+  padding:0 28px;gap:0;
+  border-bottom:1px solid var(--border-faint);
+  overflow-x:auto;scrollbar-width:none;
+}
+.tabs-row::-webkit-scrollbar{display:none;}
+.tab{
+  font-family:var(--ff-body);font-size:.82rem;font-weight:700;
+  color:var(--ink5);padding:13px 20px;
+  border-bottom:2px solid transparent;
+  cursor:pointer;transition:all .17s;white-space:nowrap;
+  letter-spacing:.02em;flex-shrink:0;text-transform:uppercase;
+}
+.tab:hover{color:var(--ink3);}
+.tab.active{color:var(--gold);border-bottom-color:var(--gold);}
+.tab-badge{
+  display:inline-flex;align-items:center;justify-content:center;
+  background:var(--red-bg);color:var(--red);
+  border:1px solid var(--red-bd);
+  border-radius:40px;font-size:.54rem;font-weight:700;
+  padding:1px 6px;margin-left:5px;min-width:16px;
+  font-family:var(--ff-mono);vertical-align:middle;
+}
+.tab-badge.amber{background:var(--amber-bg);color:var(--amber);border-color:var(--amber-bd);}
+
+.ctrl-bar{padding:8px 28px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.ctrl-lbl{font-size:.67rem;font-weight:700;color:var(--ink5);letter-spacing:.07em;text-transform:uppercase;font-family:var(--ff-mono);}
+.ctrl-sel{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r-sm);padding:6px 10px;
+  font-size:.78rem;font-family:var(--ff-body);color:var(--ink2);outline:none;cursor:pointer;
+  font-weight:500;
+}
+.ctrl-sel:focus{border-color:var(--gold3);}
+.author-filter-pill{
+  display:inline-flex;align-items:center;gap:5px;
+  background:var(--gold-lt);border:1px solid rgba(212,168,71,.3);
+  border-radius:40px;padding:3px 10px 3px 12px;
+  font-size:.71rem;font-weight:700;color:var(--gold);cursor:pointer;
+}
+.author-filter-pill .afp-x{font-size:.9rem;color:var(--gold2);padding-left:2px;}
+.collapse-btns{display:flex;gap:5px;margin-left:auto;}
+.c-btn{
+  background:none;border:1px solid var(--border);color:var(--ink5);
+  padding:5px 11px;border-radius:var(--r-sm);
+  font-size:.69rem;font-weight:700;letter-spacing:.03em;transition:all .14s;
+  font-family:var(--ff-body);
+}
+.c-btn:hover{background:var(--surface);color:var(--ink3);}
+
+/* ────────────────────────────────────────
+   MAIN
+──────────────────────────────────────── */
+.main{padding:24px 28px 90px;position:relative;z-index:1;}
+
+/* ────────────────────────────────────────
+   LOADING / ERROR
+──────────────────────────────────────── */
+.loading-state{text-align:center;padding:80px 24px;color:var(--ink5);}
+.loading-spinner{
+  width:40px;height:40px;border:2px solid var(--border);
+  border-top-color:var(--gold);border-radius:50%;
+  animation:spin 1s linear infinite;margin:0 auto 18px;
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+.loading-title{font-family:var(--ff-display);font-size:1.4rem;font-weight:400;color:var(--ink2);margin-bottom:6px;letter-spacing:.02em;}
+.loading-sub{font-size:.82rem;color:var(--ink5);}
+
+.error-state{text-align:center;padding:60px 24px;max-width:520px;margin:0 auto;}
+.error-icon{font-size:2.8rem;margin-bottom:16px;}
+.error-title{font-family:var(--ff-display);font-size:1.5rem;font-weight:400;color:var(--red);margin-bottom:8px;letter-spacing:.02em;}
+.error-msg{font-size:.82rem;color:var(--ink4);line-height:1.8;margin-bottom:18px;}
+.error-url-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:11px 14px;font-family:var(--ff-mono);font-size:.68rem;color:var(--ink4);text-align:left;margin-bottom:16px;word-break:break-all;}
+
+/* ────────────────────────────────────────
+   SECTIONS
+──────────────────────────────────────── */
+.section-block{margin-bottom:40px;}
+.section-hdr{
+  display:flex;align-items:center;gap:12px;margin-bottom:14px;
+  cursor:pointer;user-select:none;
+}
+.section-hdr:hover .section-title{color:var(--ink);}
+.section-accent{width:3px;height:26px;border-radius:2px;flex-shrink:0;}
+.section-title{
+  font-family:var(--ff-display);
+  font-size:1.25rem;font-weight:500;
+  color:var(--ink2);letter-spacing:.04em;line-height:1;
+  white-space:nowrap;transition:color .15s;
+  font-style:italic;
+}
+.section-count{
+  font-family:var(--ff-mono);font-size:.58rem;color:var(--ink5);
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:40px;padding:2px 10px;letter-spacing:.06em;
+}
+.section-rule{flex:1;height:1px;background:var(--border-faint);}
+.section-toggle{font-size:.78rem;color:var(--ink5);transition:transform .22s;flex-shrink:0;}
+.section-toggle.collapsed{transform:rotate(-90deg);}
+.section-body.hidden{display:none;}
+
+/* ────────────────────────────────────────
+   CARDS GRID
+──────────────────────────────────────── */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px;}
+.cards-grid.list-view{grid-template-columns:1fr;gap:7px;}
+
+/* ────────────────────────────────────────
+   CARD
+──────────────────────────────────────── */
+.card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--r-lg);
+  overflow:hidden;cursor:pointer;
+  transition:transform .18s,box-shadow .18s,border-color .18s;
+  display:flex;flex-direction:column;
+  position:relative;
+}
+.card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);border-color:var(--border-lt);}
+.card.list-view{flex-direction:row;align-items:stretch;border-radius:var(--r);}
+.card.list-view:hover{transform:translateX(2px) translateY(0);}
+
+.card-accent-bar{height:3px;width:100%;flex-shrink:0;}
+.card.list-view .card-accent-bar{height:auto;width:3px;}
+
+.card-top{padding:14px 15px 8px;}
+.card.list-view .card-top{padding:12px 15px;display:flex;flex-direction:column;justify-content:center;flex:1;min-width:0;}
+
+.card-book-title{
+  font-family:var(--ff-display);
+  font-size:1.15rem;font-weight:600;
+  color:var(--ink);line-height:1.2;margin-bottom:2px;
+  display:flex;align-items:flex-start;gap:6px;
+  letter-spacing:.01em;
+}
+.vip-star{color:var(--gold);font-size:.9rem;flex-shrink:0;margin-top:2px;}
+.card-author{
+  font-size:.76rem;font-weight:700;color:var(--ink4);
+  margin-bottom:2px;display:flex;align-items:center;gap:5px;
+  letter-spacing:.02em;text-transform:uppercase;
+}
+.pen-name{font-style:italic;color:var(--ink5);font-weight:400;text-transform:none;}
+.card-series{
+  font-family:var(--ff-display);font-size:.82rem;font-style:italic;
+  color:var(--gold3);margin-bottom:6px;
+}
+.card-genre-pill{
+  display:inline-block;font-size:.6rem;font-weight:700;
+  color:var(--ink5);background:var(--surface2);
+  border:1px solid var(--border);border-radius:40px;
+  padding:2px 10px;letter-spacing:.05em;margin-bottom:7px;
+  font-family:var(--ff-mono);text-transform:uppercase;
+}
+
+/* Platforms */
+.platform-row{display:flex;align-items:center;gap:4px;margin-bottom:7px;}
+.plt{
+  display:inline-flex;align-items:center;gap:3px;
+  font-size:.58rem;font-weight:700;letter-spacing:.05em;
+  padding:2px 8px;border-radius:4px;font-family:var(--ff-mono);
+}
+.plt-tk{background:#010101;color:#fff;}
+.plt-yt{background:#c00;color:#fff;}
+.plt-pi{background:#bd081c;color:#fff;}
+.plt-pg{background:var(--gold-lt);color:var(--gold);border:1px solid rgba(212,168,71,.25);}
+.plt-ph{background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-bd);}
+.plt-off{background:var(--surface2);color:var(--ink5);border:1px solid var(--border);}
+
+/* Metrics */
+.metrics-row{display:flex;gap:8px;margin-bottom:4px;flex-wrap:wrap;}
+.metric{
+  font-family:var(--ff-mono);font-size:.62rem;
+  color:var(--ink5);display:flex;align-items:center;gap:3px;
+}
+.metric strong{color:var(--ink3);}
+
+/* Card body */
+.card-body{padding:0 15px 8px;flex:1;}
+.info-row{
+  display:flex;justify-content:space-between;align-items:flex-start;
+  padding:5px 0;border-bottom:1px solid var(--border-faint);
+}
+.info-row:last-child{border-bottom:none;}
+.info-key{
+  font-family:var(--ff-mono);font-size:.58rem;
+  color:var(--ink5);text-transform:uppercase;letter-spacing:.1em;
+  flex-shrink:0;padding-right:10px;padding-top:2px;
+}
+.info-val{font-size:.78rem;color:var(--ink3);text-align:right;font-weight:500;line-height:1.4;}
+.info-val.action{color:var(--gold);font-size:.74rem;}
+
+/* Card meta / foot */
+.card-meta{display:flex;gap:4px;align-items:center;padding:0 15px 7px;flex-wrap:wrap;}
+.card.list-view .card-meta{padding:0;margin-top:4px;}
+.card-foot{
+  display:flex;gap:5px;padding:8px 15px 12px;
+  border-top:1px solid var(--border-faint);margin-top:auto;
+}
+.card.list-view .card-foot{border-top:none;padding:0;flex-shrink:0;align-items:center;padding-right:12px;}
+.card-list-right{display:none;flex-direction:column;align-items:flex-end;justify-content:center;gap:6px;padding:12px 14px 12px 0;flex-shrink:0;min-width:170px;}
+.card.list-view .card-list-right{display:flex;}
+
+/* Trial bar */
+.trial-bar-wrap{padding:0 15px 8px;}
+.card.list-view .trial-bar-wrap{display:none;}
+.trial-bar-lbl{font-family:var(--ff-mono);font-size:.56rem;color:var(--ink5);letter-spacing:.06em;margin-bottom:4px;display:flex;justify-content:space-between;}
+.trial-bar-bg{background:var(--surface2);border-radius:4px;height:3px;overflow:hidden;}
+.trial-bar-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--blue),#93c5fd);transition:width .4s;}
+
+/* Tasks preview in card */
+.card-tasks-preview{padding:6px 15px 7px;border-top:1px solid var(--border-faint);}
+.card-task-item{
+  display:flex;align-items:center;gap:6px;
+  font-size:.7rem;color:var(--ink5);
+  padding:3px 0;border-bottom:1px solid var(--border-faint);
+  line-height:1.3;
+}
+.card-task-item:last-child{border-bottom:none;}
+.task-cat-dot{
+  width:6px;height:6px;border-radius:50%;flex-shrink:0;
+}
+
+/* ────────────────────────────────────────
+   BADGES
+──────────────────────────────────────── */
+.badge{
+  display:inline-flex;align-items:center;
+  padding:2px 8px;border-radius:40px;
+  font-size:.59rem;font-weight:700;letter-spacing:.06em;
+  white-space:nowrap;font-family:var(--ff-mono);text-transform:uppercase;
+}
+.b-active{background:var(--green-bg);color:var(--green);border:1px solid var(--green-bd);}
+.b-needs{background:var(--red-bg);color:var(--red);border:1px solid var(--red-bd);}
+.b-awaiting{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-bd);}
+.b-trial{background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-bd);}
+.b-prospect{background:var(--orange-bg);color:var(--orange);border:1px solid var(--orange-bd);}
+.b-low{background:var(--slate-bg);color:var(--slate);border:1px solid var(--slate-bd);}
+.b-old{background:var(--purple-bg);color:var(--purple);border:1px solid var(--purple-bd);}
+
+.days-badge{font-family:var(--ff-mono);font-size:.59rem;padding:2px 8px;border-radius:40px;white-space:nowrap;}
+.d-fresh{background:var(--green-bg);color:var(--green);}
+.d-ok{background:var(--amber-bg);color:var(--amber);}
+.d-stale{background:var(--orange-bg);color:var(--orange);}
+.d-urgent{background:var(--red-bg);color:var(--red);}
+.d-none{background:var(--slate-bg);color:var(--slate);}
+
+.inv-badge{font-family:var(--ff-mono);font-size:.59rem;padding:2px 8px;border-radius:4px;white-space:nowrap;}
+.inv-paid{background:var(--green-bg);color:var(--green);}
+.inv-due{background:var(--amber-bg);color:var(--amber);}
+.inv-pend{background:var(--slate-bg);color:var(--slate);}
+.inv-na{font-family:var(--ff-mono);font-size:.59rem;color:var(--ink5);}
+
+/* ────────────────────────────────────────
+   BUTTONS
+──────────────────────────────────────── */
+.btn{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:7px 13px;border-radius:var(--r-sm);
+  font-size:.73rem;font-weight:700;transition:all .15s;
+  white-space:nowrap;border:none;letter-spacing:.02em;
+  font-family:var(--ff-body);
+}
+.btn-dark{background:var(--ink2);color:var(--bg);} .btn-dark:hover{background:var(--ink);}
+.btn-ghost{background:none;border:1px solid var(--border);color:var(--ink3);}
+.btn-ghost:hover{background:var(--surface2);border-color:var(--border-lt);}
+.btn-ghost.done{background:var(--green-bg);border-color:var(--green-bd);color:var(--green);}
+.btn-gold{background:var(--gold);color:var(--bg);} .btn-gold:hover{background:var(--gold2);}
+.btn-sm{padding:5px 10px;font-size:.68rem;}
+.btn-author-filter{
+  background:none;border:1px solid var(--border);color:var(--ink5);
+  padding:2px 7px;font-size:.62rem;border-radius:4px;font-weight:700;
+  font-family:var(--ff-mono);text-transform:uppercase;letter-spacing:.05em;
+  transition:all .13s;
+}
+.btn-author-filter:hover{border-color:var(--gold3);color:var(--gold);}
+
+/* ────────────────────────────────────────
+   AUTHOR GROUP VIEW
+──────────────────────────────────────── */
+.author-group{margin-bottom:28px;}
+.author-group-hdr{
+  display:flex;align-items:center;gap:12px;margin-bottom:10px;
+  padding:12px 16px;background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r-md);cursor:pointer;transition:all .15s;
+}
+.author-group-hdr:hover{background:var(--surface2);border-color:var(--border-lt);}
+.ag-name{font-family:var(--ff-display);font-size:1.1rem;font-weight:600;color:var(--ink);letter-spacing:.02em;}
+.ag-email{font-size:.71rem;color:var(--ink5);}
+.ag-count{font-family:var(--ff-mono);font-size:.6rem;background:var(--surface2);border:1px solid var(--border);border-radius:40px;padding:2px 9px;color:var(--ink5);}
+.ag-books{margin-left:auto;font-size:.71rem;color:var(--ink5);font-style:italic;}
+.ag-toggle{font-size:.78rem;color:var(--ink5);transition:transform .22s;}
+.ag-toggle.collapsed{transform:rotate(-90deg);}
+
+/* ────────────────────────────────────────
+   LAST CONTACTED VIEW
+──────────────────────────────────────── */
+.contact-list{display:flex;flex-direction:column;gap:8px;}
+.clist-item{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);
+  padding:15px 20px;display:flex;align-items:center;gap:18px;
+  cursor:pointer;transition:all .17s;position:relative;overflow:hidden;
+}
+.clist-item:hover{transform:translateX(2px);box-shadow:var(--shadow);border-color:var(--border-lt);}
+.clist-accent{width:3px;position:absolute;left:0;top:0;bottom:0;}
+.clist-days{flex-shrink:0;width:68px;text-align:center;}
+.clist-days-num{font-family:var(--ff-display);font-size:2.2rem;line-height:1;font-weight:300;letter-spacing:-.02em;}
+.clist-days-unit{font-family:var(--ff-mono);font-size:.54rem;color:var(--ink5);text-transform:uppercase;letter-spacing:.1em;margin-top:1px;}
+.clist-days-today{font-family:var(--ff-body);font-size:.76rem;font-weight:700;color:var(--green);padding-top:6px;}
+.clist-divider{width:1px;height:50px;background:var(--border-faint);flex-shrink:0;}
+.clist-info{flex:1;min-width:0;}
+.clist-book{
+  font-family:var(--ff-display);font-size:1.1rem;font-weight:600;
+  color:var(--ink);margin-bottom:1px;
+  display:flex;align-items:center;gap:7px;letter-spacing:.02em;
+}
+.clist-author{font-size:.74rem;color:var(--ink4);font-weight:700;margin-bottom:2px;text-transform:uppercase;letter-spacing:.03em;}
+.clist-summary{font-size:.78rem;color:var(--ink4);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.clist-right{flex-shrink:0;display:flex;flex-direction:column;align-items:flex-end;gap:6px;}
+.clist-action{font-size:.72rem;color:var(--gold);font-weight:500;text-align:right;max-width:180px;line-height:1.35;}
+.clist-badges{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;}
+.clist-date-label{font-family:var(--ff-mono);font-size:.58rem;color:var(--ink5);letter-spacing:.06em;}
+.clist-nodate{opacity:.6;}
+
+/* ────────────────────────────────────────
+   TASKMASTER
+──────────────────────────────────────── */
+.tm-wrap{padding:20px 28px 90px;position:relative;z-index:1;}
+
+.tm-summary-bar{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;margin-bottom:18px;}
+.tm-sum-box{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);
+  padding:12px 14px;position:relative;overflow:hidden;
+}
+.tm-sum-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+.tm-sum-box.box-high::before{background:var(--gold);}
+.tm-sum-box.box-normal::before{background:var(--blue);}
+.tm-sum-box.box-low::before{background:var(--slate);}
+.tm-sum-box.box-done::before{background:var(--green);}
+.tm-sum-box.box-total::before{background:var(--ink);}
+.tm-sum-box.box-video::before{background:var(--purple);}
+.tm-sum-box.box-billing::before{background:var(--red);}
+.tm-sum-box.box-posting::before{background:var(--teal);}
+.tm-sum-val{font-family:var(--ff-display);font-size:2.2rem;font-weight:300;color:var(--ink);line-height:1;margin-bottom:2px;letter-spacing:-.01em;}
+.tm-sum-lbl{font-family:var(--ff-mono);font-size:.53rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink5);}
+
+.tm-progress-bar-wrap{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);
+  padding:13px 18px;margin-bottom:16px;display:flex;align-items:center;gap:18px;
+}
+.tm-progress-label{font-family:var(--ff-mono);font-size:.62rem;color:var(--ink5);text-transform:uppercase;letter-spacing:.09em;white-space:nowrap;}
+.tm-progress-track{flex:1;background:var(--surface2);border-radius:6px;height:6px;overflow:hidden;}
+.tm-progress-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--green-dk),var(--green));transition:width .6s ease;}
+.tm-progress-pct{font-family:var(--ff-display);font-size:1.3rem;font-weight:400;color:var(--green);white-space:nowrap;}
+
+.tm-filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;align-items:center;}
+.tm-filter-lbl{font-family:var(--ff-mono);font-size:.58rem;color:var(--ink5);text-transform:uppercase;letter-spacing:.08em;white-space:nowrap;}
+.tm-filter-btn{
+  background:var(--surface);border:1px solid var(--border);border-radius:40px;
+  padding:4px 12px;font-size:.69rem;font-weight:700;color:var(--ink4);cursor:pointer;
+  transition:all .13s;white-space:nowrap;font-family:var(--ff-body);letter-spacing:.02em;
+}
+.tm-filter-btn:hover{border-color:var(--gold3);color:var(--gold);}
+.tm-filter-btn.active{border-color:var(--gold3);background:var(--gold-lt);color:var(--gold);}
+.tm-filter-btn.f-done.active{background:var(--green-bg);border-color:var(--green-bd);color:var(--green);}
+
+.tm-sort-bar{
+  display:flex;align-items:center;gap:10px;margin-bottom:14px;
+  padding:7px 13px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);
+}
+.tm-sort-bar select{
+  background:none;border:none;font-size:.74rem;color:var(--ink3);
+  font-family:var(--ff-body);outline:none;cursor:pointer;
+}
+
+/* Author task blocks */
+.tm-author-block{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);margin-bottom:10px;overflow:hidden;}
+.tm-author-hdr{
+  display:flex;align-items:center;gap:12px;padding:12px 16px;
+  cursor:pointer;border-bottom:1px solid var(--border-faint);transition:background .13s;
+}
+.tm-author-hdr:hover{background:var(--surface2);}
+.tm-a-accent{width:3px;height:32px;border-radius:2px;flex-shrink:0;}
+.tm-a-name{font-family:var(--ff-display);font-size:1rem;font-weight:600;color:var(--ink);letter-spacing:.02em;}
+.tm-a-sub{font-size:.68rem;color:var(--ink5);margin-top:1px;font-family:var(--ff-mono);}
+.tm-a-meta{display:flex;gap:5px;flex-wrap:wrap;flex-shrink:0;align-items:center;margin-left:auto;}
+.tm-a-toggle{font-size:.78rem;color:var(--ink5);transition:transform .2s;flex-shrink:0;}
+.tm-a-toggle.collapsed{transform:rotate(-90deg);}
+
+.tm-book-subhdr{
+  display:flex;align-items:center;gap:8px;padding:6px 16px 5px 24px;
+  background:rgba(255,255,255,.02);border-bottom:1px solid var(--border-faint);
+}
+.tm-book-subhdr-title{font-family:var(--ff-display);font-size:.84rem;font-style:italic;color:var(--gold3);}
+.tm-book-subhdr-done{font-family:var(--ff-mono);font-size:.53rem;color:var(--ink5);}
+
+/* Task row */
+.tm-task-row{
+  display:flex;align-items:flex-start;gap:12px;padding:10px 16px 10px 24px;
+  border-bottom:1px solid var(--border-faint);transition:background .11s;position:relative;
+}
+.tm-task-row:last-child{border-bottom:none;}
+.tm-task-row:hover{background:rgba(255,255,255,.02);}
+.tm-task-row.done{opacity:.4;}
+.tm-task-row.done .tm-task-text{text-decoration:line-through;color:var(--ink5);}
+.tm-task-row.in-progress{background:rgba(212,168,71,.04);}
+.tm-task-row.in-progress::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--gold);}
+
+.tm-cb{
+  width:16px;height:16px;min-width:16px;border-radius:4px;
+  border:1.5px solid var(--border);appearance:none;-webkit-appearance:none;
+  cursor:pointer;position:relative;transition:all .13s;background:none;margin-top:3px;
+}
+.tm-cb:checked{background:var(--green);border-color:var(--green);}
+.tm-cb:checked::after{content:'✓';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#fff;font-size:.52rem;font-weight:700;}
+
+.tm-task-content{flex:1;min-width:0;}
+.tm-task-text{font-size:.83rem;color:var(--ink2);line-height:1.5;display:block;margin-bottom:3px;font-weight:500;}
+.tm-task-note{font-size:.7rem;color:var(--ink4);line-height:1.45;display:block;margin-bottom:4px;}
+.tm-task-btns{display:flex;gap:4px;flex-wrap:wrap;}
+.tm-task-btn{
+  background:none;border:1px solid var(--border);border-radius:4px;
+  font-size:.6rem;font-weight:700;color:var(--ink5);padding:2px 8px;
+  cursor:pointer;transition:all .11s;font-family:var(--ff-body);letter-spacing:.02em;
+}
+.tm-task-btn:hover{border-color:var(--gold3);color:var(--gold);}
+.tm-task-btn.active-btn{background:var(--gold-lt);border-color:var(--gold3);color:var(--gold);}
+
+.tm-task-right{flex-shrink:0;display:flex;flex-direction:column;align-items:flex-end;gap:4px;padding-top:1px;min-width:100px;}
+.prio-badge{font-family:var(--ff-mono);font-size:.52rem;text-transform:uppercase;letter-spacing:.08em;padding:2px 7px;border-radius:40px;white-space:nowrap;}
+.prio-high{background:var(--amber-bg);color:var(--amber);}
+.prio-normal{background:var(--blue-bg);color:var(--blue);}
+.prio-low{background:var(--slate-bg);color:var(--slate);}
+.cat-tag{font-family:var(--ff-mono);font-size:.5rem;letter-spacing:.05em;padding:2px 6px;border-radius:3px;white-space:nowrap;color:#fff;opacity:.9;}
+.status-tag{font-family:var(--ff-mono);font-size:.5rem;padding:2px 6px;border-radius:3px;white-space:nowrap;}
+.st-todo{background:var(--slate-bg);color:var(--slate);}
+.st-inprog{background:var(--amber-bg);color:var(--amber);}
+.st-done{background:var(--green-bg);color:var(--green);}
+
+.tm-empty{text-align:center;padding:40px;color:var(--ink5);font-size:.85rem;}
+.tm-sync-btn{
+  display:flex;align-items:center;gap:6px;background:var(--surface2);
+  border:1px solid var(--border);color:var(--ink3);border-radius:var(--r-sm);
+  padding:7px 14px;font-size:.72rem;font-weight:700;cursor:pointer;
+  transition:all .14s;font-family:var(--ff-body);letter-spacing:.02em;
+}
+.tm-sync-btn:hover{background:var(--surface3);border-color:var(--border-lt);}
+.tm-sync-btn.syncing{opacity:.5;pointer-events:none;}
+.tm-mark-all-done{
+  background:var(--green-bg);border:1px solid var(--green-bd);color:var(--green);
+  border-radius:4px;padding:3px 8px;font-size:.6rem;font-weight:700;cursor:pointer;
+  font-family:var(--ff-mono);
+}
+
+/* ────────────────────────────────────────
+   CHECKLIST
+──────────────────────────────────────── */
+.checklist-wrap{padding:20px 28px 90px;position:relative;z-index:1;}
+
+.checklist-summary-bar{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;margin-bottom:18px;}
+.cl-sum-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:13px 15px;position:relative;overflow:hidden;}
+.cl-sum-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+.cl-sum-box.urgent::before{background:#ef4444;}
+.cl-sum-box.high::before{background:var(--gold);}
+.cl-sum-box.normal::before{background:var(--blue);}
+.cl-sum-box.low::before{background:var(--slate);}
+.cl-sum-box.done::before{background:var(--green);}
+.cl-sum-box.total::before{background:var(--ink2);}
+.cl-sum-val{font-family:var(--ff-display);font-size:2.2rem;font-weight:300;color:var(--ink);line-height:1;margin-bottom:2px;letter-spacing:-.01em;}
+.cl-sum-lbl{font-family:var(--ff-mono);font-size:.53rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink5);}
+
+.cl-progress-bar-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:13px 18px;margin-bottom:16px;display:flex;align-items:center;gap:18px;}
+.cl-progress-label{font-family:var(--ff-mono);font-size:.62rem;color:var(--ink5);text-transform:uppercase;letter-spacing:.09em;white-space:nowrap;}
+.cl-progress-track{flex:1;background:var(--surface2);border-radius:6px;height:6px;overflow:hidden;}
+.cl-progress-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--green-dk),var(--green));transition:width .6s ease;}
+.cl-progress-pct{font-family:var(--ff-display);font-size:1.3rem;font-weight:400;color:var(--green);white-space:nowrap;}
+
+.cl-filter-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;align-items:center;}
+.cl-cat-row{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:16px;align-items:center;}
+.cl-filter-btn{
+  background:var(--surface);border:1px solid var(--border);border-radius:40px;
+  padding:4px 13px;font-size:.7rem;font-weight:700;color:var(--ink4);
+  cursor:pointer;transition:all .13s;white-space:nowrap;font-family:var(--ff-body);
+}
+.cl-filter-btn:hover{border-color:var(--gold3);color:var(--gold);}
+.cl-filter-btn.active{border-color:var(--gold3);background:var(--gold-lt);color:var(--gold);}
+.cl-filter-btn.f-urgent.active{background:var(--red-bg);border-color:var(--red-bd);color:var(--red);}
+.cl-filter-btn.f-done.active{background:var(--green-bg);border-color:var(--green-bd);color:var(--green);}
+.cl-cat-btn{
+  background:var(--surface);border:1px solid var(--border);border-radius:4px;
+  padding:3px 10px;font-size:.63rem;font-weight:700;color:var(--ink4);
+  cursor:pointer;transition:all .12s;white-space:nowrap;font-family:var(--ff-mono);letter-spacing:.04em;
+}
+.cl-cat-btn:hover{border-color:var(--ink4);color:var(--ink3);}
+.cl-cat-btn.active{color:#fff;border-color:transparent;}
+
+/* Author block */
+.cl-author-block{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);margin-bottom:10px;overflow:hidden;}
+.cl-author-hdr{
+  display:flex;align-items:center;gap:12px;padding:12px 16px;
+  cursor:pointer;border-bottom:1px solid var(--border-faint);transition:background .13s;
+}
+.cl-author-hdr:hover{background:var(--surface2);}
+.cl-a-accent{width:3px;height:34px;border-radius:2px;flex-shrink:0;}
+.cl-a-info{flex:1;min-width:0;}
+.cl-a-name{font-family:var(--ff-display);font-size:1rem;font-weight:600;color:var(--ink);letter-spacing:.02em;}
+.cl-a-sub{font-size:.7rem;color:var(--ink5);margin-top:1px;font-family:var(--ff-mono);}
+.cl-a-meta{display:flex;gap:5px;flex-wrap:wrap;flex-shrink:0;align-items:center;}
+.cl-a-toggle{font-size:.78rem;color:var(--ink5);transition:transform .22s;flex-shrink:0;}
+.cl-a-toggle.collapsed{transform:rotate(-90deg);}
+
+/* Step items */
+.cl-step-item{
+  display:flex;align-items:flex-start;gap:11px;padding:10px 16px 10px 24px;
+  border-bottom:1px solid var(--border-faint);transition:background .11s;position:relative;
+}
+.cl-step-item:last-child{border-bottom:none;}
+.cl-step-item:hover{background:rgba(255,255,255,.02);}
+.cl-step-item.done-task{opacity:.4;}
+.cl-step-item.done-task .cl-step-text{text-decoration:line-through;color:var(--ink5);}
+.cl-step-item.in-progress-task{background:rgba(212,168,71,.04);}
+.cl-step-item.in-progress-task::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--gold);}
+
+.cl-check-wrap{flex-shrink:0;padding-top:3px;}
+.cl-checkbox{
+  width:16px;height:16px;border-radius:4px;border:1.5px solid var(--border);
+  appearance:none;-webkit-appearance:none;cursor:pointer;position:relative;
+  transition:all .13s;background:none;
+}
+.cl-checkbox:checked{background:var(--green);border-color:var(--green);}
+.cl-checkbox:checked::after{content:'✓';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#fff;font-size:.54rem;font-weight:700;}
+.cl-checkbox.in-progress-check{background:var(--amber-bg);border-color:var(--amber);}
+.cl-checkbox.in-progress-check::after{content:'▶';position:absolute;top:50%;left:50%;transform:translate(-50%,-52%);color:var(--amber);font-size:.5rem;}
+
+.cl-step-content{flex:1;min-width:0;}
+.cl-step-book{display:block;font-family:var(--ff-display);font-size:.76rem;font-style:italic;color:var(--gold3);margin-bottom:2px;}
+.cl-step-text{font-size:.82rem;color:var(--ink2);line-height:1.5;display:block;font-weight:500;}
+
+.cl-step-right{flex-shrink:0;display:flex;flex-direction:column;align-items:flex-end;gap:4px;padding-top:2px;}
+.cl-prio-badge{font-family:var(--ff-mono);font-size:.52rem;text-transform:uppercase;letter-spacing:.07em;padding:2px 6px;border-radius:40px;white-space:nowrap;}
+.cl-prio-badge.urgent{background:var(--red-bg);color:var(--red);}
+.cl-prio-badge.high{background:var(--amber-bg);color:var(--amber);}
+.cl-prio-badge.normal{background:var(--blue-bg);color:var(--blue);}
+.cl-prio-badge.low{background:var(--slate-bg);color:var(--slate);}
+.cl-cat-tag{font-family:var(--ff-mono);font-size:.5rem;letter-spacing:.05em;padding:2px 6px;border-radius:3px;white-space:nowrap;color:#fff;opacity:.9;}
+
+.cl-step-btns{display:flex;gap:4px;margin-top:3px;}
+.cl-step-btn{
+  background:none;border:1px solid var(--border);border-radius:3px;
+  font-size:.58rem;font-weight:700;color:var(--ink5);padding:2px 7px;
+  cursor:pointer;transition:all .11s;font-family:var(--ff-body);
+}
+.cl-step-btn:hover{border-color:var(--gold3);color:var(--gold);}
+.cl-step-btn.in-p{background:var(--gold-lt);border-color:var(--gold3);color:var(--gold);}
+
+.cl-sync-btn{display:flex;align-items:center;gap:6px;background:var(--surface2);border:1px solid var(--border);color:var(--ink3);border-radius:var(--r-sm);padding:7px 14px;font-size:.72rem;font-weight:700;cursor:pointer;transition:all .14s;font-family:var(--ff-body);}
+.cl-sync-btn:hover{background:var(--surface3);}
+.cl-sync-btn.syncing{opacity:.5;pointer-events:none;}
+.cl-empty{text-align:center;padding:40px;color:var(--ink5);font-size:.84rem;}
+
+/* ────────────────────────────────────────
+   CAT COLORS (shared)
+──────────────────────────────────────── */
+.cat-Billing{background:#7f1d1d;}
+.cat-Content-Delivery{background:#1e3a5f;}
+.cat-Content-Production{background:#4c1d95;}
+.cat-Posting{background:#064e3b;}
+.cat-Analytics{background:#134e4a;}
+.cat-Reporting{background:#1e3a5f;}
+.cat-Follow-Up{background:#7c2d12;}
+.cat-Setup{background:#451a03;}
+
+/* ────────────────────────────────────────
+   AUTHOR DASHBOARDS
+──────────────────────────────────────── */
+.author-select-screen{display:flex;flex-direction:column;align-items:center;padding:40px 28px;gap:14px;}
+.author-select-title{font-family:var(--ff-display);font-size:2rem;font-weight:400;color:var(--ink);letter-spacing:.04em;font-style:italic;}
+.author-select-sub{font-size:.84rem;color:var(--ink5);margin-bottom:6px;}
+.author-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px;width:100%;max-width:900px;}
+.author-select-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);
+  padding:14px 16px;cursor:pointer;transition:all .16s;display:flex;flex-direction:column;gap:4px;
+}
+.author-select-card:hover{border-color:var(--gold3);box-shadow:var(--shadow);transform:translateY(-1px);}
+.asc-name{font-family:var(--ff-display);font-size:1rem;font-weight:600;color:var(--ink);letter-spacing:.02em;}
+.asc-email{font-size:.67rem;color:var(--ink5);font-family:var(--ff-mono);}
+.asc-books{font-family:var(--ff-mono);font-size:.58rem;color:var(--ink5);margin-top:1px;}
+.asc-status-dots{display:flex;gap:4px;margin-top:5px;}
+.asc-dot{width:6px;height:6px;border-radius:50%;}
+
+.author-portal{padding:0;}
+.ap-header{
+  background:var(--bg2);
+  padding:30px 36px;position:relative;overflow:hidden;
+  border-bottom:1px solid var(--border);
+}
+.ap-header::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.5;
+}
+.ap-back{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:.72rem;color:var(--ink5);font-weight:700;cursor:pointer;
+  margin-bottom:14px;transition:color .14s;background:none;border:none;
+  letter-spacing:.04em;text-transform:uppercase;font-family:var(--ff-body);
+}
+.ap-back:hover{color:var(--ink3);}
+.ap-author-name{font-family:var(--ff-display);font-size:2.4rem;font-weight:400;color:var(--ink);margin-bottom:3px;letter-spacing:.02em;font-style:italic;}
+.ap-author-meta{font-size:.8rem;color:var(--ink5);}
+.ap-badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;}
+.ap-stat-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;padding:18px 36px;background:var(--surface);border-bottom:1px solid var(--border);}
+.ap-stat{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:11px 13px;}
+.ap-stat-val{font-family:var(--ff-display);font-size:1.7rem;font-weight:300;color:var(--ink);line-height:1;margin-bottom:2px;letter-spacing:-.01em;}
+.ap-stat-lbl{font-family:var(--ff-mono);font-size:.54rem;color:var(--ink5);text-transform:uppercase;letter-spacing:.09em;}
+.ap-body{padding:22px 36px 60px;}
+.ap-section-title{font-family:var(--ff-mono);font-size:.58rem;text-transform:uppercase;letter-spacing:.12em;color:var(--ink5);margin-bottom:10px;padding-bottom:7px;border-bottom:1px solid var(--border-faint);}
+.ap-books{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:8px;margin-bottom:26px;}
+.ap-book-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-md);overflow:hidden;}
+.ap-book-header{height:3px;}
+.ap-book-body{padding:13px 15px;}
+.ap-book-title{font-family:var(--ff-display);font-size:1.05rem;font-weight:600;color:var(--ink);margin-bottom:2px;letter-spacing:.02em;}
+.ap-book-series{font-size:.7rem;color:var(--gold3);font-style:italic;margin-bottom:7px;}
+.ap-book-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:8px;}
+.ap-book-field{background:var(--surface);border-radius:4px;padding:6px 8px;}
+.ap-book-field-lbl{font-family:var(--ff-mono);font-size:.52rem;color:var(--ink5);text-transform:uppercase;letter-spacing:.07em;margin-bottom:2px;}
+.ap-book-field-val{font-size:.75rem;color:var(--ink2);font-weight:500;line-height:1.3;}
+.ap-book-action{background:var(--gold-lt);border-top:1px solid rgba(212,168,71,.15);padding:7px 14px;font-size:.7rem;color:var(--gold);font-weight:600;}
+.ap-links{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:22px;}
+.ap-link{
+  display:inline-flex;align-items:center;gap:5px;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r-sm);padding:6px 11px;font-size:.72rem;font-weight:500;color:var(--ink3);transition:all .12s;
+}
+.ap-link:hover{background:var(--gold-lt);border-color:rgba(212,168,71,.3);color:var(--gold);}
+.ap-timeline{display:flex;flex-direction:column;}
+.ap-timeline-item{display:flex;gap:13px;padding:9px 0;border-bottom:1px solid var(--border-faint);}
+.ap-timeline-item:last-child{border-bottom:none;}
+.ap-timeline-dot{width:7px;height:7px;border-radius:50%;background:var(--gold3);flex-shrink:0;margin-top:6px;}
+.ap-timeline-content{flex:1;}
+.ap-timeline-date{font-family:var(--ff-mono);font-size:.58rem;color:var(--ink5);margin-bottom:2px;}
+.ap-timeline-text{font-size:.79rem;color:var(--ink3);line-height:1.5;}
+
+/* ────────────────────────────────────────
+   DRAWER
+──────────────────────────────────────── */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:200;opacity:0;pointer-events:none;transition:opacity .26s;backdrop-filter:blur(4px);}
+.overlay.on{opacity:1;pointer-events:auto;}
+.drawer{position:fixed;top:0;right:0;width:640px;max-width:95vw;height:100vh;overflow-y:auto;background:var(--surface);z-index:201;transform:translateX(110%);transition:transform .3s cubic-bezier(.22,1,.36,1);box-shadow:var(--shadow-xl);display:flex;flex-direction:column;border-left:1px solid var(--border);}
+.drawer.on{transform:translateX(0);}
+
+.drw-hdr{background:var(--bg2);padding:24px 24px 18px;position:sticky;top:0;z-index:1;flex-shrink:0;border-bottom:1px solid var(--border);}
+.drw-close{position:absolute;top:13px;right:13px;width:30px;height:30px;background:var(--surface);border:1px solid var(--border);border-radius:50%;color:var(--ink5);display:flex;align-items:center;justify-content:center;font-size:.82rem;transition:all .14s;cursor:pointer;}
+.drw-close:hover{background:var(--surface2);color:var(--ink);}
+.drw-book-title{font-family:var(--ff-display);font-size:1.8rem;font-weight:500;color:var(--ink);line-height:1.15;margin-bottom:2px;letter-spacing:.02em;}
+.drw-author{font-size:.78rem;color:var(--ink4);margin-bottom:2px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;}
+.drw-pen{font-size:.75rem;color:var(--gold3);font-style:italic;margin-bottom:5px;}
+.drw-series{font-family:var(--ff-display);font-size:.94rem;font-style:italic;color:var(--gold3);margin-bottom:10px;}
+.drw-badges{display:flex;gap:4px;flex-wrap:wrap;}
+.sibling-strip{display:flex;gap:5px;flex-wrap:wrap;margin-top:9px;}
+.sibling-chip{
+  display:inline-flex;align-items:center;gap:4px;font-size:.66rem;font-weight:700;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:4px;padding:3px 8px;color:var(--ink4);cursor:pointer;transition:all .12s;
+  font-family:var(--ff-mono);letter-spacing:.03em;
+}
+.sibling-chip:hover{background:var(--gold-lt);color:var(--gold);border-color:rgba(212,168,71,.3);}
+
+.drw-body{padding:20px 24px;flex:1;}
+.drw-section{margin-bottom:20px;}
+.drw-section-title{
+  font-family:var(--ff-mono);font-size:.58rem;text-transform:uppercase;letter-spacing:.12em;
+  color:var(--ink5);margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--border-faint);
+  display:flex;align-items:center;gap:7px;
+}
+.info-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.info-box{background:var(--bg2);border:1px solid var(--border-faint);border-radius:var(--r-sm);padding:9px 12px;}
+.info-box-full{grid-column:1/-1;}
+.info-box-label{font-family:var(--ff-mono);font-size:.54rem;text-transform:uppercase;letter-spacing:.09em;color:var(--ink5);margin-bottom:3px;}
+.info-box-val{font-size:.8rem;color:var(--ink);font-weight:500;word-break:break-word;line-height:1.45;}
+.info-box-val.amber{color:var(--gold);}
+.info-box-val.teal{color:var(--teal);}
+.info-box-val.summary{font-size:.79rem;font-weight:400;color:var(--ink3);line-height:1.7;white-space:pre-line;}
+
+.field-edit-wrap{position:relative;}
+.field-edit{
+  width:100%;background:var(--bg2);border:1.5px solid var(--border);border-radius:var(--r-sm);
+  padding:9px 12px;font-size:.79rem;font-family:var(--ff-body);color:var(--ink);
+  outline:none;transition:border-color .14s;line-height:1.6;
+}
+.field-edit:focus{border-color:var(--gold3);}
+.field-edit.ta{resize:vertical;min-height:80px;}
+.field-save{
+  position:absolute;right:7px;top:7px;background:var(--gold);color:var(--bg);
+  border:none;border-radius:4px;padding:4px 8px;font-size:.62rem;font-weight:700;
+  cursor:pointer;opacity:0;transition:opacity .14s;font-family:var(--ff-body);
+}
+.field-edit:focus~.field-save{opacity:1;}
+
+.links-grid{display:flex;flex-wrap:wrap;gap:5px;}
+.drw-link{
+  display:inline-flex;align-items:center;gap:5px;
+  background:var(--bg2);border:1px solid var(--border-faint);border-radius:var(--r-sm);
+  padding:5px 10px;font-size:.71rem;font-weight:500;color:var(--ink3);transition:all .12s;
+}
+.drw-link:hover{background:var(--gold-lt);border-color:rgba(212,168,71,.3);color:var(--gold);}
+
+.quick-actions{display:flex;gap:6px;flex-wrap:wrap;}
+.metrics-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:7px;}
+.mbox{background:var(--bg2);border:1px solid var(--border-faint);border-radius:var(--r-sm);padding:10px 12px;text-align:center;}
+.mbox-val{font-family:var(--ff-display);font-size:1.5rem;font-weight:300;color:var(--ink);line-height:1;letter-spacing:-.01em;}
+.mbox-val.tk{color:#e2e8f0;}
+.mbox-val.yt{color:#ff4444;}
+.mbox-val.grn{color:var(--green);}
+.mbox-lbl{font-family:var(--ff-mono);font-size:.5rem;color:var(--ink5);text-transform:uppercase;letter-spacing:.09em;margin-top:3px;}
+.best-video-box{background:var(--gold-lt);border:1px solid rgba(212,168,71,.2);border-radius:var(--r-sm);padding:9px 12px;margin-top:6px;}
+.best-video-lbl{font-family:var(--ff-mono);font-size:.52rem;color:var(--gold3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:3px;}
+.best-video-title{font-size:.79rem;color:var(--ink2);font-weight:600;line-height:1.4;margin-bottom:2px;}
+.best-video-views{font-family:var(--ff-mono);font-size:.63rem;color:var(--gold);font-weight:700;}
+.analytics-updated{font-family:var(--ff-mono);font-size:.56rem;color:var(--ink5);padding:4px 0 0;text-align:right;letter-spacing:.04em;}
+
+.drw-steps-list{display:flex;flex-direction:column;gap:0;border:1px solid var(--border);border-radius:var(--r-sm);overflow:hidden;}
+.drw-step-item{display:flex;align-items:flex-start;gap:9px;padding:8px 12px;border-bottom:1px solid var(--border-faint);transition:background .11s;}
+.drw-step-item:last-child{border-bottom:none;}
+.drw-step-item:hover{background:var(--bg2);}
+.drw-step-item.done{opacity:.4;}
+.drw-step-item.done .drw-step-txt{text-decoration:line-through;color:var(--ink5);}
+.drw-step-item.inprog{background:rgba(212,168,71,.04);}
+.drw-step-cb{width:14px;height:14px;border-radius:3px;border:1.5px solid var(--border);appearance:none;-webkit-appearance:none;cursor:pointer;position:relative;transition:all .12s;flex-shrink:0;margin-top:3px;}
+.drw-step-cb:checked{background:var(--green);border-color:var(--green);}
+.drw-step-cb:checked::after{content:'✓';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#fff;font-size:.48rem;font-weight:700;}
+.drw-step-txt{font-size:.77rem;color:var(--ink2);line-height:1.45;flex:1;font-weight:500;}
+.drw-step-meta{display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex-shrink:0;}
+
+/* ────────────────────────────────────────
+   ADD BOOK MODAL
+──────────────────────────────────────── */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:300;display:none;align-items:center;justify-content:center;backdrop-filter:blur(6px);}
+.modal-bg.on{display:flex;}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xl);width:600px;max-width:94vw;max-height:88vh;overflow-y:auto;box-shadow:var(--shadow-xl);padding:28px;}
+.modal-title{font-family:var(--ff-display);font-size:1.6rem;font-weight:400;color:var(--ink);margin-bottom:18px;letter-spacing:.04em;font-style:italic;}
+.modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.modal-field{display:flex;flex-direction:column;gap:4px;}
+.modal-field.full{grid-column:1/-1;}
+.modal-label{font-family:var(--ff-mono);font-size:.58rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink5);}
+.modal-input{background:var(--bg2);border:1.5px solid var(--border);border-radius:var(--r-sm);padding:8px 10px;font-size:.8rem;font-family:var(--ff-body);color:var(--ink);outline:none;transition:border-color .14s;}
+.modal-input:focus{border-color:var(--gold3);}
+.modal-foot{display:flex;gap:7px;justify-content:flex-end;margin-top:18px;padding-top:14px;border-top:1px solid var(--border);}
+
+/* ────────────────────────────────────────
+   MISC
+──────────────────────────────────────── */
+.empty-state{text-align:center;padding:56px 24px;color:var(--ink5);}
+.empty-icon{font-size:2.6rem;margin-bottom:14px;opacity:.35;}
+.empty-title{font-family:var(--ff-display);font-size:1.5rem;font-weight:400;color:var(--ink3);margin-bottom:7px;font-style:italic;}
+.empty-sub{font-size:.83rem;}
+
+.search-info{
+  background:var(--gold-lt);border:1px solid rgba(212,168,71,.25);
+  border-radius:var(--r);padding:9px 15px;font-size:.79rem;font-weight:500;
+  color:var(--gold);margin-bottom:18px;display:flex;align-items:center;gap:7px;
+}
+
+.toast{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);
+  background:var(--surface2);color:var(--ink);
+  padding:9px 18px;border-radius:40px;
+  font-size:.79rem;font-weight:700;z-index:999;
+  box-shadow:var(--shadow-lg);transition:transform .26s cubic-bezier(.22,1,.36,1);
+  pointer-events:none;border:1px solid var(--border-lt);
+  display:flex;align-items:center;gap:7px;font-family:var(--ff-body);letter-spacing:.02em;
+}
+.toast.show{transform:translateX(-50%) translateY(0);}
+
+/* ────────────────────────────────────────
+   RESPONSIVE
+──────────────────────────────────────── */
+@media(max-width:768px){
+  .hdr,.ctrl-bar,.main,.checklist-wrap,.tm-wrap,.stats-bar,.tabs-row{padding-left:14px;padding-right:14px;}
+  .cards-grid{grid-template-columns:1fr;}
+  .drw-body{padding:14px 15px;}
+  .drw-hdr{padding:16px 15px 13px;}
+  .info-grid-2{grid-template-columns:1fr;}
+  .info-box-full{grid-column:1;}
+  .collapse-btns,.live-badge,.view-toggle{display:none;}
+  .modal-grid{grid-template-columns:1fr;}
+  .modal-field.full{grid-column:1;}
+  .metrics-strip{grid-template-columns:1fr 1fr;}
+  .clist-item{flex-wrap:wrap;}
+  .clist-right{width:100%;}
+  .ap-body,.ap-stat-row,.ap-header{padding-left:14px;padding-right:14px;}
+  .author-select-screen{padding:18px 14px;}
+  .tm-task-row{flex-wrap:wrap;}
+  .tm-task-right{width:100%;flex-direction:row;justify-content:flex-start;margin-top:3px;}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="hdr">
+  <div class="logo">
+    <div class="logo-mark">AS</div>
+    <div class="logo-text">Atomic <em>Shelf</em></div>
+  </div>
+  <div class="srch-wrap">
+    <svg class="srch-ico" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input class="srch" id="srchInput" type="text" placeholder="Search books, authors, tasks…" oninput="onSearch(this.value)">
+  </div>
+  <div class="hdr-right">
+    <div class="live-badge"><span class="live-dot"></span>Live</div>
+    <div class="view-toggle">
+      <button class="vt-btn active" id="vt-grid" onclick="setViewMode('grid')" title="Grid">⊞</button>
+      <button class="vt-btn" id="vt-list" onclick="setViewMode('list')" title="List">☰</button>
+      <button class="vt-btn" id="vt-author" onclick="setViewMode('author')" title="By Author">👤</button>
+    </div>
+    <button class="hdr-btn gold" onclick="showModal()">+ Book</button>
+    <button class="hdr-btn" onclick="syncNow()">⟳ Sync</button>
+    <button class="hdr-btn" onclick="exportCSV()">⬇ CSV</button>
+  </div>
+</header>
+
+<!-- STATS BAR -->
+<div class="stats-bar" id="statsBar">
+  <div class="stat"><div class="stat-val">—</div><div class="stat-lbl">Loading…</div></div>
+</div>
+
+<!-- CONTROLS -->
+<div class="ctrl-wrap">
+  <div class="tabs-row">
+    <div class="tab active" id="tab-board" onclick="switchTab('board')">Board</div>
+    <div class="tab" id="tab-contacted" onclick="switchTab('contacted')">Contacted</div>
+    <div class="tab" id="tab-taskmaster" onclick="switchTab('taskmaster')">Taskmaster <span class="tab-badge amber" id="tmBadge" style="display:none">0</span></div>
+    <div class="tab" id="tab-checklist" onclick="switchTab('checklist')">Checklist <span class="tab-badge" id="urgentBadge" style="display:none">0</span></div>
+    <div class="tab" id="tab-authors" onclick="switchTab('authors')">Author Portals</div>
+  </div>
+  <div class="ctrl-bar" id="ctrlBar">
+    <span class="ctrl-lbl">Sort</span>
+    <select class="ctrl-sel" id="sortSelect" onchange="onSort(this.value)">
+      <option value="urgency">Urgency</option>
+      <option value="title">Title A–Z</option>
+      <option value="author">Author A–Z</option>
+      <option value="invoice">Invoice Status</option>
+      <option value="views">Views ↓</option>
+      <option value="contact">Last Contact</option>
+    </select>
+    <span class="ctrl-lbl" style="margin-left:4px;">Group</span>
+    <select class="ctrl-sel" id="groupSelect" onchange="onGroup(this.value)">
+      <option value="status">By Status</option>
+      <option value="author">By Author</option>
+      <option value="genre">By Genre</option>
+      <option value="none">No Grouping</option>
+    </select>
+    <div id="authorFilterPill"></div>
+    <div class="collapse-btns">
+      <button class="c-btn" onclick="collapseAll()">Collapse all</button>
+      <button class="c-btn" onclick="expandAll()">Expand all</button>
+    </div>
+  </div>
+</div>
+
+<main class="main" id="mainContent">
+  <div class="loading-state">
+    <div class="loading-spinner"></div>
+    <div class="loading-title">Connecting to Sheets…</div>
+    <div class="loading-sub">Fetching your latest campaign data</div>
+  </div>
+</main>
+
+<div class="overlay" id="overlay" onclick="closeDrawer()"></div>
+<aside class="drawer" id="drawer"></aside>
+<div class="toast" id="toast"></div>
+
+<!-- ADD BOOK MODAL -->
+<div class="modal-bg" id="modalBg" onclick="hideModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-title">Add New Book Project</div>
+    <div class="modal-grid" id="modalFields"></div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="hideModal()">Cancel</button>
+      <button class="btn btn-gold" onclick="submitNewBook()">Add Book</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════
+// CONFIG
+// ══════════════════════════════════════════════════════
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz9nauVT33a-gC5ndiy3OSLrE_r1KGC0sjgBJqdoJiL3oICFPajKMS7BqxNmulX9IAv/exec';
+
+const CAT_COLORS = {
+  'Billing':'#7f1d1d','Content Delivery':'#1e3a5f','Content Production':'#4c1d95',
+  'Posting':'#064e3b','Analytics':'#134e4a','Reporting':'#1e3a5f',
+  'Follow-Up':'#7c2d12','Setup':'#451a03',
+};
+const TYPE_COLORS = {
+  'Video Production':'#4c1d95','Content Delivery':'#1e3a5f','Posting':'#064e3b',
+  'Billing':'#7f1d1d','Follow-Up':'#7c2d12','Setup':'#451a03','Reporting':'#1e3a5f'
+};
+function catColor(c){return CAT_COLORS[c]||'#374151';}
+
+// ══════════════════════════════════════════════════════
+// SEED TASKS — Granular, author-named consistently
+// ══════════════════════════════════════════════════════
+const SEED_TASKS = [
+  // VIDEO PRODUCTION
+  {id:'t01',author:'Joseph Lopez',book:'Diego Diaz',task:'Create first video draft — seed images for atmospheric vampire fiction',category:'Content Production',priority:'High',status:'To Do',note:'LGBTQ+ vampire fiction. Trial start May 30. Release May 5.',type:'Video Production',batch:'New Trials'},
+  {id:'t02',author:'Luciano Nisi',book:'Untold Stories of a Paramedic',task:'Thumbnail refresh for ambulance video — fix 0.68% CTR (443 impressions)',category:'Content Production',priority:'High',status:'To Do',note:'Low CTR is costing impressions. Use question-hook formula like Trail Ready.',type:'Video Production',batch:'CTR Fix'},
+  {id:'t03',author:'Luciano Nisi',book:'Trail Ready',task:'Produce Series 4 — scheduled June 2026',category:'Content Production',priority:'Normal',status:'To Do',note:'8% CTR on YouTube. Apply question-hook thumbnail formula.',type:'Video Production',batch:'June Content'},
+  {id:'t04',author:'Luciano Nisi',book:'Crossing the Line',task:'Begin Series 2 — tension-and-decision framing',category:'Content Production',priority:'Normal',status:'To Do',note:'Build on Series 1. Target 15K+ combined views by end of June.',type:'Video Production',batch:'June Content'},
+  {id:'t05',author:'Robbin Laird',book:'Public Speaking for Professionals',task:'Produce next video series',category:'Content Production',priority:'Normal',status:'To Do',note:'3-book leadership series, shared retainer.',type:'Video Production',batch:'Robbin Laird'},
+  {id:'t06',author:'Robbin Laird',book:'Listen to Lead',task:'Produce next batch of videos',category:'Content Production',priority:'Normal',status:'To Do',note:'Shared retainer. Continue ongoing posting.',type:'Video Production',batch:'Robbin Laird'},
+  {id:'t07',author:'Robbin Laird',book:'Mastering Chaos',task:'Begin production after first two books progressing',category:'Content Production',priority:'Low',status:'To Do',note:'Produce after Public Speaking and Listen to Lead are running.',type:'Video Production',batch:'Robbin Laird'},
+  {id:'t08',author:'Daniel Zane Bryan / Shelia Zulfiqar',book:'Digital Skills for the Modern World Series',task:'Produce first 2 series + set up campaign page',category:'Content Production',priority:'High',status:'To Do',note:'Agreed inclusion in expanded campaign.',type:'Video Production',batch:'Shelia Expansion'},
+  {id:'t09',author:'Shaun Kokoroko / Shaun Humphries',book:'Kokoro',task:'Produce tailored breakdown + free trial video samples',category:'Content Production',priority:'High',status:'To Do',note:'Anime/Shonen #AnimeBookTok niche. Author replied "Show me".',type:'Video Production',batch:'New Prospects'},
+  {id:'t10',author:'Paul Bauer',book:'Everything I Wish I Knew When I Was 18',task:'Confirm video style direction then begin production',category:'Content Production',priority:'Normal',status:'To Do',note:'Inspirational self-help. Quote sent.',type:'Video Production',batch:'Prospects'},
+  {id:'t11',author:'Nicola Briggs',book:'Peacock on the Moon',task:'Review mood board then begin atmospheric reels',category:'Content Production',priority:'Normal',status:'To Do',note:'Literary fiction. Trial est. May 1. Last contact May 29.',type:'Video Production',batch:'Prospects'},
+  {id:'t12',author:'Jad El Khoury',book:'To Love a Monster',task:'Queue production after The Jade Necklace is approved',category:'Content Production',priority:'Normal',status:'To Do',note:'White-glove client. 5 books total.',type:'Video Production',batch:'Jad El Khoury'},
+  {id:'t13',author:'Jad El Khoury',book:'Black Shards',task:'Queue production after Blood Moon Dawn complete',category:'Content Production',priority:'Low',status:'To Do',note:'White-glove client.',type:'Video Production',batch:'Jad El Khoury'},
+  // CONTENT DELIVERY
+  {id:'t14',author:'Daniel Zane Bryan / Shelia Zulfiqar',book:'Indoor Vegetable Gardening For Small Spaces',task:'Send Series 7 videos to client for review',category:'Content Delivery',priority:'High',status:'To Do',note:'Combined analytics 7,262 views. Payment confirmed for next month.',type:'Content Delivery',batch:'Shelia Delivery'},
+  {id:'t15',author:'Shelia Zulfiqar / Sophia Bryan',book:'The Clair Senses',task:'Draft new intuitive clips + continue posting (Series 3)',category:'Content Production',priority:'Normal',status:'To Do',note:'Series 2 complete. 4,556 total views.',type:'Video Production',batch:'Active Clients'},
+  {id:'t16',author:'Daniel Voelker',book:'Return to Hawaii: A Donovan Cross Novel',task:'Send new video series to author for review/approval',category:'Content Delivery',priority:'High',status:'To Do',note:'10-month prepaid. 104+ videos delivered. Asked to expand to other books.',type:'Content Delivery',batch:'Active Clients'},
+  // POSTING
+  {id:'t17',author:'Ryan Ambrose / Gene Herington',book:'A Pawn in Dire Game',task:'Launch posting calendar at 09:00 and 17:00 UTC',category:'Posting',priority:'High',status:'To Do',note:'TikTok Business Center invite confirmed May 27. Fix Aleister-Hisper mislabeled assets.',type:'Posting',batch:'Posting'},
+  {id:'t18',author:'Robert Walker',book:'Six Moons Seven Gods',task:'Launch daily posting schedule — 2–3 videos/day from May 25',category:'Posting',priority:'High',status:'To Do',note:'Series 1–3 live. Grimdark Arthurian niche.',type:'Posting',batch:'Posting'},
+  {id:'t19',author:'Wayne Turner',book:'Seaside Glitter',task:'Post new video series + send weekly report',category:'Posting',priority:'High',status:'To Do',note:'12,422+ total views. May invoice also outstanding.',type:'Posting',batch:'Posting'},
+  {id:'t20',author:'Ray Strong',book:"Zephyr's Flight: An Epic YA Fantasy Adventure with Dragons",task:'Continue posting schedule + analyse top-performing content themes',category:'Posting',priority:'Normal',status:'To Do',note:'11,725 total views. Optimise for YouTube Shorts.',type:'Posting',batch:'Posting'},
+  {id:'t21',author:'Daniel Voelker',book:'Return to Hawaii: A Donovan Cross Novel',task:'Catch up missed posting days + log latest analytics',category:'Posting',priority:'Normal',status:'To Do',note:'11,614 total views.',type:'Posting',batch:'Posting'},
+  {id:'t22',author:'Jad El Khoury',book:'Blood Moon Dawn',task:'Obtain client sign-off before posting Blood Moon Dawn set',category:'Content Delivery',priority:'High',status:'To Do',note:'Videos ready. Must approve before any posting.',type:'Follow-Up',batch:'Jad El Khoury'},
+  // BILLING
+  {id:'t23',author:'Jad El Khoury',book:'The Jade Necklace',task:'Send first invoice for trial-to-paid conversion (5 books)',category:'Billing',priority:'High',status:'To Do',note:'White-glove client. Pending invoice.',type:'Billing',batch:'Invoices'},
+  {id:'t24',author:'Wayne Turner',book:'Seaside Glitter',task:'Send May payment invoice (April paid, May outstanding)',category:'Billing',priority:'High',status:'To Do',note:'',type:'Billing',batch:'Invoices'},
+  {id:'t25',author:'Robert Walker',book:'Six Moons Seven Gods',task:'Follow up on year-upfront billing upgrade conversation',category:'Billing',priority:'High',status:'To Do',note:'Billing explainer sent. Pesapal link shared.',type:'Billing',batch:'Billing'},
+  // FOLLOW-UP
+  {id:'t26',author:'Kyle Hogg',book:'Would You Believe It?',task:'Respond to financial inquiry — what does he agree to financially?',category:'Follow-Up',priority:'High',status:'To Do',note:'Trial week May 22–28. 15 videos + dashboard sent.',type:'Follow-Up',batch:'Follow-Ups'},
+  {id:'t27',author:'N.S. Wikarski',book:'The Granite Key',task:'Secure trial agreement and initiate production',category:'Follow-Up',priority:'High',status:'To Do',note:'8 books in Arkana series. AI flagging concern addressed.',type:'Follow-Up',batch:'Follow-Ups'},
+  {id:'t28',author:'Reza M.',book:'Mash Up',task:'Send proposal and 1-month calendar (kick off May 22)',category:'Follow-Up',priority:'High',status:'To Do',note:"Author replied 'Show Me'. Detective Qigiq series.",type:'Follow-Up',batch:'Prospects'},
+  {id:'t29',author:'L. Wilder',book:'Seven (Satan\'s Fury MC)',task:'Send personalised VIP follow-up on samples',category:'Follow-Up',priority:'High',status:'To Do',note:'VIP — high value prospect. MC Romance.',type:'Follow-Up',batch:'VIP'},
+  {id:'t30',author:'Jad El Khoury',book:'Fifth Book (TBC)',task:'Confirm title of 5th book with client',category:'Follow-Up',priority:'Low',status:'To Do',note:'5th book title pending.',type:'Follow-Up',batch:'Jad El Khoury'},
+  {id:'t31',author:'VV Sinclair',book:'Timewrecked',task:'Send tailored breakdown for Timewrecked',category:'Follow-Up',priority:'Normal',status:'To Do',note:'Sci-fi time travel. Author replied "show me".',type:'Follow-Up',batch:'Prospects'},
+  {id:'t32',author:'Zev Bagel',book:'The Last Jew in Hania',task:'Follow up — confirm readiness to proceed after samples',category:'Follow-Up',priority:'Normal',status:'To Do',note:'Samples sent April 7.',type:'Follow-Up',batch:'Follow-Ups'},
+  {id:'t33',author:'Nancy Ellen McLennan',book:'Finding Strength',task:'Send reminder email regarding samples',category:'Follow-Up',priority:'Normal',status:'To Do',note:'',type:'Follow-Up',batch:'Follow-Ups'},
+  {id:'t34',author:'Todd Petkau',book:'7 Day Marriage Challenge',task:'Follow up to gauge interest after samples sent',category:'Follow-Up',priority:'Normal',status:'To Do',note:'Samples sent April 5.',type:'Follow-Up',batch:'Follow-Ups'},
+  {id:'t35',author:'Ryan',book:'Silver and the Stone',task:'Follow up on provided samples',category:'Follow-Up',priority:'Normal',status:'To Do',note:'Fantasy.',type:'Follow-Up',batch:'Follow-Ups'},
+  // SETUP
+  {id:'t36',author:'Daniel Zane Bryan / Shelia Zulfiqar',book:'Social Media 101',task:'Create campaign dashboard for Social Media 101',category:'Setup',priority:'Normal',status:'To Do',note:'Added to pipeline May 27.',type:'Setup',batch:'Shelia Expansion'},
+  {id:'t37',author:'Daniel Zane Bryan / Shelia Zulfiqar',book:'Introduction to Artificial Intelligence',task:'Create campaign dashboard for Introduction to AI',category:'Setup',priority:'Normal',status:'To Do',note:'Added to pipeline May 27.',type:'Setup',batch:'Shelia Expansion'},
+  {id:'t38',author:'Rita Jo Norvoteny',book:'Reformed Killers',task:'Send proposal and video sample for Reformed Killers Chronicles',category:'Follow-Up',priority:'Normal',status:'To Do',note:'Quote sent May 31. Supernatural mystery.',type:'Follow-Up',batch:'New Prospects'},
+  {id:'t39',author:'Bethany Rosa',book:'The Pursuit Series',task:'Send introductory outreach and romance genre sample pack',category:'Follow-Up',priority:'Normal',status:'To Do',note:'Prospect. Added May 30.',type:'Follow-Up',batch:'New Prospects'},
+  // REPORTING
+  {id:'t40',author:'Luciano Nisi',book:'Untold Stories of a Paramedic',task:'Log analytics — TikTok 8,521 views in 18 days, avg 473/day',category:'Reporting',priority:'Normal',status:'To Do',note:'YouTube freeze acknowledged. Full May report sent.',type:'Reporting',batch:'Reporting'},
+  {id:'t41',author:'Robbin Laird',book:'Public Speaking for Professionals',task:'Monitor posting and engagement + send weekly analytics report',category:'Reporting',priority:'Normal',status:'To Do',note:'Videos actively posted.',type:'Reporting',batch:'Reporting'},
+];
+
+// CHECKLIST STEPS — seed data for checklist tab (per-book action items)
+const SEED_CHECKLIST = [
+  {id:'cl01',author:'Daniel Voelker',book:'Return to Hawaii: A Donovan Cross Novel',step:'Deliver Week 12 video series',category:'Content Delivery',priority:'High',status:'To Do'},
+  {id:'cl02',author:'Daniel Voelker',book:'Return to Hawaii: A Donovan Cross Novel',step:'Log Week 12 analytics to report page',category:'Reporting',priority:'Normal',status:'To Do'},
+  {id:'cl03',author:'Wayne Turner',book:'Seaside Glitter',step:'Post Week 8 video series',category:'Posting',priority:'High',status:'To Do'},
+  {id:'cl04',author:'Wayne Turner',book:'Seaside Glitter',step:'Invoice May payment',category:'Billing',priority:'High',status:'To Do'},
+  {id:'cl05',author:'Wayne Turner',book:'Seaside Glitter',step:'Send weekly analytics report',category:'Reporting',priority:'Normal',status:'To Do'},
+  {id:'cl06',author:'Robert Walker',book:'Six Moons Seven Gods',step:'Launch 2–3 daily posts from May 25',category:'Posting',priority:'High',status:'To Do'},
+  {id:'cl07',author:'Robert Walker',book:'Six Moons Seven Gods',step:'Follow up on year-upfront billing',category:'Billing',priority:'High',status:'To Do'},
+  {id:'cl08',author:'Robbin Laird',book:'Public Speaking for Professionals',step:'Continue posting Week 4',category:'Posting',priority:'High',status:'To Do'},
+  {id:'cl09',author:'Robbin Laird',book:'Public Speaking for Professionals',step:'Send weekly engagement report',category:'Reporting',priority:'Normal',status:'To Do'},
+  {id:'cl10',author:'Daniel Zane Bryan / Shelia Zulfiqar',book:'Indoor Vegetable Gardening For Small Spaces',step:'Send Series 7 for client review',category:'Content Delivery',priority:'High',status:'To Do'},
+  {id:'cl11',author:'Daniel Zane Bryan / Shelia Zulfiqar',book:'Social Media 101',step:'Set up campaign dashboard at atomic-shelf.com/reports',category:'Setup',priority:'Normal',status:'To Do'},
+  {id:'cl12',author:'Daniel Zane Bryan / Shelia Zulfiqar',book:'Introduction to Artificial Intelligence',step:'Set up campaign dashboard',category:'Setup',priority:'Normal',status:'To Do'},
+  {id:'cl13',author:'Shelia Zulfiqar / Sophia Bryan',book:'The Clair Senses',step:'Produce Series 3 intuitive clips',category:'Content Production',priority:'Normal',status:'To Do'},
+  {id:'cl14',author:'Jad El Khoury',book:'The Jade Necklace',step:'Send trial-to-paid invoice (5 books)',category:'Billing',priority:'High',status:'To Do'},
+  {id:'cl15',author:'Jad El Khoury',book:'Blood Moon Dawn',step:'Get client sign-off before posting',category:'Content Delivery',priority:'High',status:'To Do'},
+  {id:'cl16',author:'Ray Strong',book:"Zephyr's Flight: An Epic YA Fantasy Adventure with Dragons",step:'Continue posting schedule',category:'Posting',priority:'Normal',status:'To Do'},
+  {id:'cl17',author:'Ray Strong',book:"Zephyr's Flight: An Epic YA Fantasy Adventure with Dragons",step:'Analyse top-performing content and optimise',category:'Analytics',priority:'Normal',status:'To Do'},
+  {id:'cl18',author:'Luciano Nisi',book:'Untold Stories of a Paramedic',step:'Refresh ambulance video thumbnail (fix CTR)',category:'Content Production',priority:'High',status:'To Do'},
+  {id:'cl19',author:'Luciano Nisi',book:'Trail Ready',step:'Produce Series 4',category:'Content Production',priority:'Normal',status:'To Do'},
+  {id:'cl20',author:'Ryan Ambrose / Gene Herington',book:'A Pawn in Dire Game',step:'Launch posting calendar 09:00 and 17:00 UTC',category:'Posting',priority:'High',status:'To Do'},
+  {id:'cl21',author:'Kyle Hogg',book:'Would You Believe It?',step:'Respond to financial inquiry from client',category:'Follow-Up',priority:'High',status:'To Do'},
+  {id:'cl22',author:'N.S. Wikarski',book:'The Granite Key',step:'Secure trial agreement and begin production',category:'Follow-Up',priority:'High',status:'To Do'},
+  {id:'cl23',author:'Jad El Khoury',book:'The Jade Necklace',step:'Confirm 5th book title with client',category:'Follow-Up',priority:'Low',status:'To Do'},
+  {id:'cl24',author:'Joseph Lopez',book:'Diego Diaz',step:'Create first batch of seed images',category:'Content Production',priority:'High',status:'To Do'},
+  {id:'cl25',author:'L. Wilder',book:"Seven (Satan's Fury MC)",step:'Send personalised VIP follow-up with samples',category:'Follow-Up',priority:'High',status:'To Do'},
+];
+
+// ══════════════════════════════════════════════════════
+// DATA LAYER
+// ══════════════════════════════════════════════════════
+let TASKS = JSON.parse(JSON.stringify(SEED_TASKS));
+let CHECKLIST = JSON.parse(JSON.stringify(SEED_CHECKLIST));
+let BOOKS = [];
+let RAW_ROWS = [];
+let activeTab = 'board', viewMode = 'grid', groupBy = 'status';
+let authorFilter = null, currentAuthorDash = null;
+let sheetsLoaded = false;
+
+// Persist task state
+function loadTaskState(){
+  try{
+    const ts = JSON.parse(localStorage.getItem('as_tasks_v2')||'{}');
+    TASKS.forEach(t=>{if(ts[t.id]) t.status = ts[t.id];});
+    const cs = JSON.parse(localStorage.getItem('as_cl_v2')||'{}');
+    CHECKLIST.forEach(c=>{if(cs[c.id]) c.status = cs[c.id];});
+    // Load last-contact overrides from localStorage
+  }catch(e){}
+}
+function saveTaskState(){
+  const ts={};TASKS.forEach(t=>{ts[t.id]=t.status;});
+  localStorage.setItem('as_tasks_v2',JSON.stringify(ts));
+  const cs={};CHECKLIST.forEach(c=>{cs[c.id]=c.status;});
+  localStorage.setItem('as_cl_v2',JSON.stringify(cs));
+}
+
+// TM state
+let tmPriorityFilter='all', tmCatFilter='all', tmTypeFilter='all', tmBatchFilter='all', tmSort='priority';
+let tmCollapsed=new Set(), tmShowDone=false;
+// CL state
+let clFilter='all', clCatFilter='all', clCollapsed=new Set();
+
+// ── ID & normalization helpers ──
+function generateId(title,author){
+  const t=(title||'').toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_+|_+$/g,'').slice(0,28);
+  const a=(author||'').toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_+|_+$/g,'').slice(0,14);
+  return `${t}__${a}`;
+}
+function normalizeStatus(raw){
+  const s=(raw||'').toLowerCase().trim();
+  if(s.includes('needs attention')) return 'needs';
+  if(s.includes('trial ended')||s.includes('re-engage')||s==='old') return 'old';
+  if(s.includes('awaiting')) return 'awaiting';
+  if(s.includes('low priority')) return 'low';
+  if(s.includes('prospect')) return 'prospect';
+  if(s.includes('trial')||s.includes('free trial')) return 'trial';
+  if(s.includes('active')||s.includes('create content')) return 'active';
+  if(!s) return 'prospect';
+  return 'active';
+}
+
+function parseBookRow(r){
+  const author=(r['Author Name']||'').trim();
+  const title=(r['Book Title']||'').trim();
+  // Last contact: check localStorage override first, then CSV
+  const lcKey='as_lc_'+generateId(title,author);
+  const storedLC=localStorage.getItem(lcKey);
+  const csvLC=(r['Last Contact Date']||'').trim();
+  return {
+    id:generateId(title,author),
+    authorName:author,
+    penName:(r['Pen Name']||'').trim(),
+    email:(r['Email']||'').trim(),
+    bookTitle:title,
+    series:(r['Series / Collection']||'').trim(),
+    genre:(r['Genre']||'').trim(),
+    status:normalizeStatus(r['Campaign Status']),
+    rawStatus:(r['Campaign Status']||'').trim(),
+    paymentStatus:(r['Payment Status']||'').trim(),
+    monthlyRetainer:(r['Monthly Retainer']||'$20/month').trim(),
+    trialStart:(r['Trial Start Date']||'').trim(),
+    campaignLive:(r['Campaign Live Date']||'').trim(),
+    lastContact: storedLC ? new Date(storedLC).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}) : csvLC,
+    lastContactStored: storedLC || null,
+    lastContactCSV: csvLC,
+    lastContactSummary:(r['Last Contact Summary']||r['Notes']||'').trim(),
+    tiktok:(r['TikTok Account']||'').trim(),
+    youtube:(r['YouTube Account']||'').trim(),
+    pinterest:(r['Pinterest Account']||'').trim(),
+    campaignPage:(r['Campaign Page URL']||'').trim(),
+    driveUrl:(r['Google Drive Folder URL']||'').trim(),
+    photosUrl:(r['Google Photos Album URL']||'').trim(),
+    receiptUrl:(r['Receipt URL']||'').trim(),
+    totalViews:(r['Total Views']||'0').trim(),
+    tiktokViews:(r['TikTok Views']||'').trim(),
+    youtubeViews:(r['YouTube Views']||'').trim(),
+    tiktokFollowers:(r['TikTok Followers']||'').trim(),
+    youtubeSubscribersGained:(r['YouTube Subscribers Gained']||'').trim(),
+    tiktokVideosPosted:(r['TikTok Videos Posted']||'').trim(),
+    youtubeVideosPosted:(r['YouTube Videos Posted']||'').trim(),
+    youtubeWatchHours:(r['YouTube Watch Hours']||'').trim(),
+    bestVideo:(r['Best Performing Video']||'').trim(),
+    bestVideoViews:(r['Best Performing Video Views']||'').trim(),
+    analyticsUpdated:(r['Analytics Last Updated']||'').trim(),
+    seriesDelivered:(r['Video Series Delivered']||r['Week Number']||'').trim(),
+    currentSeries:(r['Current Video Series']||'').trim(),
+    nextAction:(r['Pending Actions']||'').trim(),
+    notes:(r['Notes']||'').trim(),
+    vip:(r['VIP Tag']||'').trim(),
+    productionLink:(r['Production Link']||'').trim(),
+    reportLink:(r['Week Due Date']?`https://atomic-shelf.com/reports/Week${r['Week Number']}`:r['Week Due Date']||'').trim(),
+    voiceoversLink:(r['Voiceovers Link']||'').trim(),
+    weekDueDate:(r['Week Due Date']||'').trim(),
+    steps:[],
+    _raw:r,
+  };
+}
+
+function buildBooksFromRows(rows){
+  const bookMap={};
+  rows.forEach(r=>{
+    if(!(r['Book Title']||'').trim()) return;
+    const bid=generateId((r['Book Title']||'').trim(),(r['Author Name']||'').trim());
+    if(!bookMap[bid]) bookMap[bid]=parseBookRow(r);
+    // Merge checklist steps from seed data
+  });
+  // Attach checklist steps from SEED_CHECKLIST to matching books
+  const books=Object.values(bookMap);
+  books.forEach(b=>{
+    b.steps = CHECKLIST.filter(c=>c.book===b.bookTitle&&c.author===b.authorName);
+  });
+  return books;
+}
+
+async function fetchFromSheets(){
+  try{
+    const res=await fetch(APPS_SCRIPT_URL+'?action=read',{cache:'no-cache'});
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    const json=await res.json();
+    if(!json.success||!json.data) throw new Error(json.error||'No data');
+    return json.data;
+  }catch(e){console.warn('Sheets fetch failed:',e.message);return null;}
+}
+async function postToSheets(body){
+  try{
+    const res=await fetch(APPS_SCRIPT_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify(body)});
+    return await res.json();
+  }catch(e){return{success:false,error:e.message};}
+}
+
+// ══════════════════════════════════════════════════════
+// SECTIONS
+// ══════════════════════════════════════════════════════
+const SECTIONS=[
+  {key:'needs',label:'Needs Attention',accent:'#ef4444'},
+  {key:'active',label:'Active Campaigns',accent:'#22c55e'},
+  {key:'awaiting',label:'Awaiting Reply',accent:'#f59e0b'},
+  {key:'trial',label:'Free Trials',accent:'#3b82f6'},
+  {key:'prospect',label:'Prospects',accent:'#f97316'},
+  {key:'low',label:'Low Priority',accent:'#94a3b8'},
+  {key:'old',label:'Old — Re-engage',accent:'#8b5cf6'},
+];
+let collapsedSections=new Set(), sortBy='urgency', searchQuery='';
+const STATUS_MAP={active:['b-active','Active'],needs:['b-needs','Attention'],awaiting:['b-awaiting','Awaiting'],trial:['b-trial','Trial'],prospect:['b-prospect','Prospect'],low:['b-low','Low'],old:['b-old','Old']};
+const STATUS_PRI={needs:0,active:1,awaiting:2,trial:3,prospect:4,low:5,old:6};
+
+// ══════════════════════════════════════════════════════
+// UTILITIES
+// ══════════════════════════════════════════════════════
+function parseDate(s){
+  if(!s||s==='—') return null;
+  // Support "1 Jun 2026" format (en-GB)
+  const gb=s.match(/^(\d+)\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+(\d{4})$/i);
+  if(gb) return new Date(`${gb[2]} ${gb[1]}, ${gb[3]}`);
+  const my=s.match(/^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+(\d{4})$/i);
+  if(my) return new Date(`${my[1]} 1, ${my[2]}`);
+  const full=s.match(/^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+(\d+),?\s*(\d{4})?/i);
+  if(full) return new Date(`${full[1]} ${full[2]}, ${full[3]||new Date().getFullYear()}`);
+  const d=new Date(s);return isNaN(d)?null:d;
+}
+
+// Days since last contact — always check localStorage first
+function daysSince(b){
+  const key='as_lc_'+b.id;
+  const stored=localStorage.getItem(key);
+  const dateStr=stored||b.lastContactCSV||b.lastContact;
+  const d=parseDate(dateStr);
+  if(!d||isNaN(d)) return null;
+  return Math.max(0,Math.floor((Date.now()-d.getTime())/864e5));
+}
+
+function daysBadge(days){
+  if(days===null) return{cls:'d-none',lbl:'No date'};
+  if(days===0) return{cls:'d-fresh',lbl:'Today'};
+  if(days<=3) return{cls:'d-fresh',lbl:days+'d ago'};
+  if(days<=7) return{cls:'d-ok',lbl:days+'d ago'};
+  if(days<=14) return{cls:'d-stale',lbl:days+'d ago'};
+  return{cls:'d-urgent',lbl:days+'d ago'};
+}
+
+function isToday(id){
+  const s=localStorage.getItem('as_lc_'+id);
+  return !!s&&new Date(s).toDateString()===new Date().toDateString();
+}
+
+function lc(b){
+  const key='as_lc_'+b.id;
+  const stored=localStorage.getItem(key);
+  if(stored){
+    const d=new Date(stored);
+    return d.toDateString()===new Date().toDateString()?'Today':d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+  }
+  return b.lastContact||b.lastContactCSV||'—';
+}
+
+function invBadge(info){
+  if(!info||info==='—'||info==='N/A'||info==='') return '<span class="inv-na">—</span>';
+  const u=info.toUpperCase();
+  if(u.startsWith('PAID')) return '<span class="inv-badge inv-paid">PAID</span>';
+  if(u.includes('DUE')) return '<span class="inv-badge inv-due">DUE</span>';
+  if(u.includes('PENDING')||u.includes('AWAITING')||u.includes('QUOTE')) return '<span class="inv-badge inv-due">PENDING</span>';
+  if(u.includes('UNPAID')) return '<span class="inv-badge" style="background:var(--red-bg);color:var(--red);">UNPAID</span>';
+  if(u.includes('ACTIVE')||u.includes('RETAINER')) return '<span class="inv-badge inv-paid">ACTIVE</span>';
+  if(u.includes('TRIAL')) return '<span class="inv-badge" style="background:var(--blue-bg);color:var(--blue);">TRIAL</span>';
+  return `<span class="inv-badge inv-pend">${info.slice(0,14)}</span>`;
+}
+
+function badge(status){const[cls,lbl]=STATUS_MAP[status]||['b-low','?'];return`<span class="badge ${cls}">${lbl}</span>`;}
+function urgencyScore(b){return(STATUS_PRI[b.status]??7)*1000+(daysSince(b)??999);}
+function sortGroup(list){
+  return [...list].sort((a,b)=>{
+    if(sortBy==='title') return a.bookTitle.localeCompare(b.bookTitle);
+    if(sortBy==='author') return a.authorName.localeCompare(b.authorName);
+    if(sortBy==='invoice'){const iv=s=>{const u=(s||'').toUpperCase();if(u.startsWith('PAID'))return 0;if(u.includes('DUE')||u.includes('PEND'))return 1;return 2;};return iv(a.paymentStatus)-iv(b.paymentStatus);}
+    if(sortBy==='views') return numericViews(b.totalViews)-numericViews(a.totalViews);
+    if(sortBy==='contact') return(daysSince(a)??999)-(daysSince(b)??999);
+    return urgencyScore(a)-urgencyScore(b);
+  });
+}
+function numericViews(v){if(!v) return 0;const n=parseFloat(String(v).replace(/[^0-9.]/g,''));return isNaN(n)?0:n;}
+function fmtNum(v){if(!v||v==='') return '—';const n=numericViews(v);if(n===0&&v!=='0') return v;if(n>=1000) return(n/1000).toFixed(1).replace(/\.0$/,'')+'K';return String(v);}
+function isValidUrl(s){return s&&s.startsWith('http')&&!s.toLowerCase().includes('none')&&s.length>10;}
+function getSiblings(b){return BOOKS.filter(x=>x.authorName===b.authorName&&x.id!==b.id);}
+function showToast(msg){const t=document.getElementById('toast');t.innerHTML=msg;t.classList.add('show');clearTimeout(t._tid);t._tid=setTimeout(()=>t.classList.remove('show'),3000);}
+function copyEmail(email,e){if(e)e.stopPropagation();navigator.clipboard.writeText(email).then(()=>showToast('📋 Copied: '+email));}
+function trialProgress(b){
+  if(b.status!=='trial'||!b.trialStart) return null;
+  const start=parseDate(b.trialStart);if(!start) return null;
+  const end=new Date(start.getTime()+7*864e5),now=Date.now();
+  const pct=Math.min(100,Math.max(0,Math.round((now-start.getTime())/(end-start.getTime())*100)));
+  const daysLeft=Math.max(0,Math.ceil((end-now)/864e5));
+  return{pct,daysLeft};
+}
+
+// ══════════════════════════════════════════════════════
+// STATS BAR
+// ══════════════════════════════════════════════════════
+function renderStats(){
+  const all=BOOKS;
+  const active=all.filter(b=>b.status==='active').length;
+  const trial=all.filter(b=>b.status==='trial').length;
+  const needs=all.filter(b=>b.status==='needs').length;
+  const awaiting=all.filter(b=>b.status==='awaiting').length;
+  const paid=all.filter(b=>(b.paymentStatus||'').toUpperCase().startsWith('PAID')).length;
+  const overdue=all.filter(b=>{const d=daysSince(b);return d!==null&&d>7&&!['low','old'].includes(b.status);}).length;
+  const openTasks=TASKS.filter(t=>t.status!=='Done').length;
+  const highTasks=TASKS.filter(t=>t.priority==='High'&&t.status!=='Done').length;
+  const clDone=CHECKLIST.filter(c=>c.status==='Done').length;
+  const totalTK=all.reduce((s,b)=>s+numericViews(b.tiktokViews||b.totalViews),0);
+  const authors=new Set(all.map(b=>b.authorName)).size;
+  const tkStr=totalTK>=1000?(totalTK/1000).toFixed(0)+'K+':totalTK||'—';
+
+  // Update badges
+  const ub=document.getElementById('urgentBadge');
+  if(ub){if(highTasks>0){ub.textContent=highTasks;ub.style.display='inline-flex';}else ub.style.display='none';}
+  const tmb=document.getElementById('tmBadge');
+  if(tmb){if(highTasks>0){tmb.textContent=highTasks;tmb.style.display='inline-flex';}else tmb.style.display='none';}
+
+  document.getElementById('statsBar').innerHTML=`
+    <div class="stat"><div class="stat-val">${all.length}</div><div class="stat-lbl">Books</div></div>
+    <div class="stat"><div class="stat-val">${authors}</div><div class="stat-lbl">Authors</div></div>
+    <div class="stat"><div class="stat-val g">${active}</div><div class="stat-lbl">Active</div></div>
+    <div class="stat"><div class="stat-val">${trial}</div><div class="stat-lbl">In Trial</div></div>
+    <div class="stat"><div class="stat-val r">${needs}</div><div class="stat-lbl">Attention</div></div>
+    <div class="stat"><div class="stat-val a">${overdue}</div><div class="stat-lbl">Overdue</div></div>
+    <div class="stat"><div class="stat-val a">${awaiting}</div><div class="stat-lbl">Awaiting</div></div>
+    <div class="stat"><div class="stat-val g">${paid}</div><div class="stat-lbl">Paid</div></div>
+    <div class="stat"><div class="stat-val r">${highTasks}</div><div class="stat-lbl">High Tasks</div></div>
+    <div class="stat"><div class="stat-val">${openTasks}</div><div class="stat-lbl">Open Tasks</div></div>
+    <div class="stat"><div class="stat-val tk">${tkStr}</div><div class="stat-lbl">TikTok Views</div></div>
+    <div class="stat"><div class="stat-val g" style="font-size:1.6rem;">${clDone}/${CHECKLIST.length}</div><div class="stat-lbl">Checklist</div></div>`;
+}
+
+// ══════════════════════════════════════════════════════
+// CARD BUILDERS
+// ══════════════════════════════════════════════════════
+function platformPills(b){
+  const p=[];
+  p.push(isValidUrl(b.tiktok)?`<a href="${b.tiktok}" target="_blank" onclick="event.stopPropagation()" class="plt plt-tk">TK</a>`:'<span class="plt plt-off">TK</span>');
+  p.push(isValidUrl(b.youtube)?`<a href="${b.youtube}" target="_blank" onclick="event.stopPropagation()" class="plt plt-yt">YT</a>`:'<span class="plt plt-off">YT</span>');
+  if(isValidUrl(b.pinterest)) p.push(`<a href="${b.pinterest}" target="_blank" onclick="event.stopPropagation()" class="plt plt-pi">PI</a>`);
+  if(isValidUrl(b.campaignPage)) p.push(`<a href="${b.campaignPage}" target="_blank" onclick="event.stopPropagation()" class="plt plt-pg">PAGE</a>`);
+  if(isValidUrl(b.photosUrl)) p.push(`<a href="${b.photosUrl}" target="_blank" onclick="event.stopPropagation()" class="plt plt-ph">📷</a>`);
+  return p.join('');
+}
+
+function buildCardMetrics(b){
+  const p=[];
+  if(b.tiktokViews&&b.tiktokViews!=='0') p.push(`<span class="metric">📱 <strong>${fmtNum(b.tiktokViews)}</strong></span>`);
+  if(b.youtubeViews&&b.youtubeViews!=='0') p.push(`<span class="metric">▶️ <strong>${fmtNum(b.youtubeViews)}</strong></span>`);
+  if(!b.tiktokViews&&!b.youtubeViews&&b.totalViews&&b.totalViews!=='0') p.push(`<span class="metric">👁 <strong>${fmtNum(b.totalViews)}</strong></span>`);
+  if(b.tiktokFollowers&&b.tiktokFollowers!=='0') p.push(`<span class="metric">👥 <strong>${fmtNum(b.tiktokFollowers)}</strong></span>`);
+  const bookTasks=TASKS.filter(t=>(t.book===b.bookTitle||t.author===b.authorName)&&t.status!=='Done');
+  if(bookTasks.length>0) p.push(`<span class="metric">📋 <strong>${bookTasks.length}</strong> tasks</span>`);
+  const doneSteps=CHECKLIST.filter(c=>c.book===b.bookTitle&&c.status==='Done').length;
+  const totalSteps=CHECKLIST.filter(c=>c.book===b.bookTitle).length;
+  if(totalSteps>0) p.push(`<span class="metric">☑ <strong>${doneSteps}/${totalSteps}</strong></span>`);
+  return p.length?`<div class="metrics-row">${p.join('')}</div>`:'';
+}
+
+function buildCard(b,isListView){
+  const days=daysSince(b),db=daysBadge(days),td=isToday(b.id);
+  const section=SECTIONS.find(s=>s.key===b.status);
+  const accent=section?section.accent:'#64748b';
+  const tp=trialProgress(b);
+  const siblings=getSiblings(b);
+
+  const trialHtml=tp&&!isListView?`<div class="trial-bar-wrap">
+    <div class="trial-bar-lbl"><span>Trial Progress</span><span>${tp.daysLeft}d left</span></div>
+    <div class="trial-bar-bg"><div class="trial-bar-fill" style="width:${tp.pct}%"></div></div>
+  </div>`:'';
+
+  const siblingChips=siblings.length>0&&!isListView?`
+    <div style="padding:0 14px 7px;display:flex;gap:4px;flex-wrap:wrap;border-bottom:1px solid var(--border-faint);">
+      ${siblings.slice(0,3).map(s=>`<span onclick="event.stopPropagation();openDrawer('${s.id}')" style="font-size:.6rem;background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:2px 7px;color:var(--ink5);cursor:pointer;font-family:var(--ff-mono);">${s.bookTitle.slice(0,20)}${s.bookTitle.length>20?'…':''}</span>`).join('')}
+      ${siblings.length>3?`<span style="font-size:.6rem;color:var(--ink5);padding:2px 3px;font-family:var(--ff-mono);">+${siblings.length-3}</span>`:''}
+    </div>`:'';
+
+  const bookTasks=TASKS.filter(t=>(t.book===b.bookTitle||t.author===b.authorName)&&t.status!=='Done');
+  const taskPreview=bookTasks.slice(0,2).map(t=>`
+    <div class="card-task-item">
+      <span class="task-cat-dot" style="background:${catColor(t.category)}"></span>
+      <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${t.task.slice(0,50)}${t.task.length>50?'…':''}</span>
+      <span class="prio-badge prio-${(t.priority||'normal').toLowerCase()}" style="font-size:.48rem;">${t.priority[0]}</span>
+    </div>`).join('');
+
+  if(isListView){
+    return `<div class="card list-view" onclick="openDrawer('${b.id}')">
+      <div class="card-accent-bar" style="background:${accent}"></div>
+      <div class="card-top">
+        <div class="card-book-title">${b.vip?'<span class="vip-star">★</span>':''}${b.bookTitle}</div>
+        <div class="card-author">${b.authorName}${b.penName?` <span class="pen-name">aka ${b.penName}</span>`:''}<button class="btn-author-filter" onclick="event.stopPropagation();filterByAuthor('${b.authorName}')">filter</button></div>
+        ${b.series?`<div class="card-series">${b.series}</div>`:''}
+        <div class="card-meta">${badge(b.status)}<span class="days-badge ${db.cls}">${db.lbl}</span>${invBadge(b.paymentStatus)}</div>
+      </div>
+      <div class="card-list-right">
+        <div style="font-size:.72rem;color:var(--gold);font-weight:500;text-align:right;max-width:180px;line-height:1.35;">${(bookTasks[0]?.task||b.nextAction||'').slice(0,52)}</div>
+        <button class="btn btn-ghost btn-sm ${td?'done':''}" onclick="markContacted('${b.id}',event)">${td?'✓ Today':'Mark contacted'}</button>
+      </div>
+    </div>`;
+  }
+
+  return `<div class="card" onclick="openDrawer('${b.id}')">
+    <div class="card-accent-bar" style="background:${accent}"></div>
+    <div class="card-top">
+      <div class="card-book-title">${b.vip?'<span class="vip-star">★</span>':''}${b.bookTitle}</div>
+      <div class="card-author">${b.authorName}${b.penName?` <span class="pen-name">aka ${b.penName}</span>`:''}<button class="btn-author-filter" onclick="event.stopPropagation();filterByAuthor('${b.authorName}')">filter</button></div>
+      ${b.series?`<div class="card-series">${b.series}</div>`:''}
+      <div class="card-genre-pill">${b.genre||'—'}</div>
+      <div class="platform-row">${platformPills(b)}</div>
+      ${buildCardMetrics(b)}
+    </div>
+    ${trialHtml}${siblingChips}
+    ${taskPreview?`<div class="card-tasks-preview">${taskPreview}</div>`:''}
+    <div class="card-meta">
+      <span class="days-badge ${db.cls}">${db.lbl}</span>
+      ${invBadge(b.paymentStatus)}
+      ${b.vip?`<span class="badge" style="background:var(--gold-lt);color:var(--gold);border:1px solid rgba(212,168,71,.25);">★ VIP</span>`:''}
+    </div>
+    <div class="card-body">
+      <div class="info-row"><span class="info-key">Next Task</span><span class="info-val action">${(bookTasks[0]?.task||b.nextAction||'—').slice(0,58)}</span></div>
+      <div class="info-row"><span class="info-key">Last contact</span><span class="info-val">${lc(b)}</span></div>
+    </div>
+    <div class="card-foot">
+      <button class="btn btn-ghost btn-sm ${td?'done':''}" onclick="markContacted('${b.id}',event)">${td?'✓ Contacted':'Mark contacted'}</button>
+      <button class="btn btn-dark btn-sm" onclick="event.stopPropagation();openDrawer('${b.id}')">Details →</button>
+    </div>
+  </div>`;
+}
+
+// ── Section builders ──
+function buildSection(section,books){
+  if(!books.length) return '';
+  const isCollapsed=collapsedSections.has(section.key);
+  const sorted=sortGroup(books),isLV=viewMode==='list';
+  return `<div class="section-block" id="section-${section.key}">
+    <div class="section-hdr" onclick="toggleSection('${section.key}')">
+      <div class="section-accent" style="background:${section.accent}"></div>
+      <div class="section-title">${section.label}</div>
+      <div class="section-count">${books.length} book${books.length!==1?'s':''}</div>
+      <div class="section-rule"></div>
+      <div class="section-toggle${isCollapsed?' collapsed':''}">▾</div>
+    </div>
+    <div class="section-body${isCollapsed?' hidden':''}">
+      <div class="cards-grid${isLV?' list-view':''}">${sorted.map(b=>buildCard(b,isLV)).join('')}</div>
+    </div>
+  </div>`;
+}
+
+function buildAuthorGroupView(pool){
+  const authorMap={};
+  pool.forEach(b=>{if(!authorMap[b.authorName])authorMap[b.authorName]=[];authorMap[b.authorName].push(b);});
+  const authors=Object.keys(authorMap).sort();
+  if(!authors.length) return `<div class="empty-state"><div class="empty-icon">📭</div><div class="empty-title">No books found</div></div>`;
+  return authors.map(authorName=>{
+    const books=sortGroup(authorMap[authorName]);
+    const key='ag_'+authorName.replace(/[^a-z0-9]/gi,'_');
+    const isCollapsed=collapsedSections.has(key);
+    const statusColors=[...new Set(books.map(b=>SECTIONS.find(s=>s.key===b.status)?.accent||'#64748b'))];
+    const email=books[0]?.email||'',penName=books[0]?.penName||'';
+    return `<div class="author-group">
+      <div class="author-group-hdr" onclick="toggleSection('${key}')">
+        <div style="display:flex;gap:4px;flex-shrink:0;">${statusColors.slice(0,4).map(c=>`<div style="width:7px;height:7px;border-radius:50%;background:${c};"></div>`).join('')}</div>
+        <div><div class="ag-name">${authorName}${penName?` <span style="font-size:.8rem;color:var(--ink5);font-style:italic;font-weight:400;">aka ${penName}</span>`:''}</div>${email?`<div class="ag-email">${email}</div>`:''}</div>
+        <div class="ag-count">${books.length} book${books.length!==1?'s':''}</div>
+        <div class="ag-books">${books.map(b=>b.bookTitle).join(' · ').slice(0,70)}${books.map(b=>b.bookTitle).join('').length>70?'…':''}</div>
+        <button onclick="event.stopPropagation();openAuthorDash('${authorName.replace(/'/g,"\\'")}'" style="margin-left:auto;background:var(--gold-lt);border:1px solid rgba(212,168,71,.25);color:var(--gold);padding:4px 10px;font-size:.64rem;border-radius:40px;font-weight:700;cursor:pointer;flex-shrink:0;font-family:var(--ff-body);">Portal →</button>
+        <div class="ag-toggle${isCollapsed?' collapsed':''}">▾</div>
+      </div>
+      <div class="${isCollapsed?'section-body hidden':''}">
+        <div class="cards-grid">${books.map(b=>buildCard(b,false)).join('')}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function buildGenreGroupView(pool){
+  const genreMap={};
+  pool.forEach(b=>{const g=b.genre||'Uncategorized';if(!genreMap[g])genreMap[g]=[];genreMap[g].push(b);});
+  const genres=Object.keys(genreMap).sort();
+  const ACCENTS=['#d4a847','#3d9e6b','#3b82f6','#c0392b','#7c3aed','#0d9488','#ea580c'];
+  return genres.map((genre,idx)=>{
+    const books=sortGroup(genreMap[genre]),accent=ACCENTS[idx%ACCENTS.length];
+    const key='genre_'+genre.replace(/[^a-z0-9]/gi,'_'),isCollapsed=collapsedSections.has(key);
+    return `<div class="section-block">
+      <div class="section-hdr" onclick="toggleSection('${key}')">
+        <div class="section-accent" style="background:${accent}"></div>
+        <div class="section-title">${genre}</div>
+        <div class="section-count">${books.length}</div>
+        <div class="section-rule"></div>
+        <div class="section-toggle${isCollapsed?' collapsed':''}">▾</div>
+      </div>
+      <div class="section-body${isCollapsed?' hidden':''}">
+        <div class="cards-grid">${books.map(b=>buildCard(b,false)).join('')}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── Last Contacted view ──
+function buildContactedView(pool){
+  const withDate=pool.filter(b=>daysSince(b)!==null).sort((a,b)=>(daysSince(a)??999)-(daysSince(b)??999));
+  const noDate=pool.filter(b=>daysSince(b)===null);
+  const sorted=[...withDate,...noDate];
+  if(!sorted.length) return `<div class="empty-state"><div class="empty-icon">📭</div><div class="empty-title">No books found</div></div>`;
+  return sorted.map(b=>{
+    const days=daysSince(b),db=daysBadge(days),td=isToday(b.id);
+    const section=SECTIONS.find(s=>s.key===b.status),accent=section?section.accent:'#64748b';
+    let daysHtml;
+    if(days===null) daysHtml=`<div class="clist-days"><div style="padding-top:8px;font-family:var(--ff-mono);font-size:.68rem;color:var(--ink5);">No date</div></div>`;
+    else if(days===0) daysHtml=`<div class="clist-days"><div class="clist-days-today">✓ Today</div></div>`;
+    else{
+      const color=db.cls==='d-fresh'?'var(--green)':db.cls==='d-ok'?'var(--amber)':db.cls==='d-stale'?'var(--orange)':'var(--red)';
+      daysHtml=`<div class="clist-days"><div class="clist-days-num" style="color:${color}">${days}</div><div class="clist-days-unit">days ago</div></div>`;
+    }
+    const bookTasks=TASKS.filter(t=>(t.book===b.bookTitle||t.author===b.authorName)&&t.status!=='Done');
+    const nextStep=(bookTasks[0]?.task||b.nextAction||'');
+    return `<div class="clist-item${days===null?' clist-nodate':''}" onclick="openDrawer('${b.id}')">
+      <div class="clist-accent" style="background:${accent}"></div>
+      ${daysHtml}
+      <div class="clist-divider"></div>
+      <div class="clist-info">
+        <div class="clist-book">${b.bookTitle}${badge(b.status)}</div>
+        <div class="clist-author">${b.authorName}${b.penName?` <span style="font-style:italic;color:var(--ink5);text-transform:none;">aka ${b.penName}</span>`:''}</div>
+        <div class="clist-summary">${b.lastContactSummary||nextStep||'—'}</div>
+      </div>
+      <div class="clist-right">
+        <div class="clist-date-label">${lc(b)!=='—'?lc(b):'Never recorded'}</div>
+        <div class="clist-badges">${invBadge(b.paymentStatus)}</div>
+        <div class="clist-action">${nextStep.slice(0,52)}</div>
+        <button class="btn btn-ghost btn-sm ${td?'done':''}" onclick="markContacted('${b.id}',event)">${td?'✓ Today':'Mark contacted'}</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════════════════
+// TASKMASTER
+// ══════════════════════════════════════════════════════
+const PRIO_ORDER_TM={High:0,Normal:1,Low:2};
+const PRIO_ACCENT_TM={High:'#d97706',Normal:'#3b82f6',Low:'#64748b'};
+
+function buildTaskmasterView(){
+  const allOpen=TASKS.filter(t=>t.status!=='Done');
+  const allDone=TASKS.filter(t=>t.status==='Done');
+  const counts={High:0,Normal:0,Low:0,done:allDone.length,total:TASKS.length};
+  allOpen.forEach(t=>{if(counts[t.priority]!==undefined) counts[t.priority]++;});
+  const pct=counts.total>0?Math.round(allDone.length/counts.total*100):0;
+
+  const allCats=[...new Set(TASKS.map(t=>t.category).filter(Boolean))].sort();
+  const allTypes=[...new Set(TASKS.map(t=>t.type).filter(Boolean))].sort();
+  const allBatches=[...new Set(TASKS.map(t=>t.batch).filter(Boolean))].sort();
+
+  let pool=TASKS;
+  if(!tmShowDone) pool=pool.filter(t=>t.status!=='Done');
+  if(tmPriorityFilter!=='all') pool=pool.filter(t=>t.priority===tmPriorityFilter);
+  if(tmCatFilter!=='all') pool=pool.filter(t=>t.category===tmCatFilter);
+  if(tmTypeFilter!=='all') pool=pool.filter(t=>t.type===tmTypeFilter);
+  if(tmBatchFilter!=='all') pool=pool.filter(t=>t.batch===tmBatchFilter);
+  if(searchQuery){const q=searchQuery.toLowerCase();pool=pool.filter(t=>[t.task,t.author,t.book,t.note,t.category,t.type,t.batch].join(' ').toLowerCase().includes(q));}
+  if(tmSort==='priority') pool=[...pool].sort((a,b)=>(PRIO_ORDER_TM[a.priority]??9)-(PRIO_ORDER_TM[b.priority]??9));
+  else if(tmSort==='author') pool=[...pool].sort((a,b)=>a.author.localeCompare(b.author));
+  else if(tmSort==='category') pool=[...pool].sort((a,b)=>a.category.localeCompare(b.category));
+  else if(tmSort==='type') pool=[...pool].sort((a,b)=>(a.type||'').localeCompare(b.type||''));
+  else if(tmSort==='batch') pool=[...pool].sort((a,b)=>(a.batch||'').localeCompare(b.batch||''));
+
+  const authorMap={};
+  pool.forEach(t=>{if(!authorMap[t.author])authorMap[t.author]=[];authorMap[t.author].push(t);});
+  const authorsSorted=Object.keys(authorMap).sort((a,b)=>{
+    const priA=Math.min(...authorMap[a].map(t=>PRIO_ORDER_TM[t.priority]??9));
+    const priB=Math.min(...authorMap[b].map(t=>PRIO_ORDER_TM[t.priority]??9));
+    return priA-priB||a.localeCompare(b);
+  });
+
+  const summaryHtml=`<div class="tm-summary-bar">
+    <div class="tm-sum-box box-total"><div class="tm-sum-val">${counts.total}</div><div class="tm-sum-lbl">Total Tasks</div></div>
+    <div class="tm-sum-box box-high"><div class="tm-sum-val" style="color:var(--amber)">${counts.High}</div><div class="tm-sum-lbl">⚡ High Open</div></div>
+    <div class="tm-sum-box box-normal"><div class="tm-sum-val" style="color:var(--blue)">${counts.Normal}</div><div class="tm-sum-lbl">🟢 Normal</div></div>
+    <div class="tm-sum-box box-low"><div class="tm-sum-val" style="color:var(--slate)">${counts.Low}</div><div class="tm-sum-lbl">💤 Low</div></div>
+    <div class="tm-sum-box box-done"><div class="tm-sum-val" style="color:var(--green)">${counts.done}</div><div class="tm-sum-lbl">✓ Done</div></div>
+    <div class="tm-sum-box box-video"><div class="tm-sum-val" style="color:var(--purple)">${TASKS.filter(t=>t.type==='Video Production'&&t.status!=='Done').length}</div><div class="tm-sum-lbl">🎬 Videos</div></div>
+    <div class="tm-sum-box box-billing"><div class="tm-sum-val" style="color:var(--red)">${TASKS.filter(t=>t.category==='Billing'&&t.status!=='Done').length}</div><div class="tm-sum-lbl">💳 Billing</div></div>
+    <div class="tm-sum-box box-posting"><div class="tm-sum-val" style="color:var(--teal)">${TASKS.filter(t=>t.category==='Posting'&&t.status!=='Done').length}</div><div class="tm-sum-lbl">📲 Posting</div></div>
+  </div>
+  <div class="tm-progress-bar-wrap">
+    <div class="tm-progress-label">Completion</div>
+    <div class="tm-progress-track"><div class="tm-progress-fill" style="width:${pct}%"></div></div>
+    <div class="tm-progress-pct">${pct}%</div>
+    <button class="tm-sync-btn" id="tmSyncBtn" onclick="syncTasks()">⟳ Sync to Sheets</button>
+  </div>`;
+
+  const filterHtml=`
+  <div class="tm-filters">
+    <span class="tm-filter-lbl">Priority:</span>
+    ${[['all','All'],['High','⚡ High'],['Normal','🟢 Normal'],['Low','💤 Low']].map(([v,l])=>`<button class="tm-filter-btn ${tmPriorityFilter===v?'active':''}" onclick="setTmFilter('priority','${v}')">${l}</button>`).join('')}
+    <button class="tm-filter-btn ${tmShowDone?'f-done active':''}" onclick="toggleTmDone()">${tmShowDone?'✓ Hide Done':'Show Done'}</button>
+  </div>
+  <div class="tm-filters">
+    <span class="tm-filter-lbl">Type:</span>
+    ${[['all','All Types'],...allTypes.map(t=>[t,t])].map(([v,l])=>`<button class="tm-filter-btn ${tmTypeFilter===v?'active':''}" onclick="setTmFilter('type','${v}')" style="${tmTypeFilter===v&&v!=='all'?`background:${TYPE_COLORS[v]||'#333'};color:#fff;border-color:transparent;`:''}">${l}</button>`).join('')}
+  </div>
+  <div class="tm-filters">
+    <span class="tm-filter-lbl">Category:</span>
+    ${[['all','All'],...allCats.map(c=>[c,c])].map(([v,l])=>`<button class="tm-filter-btn ${tmCatFilter===v?'active':''}" onclick="setTmFilter('cat','${v}')" style="${tmCatFilter===v&&v!=='all'?`background:${catColor(v)};color:#fff;border-color:transparent;`:''}">${l}</button>`).join('')}
+  </div>
+  <div class="tm-filters">
+    <span class="tm-filter-lbl">Batch:</span>
+    ${[['all','All'],...allBatches.map(b=>[b,b])].map(([v,l])=>`<button class="tm-filter-btn ${tmBatchFilter===v?'active':''}" onclick="setTmFilter('batch','${v}')">${l}</button>`).join('')}
+  </div>
+  <div class="tm-sort-bar">
+    <span class="tm-filter-lbl">Sort:</span>
+    <select onchange="setTmSort(this.value)">
+      <option value="priority" ${tmSort==='priority'?'selected':''}>Priority ↓</option>
+      <option value="author" ${tmSort==='author'?'selected':''}>Author A–Z</option>
+      <option value="category" ${tmSort==='category'?'selected':''}>Category</option>
+      <option value="type" ${tmSort==='type'?'selected':''}>Type</option>
+      <option value="batch" ${tmSort==='batch'?'selected':''}>Batch</option>
+    </select>
+    <span style="margin-left:auto;font-family:var(--ff-mono);font-size:.58rem;color:var(--ink5);">${pool.length} task${pool.length!==1?'s':''} shown</span>
+  </div>`;
+
+  if(!authorsSorted.length){
+    return `<div class="tm-wrap">${summaryHtml}${filterHtml}<div class="tm-empty">No tasks match your filters — well done! 🎉</div></div>`;
+  }
+
+  const authorBlocksHtml=authorsSorted.map(authorName=>{
+    const tasks=authorMap[authorName];
+    const topPrio=tasks.reduce((best,t)=>(PRIO_ORDER_TM[t.priority]??9)<(PRIO_ORDER_TM[best]??9)?t.priority:best,tasks[0]?.priority||'Normal');
+    const accent=PRIO_ACCENT_TM[topPrio]||'#64748b';
+    const isCollapsed=tmCollapsed.has(authorName);
+    const doneCount=tasks.filter(t=>t.status==='Done').length;
+    const bookGroups={};
+    tasks.forEach(t=>{if(!bookGroups[t.book])bookGroups[t.book]=[];bookGroups[t.book].push(t);});
+    const tasksHtml=Object.entries(bookGroups).map(([book,bTasks])=>{
+      const bDone=bTasks.filter(t=>t.status==='Done').length;
+      return `<div style="border-bottom:1px solid var(--border-faint);">
+        <div class="tm-book-subhdr">
+          <span class="tm-book-subhdr-title">📘 ${book}</span>
+          <span class="tm-book-subhdr-done">${bDone}/${bTasks.length}</span>
+        </div>
+        ${bTasks.map(t=>buildTaskRow(t)).join('')}
+      </div>`;
+    }).join('');
+    return `<div class="tm-author-block" id="tmablock_${authorName.replace(/[^a-z0-9]/gi,'_')}">
+      <div class="tm-author-hdr" onclick="toggleTmBlock('${authorName}')">
+        <div class="tm-a-accent" style="background:${accent}"></div>
+        <div>
+          <div class="tm-a-name">${authorName}</div>
+          <div class="tm-a-sub">${tasks.length} task${tasks.length!==1?'s':''} · ${doneCount} done</div>
+        </div>
+        <div class="tm-a-meta">
+          <span class="prio-badge prio-${(topPrio||'normal').toLowerCase()}">${topPrio}</span>
+          <button onclick="event.stopPropagation();markAllTasksDone('${authorName}')" class="tm-mark-all-done">✓ All Done</button>
+        </div>
+        <div class="tm-a-toggle ${isCollapsed?'collapsed':''}">▾</div>
+      </div>
+      <div style="${isCollapsed?'display:none':''}">
+        ${tasksHtml}
+      </div>
+    </div>`;
+  }).join('');
+
+  return `<div class="tm-wrap">${summaryHtml}${filterHtml}${authorBlocksHtml}</div>`;
+}
+
+function buildTaskRow(t){
+  const isDone=t.status==='Done',isInP=t.status==='In Progress';
+  const cc=catColor(t.category),tc=TYPE_COLORS[t.type]||'#374151';
+  const pCls=(t.priority||'normal').toLowerCase();
+  return `<div class="tm-task-row ${isDone?'done':''} ${isInP?'in-progress':''}" id="tmrow_${t.id}">
+    <input type="checkbox" class="tm-cb" ${isDone?'checked':''} onchange="toggleTask('${t.id}',this.checked)">
+    <div class="tm-task-content">
+      <span class="tm-task-text">${t.task}</span>
+      ${t.note?`<span class="tm-task-note">${t.note}</span>`:''}
+      <div class="tm-task-btns">
+        <button class="tm-task-btn ${isInP?'active-btn':''}" onclick="toggleTaskInProgress('${t.id}',${isInP})">${isInP?'▶ In Progress':'▶ Start'}</button>
+        ${t.batch?`<span style="font-family:var(--ff-mono);font-size:.53rem;color:var(--ink5);padding:2px 6px;background:var(--surface2);border-radius:3px;">${t.batch}</span>`:''}
+      </div>
+    </div>
+    <div class="tm-task-right">
+      <span class="prio-badge prio-${pCls}">${t.priority}</span>
+      ${t.category?`<span class="cat-tag" style="background:${cc};">${t.category}</span>`:''}
+      ${t.type?`<span class="cat-tag" style="background:${tc};">${t.type}</span>`:''}
+    </div>
+  </div>`;
+}
+
+function toggleTask(id,checked){
+  const t=TASKS.find(x=>x.id===id);if(!t) return;
+  t.status=checked?'Done':'To Do';
+  saveTaskState();renderStats();
+  showToast(checked?'✓ Task complete':'↩ Task reset');
+}
+function toggleTaskInProgress(id,currentlyInP){
+  const t=TASKS.find(x=>x.id===id);if(!t) return;
+  t.status=currentlyInP?'To Do':'In Progress';
+  saveTaskState();renderAll();
+}
+function markAllTasksDone(authorName){
+  TASKS.filter(t=>t.author===authorName).forEach(t=>t.status='Done');
+  saveTaskState();renderAll();showToast(`✓ All tasks done for ${authorName}`);
+}
+function setTmFilter(kind,val){
+  if(kind==='priority') tmPriorityFilter=val;
+  if(kind==='cat') tmCatFilter=val;
+  if(kind==='type') tmTypeFilter=val;
+  if(kind==='batch') tmBatchFilter=val;
+  renderAll();
+}
+function setTmSort(val){tmSort=val;renderAll();}
+function toggleTmDone(){tmShowDone=!tmShowDone;renderAll();}
+function toggleTmBlock(authorName){
+  if(tmCollapsed.has(authorName))tmCollapsed.delete(authorName);else tmCollapsed.add(authorName);
+  renderAll();
+}
+async function syncTasks(){
+  const btn=document.getElementById('tmSyncBtn');
+  if(btn){btn.textContent='⟳ Syncing…';btn.classList.add('syncing');}
+  const payload=TASKS.map(t=>({id:t.id,author:t.author,book:t.book,task:t.task,category:t.category,priority:t.priority,status:t.status,type:t.type,batch:t.batch,note:t.note}));
+  const res=await postToSheets({action:'bulkTaskSync',tasks:payload});
+  if(btn){btn.textContent='⟳ Sync to Sheets';btn.classList.remove('syncing');}
+  showToast(res.success?`✅ Synced ${payload.length} tasks`:'⚠ Sync failed — saved locally');
+}
+
+// ══════════════════════════════════════════════════════
+// CHECKLIST (fully working with seed data)
+// ══════════════════════════════════════════════════════
+const PRIO_ORDER={Urgent:0,High:1,Normal:2,Low:3,'':4};
+const PRIO_ACCENT={Urgent:'#ef4444',High:'#d97706',Normal:'#3b82f6',Low:'#64748b','':'#64748b'};
+
+function buildChecklistView(){
+  const allCats=[...new Set(CHECKLIST.map(s=>s.category).filter(Boolean))].sort();
+  const counts={Urgent:0,High:0,Normal:0,Low:0,done:0,total:CHECKLIST.length};
+  CHECKLIST.forEach(s=>{if(s.status==='Done')counts.done++;else if(counts[s.priority]!==undefined)counts[s.priority]++;});
+  const pct=counts.total>0?Math.round(counts.done/counts.total*100):0;
+
+  let filtered=[...CHECKLIST];
+  if(clFilter==='urgent') filtered=filtered.filter(s=>s.priority==='Urgent'&&s.status!=='Done');
+  else if(clFilter==='high') filtered=filtered.filter(s=>s.priority==='High'&&s.status!=='Done');
+  else if(clFilter==='normal') filtered=filtered.filter(s=>s.priority==='Normal'&&s.status!=='Done');
+  else if(clFilter==='low') filtered=filtered.filter(s=>s.priority==='Low'&&s.status!=='Done');
+  else if(clFilter==='todo') filtered=filtered.filter(s=>s.status!=='Done');
+  else if(clFilter==='inprogress') filtered=filtered.filter(s=>s.status==='In Progress');
+  else if(clFilter==='done') filtered=filtered.filter(s=>s.status==='Done');
+  if(clCatFilter!=='all') filtered=filtered.filter(s=>s.category===clCatFilter);
+  if(searchQuery){const q=searchQuery.toLowerCase();filtered=filtered.filter(s=>[s.author,s.book,s.step,s.category].join(' ').toLowerCase().includes(q));}
+
+  const authorMap={};
+  filtered.forEach(s=>{
+    if(!authorMap[s.author]) authorMap[s.author]=[];
+    authorMap[s.author].push(s);
+  });
+  const authorsSorted=Object.keys(authorMap).sort((a,b)=>{
+    const priA=Math.min(...authorMap[a].map(s=>PRIO_ORDER[s.priority]??4));
+    const priB=Math.min(...authorMap[b].map(s=>PRIO_ORDER[s.priority]??4));
+    return priA-priB||a.localeCompare(b);
+  });
+
+  const summaryHtml=`<div class="checklist-summary-bar">
+    <div class="cl-sum-box total"><div class="cl-sum-val">${counts.total}</div><div class="cl-sum-lbl">Total Steps</div></div>
+    <div class="cl-sum-box urgent"><div class="cl-sum-val" style="color:#ef4444">${counts.Urgent}</div><div class="cl-sum-lbl">🚨 Urgent</div></div>
+    <div class="cl-sum-box high"><div class="cl-sum-val" style="color:var(--amber)">${counts.High}</div><div class="cl-sum-lbl">⚡ High</div></div>
+    <div class="cl-sum-box normal"><div class="cl-sum-val" style="color:var(--blue)">${counts.Normal}</div><div class="cl-sum-lbl">🟢 Normal</div></div>
+    <div class="cl-sum-box low"><div class="cl-sum-val" style="color:var(--slate)">${counts.Low}</div><div class="cl-sum-lbl">💤 Low</div></div>
+    <div class="cl-sum-box done"><div class="cl-sum-val" style="color:var(--green)">${counts.done}</div><div class="cl-sum-lbl">✓ Done</div></div>
+  </div>
+  <div class="cl-progress-bar-wrap">
+    <div class="cl-progress-label">Checklist Progress</div>
+    <div class="cl-progress-track"><div class="cl-progress-fill" style="width:${pct}%"></div></div>
+    <div class="cl-progress-pct">${pct}%</div>
+    <button class="cl-sync-btn" id="clSyncBtn" onclick="syncChecklist()">⟳ Sync to Sheets</button>
+  </div>`;
+
+  const filterHtml=`
+  <div class="cl-filter-row">
+    <span style="font-family:var(--ff-mono);font-size:.6rem;color:var(--ink5);text-transform:uppercase;letter-spacing:.08em;">Filter:</span>
+    ${[['all','All'],['high','⚡ High'],['normal','🟢 Normal'],['low','💤 Low'],['todo','To Do'],['inprogress','▶ In Progress'],['done','✓ Done']].map(([v,l])=>`<button class="cl-filter-btn ${v==='done'?'f-done':''} ${clFilter===v?'active':''}" onclick="setClFilter('${v}')">${l}</button>`).join('')}
+  </div>
+  <div class="cl-cat-row">
+    <span style="font-family:var(--ff-mono);font-size:.6rem;color:var(--ink5);text-transform:uppercase;letter-spacing:.08em;">Category:</span>
+    <button class="cl-cat-btn ${clCatFilter==='all'?'active':''}" onclick="setClCatFilter('all')" style="${clCatFilter==='all'?'background:var(--surface3);color:var(--ink3);':''}">All</button>
+    ${allCats.map(c=>`<button class="cl-cat-btn ${clCatFilter===c?'active':''}" onclick="setClCatFilter('${c}')" style="${clCatFilter===c?`background:${catColor(c)};color:#fff;border-color:${catColor(c)};`:''}">${c}</button>`).join('')}
+  </div>`;
+
+  if(!authorsSorted.length){
+    return `<div class="checklist-wrap">${summaryHtml}${filterHtml}<div class="cl-empty">No items match this filter. ✓</div></div>`;
+  }
+
+  const blocksHtml=authorsSorted.map(authorName=>{
+    const steps=authorMap[authorName].sort((a,b)=>{
+      const aD=a.status==='Done'?1:0,bD=b.status==='Done'?1:0;
+      if(aD!==bD) return aD-bD;
+      return(PRIO_ORDER[a.priority]??4)-(PRIO_ORDER[b.priority]??4);
+    });
+    const topPrio=steps.filter(s=>s.status!=='Done').reduce((best,s)=>(PRIO_ORDER[s.priority]??4)<(PRIO_ORDER[best]??4)?s.priority:best,steps[0]?.priority||'Normal');
+    const accent=PRIO_ACCENT[topPrio]||'#64748b';
+    const doneCount=steps.filter(s=>s.status==='Done').length;
+    const isCollapsed=clCollapsed.has(authorName);
+
+    // Group by book
+    const bookGroups={};
+    steps.forEach(s=>{if(!bookGroups[s.book])bookGroups[s.book]=[];bookGroups[s.book].push(s);});
+
+    const stepsHtml=Object.entries(bookGroups).map(([bookTitle,bSteps])=>{
+      const bId=generateId(bookTitle,authorName);
+      const bDone=bSteps.filter(s=>s.status==='Done').length;
+      return `<div style="border-bottom:1px solid var(--border-faint);">
+        <div style="display:flex;align-items:center;gap:8px;padding:6px 16px 5px 24px;background:rgba(255,255,255,.02);">
+          <span style="font-family:var(--ff-display);font-size:.84rem;font-style:italic;color:var(--gold3);">📘 ${bookTitle}</span>
+          <span style="font-family:var(--ff-mono);font-size:.54rem;color:var(--ink5);">${bDone}/${bSteps.length}</span>
+          <button onclick="event.stopPropagation();openDrawer('${bId}')" style="margin-left:auto;background:none;border:1px solid var(--border);border-radius:3px;font-size:.57rem;color:var(--ink5);padding:2px 7px;cursor:pointer;font-family:var(--ff-mono);">view →</button>
+        </div>
+        ${bSteps.map(s=>buildChecklistStepItem(s)).join('')}
+      </div>`;
+    }).join('');
+
+    return `<div class="cl-author-block" id="clblock_${authorName.replace(/[^a-z0-9]/gi,'_')}">
+      <div class="cl-author-hdr" onclick="toggleClBlock('${authorName}')">
+        <div class="cl-a-accent" style="background:${accent}"></div>
+        <div class="cl-a-info">
+          <div class="cl-a-name">${authorName}</div>
+          <div class="cl-a-sub">${steps.length} item${steps.length!==1?'s':''} · ${doneCount} done</div>
+        </div>
+        <div class="cl-a-meta">
+          <span class="cl-prio-badge ${(topPrio||'normal').toLowerCase()}">${topPrio}</span>
+          <button onclick="event.stopPropagation();markAllChecklistDone('${authorName}')" style="background:var(--green-bg);border:1px solid var(--green-bd);color:var(--green);border-radius:4px;padding:3px 8px;font-size:.6rem;font-weight:700;cursor:pointer;font-family:var(--ff-mono);">✓ All Done</button>
+        </div>
+        <div class="cl-a-toggle ${isCollapsed?'collapsed':''}">▾</div>
+      </div>
+      <div class="cl-author-body" style="${isCollapsed?'display:none':''}">
+        ${stepsHtml}
+      </div>
+    </div>`;
+  }).join('');
+
+  return `<div class="checklist-wrap">${summaryHtml}${filterHtml}${blocksHtml}</div>`;
+}
+
+function buildChecklistStepItem(s){
+  const isDone=s.status==='Done',isInP=s.status==='In Progress';
+  const pCls=(s.priority||'normal').toLowerCase();
+  const cc=catColor(s.category);
+  return `<div class="cl-step-item ${isDone?'done-task':''} ${isInP?'in-progress-task':''}" id="clstep_${s.id}">
+    <div class="cl-check-wrap">
+      <input type="checkbox" class="cl-checkbox ${isInP?'in-progress-check':''}" ${isDone?'checked':''} onchange="toggleChecklistItem('${s.id}',this.checked)">
+    </div>
+    <div class="cl-step-content">
+      <span class="cl-step-text">${s.step}</span>
+      <div class="cl-step-btns">
+        <button class="cl-step-btn ${isInP?'in-p':''}" onclick="toggleChecklistInProgress('${s.id}',${isInP})">${isInP?'▶ In Progress':'▶ Start'}</button>
+      </div>
+    </div>
+    <div class="cl-step-right">
+      <span class="cl-prio-badge ${pCls}">${s.priority||'Normal'}</span>
+      ${s.category?`<span class="cl-cat-tag" style="background:${cc};">${s.category}</span>`:''}
+    </div>
+  </div>`;
+}
+
+function toggleChecklistItem(id,checked){
+  const s=CHECKLIST.find(x=>x.id===id);if(!s) return;
+  s.status=checked?'Done':'To Do';
+  saveTaskState();renderStats();
+  const el=document.getElementById('clstep_'+id);
+  if(el){
+    el.classList.toggle('done-task',checked);
+    const t=el.querySelector('.cl-step-text');
+    if(t)t.style.textDecoration=checked?'line-through':'';
+  }
+  showToast(checked?'✓ Step complete':'↩ Step reset');
+}
+function toggleChecklistInProgress(id,currentlyInP){
+  const s=CHECKLIST.find(x=>x.id===id);if(!s) return;
+  s.status=currentlyInP?'To Do':'In Progress';
+  saveTaskState();renderAll();
+}
+function markAllChecklistDone(authorName){
+  CHECKLIST.filter(s=>s.author===authorName).forEach(s=>s.status='Done');
+  saveTaskState();renderAll();showToast(`✓ All checklist items done for ${authorName}`);
+}
+function setClFilter(f){clFilter=f;renderAll();}
+function setClCatFilter(c){clCatFilter=c;renderAll();}
+function toggleClBlock(authorName){if(clCollapsed.has(authorName))clCollapsed.delete(authorName);else clCollapsed.add(authorName);renderAll();}
+async function syncChecklist(){
+  const btn=document.getElementById('clSyncBtn');
+  if(btn){btn.textContent='⟳ Syncing…';btn.classList.add('syncing');}
+  const steps=CHECKLIST.map(s=>({id:s.id,author:s.author,book:s.book,step:s.step,category:s.category,priority:s.priority,status:s.status}));
+  const res=await postToSheets({action:'bulkChecklistSync',steps});
+  if(btn){btn.textContent='⟳ Sync to Sheets';btn.classList.remove('syncing');}
+  showToast(res.success?`✅ Synced ${steps.length} checklist items`:'⚠ Sync failed — saved locally');
+}
+
+// ══════════════════════════════════════════════════════
+// AUTHOR DASHBOARDS
+// ══════════════════════════════════════════════════════
+function buildAuthorSelectScreen(){
+  const authorMap={};
+  BOOKS.forEach(b=>{
+    if(!b.authorName) return;
+    if(!authorMap[b.authorName]) authorMap[b.authorName]={books:[],email:b.email,penName:b.penName};
+    authorMap[b.authorName].books.push(b);
+  });
+  const authors=Object.keys(authorMap).sort();
+  const sdColor={active:'#22c55e',needs:'#ef4444',awaiting:'#f59e0b',trial:'#3b82f6',prospect:'#f97316',low:'#94a3b8',old:'#8b5cf6'};
+  return `<div class="author-select-screen">
+    <div class="author-select-title">Author Portals</div>
+    <p class="author-select-sub">Select an author to view their personalised campaign overview</p>
+    <div class="author-grid">
+      ${authors.map(name=>{
+        const a=authorMap[name];
+        const dots=[...new Set(a.books.map(b=>b.status))].slice(0,4).map(s=>`<div class="asc-dot" style="background:${sdColor[s]||'#94a3b8'}"></div>`).join('');
+        const openTasks=TASKS.filter(t=>t.author===name&&t.status!=='Done').length;
+        const openCL=CHECKLIST.filter(c=>c.author===name&&c.status!=='Done').length;
+        return `<div class="author-select-card" onclick="openAuthorDash('${name.replace(/'/g,"\\'")}')">
+          <div class="asc-name">${name}${a.penName?` <span style="font-size:.7rem;color:var(--ink5);font-style:italic;">(${a.penName})</span>`:''}</div>
+          ${a.email?`<div class="asc-email">${a.email}</div>`:''}
+          <div class="asc-books">${a.books.length} book${a.books.length!==1?'s':''} · ${openTasks} tasks · ${openCL} checklist</div>
+          <div class="asc-status-dots">${dots}</div>
+        </div>`;
+      }).join('')}
+    </div>
+  </div>`;
+}
+
+function openAuthorDash(authorName){
+  currentAuthorDash=authorName;activeTab='authors';
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-authors').classList.add('active');
+  document.getElementById('ctrlBar').style.display='none';
+  renderAll();
+}
+
+function buildAuthorPortal(authorName){
+  const books=BOOKS.filter(b=>b.authorName===authorName);
+  if(!books.length) return buildAuthorSelectScreen();
+  const rep=books[0];
+  const totalTK=books.reduce((s,b)=>s+numericViews(b.tiktokViews||b.totalViews),0);
+  const totalYT=books.reduce((s,b)=>s+numericViews(b.youtubeViews),0);
+  const totalAll=books.reduce((s,b)=>s+numericViews(b.totalViews),0);
+  const paid=books.some(b=>(b.paymentStatus||'').toUpperCase().startsWith('PAID'));
+  const authorTasks=TASKS.filter(t=>t.author===authorName);
+  const openTasks=authorTasks.filter(t=>t.status!=='Done');
+  const authorCL=CHECKLIST.filter(c=>c.author===authorName);
+  const openCL=authorCL.filter(c=>c.status!=='Done');
+  const allLinks=[];
+  books.forEach(b=>{
+    if(isValidUrl(b.tiktok)) allLinks.push({url:b.tiktok,label:'📱 TikTok'});
+    if(isValidUrl(b.youtube)) allLinks.push({url:b.youtube,label:'▶️ YouTube'});
+    if(isValidUrl(b.campaignPage)) allLinks.push({url:b.campaignPage,label:`📄 ${b.bookTitle.slice(0,18)} Page`});
+    if(isValidUrl(b.photosUrl)) allLinks.push({url:b.photosUrl,label:'📷 Photos'});
+    if(isValidUrl(b.productionLink)) allLinks.push({url:b.productionLink,label:'🎬 Production'});
+    if(isValidUrl(b.voiceoversLink)) allLinks.push({url:b.voiceoversLink,label:'🎙 Voiceovers'});
+  });
+  const uniqueLinks=allLinks.filter((l,i,a)=>a.findIndex(x=>x.url===l.url)===i);
+
+  const tasksHtml=openTasks.length>0?`
+    <div class="ap-section-title" style="margin-top:18px;">Open Tasks (${openTasks.length})</div>
+    <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:22px;">
+      ${openTasks.slice(0,8).map(t=>`<div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:9px 13px;display:flex;align-items:flex-start;gap:9px;">
+        <input type="checkbox" class="drw-step-cb" onchange="toggleTask('${t.id}',this.checked)" style="margin-top:3px;flex-shrink:0;">
+        <div style="flex:1;">
+          <div style="font-size:.8rem;color:var(--ink2);font-weight:500;">${t.task}</div>
+          ${t.note?`<div style="font-size:.69rem;color:var(--ink5);margin-top:2px;">${t.note}</div>`:''}
+        </div>
+        <span class="prio-badge prio-${(t.priority||'normal').toLowerCase()}">${t.priority}</span>
+      </div>`).join('')}
+      ${openTasks.length>8?`<div style="font-size:.73rem;color:var(--ink5);text-align:center;padding:5px;font-family:var(--ff-mono);">+${openTasks.length-8} more</div>`:''}
+    </div>
+    ${openCL.length>0?`<div class="ap-section-title">Checklist (${openCL.length} open)</div>
+    <div style="display:flex;flex-direction:column;gap:4px;margin-bottom:22px;">
+      ${openCL.slice(0,6).map(c=>`<div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:8px 12px;display:flex;align-items:center;gap:8px;">
+        <input type="checkbox" class="drw-step-cb" onchange="toggleChecklistItem('${c.id}',this.checked)" style="flex-shrink:0;">
+        <div style="flex:1;font-size:.79rem;color:var(--ink3);">${c.step}</div>
+        <span class="cat-tag" style="background:${catColor(c.category)};">${c.category}</span>
+      </div>`).join('')}
+    </div>`:''}`:'';
+
+  return `<div class="author-portal">
+    <div class="ap-header">
+      <button class="ap-back" onclick="currentAuthorDash=null;renderAll()">← All Authors</button>
+      <div class="ap-author-name">${authorName}${rep.penName?` <span style="font-size:1.1rem;color:var(--gold3);font-style:italic;">aka ${rep.penName}</span>`:''}</div>
+      <div class="ap-author-meta">${rep.email||'No email'} · ${books.length} book${books.length!==1?'s':''} · ${openTasks.length} open tasks · ${openCL.length} checklist items</div>
+      <div class="ap-badges">${badge(rep.status)}${invBadge(rep.paymentStatus)}${rep.vip?`<span class="badge" style="background:var(--gold-lt);color:var(--gold);border:1px solid rgba(212,168,71,.25);">★ VIP</span>`:''}</div>
+    </div>
+    <div class="ap-stat-row">
+      <div class="ap-stat"><div class="ap-stat-val">${books.length}</div><div class="ap-stat-lbl">Books</div></div>
+      <div class="ap-stat"><div class="ap-stat-val" style="color:#e2e8f0">${fmtNum(String(totalTK))||'—'}</div><div class="ap-stat-lbl">TK Views</div></div>
+      <div class="ap-stat"><div class="ap-stat-val" style="color:#ff4444">${fmtNum(String(totalYT))||'—'}</div><div class="ap-stat-lbl">YT Views</div></div>
+      <div class="ap-stat"><div class="ap-stat-val" style="color:var(--gold)">${totalAll>0?fmtNum(String(totalAll)):'—'}</div><div class="ap-stat-lbl">Total Views</div></div>
+      <div class="ap-stat"><div class="ap-stat-val" style="color:${paid?'var(--green)':'var(--red)'}">${paid?'✓':'✗'}</div><div class="ap-stat-lbl">Payment</div></div>
+      <div class="ap-stat"><div class="ap-stat-val" style="font-size:.9rem">${rep.monthlyRetainer||'$20/mo'}</div><div class="ap-stat-lbl">Retainer</div></div>
+      <div class="ap-stat"><div class="ap-stat-val" style="color:var(--amber)">${openTasks.length}</div><div class="ap-stat-lbl">Open Tasks</div></div>
+      <div class="ap-stat"><div class="ap-stat-val" style="color:var(--green);font-size:1.4rem;">${authorCL.filter(c=>c.status==='Done').length}/${authorCL.length}</div><div class="ap-stat-lbl">Checklist</div></div>
+    </div>
+    <div class="ap-body">
+      ${tasksHtml}
+      <div class="ap-section-title">Books in Campaign</div>
+      <div class="ap-books">
+        ${books.map(b=>{
+          const s=SECTIONS.find(x=>x.key===b.status),acc=s?s.accent:'#64748b';
+          const bTasks=TASKS.filter(t=>(t.book===b.bookTitle||t.author===b.authorName)&&t.status!=='Done');
+          return `<div class="ap-book-card">
+            <div class="ap-book-header" style="background:${acc}"></div>
+            <div class="ap-book-body">
+              <div class="ap-book-title">${b.bookTitle}</div>
+              ${b.series?`<div class="ap-book-series">${b.series}</div>`:''}
+              <div class="ap-book-grid">
+                <div class="ap-book-field"><div class="ap-book-field-lbl">Status</div><div class="ap-book-field-val">${b.rawStatus||'—'}</div></div>
+                <div class="ap-book-field"><div class="ap-book-field-lbl">Payment</div><div class="ap-book-field-val">${b.paymentStatus||'—'}</div></div>
+                <div class="ap-book-field"><div class="ap-book-field-lbl">📱 TikTok</div><div class="ap-book-field-val">${b.tiktokViews||b.totalViews||'—'}</div></div>
+                <div class="ap-book-field"><div class="ap-book-field-lbl">▶️ YouTube</div><div class="ap-book-field-val">${b.youtubeViews||'—'}</div></div>
+                <div class="ap-book-field"><div class="ap-book-field-lbl">Week #</div><div class="ap-book-field-val">${b.seriesDelivered||'—'}</div></div>
+                <div class="ap-book-field"><div class="ap-book-field-lbl">Open Tasks</div><div class="ap-book-field-val" style="color:var(--amber)">${bTasks.length}</div></div>
+                <div class="ap-book-field" style="grid-column:1/-1"><div class="ap-book-field-lbl">Week Due</div><div class="ap-book-field-val">${b.weekDueDate||'—'}</div></div>
+              </div>
+            </div>
+            ${bTasks.length>0?`<div class="ap-book-action">→ ${bTasks[0]?.task?.slice(0,65)||'—'}</div>`:''}
+          </div>`;
+        }).join('')}
+      </div>
+      ${uniqueLinks.length>0?`<div class="ap-section-title">Platforms & Links</div><div class="ap-links">${uniqueLinks.map(l=>`<a href="${l.url}" target="_blank" class="ap-link">${l.label}</a>`).join('')}</div>`:''}
+    </div>
+  </div>`;
+}
+
+// ══════════════════════════════════════════════════════
+// DRAWER
+// ══════════════════════════════════════════════════════
+let currentDrawerID=null;
+
+function openDrawer(id){
+  currentDrawerID=id;
+  renderDrawer(id);
+  document.getElementById('drawer').classList.add('on');
+  document.getElementById('overlay').classList.add('on');
+}
+
+function renderDrawer(id){
+  const b=BOOKS.find(x=>x.id===id);if(!b) return;
+  const days=daysSince(b),db=daysBadge(days),td=isToday(b.id);
+  const section=SECTIONS.find(s=>s.key===b.status),accent=section?section.accent:'#64748b';
+  const tp=trialProgress(b),siblings=getSiblings(b);
+
+  const trialBarHtml=tp?`<div style="margin-top:8px;">
+    <div style="font-family:var(--ff-mono);font-size:.57rem;color:rgba(255,255,255,.4);margin-bottom:4px;display:flex;justify-content:space-between;letter-spacing:.06em;"><span>TRIAL PROGRESS</span><span>${tp.daysLeft}d remaining</span></div>
+    <div class="trial-bar-bg"><div class="trial-bar-fill" style="width:${tp.pct}%"></div></div>
+  </div>`:'';
+
+  // Tasks for this book
+  const bookTasks=TASKS.filter(t=>t.book===b.bookTitle||t.author===b.authorName);
+  const bookCL=CHECKLIST.filter(c=>c.book===b.bookTitle||c.author===b.authorName);
+
+  const hasDetail=b.tiktokViews||b.youtubeViews||b.tiktokFollowers;
+  const metricsHtml=hasDetail?`
+    <div class="metrics-strip">
+      <div class="mbox"><div class="mbox-val tk">${b.tiktokViews&&b.tiktokViews!=='0'?fmtNum(b.tiktokViews):'—'}</div><div class="mbox-lbl">📱 TikTok</div></div>
+      <div class="mbox"><div class="mbox-val yt">${b.youtubeViews&&b.youtubeViews!=='0'?fmtNum(b.youtubeViews):'—'}</div><div class="mbox-lbl">▶️ YouTube</div></div>
+      <div class="mbox"><div class="mbox-val">${b.totalViews&&b.totalViews!=='0'?fmtNum(b.totalViews):'—'}</div><div class="mbox-lbl">👁 Total</div></div>
+    </div>
+    <div class="metrics-strip" style="margin-top:6px;">
+      <div class="mbox"><div class="mbox-val tk">${b.tiktokFollowers&&b.tiktokFollowers!=='0'?fmtNum(b.tiktokFollowers):'—'}</div><div class="mbox-lbl">👥 TK Followers</div></div>
+      <div class="mbox"><div class="mbox-val yt">${b.youtubeWatchHours&&b.youtubeWatchHours!=='0'?b.youtubeWatchHours+'h':'—'}</div><div class="mbox-lbl">⏱ Watch Hrs</div></div>
+      <div class="mbox"><div class="mbox-val" style="font-size:.9rem;color:var(--ink3)">${b.monthlyRetainer||'$20/mo'}</div><div class="mbox-lbl">💰 Retainer</div></div>
+    </div>
+    ${b.bestVideo?`<div class="best-video-box"><div class="best-video-lbl">⭐ Best Video</div><div class="best-video-title">${b.bestVideo}</div><div class="best-video-views">${b.bestVideoViews} views</div></div>`:''}
+    ${b.analyticsUpdated?`<div class="analytics-updated">Updated: ${b.analyticsUpdated}</div>`:''}
+  `:`<div class="metrics-strip">
+    <div class="mbox"><div class="mbox-val">${b.totalViews&&b.totalViews!=='0'?fmtNum(b.totalViews):'—'}</div><div class="mbox-lbl">Total Views</div></div>
+    <div class="mbox"><div class="mbox-val">${b.tiktokFollowers&&b.tiktokFollowers!=='0'?fmtNum(b.tiktokFollowers):'—'}</div><div class="mbox-lbl">TK Followers</div></div>
+    <div class="mbox"><div class="mbox-val" style="font-size:.9rem;color:var(--ink3)">${b.monthlyRetainer||'$20/mo'}</div><div class="mbox-lbl">Retainer</div></div>
+  </div>`;
+
+  const tasksSection=bookTasks.length>0?`<div class="drw-section">
+    <div class="drw-section-title">Tasks <span style="font-family:var(--ff-mono);font-size:.54rem;color:var(--ink5);">${bookTasks.filter(t=>t.status==='Done').length}/${bookTasks.length} done</span></div>
+    <div class="drw-steps-list">
+      ${bookTasks.map(t=>{
+        const isDone=t.status==='Done',isInP=t.status==='In Progress';
+        const cc=catColor(t.category);
+        return `<div class="drw-step-item ${isDone?'done':''} ${isInP?'inprog':''}">
+          <input type="checkbox" class="drw-step-cb" ${isDone?'checked':''} onchange="toggleTask('${t.id}',this.checked)">
+          <div style="flex:1;">
+            <span class="drw-step-txt">${t.task}</span>
+            ${t.note?`<div style="font-size:.63rem;color:var(--ink5);margin-top:2px;">${t.note}</div>`:''}
+          </div>
+          <div class="drw-step-meta">
+            <span class="prio-badge prio-${(t.priority||'normal').toLowerCase()}">${t.priority}</span>
+            ${t.category?`<span class="cl-cat-tag" style="background:${cc};">${t.category}</span>`:''}
+          </div>
+        </div>`;
+      }).join('')}
+    </div>
+  </div>`:'';
+
+  const clSection=bookCL.length>0?`<div class="drw-section">
+    <div class="drw-section-title">Checklist <span style="font-family:var(--ff-mono);font-size:.54rem;color:var(--ink5);">${bookCL.filter(c=>c.status==='Done').length}/${bookCL.length} done</span></div>
+    <div class="drw-steps-list">
+      ${bookCL.map(c=>{
+        const isDone=c.status==='Done';
+        const cc=catColor(c.category);
+        return `<div class="drw-step-item ${isDone?'done':''}">
+          <input type="checkbox" class="drw-step-cb" ${isDone?'checked':''} onchange="toggleChecklistItem('${c.id}',this.checked)">
+          <span class="drw-step-txt">${c.step}</span>
+          <div class="drw-step-meta">
+            <span class="cl-prio-badge ${(c.priority||'normal').toLowerCase()}">${c.priority}</span>
+            ${c.category?`<span class="cl-cat-tag" style="background:${cc};">${c.category}</span>`:''}
+          </div>
+        </div>`;
+      }).join('')}
+    </div>
+  </div>`:'';
+
+  const linkItems=[
+    b.tiktok&&isValidUrl(b.tiktok)?`<a href="${b.tiktok}" target="_blank" class="drw-link">📱 TikTok</a>`:'',
+    b.youtube&&isValidUrl(b.youtube)?`<a href="${b.youtube}" target="_blank" class="drw-link">▶️ YouTube</a>`:'',
+    b.campaignPage&&isValidUrl(b.campaignPage)?`<a href="${b.campaignPage}" target="_blank" class="drw-link">📄 Campaign Page</a>`:'',
+    b.photosUrl&&isValidUrl(b.photosUrl)?`<a href="${b.photosUrl}" target="_blank" class="drw-link">📷 Photos</a>`:'',
+    b.productionLink&&isValidUrl(b.productionLink)?`<a href="${b.productionLink}" target="_blank" class="drw-link">🎬 Production</a>`:'',
+    b.voiceoversLink&&isValidUrl(b.voiceoversLink)?`<a href="${b.voiceoversLink}" target="_blank" class="drw-link">🎙 Voiceovers</a>`:'',
+    b.driveUrl&&isValidUrl(b.driveUrl)?`<a href="${b.driveUrl}" target="_blank" class="drw-link">📁 Drive</a>`:'',
+    b.receiptUrl&&isValidUrl(b.receiptUrl)?`<a href="${b.receiptUrl}" target="_blank" class="drw-link">🧾 Receipt</a>`:'',
+  ].filter(Boolean).join('')||'<span style="font-size:.76rem;color:var(--ink5)">No links on file</span>';
+
+  document.getElementById('drawer').innerHTML=`
+    <div class="drw-hdr">
+      <div style="position:absolute;top:0;left:0;width:3px;height:100%;background:${accent};"></div>
+      <button class="drw-close" onclick="closeDrawer()">✕</button>
+      <div class="drw-book-title">${b.vip?'★ ':''}${b.bookTitle}</div>
+      <div class="drw-author">${b.authorName}</div>
+      ${b.penName?`<div class="drw-pen">Pen name: ${b.penName}</div>`:''}
+      ${b.series?`<div class="drw-series">📚 ${b.series}</div>`:''}
+      <div class="drw-badges">${badge(b.status)}<span class="days-badge ${db.cls}">${db.lbl}</span>${invBadge(b.paymentStatus)}</div>
+      ${trialBarHtml}
+      ${siblings.length>0?`<div style="margin-top:10px;font-family:var(--ff-mono);font-size:.54rem;text-transform:uppercase;letter-spacing:.09em;color:rgba(255,255,255,.28);margin-bottom:5px;">Other books</div>
+        <div class="sibling-strip">${siblings.slice(0,4).map(s=>`<span class="sibling-chip" onclick="renderDrawer('${s.id}');currentDrawerID='${s.id}'">📘 ${s.bookTitle.slice(0,22)}${s.bookTitle.length>22?'…':''}</span>`).join('')}</div>`:''}
+    </div>
+    <div class="drw-body">
+      <div class="drw-section">
+        <div class="drw-section-title">Performance</div>
+        ${metricsHtml}
+      </div>
+      ${tasksSection}
+      ${clSection}
+      <div class="drw-section">
+        <div class="drw-section-title">Campaign Info</div>
+        <div class="info-grid-2">
+          <div class="info-box"><div class="info-box-label">Email</div>
+            <div class="info-box-val">${b.email||'—'}${b.email?` <button onclick="copyEmail('${b.email}')" style="background:none;border:none;cursor:pointer;color:var(--gold);font-size:.62rem;font-family:var(--ff-body);font-weight:700;">copy</button>`:''}</div></div>
+          <div class="info-box"><div class="info-box-label">Genre</div><div class="info-box-val">${b.genre||'—'}</div></div>
+          <div class="info-box"><div class="info-box-label">Status</div><div class="info-box-val">${b.rawStatus||'—'}</div></div>
+          <div class="info-box"><div class="info-box-label">Payment</div><div class="info-box-val">${b.paymentStatus||'—'}</div></div>
+          <div class="info-box"><div class="info-box-label">Trial Start</div><div class="info-box-val">${b.trialStart||'—'}</div></div>
+          <div class="info-box"><div class="info-box-label">Campaign Live</div><div class="info-box-val">${b.campaignLive||'—'}</div></div>
+          <div class="info-box"><div class="info-box-label">Last Contact</div><div class="info-box-val">${lc(b)}</div></div>
+          <div class="info-box"><div class="info-box-label">Week #</div><div class="info-box-val teal">${b.seriesDelivered||'—'}</div></div>
+          <div class="info-box info-box-full"><div class="info-box-label">Week Due</div><div class="info-box-val">${b.weekDueDate||'—'}</div></div>
+          <div class="info-box info-box-full"><div class="info-box-label">Pending Action</div><div class="info-box-val amber">→ ${b.nextAction||TASKS.find(t=>(t.book===b.bookTitle||t.author===b.authorName)&&t.status!=='Done')?.task||'—'}</div></div>
+        </div>
+      </div>
+      <div class="drw-section">
+        <div class="drw-section-title">Links & Platforms</div>
+        <div class="links-grid">${linkItems}</div>
+      </div>
+      <div class="drw-section">
+        <div class="drw-section-title">Notes</div>
+        <div class="field-edit-wrap">
+          <textarea class="field-edit ta" id="drwNotes" placeholder="Add notes…">${b.notes||''}</textarea>
+          <button class="field-save" onclick="saveNote('${b.id}')">Save</button>
+        </div>
+      </div>
+      <div class="drw-section">
+        <div class="drw-section-title">Quick Actions</div>
+        <div class="quick-actions">
+          <button class="btn ${td?'btn-ghost done':'btn-ghost'}" onclick="markContacted('${b.id}')">${td?'✓ Contacted Today':'○ Mark Contacted'}</button>
+          ${b.email?`<button class="btn btn-ghost" onclick="copyEmail('${b.email}')">📋 Copy Email</button>`:''}
+          <button class="btn btn-ghost" onclick="openAuthorDash('${b.authorName}');closeDrawer()">👤 Author Portal</button>
+          <button class="btn btn-ghost" onclick="switchTab('taskmaster');closeDrawer()">📋 All Tasks</button>
+        </div>
+      </div>
+      <div style="font-family:var(--ff-mono);font-size:.54rem;color:var(--ink5);text-align:center;padding:12px 0 4px;border-top:1px solid var(--border-faint);letter-spacing:.09em;text-transform:uppercase;">Atomic Shelf · ${b.id}</div>
+    </div>`;
+}
+
+function closeDrawer(){document.getElementById('drawer').classList.remove('on');document.getElementById('overlay').classList.remove('on');currentDrawerID=null;}
+
+async function saveNote(id){
+  const v=document.getElementById('drwNotes')?.value||'';
+  const b=BOOKS.find(x=>x.id===id);if(b) b.notes=v;
+  const res=await postToSheets({action:'saveNote',bookTitle:b?.bookTitle,authorName:b?.authorName,notes:v});
+  showToast(res.success?'✓ Saved to Sheets':'✓ Saved locally');
+  renderAll();
+}
+
+async function markContacted(id,e){
+  if(e) e.stopPropagation();
+  const now=new Date().toISOString();
+  localStorage.setItem('as_lc_'+id,now);
+  const b=BOOKS.find(x=>x.id===id);
+  // Update book object
+  if(b){b.lastContactStored=now;b.lastContact='Today';}
+  renderAll();
+  if(currentDrawerID===id) renderDrawer(id);
+  showToast('✓ Marked as contacted today');
+  if(b) postToSheets({action:'markContacted',bookTitle:b.bookTitle,authorName:b.authorName,date:now});
+}
+
+// ══════════════════════════════════════════════════════
+// ADD BOOK MODAL
+// ══════════════════════════════════════════════════════
+const MODAL_FIELDS=[
+  ['Book Title','text',true,true],['Author Name','text',true],['Pen Name','text'],
+  ['Email','email'],['Series / Collection','text'],['Genre','text'],
+  ['Campaign Status','text'],['Payment Status','text'],
+  ['Monthly Retainer','text'],['Trial Start Date','text'],['Campaign Live Date','text'],
+  ['TikTok Account','url'],['YouTube Account','url'],['Campaign Page URL','url'],
+  ['Total Views','text'],['TikTok Views','text'],['YouTube Views','text'],
+  ['Notes','text',false,true],
+];
+function showModal(){
+  document.getElementById('modalFields').innerHTML=MODAL_FIELDS.map(([label,type,req,full])=>
+    `<div class="modal-field${full?' full':''}">
+      <label class="modal-label">${label}${req?' *':''}</label>
+      <input class="modal-input" type="${type}" name="${label}" placeholder="${label}" ${req?'required':''}></div>`
+  ).join('');
+  document.getElementById('modalBg').classList.add('on');
+}
+function hideModal(e){if(e&&e.target!==document.getElementById('modalBg'))return;document.getElementById('modalBg').classList.remove('on');}
+async function submitNewBook(){
+  const inputs=document.querySelectorAll('#modalFields .modal-input');
+  const row={};let valid=true;
+  inputs.forEach(inp=>{row[inp.name]=inp.value.trim();if(inp.required&&!inp.value.trim()){inp.style.borderColor='var(--red)';valid=false;}else inp.style.borderColor='';});
+  if(!valid){showToast('⚠ Please fill required fields');return;}
+  const b=buildBooksFromRows([row])[0];BOOKS.push(b);renderAll();hideModal();showToast('✓ Book added');
+  const res=await postToSheets({action:'addBook',row});if(res.success) showToast('✓ Saved to Sheets');
+}
+
+// ══════════════════════════════════════════════════════
+// CONTROLS & TABS
+// ══════════════════════════════════════════════════════
+function switchTab(tab){
+  activeTab=tab;currentAuthorDash=null;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+tab).classList.add('active');
+  const showCtrl=(tab==='board');
+  document.getElementById('ctrlBar').style.display=showCtrl?'flex':'none';
+  renderAll();
+}
+function setViewMode(mode){
+  viewMode=mode;
+  ['grid','list','author'].forEach(m=>{const btn=document.getElementById('vt-'+m);if(btn)btn.classList.toggle('active',m===mode);});
+  if(mode==='author'){groupBy='author';document.getElementById('groupSelect').value='author';}
+  renderAll();
+}
+function onSearch(v){searchQuery=v.trim();renderAll();}
+function onSort(v){sortBy=v;renderAll();}
+function onGroup(v){groupBy=v;renderAll();}
+function filterByAuthor(name){authorFilter=name;renderAll();renderAuthorFilterPill();}
+function clearAuthorFilter(){authorFilter=null;renderAll();renderAuthorFilterPill();}
+function renderAuthorFilterPill(){const el=document.getElementById('authorFilterPill');el.innerHTML=authorFilter?`<span class="author-filter-pill" onclick="clearAuthorFilter()">👤 ${authorFilter} <span class="afp-x">×</span></span>`:''; }
+function toggleSection(key){if(collapsedSections.has(key))collapsedSections.delete(key);else collapsedSections.add(key);renderAll();}
+function collapseAll(){
+  if(viewMode==='author'||groupBy==='author'){[...new Set(BOOKS.map(b=>'ag_'+b.authorName.replace(/[^a-z0-9]/gi,'_')))].forEach(k=>collapsedSections.add(k));}
+  else{SECTIONS.forEach(s=>collapsedSections.add(s.key));}
+  renderAll();
+}
+function expandAll(){collapsedSections.clear();renderAll();}
+
+async function syncNow(){
+  showToast('🔄 Syncing with Google Sheets…');
+  document.getElementById('mainContent').innerHTML=`<div class="loading-state"><div class="loading-spinner"></div><div class="loading-title">Syncing…</div></div>`;
+  const rawRows=await fetchFromSheets();
+  if(rawRows&&rawRows.length>0){
+    RAW_ROWS=rawRows;
+    BOOKS=buildBooksFromRows(rawRows);
+    sheetsLoaded=true;
+    renderAll();renderStats();
+    showToast('✅ Synced — '+BOOKS.length+' books loaded');
+  }else{
+    renderAll();showToast('⚠ Could not reach Sheets — data intact locally');
+  }
+}
+
+function exportCSV(){
+  const headers=['Author','Book','Status','Payment','Last Contact','TikTok Views','YouTube Views','Total Views','Week #','Week Due','Tasks Open','Checklist Open'];
+  const rows=BOOKS.map(b=>{
+    const openT=TASKS.filter(t=>(t.book===b.bookTitle||t.author===b.authorName)&&t.status!=='Done').length;
+    const openC=CHECKLIST.filter(c=>(c.book===b.bookTitle||c.author===b.authorName)&&c.status!=='Done').length;
+    return [b.authorName,b.bookTitle,b.rawStatus,b.paymentStatus,lc(b),b.tiktokViews||'0',b.youtubeViews||'0',b.totalViews||'0',b.seriesDelivered||'',b.weekDueDate||'',openT,openC];
+  });
+  const csv=[headers.join(','),...rows.map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(','))].join('\n');
+  const url=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
+  const el=document.createElement('a');el.href=url;el.download=`atomic-shelf-${new Date().toISOString().slice(0,10)}.csv`;el.click();
+  URL.revokeObjectURL(url);
+  showToast(`⬇ CSV exported — ${rows.length} books`);
+}
+
+// ══════════════════════════════════════════════════════
+// RENDER ALL
+// ══════════════════════════════════════════════════════
+function renderAll(){
+  if(BOOKS.length>0||TASKS.length>0) renderStats();
+  const el=document.getElementById('mainContent');
+
+  if(activeTab==='taskmaster'){el.innerHTML=buildTaskmasterView();return;}
+  if(activeTab==='checklist'){el.innerHTML=buildChecklistView();return;}
+  if(activeTab==='authors'){
+    document.getElementById('ctrlBar').style.display='none';
+    el.innerHTML=currentAuthorDash?buildAuthorPortal(currentAuthorDash):buildAuthorSelectScreen();
+    return;
+  }
+
+  if(!sheetsLoaded){
+    el.innerHTML=`<div class="error-state">
+      <div class="error-icon">🔌</div>
+      <div class="error-title">Sheets connection failed</div>
+      <p class="error-msg">The Board and Contacted tabs need Google Sheets data. The Taskmaster and Checklist tabs are fully functional with seeded data — switch to them now, or retry.</p>
+      <div class="error-url-box">${APPS_SCRIPT_URL}</div>
+      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+        <button class="btn btn-gold" onclick="syncNow()">⟳ Retry Connection</button>
+        <button class="btn btn-ghost" onclick="switchTab('taskmaster')">📋 Taskmaster</button>
+        <button class="btn btn-ghost" onclick="switchTab('checklist')">☑ Checklist</button>
+      </div>
+    </div>`;
+    return;
+  }
+
+  let pool=BOOKS;
+  if(authorFilter) pool=pool.filter(b=>b.authorName===authorFilter);
+  if(searchQuery){
+    const q=searchQuery.toLowerCase();
+    pool=pool.filter(b=>[b.bookTitle,b.authorName,b.penName,b.email,b.notes,b.genre,b.series,b.lastContactSummary,b.nextAction].join(' ').toLowerCase().includes(q));
+  }
+
+  let html='';
+  if(authorFilter) html+=`<div class="search-info">👤 Showing ${pool.length} book${pool.length!==1?'s':''} by <strong>${authorFilter}</strong> <span onclick="clearAuthorFilter()" style="cursor:pointer;margin-left:4px;">× clear</span></div>`;
+  if(searchQuery) html+=`<div class="search-info">🔍 ${pool.length} result${pool.length!==1?'s':''} for "<strong>${searchQuery}</strong>"</div>`;
+
+  if(activeTab==='contacted'){el.innerHTML=html+`<div class="contact-list">${buildContactedView(pool)}</div>`;return;}
+  if(!pool.length){el.innerHTML=html+`<div class="empty-state"><div class="empty-icon">📭</div><div class="empty-title">No books found</div><p class="empty-sub">Try adjusting your search or filter.</p></div>`;return;}
+
+  if(viewMode==='author'||groupBy==='author'){html+=buildAuthorGroupView(pool);}
+  else if(groupBy==='genre'){html+=buildGenreGroupView(pool);}
+  else if(groupBy==='none'){
+    const sorted=sortGroup(pool),isLV=viewMode==='list';
+    html+=`<div class="cards-grid${isLV?' list-view':''}">${sorted.map(b=>buildCard(b,isLV)).join('')}</div>`;
+  }else{
+    const grouped={};SECTIONS.forEach(s=>{grouped[s.key]=[];});
+    pool.forEach(b=>{(grouped[b.status]=grouped[b.status]||[]).push(b);});
+    SECTIONS.forEach(s=>{html+=buildSection(s,grouped[s.key]||[]);});
+  }
+  el.innerHTML=html;
+}
+
+function checkUrlParams(){
+  const params=new URLSearchParams(window.location.search);
+  const author=params.get('author');
+  if(author) openAuthorDash(decodeURIComponent(author));
+}
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){closeDrawer();hideModal();}
+  if((e.metaKey||e.ctrlKey)&&e.key==='k'){e.preventDefault();document.getElementById('srchInput').focus();}
+});
+
+// ══════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════
+(async()=>{
+  loadTaskState();
+  renderStats();
+
+  // Render taskmaster immediately (no sheets needed)
+  if(activeTab==='taskmaster'){
+    document.getElementById('mainContent').innerHTML=buildTaskmasterView();
+  }
+
+  const rawRows=await fetchFromSheets();
+  if(rawRows&&rawRows.length>0){
+    RAW_ROWS=rawRows;
+    BOOKS=buildBooksFromRows(rawRows);
+    sheetsLoaded=true;
+    renderAll();renderStats();checkUrlParams();
+    showToast('✅ '+BOOKS.length+' books loaded from Sheets');
+  }else{
+    sheetsLoaded=false;
+    if(activeTab==='board'||activeTab==='contacted'){
+      document.getElementById('mainContent').innerHTML=`
+        <div class="error-state">
+          <div class="error-icon">🔌</div>
+          <div class="error-title">Sheets not reachable</div>
+          <p class="error-msg">Board requires Sheets data. Taskmaster (${TASKS.length} tasks) and Checklist (${CHECKLIST.length} items) are fully live.</p>
+          <div class="error-url-box">${APPS_SCRIPT_URL}</div>
+          <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+            <button class="btn btn-gold" onclick="syncNow()">⟳ Retry</button>
+            <button class="btn btn-ghost" onclick="switchTab('taskmaster')">📋 Taskmaster</button>
+            <button class="btn btn-ghost" onclick="switchTab('checklist')">☑ Checklist</button>
+          </div>
+        </div>`;
+    }
+    checkUrlParams();
+  }
+})();
+</script>
+</body>
+</html>

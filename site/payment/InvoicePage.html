@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Invoice — <?= order.author ?> | Atomic Shelf</title>
+<style>
+  /* ── TOKENS ── */
+  :root {
+    --bg:         #0D0D0D;
+    --surface:    #141414;
+    --card:       #1A1A1A;
+    --border:     #2A2A2A;
+    --accent:     #C8A96E;      /* warm gold — matches campaign hub */
+    --accent-dim: rgba(200,169,110,0.12);
+    --text:       #F0EDE8;
+    --muted:      #888;
+    --success:    #4CAF7D;
+    --font-sans:  'Inter', system-ui, sans-serif;
+    --font-serif: 'Georgia', 'Times New Roman', serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── HEADER ── */
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--surface);
+  }
+
+  .logo-mark {
+    width: 32px; height: 32px;
+    background: var(--accent);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; font-weight: 800; color: #000; letter-spacing: -0.5px;
+    flex-shrink: 0;
+  }
+
+  .logo-text {
+    font-size: 15px; font-weight: 600; letter-spacing: 0.02em;
+    color: var(--text);
+  }
+
+  .logo-text span { color: var(--accent); }
+
+  header .tagline {
+    margin-left: auto;
+    font-size: 11px; color: var(--muted); letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* ── LAYOUT ── */
+  main {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 0;
+    max-width: 1100px;
+    margin: 40px auto;
+    width: 100%;
+    padding: 0 24px;
+  }
+
+  /* ── LEFT PANEL: INVOICE DETAILS ── */
+  .invoice-panel {
+    padding: 32px 40px 32px 0;
+    border-right: 1px solid var(--border);
+  }
+
+  .eyebrow {
+    font-size: 10px; font-weight: 600; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 20px;
+  }
+
+  .author-name {
+    font-family: var(--font-serif);
+    font-size: 28px; line-height: 1.2;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+
+  .plan-name {
+    font-size: 13px; color: var(--muted);
+    margin-bottom: 32px;
+  }
+
+  .divider {
+    border: none; border-top: 1px solid var(--border);
+    margin: 24px 0;
+  }
+
+  /* Amount display */
+  .amount-block {
+    background: var(--accent-dim);
+    border: 1px solid rgba(200,169,110,0.25);
+    border-radius: 10px;
+    padding: 20px 22px;
+    margin-bottom: 28px;
+    display: flex; align-items: baseline; gap: 6px;
+  }
+
+  .currency-symbol {
+    font-size: 18px; font-weight: 600; color: var(--accent);
+    margin-top: 4px;
+  }
+
+  .amount-number {
+    font-size: 44px; font-weight: 700; color: var(--accent);
+    letter-spacing: -1px; line-height: 1;
+  }
+
+  .amount-period {
+    font-size: 13px; color: var(--muted); margin-left: 2px;
+  }
+
+  .amount-note {
+    font-size: 11px; color: var(--muted); margin-top: 6px;
+  }
+
+  /* Line items */
+  .line-items { margin-bottom: 28px; }
+
+  .line-item {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 11px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+
+  .line-item:last-child { border-bottom: none; }
+
+  .line-item .label { color: var(--muted); }
+  .line-item .value { color: var(--text); font-weight: 500; }
+  .line-item .value.highlight { color: var(--accent); }
+
+  /* Reference */
+  .ref-block {
+    background: var(--card);
+    border-radius: 8px; padding: 12px 14px;
+    font-size: 11px; color: var(--muted);
+    display: flex; align-items: center; gap: 8px;
+  }
+
+  .ref-block code {
+    font-family: 'Courier New', monospace;
+    font-size: 11px; color: var(--text); letter-spacing: 0.04em;
+  }
+
+  .secure-badge {
+    margin-top: 16px;
+    display: flex; align-items: center; gap: 6px;
+    font-size: 11px; color: var(--muted);
+  }
+
+  .secure-badge svg { flex-shrink: 0; }
+
+  /* ── RIGHT PANEL: PAYMENT IFRAME ── */
+  .payment-panel {
+    padding: 32px 0 32px 40px;
+  }
+
+  .payment-heading {
+    font-size: 13px; font-weight: 600; color: var(--muted);
+    letter-spacing: 0.06em; text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .iframe-wrapper {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    min-height: 520px;
+    position: relative;
+  }
+
+  .iframe-loading {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 12px; color: #888; font-size: 13px;
+    background: #fff;
+    z-index: 1;
+  }
+
+  .spinner {
+    width: 28px; height: 28px;
+    border: 2px solid #e0e0e0;
+    border-top-color: #C8A96E;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  #pesapal-iframe {
+    width: 100%; min-height: 520px;
+    border: none; display: block;
+    position: relative; z-index: 2;
+  }
+
+  .payment-methods {
+    margin-top: 14px;
+    display: flex; align-items: center; gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .method-chip {
+    padding: 4px 10px; border-radius: 20px;
+    background: var(--card); border: 1px solid var(--border);
+    font-size: 11px; color: var(--muted); letter-spacing: 0.04em;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center; padding: 20px;
+    font-size: 11px; color: var(--muted);
+    border-top: 1px solid var(--border);
+  }
+
+  footer a { color: var(--accent); text-decoration: none; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    main {
+      grid-template-columns: 1fr;
+      margin: 20px auto;
+    }
+    .invoice-panel {
+      padding: 0 0 24px 0;
+      border-right: none;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 24px;
+    }
+    .payment-panel { padding: 0; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-mark">AS</div>
+  <div class="logo-text">Atomic <span>Shelf</span></div>
+  <div class="tagline">Book Marketing Agency</div>
+</header>
+
+<main>
+  <!-- LEFT: Invoice Details -->
+  <div class="invoice-panel">
+    <div class="eyebrow">Invoice</div>
+
+    <div class="author-name"><?= order.author ?></div>
+    <div class="plan-name"><?= order.plan ?></div>
+
+    <div class="amount-block">
+      <div>
+        <div style="display:flex;align-items:baseline;gap:4px;">
+          <span class="currency-symbol">$</span>
+          <span class="amount-number"><?= order.amount.toFixed(2) ?></span>
+          <span class="amount-period">/ month</span>
+        </div>
+        <div class="amount-note">Pesapal converts to your local currency at checkout</div>
+      </div>
+    </div>
+
+    <div class="line-items">
+      <div class="line-item">
+        <span class="label">Service</span>
+        <span class="value"><?= order.description ?></span>
+      </div>
+      <div class="line-item">
+        <span class="label">Billing period</span>
+        <span class="value">Monthly</span>
+      </div>
+      <div class="line-item">
+        <span class="label">Amount due</span>
+        <span class="value highlight">$<?= order.amount.toFixed(2) ?> USD</span>
+      </div>
+    </div>
+
+    <hr class="divider" />
+
+    <div class="ref-block">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+        <rect x="1" y="1" width="10" height="10" rx="2" stroke="#888" stroke-width="1.2"/>
+        <line x1="3.5" y1="4" x2="8.5" y2="4" stroke="#888" stroke-width="1"/>
+        <line x1="3.5" y1="6" x2="8.5" y2="6" stroke="#888" stroke-width="1"/>
+        <line x1="3.5" y1="8" x2="6" y2="8" stroke="#888" stroke-width="1"/>
+      </svg>
+      Invoice ref: <code><?= order.reference ?></code>
+    </div>
+
+    <div class="secure-badge">
+      <svg width="12" height="13" viewBox="0 0 12 13" fill="none">
+        <path d="M6 1L1.5 3V6.5C1.5 9.04 3.48 11.42 6 12C8.52 11.42 10.5 9.04 10.5 6.5V3L6 1Z" stroke="#888" stroke-width="1.2" stroke-linejoin="round"/>
+        <path d="M4 6.5L5.5 8L8 5" stroke="#888" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Payments secured by Pesapal
+    </div>
+  </div>
+
+  <!-- RIGHT: Pesapal Payment Iframe -->
+  <div class="payment-panel">
+    <div class="payment-heading">Complete your payment</div>
+
+    <div class="iframe-wrapper">
+      <div class="iframe-loading" id="loading">
+        <div class="spinner"></div>
+        <span>Loading payment options…</span>
+      </div>
+      <iframe
+        id="pesapal-iframe"
+        src="<?= iframeUrl ?>"
+        scrolling="yes"
+        onload="document.getElementById('loading').style.display='none'"
+      ></iframe>
+    </div>
+
+    <div class="payment-methods">
+      <span style="font-size:11px;color:var(--muted);margin-right:4px;">Pay via:</span>
+      <span class="method-chip">M-Pesa</span>
+      <span class="method-chip">Visa</span>
+      <span class="method-chip">Mastercard</span>
+      <span class="method-chip">Airtel Money</span>
+    </div>
+  </div>
+</main>
+
+<footer>
+  Questions? Email <a href="mailto:nick@atomic-shelf.com">nick@atomic-shelf.com</a>
+  &nbsp;·&nbsp; Atomic-Shelf
+</footer>
+
+</body>
+</html>

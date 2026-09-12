@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Luciano Nisi · Author Portal — Atomic Shelf</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=Syne:wght@400;500;600;700;800&family=Fira+Code:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:#0D0F0A;--ink2:#2A2D24;--ink3:#4A4F3F;--ink4:#7A8068;
+  --fog:#B4B9A4;--mist:#D8DCCE;--snow:#F2F4EE;--paper:#FAFBF7;
+  --gold:#C8A84B;--gold2:#A8880F;--gold3:#E8D28C;--goldbg:rgba(200,168,75,.09);--goldbord:rgba(200,168,75,.28);
+  --forest:#2A5C3A;--leaf:#4A8C5C;--spring:#7EC89A;--foliage:rgba(42,92,58,.10);--foliage2:rgba(42,92,58,.22);
+  --ember:#C24A1C;--ember2:#E86A3C;--emberbg:rgba(194,74,28,.09);--emberbord:rgba(194,74,28,.26);
+  --slate:#2A4060;--sky:#4A6880;--skylt:rgba(42,64,96,.10);--skybord:rgba(42,64,96,.28);
+  --r:8px;--r-md:14px;--r-lg:22px;--r-xl:32px;
+  --sh:0 2px 12px rgba(13,15,10,.10);--sh-md:0 6px 28px rgba(13,15,10,.14);--sh-lg:0 16px 52px rgba(13,15,10,.18);
+  --font-d:'Cormorant Garamond',Georgia,serif;--font-b:'Syne',system-ui,sans-serif;--font-m:'Fira Code',monospace;
+  --hdr-h:72px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-b);font-size:14px;line-height:1.65;background:var(--paper);color:var(--ink);min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 600 600' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.028'/%3E%3C/svg%3E");background-size:300px 300px}
+a{color:var(--leaf);text-decoration:none}
+button{cursor:pointer;font-family:var(--font-b)}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--snow)}::-webkit-scrollbar-thumb{background:var(--fog);border-radius:2px}
+
+/* ── HEADER ── */
+.hdr{height:var(--hdr-h);background:linear-gradient(150deg,#0A1208 0%,#0F1A0A 50%,#081008 100%);border-bottom:1px solid rgba(200,168,75,.25);display:flex;align-items:center;gap:20px;padding:0 40px;position:sticky;top:0;z-index:200;box-shadow:0 4px 40px rgba(0,0,0,.42)}
+.hdr::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.hdr-brand{display:flex;align-items:center;gap:14px;flex-shrink:0}
+.hdr-logo{width:38px;height:38px;background:linear-gradient(138deg,var(--gold),#A8880F);border-radius:9px;display:flex;align-items:center;justify-content:center;font-family:var(--font-d);font-size:1.1rem;font-weight:700;color:#0A1208;box-shadow:0 2px 16px rgba(200,168,75,.45);flex-shrink:0}
+.hdr-name{font-family:var(--font-d);font-size:1.1rem;font-weight:500;color:rgba(240,235,220,.75);letter-spacing:.03em}
+.hdr-name strong{color:var(--gold3);font-weight:600;font-style:italic}
+.hdr-div{width:1px;height:26px;background:rgba(200,168,75,.22);margin:0 4px}
+.hdr-author{display:flex;flex-direction:column;line-height:1.2}
+.hdr-author-name{font-family:var(--font-d);font-size:1.55rem;font-weight:600;font-style:italic;color:#F0EBDC;letter-spacing:.01em}
+.hdr-author-tag{font-family:var(--font-m);font-size:.52rem;color:rgba(200,168,75,.65);letter-spacing:.18em;text-transform:uppercase;margin-top:1px}
+.hdr-right{display:flex;align-items:center;gap:10px;margin-left:auto;flex-shrink:0}
+.live-pill{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.05);border:1px solid rgba(200,168,75,.22);border-radius:40px;padding:6px 14px;font-family:var(--font-m);font-size:.58rem;color:rgba(200,168,75,.7);letter-spacing:.07em}
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px var(--gold);animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.6)}}
+.hdr-link-btn{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.07);border:1px solid rgba(200,168,75,.28);color:rgba(240,235,220,.8);padding:7px 16px;border-radius:var(--r);font-size:.78rem;font-weight:600;transition:all .15s;white-space:nowrap}
+.hdr-link-btn:hover{background:rgba(255,255,255,.14);color:var(--gold3)}
+
+/* ── HERO ── */
+.hero{background:linear-gradient(160deg,#0A1208 0%,#0D180A 60%,#10200C 100%);padding:64px 40px 56px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 60% 80% at 90% 50%,rgba(200,168,75,.07) 0%,transparent 65%),radial-gradient(ellipse 40% 60% at 5% 80%,rgba(42,92,58,.12) 0%,transparent 55%)}
+.hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(200,168,75,.4),rgba(126,200,154,.3),transparent)}
+.hero-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr auto;gap:40px;align-items:end;position:relative;z-index:1}
+.hero-eyebrow{font-family:var(--font-m);font-size:.57rem;color:rgba(200,168,75,.65);letter-spacing:.2em;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:12px}
+.hero-eyebrow::before{content:'';width:32px;height:1px;background:linear-gradient(90deg,transparent,rgba(200,168,75,.5))}
+.hero-title{font-family:var(--font-d);font-size:4.2rem;font-weight:300;color:#F0EBDC;line-height:1.05;margin-bottom:6px;letter-spacing:-.01em}
+.hero-title em{font-style:italic;color:var(--gold3);font-weight:400}
+.hero-series{font-family:var(--font-d);font-size:1.05rem;font-style:italic;color:rgba(240,235,220,.45);margin-bottom:22px}
+.hero-genre{display:inline-flex;align-items:center;gap:6px;background:rgba(200,168,75,.1);border:1px solid rgba(200,168,75,.28);border-radius:40px;padding:5px 16px;font-family:var(--font-m);font-size:.59rem;color:var(--gold3);letter-spacing:.1em;text-transform:uppercase}
+.hero-stats{display:flex;flex-direction:column;align-items:flex-end;gap:14px}
+.hero-stat-big{text-align:right}
+.hsb-v{font-family:var(--font-d);font-size:5rem;font-weight:300;line-height:1;color:var(--gold3);letter-spacing:-.02em}
+.hsb-l{font-family:var(--font-m);font-size:.57rem;color:rgba(200,168,75,.5);letter-spacing:.15em;text-transform:uppercase;margin-top:4px;text-align:right}
+.hero-stat-row{display:flex;gap:6px}
+.hero-badge{display:flex;flex-direction:column;align-items:center;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:var(--r);padding:10px 16px;min-width:80px}
+.hb-v{font-family:var(--font-d);font-size:1.5rem;font-weight:500;color:#F0EBDC;line-height:1}
+.hb-l{font-family:var(--font-m);font-size:.5rem;color:rgba(240,235,220,.35);letter-spacing:.12em;text-transform:uppercase;margin-top:4px}
+.hero-status{display:flex;align-items:center;gap:7px;background:rgba(42,92,58,.18);border:1px solid rgba(42,92,58,.4);border-radius:40px;padding:6px 16px;font-family:var(--font-m);font-size:.6rem;color:var(--spring);letter-spacing:.08em;white-space:nowrap}
+.hero-status-dot{width:6px;height:6px;border-radius:50%;background:var(--spring);box-shadow:0 0 8px var(--spring);animation:pulse 2.8s ease-in-out infinite}
+
+/* ── NAV ── */
+.nav-bar{background:var(--paper);border-bottom:2px solid var(--mist);display:flex;align-items:stretch;position:sticky;top:var(--hdr-h);z-index:100;overflow-x:auto;scrollbar-width:none;box-shadow:0 2px 12px rgba(13,15,10,.06);padding:0 40px}
+.nav-bar::-webkit-scrollbar{display:none}
+.nav-tab{display:flex;align-items:center;gap:8px;padding:0 22px;height:52px;font-size:.82rem;font-weight:600;letter-spacing:.02em;color:var(--ink4);cursor:pointer;transition:all .18s;border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap;flex-shrink:0}
+.nav-tab:hover{color:var(--ink2)}
+.nav-tab.active{color:var(--forest);border-bottom-color:var(--leaf)}
+.nav-tab.active.gold-tab{border-bottom-color:var(--gold2);color:var(--gold2)}
+
+/* ── LAYOUT ── */
+.page-wrap{max-width:1200px;margin:0 auto;padding:36px 40px 100px}
+.view{display:none}
+.view.active-view{display:block}
+
+/* ── SECTION HEADING ── */
+.sec-heading{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:22px;padding-bottom:12px;border-bottom:1px solid var(--mist)}
+.sec-heading h2{font-family:var(--font-d);font-size:2rem;font-weight:500;color:var(--ink);letter-spacing:.01em}
+.sec-heading h2 em{font-style:italic;color:var(--ink3)}
+.sec-label{font-family:var(--font-m);font-size:.54rem;color:var(--fog);text-transform:uppercase;letter-spacing:.15em;margin-bottom:4px}
+
+/* ── OVERVIEW GRID ── */
+.overview-grid{display:grid;grid-template-columns:1fr 1fr 320px;gap:20px;margin-bottom:28px}
+.card{background:var(--paper);border:1px solid var(--mist);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--sh)}
+.card-hdr{padding:16px 22px 12px;border-bottom:1px solid var(--mist);display:flex;align-items:center;justify-content:space-between}
+.card-title{font-family:var(--font-m);font-size:.58rem;font-weight:500;color:var(--fog);text-transform:uppercase;letter-spacing:.14em}
+.card-body{padding:20px 22px}
+
+/* ── METRICS ── */
+.metric-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+.mtile{background:var(--paper);border:1px solid var(--mist);border-radius:var(--r-md);padding:18px 20px;position:relative;overflow:hidden;transition:box-shadow .18s,transform .18s}
+.mtile:hover{box-shadow:var(--sh-md);transform:translateY(-2px)}
+.mtile::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.mtile.gold::before{background:linear-gradient(90deg,var(--gold),var(--gold3))}
+.mtile.forest::before{background:linear-gradient(90deg,var(--forest),var(--leaf))}
+.mtile.ember::before{background:linear-gradient(90deg,var(--ember),var(--ember2))}
+.mtile.slate::before{background:linear-gradient(90deg,var(--slate),var(--sky))}
+.mtile-ico{font-size:1.3rem;margin-bottom:10px;opacity:.7}
+.mtile-v{font-family:var(--font-d);font-size:2.4rem;font-weight:500;color:var(--ink);line-height:1;margin-bottom:4px}
+.mtile-l{font-family:var(--font-m);font-size:.52rem;font-weight:500;color:var(--fog);text-transform:uppercase;letter-spacing:.13em}
+.mtile-sub{font-size:.74rem;color:var(--ink4);margin-top:5px;font-weight:500}
+
+/* ── BOOK CARDS ── */
+.books-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:28px}
+.book-card{background:var(--paper);border:1px solid var(--mist);border-radius:var(--r-lg);overflow:hidden;transition:box-shadow .18s,transform .18s;position:relative}
+.book-card:hover{box-shadow:var(--sh-md);transform:translateY(-3px)}
+.book-card-accent{height:4px;width:100%}
+.book-card-body{padding:20px 22px}
+.book-card-num{font-family:var(--font-m);font-size:.52rem;color:var(--fog);letter-spacing:.15em;text-transform:uppercase;margin-bottom:6px}
+.book-card-title{font-family:var(--font-d);font-size:1.35rem;font-weight:500;color:var(--ink);line-height:1.25;margin-bottom:3px}
+.book-card-sub{font-size:.74rem;color:var(--ink4);font-weight:500;margin-bottom:14px}
+.book-stat-row{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:14px}
+.book-stat{background:var(--snow);border:1px solid var(--mist);border-radius:var(--r);padding:9px 12px;text-align:center}
+.book-stat-v{font-family:var(--font-d);font-size:1.35rem;font-weight:500;color:var(--ink);line-height:1}
+.book-stat-l{font-family:var(--font-m);font-size:.49rem;color:var(--fog);text-transform:uppercase;letter-spacing:.12em;margin-top:3px}
+.prog-wrap{margin-top:4px}
+.prog-lbl-row{display:flex;justify-content:space-between;font-family:var(--font-m);font-size:.56rem;color:var(--fog);margin-bottom:5px}
+.prog-bar{height:5px;background:var(--snow);border-radius:3px;overflow:hidden;border:1px solid var(--mist)}
+.prog-fill{height:100%;border-radius:3px;transition:width .7s cubic-bezier(.22,1,.36,1)}
+.book-links{display:flex;gap:6px;margin-top:14px;flex-wrap:wrap}
+.book-link-btn{display:inline-flex;align-items:center;gap:4px;background:transparent;border:1px solid var(--mist);color:var(--ink4);border-radius:var(--r);padding:5px 11px;font-size:.7rem;font-weight:600;cursor:pointer;transition:all .14s}
+.book-link-btn:hover{background:var(--snow);border-color:var(--fog);color:var(--ink2)}
+.book-link-btn.primary{background:var(--forest);border-color:var(--forest);color:#fff}
+.book-link-btn.primary:hover{background:var(--leaf);border-color:var(--leaf)}
+
+/* ── CHECKLIST ── */
+.checklist-card{background:var(--paper);border:1px solid var(--mist);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--sh);margin-bottom:20px}
+.cl-hdr{display:flex;align-items:center;justify-content:space-between;padding:16px 22px;background:var(--snow);border-bottom:1px solid var(--mist)}
+.cl-ttl{font-family:var(--font-d);font-size:1.15rem;font-weight:500;color:var(--ink)}
+.cl-pct{font-family:var(--font-d);font-size:1.5rem;font-weight:300;color:var(--leaf)}
+.phase-hdr{display:flex;align-items:center;gap:9px;padding:8px 22px;background:var(--snow);border-bottom:1px solid var(--mist)}
+.phase-pip{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.phase-name{font-family:var(--font-m);font-size:.54rem;font-weight:500;color:var(--fog);text-transform:uppercase;letter-spacing:.13em}
+.step-item{display:flex;align-items:center;gap:14px;padding:13px 22px;border-bottom:1px solid rgba(212,215,200,.35)}
+.step-item:last-child{border-bottom:none}
+.step-check{width:22px;height:22px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:700}
+.step-check.done{background:var(--foliage2);color:var(--leaf);border:1.5px solid var(--leaf)}
+.step-check.pending{background:transparent;color:var(--fog);border:1.5px solid var(--mist)}
+.step-info{flex:1}
+.step-name{font-size:.85rem;font-weight:600;color:var(--ink);margin-bottom:1px}
+.step-item.done-step .step-name{color:var(--ink4);text-decoration:line-through}
+.step-hint{font-size:.71rem;color:var(--fog)}
+
+/* ── ANALYTICS ── */
+.analytics-layout{display:grid;grid-template-columns:1fr 340px;gap:22px}
+.platform-section{margin-bottom:24px}
+.platform-hdr{display:flex;align-items:center;gap:12px;padding:14px 20px;background:var(--snow);border:1px solid var(--mist);border-radius:var(--r-md) var(--r-md) 0 0;border-bottom:none}
+.platform-icon{font-size:1.2rem}
+.platform-name{font-family:var(--font-d);font-size:1.1rem;font-weight:500;color:var(--ink)}
+.platform-link{margin-left:auto;font-family:var(--font-m);font-size:.6rem;color:var(--sky);text-decoration:underline}
+.platform-metrics{display:grid;grid-template-columns:repeat(4,1fr);background:var(--paper);border:1px solid var(--mist);border-radius:0 0 var(--r-md) var(--r-md);overflow:hidden}
+.pm-cell{padding:16px 18px;border-right:1px solid var(--mist);text-align:center}
+.pm-cell:last-child{border-right:none}
+.pm-v{font-family:var(--font-d);font-size:1.8rem;font-weight:400;color:var(--ink);line-height:1;margin-bottom:4px}
+.pm-l{font-family:var(--font-m);font-size:.5rem;color:var(--fog);text-transform:uppercase;letter-spacing:.13em}
+.chart-wrap{background:var(--paper);border:1px solid var(--mist);border-radius:var(--r-lg);padding:22px;margin-bottom:20px}
+.chart-title{font-family:var(--font-m);font-size:.56rem;color:var(--fog);text-transform:uppercase;letter-spacing:.14em;margin-bottom:16px}
+.chart-area{height:180px;position:relative}
+.bar-chart{display:flex;align-items:flex-end;gap:8px;height:100%;padding-bottom:28px}
+.bar-group{display:flex;flex-direction:column;align-items:center;flex:1;gap:4px}
+.bar-col{display:flex;gap:3px;align-items:flex-end;flex:1;width:100%}
+.bar{flex:1;border-radius:3px 3px 0 0;min-height:4px;transition:opacity .15s;position:relative}
+.bar:hover{opacity:.8}
+.bar-lbl{font-family:var(--font-m);font-size:.49rem;color:var(--fog);text-align:center;white-space:nowrap}
+.insight-card{background:var(--snow);border:1px solid var(--mist);border-radius:var(--r-md);padding:16px 18px;margin-bottom:10px;display:flex;gap:13px;align-items:flex-start}
+.insight-ico{width:36px;height:36px;border-radius:var(--r);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;margin-top:1px}
+.insight-ttl{font-size:.84rem;font-weight:700;color:var(--ink);margin-bottom:3px}
+.insight-body{font-size:.77rem;color:var(--ink4);line-height:1.6}
+
+/* ── REPORTS ── */
+.report-list{display:flex;flex-direction:column;gap:10px}
+.report-item{background:var(--paper);border:1px solid var(--mist);border-radius:var(--r-md);padding:16px 20px;display:flex;align-items:center;gap:18px;cursor:pointer;transition:all .15s;position:relative;overflow:hidden}
+.report-item:hover{box-shadow:var(--sh);transform:translateX(3px)}
+.report-item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--leaf)}
+.ri-week{font-family:var(--font-d);font-size:1.7rem;font-weight:400;color:var(--leaf);min-width:50px;text-align:center}
+.ri-week-lbl{font-family:var(--font-m);font-size:.49rem;color:var(--fog);text-align:center;text-transform:uppercase;letter-spacing:.12em}
+.ri-div{width:1px;height:44px;background:var(--mist);flex-shrink:0}
+.ri-info{flex:1;min-width:0}
+.ri-title{font-size:.9rem;font-weight:700;color:var(--ink);margin-bottom:3px}
+.ri-meta{font-size:.72rem;color:var(--ink4)}
+.ri-right{display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0}
+.ri-views{font-family:var(--font-d);font-size:1.3rem;color:var(--gold2);font-weight:500}
+.ri-views-lbl{font-family:var(--font-m);font-size:.48rem;color:var(--fog);text-transform:uppercase;letter-spacing:.1em;text-align:right}
+.ri-link-btn{background:var(--goldbg);border:1px solid var(--goldbord);color:var(--gold2);padding:4px 11px;border-radius:var(--r);font-size:.69rem;font-weight:700;cursor:pointer;transition:all .14s}
+.ri-link-btn:hover{background:rgba(200,168,75,.2)}
+.report-detail{background:linear-gradient(148deg,var(--snow),var(--paper));border:2px solid var(--mist);border-radius:var(--r-xl);overflow:hidden;box-shadow:var(--sh-lg);margin-bottom:24px;display:none}
+.report-detail.open{display:block}
+.rd-hdr{padding:28px 36px;background:linear-gradient(160deg,#0A1208,#0D1F0A);border-bottom:1px solid rgba(200,168,75,.2);display:flex;align-items:flex-end;justify-content:space-between}
+.rd-week{font-family:var(--font-d);font-size:.85rem;font-weight:400;font-style:italic;color:rgba(200,168,75,.65);margin-bottom:6px}
+.rd-title{font-family:var(--font-d);font-size:2.2rem;font-weight:400;color:#F0EBDC}
+.rd-date{font-family:var(--font-m);font-size:.56rem;color:rgba(240,235,220,.35);text-align:right;margin-bottom:4px}
+.rd-total{font-family:var(--font-d);font-size:2.4rem;font-weight:300;color:var(--gold3);text-align:right}
+.rd-total-lbl{font-family:var(--font-m);font-size:.52rem;color:rgba(240,235,220,.4);text-align:right;text-transform:uppercase;letter-spacing:.12em}
+.rd-body{padding:28px 36px;display:flex;flex-direction:column;gap:20px}
+.rd-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.rdm{background:var(--snow);border:1px solid var(--mist);border-radius:var(--r-md);padding:14px 16px;text-align:center}
+.rdm-v{font-family:var(--font-d);font-size:1.8rem;font-weight:400;color:var(--ink)}
+.rdm-l{font-family:var(--font-m);font-size:.5rem;color:var(--fog);text-transform:uppercase;letter-spacing:.12em;margin-top:3px}
+.rd-note{background:var(--goldbg);border:1px solid var(--goldbord);border-radius:var(--r-md);padding:16px 20px}
+.rd-note-lbl{font-family:var(--font-m);font-size:.55rem;color:var(--gold2);text-transform:uppercase;letter-spacing:.13em;margin-bottom:7px}
+.rd-note-body{font-size:.88rem;color:var(--ink2);line-height:1.75}
+.rd-close-btn{background:none;border:1px solid var(--mist);color:var(--ink4);padding:7px 18px;border-radius:var(--r);font-size:.77rem;font-weight:600;cursor:pointer;transition:all .14s}
+.rd-close-btn:hover{background:var(--snow)}
+
+/* ── VIDEOS ── */
+.videos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px}
+.video-card{background:var(--paper);border:1px solid var(--mist);border-radius:var(--r-md);overflow:hidden;transition:all .16s}
+.video-card:hover{box-shadow:var(--sh-md);transform:translateY(-2px)}
+.video-thumb{height:140px;background:linear-gradient(135deg,#0A1208,#111E09);display:flex;align-items:center;justify-content:center;position:relative;cursor:pointer}
+.video-play{width:46px;height:46px;border-radius:50%;background:rgba(200,168,75,.85);display:flex;align-items:center;justify-content:center;font-size:.9rem;color:#0A1208;font-weight:800;box-shadow:0 4px 16px rgba(0,0,0,.4);transition:all .15s;pointer-events:none}
+.video-thumb:hover .video-play{background:var(--gold);transform:scale(1.08)}
+.video-platform{position:absolute;top:10px;right:10px;background:rgba(0,0,0,.55);border-radius:5px;padding:3px 8px;font-family:var(--font-m);font-size:.52rem;color:rgba(255,255,255,.8);letter-spacing:.07em}
+.video-card-body{padding:13px 15px}
+.video-title{font-size:.82rem;font-weight:700;color:var(--ink);margin-bottom:4px;line-height:1.35}
+.video-meta{font-size:.69rem;color:var(--fog);font-family:var(--font-m)}
+
+/* ── FEEDBACK ── */
+.feedback-layout{display:grid;grid-template-columns:1fr 380px;gap:24px}
+.form-card{background:var(--paper);border:1px solid var(--mist);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--sh)}
+.form-card-hdr{padding:18px 26px;background:var(--snow);border-bottom:1px solid var(--mist);display:flex;align-items:center;gap:12px}
+.form-card-ico{font-size:1.3rem}
+.form-card-ttl{font-family:var(--font-d);font-size:1.2rem;font-weight:500;color:var(--ink)}
+.form-card-body{padding:24px 26px;display:flex;flex-direction:column;gap:18px}
+.form-field label{display:block;font-family:var(--font-m);font-size:.56rem;font-weight:500;color:var(--fog);text-transform:uppercase;letter-spacing:.13em;margin-bottom:7px}
+.form-field select,.form-field input[type="text"],.form-field input[type="number"],.form-field textarea{width:100%;background:var(--snow);border:1px solid var(--mist);border-radius:var(--r);padding:10px 14px;font-family:var(--font-b);font-size:.85rem;color:var(--ink);outline:none;transition:all .18s;resize:none}
+.form-field select:focus,.form-field input:focus,.form-field textarea:focus{border-color:var(--leaf);background:#fff;box-shadow:0 0 0 3px var(--foliage)}
+.form-field textarea{min-height:90px;line-height:1.65}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.rating-row{display:flex;gap:7px}
+.rating-btn{flex:1;background:var(--snow);border:1px solid var(--mist);border-radius:var(--r);padding:9px 8px;font-size:.82rem;font-weight:700;color:var(--ink4);cursor:pointer;transition:all .14s;text-align:center}
+.rating-btn:hover{border-color:var(--leaf);color:var(--leaf)}
+.rating-btn.selected{background:var(--foliage);border-color:var(--leaf);color:var(--forest)}
+.submit-btn{background:linear-gradient(135deg,var(--forest),var(--leaf));border:none;color:#fff;padding:13px 30px;border-radius:var(--r-md);font-size:.87rem;font-weight:700;cursor:pointer;transition:all .15s;letter-spacing:.03em;box-shadow:0 4px 16px rgba(42,92,58,.3)}
+.submit-btn:hover{opacity:.88;transform:translateY(-1px)}
+.submit-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.side-info-card{background:var(--paper);border:1px solid var(--mist);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--sh);position:sticky;top:calc(var(--hdr-h) + 52px + 22px)}
+.sic-hdr{padding:16px 22px;background:linear-gradient(135deg,#0A1208,#0D180A);border-bottom:1px solid rgba(200,168,75,.2)}
+.sic-ttl{font-family:var(--font-d);font-size:1.1rem;font-weight:400;font-style:italic;color:#F0EBDC}
+.sic-body{padding:18px 22px;display:flex;flex-direction:column;gap:13px}
+.contact-row{display:flex;align-items:flex-start;gap:10px;padding-bottom:12px;border-bottom:1px solid var(--mist)}
+.contact-row:last-child{border-bottom:none;padding-bottom:0}
+.contact-ico{width:32px;height:32px;border-radius:8px;background:var(--snow);border:1px solid var(--mist);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
+.contact-label{font-family:var(--font-m);font-size:.54rem;color:var(--fog);text-transform:uppercase;letter-spacing:.12em;margin-bottom:3px}
+.contact-val{font-size:.82rem;font-weight:600;color:var(--ink)}
+.contact-val a{color:var(--leaf)}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--ink);color:var(--snow);padding:11px 26px;border-radius:40px;font-size:.82rem;font-weight:600;z-index:500;box-shadow:var(--sh-lg);transition:transform .3s cubic-bezier(.22,1,.36,1);pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast.green{background:var(--forest)}
+
+@media(max-width:900px){
+  .hero{padding:36px 20px}
+  .hero-inner{grid-template-columns:1fr}
+  .hero-stats{align-items:flex-start}
+  .page-wrap{padding:24px 20px 80px}
+  .metric-grid{grid-template-columns:repeat(2,1fr)}
+  .books-grid{grid-template-columns:1fr}
+  .analytics-layout{grid-template-columns:1fr}
+  .feedback-layout{grid-template-columns:1fr}
+  .overview-grid{grid-template-columns:1fr}
+  .nav-bar{padding:0 20px}
+  .platform-metrics{grid-template-columns:repeat(2,1fr)}
+  .rd-metrics{grid-template-columns:repeat(2,1fr)}
+  .hero-title{font-size:2.8rem}
+  .hsb-v{font-size:3.5rem}
+  .videos-grid{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-brand">
+    <div class="hdr-logo">AS</div>
+    <div class="hdr-name">Atomic <strong>Shelf</strong></div>
+  </div>
+  <div class="hdr-div"></div>
+  <div class="hdr-author">
+    <div class="hdr-author-name">Luciano Nisi</div>
+    <div class="hdr-author-tag">Author Campaign Portal · Luciano Trilogy</div>
+  </div>
+  <div class="hdr-right">
+    <div class="live-pill"><div class="live-dot"></div><span>Live</span></div>
+    <button class="hdr-link-btn" onclick="window.open('https://www.tiktok.com/@lucianonisi','_blank')">𝕋 TikTok</button>
+    <button class="hdr-link-btn" onclick="window.open('https://www.youtube.com/@LucianosBooks-d7i/shorts','_blank')">▶ YouTube</button>
+    <button class="hdr-link-btn" onclick="switchTab('feedback')">✉ Leave Feedback</button>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-eyebrow">Author Portal · Active Campaign</div>
+      <div class="hero-title"><em>Luciano</em> Nisi</div>
+      <div class="hero-series">The Luciano Trilogy · Non-Fiction / Action</div>
+      <div class="hero-genre">📚 3 Books in Campaign</div>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat-big">
+        <div class="hsb-v">100.8K</div>
+        <div class="hsb-l">Total Views Across All Platforms</div>
+      </div>
+      <div class="hero-stat-row">
+        <div class="hero-badge"><div class="hb-v">Wk 8</div><div class="hb-l">Campaign</div></div>
+        <div class="hero-badge"><div class="hb-v">3</div><div class="hb-l">Books</div></div>
+        <div class="hero-badge"><div class="hb-v">$20</div><div class="hb-l">/ month</div></div>
+      </div>
+      <div class="hero-status"><div class="hero-status-dot"></div><span>ACTIVE CAMPAIGN</span></div>
+    </div>
+  </div>
+</div>
+
+<nav class="nav-bar">
+  <div class="nav-tab active" id="tab-overview" onclick="switchTab('overview')">📊 Overview</div>
+  <div class="nav-tab" id="tab-books" onclick="switchTab('books')">📚 Your Books</div>
+  <div class="nav-tab" id="tab-analytics" onclick="switchTab('analytics')">📈 Analytics</div>
+  <div class="nav-tab gold-tab" id="tab-reports" onclick="switchTab('reports')">🌿 Weekly Reports</div>
+  <div class="nav-tab" id="tab-videos" onclick="switchTab('videos')">🎬 Videos</div>
+  <div class="nav-tab" id="tab-feedback" onclick="switchTab('feedback')">✉ Feedback</div>
+</nav>
+
+<!-- OVERVIEW -->
+<div id="view-overview" class="view active-view">
+  <div class="page-wrap">
+    <div class="metric-grid" style="margin-top:0">
+      <div class="mtile gold"><div class="mtile-ico">👁</div><div class="mtile-v">100.8K</div><div class="mtile-l">Total Views</div><div class="mtile-sub">Untold Stories leading</div></div>
+      <div class="mtile forest"><div class="mtile-ico">📅</div><div class="mtile-v">Week 8</div><div class="mtile-l">Campaign Age</div><div class="mtile-sub">Live since March 2026</div></div>
+      <div class="mtile slate"><div class="mtile-ico">📱</div><div class="mtile-v">2</div><div class="mtile-l">Active Platforms</div><div class="mtile-sub">TikTok + YouTube</div></div>
+      <div class="mtile ember"><div class="mtile-ico">🎯</div><div class="mtile-v">14%</div><div class="mtile-l">Checklist Done</div><div class="mtile-sub">Hook Written + TikTok Posted</div></div>
+    </div>
+    <div class="overview-grid">
+      <div class="card">
+        <div class="card-hdr"><span class="card-title">🌿 This Week's Checklist — Untold Stories</span><span style="font-family:var(--font-m);font-size:.58rem;color:var(--leaf);font-weight:700">14%</span></div>
+        <div class="card-body" style="padding:0">
+          <div id="mini-cl"></div>
+          <div style="padding:14px 22px;border-top:1px solid var(--mist)">
+            <div class="prog-bar"><div class="prog-fill" style="width:14%;background:linear-gradient(90deg,var(--forest),var(--leaf))"></div></div>
+            <div style="display:flex;justify-content:space-between;margin-top:6px;font-family:var(--font-m);font-size:.52rem;color:var(--fog)"><span>2 of 14 steps complete</span><span>12 remaining</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-hdr"><span class="card-title">⚡ What's Happening This Week</span></div>
+        <div class="card-body" style="display:flex;flex-direction:column;gap:10px">
+          <div style="background:var(--goldbg);border:1px solid var(--goldbord);border-radius:var(--r-md);padding:13px 16px">
+            <div style="font-family:var(--font-m);font-size:.53rem;color:var(--gold2);text-transform:uppercase;letter-spacing:.12em;margin-bottom:5px">Up Next</div>
+            <div style="font-size:.88rem;font-weight:700;color:var(--ink)">Script Approved</div>
+            <div style="font-size:.74rem;color:var(--ink4);margin-top:2px">Script reviewed and signed off by production team</div>
+          </div>
+          <div style="background:var(--snow);border:1px solid var(--mist);border-radius:var(--r-md);padding:13px 16px"><div style="font-size:.82rem;font-weight:600;color:var(--ink4)">Then: Seed Images Created</div><div style="font-size:.72rem;color:var(--fog);margin-top:2px">AI-generated or sourced seed images ready</div></div>
+          <div style="background:var(--snow);border:1px solid var(--mist);border-radius:var(--r-md);padding:13px 16px"><div style="font-size:.82rem;font-weight:600;color:var(--ink4)">Then: First Draft Complete</div><div style="font-size:.72rem;color:var(--fog);margin-top:2px">Full video assembled and ready for your review</div></div>
+          <a href="https://atomic-shelf.com/reports/Luciano-Nisi/Week08" target="_blank" style="display:flex;align-items:center;gap:6px;justify-content:center;padding:10px;border:1px solid var(--mist);border-radius:var(--r-md);font-size:.79rem;font-weight:700;color:var(--leaf);background:var(--foliage)">📄 View Full Week 8 Report ↗</a>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-hdr"><span class="card-title">📬 Your Team</span></div>
+        <div class="card-body" style="display:flex;flex-direction:column;gap:12px">
+          <div style="background:linear-gradient(135deg,#0A1208,#0D180A);border-radius:var(--r-md);padding:16px 18px;text-align:center">
+            <div style="font-family:var(--font-d);font-size:1.6rem;font-style:italic;color:var(--gold3);margin-bottom:4px">Nick Talam</div>
+            <div style="font-family:var(--font-m);font-size:.54rem;color:rgba(200,168,75,.55);text-transform:uppercase;letter-spacing:.13em">Campaign Director</div>
+          </div>
+          <div style="font-size:.8rem;color:var(--ink4);text-align:center;line-height:1.65;padding:0 6px">Questions about your campaign? We're here to help your books reach their audience.</div>
+          <button onclick="switchTab('feedback')" style="background:linear-gradient(135deg,var(--forest),var(--leaf));border:none;color:#fff;padding:11px;border-radius:var(--r-md);font-size:.82rem;font-weight:700;cursor:pointer;width:100%;letter-spacing:.02em">✉ Send a Message</button>
+          <div style="display:flex;gap:7px">
+            <a href="https://www.tiktok.com/@lucianonisi" target="_blank" style="flex:1;display:flex;align-items:center;justify-content:center;gap:5px;padding:8px;border:1px solid var(--mist);border-radius:var(--r);font-size:.74rem;font-weight:700;color:var(--ink4);background:var(--snow)">𝕋 TikTok ↗</a>
+            <a href="https://www.youtube.com/@LucianosBooks-d7i/shorts" target="_blank" style="flex:1;display:flex;align-items:center;justify-content:center;gap:5px;padding:8px;border:1px solid var(--mist);border-radius:var(--r);font-size:.74rem;font-weight:700;color:var(--ink4);background:var(--snow)">▶ YouTube ↗</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sec-heading">
+      <div><div class="sec-label">Your Library</div><h2>The <em>Luciano Trilogy</em></h2></div>
+      <button onclick="switchTab('books')" style="background:none;border:1px solid var(--mist);color:var(--ink4);padding:8px 18px;border-radius:var(--r);font-size:.78rem;font-weight:700;cursor:pointer">See all details →</button>
+    </div>
+    <div class="books-grid" id="ov-books"></div>
+  </div>
+</div>
+
+<!-- BOOKS -->
+<div id="view-books" class="view">
+  <div class="page-wrap">
+    <div class="sec-heading" style="margin-top:0"><div><div class="sec-label">Campaign Library</div><h2>Your <em>Three Books</em></h2></div></div>
+    <div id="books-detail"></div>
+  </div>
+</div>
+
+<!-- ANALYTICS -->
+<div id="view-analytics" class="view">
+  <div class="page-wrap">
+    <div class="sec-heading" style="margin-top:0">
+      <div><div class="sec-label">Performance Metrics</div><h2>Campaign <em>Analytics</em></h2></div>
+      <div style="font-family:var(--font-m);font-size:.56rem;color:var(--fog)">Updated by your editor each week</div>
+    </div>
+    <div class="analytics-layout">
+      <div>
+        <div class="chart-wrap">
+          <div class="chart-title">📈 Total Views Growth — All Platforms (weeks 1–8)</div>
+          <div class="chart-area"><div class="bar-chart" id="views-chart"></div></div>
+        </div>
+        <div class="platform-section">
+          <div class="platform-hdr"><div class="platform-icon">𝕋</div><div class="platform-name">TikTok <span style="font-family:var(--font-m);font-size:.68rem;color:var(--fog)">@lucianonisi</span></div><a class="platform-link" href="https://www.tiktok.com/@lucianonisi" target="_blank">View profile ↗</a></div>
+          <div class="platform-metrics">
+            <div class="pm-cell"><div class="pm-v">~100K</div><div class="pm-l">Views</div></div>
+            <div class="pm-cell"><div class="pm-v">—</div><div class="pm-l">Likes</div></div>
+            <div class="pm-cell"><div class="pm-v">—</div><div class="pm-l">Comments</div></div>
+            <div class="pm-cell"><div class="pm-v">—</div><div class="pm-l">Shares</div></div>
+          </div>
+        </div>
+        <div class="platform-section">
+          <div class="platform-hdr"><div class="platform-icon">▶</div><div class="platform-name">YouTube Shorts <span style="font-family:var(--font-m);font-size:.68rem;color:var(--fog)">@LucianosBooks-d7i</span></div><a class="platform-link" href="https://www.youtube.com/@LucianosBooks-d7i/shorts" target="_blank">View channel ↗</a></div>
+          <div class="platform-metrics">
+            <div class="pm-cell"><div class="pm-v">—</div><div class="pm-l">Views</div></div>
+            <div class="pm-cell"><div class="pm-v">—</div><div class="pm-l">Watch Hours</div></div>
+            <div class="pm-cell"><div class="pm-v">—</div><div class="pm-l">CTR</div></div>
+            <div class="pm-cell"><div class="pm-v">—</div><div class="pm-l">Subscribers</div></div>
+          </div>
+        </div>
+        <div class="sec-label" style="margin-bottom:12px">Editor Insights</div>
+        <div class="insight-card"><div class="insight-ico" style="background:var(--goldbg);border:1px solid var(--goldbord)">🚀</div><div><div class="insight-ttl">Strong Start on TikTok</div><div class="insight-body">Untold Stories of a Paramedic has crossed 100K total views — a significant milestone for a non-fiction title at week 8. Real-life emergency stories are resonating strongly with the short-form audience.</div></div></div>
+        <div class="insight-card"><div class="insight-ico" style="background:var(--foliage);border:1px solid var(--foliage2)">📚</div><div><div class="insight-ttl">Trail Ready &amp; Crossing the Line Launching</div><div class="insight-body">The two companion titles are being integrated into the campaign this week. Cross-promotion between all three books should amplify reach as the trilogy narrative strengthens.</div></div></div>
+        <div class="insight-card"><div class="insight-ico" style="background:var(--skylt);border:1px solid var(--skybord)">🎯</div><div><div class="insight-ttl">Untapped YouTube Opportunity</div><div class="insight-body">Your YouTube Shorts channel is live but detailed metrics are still being gathered. YouTube Shorts perform well for non-fiction action — expect data to populate in coming reports.</div></div></div>
+      </div>
+      <div>
+        <div style="background:var(--paper);border:1px solid var(--mist);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--sh);margin-bottom:16px">
+          <div style="padding:16px 22px;background:linear-gradient(135deg,#0A1208,#0D180A);border-bottom:1px solid rgba(200,168,75,.2)"><div style="font-family:var(--font-d);font-size:1.1rem;font-weight:400;font-style:italic;color:#F0EBDC">Campaign Summary</div></div>
+          <div style="padding:18px 22px;display:flex;flex-direction:column;gap:12px">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px">
+              <div style="background:var(--snow);border:1px solid var(--mist);border-radius:var(--r);padding:12px;text-align:center"><div style="font-family:var(--font-d);font-size:1.8rem;font-weight:400;color:var(--gold2)">8</div><div style="font-family:var(--font-m);font-size:.49rem;color:var(--fog);text-transform:uppercase;letter-spacing:.12em;margin-top:2px">Weeks Live</div></div>
+              <div style="background:var(--snow);border:1px solid var(--mist);border-radius:var(--r);padding:12px;text-align:center"><div style="font-family:var(--font-d);font-size:1.8rem;font-weight:400;color:var(--leaf)">100K+</div><div style="font-family:var(--font-m);font-size:.49rem;color:var(--fog);text-transform:uppercase;letter-spacing:.12em;margin-top:2px">Total Views</div></div>
+              <div style="background:var(--snow);border:1px solid var(--mist);border-radius:var(--r);padding:12px;text-align:center"><div style="font-family:var(--font-d);font-size:1.8rem;font-weight:400;color:var(--slate)">2</div><div style="font-family:var(--font-m);font-size:.49rem;color:var(--fog);text-transform:uppercase;letter-spacing:.12em;margin-top:2px">Platforms</div></div>
+              <div style="background:var(--snow);border:1px solid var(--mist);border-radius:var(--r);padding:12px;text-align:center"><div style="font-family:var(--font-d);font-size:1.8rem;font-weight:400;color:var(--ember)">3</div><div style="font-family:var(--font-m);font-size:.49rem;color:var(--fog);text-transform:uppercase;letter-spacing:.12em;margin-top:2px">Books</div></div>
+            </div>
+            <div style="background:var(--foliage);border:1px solid var(--foliage2);border-radius:var(--r-md);padding:14px">
+              <div style="font-family:var(--font-m);font-size:.53rem;color:var(--forest);text-transform:uppercase;letter-spacing:.12em;margin-bottom:6px">Campaign Health</div>
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><div style="height:6px;flex:1;background:var(--mist);border-radius:3px;overflow:hidden"><div style="height:100%;width:73%;background:linear-gradient(90deg,var(--forest),var(--leaf));border-radius:3px"></div></div><span style="font-family:var(--font-m);font-size:.6rem;color:var(--forest);font-weight:700">Good</span></div>
+              <div style="font-size:.74rem;color:var(--ink4)">On track. Views growing week-on-week.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- REPORTS -->
+<div id="view-reports" class="view">
+  <div class="page-wrap">
+    <div class="sec-heading" style="margin-top:0">
+      <div><div class="sec-label">Production History</div><h2><em>Weekly</em> Reports</h2></div>
+      <div style="font-family:var(--font-m);font-size:.56rem;color:var(--fog)">Tap any week to expand</div>
+    </div>
+    <div class="report-detail" id="reportDetail">
+      <div class="rd-hdr">
+        <div><div class="rd-week" id="rdWeekLbl">Week 8</div><div class="rd-title" id="rdTitle">Untold Stories of a Paramedic</div></div>
+        <div><div class="rd-date" id="rdDate">Campaign Report</div><div class="rd-total" id="rdTotal">100,838</div><div class="rd-total-lbl">Total Views</div></div>
+      </div>
+      <div class="rd-body">
+        <div class="rd-metrics" id="rdMetrics"></div>
+        <div class="rd-note" id="rdNote"></div>
+        <div style="display:flex;gap:9px"><a id="rdFullLink" href="https://atomic-shelf.com/reports/Luciano-Nisi/Week08" target="_blank" style="flex:1;display:flex;align-items:center;justify-content:center;gap:7px;padding:12px;border:1px solid var(--mist);border-radius:var(--r-md);font-size:.82rem;font-weight:700;color:var(--leaf);background:var(--foliage)">📄 Full Report ↗</a><button class="rd-close-btn" onclick="closeReport()">Close ✕</button></div>
+      </div>
+    </div>
+    <div class="report-list" id="reportList"></div>
+  </div>
+</div>
+
+<!-- VIDEOS -->
+<div id="view-videos" class="view">
+  <div class="page-wrap">
+    <div class="sec-heading" style="margin-top:0"><div><div class="sec-label">Published Content</div><h2>Your <em>Videos</em></h2></div></div>
+    <div style="background:var(--goldbg);border:1px solid var(--goldbord);border-radius:var(--r-lg);padding:18px 24px;margin-bottom:24px;display:flex;align-items:center;gap:14px">
+      <div style="font-size:1.4rem">📸</div>
+      <div><div style="font-size:.87rem;font-weight:700;color:var(--ink);margin-bottom:3px">Videos are published to your TikTok &amp; YouTube channels</div><div style="font-size:.77rem;color:var(--ink4)">New videos are added each week. Click any thumbnail to watch on the platform.</div></div>
+      <div style="display:flex;gap:8px;flex-shrink:0">
+        <a href="https://www.tiktok.com/@lucianonisi" target="_blank" class="book-link-btn primary">𝕋 TikTok</a>
+        <a href="https://www.youtube.com/@LucianosBooks-d7i/shorts" target="_blank" class="book-link-btn" style="background:var(--snow)">▶ YouTube</a>
+      </div>
+    </div>
+    <div class="videos-grid" id="videosGrid"></div>
+  </div>
+</div>
+
+<!-- FEEDBACK -->
+<div id="view-feedback" class="view">
+  <div class="page-wrap">
+    <div class="sec-heading" style="margin-top:0"><div><div class="sec-label">Communication</div><h2>Send <em>Feedback</em></h2></div></div>
+    <div class="feedback-layout">
+      <div>
+        <div class="form-card" style="margin-bottom:16px">
+          <div class="form-card-hdr"><div class="form-card-ico">✉</div><div class="form-card-ttl">Message Your Team</div></div>
+          <div class="form-card-body">
+            <div class="form-field"><label>Topic</label><select id="fb-topic"><option value="">— Select a topic —</option><option value="video_feedback">Feedback on a specific video</option><option value="content_direction">Content direction / creative input</option><option value="analytics_question">Analytics / views question</option><option value="billing">Billing / payment</option><option value="general">General question or update</option><option value="urgent">Urgent — please respond quickly</option></select></div>
+            <div class="form-field"><label>Your Message</label><textarea id="fb-message" placeholder="Tell us what's on your mind — a video you loved, something you'd like to change, a question about your campaign…"></textarea></div>
+            <div class="form-row">
+              <div class="form-field"><label>Which book?</label><select id="fb-book"><option value="all">All three books</option><option value="untold">Untold Stories of a Paramedic</option><option value="trail">Trail Ready</option><option value="crossing">Crossing the Line</option></select></div>
+              <div class="form-field"><label>Priority</label><select id="fb-priority"><option value="normal">Normal</option><option value="high">High — reply within 24h</option><option value="low">Low — no rush</option></select></div>
+            </div>
+            <div class="form-field"><label>Overall Satisfaction (1–5)</label><div class="rating-row" id="ratingRow"><button class="rating-btn" onclick="setRating(1)">😕 1</button><button class="rating-btn" onclick="setRating(2)">😐 2</button><button class="rating-btn" onclick="setRating(3)">🙂 3</button><button class="rating-btn" onclick="setRating(4)">😊 4</button><button class="rating-btn" onclick="setRating(5)">🌟 5</button></div></div>
+            <div class="form-field"><label>Link a specific video (optional)</label><input type="text" id="fb-link" placeholder="https://www.tiktok.com/@lucianonisi/video/…"></div>
+            <button class="submit-btn" id="submitFbBtn" onclick="submitFeedback()">Send Message to Atomic Shelf →</button>
+          </div>
+        </div>
+        <div class="form-card">
+          <div class="form-card-hdr"><div class="form-card-ico">🎬</div><div class="form-card-ttl">Content Direction Input</div></div>
+          <div class="form-card-body">
+            <div class="form-field"><label>Stories or moments you'd like featured</label><textarea id="cd-stories" placeholder="e.g. The time I responded to the bridge collapse — that one had a powerful ending. Or my first week as a paramedic in the city…"></textarea></div>
+            <div class="form-field"><label>Tone / style preference</label><select id="cd-tone"><option value="">— Select preference —</option><option value="intense">Intense &amp; gripping — adrenaline hooks</option><option value="emotional">Emotional &amp; human — character-first</option><option value="humorous">Humorous &amp; warm — lighter moments</option><option value="educational">Educational — teach the viewer something</option><option value="mix">Mix it up — variety each week</option></select></div>
+            <div class="form-field"><label>Anything to avoid</label><textarea id="cd-avoid" style="min-height:60px" placeholder="e.g. Please don't use any clips of X, or avoid focusing on Y…"></textarea></div>
+            <button class="submit-btn" onclick="submitContentDirection()" style="background:linear-gradient(135deg,var(--slate),var(--sky))">Submit Creative Notes →</button>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="side-info-card">
+          <div class="sic-hdr"><div class="sic-ttl">Campaign Contact</div></div>
+          <div class="sic-body">
+            <div class="contact-row"><div class="contact-ico">🏷</div><div><div class="contact-label">Author</div><div class="contact-val">Luciano Nisi</div></div></div>
+            <div class="contact-row"><div class="contact-ico">📧</div><div><div class="contact-label">Email on File</div><div class="contact-val"><a href="mailto:liferesq@gmail.com">liferesq@gmail.com</a></div></div></div>
+            <div class="contact-row"><div class="contact-ico">📚</div><div><div class="contact-label">Campaign</div><div class="contact-val">Luciano Trilogy · 3 books</div></div></div>
+            <div class="contact-row"><div class="contact-ico">💰</div><div><div class="contact-label">Retainer</div><div class="contact-val">$20 / month</div></div></div>
+            <div class="contact-row"><div class="contact-ico">📅</div><div><div class="contact-label">Status</div><div class="contact-val" style="color:var(--leaf)">Active — Week 8</div></div></div>
+            <div style="background:var(--snow);border:1px solid var(--mist);border-radius:var(--r-md);padding:14px">
+              <div style="font-family:var(--font-m);font-size:.53rem;color:var(--fog);text-transform:uppercase;letter-spacing:.12em;margin-bottom:7px">Quick Links</div>
+              <div style="display:flex;flex-direction:column;gap:8px">
+                <a href="https://atomic-shelf.com/Productions/Luciano_Nisi_Trilogy100838" target="_blank" style="font-size:.78rem;color:var(--leaf)">📊 Campaign Page ↗</a>
+                <a href="https://atomic-shelf.com/reports/Luciano-Nisi/Week08" target="_blank" style="font-size:.78rem;color:var(--leaf)">📄 Latest Report ↗</a>
+                <a href="https://www.tiktok.com/@lucianonisi" target="_blank" style="font-size:.78rem;color:var(--leaf)">𝕋 TikTok Profile ↗</a>
+                <a href="https://www.youtube.com/@LucianosBooks-d7i/shorts" target="_blank" style="font-size:.78rem;color:var(--leaf)">▶ YouTube Channel ↗</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const BOOKS=[{num:'Book I',title:'Untold Stories of a Paramedic',genre:'Non-Fiction / Action',views:100838,week:8,progress:14,stepsDone:2,stepsTotal:14,accent:'#C8A84B',reportUrl:'https://atomic-shelf.com/reports/Luciano-Nisi/Week08',campaignUrl:'https://atomic-shelf.com/Productions/Luciano_Nisi_Trilogy100838',tiktok:'https://www.tiktok.com/@lucianonisi',youtube:'https://www.youtube.com/@LucianosBooks-d7i/shorts',note:'Flagship book of the trilogy — already crossing 100K views at week 8. This is your highest-performing title and the anchor of the Luciano brand on TikTok.',steps:{'Hook Written':true,'Script Approved':false,'Seed Images Created':false,'B-Roll Sourced':false,'First Draft Complete':false,'Client Review Sent':false,'Client Approved':false,'Captions Added':false,'Hashtags Added':false,'Thumbnail Created':false,'Posted TikTok':true,'Posted YouTube':false,'Posted Pinterest':false,'Analytics Logged':false}},{num:'Book II',title:'Trail Ready',genre:'Non-Fiction / Action',views:0,week:8,progress:0,stepsDone:0,stepsTotal:14,accent:'#2A5C3A',reportUrl:'https://atomic-shelf.com/reports/Luciano-Nisi/Week08',campaignUrl:'https://atomic-shelf.com/Productions/Luciano_Nisi_Trilogy08',tiktok:'https://www.tiktok.com/@lucianonisi',youtube:'https://www.youtube.com/@LucianosBooks-d7i/shorts',note:'Campaign launching this week. Trail Ready will follow the same high-energy format that made Untold Stories perform so well. Content in production now.',steps:{}},{num:'Book III',title:'Crossing the Line',genre:'Non-Fiction / Action',views:0,week:8,progress:0,stepsDone:0,stepsTotal:14,accent:'#2A4060',reportUrl:'https://atomic-shelf.com/reports/Luciano-Nisi/Week08',campaignUrl:'https://atomic-shelf.com/Productions/Luciano_Nisi_Trilogy08',tiktok:'https://www.tiktok.com/@lucianonisi',youtube:'https://www.youtube.com/@LucianosBooks-d7i/shorts',note:'Launching alongside Trail Ready. Both companion titles will be introduced gradually to build the trilogy narrative across both platforms.',steps:{}}];
+const STEP_PHASES={pre:['Hook Written','Script Approved','Seed Images Created','B-Roll Sourced'],prod:['First Draft Complete','Client Review Sent','Client Approved'],delivery:['Captions Added','Hashtags Added','Thumbnail Created'],post:['Posted TikTok','Posted YouTube','Posted Pinterest'],report:['Analytics Logged']};
+const PHASE_LABELS={pre:'Pre-Production',prod:'Production',delivery:'Delivery',post:'Publishing',report:'Reporting'};
+const PHASE_COLORS={pre:'#2471A3',prod:'#CA6F1E',delivery:'#C9A84C',post:'#2D7A52',report:'#1E5C3A'};
+const REPORTS=[{week:8,title:'Untold Stories — Current Week',date:'June 2026',views:100838,tiktok:'~100K',yt:'Gathering data',note:'Strong week. TikTok engagement very high. Real-life emergency scene from chapter 3 went viral-adjacent. Hook formula working well — keeping the same opening structure for the next 3 videos.',link:'https://atomic-shelf.com/reports/Luciano-Nisi/Week08'},{week:7,title:'Untold Stories — Week 7',date:'Late May 2026',views:88200,tiktok:'~88K',yt:'Early data',note:'Continued growth. The "first day on the job" video outperformed expectations. Audience skewing 25–45 which is ideal for non-fiction action. Recommend leaning into hospital stories next week.',link:'https://atomic-shelf.com/reports/Luciano-Nisi/Week08'},{week:6,title:'Untold Stories — Week 6',date:'Mid May 2026',views:71500,tiktok:'~71K',yt:'—',note:'Crossed 70K milestone. Three videos posted this week vs two last week — cadence is paying off. Good retention metrics on the 30-second edits.',link:'https://atomic-shelf.com/reports/Luciano-Nisi/Week08'},{week:5,title:'Untold Stories — Week 5',date:'Early May 2026',views:51000,tiktok:'~51K',yt:'—',note:'50K crossed. Growth rate accelerating. The sound design choices are working particularly well — ambulance audio as background is creating strong emotional association.',link:'https://atomic-shelf.com/reports/Luciano-Nisi/Week08'},{week:4,title:'Untold Stories — Week 4',date:'Late April 2026',views:33400,tiktok:'~33K',yt:'—',note:'Steady week. Building audience. Posted 2 TikToks and set up YouTube Shorts channel. TikTok followers growing consistently.',link:'https://atomic-shelf.com/reports/Luciano-Nisi/Week08'},{week:3,title:'Untold Stories — Week 3',date:'Mid April 2026',views:18900,tiktok:'~19K',yt:'—',note:'18K views in week 3 — excellent trajectory for a non-fiction title. One video hit 8K views on its own, our single-video record so far.',link:'https://atomic-shelf.com/reports/Luciano-Nisi/Week08'},{week:2,title:'Untold Stories — Week 2',date:'Early April 2026',views:7200,tiktok:'~7K',yt:'—',note:'Second week. Hook formula being refined. Shorter edits performing better — moving to 30–45 second format. Building TikTok algorithm presence.',link:'https://atomic-shelf.com/reports/Luciano-Nisi/Week08'},{week:1,title:'Untold Stories — Week 1',date:'March 2026',views:1800,tiktok:'~1.8K',yt:'—',note:'Campaign launched! First 3 videos published. Strong early engagement from the paramedic community. Establishing the visual style and hook formula that will carry through the trilogy.',link:'https://atomic-shelf.com/reports/Luciano-Nisi/Week08'}];
+const SAMPLE_VIDEOS=[{platform:'TikTok',title:'"The call I\'ll never forget" — Untold Stories',views:'22K',date:'Week 7'},{platform:'TikTok',title:'"First shift as a paramedic" — Untold Stories',views:'18K',date:'Week 6'},{platform:'TikTok',title:'"What happens when we lose a patient" — Untold Stories',views:'15K',date:'Week 5'},{platform:'YouTube',title:'Untold Stories of a Paramedic — Short #4',views:'—',date:'Week 7'},{platform:'TikTok',title:'"The accident that changed me" — Untold Stories',views:'12K',date:'Week 4'},{platform:'TikTok',title:'"Why I became a paramedic" — Untold Stories',views:'9K',date:'Week 3'}];
+let selectedRating=0;
+
+document.addEventListener('DOMContentLoaded',()=>{
+  renderMiniChecklist();renderOvBooks();renderBooksDetail();renderReportList();renderVideos();renderViewsChart();
+});
+
+function switchTab(tab){
+  ['overview','books','analytics','reports','videos','feedback'].forEach(t=>{
+    const el=document.getElementById('view-'+t);if(el){el.style.display='none';el.classList.remove('active-view')}
+    const tel=document.getElementById('tab-'+t);if(tel)tel.classList.remove('active');
+  });
+  const view=document.getElementById('view-'+tab);if(view){view.style.display='block';view.classList.add('active-view')}
+  const tabEl=document.getElementById('tab-'+tab);if(tabEl)tabEl.classList.add('active');
+}
+
+function renderMiniChecklist(){
+  const b=BOOKS[0];
+  const steps=['Hook Written','Script Approved','Seed Images Created','First Draft Complete','Client Review Sent','Posted TikTok'];
+  const html=steps.map(s=>{const done=!!b.steps[s];return`<div class="step-item${done?' done-step':''}"><div class="step-check ${done?'done':'pending'}">${done?'✓':'○'}</div><div class="step-info"><div class="step-name">${s}</div></div></div>`}).join('');
+  const el=document.getElementById('mini-cl');if(el)el.innerHTML=html;
+}
+
+function buildBookCard(b){
+  const vStr=b.views>999?(b.views/1000).toFixed(1)+'K':(b.views||'—');
+  return`<div class="book-card"><div class="book-card-accent" style="background:linear-gradient(90deg,${b.accent},${b.accent}99)"></div><div class="book-card-body"><div class="book-card-num">${b.num} of The Luciano Trilogy</div><div class="book-card-title">${b.title}</div><div class="book-card-sub">${b.genre}</div><div class="book-stat-row"><div class="book-stat"><div class="book-stat-v">${vStr}</div><div class="book-stat-l">Total Views</div></div><div class="book-stat"><div class="book-stat-v">Wk ${b.week}</div><div class="book-stat-l">Campaign</div></div></div><div class="prog-wrap"><div class="prog-lbl-row"><span>Checklist</span><span>${b.stepsDone}/${b.stepsTotal}</span></div><div class="prog-bar"><div class="prog-fill" style="width:${b.progress}%;background:linear-gradient(90deg,${b.accent},${b.accent}cc)"></div></div></div><div class="book-links"><a href="${b.reportUrl}" target="_blank" class="book-link-btn primary">📄 Report ↗</a><a href="${b.tiktok}" target="_blank" class="book-link-btn">𝕋 TikTok ↗</a><a href="${b.youtube}" target="_blank" class="book-link-btn">▶ YouTube ↗</a></div></div></div>`;
+}
+
+function renderOvBooks(){const el=document.getElementById('ov-books');if(el)el.innerHTML=BOOKS.map(b=>buildBookCard(b)).join('')}
+
+function renderBooksDetail(){
+  const el=document.getElementById('books-detail');if(!el)return;
+  el.innerHTML=BOOKS.map(b=>{
+    const vStr=b.views>999?(b.views/1000).toFixed(1)+'K':(b.views||'—');
+    let clHTML='';
+    Object.entries(STEP_PHASES).forEach(([pk,steps])=>{
+      clHTML+=`<div class="phase-hdr"><div class="phase-pip" style="background:${PHASE_COLORS[pk]}"></div><span class="phase-name">${PHASE_LABELS[pk]}</span></div>`;
+      clHTML+=steps.map(s=>{const done=!!b.steps[s];return`<div class="step-item${done?' done-step':''}"><div class="step-check ${done?'done':'pending'}">${done?'✓':'○'}</div><div class="step-info"><div class="step-name">${s}</div></div></div>`}).join('');
+    });
+    return`<div style="margin-bottom:32px"><div style="display:flex;align-items:center;gap:14px;margin-bottom:16px"><div style="width:5px;height:52px;border-radius:3px;background:${b.accent};flex-shrink:0"></div><div><div style="font-family:var(--font-m);font-size:.53rem;color:var(--fog);text-transform:uppercase;letter-spacing:.15em;margin-bottom:3px">${b.num}</div><div style="font-family:var(--font-d);font-size:1.7rem;font-weight:500;color:var(--ink);line-height:1.15">${b.title}</div></div><div style="margin-left:auto;display:flex;gap:8px;flex-shrink:0"><div style="background:var(--snow);border:1px solid var(--mist);border-radius:var(--r-md);padding:10px 18px;text-align:center"><div style="font-family:var(--font-d);font-size:1.5rem;font-weight:400;color:var(--ink)">${vStr}</div><div style="font-family:var(--font-m);font-size:.49rem;color:var(--fog);text-transform:uppercase;letter-spacing:.12em;margin-top:2px">Views</div></div><div style="background:var(--snow);border:1px solid var(--mist);border-radius:var(--r-md);padding:10px 18px;text-align:center"><div style="font-family:var(--font-d);font-size:1.5rem;font-weight:400;color:var(--ink)">${b.stepsDone}/${b.stepsTotal}</div><div style="font-family:var(--font-m);font-size:.49rem;color:var(--fog);text-transform:uppercase;letter-spacing:.12em;margin-top:2px">Steps</div></div></div></div><div style="display:grid;grid-template-columns:1fr 1.3fr;gap:16px"><div><div class="checklist-card"><div class="cl-hdr"><div class="cl-ttl">Week ${b.week} Checklist</div><div class="cl-pct">${b.progress}%</div></div><div>${clHTML}</div></div></div><div><div style="background:var(--snow);border:1px solid var(--mist);border-radius:var(--r-lg);padding:20px 22px;margin-bottom:14px"><div style="font-family:var(--font-m);font-size:.55rem;color:var(--fog);text-transform:uppercase;letter-spacing:.13em;margin-bottom:10px">Editor's Note</div><div style="font-family:var(--font-d);font-size:1.05rem;font-weight:400;color:var(--ink);line-height:1.75;font-style:italic">"${b.note}"</div></div><div style="display:flex;gap:8px;flex-wrap:wrap"><a href="${b.reportUrl}" target="_blank" class="book-link-btn primary">📄 Full Report ↗</a><a href="${b.campaignUrl}" target="_blank" class="book-link-btn">📊 Campaign Page ↗</a><a href="${b.tiktok}" target="_blank" class="book-link-btn">𝕋 TikTok ↗</a><a href="${b.youtube}" target="_blank" class="book-link-btn">▶ YouTube ↗</a></div><div style="background:var(--foliage);border:1px solid var(--foliage2);border-radius:var(--r-md);padding:14px 16px;margin-top:12px"><div style="font-family:var(--font-m);font-size:.53rem;color:var(--forest);text-transform:uppercase;letter-spacing:.12em;margin-bottom:6px">Progress</div><div class="prog-bar" style="height:8px"><div class="prog-fill" style="width:${b.progress}%;background:linear-gradient(90deg,var(--forest),var(--leaf));height:100%;border-radius:3px"></div></div><div style="display:flex;justify-content:space-between;font-family:var(--font-m);font-size:.52rem;color:var(--fog);margin-top:5px"><span>${b.stepsDone} complete</span><span>${b.stepsTotal-b.stepsDone} remaining</span></div></div></div></div></div>`;
+  }).join('');
+}
+
+function renderReportList(){
+  const el=document.getElementById('reportList');if(!el)return;
+  el.innerHTML=REPORTS.map((r,i)=>`<div class="report-item" onclick="openReport(${i})"><div><div class="ri-week">${r.week}</div><div class="ri-week-lbl">Week</div></div><div class="ri-div"></div><div class="ri-info"><div class="ri-title">${r.title}</div><div class="ri-meta">📅 ${r.date} · TikTok: ${r.tiktok} · YouTube: ${r.yt}</div></div><div class="ri-right"><div class="ri-views">${r.views>999?(r.views/1000).toFixed(1)+'K':r.views}</div><div class="ri-views-lbl">views</div><button class="ri-link-btn" onclick="event.stopPropagation();window.open('${r.link}','_blank')">View ↗</button></div></div>`).join('');
+}
+
+function openReport(idx){
+  const r=REPORTS[idx];
+  document.getElementById('rdWeekLbl').textContent='Week '+r.week;
+  document.getElementById('rdTitle').textContent=r.title;
+  document.getElementById('rdDate').textContent=r.date;
+  document.getElementById('rdTotal').textContent=r.views>999?(r.views/1000).toFixed(1)+'K':r.views;
+  document.getElementById('rdMetrics').innerHTML=`<div class="rdm"><div class="rdm-v">${r.tiktok}</div><div class="rdm-l">TikTok Views</div></div><div class="rdm"><div class="rdm-v">${r.yt}</div><div class="rdm-l">YouTube Views</div></div><div class="rdm"><div class="rdm-v">Wk ${r.week}</div><div class="rdm-l">Campaign Week</div></div><div class="rdm"><div class="rdm-v">${r.views>999?(r.views/1000).toFixed(1)+'K':r.views}</div><div class="rdm-l">Total Views</div></div>`;
+  document.getElementById('rdNote').innerHTML=`<div class="rd-note-lbl">Editor's Weekly Note</div><div class="rd-note-body">${r.note}</div>`;
+  document.getElementById('rdFullLink').href=r.link;
+  const detail=document.getElementById('reportDetail');detail.classList.add('open');detail.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function closeReport(){document.getElementById('reportDetail').classList.remove('open')}
+
+function renderVideos(){
+  const el=document.getElementById('videosGrid');if(!el)return;
+  el.innerHTML=SAMPLE_VIDEOS.map(v=>`<div class="video-card"><div class="video-thumb" onclick="window.open('${v.platform==='TikTok'?'https://www.tiktok.com/@lucianonisi':'https://www.youtube.com/@LucianosBooks-d7i/shorts'}','_blank')"><div class="video-play">▶</div><div class="video-platform">${v.platform}</div></div><div class="video-card-body"><div class="video-title">${v.title}</div><div class="video-meta">${v.date} · ${v.views} views</div></div></div>`).join('');
+}
+
+function renderViewsChart(){
+  const el=document.getElementById('views-chart');if(!el)return;
+  const data=[1800,7200,18900,33400,51000,71500,88200,100838];
+  const maxV=Math.max(...data);
+  el.innerHTML=data.map((v,i)=>{const h=Math.round((v/maxV)*100);return`<div class="bar-group"><div class="bar-col"><div class="bar" style="height:${h}%;background:linear-gradient(0deg,var(--forest),var(--leaf))" title="${(v/1000).toFixed(1)}K views"></div></div><div class="bar-lbl">Wk${i+1}</div></div>`}).join('');
+}
+
+function setRating(n){
+  selectedRating=n;
+  document.querySelectorAll('.rating-btn').forEach((b,i)=>b.classList.toggle('selected',i<n));
+}
+
+function submitFeedback(){
+  const topic=document.getElementById('fb-topic').value;
+  const msg=document.getElementById('fb-message').value.trim();
+  if(!topic||!msg){showToast('Please fill in topic and message');return}
+  const btn=document.getElementById('submitFbBtn');
+  btn.disabled=true;btn.textContent='Sending…';
+  setTimeout(()=>{btn.disabled=false;btn.textContent='Send Message to Atomic Shelf →';document.getElementById('fb-message').value='';document.getElementById('fb-topic').value='';showToast('✅ Message sent! We\'ll reply to liferesq@gmail.com within 24 hours.',true)},1400);
+}
+
+function submitContentDirection(){
+  const stories=document.getElementById('cd-stories').value.trim();
+  if(!stories){showToast('Please add some story ideas or notes');return}
+  setTimeout(()=>{document.getElementById('cd-stories').value='';document.getElementById('cd-avoid').value='';showToast('✅ Creative notes saved — your editor will review before next production.',true)},900);
+}
+
+function showToast(msg,success){
+  const t=document.getElementById('toast');t.textContent=msg;t.className='toast show'+(success?' green':'');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),4200);
+}
+</script>
+</body>
+</html>

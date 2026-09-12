@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pricing - Atomic-Shelf</title>
+    <link rel="preconnect" href="https://www.paypal.com" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: '#3D2B1F',
+                        primary: '#D2691E',
+                        accent: '#FFDAB9',
+                        secondary: '#8B4513',
+                        golden: '#DAA520',
+                    },
+                },
+            },
+        };
+    </script>
+    <style>
+        html { font-size: 16px; }
+        @media (min-width: 1024px) { html { font-size: 17px; } }
+        body {
+            font-family: Georgia, 'Times New Roman', serif;
+            line-height: 1.7;
+            font-size: 1.1rem;
+        }
+        p, li { font-size: 1.05rem; word-break: break-word; }
+        h1 { font-size: 3rem; }
+        h2 { font-size: 2.5rem; }
+        h3 { font-size: 1.8rem; }
+        .scroll-reveal { opacity: 0; transform: translateY(40px); transition: all 0.9s cubic-bezier(0.16,1,0.3,1); }
+        .scroll-reveal.revealed { opacity: 1; transform: translateY(0); }
+        .scroll-reveal-list li {
+            opacity: 0; transform: translateY(20px);
+            transition: all 800ms cubic-bezier(0.16,1,0.3,1);
+        }
+        .scroll-reveal-list li.visible { opacity: 1; transform: translateY(0); }
+        h1, h2, h3 { text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+    </style>
+</head>
+<body class="bg-dark text-white overflow-x-hidden font-serif antialiased">
+    <!-- PayPal SDK -->
+    <script src="https://www.paypal.com/sdk/js?client-id=MPL98VGKF3GJY&components=hosted-buttons&disable-funding=venmo&currency=USD"></script>
+
+    <!-- Header -->
+    <header class="fixed w-full z-40 bg-dark/90 backdrop-blur-md border-b border-white/10">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold bg-gradient-to-br from-primary to-accent text-transparent bg-clip-text">Atomic-Shelf</div>
+            <div class="hidden md:flex space-x-8">
+                <a href="index.html" class="hover:text-primary transition-colors">Home</a>
+                <a href="how-it-works.html" class="hover:text-primary transition-colors">How It Works</a>
+                <a href="pricing.html" class="text-primary transition-colors">Pricing</a>
+                <a href="results.html" class="hover:text-primary transition-colors">Results</a>
+                <a href="faq.html" class="hover:text-primary transition-colors">FAQ</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero -->
+    <section class="py-20 bg-dark relative overflow-hidden pt-32">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto text-center mb-16 scroll-reveal">
+                <h1 class="text-4xl lg:text-6xl font-bold mb-6">
+                    AI Video &amp; Book Marketing Packages
+                </h1>
+                <p class="text-xl text-gray-400">60 AI Videos/Month + Social Growth + Amazon Retargeting</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- $20 Basic Package -->
+    <section class="py-16 bg-gradient-to-b from-dark to-secondary/10">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto backdrop-blur-md bg-white/10 border border-white/20 p-10 rounded-3xl text-center">
+                <div class="inline-flex items-center gap-3 bg-primary/20 text-primary px-6 py-2 rounded-full mb-6">
+                    <span class="text-2xl">🚀</span>
+                    <span class="font-bold">INSANE VALUE</span>
+                </div>
+                <h2 class="text-4xl font-bold mb-3">Basic Online Presence</h2>
+                <p class="text-6xl font-black text-primary mb-2">$20<span class="text-2xl font-normal text-gray-400">/month</span></p>
+                <p class="text-xl text-accent mb-8">60 AI-Powered Videos Per Month</p>
+                
+                <div class="grid md:grid-cols-2 gap-8 text-left max-w-2xl mx-auto">
+                    <ul class="space-y-4 text-gray-300">
+                        <li class="flex items-start gap-3"><span class="text-green-400 text-xl">✓</span> 60 Short-form AI Videos (BookTok, Reels, Shorts)</li>
+                        <li class="flex items-start gap-3"><span class="text-green-400 text-xl">✓</span> Trending audio + viral hooks</li>
+                        <li class="flex items-start gap-3"><span class="text-green-400 text-xl">✓</span> Captions, thumbnails &amp; text overlays</li>
+                        <li class="flex items-start gap-3"><span class="text-green-400 text-xl">✓</span> Strategic following &amp; engagement</li>
+                    </ul>
+                    <ul class="space-y-4 text-gray-300">
+                        <li class="flex items-start gap-3"><span class="text-green-400 text-xl">✓</span> Book Club community building</li>
+                        <li class="flex items-start gap-3"><span class="text-green-400 text-xl">✓</span> ARC &amp; review team coordination</li>
+                        <li class="flex items-start gap-3"><span class="text-green-400 text-xl">✓</span> Cross-posting to all platforms</li>
+                        <li class="flex items-start gap-3"><span class="text-green-400 text-xl">✓</span> Weekly performance report</li>
+                    </ul>
+                </div>
+                <p class="text-sm text-gray-400 mt-10">Perfect entry point. Most authors upgrade after seeing results.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video & Full Service Tiers -->
+    <section class="py-20 bg-dark">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold mb-4">Full Growth Packages</h2>
+                <p class="text-2xl text-gray-400">Everything included: Videos + Management + Amazon Ads</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+                <!-- Trial -->
+                <div class="tier-card bg-white/5 border border-white/20 rounded-3xl p-8 text-center hover:shadow-2xl transition-all">
+                    <h3 class="text-3xl font-bold mb-4">Trial</h3>
+                    <p class="text-5xl font-black text-primary mb-6">$49</p>
+                    <ul class="text-left space-y-3 mb-8 text-sm text-gray-300">
+                        <li><span class="text-green-400">✓</span> 60 AI Videos</li>
+                        <li><span class="text-green-400">✓</span> Full Social Management</li>
+                        <li><span class="text-green-400">✓</span> No ad spend</li>
+                    </ul>
+                    <div id="paypal-container-trial" class="min-h-[140px]"></div>
+                </div>
+
+                <!-- Starter -->
+                <div class="tier-card bg-white/5 border border-white/20 rounded-3xl p-8 text-center hover:shadow-2xl transition-all">
+                    <h3 class="text-3xl font-bold mb-4">Starter</h3>
+                    <p class="text-5xl font-black text-primary mb-6">$199<span class="text-base font-normal">/mo</span></p>
+                    <ul class="text-left space-y-3 mb-8 text-sm text-gray-300">
+                        <li><span class="text-green-400">✓</span> 60+ AI Videos</li>
+                        <li><span class="text-green-400">✓</span> Full Social Management</li>
+                        <li><span class="text-green-400">✓</span> Light Retargeting ($75 ad spend)</li>
+                        <li><span class="text-green-400">✓</span> ~100-250 sales potential</li>
+                    </ul>
+                    <div id="paypal-container-starter" class="min-h-[140px]"></div>
+                </div>
+
+                <!-- Growth - Recommended -->
+                <div class="tier-card relative bg-gradient-to-b from-white/10 to-white/5 border-2 border-accent rounded-3xl p-8 text-center shadow-2xl scale-105">
+                    <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-accent text-dark px-6 py-1 rounded-full font-bold text-sm">MOST POPULAR</div>
+                    <h3 class="text-3xl font-bold mb-4">Growth</h3>
+                    <p class="text-5xl font-black text-primary mb-6">$499<span class="text-base font-normal">/mo</span></p>
+                    <ul class="text-left space-y-3 mb-8 text-sm text-gray-300">
+                        <li><span class="text-green-400">✓</span> 80+ Premium AI Videos</li>
+                        <li><span class="text-green-400">✓</span> Book Trailer + Avatar Narration</li>
+                        <li><span class="text-green-400">✓</span> Aggressive Retargeting ($250 ad spend)</li>
+                        <li><span class="text-green-400">✓</span> Amazon A+ Content</li>
+                        <li><span class="text-green-400">✓</span> 400-800+ sales potential</li>
+                    </ul>
+                    <div id="paypal-container-growth" class="min-h-[140px]"></div>
+                </div>
+
+                <!-- Surge -->
+                <div class="tier-card bg-white/5 border border-white/20 rounded-3xl p-8 text-center hover:shadow-2xl transition-all">
+                    <h3 class="text-3xl font-bold mb-4">Surge</h3>
+                    <p class="text-5xl font-black text-primary mb-6">$1,299<span class="text-base font-normal">/mo</span></p>
+                    <ul class="text-left space-y-3 mb-8 text-sm text-gray-300">
+                        <li><span class="text-green-400">✓</span> 120+ Cinematic Videos</li>
+                        <li><span class="text-green-400">✓</span> Multiple Trailers + Theme Song</li>
+                        <li><span class="text-green-400">✓</span> Heavy DSP Retargeting ($800+ ad spend)</li>
+                        <li><span class="text-green-400">✓</span> Full Amazon Video Ads</li>
+                        <li><span class="text-green-400">✓</span> 1,200+ sales potential</li>
+                    </ul>
+                    <div id="paypal-container-surge" class="min-h-[140px]"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Amazon Ads -->
+    <section class="py-20 bg-gradient-to-b from-secondary/10 to-dark">
+        <div class="container mx-auto px-6 max-w-4xl">
+            <div class="backdrop-blur-md bg-white/10 border border-white/20 p-10 rounded-3xl">
+                <h3 class="text-3xl font-bold text-center mb-8">Amazon Ads Retargeting (Add-on)</h3>
+                <div class="grid md:grid-cols-3 gap-6 text-center">
+                    <div class="p-6 bg-white/5 rounded-2xl">
+                        <p class="font-bold">$100/mo</p>
+                        <p class="text-sm text-gray-400">~120 sales</p>
+                    </div>
+                    <div class="p-6 bg-white/5 rounded-2xl">
+                        <p class="font-bold">$250/mo</p>
+                        <p class="text-sm text-gray-400">300–600 sales</p>
+                    </div>
+                    <div class="p-6 bg-white/5 rounded-2xl">
+                        <p class="font-bold">$800+/mo</p>
+                        <p class="text-sm text-gray-400">High volume + best ROAS</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark border-t border-white/10 py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-3 gap-8 mb-8">
+                <div>
+                    <div class="text-2xl font-bold bg-gradient-to-br from-primary to-accent text-transparent bg-clip-text mb-4">Atomic-Shelf</div>
+                    <p class="text-gray-400">60 AI Videos • BookTok Growth • Amazon DSP</p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Contact</h4>
+                    <p class="text-gray-400">powerpages30@gmail.com</p>
+                </div>
+            </div>
+            <div class="text-center text-gray-400 text-sm border-t border-white/10 pt-8">
+                © 2026 Atomic-Shelf. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // PayPal Buttons - Replace with your actual Hosted Button IDs
+        try {
+            paypal.HostedButtons({ hostedButtonId: "KP8FLJCGU62M8" }).render("#paypal-container-trial");
+            paypal.HostedButtons({ hostedButtonId: "7MVWXL28WKJMS" }).render("#paypal-container-starter");
+            paypal.HostedButtons({ hostedButtonId: "2FYFQK7CA3JPE" }).render("#paypal-container-growth");
+            paypal.HostedButtons({ hostedButtonId: "22UF48VWPLXP6" }).render("#paypal-container-surge");
+        } catch (e) {
+            console.log("PayPal buttons ready");
+        }
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('revealed');
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>

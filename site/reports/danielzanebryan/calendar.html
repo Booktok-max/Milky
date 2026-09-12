@@ -1,0 +1,1516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Your Campaign · Atomic Shelf</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=Nunito:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+a{color:inherit;text-decoration:none;}
+
+:root{
+  --forest:#1a3028;
+  --forest2:#243d33;
+  --leaf:#2e6b4a;
+  --leaf2:#4a9068;
+  --mint:#8ecfaa;
+  --cream:#f8f3ea;
+  --warm:#f2ead8;
+  --parchment:#ece3cd;
+  --gold:#c8922a;
+  --gold2:#e8ae4a;
+  --gold-lt:#fdf5e0;
+  --text-dk:#1a1208;
+  --text:#2d2010;
+  --text2:#4a3520;
+  --text3:#7a6040;
+  --text4:#a88c68;
+  --border:#d8c8a8;
+  --border-lt:#e8dcc8;
+  --surface:#ffffff;
+  --r:12px;
+  --r-lg:18px;
+  --r-xl:26px;
+  --shadow-sm:0 2px 12px rgba(26,48,40,.08);
+  --shadow:0 6px 30px rgba(26,48,40,.12);
+  --shadow-lg:0 14px 55px rgba(26,48,40,.16);
+}
+
+body{
+  font-family:'Nunito',system-ui,sans-serif;
+  background:var(--cream);
+  color:var(--text);
+  min-height:100vh;
+  font-size:16px;
+  line-height:1.7;
+}
+
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  pointer-events:none;
+  z-index:0;
+}
+
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:var(--warm);}
+::-webkit-scrollbar-thumb{background:var(--parchment);border-radius:3px;}
+
+.hero{
+  background:linear-gradient(145deg, var(--forest) 0%, var(--forest2) 45%, #1e2f20 100%);
+  padding:60px 40px 70px;
+  position:relative;
+  overflow:hidden;
+  z-index:1;
+}
+.hero::before{
+  content:'';
+  position:absolute;
+  top:-80px; right:-80px;
+  width:400px; height:400px;
+  background:radial-gradient(circle, rgba(46,107,74,.35) 0%, transparent 70%);
+  pointer-events:none;
+}
+.hero::after{
+  content:'';
+  position:absolute;
+  bottom:-60px; left:10%;
+  width:300px; height:300px;
+  background:radial-gradient(circle, rgba(200,146,42,.12) 0%, transparent 65%);
+  pointer-events:none;
+}
+.hero-inner{
+  max-width:960px;
+  margin:0 auto;
+  position:relative;
+  z-index:1;
+}
+.hero-logo{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:40px;
+  opacity:.7;
+}
+.logo-mark{
+  width:34px; height:34px;
+  background:linear-gradient(135deg, var(--gold), var(--gold2));
+  border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.65rem;font-weight:800;color:#fff;
+  letter-spacing:.06em;
+  font-family:'Nunito',sans-serif;
+  box-shadow:0 2px 10px rgba(200,146,42,.4);
+}
+.logo-text{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.1rem;
+  font-weight:400;
+  color:rgba(255,255,255,.65);
+  letter-spacing:.04em;
+}
+.logo-text em{font-style:italic;color:var(--gold2);}
+
+.hero-eyebrow{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.7rem;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--mint);
+  margin-bottom:14px;
+  opacity:.85;
+}
+.hero-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2.4rem, 6vw, 4.2rem);
+  font-weight:600;
+  color:#f8f3ea;
+  line-height:1.1;
+  margin-bottom:10px;
+  letter-spacing:-.01em;
+}
+.hero-title em{font-style:italic;color:var(--gold2);}
+.hero-subtitle{
+  font-size:1.05rem;
+  color:rgba(255,255,255,.5);
+  font-weight:400;
+  margin-bottom:36px;
+  max-width:520px;
+}
+
+.hero-stats{
+  display:flex;
+  gap:0;
+  flex-wrap:wrap;
+}
+.hstat{
+  padding:20px 32px 20px 0;
+  margin-right:32px;
+  border-right:1px solid rgba(255,255,255,.08);
+}
+.hstat:last-child{border-right:none;margin-right:0;}
+.hstat-val{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2.6rem;
+  font-weight:500;
+  color:#f8f3ea;
+  line-height:1;
+  margin-bottom:4px;
+}
+.hstat-val.gold{color:var(--gold2);}
+.hstat-val.mint{color:var(--mint);}
+.hstat-lbl{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.58rem;
+  color:rgba(255,255,255,.35);
+  text-transform:uppercase;
+  letter-spacing:.1em;
+}
+
+.main{
+  max-width:960px;
+  margin:0 auto;
+  padding:50px 40px 100px;
+  position:relative;
+  z-index:1;
+}
+
+.section-hd{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin-bottom:24px;
+  margin-top:56px;
+}
+.section-hd:first-child{margin-top:0;}
+.section-accent{
+  width:4px; height:32px;
+  border-radius:3px;
+  background:linear-gradient(180deg, var(--leaf), var(--mint));
+  flex-shrink:0;
+}
+.section-accent.gold{background:linear-gradient(180deg, var(--gold), var(--gold2));}
+.section-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.9rem;
+  font-weight:600;
+  color:var(--text-dk);
+  line-height:1;
+  letter-spacing:-.01em;
+}
+.section-rule{flex:1;height:1px;background:var(--border-lt);}
+.section-count{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.63rem;
+  color:var(--text4);
+  background:var(--warm);
+  border:1px solid var(--border-lt);
+  border-radius:40px;
+  padding:3px 11px;
+  letter-spacing:.05em;
+}
+
+.progress-card{
+  background:var(--surface);
+  border:1px solid var(--border-lt);
+  border-radius:var(--r-xl);
+  padding:32px 36px;
+  box-shadow:var(--shadow-sm);
+  margin-bottom:16px;
+}
+.progress-card-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.3rem;
+  font-weight:600;
+  color:var(--text);
+  margin-bottom:6px;
+}
+.progress-card-sub{
+  font-size:.85rem;
+  color:var(--text3);
+  margin-bottom:26px;
+  font-weight:500;
+}
+.weeks-track{
+  display:flex;
+  gap:0;
+  position:relative;
+}
+.weeks-track::before{
+  content:'';
+  position:absolute;
+  top:18px;
+  left:24px;
+  right:24px;
+  height:3px;
+  background:var(--border-lt);
+  z-index:0;
+}
+.week-node{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:8px;
+  position:relative;
+  z-index:1;
+}
+.week-dot{
+  width:36px; height:36px;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.62rem;
+  font-weight:600;
+  letter-spacing:.04em;
+  transition:all .3s;
+  border:2.5px solid transparent;
+}
+.week-dot.done{
+  background:linear-gradient(135deg, var(--leaf), var(--leaf2));
+  color:#fff;
+  border-color:transparent;
+  box-shadow:0 3px 12px rgba(46,107,74,.35);
+}
+.week-dot.current{
+  background:var(--gold-lt);
+  color:var(--gold);
+  border-color:var(--gold2);
+  box-shadow:0 3px 12px rgba(200,146,42,.25);
+  animation:pulse-gold 2.5s ease-in-out infinite;
+}
+.week-dot.future{
+  background:var(--warm);
+  color:var(--text4);
+  border-color:var(--border);
+}
+@keyframes pulse-gold{
+  0%,100%{box-shadow:0 3px 12px rgba(200,146,42,.25);}
+  50%{box-shadow:0 3px 20px rgba(200,146,42,.5);}
+}
+.week-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.55rem;
+  color:var(--text4);
+  text-transform:uppercase;
+  letter-spacing:.06em;
+  text-align:center;
+}
+.week-label.done{color:var(--leaf);}
+.week-label.current{color:var(--gold);font-weight:600;}
+.week-series{
+  font-size:.7rem;
+  color:var(--text3);
+  text-align:center;
+  max-width:72px;
+  line-height:1.3;
+  font-weight:500;
+}
+.week-series.done{color:var(--leaf2);}
+.week-series.current{color:var(--gold);}
+
+.progress-bar-wrap{
+  margin-top:28px;
+  background:var(--warm);
+  border-radius:40px;
+  height:8px;
+  overflow:hidden;
+}
+.progress-bar-fill{
+  height:100%;
+  border-radius:40px;
+  background:linear-gradient(90deg, var(--leaf) 0%, var(--leaf2) 50%, var(--mint) 100%);
+  transition:width .8s cubic-bezier(.34,1.56,.64,1);
+}
+.progress-info{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:8px;
+}
+.progress-pct{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.68rem;
+  color:var(--leaf);
+  font-weight:600;
+  letter-spacing:.04em;
+}
+.progress-desc{
+  font-size:.78rem;
+  color:var(--text3);
+  font-weight:500;
+}
+
+.books-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));
+  gap:14px;
+}
+.book-card{
+  background:var(--surface);
+  border:1px solid var(--border-lt);
+  border-radius:var(--r-lg);
+  overflow:hidden;
+  box-shadow:var(--shadow-sm);
+  transition:transform .22s, box-shadow .22s;
+}
+.book-card:hover{
+  transform:translateY(-4px);
+  box-shadow:var(--shadow);
+}
+.book-card-bar{height:5px;width:100%;}
+.book-card-body{padding:20px 22px;}
+.book-card-eyebrow{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.58rem;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  color:var(--text4);
+  margin-bottom:6px;
+}
+.book-card-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.3rem;
+  font-weight:700;
+  color:var(--text-dk);
+  line-height:1.25;
+  margin-bottom:4px;
+}
+.book-card-author{
+  font-size:.82rem;
+  color:var(--text3);
+  font-weight:600;
+  margin-bottom:12px;
+}
+.book-card-author span{
+  font-style:italic;
+  color:var(--text4);
+  font-weight:400;
+}
+.book-card-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:7px;
+  margin-bottom:12px;
+}
+.bcf{
+  background:var(--warm);
+  border-radius:8px;
+  padding:9px 11px;
+}
+.bcf-lbl{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.54rem;
+  text-transform:uppercase;
+  letter-spacing:.07em;
+  color:var(--text4);
+  margin-bottom:3px;
+}
+.bcf-val{
+  font-size:.82rem;
+  color:var(--text2);
+  font-weight:600;
+  line-height:1.3;
+}
+.bcf-val.green{color:var(--leaf);}
+.bcf-val.gold{color:var(--gold);}
+.book-card-action{
+  background:linear-gradient(135deg, rgba(46,107,74,.06), rgba(142,207,170,.08));
+  border-top:1px solid var(--border-lt);
+  border-radius:0 0 var(--r-lg) var(--r-lg);
+  padding:10px 22px;
+  font-size:.78rem;
+  color:var(--leaf);
+  font-weight:600;
+  line-height:1.4;
+}
+.book-card-action.gold{
+  background:linear-gradient(135deg, rgba(200,146,42,.06), rgba(232,174,74,.08));
+  color:var(--gold);
+  border-top-color:rgba(200,146,42,.15);
+}
+
+.metrics-strip{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(150px,1fr));
+  gap:10px;
+  margin-bottom:14px;
+}
+.mbox{
+  background:var(--surface);
+  border:1px solid var(--border-lt);
+  border-radius:var(--r);
+  padding:18px 20px;
+  text-align:center;
+  box-shadow:var(--shadow-sm);
+}
+.mbox-val{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2.4rem;
+  font-weight:500;
+  color:var(--text-dk);
+  line-height:1;
+  margin-bottom:5px;
+}
+.mbox-val.green{color:var(--leaf);}
+.mbox-val.gold{color:var(--gold);}
+.mbox-val.tiktok{color:#111;}
+.mbox-val.yt{color:#cc0000;}
+.mbox-lbl{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.58rem;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  color:var(--text4);
+}
+
+.albums-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(200px, 1fr));
+  gap:12px;
+}
+.album-card{
+  background:var(--surface);
+  border:1px solid var(--border-lt);
+  border-radius:var(--r-lg);
+  overflow:hidden;
+  box-shadow:var(--shadow-sm);
+  transition:transform .22s, box-shadow .22s;
+  cursor:pointer;
+  display:block;
+}
+.album-card:hover{
+  transform:translateY(-4px);
+  box-shadow:var(--shadow);
+}
+.album-thumb{
+  width:100%;
+  aspect-ratio:16/9;
+  object-fit:cover;
+  display:block;
+  background:linear-gradient(135deg, var(--warm), var(--parchment));
+}
+.album-thumb-placeholder{
+  width:100%;
+  aspect-ratio:16/9;
+  background:linear-gradient(135deg, var(--forest2), var(--forest));
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:2rem;
+}
+.album-info{
+  padding:12px 14px;
+}
+.album-book{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.58rem;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  color:var(--text4);
+  margin-bottom:3px;
+}
+.album-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.05rem;
+  font-weight:600;
+  color:var(--text);
+  margin-bottom:2px;
+}
+.album-meta{
+  font-size:.72rem;
+  color:var(--text3);
+  font-weight:500;
+}
+.album-open{
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  margin-top:8px;
+  font-size:.7rem;
+  font-weight:700;
+  color:var(--leaf);
+  background:rgba(46,107,74,.08);
+  border:1px solid rgba(46,107,74,.18);
+  border-radius:40px;
+  padding:3px 10px;
+  letter-spacing:.02em;
+}
+.album-open.gold-btn{
+  color:var(--gold);
+  background:rgba(200,146,42,.08);
+  border-color:rgba(200,146,42,.2);
+}
+
+.badge{
+  display:inline-flex;
+  align-items:center;
+  padding:3px 11px;
+  border-radius:40px;
+  font-size:.65rem;
+  font-weight:700;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+  font-family:'Nunito',sans-serif;
+}
+.b-active{background:rgba(46,107,74,.1);color:var(--leaf);border:1px solid rgba(46,107,74,.2);}
+.b-pending{background:rgba(200,146,42,.1);color:var(--gold);border:1px solid rgba(200,146,42,.2);}
+.b-proposed{background:rgba(90,60,160,.1);color:#5a3ca0;border:1px solid rgba(90,60,160,.2);}
+.b-paid{background:rgba(46,107,74,.1);color:var(--leaf);border:1px solid rgba(46,107,74,.2);}
+
+.notice{
+  background:var(--gold-lt);
+  border:1px solid rgba(200,146,42,.28);
+  border-radius:var(--r);
+  padding:16px 20px;
+  font-size:.88rem;
+  color:var(--gold);
+  font-weight:600;
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  margin-bottom:14px;
+}
+.notice-icon{font-size:1.1rem;flex-shrink:0;}
+
+.footer{
+  background:var(--forest);
+  padding:40px;
+  text-align:center;
+  position:relative;
+  z-index:1;
+}
+.footer-logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.4rem;
+  font-style:italic;
+  color:rgba(255,255,255,.45);
+  margin-bottom:8px;
+}
+.footer-text{
+  font-size:.78rem;
+  color:rgba(255,255,255,.25);
+  letter-spacing:.04em;
+  font-family:'JetBrains Mono',monospace;
+}
+
+.tab-nav{
+  display:flex;
+  gap:0;
+  background:var(--surface);
+  border:1px solid var(--border-lt);
+  border-radius:var(--r-xl);
+  padding:5px;
+  margin-bottom:36px;
+  width:fit-content;
+  box-shadow:var(--shadow-sm);
+}
+.tab-btn{
+  font-family:'Nunito',sans-serif;
+  font-size:.83rem;
+  font-weight:700;
+  color:var(--text3);
+  padding:9px 20px;
+  border-radius:calc(var(--r-xl) - 4px);
+  cursor:pointer;
+  transition:all .18s;
+  border:none;
+  background:none;
+  letter-spacing:.01em;
+  white-space:nowrap;
+}
+.tab-btn.active{
+  background:var(--forest);
+  color:#f8f3ea;
+  box-shadow:0 2px 10px rgba(26,48,40,.25);
+}
+.tab-btn:hover:not(.active){color:var(--text);background:var(--warm);}
+
+.tab-panel{display:none;}
+.tab-panel.active{display:block;}
+
+.timeline{
+  display:flex;
+  flex-direction:column;
+  gap:0;
+  margin-bottom:14px;
+}
+.tl-item{
+  display:flex;
+  gap:16px;
+  padding:14px 0;
+  border-bottom:1px solid var(--border-lt);
+}
+.tl-item:last-child{border-bottom:none;}
+.tl-dot{
+  width:10px; height:10px;
+  border-radius:50%;
+  background:var(--gold);
+  flex-shrink:0;
+  margin-top:6px;
+}
+.tl-date{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.65rem;
+  color:var(--text4);
+  min-width:80px;
+  padding-top:1px;
+}
+.tl-text{
+  font-size:.85rem;
+  color:var(--text2);
+  line-height:1.6;
+  font-weight:500;
+}
+
+.plt-row{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0;}
+.plt{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:.72rem;font-weight:700;
+  padding:5px 12px;border-radius:7px;
+  font-family:'Nunito',sans-serif;
+  letter-spacing:.02em;
+  transition:all .15s;
+}
+.plt-tk{background:#111;color:#fff;}
+.plt-yt{background:#ff0000;color:#fff;}
+.plt:hover{opacity:.85;transform:translateY(-1px);}
+
+@media(max-width:700px){
+  .hero{padding:40px 20px 50px;}
+  .main{padding:30px 20px 80px;}
+  .hero-stats{gap:0;}
+  .hstat{padding:16px 20px 16px 0;margin-right:20px;}
+  .hstat-val{font-size:2rem;}
+  .books-grid{grid-template-columns:1fr;}
+  .albums-grid{grid-template-columns:repeat(2,1fr);}
+  .metrics-strip{grid-template-columns:repeat(2,1fr);}
+  .weeks-track{flex-wrap:wrap;gap:12px;}
+  .weeks-track::before{display:none;}
+  .week-node{flex:0 0 calc(25% - 9px);}
+  .tab-nav{width:100%;overflow-x:auto;}
+}
+@media(max-width:420px){
+  .albums-grid{grid-template-columns:1fr;}
+  .week-node{flex:0 0 calc(50% - 6px);}
+}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.section-hd,.book-card,.album-card,.mbox,.progress-card,.tl-item{animation:fadeUp .5s ease both;}
+.book-card:nth-child(1){animation-delay:.05s}
+.book-card:nth-child(2){animation-delay:.1s}
+.book-card:nth-child(3){animation-delay:.15s}
+.album-card:nth-child(1){animation-delay:.05s}
+.album-card:nth-child(2){animation-delay:.1s}
+.album-card:nth-child(3){animation-delay:.15s}
+.album-card:nth-child(4){animation-delay:.2s}
+.album-card:nth-child(5){animation-delay:.25s}
+.album-card:nth-child(6){animation-delay:.3s}
+</style>
+</head>
+<body>
+
+<!-- ── HERO ── -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-logo">
+      <div class="logo-mark">AS</div>
+      <div class="logo-text">Atomic <em>Shelf</em></div>
+    </div>
+    <div class="hero-eyebrow">Campaign Overview · May 2026</div>
+    <h1 class="hero-title">Daniel Zane Bryan <br><em>&amp; Sophia Bryan</em></h1>
+    <p class="hero-subtitle">Your social media campaign is live and growing. Here's everything in one place.</p>
+    <div class="hero-stats">
+      <div class="hstat">
+        <div class="hstat-val gold">13,202</div>
+        <div class="hstat-lbl">Total Views</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-val mint">13,202</div>
+        <div class="hstat-lbl">TikTok Views</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-val">846</div>
+        <div class="hstat-lbl">TK Followers</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-val">5</div>
+        <div class="hstat-lbl">Active Books</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── MAIN CONTENT ── -->
+<div class="main">
+
+  <!-- TAB NAV -->
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="switchTab('overview')">Overview</button>
+    <button class="tab-btn" onclick="switchTab('daniel')">Daniel's Books</button>
+    <button class="tab-btn" onclick="switchTab('sophia')">Sophia's Books</button>
+    <button class="tab-btn" onclick="switchTab('media')">Media Albums</button>
+  </div>
+
+  <!-- ══════ OVERVIEW TAB ══════ -->
+  <div class="tab-panel active" id="tab-overview">
+
+    <div class="notice">
+      <span class="notice-icon">💰</span>
+      For this campaign, please ensure your monthly retainer is settled to keep your campaign running without interruption. Contact us at any time for payment options.
+    </div>
+
+    <!-- CAMPAIGN PROGRESS TRACKER -->
+    <div class="section-hd">
+      <div class="section-accent"></div>
+      <div class="section-title">Campaign Progress</div>
+      <div class="section-rule"></div>
+    </div>
+
+    <!-- Daniel's Progress -->
+    <div class="progress-card" style="margin-bottom:14px;">
+      <div class="progress-card-title">🌿 Indoor Vegetable Gardening &amp; The Plant Nook</div>
+      <div class="progress-card-sub">Daniel Zane Bryan · Started April 7, 2026 · TikTok @the.plantnook</div>
+      <div class="weeks-track">
+        <div class="week-node">
+          <div class="week-dot done">W1</div>
+          <div class="week-label done">Apr 7</div>
+          <div class="week-series done">Plant Nook W1</div>
+        </div>
+        <div class="week-node">
+          <div class="week-dot done">W2</div>
+          <div class="week-label done">Apr 14</div>
+          <div class="week-series done">Plant Nook W2</div>
+        </div>
+        <div class="week-node">
+          <div class="week-dot done">W3</div>
+          <div class="week-label done">Apr 21</div>
+          <div class="week-series done">Plant Nook W3</div>
+        </div>
+        <div class="week-node">
+          <div class="week-dot done">W4</div>
+          <div class="week-label done">Apr 28</div>
+          <div class="week-series done">Plant Nook W4</div>
+        </div>
+        <div class="week-node">
+          <div class="week-dot done">W5</div>
+          <div class="week-label done">May 5</div>
+          <div class="week-series done">Plant Nook W5</div>
+        </div>
+        <div class="week-node">
+          <div class="week-dot done">W6</div>
+          <div class="week-label done">May 12</div>
+          <div class="week-series done">SM 101 W1–W2</div>
+        </div>
+        <div class="week-node">
+          <div class="week-dot done">W7</div>
+          <div class="week-label done">May 19</div>
+          <div class="week-series done">SM 101 W3–W4</div>
+        </div>
+        <div class="week-node">
+          <div class="week-dot current">W8</div>
+          <div class="week-label current">May 26</div>
+          <div class="week-series current">Veg Gardening S7 + AI Intro</div>
+        </div>
+        <div class="week-node">
+          <div class="week-dot future">W9</div>
+          <div class="week-label">Jun 2</div>
+          <div class="week-series">Digital Skills</div>
+        </div>
+        <div class="week-node">
+          <div class="week-dot future">W10</div>
+          <div class="week-label">Jun 9</div>
+          <div class="week-series">Expansion</div>
+        </div>
+      </div>
+      <div class="progress-bar-wrap" style="margin-top:24px;">
+        <div class="progress-bar-fill" style="width:78%"></div>
+      </div>
+      <div class="progress-info">
+        <div class="progress-pct">78% · Week 8 of 10</div>
+        <div class="progress-desc">Series 7 (Vegetable Gardening) + AI Intro live this week</div>
+      </div>
+    </div>
+
+    <!-- Sophia's Progress -->
+    <div class="progress-card">
+      <div class="progress-card-title">✨ The Clair Senses</div>
+      <div class="progress-card-sub">Sophia Bryan · Started March 25, 2026 · TikTok @clair_senses</div>
+      <div class="weeks-track">
+        <div class="week-node">
+          <div class="week-dot done">W1</div>
+          <div class="week-label done">Mar 25</div>
+          <div class="week-series done">Series 1</div>
+        </div>
+        <div class="week-node">
+          <div class="week-dot done">W2</div>
+          <div class="week-label done">Apr 1</div>
+          <div class="week-series done">Series 1 cont.</div>
+        </div>
+        <div class="week-node">
+          <div class="week-dot done">W3</div>
+          <div class="week-label done">Apr 8</div>
+          <div class="week-series done">Series 1 wrap</div>
+        </div>
+        <div class="week-node">
+          <div class="week-dot done">W4</div>
+          <div class="week-label done">Apr 15</div>
+          <div class="week-series done">Series 2 start</div>
+        </div>
+        <div class="week-node">
+          <div class="week-dot done">W5</div>
+          <div class="week-label done">Apr 22</div>
+          <div class="week-series done">Series 2</div>
+        </div>
+        <div class="week-node">
+          <div class="week-dot done">W6</div>
+          <div class="week-label done">Apr 29</div>
+          <div class="week-series done">Series 2</div>
+        </div>
+        <div class="week-node">
+          <div class="week-dot done">W7</div>
+          <div class="week-label done">May 6</div>
+          <div class="week-series done">Series 2</div>
+        </div>
+        <div class="week-node">
+          <div class="week-dot done">W8</div>
+          <div class="week-label done">May 13</div>
+          <div class="week-series done">Series 2</div>
+        </div>
+        <div class="week-node">
+          <div class="week-dot done">W9</div>
+          <div class="week-label done">May 20</div>
+          <div class="week-series done">Series 2 complete</div>
+        </div>
+        <div class="week-node">
+          <div class="week-dot current">W10</div>
+          <div class="week-label current">May 26</div>
+          <div class="week-series current">New Series drafting</div>
+        </div>
+      </div>
+      <div class="progress-bar-wrap" style="margin-top:24px;">
+        <div class="progress-bar-fill" style="width:90%"></div>
+      </div>
+      <div class="progress-info">
+        <div class="progress-pct" style="color:var(--gold)">90% · Week 10</div>
+        <div class="progress-desc">Series 2 complete · New series in draft</div>
+      </div>
+    </div>
+
+    <!-- TOTAL METRICS -->
+    <div class="section-hd" style="margin-top:40px;">
+      <div class="section-accent gold"></div>
+      <div class="section-title">Performance Snapshot</div>
+      <div class="section-rule"></div>
+    </div>
+    <div class="metrics-strip">
+      <div class="mbox">
+        <div class="mbox-val tiktok">4,601</div>
+        <div class="mbox-lbl">📱 TikTok Views (DZB)</div>
+      </div>
+      <div class="mbox">
+        <div class="mbox-val green">846</div>
+        <div class="mbox-lbl">TK Followers</div>
+      </div>
+      <div class="mbox">
+        <div class="mbox-val">6</div>
+        <div class="mbox-lbl">TK Videos Posted</div>
+      </div>
+      <div class="mbox">
+        <div class="mbox-val gold">884</div>
+        <div class="mbox-lbl">⭐ Best Video Views</div>
+      </div>
+      <div class="mbox">
+        <div class="mbox-val tiktok">2,992</div>
+        <div class="mbox-lbl">📱 TikTok Views (CS)</div>
+      </div>
+      <div class="mbox">
+        <div class="mbox-val yt">1,556</div>
+        <div class="mbox-lbl">▶️ YouTube Views (CS)</div>
+      </div>
+    </div>
+
+    <!-- TOP VIDEO -->
+    <div style="background:linear-gradient(135deg, var(--gold-lt), #fff8ec);border:1px solid rgba(200,146,42,.22);border-radius:var(--r-lg);padding:20px 24px;margin-top:4px;">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.6rem;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);margin-bottom:8px;">⭐ Best Performing Video — Daniel's Campaign</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;color:var(--text-dk);margin-bottom:4px;">"No backyard needed — just a windowsill and a plan"</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--gold);font-weight:600;">884 views · 5.68% CTR</div>
+    </div>
+
+    <!-- PENDING ACTIONS -->
+    <div class="section-hd" style="margin-top:40px;">
+      <div class="section-accent"></div>
+      <div class="section-title">What's Next</div>
+      <div class="section-rule"></div>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border-lt);border-radius:var(--r-lg);padding:24px 28px;box-shadow:var(--shadow-sm);">
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-date" style="color:var(--gold);font-weight:700;">This week</div>
+          <div class="tl-text">Review the new Series 7 (Vegetable Gardening) videos and the new Introduction to AI series — let us know if you approve.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot" style="background:var(--leaf);"></div>
+          <div class="tl-date" style="color:var(--leaf);font-weight:700;">Daniel</div>
+          <div class="tl-text">Continue posting schedule. Monitor YouTube CTR — "No backyard needed" top video at 5.68%. Digital Skills series production begins June.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot" style="background:var(--mint);"></div>
+          <div class="tl-date" style="color:var(--leaf);font-weight:700;">Sophia</div>
+          <div class="tl-text">Series 2 for The Clair Senses is complete. We're now drafting new intuitive clips for the next series. More details coming soon.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot" style="background:var(--text4);"></div>
+          <div class="tl-date">June</div>
+          <div class="tl-text">Digital Skills for the Modern World first series launches. Continued expansion of all active campaigns.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══════ DANIEL TAB ══════ -->
+  <div class="tab-panel" id="tab-daniel">
+
+    <div class="section-hd">
+      <div class="section-accent"></div>
+      <div class="section-title">Daniel's Books</div>
+      <div class="section-rule"></div>
+      <div class="section-count">3 books</div>
+    </div>
+
+    <div class="plt-row">
+      <a href="https://www.tiktok.com/@the.plantnook" target="_blank" class="plt plt-tk">📱 @the.plantnook</a>
+    </div>
+
+    <div class="books-grid">
+
+      <!-- Indoor Vegetable Gardening / The Plant Nook -->
+      <div class="book-card">
+        <div class="book-card-bar" style="background:linear-gradient(90deg, #2e6b4a, #8ecfaa)"></div>
+        <div class="book-card-body">
+          <div class="book-card-eyebrow">Indoor Growing Series · Sustainable Living</div>
+          <div class="book-card-title">Indoor Vegetable Gardening For Small Spaces</div>
+          <div class="book-card-author">Daniel Zane Bryan <span>· Channel: The Plant Nook</span></div>
+          <div style="margin-bottom:12px;">
+            <span class="badge b-active">Active</span>
+          </div>
+          <div class="book-card-grid">
+            <div class="bcf"><div class="bcf-lbl">TikTok Views</div><div class="bcf-val tiktok">4,601</div></div>
+            <div class="bcf"><div class="bcf-lbl">TK Followers</div><div class="bcf-val green">846</div></div>
+            <div class="bcf"><div class="bcf-lbl">Videos Posted</div><div class="bcf-val">6</div></div>
+            <div class="bcf"><div class="bcf-lbl">Campaign Live</div><div class="bcf-val">Apr 7, 2026</div></div>
+            <div class="bcf" style="grid-column:1/-1"><div class="bcf-lbl">Best Video</div><div class="bcf-val gold">"No backyard needed…" — 884 views, 5.68% CTR</div></div>
+            <div class="bcf" style="grid-column:1/-1"><div class="bcf-lbl">Current Series</div><div class="bcf-val green">Series 7 — Vegetable Gardening</div></div>
+          </div>
+          <a href="https://www.amazon.com/dp/B0F3ZS7575" target="_blank" style="display:inline-flex;align-items:center;gap:5px;font-size:.72rem;font-weight:700;color:var(--gold);background:var(--gold-lt);border:1px solid rgba(200,146,42,.22);border-radius:40px;padding:4px 12px;margin-bottom:4px;">📚 View on Amazon</a>
+        </div>
+        <div class="book-card-action">→ Review new Series 7 videos · Continue posting schedule</div>
+      </div>
+
+      <!-- Social Media 101 — Proposed -->
+      <div class="book-card">
+        <div class="book-card-bar" style="background:linear-gradient(90deg, #3b6db5, #60a5fa)"></div>
+        <div class="book-card-body">
+          <div class="book-card-eyebrow">Digital Skills for the Modern World · Social Media</div>
+          <div class="book-card-title">Social Media 101</div>
+          <div class="book-card-author">Daniel Zane Bryan</div>
+          <div style="margin-bottom:12px;">
+            <span class="badge b-proposed">Proposed Work</span>
+          </div>
+          <div class="book-card-grid">
+            <div class="bcf"><div class="bcf-lbl">Series</div><div class="bcf-val">Digital Skills for the Modern World</div></div>
+            <div class="bcf"><div class="bcf-lbl">Content</div><div class="bcf-val">2 series planned</div></div>
+            <div class="bcf" style="grid-column:1/-1"><div class="bcf-lbl">Status</div><div class="bcf-val" style="color:#3b6db5">Proposed — content in production</div></div>
+            <div class="bcf" style="grid-column:1/-1"><div class="bcf-lbl">Launch</div><div class="bcf-val">June 2026</div></div>
+          </div>
+        </div>
+        <div class="book-card-action" style="color:#3b6db5;background:linear-gradient(135deg,rgba(59,109,181,.06),rgba(96,165,250,.08));border-top-color:rgba(59,109,181,.12);">→ First series for Social Media 101 launching June 2026</div>
+      </div>
+
+      <!-- Introduction to AI — Proposed -->
+      <div class="book-card">
+        <div class="book-card-bar" style="background:linear-gradient(90deg, #1a4878, #60a5fa)"></div>
+        <div class="book-card-body">
+          <div class="book-card-eyebrow">Digital Skills for the Modern World · Technology</div>
+          <div class="book-card-title">Introduction to Artificial Intelligence</div>
+          <div class="book-card-author">Daniel Zane Bryan</div>
+          <div style="margin-bottom:12px;">
+            <span class="badge b-proposed">Proposed Work</span>
+            <span class="badge b-pending" style="margin-left:4px;">In Production</span>
+          </div>
+          <div class="book-card-grid">
+            <div class="bcf"><div class="bcf-lbl">Series</div><div class="bcf-val">Digital Skills for the Modern World</div></div>
+            <div class="bcf"><div class="bcf-lbl">Content</div><div class="bcf-val">2 series planned</div></div>
+            <div class="bcf" style="grid-column:1/-1"><div class="bcf-lbl">Status</div><div class="bcf-val" style="color:#1a4878">First series being produced now (May 2026)</div></div>
+            <div class="bcf" style="grid-column:1/-1"><div class="bcf-lbl">Launch</div><div class="bcf-val">June 2026</div></div>
+          </div>
+          <a href="https://www.amazon.com/dp/B0GZKYQ83T" target="_blank" style="display:inline-flex;align-items:center;gap:5px;font-size:.72rem;font-weight:700;color:var(--gold);background:var(--gold-lt);border:1px solid rgba(200,146,42,.22);border-radius:40px;padding:4px 12px;margin-bottom:4px;">📚 View AI Intro on Amazon</a>
+        </div>
+        <div class="book-card-action" style="color:#1a4878;background:linear-gradient(135deg,rgba(26,72,120,.06),rgba(96,165,250,.08));border-top-color:rgba(26,72,120,.12);">→ First series for Digital Skills launching June 2026</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════ SOPHIA TAB ══════ -->
+  <div class="tab-panel" id="tab-sophia">
+
+    <div class="section-hd">
+      <div class="section-accent gold"></div>
+      <div class="section-title">Sophia's Books</div>
+      <div class="section-rule"></div>
+      <div class="section-count">1 book</div>
+    </div>
+
+    <div class="plt-row">
+      <a href="https://www.tiktok.com/@clair_senses" target="_blank" class="plt plt-tk">📱 @clair_senses</a>
+    </div>
+
+    <div class="books-grid">
+      <!-- Clair Senses -->
+      <div class="book-card">
+        <div class="book-card-bar" style="background:linear-gradient(90deg, #5a2880, #c084fc)"></div>
+        <div class="book-card-body">
+          <div class="book-card-eyebrow">The Intuitive Awakening Series · Psychic / Spiritual</div>
+          <div class="book-card-title">The Clair Senses</div>
+          <div class="book-card-author">Sophia Bryan</div>
+          <div style="margin-bottom:12px;">
+            <span class="badge b-active" style="background:rgba(90,40,128,.1);color:#5a2880;border-color:rgba(90,40,128,.2);">Active — Paid</span>
+          </div>
+          <div class="book-card-grid">
+            <div class="bcf"><div class="bcf-lbl">TikTok Views</div><div class="bcf-val tiktok">2,992</div></div>
+            <div class="bcf"><div class="bcf-lbl">YouTube Views</div><div class="bcf-val yt">1,556</div></div>
+            <div class="bcf"><div class="bcf-lbl">YT Videos</div><div class="bcf-val">70+</div></div>
+            <div class="bcf"><div class="bcf-lbl">Watch Hours</div><div class="bcf-val">2.56 hrs</div></div>
+            <div class="bcf" style="grid-column:1/-1"><div class="bcf-lbl">Best Video</div><div class="bcf-val gold">"If you love books about consciousness, intuition, and energy work" — 218 views</div></div>
+            <div class="bcf" style="grid-column:1/-1"><div class="bcf-lbl">Top CTR</div><div class="bcf-val" style="color:#5a2880">"Your intuition may be stronger than you realize" — 11.76%</div></div>
+            <div class="bcf" style="grid-column:1/-1"><div class="bcf-lbl">Current Series</div><div class="bcf-val" style="color:#5a2880">Series 2 Complete · New Series Drafting</div></div>
+          </div>
+          <a href="https://www.amazon.com/dp/B0CWDZYHMN" target="_blank" style="display:inline-flex;align-items:center;gap:5px;font-size:.72rem;font-weight:700;color:var(--gold);background:var(--gold-lt);border:1px solid rgba(200,146,42,.22);border-radius:40px;padding:4px 12px;margin-bottom:4px;">📚 View on Amazon</a>
+        </div>
+        <div class="book-card-action" style="background:linear-gradient(135deg,rgba(90,40,128,.06),rgba(192,132,252,.08));color:#5a2880;border-top-color:rgba(90,40,128,.15);">→ Drafting new intuitive clips · Continue daily posting schedule</div>
+      </div>
+    </div>
+
+    <div class="section-hd" style="margin-top:36px;">
+      <div class="section-accent gold"></div>
+      <div class="section-title">Series 2 Highlights</div>
+      <div class="section-rule"></div>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border-lt);border-radius:var(--r-lg);padding:24px 28px;box-shadow:var(--shadow-sm);">
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-dot" style="background:#5a2880;"></div>
+          <div class="tl-date">May 26</div>
+          <div class="tl-text">Series 2 complete. 70+ YouTube videos live. Total campaign views: <strong>4,548</strong> (TikTok 2,992 + YouTube 1,556).</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot" style="background:#c084fc;"></div>
+          <div class="tl-date">Top Video</div>
+          <div class="tl-text"><strong>"If you love books about consciousness, intuition, and energy work"</strong> — 218 views. Strong spiritual niche engagement.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot" style="background:var(--gold);"></div>
+          <div class="tl-date">Next</div>
+          <div class="tl-text">New intuitive clips series in draft. We'll share for review before posting begins.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ MEDIA ALBUMS TAB ══════ -->
+  <div class="tab-panel" id="tab-media">
+
+    <!-- Daniel Social Media 101 -->
+    <div class="section-hd">
+      <div class="section-accent"></div>
+      <div class="section-title">Social Media 101</div>
+      <div class="section-rule"></div>
+      <div class="section-count">8 albums</div>
+    </div>
+    <p style="font-size:.88rem;color:var(--text3);font-weight:500;margin-bottom:20px;">Click any album card to open it in Google Photos in a new tab.</p>
+
+    <div style="margin-bottom:10px;font-family:'JetBrains Mono',monospace;font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text4);">📸 Photos</div>
+    <div class="albums-grid" style="margin-bottom:28px;">
+      <a href="https://photos.app.goo.gl/kpFjwtJB5UN57SUG7" target="_blank" rel="noopener noreferrer" class="album-card">
+        <img class="album-thumb" src="https://lh3.googleusercontent.com/pw/AP1GczOGgUvCShjj8kP3ATseAGxrz5r2DAH0xW9dKhIboPrZm4HCwkyBQs8pXrEL6w1BBKv_pUgyk9OwTIZjetykIW9qFmrc4Zm5EZfkLAMqTAI-6znY-BQ=w400-h225" alt="Week 01 Photos" loading="lazy">
+        <div class="album-info">
+          <div class="album-book">Social Media 101</div>
+          <div class="album-title">Week 01 — Photos</div>
+          <div class="album-meta">May 12–13 · Photos</div>
+          <div class="album-open">↗ Open in Google Photos</div>
+        </div>
+      </a>
+      <a href="https://photos.app.goo.gl/ttfW8dHySCN99Sn8A" target="_blank" rel="noopener noreferrer" class="album-card">
+        <img class="album-thumb" src="https://lh3.googleusercontent.com/pw/AP1GczPCXa1Vd1GZTTMpK0hVvGm0HFhz3J2tjpa2YNL2MttNdayOpi8ChR3hl-UfG5vCKCyIrSAvTplDv6WIkbLtj22KCxk3hQpwQckAh582bfuZRAg4qTY=w400-h225" alt="Week 02 Photos" loading="lazy">
+        <div class="album-info">
+          <div class="album-book">Social Media 101</div>
+          <div class="album-title">Week 02 — Photos</div>
+          <div class="album-meta">May 12 · Photos</div>
+          <div class="album-open">↗ Open in Google Photos</div>
+        </div>
+      </a>
+      <a href="https://photos.app.goo.gl/4D2hSjug1VszJ3By8" target="_blank" rel="noopener noreferrer" class="album-card">
+        <img class="album-thumb" src="https://lh3.googleusercontent.com/pw/AP1GczNyjYe-IdIed_p8LR1vba1bVIEM4_hOMrJrefWaW915_3sgQOZA5AzhEOpLaKh5fSNDqTcaCB1QfIm0uCCcJEzqVcwCJHxkNCshgk7bEvDV7qEnm24=w400-h225" alt="Week 03 Photos" loading="lazy">
+        <div class="album-info">
+          <div class="album-book">Social Media 101</div>
+          <div class="album-title">Week 03 — Photos</div>
+          <div class="album-meta">May 12 · Photos</div>
+          <div class="album-open">↗ Open in Google Photos</div>
+        </div>
+      </a>
+      <a href="https://photos.app.goo.gl/bbmXxWF9Qaqm5gH69" target="_blank" rel="noopener noreferrer" class="album-card">
+        <img class="album-thumb" src="https://lh3.googleusercontent.com/pw/AP1GczNUoFi3jSnOQ23kFIckr4WISXn6ZO1HrPDOw9DvGFoJ_BfHuB9210OhTPZZwn2VNzUSpgVLySk3gCk1UOVV12HFc7PtXztvx_VaJkcCQbQZe-t6Zjo=w400-h225" alt="Week 04 Photos" loading="lazy">
+        <div class="album-info">
+          <div class="album-book">Social Media 101</div>
+          <div class="album-title">Week 04 — Photos</div>
+          <div class="album-meta">May 27 · Photos</div>
+          <div class="album-open">↗ Open in Google Photos</div>
+        </div>
+      </a>
+    </div>
+
+    <div style="margin-bottom:10px;font-family:'JetBrains Mono',monospace;font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text4);">🎬 Videos</div>
+    <div class="albums-grid" style="margin-bottom:40px;">
+      <a href="https://photos.app.goo.gl/KB562vBM6E4mm4d86" target="_blank" rel="noopener noreferrer" class="album-card">
+        <img class="album-thumb" src="https://lh3.googleusercontent.com/pw/AP1GczOixbhaDvzV9_2SRWnF6wnwQqdysOTneyqtmQZHNElOW0TbNKIe8XzmsUwSVo1JJa19Yc4H-Js3bebBLxE-rWwa2MT0Eo0fXztwi8F1COl4O-iryiI=w400-h225" alt="Week 01 Videos" loading="lazy">
+        <div class="album-info">
+          <div class="album-book">Social Media 101</div>
+          <div class="album-title">Week 01 — Videos</div>
+          <div class="album-meta">May 12 · Video Pack</div>
+          <div class="album-open">↗ Open in Google Photos</div>
+        </div>
+      </a>
+      <a href="https://photos.app.goo.gl/Vu2vHHB9VfoPPe1C7" target="_blank" rel="noopener noreferrer" class="album-card">
+        <img class="album-thumb" src="https://lh3.googleusercontent.com/pw/AP1GczO7NpWE7RL8EQLiMfUXN6ZYvSGwkjr9SBC4HpMMJdc4kD8AhoMwnCJM2OSsp2keFaKJiZnyBZdsruIPuFNhZ6xcv82liDXoRZ27ttYUkhuvDQjzIbU=w400-h225" alt="Week 02 Videos" loading="lazy">
+        <div class="album-info">
+          <div class="album-book">Social Media 101</div>
+          <div class="album-title">Week 02 — Videos</div>
+          <div class="album-meta">May 12–13 · Video Pack</div>
+          <div class="album-open">↗ Open in Google Photos</div>
+        </div>
+      </a>
+      <a href="https://photos.app.goo.gl/mEaSXYQh8inQXWcEA" target="_blank" rel="noopener noreferrer" class="album-card">
+        <img class="album-thumb" src="https://lh3.googleusercontent.com/pw/AP1GczOe_dN582IAsJsR15emmz-jiZcanht9Hif6exNTb0-uFGiVzmxmFCS9pRHb44njvLE-XjOI22E19ABGBqNM6ts1rblU43AVvqwcoLUWSum-xhErixg=w400-h225" alt="Week 03 Videos" loading="lazy">
+        <div class="album-info">
+          <div class="album-book">Social Media 101</div>
+          <div class="album-title">Week 03 — Videos</div>
+          <div class="album-meta">May 12 · Video Pack</div>
+          <div class="album-open">↗ Open in Google Photos</div>
+        </div>
+      </a>
+      <a href="https://photos.app.goo.gl/ELkzejVP5KUE4JZm9" target="_blank" rel="noopener noreferrer" class="album-card">
+        <img class="album-thumb" src="https://lh3.googleusercontent.com/pw/AP1GczNN1vo60NT3d7VLJHdYPhcf7sjheDMQ8QZQ7rca6t337f0LhOjh47_LejoKZzmo0UQoiuCwI05mTy9vkHY6FH-cshMAjbXt2ibWGjyJnZL5ObbXaxg=w400-h225" alt="Week 04 Videos" loading="lazy">
+        <div class="album-info">
+          <div class="album-book">Social Media 101</div>
+          <div class="album-title">Week 04 — Videos</div>
+          <div class="album-meta">May 12 · Video Pack</div>
+          <div class="album-open">↗ Open in Google Photos</div>
+        </div>
+      </a>
+    </div>
+
+    <!-- The Plant Nook -->
+    <div class="section-hd">
+      <div class="section-accent" style="background:linear-gradient(180deg,#4a9068,#8ecfaa)"></div>
+      <div class="section-title">The Plant Nook</div>
+      <div class="section-rule"></div>
+      <div class="section-count">16 albums</div>
+    </div>
+
+    <div style="margin-bottom:10px;font-family:'JetBrains Mono',monospace;font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text4);">📸 Photos</div>
+    <div class="albums-grid" style="margin-bottom:28px;">
+      <a href="https://photos.app.goo.gl/kx45mxmDVFV2yR579" target="_blank" rel="noopener noreferrer" class="album-card">
+        <img class="album-thumb" src="https://lh3.googleusercontent.com/pw/AP1GczNxeuQTvCtRUrP5iWzgeWV0X4TnxNHyx5xhh1QdcII5AzDhhkQAwKEhsaiIYHx9aN7xuzneU5NkCAweqJ3umNY5YVicUtgJDWV1TQE-Zym5_FkInuY=w400-h225" alt="Week 01 Photos" loading="lazy">
+        <div class="album-info">
+          <div class="album-book">The Plant Nook</div>
+          <div class="album-title">Week 01 — Photos</div>
+          <div class="album-meta">Apr 5–23 · Photos</div>
+          <div class="album-open">↗ Open in Google Photos</div>
+        </div>
+      </a>
+      <a href="https://photos.app.goo.gl/dVdkfFEoJP8fSXd98" target="_blank" rel="noopener noreferrer" class="album-card">
+        <img class="album-thumb" src="https://lh3.googleusercontent.com/pw/AP1GczN-KhPFM6ubJDfzj048DvVboWsCer_2P_d1isawZXlQFM7o5Wu6c0D9Sn-2bwzqUDatbx8CF7UHRee_x4zf-VEvq3V1D-cRWOwdkWwYo6XUAqez27s=w400-h225" alt="Week 02 Photos" loading="lazy">
+        <div class="album-info">
+          <div class="album-book">The Plant Nook</div>
+          <div class="album-title">Week 02 — Photos</div>
+          <div class="album-meta">Apr 23 · Photos</div>
+          <div class="album-open">↗ Open in Google Photos</div>
+        </div>
+      </a>
+      <a href="https://photos.app.goo.gl/nHFkgeTQCaeSuQqU9" target="_blank" rel="noopener noreferrer" class="album-card">
+        <img class="album-thumb" src="https://lh3.googleusercontent.com/pw/AP1GczNvKeTXoWxnHNne7T8zJHmLXLH1uMX7_Wu6mlAuicJubxI5FCpfhOVPs7hcKuY0aMb2ZajhCLzYvVqSPQcdeB62R5oP4qfaTKYJI_Cyv0hWBeJHs3M=w400-h225" alt="Week 03 Photos" loading="lazy">
+        <div class="album-info">
+          <div class="album-book">The Plant Nook</div>
+          <div class="album-title">Week 03 — Photos</div>
+          <div class="album-meta">May 3–12 · Photos</div>
+          <div class="album-open">↗ Open in Google Photos</div>
+        </div>
+      </a>
+      <a href="https://photos.app.goo.gl/t7mqsd4nqcu1fRjbA" target="_blank" rel="noopener noreferrer" class="album-card">
+        <img class="album-thumb" src="https://lh3.googleusercontent.com/pw/AP1GczPkGbzYtZdDZiFTvJyAS1WWj_JlfrYhYxYzq5EXzRNJIZCBRprpICi4hjFsnKgyvBIxyQZtrScSnLvPseMxBx_qcdYHyBrJGGz7diF--vjTHrl_7M8=w400-h225" alt="Week 04 Photos" loading="lazy">
+        <div class="album-info">
+          <div class="album-book">The Plant Nook</div>
+          <div class="album-title">Week 04 — Photos</div>
+          <div class="album-meta">May 3 · Photos</div>
+          <div class="album-open">↗ Open in Google Photos</div>
+        </div>
+      </a>
+      <a href="https://photos.app.goo.gl/r3cFA7XvndE1rern6" target="_blank" rel="noopener noreferrer" class="album-card">
+        <img class="album-thumb" src="https://lh3.googleusercontent.com/pw/AP1GczMfhZsQnqlF3RmW34h6D7nkBDmmIheX1bNGYSxr67do0QoQh-a_CWUevobBcdpr19bQN0EItJEZIZGvOxJzgZstJJtjXPP-joCHS6VLnwgPlHJCSKE=w400-h225" alt="Week 05A Photos" loading="lazy">
+        <div class="album-info">
+          <div class="album-book">The Plant Nook</div>
+          <div class="album-title">Week 05 — Photos (A)</div>
+          <div class="album-meta">May 3 · Photos</div>
+          <div class="album-open">↗ Open in Google Photos</div>
+        </div>
+      </a>
+      <a href="https://photos.app.goo.gl/r5uyHN9oTLasYf4x9" target="_blank" rel="noopener noreferrer" class="album-card">
+        <img class="album-thumb" src="https://lh3.googleusercontent.com/pw/AP1GczO4MxvrdJrZIHVejGwSSx_0DJhZvlymKm8uUKt1Hlw3HUITxkKbjwrolvSOTPuwTxI0T30qm6EXlD_zYn1ZYJ3rBlWCKV72KMA1dIQY218qJtUef4U=w400-h225" alt="Week 05B Photos" loading="lazy">
+        <div class="album-info">
+          <div class="album-book">The Plant Nook</div>
+          <div class="album-title">Week 05 — Photos (B)</div>
+          <div class="album-meta">May 3 · Photos</div>
+          <div class="album-open">↗ Open in Google Photos</div>
+        </div>
+      </a>
+      <a href="https://photos.app.goo.gl/v5E7gJ6t5sY5o7wt6" target="_blank" rel="noopener noreferrer" class="album-card">
+        <img class="album-thumb" src="https://lh3.googleusercontent.com/pw/AP1GczMVmqp8lB9npIdyc-LvnHjQx9lXgdq9khlepZ0rqDYh9Bvvdl6t_6oVd76D4z0d5SqrDTeZ2MsPwdECa2WBUsgW5Fd9uZqPYvf3owY9YU0XGJ1g3gc=w400-h225" alt="Week 06 Photos" loading="lazy">
+        <div class="album-info">
+          <div class="album-book">The Plant Nook</div>
+          <div class="album-title">Week 06 — Photos</div>
+          <div class="album-meta">May 1 · Photos</div>
+          <div class="album-open">↗ Open in Google Photos</div>
+        </div>
+      </a>
+      <a href="https://photos.app.goo.gl/dV4BAT1DF9kdY6uB9" target="_blank" rel="noopener noreferrer" class="album-card">
+        <img class="album-thumb" src="https://lh3.googleusercontent.com/pw/AP1GczMAGTFFunv0180S2hirWdgLt3UZ1tEfzXOSTKDclYo7wOdoNOpL7-b8ZGziTbW7JiH2SG2OmJ8yWmxwm_4K008HP9IiZy9gfWq4Fb0RLaS6Kc129n4=w400-h225" alt="Week 07A Photos" loading="lazy">
+        <div class="album-info">
+          <div class="album-book">The Plant Nook</div>
+          <div class="album-title">Week 07 — Photos (A)</div>
+          <div class="album-meta">May 1 · Photos</div>
+          <div class="album-open">↗ Open in Google Photos</div>
+        </div>
+      </a>
+      <a href="https://photos.app.goo.gl/Uyf9TVdg6dpJBGD28" target="_blank" rel="noopener noreferrer" class="album-card">
+        <img class="album-thumb" src="https://lh3.googleusercontent.com/pw/AP1GczO_SgmV6V0_FYLZFnGIYzlPnFAH3XF3JsF3P68IYd4BN1nOFLyBnpGKm4S28Eitv34WZndhTYa3ehPYpx3WtGJtarzvdySq2zXTNLm7X-HfH1kc4Z0=w400-h225" alt="Week 07B Photos" loading="lazy">
+        <div class="album-info">
+          <div class="album-book">The Plant Nook</div>
+          <div class="album-title">Week 07 — Photos (B)</div>
+          <div class="album-meta">May 1 · Photos</div>
+          <div class="album-open">↗ Open in Google Photos</div>
+        </div>
+      </a>
+      <a href="https://photos.app.goo.gl/qQMJpoTcinqEi4G18" target="_blank" rel="noopener noreferrer" class="album-card">
+        <img class="album-thumb" src="https://lh3.googleusercontent.com/pw/AP1GczNWyRvgBc0hBA7l-eeGKtIOw9YjNfbZA6JXZM8HORkenkBi4nymYIkkmUp5foohV0Gv8Tk04bMSj-Gsy7rm757qDzIST_S6taR8OftrWJf9G8DSqc8=w400-h225" alt="Week 08 Photos" loading="lazy">
+        <div class="album-info">
+          <div class="album-book">The Plant Nook</div>
+          <div class="album-title">Week 08 — Photos</div>
+          <div class="album-meta">Apr 30–May 1 · Photos</div>
+          <div class="album-open">↗ Open in Google Photos</div>
+        </div>
+      </a>
+      <a href="https://photos.app.goo.gl/734Rw8gtvDc3bUzeA" target="_blank" rel="noopener noreferrer" class="album-card">
+        <img class="album-thumb" src="https://lh3.googleusercontent.com/pw/AP1GczPtY__GhrSY7j-_IAjrWqZP7JwkXM0GJSE6dBJkblLnHs98Zy8HRT9r9DYGO7pbmQ3FalCsLxgmZueXm407PjZJzWwpb4bvRCR2HB6hiVxLPa_PsHw=w400-h225" alt="Week 09 Photos" loading="lazy">
+        <div class="album-info">
+          <div class="album-book">The Plant Nook</div>
+          <div class="album-title">Week 09 — Photos</div>
+          <div class="album-meta">Apr 5 · Photos</div>
+          <div class="album-open">↗ Open in Google Photos</div>
+        </div>
+      </a>
+      <a href="https://photos.app.goo.gl/uLScUZ3zLJZzjUaw6" target="_blank" rel="noopener noreferrer" class="album-card">
+        <img class="album-thumb" src="https://lh3.googleusercontent.com/pw/AP1GczOn-kef8lUoi14xaCwT9DiVqNYkgMJyCbnjGIGKiqJkJLpraoVkG5Clq6O03zwWhXzaqf_T_GFvGr_aVuBsjuKWctvnxG-qjsMC4uTDA7ymiDeFKlU=w400-h225" alt="Week 10 Photos" loading="lazy">
+        <div class="album-info">
+          <div class="album-book">The Plant Nook</div>
+          <div class="album-title">Week 10 — Photos</div>
+          <div class="album-meta">Apr 5 · Photos</div>
+          <div class="album-open">↗ Open in Google Photos</div>
+        </div>
+      </a>
+    </div>
+
+    <div style="margin-bottom:10px;font-family:'JetBrains Mono',monospace;font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text4);">🎬 Videos</div>
+    <div class="albums-grid" style="margin-bottom:40px;">
+      <a href="https://photos.app.goo.gl/VD7GcdCC9W24yB8A7" target="_blank" rel="noopener noreferrer" class="album-card">
+        <img class="album-thumb" src="https://lh3.googleusercontent.com/pw/AP1GczN1yJKE0346Gsa3FStINntuSXUfs53Vmmf-s6707cKOCa_Ltzb5EnILh4cc5ZG-bWLygnw9x1JXN5eGOa3YzVyYAiRPUT4vaNOr6n0E172GZ1I0qpE=w400-h225" alt="Week 01 Videos" loading="lazy">
+        <div class="album-info">
+          <div class="album-book">The Plant Nook</div>
+          <div class="album-title">Week 01 — Videos</div>
+          <div class="album-meta">Apr 6–7 · Video Pack</div>
+          <div class="album-open">↗ Open in Google Photos</div>
+        </div>
+      </a>
+      <a href="https://photos.app.goo.gl/4RqZHzV8GuXadTkq5" target="_blank" rel="noopener noreferrer" class="album-card">
+        <img class="album-thumb" src="https://lh3.googleusercontent.com/pw/AP1GczOrrDSOBA9fGpIsaLL-8fWnmNZxHsuZP_VNYyWFyqz_Z-8xy8uKPq4rAaN19zwLvuOiEhZAvuJx-TwUyFiLPB3cj_NbPBLagOdtTJS6vej3t7v-pOc=w400-h225" alt="Week 04A Videos" loading="lazy">
+        <div class="album-info">
+          <div class="album-book">The Plant Nook</div>
+          <div class="album-title">Week 04 — Videos (A)</div>
+          <div class="album-meta">May 12–13 · Video Pack</div>
+          <div class="album-open">↗ Open in Google Photos</div>
+        </div>
+      </a>
+      <a href="https://photos.app.goo.gl/Z83uXqFsPXSieexi9" target="_blank" rel="noopener noreferrer" class="album-card">
+        <img class="album-thumb" src="https://lh3.googleusercontent.com/pw/AP1GczNEW1j3Aqe-ijf0zLEZ9O_JRCYD6oeo3vpTF_s2JxUF8CgohaqaGzTdWuFckwW_ua4TLKn3uYnL3522iSFizfzmeEK94KRYado1paL6tMaOrQ3PwzU=w400-h225" alt="Week 04B Videos" loading="lazy">
+        <div class="album-info">
+          <div class="album-book">The Plant Nook</div>
+          <div class="album-title">Week 04 — Videos (B)</div>
+          <div class="album-meta">May 4 · Video Pack</div>
+          <div class="album-open">↗ Open in Google Photos</div>
+        </div>
+      </a>
+      <a href="https://photos.app.goo.gl/3LZsupYDEmYTNPCf7" target="_blank" rel="noopener noreferrer" class="album-card">
+        <img class="album-thumb" src="https://lh3.googleusercontent.com/pw/AP1GczMJc-KcsSXYXB9N9IVJoAvM89upp3rY_9y1pamHtYQSWcdG1wcUgCIZcBGFpplDYvzN_6QvLp_8tYxW-uOCCPQIGRuOxRxMvd-cPQnvwZun-ubFfvc=w400-h225" alt="Week 05 Videos" loading="lazy">
+        <div class="album-info">
+          <div class="album-book">The Plant Nook</div>
+          <div class="album-title">Week 05 — Videos</div>
+          <div class="album-meta">May 4 · Video Pack</div>
+          <div class="album-open">↗ Open in Google Photos</div>
+        </div>
+      </a>
+    </div>
+
+    <!-- AI Intro Photos -->
+    <div class="section-hd">
+      <div class="section-accent" style="background:linear-gradient(180deg,#1a4878,#60a5fa)"></div>
+      <div class="section-title">Introduction to Artificial Intelligence</div>
+      <div class="section-rule"></div>
+      <div class="section-count">1 album</div>
+    </div>
+    <div class="albums-grid" style="margin-bottom:40px;">
+      <a href="https://photos.app.goo.gl/nJZ6DgtT56WgxvSeA" target="_blank" rel="noopener noreferrer" class="album-card">
+        <img class="album-thumb" src="https://lh3.googleusercontent.com/pw/AP1GczNI6kA29LNV16aRw2vjneNif_MvjuHPeCFLknljyBT5PTmlyUYcjsNQUnIqbutHe856KVyEAPClDAhujzksGzBpfVlPxKGwpERgw5OnDXS5yszLzh4=w400-h225" alt="AI Intro Week 01 Photos" loading="lazy">
+        <div class="album-info">
+          <div class="album-book">AI Introduction</div>
+          <div class="album-title">Week 01 — Photos</div>
+          <div class="album-meta">May 27 · Photos</div>
+          <div class="album-open" style="color:#1a4878;background:rgba(26,72,120,.08);border-color:rgba(26,72,120,.2);">↗ Open in Google Photos</div>
+        </div>
+      </a>
+    </div>
+
+    <!-- Clair Senses -->
+    <div class="section-hd">
+      <div class="section-accent" style="background:linear-gradient(180deg,#5a2880,#c084fc)"></div>
+      <div class="section-title">The Clair Senses — Sophia Bryan</div>
+      <div class="section-rule"></div>
+      <div class="section-count">9 albums</div>
+    </div>
+
+    <div style="margin-bottom:10px;font-family:'JetBrains Mono',monospace;font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text4);">📸 Photos</div>
+    <div class="albums-grid" style="margin-bottom:28px;">
+      <a href="https://photos.app.goo.gl/mstQNTSGKiEfqJVS6" target="_blank" rel="noopener noreferrer" class="album-card">
+        <img class="album-thumb" src="https://lh3.googleusercontent.com/pw/AP1GczOkKcKgcL9Fo5dLWmVYPwO7T6YZbpoHkuKW_oqBW6vwWjINitokZeZcWPx2fcsXMrRSgB7YojYcLXLDscoKX48yjyqOpcH-bpoLe7MaSlPcAZzgBlY=w400-h225" alt="Clair Senses Week 01 Photos" loading="lazy">
+        <div class="album-info">
+          <div class="album-book">The Clair Senses</div>
+          <div class="album-title">Week 01 — Photos</div>
+          <div class="album-meta">Apr 26 · Photos</div>
+          <div class="album-open gold-btn">↗ Open in Google Photos</div>
+        </div>
+      </a>
+      <a href="https://photos.app.goo.gl/7AFjVJcG32FYs5YZ7" target="_blank" rel="noopener noreferrer" class="album-card">
+        <img class="album-thumb" src="https://lh3.googleusercontent.com/pw/AP1GczMNbLgpdG1kvTlIq7QBv4cM5s9j3cMb6tBIl7hQRdMFksewhjFrExax5te07Ycpt-SBDPXt362MlHH8fMQgHj7tgfIVouEZdLgpDDbfPtRtaNR6zjo=w400-h225" alt="Clair Senses Week 02 Photos" loading="lazy">
+        <div class="album-info">
+          <div class="album-book">The Clair Senses</div>
+          <div class="album-title">Week 02 — Photos</div>
+          <div class="album-meta">May 9 · Photos</div>
+          <div class="album-open gold-btn">↗ Open in Google Photos</div>
+        </div>
+      </a>
+      <a href="https://photos.app.goo.gl/M56zApRKeRjqf9R58" target="_blank" rel="noopener noreferrer" class="album-card">
+        <img class="album-thumb" src="https://lh3.googleusercontent.com/pw/AP1GczMN-DmACH0LR2OKOUSHqnrmUm-ty6d4zFYdoNyilFMxXNZskqzaBpSkWz2HTSmkkUAY9o_Eeo27DvDzYQ3ANE5et9RmEvaWpBNin1KCJmSq4oO8xNg=w400-h225" alt="Clair Senses Week 03 Photos" loading="lazy">
+        <div class="album-info">
+          <div class="album-book">The Clair Senses</div>
+          <div class="album-title">Week 03 — Photos</div>
+          <div class="album-meta">May 1–2 · Photos</div>
+          <div class="album-open gold-btn">↗ Open in Google Photos</div>
+        </div>
+      </a>
+      <a href="https://photos.app.goo.gl/p5QVB78r68At1mT98" target="_blank" rel="noopener noreferrer" class="album-card">
+        <img class="album-thumb" src="https://lh3.googleusercontent.com/pw/AP1GczMJcOF6NVEFM3U9YeXMD5-A8vvOO0SAgB7k9ldUdIR_Isu2-A6RYoBitybJF1gP5cCrjSe24I74l71e0MjeKK6cg77EG8iOTnxkoqowB0L9O-OOXQQ=w400-h225" alt="Clair Senses Week 04 Photos" loading="lazy">
+        <div class="album-info">
+          <div class="album-book">The Clair Senses</div>
+          <div class="album-title">Week 04 — Photos</div>
+          <div class="album-meta">Apr 22 · Photos</div>
+          <div class="album-open gold-btn">↗ Open in Google Photos</div>
+        </div>
+      </a>
+      <a href="https://photos.app.goo.gl/FRAu7z9uaAi3f6pQA" target="_blank" rel="noopener noreferrer" class="album-card">
+        <img class="album-thumb" src="https://lh3.googleusercontent.com/pw/AP1GczNYStRbhRjGB2HexP-tg24Xlj9aPcc09YeAvBlPU5sFWggsCfe-aYGIdczwa8ERdwr9GMyM1oSVcQRTCYHIfnTTO2kVIQ92luv8Z3wjxbwhgNNgdfM=w400-h225" alt="Clair Senses Week 05 Photos" loading="lazy">
+        <div class="album-info">
+          <div class="album-book">The Clair Senses</div>
+          <div class="album-title">Week 05 — Photos</div>
+          <div class="album-meta">May 27 · Photos</div>
+          <div class="album-open gold-btn">↗ Open in Google Photos</div>
+        </div>
+      </a>
+    </div>
+
+    <div style="margin-bottom:10px;font-family:'JetBrains Mono',monospace;font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text4);">🎬 Videos</div>
+    <div class="albums-grid" style="margin-bottom:40px;">
+      <a href="https://photos.app.goo.gl/uHYaRDghsEGiK6bs5" target="_blank" rel="noopener noreferrer" class="album-card">
+        <img class="album-thumb" src="https://lh3.googleusercontent.com/pw/AP1GczMEG9WlJDBoSriC7hrNQfwyUCt2ygdC1m7yQzJYSC1mLOUm933iFfYNpbVcykWD45TceVVFYSIBa7qpWJVjM2eioqfarlen_7dqHg5aTjzae_kurq4=w400-h225" alt="Clair Senses Week 01 Videos" loading="lazy">
+        <div class="album-info">
+          <div class="album-book">The Clair Senses</div>
+          <div class="album-title">Week 01 — Videos</div>
+          <div class="album-meta">Apr 26–27 · Video Pack</div>
+          <div class="album-open gold-btn">↗ Open in Google Photos</div>
+        </div>
+      </a>
+      <a href="https://photos.app.goo.gl/6pnt1ibybmXdBXLr5" target="_blank" rel="noopener noreferrer" class="album-card">
+        <img class="album-thumb" src="https://lh3.googleusercontent.com/pw/AP1GczMiSqrF_cfvL3wzXcueaD8NHPgyjzzhXYoEOsG2um2ZJfKSrIu-d3V64Q4OcSe5z292t9AS5j7zOZjVi9DUZaNguhfZw-u8VY19_45qLPReWZCSLNQ=w400-h225" alt="Clair Senses Week 02 Videos" loading="lazy">
+        <div class="album-info">
+          <div class="album-book">The Clair Senses</div>
+          <div class="album-title">Week 02 — Videos</div>
+          <div class="album-meta">May 10 · Video Pack</div>
+          <div class="album-open gold-btn">↗ Open in Google Photos</div>
+        </div>
+      </a>
+      <a href="https://photos.app.goo.gl/XiL71QX2S4TPkCz26" target="_blank" rel="noopener noreferrer" class="album-card">
+        <img class="album-thumb" src="https://lh3.googleusercontent.com/pw/AP1GczOYF3L7wgjEH8Ah3aZ5Y-sDSNWw96d5PNDfHMP-RpXRuLfBDdir_cstkA0ZoFwGIM3fak1PcXmN1Fip9WR5a75p9ZRD-Ztz8IDF9Hoxle54h2bZlHA=w400-h225" alt="Clair Senses Week 03 Videos" loading="lazy">
+        <div class="album-info">
+          <div class="album-book">The Clair Senses</div>
+          <div class="album-title">Week 03 — Videos</div>
+          <div class="album-meta">May 2 · Video Pack</div>
+          <div class="album-open gold-btn">↗ Open in Google Photos</div>
+        </div>
+      </a>
+      <a href="https://photos.app.goo.gl/DQa58H7ei9oNpvKNA" target="_blank" rel="noopener noreferrer" class="album-card">
+        <img class="album-thumb" src="https://lh3.googleusercontent.com/pw/AP1GczPk98BiW56nHfBkNh3YfCL9c3qFud8tsBuxDUA4Yr79kfGOgMLJXQKCkkmZCFkSmNFIvoB7-klhO0B-7YYpqL6X2pT9q6hr2IM6lAMTz65cVAw7sCE=w400-h225" alt="Clair Senses Week 04 Videos" loading="lazy">
+        <div class="album-info">
+          <div class="album-book">The Clair Senses</div>
+          <div class="album-title">Week 04 — Videos</div>
+          <div class="album-meta">Apr 23 · Video Pack</div>
+          <div class="album-open gold-btn">↗ Open in Google Photos</div>
+        </div>
+      </a>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ── FOOTER ── -->
+<div class="footer">
+  <div class="footer-logo">Atomic Shelf</div>
+  <div class="footer-text">Your book marketing partner · atomicshelf.com · Campaign updated May 2026</div>
+</div>
+
+<script>
+function switchTab(tabId) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-' + tabId).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+</script>
+</body>
+</html>

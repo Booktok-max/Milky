@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Atomic-Shelf Payment Page - Choose your tier to elevate your book with BookTok marketing and Amazon Optimization." />
+    <title>Atomic-Shelf Payment - Select Your Tier</title>
+    <link rel="preconnect" href="https://www.paypal.com" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-T8VY5C1LPK"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-T8VY5C1LPK');
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        bgbase: '#eff6ff',
+                        card: '#dbeafe',
+                        primary: '#3b82f6',
+                        accent: '#1d4ed8',
+                        secondary: '#60a5fa',
+                        mint: '#e0f2fe',
+                        lavender: '#f0f9ff',
+                        peach: '#f0f8ff',
+                        textdark: '#1e3a8a',
+                        textlight: '#3b82f6',
+                        golden: '#fbbf24',
+                    },
+                    animation: {
+                        float: 'float 5s ease-in-out infinite',
+                        'slide-up': 'slideUp 0.9s ease-out',
+                        'pulse-glow': 'pulseGlow 3.2s ease-in-out infinite alternate',
+                        'heart-beat': 'heartBeat 1s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-16px)' } },
+                        slideUp: { 'from': { transform: 'translateY(60px)', opacity: '0' }, 'to': { transform: 'translateY(0)', opacity: '1' } },
+                        pulseGlow: { 'from': { boxShadow: '0 0 16px rgba(59,130,246,0.45)' }, 'to': { boxShadow: '0 0 36px rgba(59,130,246,0.75)' } },
+                        heartBeat: { '0%, 100%': { transform: 'scale(1)' }, '50%': { transform: 'scale(1.1)' } },
+                    },
+                },
+            },
+        };
+    </script>
+    <style>
+        html { font-size: 16px; }
+        @media (min-width: 1024px) { html { font-size: 17.5px; } }
+        body {
+            font-family: Georgia, 'Times New Roman', serif;
+            line-height: 1.75;
+            font-size: 1.1rem;
+            margin: 0;
+            overflow-x: hidden;
+            background: #eff6ff;
+            color: #1e3a8a;
+        }
+        p, li { font-size: 1.08rem; word-break: break-word; }
+        h1 { font-size: 3.4rem; line-height: 1.1; }
+        h2 { font-size: 2.8rem; }
+        h3 { font-size: 2rem; }
+        .tier-card { padding: 2rem; }
+        .scroll-reveal { opacity: 0; transform: translateY(60px); transition: all 1.1s cubic-bezier(0.16,1,0.3,1); }
+        .scroll-reveal.revealed { opacity: 1; transform: translateY(0); }
+        .scroll-reveal-list li {
+            opacity: 0; transform: translateY(30px);
+            transition: all 950ms cubic-bezier(0.16,1,0.3,1);
+        }
+        .scroll-reveal-list li.visible { opacity: 1; transform: translateY(0); }
+        .faq-item { margin-bottom: 1.2rem; }
+        .faq-header {
+            padding: 1.5rem 1.8rem;
+            font-size: 1.3rem;
+            font-weight: 700;
+            background: rgba(59,130,246,0.12);
+            border: 2px solid #3b82f6;
+            border-radius: 20px;
+            color: #1e3a8a;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.45s ease;
+        }
+        .faq-header:hover { background: rgba(59,130,246,0.25); transform: translateY(-3px); }
+        .faq-header.open {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            box-shadow: 0 0 30px rgba(59,130,246,0.55);
+            transform: scale(1.02);
+        }
+        .faq-header span:last-child { font-size: 2.2rem; transition: transform 0.5s ease; }
+        .faq-header.open span:last-child { transform: rotate(135deg); }
+        .faq-content {
+            max-height: 0;
+            padding: 0 1.8rem;
+            overflow: hidden;
+            background: rgba(239,246,255,0.75);
+            opacity: 0;
+            transition: max-height 0.9s cubic-bezier(0.4,0,0.2,1), padding 0.9s cubic-bezier(0.4,0,0.2,1), opacity 0.6s ease 0.25s;
+            border-radius: 0 0 20px 20px;
+        }
+        .faq-content.open { max-height: 7000px; padding: 1.8rem; opacity: 1; }
+        button:focus, a:focus { outline: 4px solid #fbbf24; outline-offset: 5px; }
+        .container { max-width: 1280px; }
+        button, a[href] { transition: all 0.3s ease; }
+        button:hover, a[href]:hover { transform: translateY(-5px) scale(1.05); box-shadow: 0 12px 28px rgba(59,130,246,0.35); }
+        .rounded-cute { border-radius: 32px; }
+        .shadow-cute { box-shadow: 0 10px 30px rgba(59,130,246,0.22); }
+        /* Enhanced Slider Styles */
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            background: transparent;
+            cursor: pointer;
+            width: 100%;
+        }
+        input[type="range"]::-webkit-slider-runnable-track {
+            background: #60a5fa;
+            height: 0.5rem;
+            border-radius: 999px;
+        }
+        input[type="range"]::-moz-range-track {
+            background: #60a5fa;
+            height: 0.5rem;
+            border-radius: 999px;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            margin-top: -4px;
+            background-color: #3b82f6;
+            height: 1rem;
+            width: 1rem;
+            border-radius: 50%;
+            box-shadow: 0 0 0 4px rgba(59,130,246,0.2);
+        }
+        input[type="range"]::-moz-range-thumb {
+            background-color: #3b82f6;
+            height: 1rem;
+            width: 1rem;
+            border-radius: 50%;
+            box-shadow: 0 0 0 4px rgba(59,130,246,0.2);
+            border: none;
+        }
+        /* Tier Card Font Adjustments */
+        .tier-card h3, .tier-card p {
+            hyphens: auto;
+            word-break: break-word;
+        }
+        .tier-card h3 {
+            font-size: clamp(1.5rem, 5vw, 2.25rem);
+        }
+        .tier-card p.text-6xl {
+            font-size: clamp(2rem, 8vw, 3.75rem);
+        }
+    </style>
+</head>
+<body class="bg-bgbase text-textdark antialiased">
+    <!-- HEADER -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-card/90 backdrop-blur-xl border-b border-primary/30 shadow-sm">
+        <nav class="container mx-auto px-6 py-5 flex justify-between items-center">
+            <div class="text-4xl font-extrabold bg-gradient-to-r from-primary to-accent text-transparent bg-clip-text">Atomic-Shelf 💎</div>
+            <div class="hidden md:flex space-x-10 text-lg font-medium">
+                <a href="index.html#video" class="hover:text-primary transition">How It Works</a>
+                <a href="index.html#our-model" class="hover:text-primary transition">Our Model</a>
+                <a href="index.html#results" class="hover:text-primary transition">Results</a>
+                <a href="index.html#why-us" class="hover:text-primary transition">Why Us</a>
+                <a href="index.html#faq" class="hover:text-primary transition">FAQ</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- TIERS / PRICING -->
+    <section id="tiers" class="py-28 bg-gradient-to-b from-bgbase via-lavender/20 to-mint/30 pt-24">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-20 scroll-reveal">
+                <h2 class="text-5xl lg:text-6xl font-bold mb-10">
+                    Select Your <span class="bg-gradient-to-r from-primary to-accent text-transparent bg-clip-text">Service Tier</span>
+                </h2>
+                <p class="text-2xl text-textlight max-w-5xl mx-auto">All authors start with the $20 Trial Month to gauge your book's fit and generate initial organic engagement. Expand to higher tiers for ad spend and scaled results as needed.</p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-10 max-w-7xl mx-auto">
+                <!-- Trial -->
+                <div class="tier-card bg-white/90 backdrop-blur-xl border-2 border-primary/40 rounded-cute text-center shadow-cute hover:shadow-2xl transition-all scroll-reveal">
+                    <h3 class="text-4xl font-bold text-primary mt-4 mb-3">Trial Month</h3>
+                    <p class="text-6xl font-extrabold text-primary mb-6">$20</p>
+                    <p class="text-textlight text-lg mb-8">Start here to assess fit and build organic momentum before ad spend.</p>
+                    <ul class="space-y-5 mb-10 text-left text-lg text-textlight px-6">
+                        <li class="flex items-center gap-4"><span class="text-blue-500 text-2xl">•</span> 1–2 videos/day</li>
+                        <li class="flex items-center gap-4"><span class="text-blue-500 text-2xl">•</span> ~10–20k views</li>
+                        <li class="flex items-center gap-4"><span class="text-blue-500 text-2xl">•</span> Pure organic growth</li>
+                        <li class="flex items-center gap-4 text-gray-400"><span class="text-gray-400 text-2xl">✗</span> No ads included</li>
+                    </ul>
+                    <div class="px-6 pb-8">
+                        <a href="checkout.html?tier=trial" class="inline-block bg-gradient-to-r from-primary to-accent text-white px-10 py-5 rounded-cute text-xl font-bold shadow-lg hover:opacity-90 transition">Select Trial</a>
+                    </div>
+                </div>
+                <!-- Starter -->
+                <div class="tier-card bg-white/90 backdrop-blur-xl border-2 border-primary/40 rounded-cute text-center shadow-cute hover:shadow-2xl transition-all scroll-reveal">
+                    <h3 class="text-4xl font-bold text-primary mt-4 mb-3">Starter</h3>
+                    <p class="text-6xl font-extrabold text-primary mb-6">$99</p>
+                    <p class="text-textlight text-lg mb-8">Initial steps after Trial.</p>
+                    <ul class="space-y-5 mb-10 text-left text-lg text-textlight px-6">
+                        <li class="flex items-center gap-4"><span class="text-blue-500 text-2xl">•</span> 2–3 videos/day</li>
+                        <li class="flex items-center gap-4"><span class="text-blue-500 text-2xl">•</span> ~25–40k views</li>
+                        <li class="flex items-center gap-4"><span class="text-blue-500 text-2xl">•</span> Light retargeting</li>
+                        <li class="flex items-center gap-4"><span class="text-blue-500 text-2xl">•</span> ~50–150 sales</li>
+                    </ul>
+                    <div class="px-6 pb-8">
+                        <a href="checkout.html?tier=starter" class="inline-block bg-gradient-to-r from-primary to-accent text-white px-10 py-5 rounded-cute text-xl font-bold shadow-lg hover:opacity-90 transition">Select Starter</a>
+                    </div>
+                </div>
+                <!-- Growth -->
+                <div class="tier-card relative bg-gradient-to-br from-white/95 to-mint/50 backdrop-blur-xl border-4 border-accent rounded-cute text-center shadow-cute hover:shadow-2xl transition-all scroll-reveal scale-105">
+                    <div class="absolute -top-6 left-1/2 -translate-x-1/2 bg-accent text-white px-10 py-3 rounded-full font-bold shadow-lg text-lg">Most Popular</div>
+                    <h3 class="text-4xl font-bold text-primary mt-10 mb-3">Growth</h3>
+                    <p class="text-6xl font-extrabold text-primary mb-6">$299</p>
+                    <p class="text-textlight text-lg mb-8">Building momentum after Trial.</p>
+                    <ul class="space-y-5 mb-10 text-left text-lg text-textlight px-6">
+                        <li class="flex items-center gap-4"><span class="text-blue-500 text-2xl">•</span> 3–4 videos/day</li>
+                        <li class="flex items-center gap-4"><span class="text-blue-500 text-2xl">•</span> ~50–80k views</li>
+                        <li class="flex items-center gap-4"><span class="text-blue-500 text-2xl">•</span> Strong retargeting</li>
+                        <li class="flex items-center gap-4"><span class="text-blue-500 text-2xl">•</span> ~150–300 sales</li>
+                    </ul>
+                    <div class="px-6 pb-8">
+                        <a href="checkout.html?tier=growth" class="inline-block bg-gradient-to-r from-primary to-accent text-white px-10 py-5 rounded-cute text-xl font-bold shadow-lg hover:opacity-90 transition">Select Growth</a>
+                    </div>
+                </div>
+                <!-- Surge -->
+                <div class="tier-card bg-white/90 backdrop-blur-xl border-2 border-primary/40 rounded-cute text-center shadow-cute hover:shadow-2xl transition-all scroll-reveal">
+                    <h3 class="text-4xl font-bold text-primary mt-4 mb-3">Surge</h3>
+                    <p class="text-6xl font-extrabold text-primary mb-6">$699</p>
+                    <p class="text-textlight text-lg mb-8">Comprehensive support after Trial.</p>
+                    <ul class="space-y-5 mb-10 text-left text-lg text-textlight px-6">
+                        <li class="flex items-center gap-4"><span class="text-blue-500 text-2xl">•</span> ~100 videos/month</li>
+                        <li class="flex items-center gap-4"><span class="text-blue-500 text-2xl">•</span> 100k+ views</li>
+                        <li class="flex items-center gap-4"><span class="text-blue-500 text-2xl">•</span> Premium features</li>
+                        <li class="flex items-center gap-4"><span class="text-blue-500 text-2xl">•</span> 600–1200+ sales</li>
+                    </ul>
+                    <div class="px-6 pb-8">
+                        <a href="checkout.html?tier=surge" class="inline-block bg-gradient-to-r from-primary to-accent text-white px-10 py-5 rounded-cute text-xl font-bold shadow-lg hover:opacity-90 transition">Select Surge</a>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-16 text-xl text-textlight">
+                <p>All tiers include weekly updates and view guarantee</p>
+                <p class="mt-3">Start with Trial for $20 — upgrade at any time after assessing fit.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-gradient-to-b from-lavender/40 to-bgbase py-16 border-t border-primary/30">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-3 gap-12 mb-12">
+                <div>
+                    <div class="text-4xl font-extrabold bg-gradient-to-r from-primary to-accent text-transparent bg-clip-text mb-6">Atomic-Shelf 💎</div>
+                    <p class="text-textlight text-lg">Certified Amazon Ads + engaging BookTok strategies for indie authors. No on-camera presence required. Start with Trial.</p>
+                </div>
+                <div>
+                    <h4 class="text-2xl font-bold mb-6">Quick Links</h4>
+                    <ul class="space-y-4 text-textlight text-lg">
+                        <li><a href="index.html#our-model" class="hover:text-primary transition">Our Model</a></li>
+                        <li><a href="index.html#results" class="hover:text-primary transition">Results</a></li>
+                        <li><a href="index.html#why-us" class="hover:text-primary transition">Why Us</a></li>
+                        <li><a href="index.html#faq" class="hover:text-primary transition">FAQ</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-2xl font-bold mb-6">Contact Us</h4>
+                    <p class="text-textlight text-lg mb-4">Ready to elevate your book?</p>
+                    <p class="text-xl font-medium">powerpages30@gmail.com</p>
+                    <p class="text-xl font-medium">nick@atomic-shelf.com</p>
+                </div>
+            </div>
+            <div class="text-center text-textlight border-t border-primary/30 pt-10">
+                © 2026 Atomic-Shelf • Created for indie authors
+            </div>
+        </div>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script>
+        // Scroll reveal observer
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                    if (entry.target.classList.contains('scroll-reveal-list')) {
+                        entry.target.querySelectorAll('li').forEach((li, i) => {
+                            setTimeout(() => li.classList.add('visible'), i * 100);
+                        });
+                    }
+                }
+            });
+        }, { threshold: 0.2 });
+        document.querySelectorAll('.scroll-reveal, .scroll-reveal-list').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
+```
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Atomic-Shelf Checkout - Securely pay for your selected tier." />
+    <title>Atomic-Shelf Checkout</title>
+    <link rel="preconnect" href="https://www.paypal.com" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-T8VY5C1LPK"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-T8VY5C1LPK');
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        bgbase: '#eff6ff',
+                        card: '#dbeafe',
+                        primary: '#3b82f6',
+                        accent: '#1d4ed8',
+                        secondary: '#60a5fa',
+                        mint: '#e0f2fe',
+                        lavender: '#f0f9ff',
+                        peach: '#f0f8ff',
+                        textdark: '#1e3a8a',
+                        textlight: '#3b82f6',
+                        golden: '#fbbf24',
+                    },
+                    animation: {
+                        float: 'float 5s ease-in-out infinite',
+                        'slide-up': 'slideUp 0.9s ease-out',
+                        'pulse-glow': 'pulseGlow 3.2s ease-in-out infinite alternate',
+                        'heart-beat': 'heartBeat 1s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-16px)' } },
+                        slideUp: { 'from': { transform: 'translateY(60px)', opacity: '0' }, 'to': { transform: 'translateY(0)', opacity: '1' } },
+                        pulseGlow: { 'from': { boxShadow: '0 0 16px rgba(59,130,246,0.45)' }, 'to': { boxShadow: '0 0 36px rgba(59,130,246,0.75)' } },
+                        heartBeat: { '0%, 100%': { transform: 'scale(1)' }, '50%': { transform: 'scale(1.1)' } },
+                    },
+                },
+            },
+        };
+    </script>
+    <style>
+        html { font-size: 16px; }
+        @media (min-width: 1024px) { html { font-size: 17.5px; } }
+        body {
+            font-family: Georgia, 'Times New Roman', serif;
+            line-height: 1.75;
+            font-size: 1.1rem;
+            margin: 0;
+            overflow-x: hidden;
+            background: #eff6ff;
+            color: #1e3a8a;
+        }
+        p, li { font-size: 1.08rem; word-break: break-word; }
+        h1 { font-size: 3.4rem; line-height: 1.1; }
+        h2 { font-size: 2.8rem; }
+        h3 { font-size: 2rem; }
+        .tier-card { padding: 2rem; }
+        .scroll-reveal { opacity: 0; transform: translateY(60px); transition: all 1.1s cubic-bezier(0.16,1,0.3,1); }
+        .scroll-reveal.revealed { opacity: 1; transform: translateY(0); }
+        .scroll-reveal-list li {
+            opacity: 0; transform: translateY(30px);
+            transition: all 950ms cubic-bezier(0.16,1,0.3,1);
+        }
+        .scroll-reveal-list li.visible { opacity: 1; transform: translateY(0); }
+        .faq-item { margin-bottom: 1.2rem; }
+        .faq-header {
+            padding: 1.5rem 1.8rem;
+            font-size: 1.3rem;
+            font-weight: 700;
+            background: rgba(59,130,246,0.12);
+            border: 2px solid #3b82f6;
+            border-radius: 20px;
+            color: #1e3a8a;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.45s ease;
+        }
+        .faq-header:hover { background: rgba(59,130,246,0.25); transform: translateY(-3px); }
+        .faq-header.open {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            box-shadow: 0 0 30px rgba(59,130,246,0.55);
+            transform: scale(1.02);
+        }
+        .faq-header span:last-child { font-size: 2.2rem; transition: transform 0.5s ease; }
+        .faq-header.open span:last-child { transform: rotate(135deg); }
+        .faq-content {
+            max-height: 0;
+            padding: 0 1.8rem;
+            overflow: hidden;
+            background: rgba(239,246,255,0.75);
+            opacity: 0;
+            transition: max-height 0.9s cubic-bezier(0.4,0,0.2,1), padding 0.9s cubic-bezier(0.4,0,0.2,1), opacity 0.6s ease 0.25s;
+            border-radius: 0 0 20px 20px;
+        }
+        .faq-content.open { max-height: 7000px; padding: 1.8rem; opacity: 1; }
+        button:focus, a:focus { outline: 4px solid #fbbf24; outline-offset: 5px; }
+        .container { max-width: 1280px; }
+        button, a[href] { transition: all 0.3s ease; }
+        button:hover, a[href]:hover { transform: translateY(-5px) scale(1.05); box-shadow: 0 12px 28px rgba(59,130,246,0.35); }
+        .rounded-cute { border-radius: 32px; }
+        .shadow-cute { box-shadow: 0 10px 30px rgba(59,130,246,0.22); }
+        /* Enhanced Slider Styles */
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            background: transparent;
+            cursor: pointer;
+            width: 100%;
+        }
+        input[type="range"]::-webkit-slider-runnable-track {
+            background: #60a5fa;
+            height: 0.5rem;
+            border-radius: 999px;
+        }
+        input[type="range"]::-moz-range-track {
+            background: #60a5fa;
+            height: 0.5rem;
+            border-radius: 999px;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            margin-top: -4px;
+            background-color: #3b82f6;
+            height: 1rem;
+            width: 1rem;
+            border-radius: 50%;
+            box-shadow: 0 0 0 4px rgba(59,130,246,0.2);
+        }
+        input[type="range"]::-moz-range-thumb {
+            background-color: #3b82f6;
+            height: 1rem;
+            width: 1rem;
+            border-radius: 50%;
+            box-shadow: 0 0 0 4px rgba(59,130,246,0.2);
+            border: none;
+        }
+        /* Tier Card Font Adjustments */
+        .tier-card h3, .tier-card p {
+            hyphens: auto;
+            word-break: break-word;
+        }
+        .tier-card h3 {
+            font-size: clamp(1.5rem, 5vw, 2.25rem);
+        }
+        .tier-card p.text-6xl {
+            font-size: clamp(2rem, 8vw, 3.75rem);
+        }
+    </style>
+</head>
+<!-- PayPal SDK -->
+<script src="https://www.paypal.com/sdk/js?client-id=MPL98VGKF3GJY&components=hosted-buttons&disable-funding=venmo&currency=USD&namespace=paypal_sdk"></script>
+<body class="bg-bgbase text-textdark antialiased">
+    <!-- HEADER -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-card/90 backdrop-blur-xl border-b border-primary/30 shadow-sm">
+        <nav class="container mx-auto px-6 py-5 flex justify-between items-center">
+            <div class="text-4xl font-extrabold bg-gradient-to-r from-primary to-accent text-transparent bg-clip-text">Atomic-Shelf 💎</div>
+            <div class="hidden md:flex space-x-10 text-lg font-medium">
+                <a href="index.html#video" class="hover:text-primary transition">How It Works</a>
+                <a href="index.html#our-model" class="hover:text-primary transition">Our Model</a>
+                <a href="index.html#results" class="hover:text-primary transition">Results</a>
+                <a href="index.html#why-us" class="hover:text-primary transition">Why Us</a>
+                <a href="index.html#faq" class="hover:text-primary transition">FAQ</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- CHECKOUT SECTION -->
+    <section class="py-28 bg-gradient-to-b from-bgbase via-lavender/20 to-mint/30 pt-24">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-20 scroll-reveal">
+                <h2 class="text-5xl lg:text-6xl font-bold mb-10">
+                    Checkout for <span id="tier-title" class="bg-gradient-to-r from-primary to-accent text-transparent bg-clip-text">Your Selected Tier</span>
+                </h2>
+                <p class="text-2xl text-textlight max-w-5xl mx-auto">Complete your secure payment to get started. All tiers include our view guarantee.</p>
+            </div>
+            <div class="max-w-md mx-auto bg-white/90 backdrop-blur-xl border-2 border-primary/40 rounded-cute text-center shadow-cute hover:shadow-2xl transition-all scroll-reveal tier-card">
+                <h3 id="tier-name" class="text-4xl font-bold text-primary mt-4 mb-3"></h3>
+                <p id="tier-price" class="text-6xl font-extrabold text-primary mb-6"></p>
+                <p id="tier-description" class="text-textlight text-lg mb-8"></p>
+                <ul id="tier-features" class="space-y-5 mb-10 text-left text-lg text-textlight px-6"></ul>
+                <div class="px-6 pb-8">
+                    <div id="paypal-container" class="min-h-[200px]"></div>
+                </div>
+            </div>
+            <div class="text-center mt-16 text-xl text-textlight">
+                <p>Need to change tiers? <a href="payment.html" class="text-primary hover:underline">Go back to selection</a>.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-gradient-to-b from-lavender/40 to-bgbase py-16 border-t border-primary/30">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-3 gap-12 mb-12">
+                <div>
+                    <div class="text-4xl font-extrabold bg-gradient-to-r from-primary to-accent text-transparent bg-clip-text mb-6">Atomic-Shelf 💎</div>
+                    <p class="text-textlight text-lg">Certified Amazon Ads + engaging BookTok strategies for indie authors. No on-camera presence required. Start with Trial.</p>
+                </div>
+                <div>
+                    <h4 class="text-2xl font-bold mb-6">Quick Links</h4>
+                    <ul class="space-y-4 text-textlight text-lg">
+                        <li><a href="index.html#our-model" class="hover:text-primary transition">Our Model</a></li>
+                        <li><a href="index.html#results" class="hover:text-primary transition">Results</a></li>
+                        <li><a href="index.html#why-us" class="hover:text-primary transition">Why Us</a></li>
+                        <li><a href="index.html#faq" class="hover:text-primary transition">FAQ</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-2xl font-bold mb-6">Contact Us</h4>
+                    <p class="text-textlight text-lg mb-4">Ready to elevate your book?</p>
+                    <p class="text-xl font-medium">powerpages30@gmail.com</p>
+                    <p class="text-xl font-medium">nick@atomic-shelf.com</p>
+                </div>
+            </div>
+            <div class="text-center text-textlight border-t border-primary/30 pt-10">
+                © 2026 Atomic-Shelf • Created for indie authors
+            </div>
+        </div>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script>
+        // PayPal buttons rendering with fallback
+        window.addEventListener('load', () => {
+            const params = new URLSearchParams(window.location.search);
+            const tier = params.get('tier')?.toLowerCase();
+            const tierData = {
+                trial: {
+                    name: 'Trial Month',
+                    price: '$20',
+                    description: 'Start here to assess fit and build organic momentum before ad spend.',
+                    features: [
+                        '1–2 videos/day',
+                        '~10–20k views',
+                        'Pure organic growth',
+                        'No ads included'
+                    ],
+                    buttonId: 'KP8FLJCGU62M8',
+                    containerId: 'paypal-container'
+                },
+                starter: {
+                    name: 'Starter',
+                    price: '$99',
+                    description: 'Initial steps after Trial.',
+                    features: [
+                        '2–3 videos/day',
+                        '~25–40k views',
+                        'Light retargeting',
+                        '~50–150 sales'
+                    ],
+                    buttonId: '7MVWXL28WKJMS',
+                    containerId: 'paypal-container'
+                },
+                growth: {
+                    name: 'Growth',
+                    price: '$299',
+                    description: 'Building momentum after Trial.',
+                    features: [
+                        '3–4 videos/day',
+                        '~50–80k views',
+                        'Strong retargeting',
+                        '~150–300 sales'
+                    ],
+                    buttonId: '2FYFQK7CA3JPE',
+                    containerId: 'paypal-container'
+                },
+                surge: {
+                    name: 'Surge',
+                    price: '$699',
+                    description: 'Comprehensive support after Trial.',
+                    features: [
+                        '~100 videos/month',
+                        '100k+ views',
+                        'Premium features',
+                        '600–1200+ sales'
+                    ],
+                    buttonId: '22UF48VWPLXP6',
+                    containerId: 'paypal-container'
+                }
+            };
+
+            if (tier && tierData[tier]) {
+                const data = tierData[tier];
+                document.getElementById('tier-title').textContent = data.name;
+                document.getElementById('tier-name').textContent = data.name;
+                document.getElementById('tier-price').textContent = data.price;
+                document.getElementById('tier-description').textContent = data.description;
+                
+                const featuresList = document.getElementById('tier-features');
+                featuresList.innerHTML = '';
+                data.features.forEach((feature, index) => {
+                    const li = document.createElement('li');
+                    li.className = 'flex items-center gap-4';
+                    li.innerHTML = `<span class="text-blue-500 text-2xl">•</span> ${feature}`;
+                    if (index === data.features.length - 1 && tier === 'trial') {
+                        li.classList.add('text-gray-400');
+                        li.innerHTML = `<span class="text-gray-400 text-2xl">✗</span> ${feature}`;
+                    }
+                    featuresList.appendChild(li);
+                });
+
+                try {
+                    if (typeof paypal !== 'undefined' && paypal.HostedButtons) {
+                        paypal.HostedButtons({ hostedButtonId: data.buttonId }).render(`#${data.containerId}`);
+                    }
+                } catch (e) {
+                    console.error("PayPal render failed:", e);
+                    document.getElementById(data.containerId).innerHTML = '<p class="text-red-600 p-6 font-medium">PayPal button unavailable — please refresh or contact us.</p>';
+                }
+            } else {
+                document.querySelector('.tier-card').innerHTML = '<p class="text-red-600 p-6 font-medium">Invalid tier selected. Please go back to the payment page.</p>';
+            }
+        });
+
+        // Scroll reveal observer
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                    if (entry.target.classList.contains('scroll-reveal-list')) {
+                        entry.target.querySelectorAll('li').forEach((li, i) => {
+                            setTimeout(() => li.classList.add('visible'), i * 100);
+                        });
+                    }
+                }
+            });
+        }, { threshold: 0.2 });
+        document.querySelectorAll('.scroll-reveal, .scroll-reveal-list').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>

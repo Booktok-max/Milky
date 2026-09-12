@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AI Book — BookTok Campaign Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Lora:ital,wght@0,400;1,400;1,600&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg: #060810;
+  --bg2: #0c1020;
+  --bg3: #111828;
+  --blue: #3b82f6;
+  --blue-dim: rgba(59,130,246,0.15);
+  --blue-border: rgba(59,130,246,0.25);
+  --cyan: #06b6d4;
+  --cyan-dim: rgba(6,182,212,0.1);
+  --white: #f0f4ff;
+  --muted: #6b7a9e;
+  --card: rgba(255,255,255,0.03);
+  --card-border: rgba(255,255,255,0.07);
+  --success: #10b981;
+  --grid-line: rgba(59,130,246,0.06);
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+
+body {
+  font-family:'Syne',sans-serif;
+  background:var(--bg);
+  color:var(--white);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* Grid background */
+body::before {
+  content:'';position:fixed;inset:0;
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size:60px 60px;
+  pointer-events:none;z-index:0;
+}
+
+/* Glow orbs */
+body::after {
+  content:'';position:fixed;
+  top:-200px;right:-200px;
+  width:700px;height:700px;border-radius:50%;
+  background:radial-gradient(ellipse,rgba(59,130,246,0.12) 0%,transparent 65%);
+  pointer-events:none;z-index:0;
+}
+
+.glow-bottom {
+  position:fixed;bottom:-300px;left:-150px;
+  width:600px;height:600px;border-radius:50%;
+  background:radial-gradient(ellipse,rgba(6,182,212,0.08) 0%,transparent 65%);
+  pointer-events:none;z-index:0;
+}
+
+/* ── HEADER ── */
+header {
+  position:relative;z-index:10;
+  padding:3rem 5vw 2.5rem;
+  border-bottom:1px solid var(--card-border);
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:1.5rem;
+  background:rgba(6,8,16,0.8);
+  backdrop-filter:blur(20px);
+}
+
+.header-left {}
+.header-eyebrow {
+  font-family:'DM Mono',monospace;
+  font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--cyan);margin-bottom:.75rem;
+  display:flex;align-items:center;gap:.6rem;
+}
+.header-eyebrow::before {
+  content:'';display:inline-block;
+  width:24px;height:1px;background:var(--cyan);
+}
+
+h1 {
+  font-size:clamp(1.6rem,3.5vw,2.8rem);
+  font-weight:800;line-height:1.1;letter-spacing:-.02em;
+  color:var(--white);
+}
+h1 span { color:var(--blue); }
+
+.header-sub {
+  font-family:'Lora',serif;
+  font-size:.95rem;color:var(--muted);
+  margin-top:.5rem;font-style:italic;
+}
+
+.header-right {
+  display:flex;flex-direction:column;align-items:flex-end;gap:.75rem;
+}
+
+.book-link {
+  display:inline-flex;align-items:center;gap:.6rem;
+  padding:.65rem 1.25rem;
+  background:var(--blue);
+  color:#fff;font-size:.82rem;font-weight:700;
+  border-radius:8px;text-decoration:none;
+  letter-spacing:.04em;
+  transition:all .2s;
+  box-shadow:0 4px 20px rgba(59,130,246,0.35);
+}
+.book-link:hover{background:#2563eb;transform:translateY(-2px);box-shadow:0 8px 28px rgba(59,130,246,0.45)}
+.book-link svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5}
+
+.stats-row {
+  display:flex;gap:1.5rem;
+}
+.stat {
+  text-align:right;
+}
+.stat-num {
+  font-size:1.3rem;font-weight:800;color:var(--blue);line-height:1;
+}
+.stat-label {
+  font-family:'DM Mono',monospace;
+  font-size:.65rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;
+}
+
+/* ── HOW TO USE ── */
+.how-to {
+  position:relative;z-index:5;
+  margin:2rem 5vw;
+  padding:1.5rem 2rem;
+  background:rgba(6,182,212,0.06);
+  border:1px solid rgba(6,182,212,0.18);
+  border-radius:14px;
+  display:flex;align-items:flex-start;gap:1.2rem;
+}
+.how-to-icon{font-size:1.5rem;flex-shrink:0;line-height:1;margin-top:.1rem}
+.how-to-text{font-size:.85rem;color:rgba(240,244,255,0.7);line-height:1.8}
+.how-to-text strong{color:var(--cyan);font-weight:700}
+
+/* ── SECTION LABEL ── */
+.section-label {
+  position:relative;z-index:5;
+  padding:.5rem 5vw;
+  font-family:'DM Mono',monospace;
+  font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--muted);
+  border-bottom:1px solid var(--card-border);
+  background:rgba(6,8,16,0.6);
+  display:flex;align-items:center;gap:1rem;
+}
+.section-label::after{
+  content:'';flex:1;height:1px;
+  background:linear-gradient(90deg,var(--blue-border),transparent);
+}
+
+/* ── MAIN GRID ── */
+.main {
+  position:relative;z-index:5;
+  padding:2rem 5vw 5rem;
+  display:flex;flex-direction:column;gap:2rem;
+}
+
+/* ── VIDEO CARD ── */
+.video-card {
+  background:var(--card);
+  border:1px solid var(--card-border);
+  border-radius:18px;
+  overflow:hidden;
+  transition:border-color .3s;
+}
+.video-card:hover{border-color:var(--blue-border)}
+
+.video-card-header {
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.25rem 1.75rem;
+  background:rgba(59,130,246,0.05);
+  border-bottom:1px solid var(--card-border);
+  flex-wrap:wrap;gap:.75rem;
+}
+
+.video-number {
+  display:flex;align-items:center;gap:.85rem;
+}
+.video-num-badge {
+  width:40px;height:40px;border-radius:10px;
+  background:var(--blue-dim);
+  border:1px solid var(--blue-border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.8rem;font-weight:800;color:var(--blue);
+  font-family:'DM Mono',monospace;
+  flex-shrink:0;
+}
+.video-title-wrap {}
+.video-title {
+  font-size:.92rem;font-weight:700;color:var(--white);letter-spacing:-.01em;
+}
+.video-slides-tag {
+  font-family:'DM Mono',monospace;
+  font-size:.68rem;color:var(--muted);letter-spacing:.08em;
+  margin-top:.15rem;
+}
+
+.video-card-body {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:0;
+}
+
+.slides-col, .content-col {
+  padding:1.5rem 1.75rem;
+}
+
+.slides-col {
+  border-right:1px solid var(--card-border);
+}
+
+/* ── SLIDE PREVIEWS ── */
+.col-heading {
+  font-family:'DM Mono',monospace;
+  font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:1rem;
+  display:flex;align-items:center;gap:.6rem;
+}
+.col-heading::before{
+  content:'';display:inline-block;width:12px;height:1px;background:currentColor;
+}
+
+.slide-pair {
+  display:flex;flex-direction:column;gap:.75rem;
+}
+
+.slide-item {
+  background:var(--bg3);
+  border:1px solid var(--card-border);
+  border-radius:10px;
+  padding:.9rem 1.1rem;
+  position:relative;
+}
+.slide-item.cta-slide {
+  border-color:rgba(6,182,212,0.3);
+  background:rgba(6,182,212,0.04);
+}
+
+.slide-tag {
+  font-family:'DM Mono',monospace;
+  font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:.35rem;
+}
+.slide-item.cta-slide .slide-tag{color:var(--cyan)}
+
+.slide-text-label {
+  font-size:.78rem;font-weight:600;color:var(--white);margin-bottom:.2rem;
+}
+.slide-visual-note {
+  font-size:.72rem;color:var(--muted);
+  font-family:'Lora',serif;font-style:italic;
+  line-height:1.5;
+}
+
+/* ── CONTENT COL ── */
+.content-col {
+  display:flex;flex-direction:column;gap:1.25rem;
+}
+
+/* Voiceover block */
+.content-block {
+  display:flex;flex-direction:column;gap:.5rem;
+}
+.block-label {
+  font-family:'DM Mono',monospace;
+  font-size:.63rem;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--muted);
+  display:flex;align-items:center;gap:.5rem;
+}
+.block-label .dot {
+  width:5px;height:5px;border-radius:50%;background:var(--blue);flex-shrink:0;
+}
+.block-label .dot.cyan{background:var(--cyan)}
+
+.text-box {
+  background:rgba(0,0,0,0.3);
+  border:1px solid var(--card-border);
+  border-radius:8px;
+  padding:.85rem 1rem;
+  font-size:.82rem;line-height:1.75;
+  color:rgba(240,244,255,0.8);
+  position:relative;
+}
+.text-box.voiceover {
+  font-family:'Lora',serif;font-style:italic;
+  font-size:.84rem;
+  border-left:2px solid var(--blue);
+}
+.text-box.description {
+  font-size:.78rem;line-height:1.9;
+}
+.text-box .hashtags {
+  display:block;margin-top:.6rem;
+  color:var(--blue);font-size:.74rem;
+  font-style:normal;font-family:'DM Mono',monospace;
+  letter-spacing:.01em;
+}
+
+.copy-btn {
+  align-self:flex-end;
+  display:flex;align-items:center;gap:.45rem;
+  padding:.4rem .85rem;
+  background:var(--blue-dim);
+  border:1px solid var(--blue-border);
+  border-radius:6px;
+  font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--blue);cursor:pointer;
+  font-family:'Syne',sans-serif;
+  transition:all .2s;
+}
+.copy-btn:hover{background:rgba(59,130,246,0.25);border-color:rgba(59,130,246,0.5)}
+.copy-btn.copied{background:rgba(16,185,129,0.15);border-color:rgba(16,185,129,0.4);color:var(--success)}
+.copy-btn svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2.5;flex-shrink:0}
+
+.divider-line {
+  height:1px;background:var(--card-border);
+}
+
+/* ── CTA CARD ── */
+.cta-card {
+  background:rgba(6,182,212,0.04);
+  border:1px solid rgba(6,182,212,0.2);
+  border-radius:18px;
+  overflow:hidden;
+}
+.cta-card .video-card-header{
+  background:rgba(6,182,212,0.06);
+  border-bottom-color:rgba(6,182,212,0.15);
+}
+.cta-card .video-num-badge{
+  background:rgba(6,182,212,0.12);
+  border-color:rgba(6,182,212,0.3);
+  color:var(--cyan);
+}
+
+/* ── AMAZON FOOTER CTA ── */
+.amazon-cta {
+  position:relative;z-index:5;
+  margin:0 5vw 4rem;
+  padding:2rem 2.5rem;
+  background:linear-gradient(135deg,rgba(59,130,246,0.1) 0%,rgba(6,182,212,0.06) 100%);
+  border:1px solid var(--blue-border);
+  border-radius:18px;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:1.5rem;
+}
+.amazon-cta-text {}
+.amazon-cta-title{
+  font-size:1.25rem;font-weight:800;color:var(--white);margin-bottom:.3rem;
+}
+.amazon-cta-sub{font-size:.85rem;color:var(--muted)}
+.amazon-btn {
+  display:inline-flex;align-items:center;gap:.7rem;
+  padding:.85rem 2rem;
+  background:var(--blue);color:#fff;
+  font-size:.9rem;font-weight:700;
+  border-radius:10px;text-decoration:none;letter-spacing:.03em;
+  box-shadow:0 8px 28px rgba(59,130,246,0.4);
+  transition:all .25s;white-space:nowrap;
+}
+.amazon-btn:hover{background:#2563eb;transform:translateY(-2px)}
+.amazon-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.5}
+
+/* ── RESPONSIVE ── */
+@media(max-width:720px){
+  .video-card-body{grid-template-columns:1fr}
+  .slides-col{border-right:none;border-bottom:1px solid var(--card-border)}
+  .stats-row{display:none}
+  .amazon-cta{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<div class="glow-bottom"></div>
+
+<!-- HEADER -->
+<header>
+  <div class="header-left">
+    <div class="header-eyebrow">BookTok Campaign Hub</div>
+    <h1>How AI Already Controls<br><span>Your Daily Life</span></h1>
+    <div class="header-sub">Introduction to Artificial Intelligence — Daniel Zane Bryan</div>
+  </div>
+  <div class="header-right">
+    <a href="https://www.amazon.com/Introduction-Artificial-Intelligence-Complete-Curious/dp/B0GZKGBKP9" target="_blank" class="book-link">
+      <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      View Book on Amazon
+    </a>
+    <div class="stats-row">
+      <div class="stat"><div class="stat-num">15</div><div class="stat-label">Videos</div></div>
+      <div class="stat"><div class="stat-num">7</div><div class="stat-label">Pairs</div></div>
+      <div class="stat"><div class="stat-num">1</div><div class="stat-label">CTA Slide</div></div>
+    </div>
+  </div>
+</header>
+
+<!-- HOW TO USE -->
+<div class="how-to">
+  <div class="how-to-icon">📋</div>
+  <div class="how-to-text">
+    <strong>How to use this page:</strong> Each card below = one video. Every video uses <strong>2 slides + the CTA slide (Slide 15)</strong> at the end. Use the image prompts to generate your 9:16 visuals, record the voiceover, then paste the description + hashtags into your caption. Copy buttons are provided for each section.
+  </div>
+</div>
+
+<div class="section-label">Campaign Videos — 9:16 Vertical Format · 1080×1920</div>
+
+<div class="main">
+
+<!-- ═══════════════════════════════════════ VIDEO 1 ═══ -->
+<div class="video-card">
+  <div class="video-card-header">
+    <div class="video-number">
+      <div class="video-num-badge">01</div>
+      <div class="video-title-wrap">
+        <div class="video-title">Ordinary Morning + The Feed</div>
+        <div class="video-slides-tag">Slide 1 + Slide 2 + CTA Slide 15 · 9:16 · 1080×1920</div>
+      </div>
+    </div>
+  </div>
+  <div class="video-card-body">
+    <div class="slides-col">
+      <div class="col-heading">Slides Used</div>
+      <div class="slide-pair">
+        <div class="slide-item">
+          <div class="slide-tag">Slide 1 — Ordinary Morning</div>
+          <div class="slide-text-label">"You didn't notice."</div>
+          <div class="slide-visual-note">Beautiful young woman waking up, reaching for phone. Warm morning light. Completely unaware expression.</div>
+        </div>
+        <div class="slide-item">
+          <div class="slide-tag">Slide 2 — The Feed</div>
+          <div class="slide-text-label">"It already knows you."</div>
+          <div class="slide-visual-note">Handsome man scrolling phone. Blue screen glow. He thinks he's choosing what he sees.</div>
+        </div>
+        <div class="slide-item cta-slide">
+          <div class="slide-tag">Slide 15 — CTA (All Videos)</div>
+          <div class="slide-text-label">"Understand it. Use it."</div>
+          <div class="slide-visual-note">Woman + man at desk. Book open. Both looking to camera with quiet confidence.</div>
+        </div>
+      </div>
+    </div>
+    <div class="content-col">
+      <div class="content-block">
+        <div class="block-label"><span class="dot"></span>Voiceover Script</div>
+        <div class="text-box voiceover" id="vo1">You woke up this morning and reached for your phone. Before you even got out of bed — AI had already decided what you'd see. The news. The posts. The ads. None of it was random. Find out how it works. Link in bio.</div>
+        <button class="copy-btn" onclick="copyText('vo1', this)">
+          <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy Voiceover
+        </button>
+      </div>
+      <div class="divider-line"></div>
+      <div class="content-block">
+        <div class="block-label"><span class="dot cyan"></span>Caption + Hashtags</div>
+        <div class="text-box description" id="desc1">You didn't choose your feed this morning. An algorithm did. AI has been shaping your daily life longer than you think — and most people have no idea. This book breaks it all down in plain language. No tech degree needed. Just curiosity. 🔗 Link in bio to grab your copy on Amazon.<span class="hashtags">#AIExplained #ArtificialIntelligence #BookTok #TechTok #AIForBeginners #LearnAI #BookRecommendation #IntroToAI #DigitalLiteracy #MindBlown</span></div>
+        <button class="copy-btn" onclick="copyText('desc1', this)">
+          <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy Caption
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ VIDEO 2 ═══ -->
+<div class="video-card">
+  <div class="video-card-header">
+    <div class="video-number">
+      <div class="video-num-badge">02</div>
+      <div class="video-title-wrap">
+        <div class="video-title">The Route + The Purchase</div>
+        <div class="video-slides-tag">Slide 3 + Slide 4 + CTA Slide 15 · 9:16 · 1080×1920</div>
+      </div>
+    </div>
+  </div>
+  <div class="video-card-body">
+    <div class="slides-col">
+      <div class="col-heading">Slides Used</div>
+      <div class="slide-pair">
+        <div class="slide-item">
+          <div class="slide-tag">Slide 3 — The Route</div>
+          <div class="slide-text-label">"It rerouted you."</div>
+          <div class="slide-visual-note">Beautiful woman in car. GPS glowing. AI-optimized route. City traffic visible. Unaware mood.</div>
+        </div>
+        <div class="slide-item">
+          <div class="slide-tag">Slide 4 — The Purchase</div>
+          <div class="slide-text-label">"It picked that for you."</div>
+          <div class="slide-visual-note">Handsome man's hands holding phone. "Recommended For You" shopping. Items feel eerily perfect.</div>
+        </div>
+        <div class="slide-item cta-slide">
+          <div class="slide-tag">Slide 15 — CTA (All Videos)</div>
+          <div class="slide-text-label">"Understand it. Use it."</div>
+          <div class="slide-visual-note">Woman + man at desk. Book open. Both looking to camera with quiet confidence.</div>
+        </div>
+      </div>
+    </div>
+    <div class="content-col">
+      <div class="content-block">
+        <div class="block-label"><span class="dot"></span>Voiceover Script</div>
+        <div class="text-box voiceover" id="vo2">That route your GPS picked? AI. Those "recommended for you" products that felt weirdly perfect? Also AI. It's been watching your patterns — and it knows your next move before you do. Learn how it works. Link in bio.</div>
+        <button class="copy-btn" onclick="copyText('vo2', this)">
+          <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy Voiceover
+        </button>
+      </div>
+      <div class="divider-line"></div>
+      <div class="content-block">
+        <div class="block-label"><span class="dot cyan"></span>Caption + Hashtags</div>
+        <div class="text-box description" id="desc2">Your GPS routes. Your shopping suggestions. Your traffic updates. All AI — making thousands of micro-decisions about your day while you're just living it. This beginner's guide to AI explains exactly how and why. Grab it on Amazon. 🔗 Link in bio.<span class="hashtags">#AIEverywhere #HowAIWorks #BookTok #TechTok #AIForEveryone #SmartTech #ArtificialIntelligence #BookRecommendations #AIBook #TechBooks</span></div>
+        <button class="copy-btn" onclick="copyText('desc2', this)">
+          <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy Caption
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ VIDEO 3 ═══ -->
+<div class="video-card">
+  <div class="video-card-header">
+    <div class="video-number">
+      <div class="video-num-badge">03</div>
+      <div class="video-title-wrap">
+        <div class="video-title">The Ad + The Algorithm</div>
+        <div class="video-slides-tag">Slide 5 + Slide 6 + CTA Slide 15 · 9:16 · 1080×1920</div>
+      </div>
+    </div>
+  </div>
+  <div class="video-card-body">
+    <div class="slides-col">
+      <div class="col-heading">Slides Used</div>
+      <div class="slide-pair">
+        <div class="slide-item">
+          <div class="slide-tag">Slide 5 — The Ad</div>
+          <div class="slide-text-label">"You only said it out loud."</div>
+          <div class="slide-visual-note">Beautiful woman pausing mid-scroll. Ad is for something she only spoke about, never searched. Dim room. Blue glow. Unsettling.</div>
+        </div>
+        <div class="slide-item">
+          <div class="slide-tag">Slide 6 — The Algorithm</div>
+          <div class="slide-text-label">"It's always watching."</div>
+          <div class="slide-visual-note">Handsome man's eye reflected in phone screen. Data visualization lines overlaid. Cool blue tones. Eerie.</div>
+        </div>
+        <div class="slide-item cta-slide">
+          <div class="slide-tag">Slide 15 — CTA (All Videos)</div>
+          <div class="slide-text-label">"Understand it. Use it."</div>
+          <div class="slide-visual-note">Woman + man at desk. Book open. Both looking to camera with quiet confidence.</div>
+        </div>
+      </div>
+    </div>
+    <div class="content-col">
+      <div class="content-block">
+        <div class="block-label"><span class="dot"></span>Voiceover Script</div>
+        <div class="text-box voiceover" id="vo3">You mentioned it to a friend. Never Googled it. Never typed it anywhere. And then — the ad appeared. That's not a coincidence. That's an algorithm that has been building a profile on you for years. This book explains exactly how. Link in bio.</div>
+        <button class="copy-btn" onclick="copyText('vo3', this)">
+          <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy Voiceover
+        </button>
+      </div>
+      <div class="divider-line"></div>
+      <div class="content-block">
+        <div class="block-label"><span class="dot cyan"></span>Caption + Hashtags</div>
+        <div class="text-box description" id="desc3">Has an ad ever shown up for something you only talked about? You're not paranoid. AI recommendation systems are more sophisticated than most people realise. This book demystifies it all — no jargon, no degree required. 🔗 Grab it on Amazon. Link in bio.<span class="hashtags">#Algorithm #AIPrivacy #BookTok #TechTok #DataPrivacy #ArtificialIntelligence #AIExplained #ThinkingAboutAI #BookRecommendation #TechLiteracy</span></div>
+        <button class="copy-btn" onclick="copyText('desc3', this)">
+          <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy Caption
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ VIDEO 4 ═══ -->
+<div class="video-card">
+  <div class="video-card-header">
+    <div class="video-number">
+      <div class="video-num-badge">04</div>
+      <div class="video-title-wrap">
+        <div class="video-title">The Bank + The Doctor</div>
+        <div class="video-slides-tag">Slide 7 + Slide 8 + CTA Slide 15 · 9:16 · 1080×1920</div>
+      </div>
+    </div>
+  </div>
+  <div class="video-card-body">
+    <div class="slides-col">
+      <div class="col-heading">Slides Used</div>
+      <div class="slide-pair">
+        <div class="slide-item">
+          <div class="slide-tag">Slide 7 — The Bank</div>
+          <div class="slide-text-label">"AI approved — or denied — you."</div>
+          <div class="slide-visual-note">Beautiful woman at café checking banking app. Loan decision on screen. She doesn't know AI made that call.</div>
+        </div>
+        <div class="slide-item">
+          <div class="slide-tag">Slide 8 — The Doctor</div>
+          <div class="slide-text-label">"It read your scan first."</div>
+          <div class="slide-visual-note">Handsome doctor reviewing medical scan on tablet. AI diagnostic overlay faintly visible. Clinical blue and white tones.</div>
+        </div>
+        <div class="slide-item cta-slide">
+          <div class="slide-tag">Slide 15 — CTA (All Videos)</div>
+          <div class="slide-text-label">"Understand it. Use it."</div>
+          <div class="slide-visual-note">Woman + man at desk. Book open. Both looking to camera with quiet confidence.</div>
+        </div>
+      </div>
+    </div>
+    <div class="content-col">
+      <div class="content-block">
+        <div class="block-label"><span class="dot"></span>Voiceover Script</div>
+        <div class="text-box voiceover" id="vo4">When you applied for that loan — a human didn't decide. An AI did. When your doctor reviewed that scan — AI had already flagged what to look for. These aren't future scenarios. This is happening right now. And this book tells you everything you need to know. Link in bio.</div>
+        <button class="copy-btn" onclick="copyText('vo4', this)">
+          <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy Voiceover
+        </button>
+      </div>
+      <div class="divider-line"></div>
+      <div class="content-block">
+        <div class="block-label"><span class="dot cyan"></span>Caption + Hashtags</div>
+        <div class="text-box description" id="desc4">AI is making decisions about your money and your health — right now. Loan approvals. Medical diagnostics. Credit scores. These systems run on machine learning, and most people have zero idea. Time to change that. 🔗 Grab the book on Amazon. Link in bio.<span class="hashtags">#AIInHealthcare #AIInFinance #BookTok #ArtificialIntelligence #TechTok #AIDecisions #FutureOfAI #MustReadBooks #AIBook #KnowledgeIsPower</span></div>
+        <button class="copy-btn" onclick="copyText('desc4', this)">
+          <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy Caption
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ VIDEO 5 ═══ -->
+<div class="video-card">
+  <div class="video-card-header">
+    <div class="video-number">
+      <div class="video-num-badge">05</div>
+      <div class="video-title-wrap">
+        <div class="video-title">The Pause + The Question</div>
+        <div class="video-slides-tag">Slide 9 + Slide 10 + CTA Slide 15 · 9:16 · 1080×1920</div>
+      </div>
+    </div>
+  </div>
+  <div class="video-card-body">
+    <div class="slides-col">
+      <div class="col-heading">Slides Used</div>
+      <div class="slide-pair">
+        <div class="slide-item">
+          <div class="slide-tag">Slide 9 — The Pause</div>
+          <div class="slide-text-label">"Wait."</div>
+          <div class="slide-visual-note">Beautiful woman sitting still in busy café. Phone face-down. Looking into middle distance. Realization beginning.</div>
+        </div>
+        <div class="slide-item">
+          <div class="slide-tag">Slide 10 — The Question</div>
+          <div class="slide-text-label">"Who's really in control?"</div>
+          <div class="slide-visual-note">Handsome man staring directly into camera. Quiet intensity. City lights blurred behind him. Cool dark tones.</div>
+        </div>
+        <div class="slide-item cta-slide">
+          <div class="slide-tag">Slide 15 — CTA (All Videos)</div>
+          <div class="slide-text-label">"Understand it. Use it."</div>
+          <div class="slide-visual-note">Woman + man at desk. Book open. Both looking to camera with quiet confidence.</div>
+        </div>
+      </div>
+    </div>
+    <div class="content-col">
+      <div class="content-block">
+        <div class="block-label"><span class="dot"></span>Voiceover Script</div>
+        <div class="text-box voiceover" id="vo5">Stop. Think about the last decision you made today. How much of it was actually yours? AI systems are designed to feel invisible — to guide you without you ever noticing. The first step to taking back control is understanding what you're dealing with. Link in bio.</div>
+        <button class="copy-btn" onclick="copyText('vo5', this)">
+          <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy Voiceover
+        </button>
+      </div>
+      <div class="divider-line"></div>
+      <div class="content-block">
+        <div class="block-label"><span class="dot cyan"></span>Caption + Hashtags</div>
+        <div class="text-box description" id="desc5">How many of your choices today were actually yours? AI is designed to be invisible — shaping decisions without you realising. The first step to understanding your world is this book. Plain language. Real answers. No tech background needed. 🔗 Link in bio — Amazon.<span class="hashtags">#WhoIsInControl #AIConsciousness #BookTok #TechTok #ArtificialIntelligence #ThinkDeeper #AIAwareness #BookRecommendation #DigitalAge #AIForBeginners</span></div>
+        <button class="copy-btn" onclick="copyText('desc5', this)">
+          <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy Caption
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ VIDEO 6 ═══ -->
+<div class="video-card">
+  <div class="video-card-header">
+    <div class="video-number">
+      <div class="video-num-badge">06</div>
+      <div class="video-title-wrap">
+        <div class="video-title">Everywhere + The Realization</div>
+        <div class="video-slides-tag">Slide 11 + Slide 12 + CTA Slide 15 · 9:16 · 1080×1920</div>
+      </div>
+    </div>
+  </div>
+  <div class="video-card-body">
+    <div class="slides-col">
+      <div class="col-heading">Slides Used</div>
+      <div class="slide-pair">
+        <div class="slide-item">
+          <div class="slide-tag">Slide 11 — Everywhere</div>
+          <div class="slide-text-label">"It's in everything."</div>
+          <div class="slide-visual-note">Beautiful woman walking through city. CCTV, billboards, phone, traffic — data visualization lines connecting it all. Cool blue-grey.</div>
+        </div>
+        <div class="slide-item">
+          <div class="slide-tag">Slide 12 — The Realization</div>
+          <div class="slide-text-label">"Now she knows."</div>
+          <div class="slide-visual-note">Beautiful woman at desk with book open. Eyes wide with quiet realization. Warm lamp light vs cool room shadows.</div>
+        </div>
+        <div class="slide-item cta-slide">
+          <div class="slide-tag">Slide 15 — CTA (All Videos)</div>
+          <div class="slide-text-label">"Understand it. Use it."</div>
+          <div class="slide-visual-note">Woman + man at desk. Book open. Both looking to camera with quiet confidence.</div>
+        </div>
+      </div>
+    </div>
+    <div class="content-col">
+      <div class="content-block">
+        <div class="block-label"><span class="dot"></span>Voiceover Script</div>
+        <div class="text-box voiceover" id="vo6">Cameras. Billboards. Traffic lights. Your phone. The city itself is running on AI. And most people walk through it every single day without knowing a thing about it. But once you see it — you can't unsee it. This book opens your eyes. Link in bio.</div>
+        <button class="copy-btn" onclick="copyText('vo6', this)">
+          <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy Voiceover
+        </button>
+      </div>
+      <div class="divider-line"></div>
+      <div class="content-block">
+        <div class="block-label"><span class="dot cyan"></span>Caption + Hashtags</div>
+        <div class="text-box description" id="desc6">The city around you is running on AI. Cameras. Traffic. Digital ads targeting you in real time. Once you understand how it all connects — you see the world completely differently. Start here. 🔗 Introduction to Artificial Intelligence on Amazon. Link in bio.<span class="hashtags">#SmartCity #AIEverywhere #BookTok #TechTok #ArtificialIntelligence #CityTech #SurveillanceTech #BookRecommendation #AIBook #OpenYourEyes</span></div>
+        <button class="copy-btn" onclick="copyText('desc6', this)">
+          <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy Caption
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ VIDEO 7 ═══ -->
+<div class="video-card">
+  <div class="video-card-header">
+    <div class="video-number">
+      <div class="video-num-badge">07</div>
+      <div class="video-title-wrap">
+        <div class="video-title">Understanding + Empowerment</div>
+        <div class="video-slides-tag">Slide 13 + Slide 14 + CTA Slide 15 · 9:16 · 1080×1920</div>
+      </div>
+    </div>
+  </div>
+  <div class="video-card-body">
+    <div class="slides-col">
+      <div class="col-heading">Slides Used</div>
+      <div class="slide-pair">
+        <div class="slide-item">
+          <div class="slide-tag">Slide 13 — Understanding</div>
+          <div class="slide-text-label">"He gets it now."</div>
+          <div class="slide-visual-note">Handsome man reading intently. Soft focus. Warm reading light. The shift from confusion to understanding on his face.</div>
+        </div>
+        <div class="slide-item">
+          <div class="slide-tag">Slide 14 — Empowerment</div>
+          <div class="slide-text-label">"She's not scrolling. She's deciding."</div>
+          <div class="slide-visual-note">Beautiful woman looking directly to camera. Phone held deliberately — not scrolling passively. Calm confidence. Dramatic light.</div>
+        </div>
+        <div class="slide-item cta-slide">
+          <div class="slide-tag">Slide 15 — CTA (All Videos)</div>
+          <div class="slide-text-label">"Understand it. Use it."</div>
+          <div class="slide-visual-note">Woman + man at desk. Book open. Both looking to camera with quiet confidence.</div>
+        </div>
+      </div>
+    </div>
+    <div class="content-col">
+      <div class="content-block">
+        <div class="block-label"><span class="dot"></span>Voiceover Script</div>
+        <div class="text-box voiceover" id="vo7">There's a difference between someone who uses AI — and someone who understands it. One of them is in control. The other is being controlled. This book is the shift. Plain language. Real knowledge. No technical background needed. Grab it on Amazon. Link in bio.</div>
+        <button class="copy-btn" onclick="copyText('vo7', this)">
+          <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy Voiceover
+        </button>
+      </div>
+      <div class="divider-line"></div>
+      <div class="content-block">
+        <div class="block-label"><span class="dot cyan"></span>Caption + Hashtags</div>
+        <div class="text-box description" id="desc7">There are two kinds of people in an AI world: those who understand it and those who are shaped by it. Which one are you? Daniel Zane Bryan's Introduction to Artificial Intelligence is written for the curious mind — not the tech expert. No jargon. Just clarity. 🔗 On Amazon now. Link in bio.<span class="hashtags">#AIEmpowerment #TakeControl #BookTok #TechTok #ArtificialIntelligence #AIForBeginners #LearnSomethingNew #BookRecommendation #ReadMore #AIRevolution</span></div>
+        <button class="copy-btn" onclick="copyText('desc7', this)">
+          <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy Caption
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ CTA SLIDE REFERENCE ═══ -->
+<div class="cta-card video-card">
+  <div class="video-card-header">
+    <div class="video-number">
+      <div class="video-num-badge">15</div>
+      <div class="video-title-wrap">
+        <div class="video-title">CTA Slide — Used in ALL 7 Videos</div>
+        <div class="video-slides-tag">Always the final slide · 9:16 · 1080×1920</div>
+      </div>
+    </div>
+  </div>
+  <div class="video-card-body">
+    <div class="slides-col">
+      <div class="col-heading">Slide Details</div>
+      <div class="slide-pair">
+        <div class="slide-item cta-slide">
+          <div class="slide-tag">Slide 15 — CTA (Appears in all 7 videos)</div>
+          <div class="slide-text-label">"Understand it. Use it."</div>
+          <div class="slide-visual-note">Cinematic 9:16 vertical wide shot. Beautiful woman and handsome man sitting together at bright modern desk. Book open between them. Both looking at camera with quiet confidence. Warm natural light. Muted warm tones. Text overlay space at bottom. Photorealistic editorial. 1080×1920.</div>
+        </div>
+      </div>
+    </div>
+    <div class="content-col">
+      <div class="content-block">
+        <div class="block-label"><span class="dot cyan"></span>CTA Voiceover (End of every video)</div>
+        <div class="text-box voiceover" id="vo_cta">Introduction to Artificial Intelligence. Written for the curious mind — not the computer scientist. Grab your copy on Amazon right now. Link in bio.</div>
+        <button class="copy-btn" onclick="copyText('vo_cta', this)">
+          <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy CTA Voiceover
+        </button>
+      </div>
+      <div class="divider-line"></div>
+      <div class="content-block">
+        <div class="block-label"><span class="dot cyan"></span>Amazon Link to Share</div>
+        <div class="text-box description" id="amzn_link">https://www.amazon.com/Introduction-Artificial-Intelligence-Complete-Curious/dp/B0GZKGBKP9</div>
+        <button class="copy-btn" onclick="copyText('amzn_link', this)">
+          <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy Amazon Link
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /main -->
+
+<!-- AMAZON CTA -->
+<div class="amazon-cta">
+  <div class="amazon-cta-text">
+    <div class="amazon-cta-title">Introduction to Artificial Intelligence</div>
+    <div class="amazon-cta-sub">Daniel Zane Bryan · Available on Amazon · Kindle & Paperback</div>
+  </div>
+  <a href="https://www.amazon.com/Introduction-Artificial-Intelligence-Complete-Curious/dp/B0GZKGBKP9" target="_blank" class="amazon-btn">
+    <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+    Buy on Amazon Now
+  </a>
+</div>
+
+<script>
+function copyText(id, btn) {
+  const el = document.getElementById(id);
+  const text = el.innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const original = btn.innerHTML;
+    btn.classList.add('copied');
+    btn.innerHTML = `<svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2.5"><polyline points="20 6 9 17 4 12"/></svg> Copied!`;
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      btn.innerHTML = original;
+    }, 2000);
+  });
+}
+</script>
+</body>
+</html>

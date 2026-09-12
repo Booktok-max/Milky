@@ -1,0 +1,2071 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="AI-powered book marketing for indie authors — bespoke video production, social management, and certified Amazon DSP retargeting that turns views into verified sales."/>
+<title>Atomic‑Shelf | AI-Powered Book Marketing for Indie Authors</title>
+<meta property="og:title" content="Atomic‑Shelf | AI-Powered Book Marketing for Indie Authors"/>
+<meta property="og:description" content="AI-engineered video production, social management, and certified Amazon DSP retargeting — built for indie authors who'd rather write than learn ad platforms."/>
+<meta property="og:type" content="website"/>
+<link rel="icon" type="image/svg+xml" href="https://atomic-shelf.com/atomic-shelf.svg">
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T8VY5C1LPK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-T8VY5C1LPK');
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garant:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Inter:wght@300;400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+
+<style>
+/* ─── DESIGN TOKENS ─────────────────────────────────────────────────────── */
+:root {
+  /* Palette */
+  --ink:          #080714;
+  --ink-2:        #13102A;
+  --ink-3:        #1E1A38;
+  --vellum:       #F4EFE2;
+  --vellum-2:     #EDE5D0;
+  --vellum-3:     #E2D8C0;
+  --copper:       #C8742A;
+  --copper-2:     #E08C40;
+  --copper-pale:  #FBF0DC;
+  --copper-glow:  rgba(200,116,42,0.22);
+  --copper-dim:   rgba(200,116,42,0.12);
+  --rose:         #C4606A;
+  --rose-pale:    #FAECEE;
+  --rose-dim:     rgba(196,96,106,0.12);
+  --teal:         #2D7A78;
+  --teal-pale:    #E2F2F1;
+  --teal-dim:     rgba(45,122,120,0.12);
+  --stone:        #6B6080;
+  --muted:        #9490A0;
+  --card:         #FDFAF3;
+  --border:       rgba(8,7,20,0.10);
+  --border-c:     rgba(200,116,42,0.20);
+  --shadow-sm:    0 2px 16px rgba(8,7,20,0.06);
+  --shadow-md:    0 8px 40px rgba(8,7,20,0.10);
+  --shadow-lg:    0 20px 72px rgba(8,7,20,0.14);
+  --r:            18px;
+  --r-sm:         10px;
+  --r-xs:         6px;
+}
+
+/* ─── RESET ─────────────────────────────────────────────────────────────── */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--vellum);
+  color:var(--ink);
+  line-height:1.7;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* grain overlay */
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:998;opacity:0.09;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='0.06'/%3E%3C/svg%3E");
+}
+
+/* ─── TYPE ──────────────────────────────────────────────────────────────── */
+h1,h2,h3,.serif{font-family:'Cormorant Garant',Georgia,serif;}
+h1{font-size:clamp(3rem,6.2vw,6.4rem);font-weight:700;line-height:0.96;letter-spacing:-0.02em;}
+h2{font-size:clamp(2.2rem,4.2vw,4rem);font-weight:700;line-height:1.02;letter-spacing:-0.02em;}
+h3{font-size:clamp(1.4rem,2vw,1.75rem);font-weight:600;line-height:1.1;}
+h4{font-size:0.92rem;font-weight:600;line-height:1.4;}
+.mono{font-family:'DM Mono',monospace;}
+
+.eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:'DM Mono',monospace;
+  font-size:0.60rem;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--copper);margin-bottom:1rem;
+}
+.eyebrow-line{display:block;width:20px;height:1px;background:currentColor;flex-shrink:0;}
+.eyebrow.center{justify-content:center;}
+
+/* ─── PILLS ─────────────────────────────────────────────────────────────── */
+.pill{
+  display:inline-flex;align-items:center;gap:0.4rem;
+  padding:0.26rem 0.85rem;border-radius:99px;
+  font-family:'DM Mono',monospace;
+  font-size:0.62rem;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;width:fit-content;
+}
+.pill-copper{background:var(--copper-pale);color:var(--copper);border:1px solid rgba(200,116,42,0.22);}
+.pill-rose  {background:var(--rose-pale);color:var(--rose);border:1px solid rgba(196,96,106,0.22);}
+.pill-teal  {background:var(--teal-pale);color:var(--teal);border:1px solid rgba(45,122,120,0.22);}
+.pill-dark  {background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.50);border:1px solid rgba(255,255,255,0.12);}
+.pill-ink   {background:rgba(8,7,20,0.06);color:var(--stone);border:1px solid rgba(8,7,20,0.12);}
+
+/* ─── BUTTONS ───────────────────────────────────────────────────────────── */
+.btn{
+  display:inline-flex;align-items:center;gap:0.5rem;
+  padding:0.8rem 1.8rem;border-radius:var(--r-xs);
+  font-family:'Inter',sans-serif;
+  font-size:0.86rem;font-weight:600;text-decoration:none;
+  letter-spacing:0.005em;transition:all 0.2s;cursor:pointer;border:none;
+}
+.btn-copper{background:var(--copper);color:#fff;box-shadow:0 6px 24px var(--copper-glow);}
+.btn-copper:hover{background:#b3641e;transform:translateY(-2px);box-shadow:0 12px 36px var(--copper-glow);}
+.btn-outline{border:1.5px solid rgba(8,7,20,0.18);color:var(--ink);background:transparent;}
+.btn-outline:hover{border-color:var(--copper);color:var(--copper);}
+.btn-ghost{border:1.5px solid rgba(255,255,255,0.16);color:rgba(255,255,255,0.70);background:transparent;}
+.btn-ghost:hover{border-color:rgba(255,255,255,0.42);color:#fff;}
+.btn-ink{background:var(--ink);color:#fff;}
+.btn-ink:hover{background:var(--ink-2);transform:translateY(-2px);}
+.btn-lg{padding:0.95rem 2.2rem;font-size:0.92rem;}
+
+/* ─── LAYOUT ─────────────────────────────────────────────────────────────*/
+.container{max-width:1280px;margin:0 auto;}
+.section{padding:7rem 6vw;}
+.section-sm{padding:4rem 6vw;}
+.divider{height:1px;margin:0 6vw;background:linear-gradient(90deg,transparent,var(--border),transparent);}
+
+/* ─── NAV ───────────────────────────────────────────────────────────────── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.1rem 5vw;
+  background:rgba(244,239,226,0.90);
+  backdrop-filter:blur(28px) saturate(1.4);
+  border-bottom:1px solid var(--border);transition:all 0.3s;
+}
+nav.scrolled{padding:0.72rem 5vw;box-shadow:0 4px 40px rgba(8,7,20,0.08);}
+.logo{
+  font-family:'Cormorant Garant',serif;
+  font-size:1.55rem;font-weight:700;color:var(--ink);
+  letter-spacing:-0.03em;text-decoration:none;display:flex;align-items:center;
+}
+.logo-dash{color:var(--copper);}
+.nav-links{display:flex;gap:1.8rem;list-style:none;font-size:0.80rem;font-weight:500;}
+.nav-links a{color:var(--stone);text-decoration:none;transition:color 0.2s;}
+.nav-links a:hover{color:var(--copper);}
+.nav-links a.nav-special{
+  color:var(--copper);font-weight:600;background:var(--copper-pale);
+  padding:0.26rem 0.8rem;border-radius:99px;border:1px solid rgba(200,116,42,0.2);
+}
+.nav-links a.nav-special:hover{background:var(--copper);color:#fff;}
+.nav-cta{
+  background:var(--ink);color:#fff;padding:0.58rem 1.3rem;
+  border-radius:var(--r-xs);font-size:0.80rem;font-weight:600;
+  text-decoration:none;transition:all 0.2s;
+}
+.nav-cta:hover{background:var(--copper);transform:translateY(-1px);}
+
+/* ─── HERO ───────────────────────────────────────────────────────────────── */
+.hero{
+  min-height:100vh;display:grid;grid-template-columns:1fr 1fr;
+  padding-top:5.5rem;position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse at 10% 60%,rgba(200,116,42,0.07) 0%,transparent 55%),
+    radial-gradient(ellipse at 80% 90%,rgba(196,96,106,0.04) 0%,transparent 50%);
+}
+
+/* editorial quote mark */
+.hero::after{
+  content:'«';
+  font-family:'Cormorant Garant',serif;font-style:italic;
+  font-size:42vw;font-weight:700;color:rgba(200,116,42,0.04);
+  position:absolute;right:-6vw;bottom:-10vh;line-height:1;pointer-events:none;z-index:0;
+}
+
+.hero-left{
+  padding:5rem 3vw 5rem 7vw;
+  display:flex;flex-direction:column;justify-content:center;position:relative;z-index:1;
+}
+.hero-tag{
+  display:inline-flex;align-items:center;gap:0.55rem;
+  background:transparent;border:1px solid rgba(200,116,42,0.28);
+  color:var(--copper);
+  font-family:'DM Mono',monospace;
+  font-size:0.62rem;font-weight:500;
+  letter-spacing:0.16em;text-transform:uppercase;
+  padding:0.36rem 0.95rem;border-radius:99px;margin-bottom:2rem;width:fit-content;
+}
+.hero-tag-dot{width:5px;height:5px;border-radius:50%;background:var(--copper);animation:blink 2s ease-in-out infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0.3;}}
+
+.hero h1{color:var(--ink);margin-bottom:1.4rem;}
+.hero h1 em{
+  font-style:italic;color:var(--copper);
+  position:relative;display:inline-block;
+}
+
+.hero-rule{width:40px;height:2px;background:var(--copper);margin-bottom:1.5rem;}
+
+.hero-sub{
+  font-size:1.05rem;color:var(--stone);max-width:48ch;
+  margin-bottom:2.5rem;line-height:1.80;font-weight:400;
+}
+.hero-btns{display:flex;gap:0.9rem;flex-wrap:wrap;margin-bottom:2.8rem;}
+
+.hero-proof{
+  display:flex;align-items:center;gap:1.2rem;
+  padding:1rem 1.3rem;
+  background:var(--vellum-2);border:1px solid var(--border);
+  border-radius:var(--r-sm);max-width:440px;
+  text-decoration:none;transition:all 0.24s;
+}
+.hero-proof:hover{border-color:var(--copper);box-shadow:var(--shadow-md);transform:translateY(-2px);}
+.hero-proof-icon{
+  width:46px;height:46px;border-radius:10px;
+  background:var(--copper-pale);display:flex;align-items:center;
+  justify-content:center;font-size:1.4rem;flex-shrink:0;
+}
+.hero-proof-text h4{font-size:0.86rem;color:var(--ink);margin-bottom:0.12rem;}
+.hero-proof-text p{font-size:0.74rem;color:var(--stone);line-height:1.5;}
+.hero-proof-arr{color:var(--copper);margin-left:auto;flex-shrink:0;font-size:1rem;}
+
+/* dark panel */
+.hero-right{
+  background:var(--ink);position:relative;overflow:hidden;
+  display:flex;align-items:center;
+}
+.hero-right::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse at 15% 25%,rgba(200,116,42,0.20) 0%,transparent 50%),
+    radial-gradient(ellipse at 88% 88%,rgba(45,122,120,0.10) 0%,transparent 50%);
+}
+.hero-panel{position:relative;z-index:1;padding:4.5rem 4vw 4rem 4.5vw;width:100%;}
+.hero-panel-label{
+  font-family:'DM Mono',monospace;
+  font-size:0.56rem;font-weight:500;letter-spacing:0.24em;text-transform:uppercase;
+  color:rgba(255,255,255,0.22);margin-bottom:2.5rem;
+}
+
+/* live counter — the signature element */
+.live-counter-wrap{margin-bottom:2.5rem;}
+.live-counter-label{
+  font-family:'DM Mono',monospace;
+  font-size:0.56rem;color:rgba(255,255,255,0.32);letter-spacing:0.18em;
+  text-transform:uppercase;margin-bottom:0.5rem;display:flex;align-items:center;gap:8px;
+}
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--copper-2);animation:blink 2s ease-in-out infinite;flex-shrink:0;}
+.live-counter-num{
+  font-family:'Cormorant Garant',serif;
+  font-size:5.5rem;font-weight:700;color:#fff;
+  line-height:0.92;letter-spacing:-0.04em;
+  position:relative;display:inline-block;
+}
+.live-counter-num .counter-val{display:inline-block;}
+.live-counter-num sup{font-size:2rem;vertical-align:top;margin-top:0.6rem;color:var(--copper-2);}
+.live-counter-sub{font-size:0.74rem;color:rgba(255,255,255,0.34);margin-top:0.5rem;line-height:1.5;}
+
+.hero-stats-row{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;margin-bottom:2.2rem;}
+.h-stat{border-left:1.5px solid rgba(200,116,42,0.35);padding-left:1rem;}
+.h-stat-num{
+  font-family:'Cormorant Garant',serif;
+  font-size:2.4rem;font-weight:700;color:#fff;
+  line-height:1;letter-spacing:-0.04em;margin-bottom:0.15rem;
+}
+.h-stat-label{font-family:'DM Mono',monospace;font-size:0.60rem;color:rgba(255,255,255,0.32);letter-spacing:0.06em;}
+
+.hero-roas-card{
+  background:rgba(200,116,42,0.12);border:1px solid rgba(200,116,42,0.26);
+  border-radius:var(--r-sm);padding:1.2rem 1.4rem;margin-bottom:1.2rem;
+  display:flex;align-items:center;gap:1.2rem;
+}
+.roas-num{
+  font-family:'Cormorant Garant',serif;
+  font-size:2.2rem;font-weight:700;color:var(--copper-2);line-height:1;
+}
+.roas-text{font-size:0.76rem;color:rgba(255,255,255,0.44);line-height:1.6;}
+.roas-text strong{color:var(--copper-2);font-weight:500;}
+
+.hero-pullquote{
+  background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);
+  border-radius:var(--r-sm);padding:1.1rem 1.4rem;
+  font-family:'Cormorant Garant',serif;
+  font-size:1.05rem;color:rgba(255,255,255,0.40);line-height:1.8;font-style:italic;
+}
+.hero-pullquote strong{color:rgba(255,255,255,0.78);font-style:normal;font-weight:600;}
+
+/* ─── TRUST BAR ─────────────────────────────────────────────────────────── */
+.trust-bar{
+  background:var(--ink-2);padding:1.1rem 6vw;
+  display:flex;flex-wrap:wrap;justify-content:center;gap:0.9rem 2rem;
+}
+.trust-item{
+  display:flex;align-items:center;gap:0.5rem;
+  font-family:'DM Mono',monospace;
+  font-size:0.68rem;color:rgba(255,255,255,0.36);
+}
+.trust-dot{width:3px;height:3px;border-radius:50%;background:var(--copper-2);flex-shrink:0;}
+.trust-item a{color:rgba(255,255,255,0.36);text-decoration:none;transition:color 0.2s;}
+.trust-item a:hover{color:var(--copper-2);}
+
+/* ─── SERVICES ──────────────────────────────────────────────────────────── */
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;}
+
+.svc{
+  background:var(--card);border:1px solid rgba(8,7,20,0.08);
+  border-radius:var(--r);padding:1.9rem;
+  box-shadow:var(--shadow-sm);transition:all 0.28s cubic-bezier(0.4,0,0.2,1);
+  position:relative;overflow:hidden;
+}
+.svc::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--copper),var(--copper-2));
+  transform:scaleX(0);transform-origin:left;transition:transform 0.30s;
+}
+.svc:hover::after{transform:scaleX(1);}
+.svc:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg);border-color:rgba(200,116,42,0.20);}
+.svc-icon{
+  width:60px;height:60px;border-radius:14px;background:var(--copper-pale);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.9rem;margin-bottom:1.1rem;transition:background 0.24s,transform 0.24s;
+}
+.svc:hover .svc-icon{background:var(--copper);transform:scale(1.05);}
+.svc h3{font-size:1.12rem;margin-bottom:0.45rem;color:var(--ink);}
+.svc p{font-size:0.84rem;color:var(--muted);line-height:1.74;}
+
+.svc.dsp-wide{
+  background:linear-gradient(138deg,var(--ink) 0%,var(--ink-3) 100%);
+  border-color:rgba(200,116,42,0.28);
+  grid-column:2/4;
+  display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start;
+}
+.svc.dsp-wide h3{color:#fff;font-size:1.25rem;}
+.svc.dsp-wide p{color:rgba(255,255,255,0.44);}
+.svc.dsp-wide .svc-icon{background:rgba(200,116,42,0.16);}
+.dsp-wide-stats{display:flex;gap:2rem;margin-top:1.4rem;padding-top:1.4rem;border-top:1px solid rgba(255,255,255,0.07);}
+.dsps-num{
+  font-family:'Cormorant Garant',serif;
+  font-size:2.4rem;font-weight:700;color:var(--copper-2);
+  line-height:1;letter-spacing:-0.04em;margin-bottom:0.1rem;
+}
+.dsps-label{font-family:'DM Mono',monospace;font-size:0.62rem;color:rgba(255,255,255,0.32);}
+.dsp-wide-link{
+  display:inline-flex;align-items:center;gap:0.36rem;
+  color:var(--copper-2);font-size:0.80rem;font-weight:600;
+  text-decoration:none;transition:gap 0.2s;margin-top:1.4rem;
+}
+.dsp-wide-link:hover{gap:0.58rem;}
+
+/* ─── DSP SECTION ───────────────────────────────────────────────────────── */
+.dsp-section{background:var(--ink);padding:7rem 6vw;}
+.dsp-section .eyebrow{color:rgba(200,116,42,0.80);}
+.dsp-section h2{color:#fff;margin-bottom:1rem;}
+.dsp-sub{color:rgba(255,255,255,0.40);font-size:1rem;line-height:1.82;max-width:54ch;margin-bottom:3.5rem;}
+
+.dsp-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.2rem;}
+.dsp-feat{
+  background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);
+  border-radius:var(--r);padding:1.9rem;transition:all 0.26s;
+}
+.dsp-feat:hover{background:rgba(255,255,255,0.07);border-color:rgba(200,116,42,0.26);transform:translateY(-3px);}
+.dsp-feat-icon{
+  width:50px;height:50px;border-radius:12px;background:rgba(200,116,42,0.14);
+  display:flex;align-items:center;justify-content:center;font-size:1.6rem;margin-bottom:1rem;
+}
+.dsp-feat h4{color:#fff;font-size:0.97rem;margin-bottom:0.45rem;}
+.dsp-feat p{font-size:0.83rem;color:rgba(255,255,255,0.42);line-height:1.74;}
+
+.alloc-card{
+  background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);
+  border-radius:var(--r);padding:2rem;margin-bottom:1.2rem;
+}
+.alloc-card h4{color:#fff;margin-bottom:0.25rem;}
+.alloc-sub{font-size:0.80rem;color:rgba(255,255,255,0.34);margin-bottom:1.4rem;}
+.alloc-bar{height:12px;border-radius:99px;display:flex;gap:3px;margin-bottom:1.1rem;overflow:hidden;}
+.alloc-seg{height:100%;border-radius:99px;}
+.alloc-seg.tik{background:linear-gradient(90deg,#EE1D52,#69C9D0);width:20%;}
+.alloc-seg.dsp{background:linear-gradient(90deg,var(--copper),var(--copper-2));width:80%;}
+.alloc-legend{display:flex;gap:2rem;flex-wrap:wrap;}
+.alloc-item{display:flex;align-items:center;gap:0.5rem;font-size:0.79rem;color:rgba(255,255,255,0.56);}
+.alloc-dot{width:9px;height:9px;border-radius:3px;flex-shrink:0;}
+.alloc-dot.tik{background:linear-gradient(135deg,#EE1D52,#69C9D0);}
+.alloc-dot.dsp{background:linear-gradient(135deg,var(--copper),var(--copper-2));}
+.alloc-pct{font-weight:700;color:#fff;}
+
+.tl-card{
+  background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);
+  border-radius:var(--r);padding:2rem;margin-bottom:1.2rem;
+}
+.tl-card h4{color:#fff;margin-bottom:0.25rem;}
+.tl-sub{font-size:0.80rem;color:rgba(255,255,255,0.34);margin-bottom:1.8rem;}
+.tl-track{display:flex;position:relative;}
+.tl-track::before{
+  content:'';position:absolute;top:26px;left:26px;right:26px;height:1px;
+  background:linear-gradient(90deg,rgba(200,116,42,0.26),var(--copper));
+}
+.tl-step{flex:1;text-align:center;position:relative;}
+.tl-dot{
+  width:52px;height:52px;border-radius:50%;
+  background:rgba(200,116,42,0.08);border:1.5px solid rgba(200,116,42,0.22);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'DM Mono',monospace;font-size:0.78rem;font-weight:500;color:rgba(255,255,255,0.34);
+  margin:0 auto 0.75rem;position:relative;z-index:1;transition:all 0.26s;
+}
+.tl-step.active .tl-dot{
+  background:var(--copper);border-color:var(--copper);
+  color:#fff;box-shadow:0 0 24px var(--copper-glow);
+}
+.tl-label{font-family:'DM Mono',monospace;font-size:0.62rem;color:rgba(255,255,255,0.28);line-height:1.4;}
+.tl-step.active .tl-label{color:rgba(255,255,255,0.68);font-weight:500;}
+
+.dsp-strip{
+  background:var(--copper);border-radius:var(--r);padding:2rem 2.4rem;
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;
+}
+.dsp-strip-item{text-align:center;}
+.strip-num{
+  font-family:'Cormorant Garant',serif;font-size:3rem;font-weight:700;color:#fff;
+  line-height:1;letter-spacing:-0.04em;margin-bottom:0.2rem;
+}
+.strip-label{font-family:'DM Mono',monospace;font-size:0.65rem;color:rgba(255,255,255,0.80);line-height:1.4;}
+.dsp-ctas{display:flex;gap:1rem;margin-top:2.4rem;align-items:center;}
+
+/* ─── FUNNEL ─────────────────────────────────────────────────────────────── */
+.funnel-section{background:var(--vellum-2);}
+.funnel-track{
+  display:grid;grid-template-columns:repeat(5,1fr);
+  background:var(--card);border:1px solid rgba(8,7,20,0.08);
+  border-radius:var(--r);box-shadow:var(--shadow-md);overflow:hidden;margin-top:3rem;
+}
+.funnel-step{
+  padding:2rem 1.5rem;border-right:1px solid rgba(8,7,20,0.07);
+  transition:background 0.22s;position:relative;
+}
+.funnel-step:last-child{border-right:none;}
+.funnel-step:hover{background:var(--copper-pale);}
+.funnel-n{
+  font-family:'Cormorant Garant',serif;font-style:italic;
+  font-size:3.6rem;font-weight:700;color:rgba(200,116,42,0.12);
+  line-height:1;margin-bottom:0.6rem;letter-spacing:-0.04em;transition:color 0.22s;
+}
+.funnel-step:hover .funnel-n{color:rgba(200,116,42,0.50);}
+.funnel-phase{font-family:'DM Mono',monospace;font-size:0.58rem;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--copper);margin-bottom:0.32rem;}
+.funnel-step h4{font-size:0.92rem;color:var(--ink);margin-bottom:0.38rem;}
+.funnel-step p{font-size:0.78rem;color:var(--muted);line-height:1.60;}
+
+/* ─── PROCESS ────────────────────────────────────────────────────────────── */
+.process-section{background:var(--ink);}
+.process-section .eyebrow{color:rgba(200,116,42,0.80);}
+.process-section h2{color:#fff;margin-bottom:3rem;}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;position:relative;}
+.steps::before{
+  content:'';position:absolute;top:26px;left:calc(26px + 1.5rem);right:calc(26px + 1.5rem);height:1px;
+  background:linear-gradient(90deg,var(--copper),rgba(200,116,42,0.05));
+}
+.step{padding-right:1.5rem;}
+.step-circle{
+  width:52px;height:52px;border-radius:50%;
+  background:rgba(200,116,42,0.07);border:1.5px solid rgba(200,116,42,0.24);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'DM Mono',monospace;font-size:1.1rem;font-weight:500;color:var(--copper);
+  margin-bottom:1.4rem;position:relative;z-index:1;transition:all 0.26s;
+}
+.step:hover .step-circle{background:var(--copper);color:#fff;border-color:var(--copper);box-shadow:0 0 24px var(--copper-glow);}
+.step h3{font-size:1.15rem;color:#fff;margin-bottom:0.42rem;}
+.step p{font-size:0.82rem;color:rgba(255,255,255,0.38);line-height:1.76;}
+
+/* ─── ZERO ───────────────────────────────────────────────────────────────── */
+.zero-section{background:var(--vellum-3);}
+.zero-inner{max-width:980px;margin:0 auto;text-align:center;}
+.zero-inner h2{margin-bottom:1rem;}
+.zero-inner>p{font-size:1rem;color:var(--stone);line-height:1.82;max-width:56ch;margin:0 auto 0.5rem;}
+.zero-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:3rem;text-align:left;}
+.zero-card{
+  background:var(--card);border-radius:var(--r);padding:1.8rem;
+  border:1px solid rgba(8,7,20,0.07);box-shadow:var(--shadow-sm);transition:all 0.26s;
+}
+.zero-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);}
+.zero-icon{
+  width:56px;height:56px;border-radius:13px;background:var(--copper-pale);
+  display:flex;align-items:center;justify-content:center;font-size:1.7rem;margin-bottom:1rem;
+}
+.zero-card h4{font-size:0.94rem;margin-bottom:0.32rem;}
+.zero-card p{font-size:0.82rem;color:var(--muted);line-height:1.7;}
+
+/* ─── RESULTS ───────────────────────────────────────────────────────────── */
+.results-section{background:var(--vellum);}
+.results-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:3rem;}
+.result-card{
+  background:var(--card);border:1px solid rgba(8,7,20,0.07);
+  border-radius:var(--r);padding:2.2rem;box-shadow:var(--shadow-sm);transition:all 0.26s;
+}
+.result-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg);border-color:rgba(200,116,42,0.18);}
+.result-num{
+  font-family:'Cormorant Garant',serif;font-size:4rem;font-weight:700;color:var(--copper);
+  line-height:1;letter-spacing:-0.04em;margin-bottom:0.18rem;
+}
+.result-label{font-size:0.80rem;color:var(--stone);margin-bottom:0.85rem;font-weight:500;}
+.result-desc{font-size:0.83rem;color:var(--muted);line-height:1.70;}
+.result-link{
+  display:inline-flex;align-items:center;gap:0.32rem;
+  margin-top:0.9rem;
+  font-size:0.75rem;font-weight:600;color:var(--copper);
+  text-decoration:none;transition:gap 0.18s;
+}
+.result-link:hover{gap:0.5rem;}
+
+/* ─── MOCK PROGRESS REPORT ──────────────────────────────────────────────── */
+.mock-report-section{background:var(--ink);padding:7rem 6vw;}
+.mock-report-section .eyebrow{color:rgba(200,116,42,0.80);}
+.mock-report-section h2{color:#fff;margin-bottom:0.8rem;}
+.mock-report-intro{color:rgba(255,255,255,0.40);font-size:0.98rem;line-height:1.8;max-width:52ch;margin-bottom:3rem;}
+
+.mock-report{
+  background:linear-gradient(148deg,#FFFCF5,rgba(244,239,226,0.95));
+  border:2px solid rgba(200,116,42,0.20);
+  border-radius:var(--r);box-shadow:0 24px 80px rgba(8,7,20,0.40);
+  overflow:hidden;max-width:900px;
+}
+.mr-topbar{
+  background:linear-gradient(160deg,#162A1C,#0D1F10);
+  padding:14px 22px;display:flex;align-items:center;gap:12px;
+}
+.mr-logo-text{font-family:'Cormorant Garant',serif;font-size:1.15rem;font-weight:700;color:#F0E8D0;}
+.mr-logo-text em{color:#D4A030;font-style:italic;}
+.mr-tag{font-family:'DM Mono',monospace;font-size:0.54rem;color:rgba(168,216,196,0.55);letter-spacing:0.16em;text-transform:uppercase;margin-left:auto;}
+
+.mr-hero{
+  padding:22px 26px 18px;
+  border-bottom:1px solid rgba(8,7,20,0.10);
+  background:linear-gradient(148deg,#FFFCF5,rgba(200,116,42,0.04));
+}
+.mr-greeting{font-family:'DM Mono',monospace;font-size:0.60rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:#2D7A52;margin-bottom:4px;}
+.mr-title{font-family:'Cormorant Garant',serif;font-size:1.85rem;font-weight:700;color:var(--ink);line-height:1.15;}
+.mr-author{font-size:0.90rem;color:var(--stone);font-weight:500;margin-top:2px;}
+.mr-tags{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px;}
+.mr-tag-pill{
+  font-family:'DM Mono',monospace;font-size:0.58rem;font-weight:500;
+  text-transform:uppercase;letter-spacing:0.06em;
+  padding:3px 11px;border-radius:40px;border:1px solid;
+}
+.mr-tag-pill.active{background:rgba(45,122,82,0.12);color:#2D7A52;border-color:rgba(45,122,82,0.28);}
+.mr-tag-pill.week{background:rgba(125,60,152,0.10);color:#7D3C98;border-color:rgba(125,60,152,0.26);}
+.mr-tag-pill.updated{background:rgba(45,122,82,0.08);color:#2D7A52;border-color:rgba(45,122,82,0.28);}
+
+.mr-stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;padding:14px 26px;border-bottom:1px solid rgba(8,7,20,0.08);}
+.mr-stat{background:var(--vellum);border:1px solid rgba(8,7,20,0.08);border-radius:8px;padding:11px;text-align:center;}
+.mr-stat-v{font-family:'Cormorant Garant',serif;font-size:1.55rem;font-weight:700;color:var(--ink);line-height:1;}
+.mr-stat-l{font-family:'DM Mono',monospace;font-size:0.50rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.09em;margin-top:3px;}
+
+.mr-week-widget{
+  margin:14px 26px;
+  background:linear-gradient(148deg,#FFFCF5,rgba(45,122,82,0.04));
+  border:2px solid rgba(45,122,82,0.22);border-radius:10px;
+  overflow:hidden;position:relative;
+}
+.mr-week-widget::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#2D7A52,var(--copper));}
+.mr-week-hdr{padding:12px 18px;display:flex;align-items:center;gap:10px;}
+.mr-week-dot{width:7px;height:7px;border-radius:50%;background:#2D7A52;animation:blink 2s ease-in-out infinite;}
+.mr-week-title{font-family:'Cormorant Garant',serif;font-size:1.05rem;font-weight:700;color:var(--ink);}
+.mr-week-badge{font-family:'DM Mono',monospace;font-size:0.54rem;padding:2px 9px;border-radius:40px;background:rgba(45,122,82,0.12);color:#2D7A52;border:1px solid rgba(45,122,82,0.26);}
+.mr-week-body{padding:0 18px 14px;display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.mr-week-tile{background:rgba(255,255,255,0.7);border:1px solid rgba(8,7,20,0.08);border-radius:8px;padding:11px 13px;}
+.mr-week-tile-label{font-family:'DM Mono',monospace;font-size:0.50rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.09em;margin-bottom:4px;}
+.mr-week-tile-val{font-family:'Cormorant Garant',serif;font-size:1.15rem;font-weight:700;color:var(--ink);}
+.mr-prog-wrap{grid-column:1/-1;background:rgba(255,255,255,0.7);border:1px solid rgba(8,7,20,0.08);border-radius:8px;padding:11px 13px;}
+.mr-prog-label{font-family:'DM Mono',monospace;font-size:0.50rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.09em;margin-bottom:6px;display:flex;justify-content:space-between;}
+.mr-prog-track{height:8px;background:rgba(8,7,20,0.08);border-radius:4px;overflow:hidden;}
+.mr-prog-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,#2D7A52,var(--copper));}
+
+.mr-analytics{padding:14px 26px;border-top:1px solid rgba(8,7,20,0.08);}
+.mr-analytics-hdr{font-family:'Cormorant Garant',serif;font-size:1.05rem;font-weight:700;color:var(--ink);margin-bottom:10px;}
+.mr-platform-title{font-family:'DM Mono',monospace;font-size:0.54rem;font-weight:500;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);margin-bottom:7px;display:flex;align-items:center;gap:8px;}
+.mr-platform-title::after{content:'';flex:1;height:1px;background:rgba(8,7,20,0.08);}
+.mr-metrics{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-bottom:12px;}
+.mr-metric{background:var(--vellum);border:1px solid rgba(8,7,20,0.08);border-radius:8px;padding:9px;text-align:center;}
+.mr-metric-v{font-family:'Cormorant Garant',serif;font-size:1.1rem;font-weight:700;color:var(--ink);line-height:1;}
+.mr-metric-l{font-family:'DM Mono',monospace;font-size:0.48rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-top:2px;}
+.mr-metric.tt .mr-metric-v{color:#7D3C98;}
+.mr-metric.yt .mr-metric-v{color:#C0392B;}
+
+.mr-chat-preview{
+  margin:0 26px 14px;
+  background:rgba(45,122,82,0.04);border:1px solid rgba(45,122,82,0.20);
+  border-radius:10px;padding:14px 16px;
+}
+.mr-chat-label{font-family:'DM Mono',monospace;font-size:0.54rem;font-weight:500;text-transform:uppercase;letter-spacing:0.12em;color:#2D7A52;margin-bottom:10px;}
+.mr-msg{display:flex;flex-direction:column;margin-bottom:8px;}
+.mr-msg.editor{align-items:flex-start;}
+.mr-msg.author{align-items:flex-end;}
+.mr-msg-name{font-family:'DM Mono',monospace;font-size:0.52rem;color:var(--muted);margin-bottom:3px;}
+.mr-msg-bubble{
+  max-width:80%;padding:8px 12px;border-radius:12px;
+  font-size:0.80rem;line-height:1.55;
+}
+.mr-msg.editor .mr-msg-bubble{background:rgba(8,7,20,0.07);color:var(--ink);border-radius:12px 12px 12px 3px;}
+.mr-msg.author .mr-msg-bubble{background:linear-gradient(135deg,#2D7A52,#1E5C3A);color:#fff;border-radius:12px 12px 3px 12px;}
+
+/* ─── PRICING ─────────────────────────────────────────────────────────────── */
+.pricing-section{background:var(--vellum-2);}
+
+.billing-wrap{display:flex;flex-direction:column;align-items:center;gap:1rem;margin:0 auto 3.5rem;}
+.billing-toggle{
+  display:inline-flex;background:var(--vellum-3);
+  border:1px solid rgba(8,7,20,0.12);border-radius:99px;padding:5px;gap:3px;
+}
+.bill-btn{
+  padding:0.50rem 1.15rem;border-radius:99px;
+  font-family:'DM Mono',monospace;font-size:0.72rem;font-weight:500;
+  border:none;cursor:pointer;background:transparent;color:var(--muted);
+  transition:all 0.20s;position:relative;
+}
+.bill-btn.active{background:var(--card);color:var(--ink);box-shadow:0 2px 10px rgba(8,7,20,0.08);}
+.bill-btn .badge{
+  position:absolute;top:-9px;right:-5px;background:var(--copper);color:#fff;
+  font-family:'DM Mono',monospace;font-size:0.50rem;font-weight:700;letter-spacing:0.08em;
+  text-transform:uppercase;padding:0.14rem 0.42rem;border-radius:99px;white-space:nowrap;
+}
+.billing-note{
+  font-size:0.78rem;color:var(--stone);
+  background:var(--copper-pale);border:1px solid rgba(200,116,42,0.18);
+  padding:0.42rem 1.1rem;border-radius:99px;
+}
+.billing-note strong{color:var(--copper);}
+
+/* DSP unlock callout */
+.dsp-unlock-callout{
+  background:linear-gradient(135deg,rgba(200,116,42,0.10),rgba(200,116,42,0.06));
+  border:1.5px solid rgba(200,116,42,0.30);border-radius:var(--r);
+  padding:1.4rem 2rem;margin-bottom:2rem;
+  display:flex;align-items:flex-start;gap:1.2rem;
+}
+.dsp-unlock-icon{font-size:1.8rem;flex-shrink:0;margin-top:0.1rem;}
+.dsp-unlock-title{font-family:'Cormorant Garant',serif;font-size:1.15rem;font-weight:700;color:var(--ink);margin-bottom:0.3rem;}
+.dsp-unlock-desc{font-size:0.83rem;color:var(--stone);line-height:1.6;}
+.dsp-unlock-desc strong{color:var(--copper);}
+
+/* clarity callout */
+.pricing-clarity{
+  background:var(--card);border:1.5px solid rgba(8,7,20,0.08);
+  border-radius:var(--r);padding:1.8rem 2.2rem;margin-bottom:3rem;
+  display:grid;grid-template-columns:auto 1fr 1fr;gap:2rem;align-items:center;
+}
+.clarity-icon{font-size:2.4rem;}
+.clarity-tier{padding:1.1rem 1.3rem;border-radius:var(--r-sm);}
+.clarity-tier.co{background:var(--teal-pale);border:1.5px solid rgba(45,122,120,0.24);}
+.clarity-tier.ca{background:var(--copper-pale);border:1.5px solid rgba(200,116,42,0.24);}
+.clarity-tier-label{font-family:'DM Mono',monospace;font-size:0.58rem;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;margin-bottom:0.32rem;}
+.clarity-tier.co .clarity-tier-label{color:var(--teal);}
+.clarity-tier.ca .clarity-tier-label{color:var(--copper);}
+.clarity-tier h4{color:var(--ink);margin-bottom:0.25rem;}
+.clarity-tier p{font-size:0.78rem;color:var(--muted);line-height:1.6;}
+.clarity-badge{
+  display:inline-flex;align-items:center;gap:0.28rem;
+  font-family:'DM Mono',monospace;font-size:0.64rem;font-weight:500;
+  padding:0.18rem 0.7rem;border-radius:99px;margin-top:0.42rem;
+}
+.clarity-tier.co .clarity-badge{background:var(--teal-dim);color:var(--teal);}
+.clarity-tier.ca .clarity-badge{background:var(--copper-dim);color:var(--copper);}
+
+/* grid */
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;}
+.pricing-grid-bottom{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;
+  margin-top:1rem;max-width:calc(66.666% + 0.33rem);
+}
+
+.plan{
+  background:var(--card);border:1.5px solid rgba(8,7,20,0.08);
+  border-radius:var(--r);padding:2.1rem;
+  display:flex;flex-direction:column;position:relative;
+  transition:all 0.30s cubic-bezier(0.4,0,0.2,1);box-shadow:var(--shadow-sm);
+}
+.plan:hover{transform:translateY(-7px);box-shadow:var(--shadow-lg);}
+.plan.featured{
+  border-color:var(--copper);
+  background:linear-gradient(148deg,#fdfaf3 0%,#fef6e4 100%);
+  box-shadow:0 12px 50px rgba(200,116,42,0.12);
+}
+.plan-badge{
+  position:absolute;top:-12px;left:50%;transform:translateX(-50%);
+  background:var(--copper);color:#fff;
+  font-family:'DM Mono',monospace;
+  font-size:0.58rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;
+  padding:0.26rem 1.1rem;border-radius:99px;white-space:nowrap;
+}
+.plan-dsp-badge{
+  position:absolute;top:-12px;right:20px;
+  background:var(--ink);color:var(--copper-2);
+  font-family:'DM Mono',monospace;
+  font-size:0.55rem;font-weight:500;letter-spacing:0.10em;text-transform:uppercase;
+  padding:0.24rem 0.9rem;border-radius:99px;white-space:nowrap;
+  border:1px solid rgba(200,116,42,0.30);display:none;
+}
+.plan-dsp-badge.visible{display:block;}
+
+.plan-type{margin-bottom:0.85rem;}
+.plan-name{
+  font-family:'DM Mono',monospace;
+  font-size:0.62rem;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);margin-bottom:0.50rem;}
+.price-block{margin-bottom:0.4rem;}
+.price-main{
+  font-family:'Cormorant Garant',serif;font-size:3.4rem;font-weight:700;color:var(--ink);
+  line-height:1;letter-spacing:-0.04em;display:block;
+}
+.price-sub{font-size:0.76rem;color:var(--muted);display:block;margin-top:0.1rem;}
+.price-detail{font-size:0.78rem;color:var(--stone);font-weight:500;margin-top:0.20rem;display:none;}
+.price-save{
+  display:none;align-items:center;gap:0.28rem;
+  background:var(--copper-pale);border:1px solid rgba(200,116,42,0.18);
+  color:var(--copper);font-family:'DM Mono',monospace;font-size:0.64rem;font-weight:500;
+  padding:0.20rem 0.68rem;border-radius:99px;margin-top:0.50rem;width:fit-content;
+}
+
+.ad-note{
+  background:var(--copper-pale);border:1px solid rgba(200,116,42,0.18);
+  border-radius:var(--r-xs);padding:0.68rem 0.88rem;
+  font-size:0.74rem;color:var(--stone);line-height:1.52;margin-bottom:1.1rem;
+}
+.plan.has-ads .ad-note{display:block;}
+.plan:not(.has-ads) .ad-note{display:none;}
+.ad-note strong{color:var(--copper);font-weight:600;}
+.ad-row{display:flex;gap:0.85rem;margin-top:0.42rem;}
+.ad-seg{display:flex;align-items:center;gap:0.30rem;font-size:0.70rem;color:var(--stone);}
+.ad-dot{width:7px;height:7px;border-radius:2px;flex-shrink:0;}
+.ad-dot.tik{background:linear-gradient(135deg,#EE1D52,#69C9D0);}
+.ad-dot.dsp{background:linear-gradient(135deg,var(--copper),var(--copper-2));}
+
+.plan-divider{height:1px;background:var(--border);margin:1rem 0;}
+.plan-features{list-style:none;flex:1;margin-bottom:1.3rem;}
+.plan-features li{
+  font-size:0.836rem;color:var(--stone);padding:0.42rem 0;
+  border-bottom:1px solid rgba(200,116,42,0.06);
+  display:flex;align-items:flex-start;gap:0.55rem;line-height:1.5;
+}
+.plan-features li::before{content:'→';color:var(--copper);font-size:0.68rem;margin-top:0.20rem;flex-shrink:0;}
+.plan-features li.dsp-perk{
+  background:linear-gradient(90deg,rgba(200,116,42,0.07),transparent);
+  border-radius:var(--r-xs);padding-left:0.55rem;
+  border-bottom-color:rgba(200,116,42,0.13);
+  color:var(--ink);font-weight:500;
+}
+.plan-features li.dsp-perk::before{color:var(--copper);content:'✦';}
+
+/* DSP unlock milestone note */
+.plan-dsp-milestone{
+  background:rgba(200,116,42,0.08);border:1px solid rgba(200,116,42,0.22);
+  border-radius:var(--r-xs);padding:0.65rem 0.85rem;margin-bottom:1rem;
+  font-size:0.74rem;color:var(--stone);line-height:1.5;display:none;
+}
+.plan-dsp-milestone strong{color:var(--copper);}
+
+.plan-team{
+  background:var(--vellum-2);border:1px solid rgba(8,7,20,0.07);
+  border-radius:var(--r-sm);padding:1.1rem;margin-bottom:1.3rem;
+}
+.plan-team-hdr{
+  font-family:'DM Mono',monospace;
+  font-size:0.58rem;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:0.75rem;
+}
+.avs{display:flex;gap:0.38rem;margin-bottom:0.72rem;flex-wrap:wrap;}
+.av{
+  width:32px;height:32px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.60rem;font-weight:700;color:#fff;
+  flex-shrink:0;border:2px solid var(--card);
+}
+.av-0{background:var(--copper);}.av-1{background:var(--rose);}
+.av-2{background:var(--teal);}.av-3{background:#7B4A8A;}
+.av-4{background:#2A6494;}.av-5{background:#3A7A44;}.av-6{background:#874A1A;}
+.team-title{font-size:0.80rem;font-weight:600;color:var(--ink);margin-bottom:0.20rem;}
+.team-desc{font-size:0.74rem;color:var(--muted);line-height:1.6;}
+
+.plan-btn{
+  display:block;text-align:center;padding:0.85rem;
+  border-radius:var(--r-xs);font-size:0.84rem;font-weight:600;
+  text-decoration:none;letter-spacing:0.005em;transition:all 0.20s;
+  border:none;cursor:pointer;
+}
+.pb-outline{border:1.5px solid rgba(8,7,20,0.16);color:var(--ink);}
+.pb-outline:hover{border-color:var(--copper);color:var(--copper);}
+.pb-copper{background:var(--copper);color:#fff;box-shadow:0 5px 20px var(--copper-glow);}
+.pb-copper:hover{background:#b3641e;transform:translateY(-1px);}
+.pb-ink{background:var(--ink);color:#fff;}
+.pb-ink:hover{background:var(--ink-2);transform:translateY(-1px);}
+
+/* ─── ORBIT CARD ─────────────────────────────────────────────────────────── */
+.plan.orbit-plan{
+  background:linear-gradient(148deg,var(--ink) 0%,var(--ink-3) 100%);
+  border-color:rgba(200,116,42,0.34);
+}
+.plan.orbit-plan:hover{box-shadow:0 22px 72px rgba(200,116,42,0.17);}
+.plan.orbit-plan .plan-name{color:rgba(255,255,255,0.30);}
+.plan.orbit-plan .price-block .price-main{color:#fff;font-size:1.55rem;line-height:1.3;}
+.plan.orbit-plan .price-block .price-sub{color:rgba(255,255,255,0.36);}
+.plan.orbit-plan .plan-divider{background:rgba(255,255,255,0.08);}
+.plan.orbit-plan .plan-features li{color:rgba(255,255,255,0.54);border-bottom-color:rgba(255,255,255,0.06);}
+.plan.orbit-plan .plan-features li::before{color:var(--copper-2);}
+.plan.orbit-plan .plan-features li.dsp-perk{
+  background:linear-gradient(90deg,rgba(200,116,42,0.16),transparent);
+  color:rgba(255,255,255,0.88);border-bottom-color:rgba(200,116,42,0.16);
+}
+.plan.orbit-plan .plan-features li.dsp-perk::before{color:var(--copper-2);}
+.plan.orbit-plan .plan-team{background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.07);}
+.plan.orbit-plan .plan-team-hdr{color:rgba(255,255,255,0.24);}
+.plan.orbit-plan .team-title{color:#fff;}
+.plan.orbit-plan .team-desc{color:rgba(255,255,255,0.36);}
+.plan.orbit-plan .ad-note{
+  background:rgba(200,116,42,0.12);border-color:rgba(200,116,42,0.28);color:rgba(255,255,255,0.56);
+}
+.plan.orbit-plan .ad-note strong{color:var(--copper-2);}
+.plan.orbit-plan .ad-seg{color:rgba(255,255,255,0.44);}
+
+.orbit-seat-cta{
+  background:rgba(200,116,42,0.12);
+  border:1.5px solid rgba(200,116,42,0.34);
+  border-radius:var(--r-sm);padding:1.1rem 1.2rem;margin-bottom:1.3rem;
+}
+.orbit-seat-cta-label{
+  font-family:'DM Mono',monospace;font-size:0.56rem;font-weight:500;letter-spacing:0.20em;text-transform:uppercase;
+  color:var(--copper-2);margin-bottom:0.45rem;
+}
+.orbit-seat-cta h4{
+  font-family:'Cormorant Garant',serif;font-style:italic;
+  font-size:1.20rem;color:#fff;margin-bottom:0.40rem;line-height:1.2;
+}
+.orbit-seat-cta p{font-size:0.76rem;color:rgba(255,255,255,0.48);line-height:1.6;margin-bottom:0.85rem;}
+.orbit-seat-cta .pb-orbit{
+  display:block;text-align:center;padding:0.76rem;border-radius:var(--r-xs);
+  background:var(--copper);color:#fff;font-size:0.82rem;font-weight:600;
+  text-decoration:none;transition:all 0.20s;letter-spacing:0.005em;
+}
+.orbit-seat-cta .pb-orbit:hover{background:#b3641e;transform:translateY(-1px);}
+.orbit-seat-secondary{
+  display:block;text-align:center;
+  color:rgba(255,255,255,0.36);font-size:0.74rem;
+  text-decoration:none;margin-top:0.72rem;transition:color 0.18s;
+}
+.orbit-seat-secondary:hover{color:var(--copper-2);}
+
+/* ─── FAQ ─────────────────────────────────────────────────────────────────── */
+.faq-section{background:var(--vellum);}
+.faq-inner{max-width:800px;margin:0 auto;}
+.faq-list{margin-top:3rem;display:flex;flex-direction:column;gap:6px;}
+.faq-card{
+  background:var(--card);border:1px solid rgba(8,7,20,0.08);
+  border-radius:var(--r-sm);overflow:hidden;transition:border-color 0.18s;box-shadow:var(--shadow-sm);
+}
+.faq-card.open,.faq-card:hover{border-color:rgba(200,116,42,0.30);}
+.faq-q{
+  width:100%;background:none;border:none;cursor:pointer;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:1.15rem 1.4rem;text-align:left;
+  font-family:'Inter',sans-serif;font-size:0.92rem;font-weight:500;color:var(--ink);
+  transition:color 0.18s;gap:1.3rem;
+}
+.faq-q:hover{color:var(--copper);}
+.faq-icon{
+  width:26px;height:26px;border-radius:50%;
+  background:var(--vellum-3);border:1px solid rgba(8,7,20,0.09);
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.85rem;color:var(--muted);flex-shrink:0;transition:all 0.20s;
+}
+.faq-card.open .faq-icon{background:var(--copper);border-color:var(--copper);color:#fff;transform:rotate(45deg);}
+.faq-a{
+  display:none;padding:0.95rem 1.4rem 1.15rem;
+  font-size:0.86rem;color:var(--stone);line-height:1.82;
+  border-top:1px solid rgba(8,7,20,0.07);
+}
+.faq-card.open .faq-a{display:block;}
+.faq-a a{color:var(--copper);text-decoration:underline;}
+
+/* ─── CTA SECTION ────────────────────────────────────────────────────────── */
+.cta-section{
+  padding:7rem 6vw;text-align:center;
+  background:linear-gradient(140deg,var(--ink) 0%,#1A1035 100%);
+  position:relative;overflow:hidden;
+}
+.cta-section::before{
+  content:'';position:absolute;top:-40%;left:50%;transform:translateX(-50%);
+  width:600px;height:600px;border-radius:50%;
+  background:radial-gradient(circle,rgba(200,116,42,0.14) 0%,transparent 66%);pointer-events:none;
+}
+.cta-section h2{color:#fff;margin-bottom:0.85rem;position:relative;}
+.cta-section p{color:rgba(255,255,255,0.40);font-size:1.02rem;margin-bottom:2.4rem;position:relative;}
+.cta-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;position:relative;}
+
+/* ─── FOOTER ─────────────────────────────────────────────────────────────── */
+footer{background:var(--ink);padding:4rem 6vw 2.2rem;}
+.footer-top{
+  display:grid;grid-template-columns:2fr 1fr 1fr;gap:3rem;
+  padding-bottom:2.8rem;border-bottom:1px solid rgba(255,255,255,0.06);
+}
+.footer-logo{
+  font-family:'Cormorant Garant',serif;font-size:1.65rem;font-weight:700;color:#fff;
+  letter-spacing:-0.03em;margin-bottom:0.8rem;display:block;
+}
+.footer-desc{font-size:0.83rem;color:rgba(255,255,255,0.33);line-height:1.80;max-width:30ch;}
+.footer-col h5{
+  font-family:'DM Mono',monospace;font-size:0.58rem;font-weight:500;
+  letter-spacing:0.16em;text-transform:uppercase;color:rgba(255,255,255,0.18);margin-bottom:1rem;
+}
+.footer-col ul{list-style:none;}
+.footer-col li{margin-bottom:0.52rem;}
+.footer-col a{color:rgba(255,255,255,0.32);text-decoration:none;font-size:0.83rem;transition:color 0.18s;}
+.footer-col a:hover{color:var(--copper-2);}
+.footer-col a.footer-special{color:var(--copper-2);font-weight:500;}
+.footer-bottom{
+  padding-top:1.8rem;display:flex;justify-content:space-between;align-items:center;
+  font-family:'DM Mono',monospace;font-size:0.68rem;color:rgba(255,255,255,0.16);
+}
+
+/* ─── ANIMATIONS ─────────────────────────────────────────────────────────── */
+.fade-up{opacity:0;transform:translateY(24px);transition:opacity 0.62s ease,transform 0.62s ease;}
+.fade-up.in{opacity:1;transform:none;}
+.fade-up.d1{transition-delay:0.1s;}.fade-up.d2{transition-delay:0.2s;}.fade-up.d3{transition-delay:0.3s;}
+
+/* ─── UTILITIES ──────────────────────────────────────────────────────────── */
+.section-header{margin-bottom:3.5rem;}
+.section-sub{font-size:1rem;color:var(--stone);max-width:52ch;margin-top:0.7rem;line-height:1.80;}
+[data-count]{font-variant-numeric:tabular-nums;}
+
+/* ─── STICKY MOBILE CTA ──────────────────────────────────────────────────── */
+.sticky-cta{
+  position:fixed;bottom:0;left:0;right:0;z-index:250;
+  display:none;align-items:center;justify-content:space-between;gap:1rem;
+  background:var(--ink);padding:0.82rem 1.1rem;
+  box-shadow:0 -8px 32px rgba(8,7,20,0.28);
+  transform:translateY(100%);transition:transform 0.3s ease;
+  border-top:1px solid rgba(200,116,42,0.26);
+}
+.sticky-cta.show{transform:translateY(0);}
+.sticky-cta-text{color:#fff;font-size:0.78rem;}
+.sticky-cta-text strong{color:var(--copper-2);display:block;font-size:0.88rem;}
+.sticky-cta .btn{padding:0.60rem 1.2rem;font-size:0.80rem;flex-shrink:0;}
+
+/* ─── RESPONSIVE ─────────────────────────────────────────────────────────── */
+@media(max-width:1100px){
+  .services-grid{grid-template-columns:repeat(2,1fr);}
+  .svc.dsp-wide{grid-column:1/-1;}
+  .pricing-grid{grid-template-columns:repeat(2,1fr);}
+  .pricing-grid-bottom{grid-template-columns:repeat(2,1fr);max-width:100%;}
+  .funnel-track{grid-template-columns:repeat(3,1fr);}
+  .pricing-clarity{grid-template-columns:1fr 1fr;}
+  .clarity-icon{display:none;}
+  .dsp-strip{grid-template-columns:repeat(2,1fr);}
+  .mr-metrics{grid-template-columns:repeat(3,1fr);}
+}
+@media(max-width:860px){
+  .hero{grid-template-columns:1fr;}
+  .hero-left{padding:6rem 6vw 4rem;}
+  .hero-right{min-height:48vh;}
+  .steps{grid-template-columns:1fr 1fr;}
+  .steps::before{display:none;}
+  .results-grid,.zero-grid,.dsp-grid{grid-template-columns:1fr;}
+  .footer-top{grid-template-columns:1fr;}
+  .nav-links{display:none;}
+  .funnel-track{grid-template-columns:1fr 1fr;}
+  .funnel-step{border-right:none;border-bottom:1px solid rgba(8,7,20,0.07);}
+  .pricing-grid{grid-template-columns:1fr;}
+  .pricing-grid-bottom{grid-template-columns:1fr;max-width:100%;}
+  .sticky-cta{display:flex;}
+  body{padding-bottom:64px;}
+  .mr-stats-row{grid-template-columns:repeat(2,1fr);}
+  .mr-week-body{grid-template-columns:1fr;}
+}
+@media(max-width:600px){
+  .services-grid,.zero-grid{grid-template-columns:1fr;}
+  .svc.dsp-wide{grid-template-columns:1fr;}
+  .dsp-strip{grid-template-columns:1fr 1fr;}
+  .steps{grid-template-columns:1fr;}
+  .funnel-track{grid-template-columns:1fr;}
+  .billing-toggle{flex-direction:column;border-radius:16px;}
+  .bill-btn{border-radius:10px;}
+  .pricing-grid-bottom{grid-template-columns:1fr;max-width:100%;}
+  .mr-metrics{grid-template-columns:repeat(2,1fr);}
+}
+@media(prefers-reduced-motion:reduce){
+  .fade-up{opacity:1;transform:none;transition:none;}
+  *{transition-duration:0.01ms !important;animation-duration:0.01ms !important;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="logo">Atomic<span class="logo-dash">&#8209;</span>Shelf</a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#dsp">Amazon DSP</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="https://atomic-shelf.com/DSP" class="nav-special" target="_blank" rel="noopener">DSP Guide ↗</a></li>
+  </ul>
+  <a href="#pricing" class="nav-cta">View Plans</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left fade-up">
+    <div class="hero-tag"><span class="hero-tag-dot"></span> AI-Powered Book Marketing for Indie Authors</div>
+    <h1>Your story deserves<br>the readers<br>it was written <em>for</em></h1>
+    <div class="hero-rule"></div>
+    <p class="hero-sub">
+      We deploy AI-engineered short-form video, cinematic trailers, and retargeting
+      infrastructure built specifically for your book — then use Amazon DSP to close
+      the loop where readers actually buy.
+    </p>
+    <div class="hero-btns">
+      <a href="#pricing" class="btn btn-copper btn-lg">See Plans &amp; Pricing →</a>
+      <a href="#services" class="btn btn-outline btn-lg">Our Services</a>
+    </div>
+    <a href="https://atomic-shelf.com/DSP" class="hero-proof" target="_blank" rel="noopener">
+      <div class="hero-proof-icon">📡</div>
+      <div class="hero-proof-text">
+        <h4>Amazon DSP Retargeting — included in every paid plan</h4>
+        <p>We build the audience. DSP converts it on Amazon. Learn how →</p>
+      </div>
+      <span class="hero-proof-arr">→</span>
+    </a>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-panel">
+      <div class="hero-panel-label">Live Campaign Metrics</div>
+
+      <!-- LIVE COUNTER — the signature element -->
+      <div class="live-counter-wrap">
+        <div class="live-counter-label"><span class="live-dot"></span> Total views generated across all authors</div>
+        <div class="live-counter-num">
+          <span class="counter-val" id="live-views">12.7</span><sup>M+</sup>
+        </div>
+        <div class="live-counter-sub">Growing at 20,000+ views per week · Updated continuously</div>
+      </div>
+
+      <div class="hero-stats-row">
+        <div class="h-stat">
+          <div class="h-stat-num" data-count="60" data-suffix="+">0</div>
+          <div class="h-stat-label">Videos / Month</div>
+        </div>
+        <div class="h-stat">
+          <div class="h-stat-num" data-count="160" data-suffix="+">0</div>
+          <div class="h-stat-label">Authors Running</div>
+        </div>
+        <div class="h-stat">
+          <div class="h-stat-num" data-count="3.2" data-suffix="×">0</div>
+          <div class="h-stat-label">Avg. Sales Lift</div>
+        </div>
+        <div class="h-stat">
+          <div class="h-stat-num" data-count="5">0</div>
+          <div class="h-stat-label">Content Formats</div>
+        </div>
+      </div>
+
+      <div class="hero-roas-card">
+        <div style="font-size:1.8rem;flex-shrink:0;">📡</div>
+        <div>
+          <div class="roas-num" data-count="20" data-suffix="×">0</div>
+          <div class="roas-text">
+            <strong>ROAS via Amazon DSP</strong> — retargeting warm viewers on Amazon, exactly where purchase intent peaks.
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-pullquote">
+        <strong>Precision over volume:</strong> Every asset is engineered to match your genre, your readers, and the exact moment they're ready to buy.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="trust-item"><span class="trust-dot"></span>12.7M+ views generated</div>
+  <div class="trust-item"><span class="trust-dot"></span>AI-native production pipeline</div>
+  <div class="trust-item"><span class="trust-dot"></span>Amazon DSP Certified Partner</div>
+  <div class="trust-item"><span class="trust-dot"></span>BookTok &amp; YouTube specialists</div>
+  <div class="trust-item"><span class="trust-dot"></span><a href="https://atomic-shelf.com/YouTubeGrowthCaseStudy" target="_blank" rel="noopener">See a real growth story ↗</a></div>
+</div>
+
+<!-- SERVICES -->
+<section id="services" class="section services-section" style="background:var(--vellum);">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="eyebrow"><span class="eyebrow-line"></span>Our Services</div>
+      <h2>Content that converts</h2>
+      <p class="section-sub">Seven disciplines, one unified growth system — built to move your book from obscurity to owned audience, and from screen to sale.</p>
+    </div>
+    <div class="services-grid fade-up">
+      <div class="svc">
+        <div class="svc-icon">📝</div>
+        <span class="pill pill-copper" style="margin-bottom:0.80rem;">Creative</span>
+        <h3>Script &amp; Creative Direction</h3>
+        <p>Our AI ingests your story, genre signals, and reader psychology — then our creative team shapes output that hits the right emotional notes, every time.</p>
+      </div>
+      <div class="svc">
+        <div class="svc-icon">🎬</div>
+        <span class="pill pill-copper" style="margin-bottom:0.80rem;">Production</span>
+        <h3>Cinematic Video Production</h3>
+        <p>Premium AI-generated video assets, book trailers, and long-form content — produced at a scale and consistency no traditional studio can match.</p>
+      </div>
+      <div class="svc">
+        <div class="svc-icon">🎵</div>
+        <span class="pill pill-rose" style="margin-bottom:0.80rem;">Audio</span>
+        <h3>Original Theme Songs</h3>
+        <p>Custom-composed music generated and refined to capture your book's emotional signature — the kind that stays with readers long after the scroll.</p>
+      </div>
+      <div class="svc">
+        <div class="svc-icon">🎙️</div>
+        <span class="pill pill-rose" style="margin-bottom:0.80rem;">Audio</span>
+        <h3>Podcast Production</h3>
+        <p>AI-assisted author interviews, book discussions, and promotional episodes that compound over time into a loyal, searchable audience.</p>
+      </div>
+      <div class="svc">
+        <div class="svc-icon">📺</div>
+        <span class="pill pill-teal" style="margin-bottom:0.80rem;">Long-Form</span>
+        <h3>Long-Form &amp; YouTube</h3>
+        <p>Deep-dive video content engineered for watch-time and discoverability — the slow burn that builds authority and compounds search equity.</p>
+      </div>
+      <div class="svc">
+        <div class="svc-icon">🖼️</div>
+        <span class="pill pill-teal" style="margin-bottom:0.80rem;">Amazon</span>
+        <h3>Amazon A+ Content</h3>
+        <p>AI-optimised listing pages — character panels, hero banners, review highlights — built to convert every warm visitor your videos deliver.</p>
+      </div>
+      <div class="svc dsp-wide">
+        <div>
+          <div class="svc-icon">📡</div>
+          <span class="pill pill-dark" style="margin-bottom:0.80rem;">Amazon DSP</span>
+          <h3>Amazon DSP Retargeting</h3>
+          <p>The endgame. We retarget every warm viewer directly on Amazon with programmatic precision — where they're one click from purchase. Our certified DSP partnership means enterprise-grade targeting at every tier.</p>
+          <a href="https://atomic-shelf.com/DSP" class="dsp-wide-link" target="_blank" rel="noopener">Full DSP explainer →</a>
+        </div>
+        <div>
+          <div class="dsp-wide-stats">
+            <div><div class="dsps-num">20×</div><div class="dsps-label">Average ROAS</div></div>
+            <div><div class="dsps-num">+20%</div><div class="dsps-label">A+ Content lift</div></div>
+            <div><div class="dsps-num">40%</div><div class="dsps-label">Lower CPA vs legacy</div></div>
+          </div>
+          <p style="font-size:0.82rem;color:rgba(255,255,255,0.36);line-height:1.72;margin-top:1.4rem;">Every warm viewer your videos build becomes a retargetable asset on Amazon, Prime Video, Kindle, and Twitch — where purchase intent peaks.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- DSP SECTION -->
+<section id="dsp" class="dsp-section">
+  <div class="container">
+    <div class="eyebrow fade-up"><span class="eyebrow-line"></span>Amazon Advertising</div>
+    <h2 class="fade-up">From warm views<br>to closed sales</h2>
+    <p class="dsp-sub fade-up">We're an Amazon DSP Certified Partner. We build your warm audience through organic content — then DSP retargeting closes the loop exactly where your readers are primed to buy.</p>
+    <div class="dsp-grid fade-up">
+      <div class="dsp-feat">
+        <div class="dsp-feat-icon">📡</div>
+        <h4>Demand-Side Platform (DSP)</h4>
+        <p>Programmatic ads across Prime Video, Kindle, Twitch, Amazon.com, and premium third-party sites — powered by Amazon's own first-party audience data, not probabilistic guesswork. No wasted impressions.</p>
+      </div>
+      <div class="dsp-feat">
+        <div class="dsp-feat-icon">🎯</div>
+        <h4>Warm Retargeting Only</h4>
+        <p>Cold audiences burn budget. We only retarget people who already watched your content — readers who are mid-funnel and moving toward purchase. Every dollar is earned.</p>
+      </div>
+      <div class="dsp-feat">
+        <div class="dsp-feat-icon">🖼️</div>
+        <h4>A+ Content Production</h4>
+        <p>Your video assets get repurposed into premium Amazon listing modules — hero banners, character panels, social proof layers — engineered to convert the traffic DSP delivers.</p>
+      </div>
+      <div class="dsp-feat">
+        <div class="dsp-feat-icon">📊</div>
+        <h4>Full Attribution Reporting</h4>
+        <p>Detail page views, Kindle sample downloads, new-to-brand readers, and direct sales — in plain English, monthly. Know exactly what your campaign is delivering.</p>
+      </div>
+    </div>
+    <div class="alloc-card fade-up">
+      <h4>How your ad spend is allocated</h4>
+      <div class="alloc-sub">Every dollar above Enhanced is deployed algorithmically — the majority directed to Amazon DSP, where purchase intent data is richest.</div>
+      <div class="alloc-bar">
+        <div class="alloc-seg tik"></div>
+        <div class="alloc-seg dsp"></div>
+      </div>
+      <div class="alloc-legend">
+        <div class="alloc-item"><div class="alloc-dot tik"></div><span class="alloc-pct">20%</span>&nbsp;TikTok Ads — top-of-funnel audience growth</div>
+        <div class="alloc-item"><div class="alloc-dot dsp"></div><span class="alloc-pct">80%</span>&nbsp;Amazon DSP — retargeting warm viewers where they're ready to buy</div>
+      </div>
+    </div>
+    <div class="tl-card fade-up">
+      <h4>When does retargeting reach peak efficiency?</h4>
+      <div class="tl-sub">DSP performance compounds. Here's the growth curve:</div>
+      <div class="tl-track">
+        <div class="tl-step"><div class="tl-dot">M1</div><div class="tl-label">Content<br>deploys</div></div>
+        <div class="tl-step"><div class="tl-dot">M2</div><div class="tl-label">Audience<br>compounds</div></div>
+        <div class="tl-step active"><div class="tl-dot">M3</div><div class="tl-label">DSP<br>ignites</div></div>
+        <div class="tl-step"><div class="tl-dot">M4</div><div class="tl-label">Sales<br>accelerate</div></div>
+        <div class="tl-step"><div class="tl-dot">M5+</div><div class="tl-label">Compound<br>growth</div></div>
+      </div>
+    </div>
+    <div class="dsp-strip fade-up">
+      <div class="dsp-strip-item"><div class="strip-num">20×</div><div class="strip-label">ROAS, DSP Contextual Targeting</div></div>
+      <div class="dsp-strip-item"><div class="strip-num">+20%</div><div class="strip-label">Sales lift, Premium A+ Content</div></div>
+      <div class="dsp-strip-item"><div class="strip-num">+65%</div><div class="strip-label">Reach vs. legacy ad solutions</div></div>
+      <div class="dsp-strip-item"><div class="strip-num">40%</div><div class="strip-label">Lower cost-per-action with DSP</div></div>
+    </div>
+    <div class="dsp-ctas fade-up">
+      <a href="https://atomic-shelf.com/DSP" class="btn btn-copper" target="_blank" rel="noopener">Full DSP &amp; A+ Guide →</a>
+      <a href="#pricing" class="btn btn-ghost">View plans with DSP included</a>
+    </div>
+  </div>
+</section>
+
+<!-- FUNNEL -->
+<section class="section funnel-section">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="eyebrow"><span class="eyebrow-line"></span>The Full Stack</div>
+      <h2>From first view<br>to verified sale</h2>
+      <p class="section-sub">Every stage feeds the next. Organic content trains the algorithm. DSP converts the audience. A+ Content closes the sale.</p>
+    </div>
+    <div class="funnel-track fade-up">
+      <div class="funnel-step">
+        <div class="funnel-n">1</div>
+        <div class="funnel-phase">Organic</div>
+        <h4>Content deploys</h4>
+        <p>AI-engineered videos go live across TikTok, YouTube Shorts, and Reels — genre-calibrated and algorithmically optimised for discovery.</p>
+      </div>
+      <div class="funnel-step">
+        <div class="funnel-n">2</div>
+        <div class="funnel-phase">Growth</div>
+        <h4>Warm audience builds</h4>
+        <p>Every view creates a retargetable pool of readers who are mid-funnel and moving toward purchase.</p>
+      </div>
+      <div class="funnel-step">
+        <div class="funnel-n">3</div>
+        <div class="funnel-phase">Listing</div>
+        <h4>A+ Content activates</h4>
+        <p>Your Amazon listing becomes an editorial experience — AI-optimised banners, character panels, and social proof that convert intent into action.</p>
+      </div>
+      <div class="funnel-step">
+        <div class="funnel-n">4</div>
+        <div class="funnel-phase">Amazon DSP</div>
+        <h4>Warm readers retargeted</h4>
+        <p>DSP reaches your audience on Prime Video, Kindle, and Amazon.com at the exact moment purchase intent peaks.</p>
+      </div>
+      <div class="funnel-step">
+        <div class="funnel-n">5</div>
+        <div class="funnel-phase">Conversion</div>
+        <h4>Sales close at scale</h4>
+        <p>Warm readers land on your upgraded listing and buy. Every sale is attributed, reported, and fed back into the optimisation loop.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process" class="section process-section">
+  <div class="container">
+    <div class="eyebrow fade-up"><span class="eyebrow-line"></span>Our Process</div>
+    <h2 class="fade-up">How your campaign<br>gets built</h2>
+    <div class="steps fade-up">
+      <div class="step">
+        <div class="step-circle">1</div>
+        <h3>Book Intake &amp; Analysis</h3>
+        <p>We feed your story, genre, comp titles, and audience data into our research stack — surfacing your book's highest-leverage marketing angles.</p>
+      </div>
+      <div class="step">
+        <div class="step-circle">2</div>
+        <h3>AI Content Strategy</h3>
+        <p>A data-informed content calendar and precision scripts — engineered for maximum emotional resonance with your target reader.</p>
+      </div>
+      <div class="step">
+        <div class="step-circle">3</div>
+        <h3>Production &amp; Deployment</h3>
+        <p>Premium AI-powered assets produced and published at scale — across every platform, on a cadence the algorithm rewards.</p>
+      </div>
+      <div class="step">
+        <div class="step-circle">4</div>
+        <h3>DSP &amp; Optimisation</h3>
+        <p>Amazon DSP campaigns launch, A+ Content goes live, and your campaign continuously optimises for compound growth — learning with every impression.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ZERO -->
+<section class="section zero-section">
+  <div class="zero-inner container">
+    <div class="eyebrow center fade-up"><span class="eyebrow-line"></span>Starting From Zero<span class="eyebrow-line"></span></div>
+    <h2 class="fade-up">No platform.<br>No audience.<br>No problem.</h2>
+    <p class="fade-up">We've launched authors with zero followers to consistent daily sales. Our AI-powered system builds momentum from scratch — the algorithm doesn't care where you started.</p>
+    <div class="zero-grid">
+      <div class="zero-card fade-up">
+        <div class="zero-icon">🌱</div>
+        <h4>Account Setup &amp; Optimisation</h4>
+        <p>We build and optimise your social infrastructure from zero — profiles, bios, and content architecture tuned for your genre's algorithm from day one.</p>
+      </div>
+      <div class="zero-card fade-up d1">
+        <div class="zero-icon">⚡</div>
+        <h4>Momentum Campaigns</h4>
+        <p>A concentrated burst of AI-produced content in the first 30 days — designed to trigger algorithmic momentum and signal that you're worth surfacing.</p>
+      </div>
+      <div class="zero-card fade-up d2">
+        <div class="zero-icon">📅</div>
+        <h4>Consistent Publishing Cadence</h4>
+        <p>Sustained daily output keeps your content in active distribution — compounding visibility, watch-time, and warm audience size month after month.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section class="section results-section">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="eyebrow"><span class="eyebrow-line"></span>Documented Results</div>
+      <h2>What a campaign delivers</h2>
+    </div>
+    <div class="results-grid">
+      <div class="result-card fade-up">
+        <div class="result-num" id="views-counter">12.7M+</div>
+        <div class="result-label">Total views generated</div>
+        <div class="result-desc">Across TikTok, YouTube, Instagram, and Facebook for our full author roster — tracked and attributed. Growing at 20K+ views per week.</div>
+        <a href="https://atomic-shelf.com/YouTubeGrowthCaseStudy" class="result-link" target="_blank" rel="noopener">Read the YouTube growth case study →</a>
+      </div>
+      <div class="result-card fade-up d1">
+        <div class="result-num" data-count="3.2" data-suffix="×">0</div>
+        <div class="result-label">Avg. sales lift in 90 days</div>
+        <div class="result-desc">Authors on Growth+ plans see over triple their pre-campaign sales velocity once DSP retargeting hits full efficiency.</div>
+      </div>
+      <div class="result-card fade-up d2">
+        <div class="result-num" data-count="160" data-suffix="+">0</div>
+        <div class="result-label">Authors in the system</div>
+        <div class="result-desc">From debut novelists to established indie authors — across every genre, every audience size, every starting point.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MOCK PROGRESS REPORT -->
+<section class="mock-report-section" id="sample-report">
+  <div class="container">
+    <div class="eyebrow fade-up"><span class="eyebrow-line"></span>Author Portal Preview</div>
+    <h2 class="fade-up">Your campaign,<br>visible in real time</h2>
+    <p class="mock-report-intro fade-up">Every author gets a personal campaign portal. Track your content pipeline, weekly progress, platform analytics, and message your editor team — all in one place.</p>
+
+    <div class="mock-report fade-up">
+      <!-- Top bar -->
+      <div class="mr-topbar">
+        <div style="width:32px;height:32px;border-radius:8px;background:linear-gradient(138deg,#D4A030,#C8742A);display:flex;align-items:center;justify-content:center;font-size:1.1rem;">📚</div>
+        <div class="mr-logo-text">Atomic <em>Shelf</em></div>
+        <div class="mr-tag">Your Campaign Portal</div>
+      </div>
+
+      <!-- Book hero -->
+      <div class="mr-hero">
+        <div class="mr-greeting">Welcome back, Sarah</div>
+        <div class="mr-title">The Obsidian Garden</div>
+        <div class="mr-author">by Sarah Mitchell · Dark Fantasy</div>
+        <div class="mr-tags">
+          <span class="mr-tag-pill active">Campaign Active</span>
+          <span class="mr-tag-pill week">Week 8</span>
+          <span class="mr-tag-pill updated">Updated 2h ago</span>
+        </div>
+      </div>
+
+      <!-- Stats row -->
+      <div class="mr-stats-row">
+        <div class="mr-stat">
+          <div class="mr-stat-v">8</div>
+          <div class="mr-stat-l">Current Week</div>
+        </div>
+        <div class="mr-stat">
+          <div class="mr-stat-v">8</div>
+          <div class="mr-stat-l">Weeks Logged</div>
+        </div>
+        <div class="mr-stat">
+          <div class="mr-stat-v">184K</div>
+          <div class="mr-stat-l">Total Views</div>
+        </div>
+        <div class="mr-stat">
+          <div class="mr-stat-v">Dark Fantasy</div>
+          <div class="mr-stat-l">Genre</div>
+        </div>
+      </div>
+
+      <!-- Week widget -->
+      <div class="mr-week-widget">
+        <div class="mr-week-hdr">
+          <span class="mr-week-dot"></span>
+          <div class="mr-week-title">Week 8 in Progress</div>
+          <span class="mr-week-badge" style="margin-left:auto;">Day 52</span>
+        </div>
+        <div class="mr-week-body">
+          <div class="mr-week-tile">
+            <div class="mr-week-tile-label">Week Start</div>
+            <div class="mr-week-tile-val">14 Jun 2026</div>
+          </div>
+          <div class="mr-week-tile" style="border-color:rgba(45,122,82,0.25);background:rgba(45,122,82,0.05);">
+            <div class="mr-week-tile-label">Week End</div>
+            <div class="mr-week-tile-val" style="color:#2D7A52;">21 Jun 2026</div>
+          </div>
+          <div class="mr-prog-wrap">
+            <div class="mr-prog-label">
+              <span>Steps Complete</span>
+              <strong>10/13 (77%)</strong>
+            </div>
+            <div class="mr-prog-track"><div class="mr-prog-fill" style="width:77%"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Analytics -->
+      <div class="mr-analytics">
+        <div class="mr-analytics-hdr">📊 Performance</div>
+        <div class="mr-platform-title">𝕋 TikTok</div>
+        <div class="mr-metrics">
+          <div class="mr-metric tt"><div class="mr-metric-v">142K</div><div class="mr-metric-l">Views</div></div>
+          <div class="mr-metric tt"><div class="mr-metric-v">8.4K</div><div class="mr-metric-l">Likes</div></div>
+          <div class="mr-metric tt"><div class="mr-metric-v">312</div><div class="mr-metric-l">Comments</div></div>
+          <div class="mr-metric tt"><div class="mr-metric-v">1.2K</div><div class="mr-metric-l">Shares</div></div>
+          <div class="mr-metric tt"><div class="mr-metric-v">2,840</div><div class="mr-metric-l">Followers</div></div>
+        </div>
+        <div class="mr-platform-title">▶ YouTube</div>
+        <div class="mr-metrics">
+          <div class="mr-metric yt"><div class="mr-metric-v">42K</div><div class="mr-metric-l">Views</div></div>
+          <div class="mr-metric yt"><div class="mr-metric-v">186h</div><div class="mr-metric-l">Watch Hrs</div></div>
+          <div class="mr-metric yt"><div class="mr-metric-v">4.2%</div><div class="mr-metric-l">CTR</div></div>
+          <div class="mr-metric yt"><div class="mr-metric-v">890</div><div class="mr-metric-l">Subscribers</div></div>
+          <div class="mr-metric yt"><div class="mr-metric-v">2:14</div><div class="mr-metric-l">Avg Duration</div></div>
+        </div>
+      </div>
+
+      <!-- Chat preview -->
+      <div class="mr-chat-preview">
+        <div class="mr-chat-label">💬 Chat with Your Editor</div>
+        <div class="mr-msg editor">
+          <div class="mr-msg-name">Alex · Editor</div>
+          <div class="mr-msg-bubble">Week 8 content is live! Your forest scene clip hit 28K views in the first 6 hours — that's your best performing video yet. DSP retargeting is now active on that audience. 🎯</div>
+        </div>
+        <div style="height:8px"></div>
+        <div class="mr-msg author">
+          <div class="mr-msg-name">Sarah Mitchell</div>
+          <div class="mr-msg-bubble">That's amazing — I saw the notification from Amazon! Two sales already this morning. Thank you!</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing" class="section pricing-section">
+  <div class="container">
+    <div class="section-header fade-up" style="text-align:center;">
+      <div class="eyebrow center"><span class="eyebrow-line"></span>Curated Tiers<span class="eyebrow-line"></span></div>
+      <h2>Your growth plan,<br>priced for authors</h2>
+      <p class="section-sub" style="margin:0.7rem auto 0;max-width:54ch;">
+        Production infrastructure and strategic ad deployment tailored to your ambitions.
+        Plans above Enhanced include algorithmic ad spend directed toward TikTok amplification
+        and Amazon DSP retargeting.
+      </p>
+    </div>
+
+    <div class="billing-wrap fade-up">
+      <div class="billing-toggle">
+        <button class="bill-btn active" onclick="setBilling('monthly',this)">Monthly</button>
+        <button class="bill-btn" onclick="setBilling('3month',this)">3 Months <span class="badge">10% off</span></button>
+        <button class="bill-btn" onclick="setBilling('6month',this)">6 Months <span class="badge">20% off</span></button>
+        <button class="bill-btn" onclick="setBilling('12month',this)">12 Months <span class="badge">25% off</span></button>
+      </div>
+      <div class="billing-note" id="billing-note">Pay month-to-month. Cancel anytime.</div>
+    </div>
+
+    <!-- DSP unlock callout -->
+    <div class="dsp-unlock-callout fade-up" id="dsp-unlock-callout" style="display:none;">
+      <div class="dsp-unlock-icon">📡</div>
+      <div>
+        <div class="dsp-unlock-title">DSP Seat unlocks at $1,250 cumulative ad spend</div>
+        <div class="dsp-unlock-desc" id="dsp-unlock-desc">Select a multi-month plan to see which tier crosses the threshold and earns a dedicated Amazon DSP seat.</div>
+      </div>
+    </div>
+
+    <div class="pricing-clarity fade-up">
+      <div class="clarity-icon">💡</div>
+      <div class="clarity-tier co">
+        <div class="clarity-tier-label">Content only</div>
+        <h4>Enhanced</h4>
+        <p>Every dollar goes to video production and content management. No ad spend — pure organic growth while the algorithm does its work.</p>
+        <span class="clarity-badge">✦ Enhanced ($50/mo) — entry-level tier</span>
+      </div>
+      <div class="clarity-tier ca">
+        <div class="clarity-tier-label">Content + Ad Spend</div>
+        <h4>Starter, Growth, Surge &amp; Orbit</h4>
+        <p>Your subscription funds both production and a dedicated ad budget — deployed at an 80/20 DSP-to-TikTok split.</p>
+        <span class="clarity-badge">✦ Starter ($199) and above</span>
+      </div>
+    </div>
+
+    <div class="pricing-grid">
+
+      <!-- ENHANCED -->
+      <div class="plan fade-up" data-base="50" data-adbudget="0" data-orbit="false">
+        <div class="plan-type"><span class="pill pill-teal">✦ Content Only</span></div>
+        <div class="plan-name">Enhanced</div>
+        <div class="price-block">
+          <span class="price-main">$50</span>
+          <span class="price-sub">per month</span>
+          <span class="price-detail"></span>
+          <span class="price-save"></span>
+        </div>
+        <div class="plan-dsp-milestone"></div>
+        <div class="ad-note" style="display:none;"></div>
+        <div class="plan-divider"></div>
+        <ul class="plan-features">
+          <li>80 short-form videos per month</li>
+          <li>1 professional book trailer</li>
+          <li>Long-form YouTube videos</li>
+          <li>Avatar narration included</li>
+          <li>100% content production — no ad spend</li>
+        </ul>
+        <div class="plan-team">
+          <div class="plan-team-hdr">Your Creative Team</div>
+          <div class="avs"><div class="av av-0">AM</div></div>
+          <div class="team-title">1 Senior Content Manager</div>
+          <div class="team-desc">A seasoned creative lead who owns your entire content pipeline from script to publish, plus weekly strategy check-ins.</div>
+        </div>
+        <a href="https://atomic-shelf.com/Enhanced" class="plan-btn pb-outline">Choose Enhanced</a>
+      </div>
+
+      <!-- STARTER -->
+      <div class="plan has-ads fade-up" data-base="199" data-adbudget="75" data-orbit="false">
+        <div class="plan-type"><span class="pill pill-copper">📡 Content + Ads</span></div>
+        <div class="plan-name">Starter</div>
+        <div class="price-block">
+          <span class="price-main">$199</span>
+          <span class="price-sub">per month</span>
+          <span class="price-detail"></span>
+          <span class="price-save"></span>
+        </div>
+        <div class="plan-dsp-milestone"></div>
+        <div class="ad-note">
+          <strong>$75/mo ad budget included</strong> — split across:
+          <div class="ad-row">
+            <div class="ad-seg"><div class="ad-dot tik"></div>~$15 TikTok</div>
+            <div class="ad-seg"><div class="ad-dot dsp"></div>~$60 Amazon DSP</div>
+          </div>
+        </div>
+        <div class="plan-divider"></div>
+        <ul class="plan-features">
+          <li>All Enhanced features</li>
+          <li>Full social management</li>
+          <li>$75 Amazon DSP budget</li>
+          <li>Podcast episodes included</li>
+          <li>Basic A+ Content setup</li>
+        </ul>
+        <div class="plan-team">
+          <div class="plan-team-hdr">Your Creative Team</div>
+          <div class="avs"><div class="av av-0">AM</div></div>
+          <div class="team-title">1 Dedicated Account Manager</div>
+          <div class="team-desc">Your full-service point of contact for content production, DSP campaign oversight, and platform performance.</div>
+        </div>
+        <a href="https://atomic-shelf.com/Starter" class="plan-btn pb-outline">Select Starter</a>
+      </div>
+
+      <!-- GROWTH (featured) -->
+      <div class="plan featured has-ads fade-up" data-base="399" data-adbudget="250" data-orbit="false">
+        <div class="plan-badge">Most Popular</div>
+        <div class="plan-dsp-badge" id="dsp-badge-growth">📡 DSP Seat Unlocked</div>
+        <div class="plan-type"><span class="pill pill-copper">📡 Content + Ads</span></div>
+        <div class="plan-name">Growth</div>
+        <div class="price-block">
+          <span class="price-main">$399</span>
+          <span class="price-sub">per month</span>
+          <span class="price-detail"></span>
+          <span class="price-save"></span>
+        </div>
+        <div class="plan-dsp-milestone" id="dsp-milestone-growth"></div>
+        <div class="ad-note">
+          <strong>$250/mo ad budget included</strong> — split across:
+          <div class="ad-row">
+            <div class="ad-seg"><div class="ad-dot tik"></div>~$50 TikTok</div>
+            <div class="ad-seg"><div class="ad-dot dsp"></div>~$200 Amazon DSP</div>
+          </div>
+        </div>
+        <div class="plan-divider"></div>
+        <ul class="plan-features">
+          <li>100+ premium videos monthly</li>
+          <li>2 cinematic book trailers</li>
+          <li>Original theme song</li>
+          <li>Long-form + podcast series</li>
+          <li>$250 Amazon DSP budget</li>
+          <li>Premium A+ Content build</li>
+        </ul>
+        <div class="plan-team">
+          <div class="plan-team-hdr">Your Creative Team</div>
+          <div class="avs"><div class="av av-0">AM</div><div class="av av-1">DS</div></div>
+          <div class="team-title">2 Account Managers</div>
+          <div class="team-desc">One leads creative production, one drives your DSP strategy. Coordinated, always-on, and deeply invested in your growth.</div>
+        </div>
+        <a href="https://atomic-shelf.com/Growth" class="plan-btn pb-copper">Join Growth</a>
+      </div>
+
+    </div>
+
+    <div class="pricing-grid-bottom fade-up">
+
+      <!-- SURGE -->
+      <div class="plan has-ads" data-base="699" data-adbudget="400" data-orbit="false">
+        <div class="plan-dsp-badge" id="dsp-badge-surge">📡 DSP Seat Unlocked</div>
+        <div class="plan-type"><span class="pill pill-rose">🚀 Full Suite</span></div>
+        <div class="plan-name">Surge</div>
+        <div class="price-block">
+          <span class="price-main">$699</span>
+          <span class="price-sub">per month</span>
+          <span class="price-detail"></span>
+          <span class="price-save"></span>
+        </div>
+        <div class="plan-dsp-milestone" id="dsp-milestone-surge"></div>
+        <div class="ad-note">
+          <strong>$400/mo ad budget included</strong> — split across:
+          <div class="ad-row">
+            <div class="ad-seg"><div class="ad-dot tik"></div>~$80 TikTok</div>
+            <div class="ad-seg"><div class="ad-dot dsp"></div>~$320 Amazon DSP</div>
+          </div>
+        </div>
+        <div class="plan-divider"></div>
+        <ul class="plan-features">
+          <li>150+ cinematic videos monthly</li>
+          <li>3+ premium trailers</li>
+          <li>Custom theme song</li>
+          <li>Full podcast production</li>
+          <li>Heavy DSP retargeting</li>
+          <li>Full A+ Content suite</li>
+        </ul>
+        <div class="plan-team">
+          <div class="plan-team-hdr">Your Creative Team</div>
+          <div class="avs">
+            <div class="av av-0">CD</div><div class="av av-1">PS</div>
+            <div class="av av-2">PS</div><div class="av av-3">DM</div>
+          </div>
+          <div class="team-title">A Dedicated Team of 4</div>
+          <div class="team-desc">A creative director, two production specialists, and a DSP campaign manager — your private marketing pod.</div>
+        </div>
+        <a href="https://atomic-shelf.com/Surge" class="plan-btn pb-ink">Activate Surge</a>
+      </div>
+
+      <!-- ORBIT -->
+      <div class="plan orbit-plan has-ads" data-base="0" data-adbudget="1000" data-orbit="true">
+        <div class="plan-badge" style="background:linear-gradient(90deg,var(--copper),var(--copper-2));">Enterprise</div>
+        <div class="plan-type"><span class="pill pill-dark">🚀 Full Suite + DSP Seat</span></div>
+        <div class="plan-name">Orbit</div>
+        <div class="price-block" style="margin-bottom:0.85rem;">
+          <span class="price-main" style="font-size:1.55rem;line-height:1.3;color:#fff;">Your own dedicated<br><em style="color:var(--copper-2);font-style:italic;font-family:'Cormorant Garant',serif;">DSP Seat</em></span>
+          <span class="price-sub" style="color:rgba(255,255,255,0.34);margin-top:0.4rem;">Custom quote — speak with us</span>
+        </div>
+        <div class="ad-note">
+          <strong>$1,000+ ad budget</strong> — on your exclusive seat:
+          <div class="ad-row">
+            <div class="ad-seg"><div class="ad-dot tik"></div>~$200 TikTok</div>
+            <div class="ad-seg"><div class="ad-dot dsp"></div>~$800+ Amazon DSP</div>
+          </div>
+        </div>
+        <div class="plan-divider"></div>
+        <ul class="plan-features">
+          <li>Up to 720 videos per month</li>
+          <li>Multiple trailers &amp; creative assets</li>
+          <li>Full custom music composition</li>
+          <li>Complete podcast series</li>
+          <li class="dsp-perk">Your own dedicated Amazon DSP seat — enterprise programmatic, under your brand</li>
+          <li>Dedicated brand strategist</li>
+          <li>Priority support &amp; weekly reporting</li>
+        </ul>
+        <div class="orbit-seat-cta">
+          <div class="orbit-seat-cta-label">✦ Exclusive access pathway</div>
+          <h4>Claim your own DSP seat</h4>
+          <p>Orbit authors get a dedicated Amazon DSP seat — your own programmatic presence, not a shared pool. Pricing is bespoke. Start with a conversation.</p>
+          <a href="https://atomic-shelf.com/Orbit" class="pb-orbit">Request access →</a>
+        </div>
+        <div class="plan-team">
+          <div class="plan-team-hdr">Your Creative Team</div>
+          <div class="avs">
+            <div class="av av-0">BD</div><div class="av av-1">CS</div>
+            <div class="av av-2">P1</div><div class="av av-3">P2</div>
+            <div class="av av-4">DM</div><div class="av av-5">PS</div><div class="av av-6">QA</div>
+          </div>
+          <div class="team-title">Your 7-Person Brand Studio</div>
+          <div class="team-desc">A brand director, creative strategist, two producers, a DSP manager, platform specialist, and QA lead — the full equivalent of an in-house marketing department.</div>
+        </div>
+        <a href="https://atomic-shelf.com/DSP" class="orbit-seat-secondary" target="_blank" rel="noopener">Learn about Amazon DSP first →</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="section faq-section">
+  <div class="faq-inner container">
+    <div class="section-header fade-up">
+      <div class="eyebrow"><span class="eyebrow-line"></span>Questions & Answers</div>
+      <h2>Everything you need<br>to know</h2>
+    </div>
+    <div class="faq-list fade-up">
+
+      <div class="faq-card open">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          What does my subscription cover — content or ads?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">
+          It depends on the tier. <strong>Enhanced ($50/mo) is 100% content production</strong> — every dollar goes to creating your videos and managing your social presence. No ad spend at all.<br><br>
+          From <strong>Starter ($199/mo) upward</strong>, your subscription covers production <em>plus</em> a dedicated ad budget deployed at an 80/20 DSP-to-TikTok split. Use the billing toggle above to see exact multi-month totals.
+        </div>
+      </div>
+
+      <div class="faq-card">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          What is the DSP Seat unlock, and how does it work?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">
+          When your cumulative ad spend across a multi-month commitment reaches <strong>$1,250</strong>, you qualify for a dedicated Amazon DSP seat — your own named programmatic presence rather than a shared pool. The billing toggle will automatically highlight which tier and commitment length crosses that threshold. Orbit authors always receive a dedicated seat regardless of duration.
+        </div>
+      </div>
+
+      <div class="faq-card">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          What is the Orbit DSP seat, and how is it different?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">
+          Most DSP campaigns run through a shared managed-service pool. The Orbit plan gives you a <strong>dedicated, named Amazon DSP seat</strong> — your own programmatic presence under your brand. This unlocks custom audience segments, higher spend ceilings, and priority placements across Prime Video, Kindle, Twitch, and Amazon.com. Pricing is bespoke — email <a href="mailto:nick@atomic-shelf.com">nick@atomic-shelf.com</a> to discuss what makes sense for your catalogue.
+        </div>
+      </div>
+
+      <div class="faq-card">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          How quickly will I see results?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">Most authors see meaningful engagement within the first 2–3 weeks of content going live. Consistent sales momentum typically builds over 60–90 days. Amazon DSP retargeting reaches peak efficiency around month 3 — once your warm audience is large enough for the algorithm to work efficiently.</div>
+      </div>
+
+      <div class="faq-card">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Why does DSP retargeting peak at 3 months?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">DSP is a retargeting system — it reaches people who've already engaged with your content. Months 1 and 2 build that warm audience through organic distribution. By month 3, you have a meaningful pool of mid-funnel readers who haven't yet purchased — that's when reaching them on Amazon becomes dramatically more efficient and cost-effective.</div>
+      </div>
+
+      <div class="faq-card">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Why 80% DSP and 20% TikTok?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">Amazon DSP gets the majority because that's where purchase intent is highest — you're serving ads to warm readers on the exact platform where they can buy in one click. TikTok's 20% accelerates warm audience growth, especially in months 1–3. The two systems work in tandem: TikTok trains the algorithm and builds the pool, DSP converts it.</div>
+      </div>
+
+      <div class="faq-card">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Do I need an existing audience?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">No. Many of our highest-performing clients started with zero followers, zero reviews, and zero platform presence. We build algorithmic momentum from scratch — account setup, content deployment, and audience compounding are part of every plan.</div>
+      </div>
+
+      <div class="faq-card">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          How do multi-month discounts work?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">Commit to 3 months and save 10%. 6 months saves 20%. 12 months saves 25%. The billing toggle in the pricing section shows your total payment — so you know exactly what you're committing to, not just the discounted monthly equivalent.</div>
+      </div>
+
+      <div class="faq-card">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Can I upgrade or change plans?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">Yes. Upgrade at any time — your campaign scales with you. Downgrades take effect at the next billing cycle. We recommend Starter or Growth for the best initial balance of content output and DSP return on investment.</div>
+      </div>
+
+      <div class="faq-card">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          What genres do you work with?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">All of them. Romance, fantasy, thriller, literary fiction, non-fiction, Christian fiction, sci-fi, self-help. Scripts, video styles, and DSP audience targeting are always calibrated to your specific genre's reader psychology and platform behaviour.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2 class="fade-up">Put your book<br>in front of its readers</h2>
+  <p class="fade-up">Join 160+ authors who've deployed the full stack — AI-powered content, Amazon DSP retargeting, and a campaign that compounds month after month.</p>
+  <div class="cta-btns fade-up">
+    <a href="#pricing" class="btn btn-copper btn-lg">Choose Your Tier →</a>
+    <a href="https://atomic-shelf.com/DSP" class="btn btn-ghost btn-lg" target="_blank" rel="noopener">DSP &amp; A+ Guide ↗</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <span class="footer-logo">Atomic<span style="color:var(--copper-2)">&#8209;</span>Shelf</span>
+      <p class="footer-desc">AI-powered video production and strategic Amazon marketing — for authors who want their stories to reach the readers who need them most.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Navigate</h5>
+      <ul>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#dsp">Amazon DSP</a></li>
+        <li><a href="#process">Process</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#sample-report">Sample Report</a></li>
+        <li><a href="https://atomic-shelf.com/DSP" class="footer-special" target="_blank" rel="noopener">DSP &amp; A+ Guide ↗</a></li>
+        <li><a href="https://atomic-shelf.com/YouTubeGrowthCaseStudy" class="footer-special" target="_blank" rel="noopener">YouTube Growth Case Study ↗</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Contact</h5>
+      <ul>
+        <li><a href="mailto:powerpages30@gmail.com">powerpages30@gmail.com</a></li>
+        <li><a href="mailto:nick@atomic-shelf.com">nick@atomic-shelf.com</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Atomic‑Shelf. All rights reserved.</span>
+    <span>AI-Powered Book Marketing</span>
+  </div>
+</footer>
+
+<!-- STICKY MOBILE CTA -->
+<div class="sticky-cta" id="sticky-cta">
+  <div class="sticky-cta-text">
+    <strong>Put the algorithm to work</strong>
+    Amazon DSP included from Starter
+  </div>
+  <a href="#pricing" class="btn btn-copper">View Plans</a>
+</div>
+
+<script>
+/* ─── CONFIG ────────────────────────────────────────────────────────────── */
+const DSP_SEAT_THRESHOLD = 1250; // cumulative ad spend that unlocks a DSP seat
+const VIEWS_BASE         = 12_700_000;
+const VIEWS_PER_WEEK     = 20_000;
+const LAUNCH_DATE        = new Date('2026-01-01T00:00:00Z'); // approximate tracking start
+
+/* ─── NAV SCROLL ──────────────────────────────────────────────────────── */
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', scrollY > 40);
+  document.getElementById('sticky-cta').classList.toggle('show', scrollY > 300);
+});
+
+/* ─── INTERSECTION OBSERVER ───────────────────────────────────────────── */
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+}, { threshold: 0.07 });
+document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+
+/* ─── SMOOTH SCROLL ───────────────────────────────────────────────────── */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  });
+});
+
+/* ─── FAQ ─────────────────────────────────────────────────────────────── */
+function toggleFaq(btn) {
+  const card = btn.closest('.faq-card');
+  const open = card.classList.contains('open');
+  document.querySelectorAll('.faq-card').forEach(c => c.classList.remove('open'));
+  if (!open) card.classList.add('open');
+}
+
+/* ─── LIVE VIEW COUNTER ───────────────────────────────────────────────── */
+function currentViews() {
+  const now = Date.now();
+  const weeksSinceLaunch = (now - LAUNCH_DATE.getTime()) / (7 * 24 * 60 * 60 * 1000);
+  return VIEWS_BASE + Math.round(weeksSinceLaunch * VIEWS_PER_WEEK);
+}
+
+function fmtViews(n) {
+  if (n >= 1_000_000) return (n / 1_000_000).toFixed(1);
+  return (n / 1_000).toFixed(0) + 'K';
+}
+
+function updateLiveCounter() {
+  const v = currentViews();
+  const el = document.getElementById('live-views');
+  if (el) {
+    const display = v >= 1_000_000 ? (v / 1_000_000).toFixed(1) : (v / 1_000).toFixed(0) + 'K';
+    el.textContent = display;
+  }
+  // Also update the results card
+  const rc = document.getElementById('views-counter');
+  if (rc) {
+    const n = v;
+    rc.textContent = n >= 1_000_000 ? (n / 1_000_000).toFixed(1) + 'M+' : (n / 1_000).toFixed(0) + 'K+';
+  }
+}
+updateLiveCounter();
+// Tick every 30 seconds (20K views/week ≈ 1 view every ~3 seconds, but we update display gently)
+setInterval(updateLiveCounter, 30_000);
+
+/* ─── COUNT-UP ANIMATIONS ─────────────────────────────────────────────── */
+function animCount(el) {
+  const target = parseFloat(el.dataset.count);
+  const suffix = el.dataset.suffix || '';
+  const dur = 1400;
+  const start = performance.now();
+  function update(now) {
+    const p = Math.min((now - start) / dur, 1);
+    const ease = 1 - Math.pow(1 - p, 3);
+    const cur = target * ease;
+    el.textContent = (target % 1 !== 0 ? cur.toFixed(1) : Math.floor(cur)) + suffix;
+    if (p < 1) requestAnimationFrame(update);
+  }
+  requestAnimationFrame(update);
+}
+const countObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting && !e.target.dataset.counted) {
+      e.target.dataset.counted = 'true';
+      animCount(e.target);
+    }
+  });
+}, { threshold: 0.3 });
+document.querySelectorAll('[data-count]').forEach(el => countObs.observe(el));
+
+/* ─── BILLING TOGGLE + DSP SEAT LOGIC ────────────────────────────────── */
+const BILLING = {
+  monthly:  { discount: 0,    months: 1  },
+  '3month': { discount: 0.10, months: 3  },
+  '6month': { discount: 0.20, months: 6  },
+  '12month':{ discount: 0.25, months: 12 },
+};
+const NOTES = {
+  monthly:  'Pay month-to-month. Cancel anytime.',
+  '3month': 'Billed every 3 months — lock in 10% off.',
+  '6month': 'Billed every 6 months — save 20% vs monthly.',
+  '12month':'Billed annually — maximum savings at 25% off.',
+};
+
+let currentPeriod = 'monthly';
+
+function fmt(n) { return n.toLocaleString('en-US'); }
+
+/**
+ * Returns cumulative ad spend for a plan over `months` months.
+ * adBudget is the monthly ad budget for that plan.
+ * discount applies to total subscription price but the ad budget
+ * portion is constant (we treat the advertised monthly adBudget as
+ * a fixed amount embedded in each month's retainer).
+ */
+function cumulativeAdSpend(monthlyAdBudget, months) {
+  return monthlyAdBudget * months;
+}
+
+function setBilling(period, btn) {
+  currentPeriod = period;
+  document.querySelectorAll('.bill-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const { discount, months } = BILLING[period];
+
+  // Update the note
+  const noteEl = document.getElementById('billing-note');
+  noteEl.innerHTML = discount > 0
+    ? `<strong>Save ${Math.round(discount * 100)}%</strong> — ${NOTES[period]}`
+    : NOTES[period];
+
+  // Track which plans unlock a DSP seat
+  const unlockCallout = document.getElementById('dsp-unlock-callout');
+  const unlockDesc    = document.getElementById('dsp-unlock-desc');
+  const unlocks = [];
+
+  document.querySelectorAll('.plan[data-base]').forEach(plan => {
+    if (plan.dataset.orbit === 'true') return; // Orbit always has it
+
+    const base        = parseFloat(plan.dataset.base);
+    const adBudget    = parseFloat(plan.dataset.adbudget || '0');
+    const mainEl      = plan.querySelector('.price-main');
+    const subEl       = plan.querySelector('.price-sub');
+    const detailEl    = plan.querySelector('.price-detail');
+    const saveEl      = plan.querySelector('.price-save');
+    const milestoneEl = plan.querySelector('.plan-dsp-milestone');
+    if (!mainEl) return;
+
+    const planName = plan.querySelector('.plan-name')?.textContent?.trim() || '';
+    const cumAd    = cumulativeAdSpend(adBudget, months);
+    const seatUnlocked = adBudget > 0 && cumAd >= DSP_SEAT_THRESHOLD;
+
+    // -- Price display --
+    if (months === 1) {
+      mainEl.textContent = base > 0 ? '$' + fmt(base) : mainEl.textContent;
+      subEl.textContent  = 'per month';
+      detailEl.style.display = 'none';
+      saveEl.style.display   = 'none';
+    } else {
+      const discMo  = Math.round(base * (1 - discount));
+      const total   = discMo * months;
+      const savings = Math.round(base * months - total);
+      mainEl.textContent = '$' + fmt(total);
+      subEl.textContent  = 'total for ' + months + ' months';
+      detailEl.textContent = '$' + fmt(discMo) + '/mo equivalent';
+      detailEl.style.display = 'block';
+      if (savings > 0) {
+        saveEl.textContent = 'Save $' + fmt(savings);
+        saveEl.style.display = 'inline-flex';
+      }
+    }
+
+    // -- DSP seat badge --
+    // Find the plan-dsp-badge if it exists for this specific plan
+    const planId = plan.id || planName.toLowerCase();
+    const badge = plan.querySelector('.plan-dsp-badge');
+    if (badge) {
+      if (seatUnlocked && months > 1) {
+        badge.classList.add('visible');
+      } else {
+        badge.classList.remove('visible');
+      }
+    }
+
+    // -- DSP milestone note --
+    if (milestoneEl && adBudget > 0 && months > 1) {
+      if (seatUnlocked) {
+        milestoneEl.style.display = 'block';
+        milestoneEl.innerHTML = `✦ <strong>DSP Seat unlocked</strong> — your cumulative ad spend of <strong>$${fmt(cumAd)}</strong> over ${months} months qualifies you for a dedicated Amazon DSP seat.`;
+        unlocks.push(planName);
+      } else {
+        const remaining = DSP_SEAT_THRESHOLD - cumAd;
+        milestoneEl.style.display = 'block';
+        milestoneEl.innerHTML = `📡 <strong>$${fmt(remaining)} from a DSP Seat</strong> — your ${months}-month ad spend totals $${fmt(cumAd)}. Upgrade or extend to unlock.`;
+      }
+    } else if (milestoneEl) {
+      milestoneEl.style.display = 'none';
+    }
+  });
+
+  // -- Callout banner --
+  if (months > 1 && unlocks.length > 0) {
+    unlockCallout.style.display = 'flex';
+    unlockDesc.innerHTML = `On a <strong>${months}-month commitment</strong>, <strong>${unlocks.join(' and ')}</strong> cross $1,250 in cumulative ad spend — automatically qualifying for a dedicated Amazon DSP seat.`;
+  } else if (months > 1) {
+    unlockCallout.style.display = 'flex';
+    unlockDesc.innerHTML = `Commit to a longer plan or upgrade to Surge to cross the $1,250 cumulative ad spend threshold and unlock your dedicated DSP seat.`;
+  } else {
+    unlockCallout.style.display = 'none';
+  }
+}
+</script>
+</body>
+</html>

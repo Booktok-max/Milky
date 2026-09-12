@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Alexis Koetting - Encore • Atomic-Shelf Free Pilot TikTok Video Production Assets & Performance Report" />
+    <title>Alexis Koetting • Encore • Content Report | Atomic-Shelf</title>
+    <link rel="icon" type="image/svg+xml" href="/atomicshelf.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: Georgia, 'Times New Roman', serif; background: #f8f5f0; color: #2c1a18; -webkit-font-smoothing: antialiased; }
+
+        /* Layout */
+        .max-w-7xl { max-width: 80rem; margin-left: auto; margin-right: auto; }
+        .max-w-6xl { max-width: 72rem; margin-left: auto; margin-right: auto; }
+        .max-w-2xl { max-width: 42rem; margin-left: auto; margin-right: auto; }
+        .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+        .py-6 { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+        .py-16 { padding-top: 4rem; padding-bottom: 4rem; }
+        .py-20 { padding-top: 5rem; padding-bottom: 5rem; }
+        .pt-20 { padding-top: 5rem; }
+        .pb-8 { padding-bottom: 2rem; }
+        .p-8 { padding: 2rem; }
+        .p-10 { padding: 2.5rem; }
+        .mb-3 { margin-bottom: 0.75rem; }
+        .mb-6 { margin-bottom: 1.5rem; }
+        .mb-8 { margin-bottom: 2rem; }
+        .mb-10 { margin-bottom: 2.5rem; }
+        .mb-12 { margin-bottom: 3rem; }
+        .mb-20 { margin-bottom: 5rem; }
+        .mt-1 { margin-top: 0.25rem; }
+        .mt-6 { margin-top: 1.5rem; }
+        .mt-8 { margin-top: 2rem; }
+        .mt-12 { margin-top: 3rem; }
+        .gap-4 { gap: 1rem; }
+        .gap-3 { gap: 0.75rem; }
+
+        /* Flex & Grid */
+        .flex { display: flex; }
+        .items-center { align-items: center; }
+        .justify-between { justify-content: space-between; }
+        .text-center { text-align: center; }
+        .text-left { text-align: left; }
+        .block { display: block; }
+        .grid { display: grid; }
+        .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+        @media (min-width: 768px) { .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+        @media (min-width: 1024px) { .lg\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+        .gap-10 { gap: 2.5rem; }
+        .w-full { width: 100%; }
+
+        /* Typography */
+        .text-sm { font-size: 0.875rem; }
+        .text-xs { font-size: 0.75rem; }
+        .text-2xl { font-size: 1.5rem; line-height: 2rem; }
+        .text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
+        .text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
+        .font-bold { font-weight: 700; }
+        .font-semibold { font-weight: 600; }
+        .font-medium { font-weight: 500; }
+        .leading-none { line-height: 1; }
+        .leading-relaxed { line-height: 1.625; }
+        .tracking-tight { letter-spacing: -0.025em; }
+        .opacity-90 { opacity: 0.9; }
+
+        /* Colors */
+        .text-white { color: #fff; }
+        .text-gray-600 { color: #4b5563; }
+        .text-gray-500 { color: #6b7280; }
+        .text-amber-100 { color: #fef3c7; }
+
+        /* Backgrounds */
+        .bg-white { background: #fff; }
+        .bg-white\/95 { background: rgba(255,255,255,0.95); }
+        .bg-white\/20 { background: rgba(255,255,255,0.2); }
+
+        /* Border & Radius */
+        .border-b { border-bottom: 1px solid; }
+        .border-t { border-top: 1px solid; }
+        .border-white\/30 { border-color: rgba(255,255,255,0.3); }
+        .rounded-full { border-radius: 9999px; }
+        .rounded-2xl { border-radius: 1rem; }
+        .rounded-3xl { border-radius: 1.5rem; }
+        .overflow-hidden { overflow: hidden; }
+        .overflow-x-auto { overflow-x: auto; }
+
+        /* Position */
+        .fixed { position: fixed; }
+        .top-0 { top: 0; }
+        .left-0 { left: 0; }
+        .right-0 { right: 0; }
+        .z-50 { z-index: 50; }
+
+        /* Shadow */
+        .shadow-sm { box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+        .backdrop-blur-xl { backdrop-filter: blur(24px); }
+        .backdrop-blur-md { backdrop-filter: blur(12px); }
+
+        /* Inline flex */
+        .inline-flex { display: inline-flex; }
+
+        /* Component styles */
+        .hero-bg {
+            background: linear-gradient(rgba(44,26,24,0.75), rgba(44,26,24,0.85)),
+                        url('https://lh3.googleusercontent.com/pw/AP1GczN6EMw8R-MfrSXYxUhILeuoq-asLxRCwVO9Xafk-fknfSepB4Nc9Fr8zuP_JK7qXlWW2VeWF5YiOGRrsqjxhsBFDyAO9pXUUlQ8yTTNScUO-nb8z10=w1920-h1080')
+                        center/cover no-repeat;
+            height: 75vh;
+            display: flex;
+            align-items: center;
+        }
+        .card { transition: all 0.4s cubic-bezier(0.4,0,0.2,1); }
+        .card:hover { transform: translateY(-12px); box-shadow: 0 30px 60px -15px rgb(74 44 42 / 0.4); }
+        .report-box { background: #fffaf0; border: 2px solid #4a2c2a; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid #d1c7b8; }
+        th { background: #4a2c2a; color: white; padding: 1rem 1.5rem; }
+        td { font-size: 0.875rem; }
+        tr:hover td { background: #fefaf5; }
+        input[type="checkbox"] { accent-color: #4a2c2a; width: 22px; height: 22px; cursor: pointer; }
+        .btn-primary { display: block; width: 100%; text-align: center; background: #4a2c2a; color: white; padding: 1rem; border-radius: 1rem; font-weight: 500; text-decoration: none; transition: background 0.2s; }
+        .btn-primary:hover { background: #3a221f; }
+        .btn-outline { display: block; width: 100%; text-align: center; border: 1px solid #4a2c2a; color: #4a2c2a; padding: 1rem; border-radius: 1rem; font-weight: 500; text-decoration: none; transition: all 0.2s; }
+        .btn-outline:hover { background: #4a2c2a; color: white; }
+        .nav-link { padding: 0.75rem 1.5rem; background: #4a2c2a; color: white; border-radius: 9999px; font-weight: 500; text-decoration: none; transition: background 0.2s; font-size: 0.875rem; }
+        .nav-link:hover { background: #3a221f; }
+        .series-thumb { height: 15rem; background-size: cover; background-position: center; }
+        .posted-badge { background: #dcfce7; color: #15803d; padding: 0.2rem 0.7rem; border-radius: 9999px; font-size: 0.7rem; font-weight: 700; display: inline-block; }
+        .bg-emerald-50 { background: #f0fdf4; }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-b shadow-sm" style="border-color: rgba(74,44,42,0.3);">
+        <nav class="max-w-7xl px-6 py-6 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <span style="font-size:2rem;">🎥</span>
+                <div>
+                    <div class="text-3xl font-bold tracking-tight" style="color:#4a2c2a;">Atomic-Shelf</div>
+                    <div class="text-sm" style="color:#4b5563; margin-top:-2px;">Alexis Koetting • Encore</div>
+                </div>
+            </div>
+            <a href="https://atomic-shelf.com" class="nav-link">← Back to Atomic-Shelf</a>
+        </nav>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero-bg pt-20 text-white">
+        <div class="max-w-6xl px-6 text-center w-full">
+            <h1 class="font-bold leading-none mb-6" style="font-size:clamp(3rem,7vw,4.5rem);">
+                Alexis Koetting<br>
+                <span style="font-size:clamp(2.5rem,6vw,3.75rem); color:#fef3c7;">Encore</span>
+            </h1>
+            <p class="opacity-90" style="font-size:clamp(1.2rem,3vw,1.75rem); max-width:48rem; margin:0 auto;">A Bella James Mystery • Free Pilot TikTok Video Production Assets</p>
+            <div class="inline-flex items-center gap-3 backdrop-blur-md px-6 py-3 rounded-3xl text-sm font-medium mt-8" style="background:rgba(255,255,255,0.2);">
+                <span style="color:#6ee7b7;">✅ DELIVERABLE</span>
+                <span class="text-white">April 2026 Full-Month Posting Schedule & Tracking Calendar</span>
+            </div>
+        </div>
+    </section>
+
+    <div class="max-w-7xl px-6 py-20">
+
+        <!-- TikTok Channel -->
+        <div class="mb-12">
+            <h2 class="text-3xl font-bold mb-8 text-center" style="color:#4a2c2a;">Your Live TikTok Channel</h2>
+            <div class="max-w-2xl">
+                <div class="card bg-white rounded-3xl overflow-hidden" style="border:1px solid rgba(74,44,42,0.1);">
+                    <div class="flex items-center px-8" style="height:4rem; background:#000;">
+                        <span class="text-white font-bold" style="font-size:1.5rem; letter-spacing:-0.05em;">TIKTOK</span>
+                    </div>
+                    <div class="p-8">
+                        <h3 class="font-semibold mb-4 text-2xl" style="color:#4a2c2a;">TikTok Account (Dedicated trial account created)</h3>
+                        <p class="text-gray-600 mb-6">Your professional TikTok channel is live and uploading daily. Content is being posted on schedule across all series.</p>
+                        <p class="text-xs text-gray-500 text-center">Free Pilot Account • Videos posting daily • Trial period active</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Delivery Report -->
+        <div class="report-box rounded-3xl p-10 mb-20">
+            <h2 class="text-4xl font-bold mb-8 text-center" style="color:#4a2c2a;">Free Pilot – All Assets Delivered</h2>
+            <div style="color:#374151; line-height:1.7; font-size:1.1rem;">
+                <p>Thank you for the green light, Alexis! We have now completed <strong>7 cinematic series + 1 dedicated Ready Videos album</strong> for <strong>Encore</strong>. All series are delivered via shared Google Photos albums.</p>
+                <p class="mt-6" style="font-weight:600; color:#4a2c2a;">In total, 100+ pieces of visual content have been produced. Videos began posting on April 6th and are continuing daily through end of April.</p>
+            </div>
+        </div>
+
+        <!-- Content Calendar -->
+        <div class="mb-20">
+            <div class="flex items-center gap-4 mb-10">
+                <span style="font-size:2.5rem;">📅</span>
+                <div>
+                    <h2 class="text-4xl font-bold" style="color:#4a2c2a;">April 2026 Full-Month Posting Schedule & Tracking Calendar</h2>
+                    <p class="text-gray-600">Starts Monday, April 6, 2026 (all times UTC) • 2–3 videos per day on TikTok</p>
+                </div>
+            </div>
+            <div class="overflow-x-auto">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Time (UTC)</th>
+                            <th>Series / Videos Used</th>
+                            <th>Hook Theme</th>
+                            <th style="width:100px; text-align:center;">Posted?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- April 6 — POSTED -->
+                        <tr><td class="font-medium">Monday, April 6</td><td>09:00 UTC</td><td>Series 1</td><td>Her final curtain call… and a body in the backyard</td><td style="text-align:center;"><input type="checkbox" checked disabled> <span class="posted-badge">✓ Posted</span></td></tr>
+                        <tr><td class="font-medium">Monday, April 6</td><td>13:00 UTC</td><td>Series 2</td><td>Moustache just dug up the encore no one expected</td><td style="text-align:center;"><input type="checkbox" checked disabled> <span class="posted-badge">✓ Posted</span></td></tr>
+                        <tr><td class="font-medium">Monday, April 6</td><td>17:00 UTC</td><td>Series 3</td><td>She moved for the stage… and found a grave instead</td><td style="text-align:center;"><input type="checkbox" checked disabled> <span class="posted-badge">✓ Posted</span></td></tr>
+                        <!-- April 7 — POSTED -->
+                        <tr><td class="font-medium">Tuesday, April 7</td><td>10:00 UTC</td><td>Series 4</td><td>The spotlight hides more than just secrets</td><td style="text-align:center;"><input type="checkbox" checked disabled> <span class="posted-badge">✓ Posted</span></td></tr>
+                        <tr><td class="font-medium">Tuesday, April 7</td><td>14:00 UTC</td><td>Series 5</td><td>One dog, one storm, one buried truth</td><td style="text-align:center;"><input type="checkbox" checked disabled> <span class="posted-badge">✓ Posted</span></td></tr>
+                        <!-- April 8 — POSTED -->
+                        <tr><td class="font-medium">Wednesday, April 8</td><td>09:00 UTC</td><td>Series 6</td><td>Niagara's quiet streets hide a deadly encore</td><td style="text-align:center;"><input type="checkbox" checked disabled> <span class="posted-badge">✓ Posted</span></td></tr>
+                        <tr><td class="font-medium">Wednesday, April 8</td><td>13:00 UTC</td><td>Series 7</td><td>The actress, the detective, and the bones</td><td style="text-align:center;"><input type="checkbox" checked disabled> <span class="posted-badge">✓ Posted</span></td></tr>
+                        <!-- April 9 — POSTED -->
+                        <tr><td class="font-medium">Thursday, April 9</td><td>10:00 UTC</td><td>Ready Videos</td><td>She took the final bow… then found the body</td><td style="text-align:center;"><input type="checkbox" checked disabled> <span class="posted-badge">✓ Posted</span></td></tr>
+                        <tr><td class="font-medium">Thursday, April 9</td><td>14:00 UTC</td><td>Series 1</td><td>Moustache's discovery that changed everything</td><td style="text-align:center;"><input type="checkbox" checked disabled> <span class="posted-badge">✓ Posted</span></td></tr>
+                        <!-- April 10 — POSTED -->
+                        <tr><td class="font-medium">Friday, April 10</td><td>09:00 UTC</td><td>Series 2</td><td>Theatre lights dimmed… but the real drama began</td><td style="text-align:center;"><input type="checkbox" checked disabled> <span class="posted-badge">✓ Posted</span></td></tr>
+                        <tr><td class="font-medium">Friday, April 10</td><td>13:00 UTC</td><td>Series 3</td><td>Small-town secrets buried deeper than you think</td><td style="text-align:center;"><input type="checkbox" checked disabled> <span class="posted-badge">✓ Posted</span></td></tr>
+                        <!-- April 13 onwards — UPCOMING -->
+                        <tr class="bg-emerald-50"><td class="font-medium">Monday, April 13</td><td>09:00 UTC</td><td>Series 4</td><td>The encore that no one wanted to hear</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                        <tr><td class="font-medium">Monday, April 13</td><td>13:00 UTC</td><td>Ready Videos</td><td>From stage lights to crime-scene tape</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                        <tr><td class="font-medium">Monday, April 13</td><td>17:00 UTC</td><td>Series 5</td><td>The dog who solved the case before the police</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                        <tr><td class="font-medium">Tuesday, April 14</td><td>10:00 UTC</td><td>Series 6</td><td>Niagara-on-the-Lake's deadliest opening night</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                        <tr><td class="font-medium">Tuesday, April 14</td><td>14:00 UTC</td><td>Series 7</td><td>When the final curtain hides a murder</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                        <tr><td class="font-medium">Wednesday, April 15</td><td>09:00 UTC</td><td>Series 1</td><td>The bones that refused to stay buried</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                        <tr><td class="font-medium">Wednesday, April 15</td><td>13:00 UTC</td><td>Ready Videos</td><td>She came for the Shaw Festival… stayed for the murder</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                        <tr><td class="font-medium">Thursday, April 16</td><td>10:00 UTC</td><td>Series 2</td><td>Moustache found more than just a bone</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                        <tr><td class="font-medium">Thursday, April 16</td><td>14:00 UTC</td><td>Series 3</td><td>Theatre life meets true crime in Niagara</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                        <tr><td class="font-medium">Friday, April 17</td><td>09:00 UTC</td><td>Series 4</td><td>One wrong move… and the encore turns deadly</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                        <tr><td class="font-medium">Friday, April 17</td><td>13:00 UTC</td><td>Series 5</td><td>The detective who couldn't resist the spotlight</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                        <tr><td class="font-medium">Monday, April 20</td><td>09:00 UTC</td><td>Series 6</td><td>Small-town gossip just got a lot more dangerous</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                        <tr><td class="font-medium">Monday, April 20</td><td>13:00 UTC</td><td>Ready Videos</td><td>The stage is set… for murder</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                        <tr><td class="font-medium">Monday, April 20</td><td>17:00 UTC</td><td>Series 7</td><td>Bella James never expected this kind of encore</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                        <tr><td class="font-medium">Tuesday, April 21</td><td>10:00 UTC</td><td>Series 1</td><td>The bones that broke the curtain call</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                        <tr><td class="font-medium">Tuesday, April 21</td><td>14:00 UTC</td><td>Series 2</td><td>From applause to alibis in one night</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                        <tr><td class="font-medium">Wednesday, April 22</td><td>09:00 UTC</td><td>Series 3</td><td>The neighbour who saw too much</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                        <tr><td class="font-medium">Wednesday, April 22</td><td>13:00 UTC</td><td>Series 4</td><td>Moustache knows the truth… do you?</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                        <tr><td class="font-medium">Thursday, April 23</td><td>10:00 UTC</td><td>Series 5</td><td>The final performance that never happened</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                        <tr><td class="font-medium">Thursday, April 23</td><td>14:00 UTC</td><td>Ready Videos</td><td>She came to act… and ended up investigating</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                        <tr><td class="font-medium">Friday, April 24</td><td>09:00 UTC</td><td>Series 6</td><td>The storm that uncovered Niagara's darkest secret</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                        <tr><td class="font-medium">Friday, April 24</td><td>13:00 UTC</td><td>Series 7</td><td>One grave. One actress. One very nosy dog.</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                        <tr><td class="font-medium">Monday, April 27</td><td>09:00 UTC</td><td>Series 1</td><td>The Shaw Festival just got a lot more dramatic</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                        <tr><td class="font-medium">Monday, April 27</td><td>13:00 UTC</td><td>Ready Videos</td><td>Encore means one last chance… to solve the murder</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                        <tr><td class="font-medium">Monday, April 27</td><td>17:00 UTC</td><td>Series 2</td><td>The neighbours who know more than they say</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                        <tr><td class="font-medium">Tuesday, April 28</td><td>10:00 UTC</td><td>Series 3</td><td>When the final bow hides a killer</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                        <tr><td class="font-medium">Tuesday, April 28</td><td>14:00 UTC</td><td>Series 4</td><td>Moustache found the evidence… now it's Bella's turn</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                        <tr><td class="font-medium">Wednesday, April 29</td><td>09:00 UTC</td><td>Series 5</td><td>Theatre gossip just turned deadly</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                        <tr><td class="font-medium">Wednesday, April 29</td><td>13:00 UTC</td><td>Series 6</td><td>One storm. One discovery. One killer on the loose.</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                        <tr><td class="font-medium">Thursday, April 30</td><td>10:00 UTC</td><td>Series 7</td><td>The encore that solved the case</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                        <tr><td class="font-medium">Thursday, April 30</td><td>14:00 UTC</td><td>Ready Videos</td><td>From Broadway dreams to backyard bones</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-sm text-gray-500 mt-6 text-center">Full April 2026 schedule (Monday–Friday only). Videos posted April 6–10 are marked ✓. Check the boxes as new videos go live.</p>
+        </div>
+
+        <!-- Source Imagery -->
+        <div class="mb-20">
+            <div class="flex items-center gap-4 mb-10">
+                <span style="font-size:2.5rem;">📸</span>
+                <div>
+                    <h2 class="text-4xl font-bold" style="color:#4a2c2a;">Source Imagery & Raw Visual Assets</h2>
+                    <p class="text-gray-600">7 cinematic series + 1 dedicated Ready Videos album (Feb–Mar 2026)</p>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                <div class="card bg-white rounded-3xl overflow-hidden" style="border:1px solid rgba(74,44,42,0.1);">
+                    <div class="series-thumb" style="background-image: url('https://lh3.googleusercontent.com/pw/AP1GczN6EMw8R-MfrSXYxUhILeuoq-asLxRCwVO9Xafk-fknfSepB4Nc9Fr8zuP_JK7qXlWW2VeWF5YiOGRrsqjxhsBFDyAO9pXUUlQ8yTTNScUO-nb8z10=w1920-h1080');"></div>
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold mb-3" style="color:#4a2c2a;">Series 1 • Feb 25</h3>
+                        <p class="text-gray-600 mb-6">Cinematic opening scenes and storm visuals</p>
+                        <a href="https://photos.app.goo.gl/9fqHesRzwCtydN6W8" target="_blank" class="btn-outline">Open Album ↗</a>
+                    </div>
+                </div>
+                <div class="card bg-white rounded-3xl overflow-hidden" style="border:1px solid rgba(74,44,42,0.1);">
+                    <div class="series-thumb" style="background-image: url('https://lh3.googleusercontent.com/pw/AP1GczMPKEoSk2zAIfYkMGwjodVroI4rWZ_arvaS6EJablxw30v0soiCqzLq3XOfS8H2nPSXCwb4Gu2wso6d8pIh-IR2qfE3Qa_o3RCAbRP-VA1-xVoxlec=w1920-h1080');"></div>
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold mb-3" style="color:#4a2c2a;">Series 2 • Mar 6</h3>
+                        <p class="text-gray-600 mb-6">Stage & performance visuals</p>
+                        <a href="https://photos.app.goo.gl/EVCogVMWHQ5Qkwwn7" target="_blank" class="btn-outline">Open Album ↗</a>
+                    </div>
+                </div>
+                <div class="card bg-white rounded-3xl overflow-hidden" style="border:1px solid rgba(74,44,42,0.1);">
+                    <div class="series-thumb" style="background-image: url('https://lh3.googleusercontent.com/pw/AP1GczP21L8i8HSOXHsUrwq_GsG-au1PSlFDcL2J2KQt9jUrMhz6oJl62THboBn15jaJJrAALkzL23itirjMHdO_AvFMQYDKNwrHRUdrUaULvPk9lnPeeVg=w1920-h1080');"></div>
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold mb-3" style="color:#4a2c2a;">Series 3 • Mar 11</h3>
+                        <p class="text-gray-600 mb-6">Emotional & dramatic moments</p>
+                        <a href="https://photos.app.goo.gl/dxhH96DNkdyYRHNDA" target="_blank" class="btn-outline">Open Album ↗</a>
+                    </div>
+                </div>
+                <div class="card bg-white rounded-3xl overflow-hidden" style="border:1px solid rgba(74,44,42,0.1);">
+                    <div class="series-thumb" style="background-image: url('https://lh3.googleusercontent.com/pw/AP1GczPgOLou8YnLk-VFYP-AnXHs-M98jASngJhcSrC6TTGbO4Y7SJh0AVYi6jeRCJq2sWsYHY5FMCfpTHZWoHkEaz3bWrf95MvHepnfoqvua7i7ejmerwk=w1920-h1080');"></div>
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold mb-3" style="color:#4a2c2a;">Series 4 • Mar 11–12</h3>
+                        <p class="text-gray-600 mb-6">Climactic performance scenes</p>
+                        <a href="https://photos.app.goo.gl/YFnYSK97NjHuFob16" target="_blank" class="btn-outline">Open Album ↗</a>
+                    </div>
+                </div>
+                <div class="card bg-white rounded-3xl overflow-hidden" style="border:1px solid rgba(74,44,42,0.1);">
+                    <div class="series-thumb" style="background-image: url('https://lh3.googleusercontent.com/pw/AP1GczNasZZYhOH2MVn-7pPqi60B2f3Vdb5YlYntQa9G23Ffslf0sDIIdekLqoKlyygYM1JfbbWcUK5CIseSv9Fwr5qjy0_O9KkVtQqVecQ_cmaHimFUgN4=w1920-h1080');"></div>
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold mb-3" style="color:#4a2c2a;">Series 5 • Mar 14</h3>
+                        <p class="text-gray-600 mb-6">Intimate & reflective shots</p>
+                        <a href="https://photos.app.goo.gl/np2bCZbecSxPeQuo9" target="_blank" class="btn-outline">Open Album ↗</a>
+                    </div>
+                </div>
+                <div class="card bg-white rounded-3xl overflow-hidden" style="border:1px solid rgba(74,44,42,0.1);">
+                    <div class="series-thumb" style="background-image: url('https://lh3.googleusercontent.com/pw/AP1GczOp_CwZKtZWZRkM4bJTg4oxBoItmqkdR_9o54HJmfEchs_il34dScg8Gopx-5xAztvN8dHQbFqLEVxuwvnbnxxDto6b11h4d7ore-8_QXvXWEkGuXg=w1920-h1080');"></div>
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold mb-3" style="color:#4a2c2a;">Series 6 • Mar 14</h3>
+                        <p class="text-gray-600 mb-6">High-energy finale visuals</p>
+                        <a href="https://photos.app.goo.gl/GkHnMgEtu8iU8YTq6" target="_blank" class="btn-outline">Open Album ↗</a>
+                    </div>
+                </div>
+                <div class="card bg-white rounded-3xl overflow-hidden" style="border:1px solid rgba(74,44,42,0.1);">
+                    <div class="series-thumb" style="background-image: url('https://lh3.googleusercontent.com/pw/AP1GczPxdl9cqcJtiaBHzl20fge8oxjO15mcBW9kVmAvq9O2EsaIvY15KXrPCiuPsaqzROmeWQbrul4ou1KfH7dvfV3TySl6__ya-8GvNiI2ZUl3mKU1pps=w1920-h1080');"></div>
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold mb-3" style="color:#4a2c2a;">Series 7 • Mar 17</h3>
+                        <p class="text-gray-600 mb-6">Closing & emotional resolution</p>
+                        <a href="https://photos.app.goo.gl/CTFZS1qL99dqJVuJA" target="_blank" class="btn-outline">Open Album ↗</a>
+                    </div>
+                </div>
+                <div class="card bg-white rounded-3xl overflow-hidden" style="border:1px solid rgba(74,44,42,0.1);">
+                    <div class="series-thumb" style="background-image: url('https://lh3.googleusercontent.com/pw/AP1GczPPeX3nodB0xpmzb0VLf2Fc5dyBuToWfxHP31kJgHoTXeEs0O42xnBIYI594jT4Ny8-hATdx6ppxupDa4_OMUOEW-J_F475KyABHAmV4TIc-82FGw4=w1920-h1080');"></div>
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold mb-3" style="color:#4a2c2a;">Ready Videos • Mar 13</h3>
+                        <p class="text-gray-600 mb-6">Final short-form TikTok videos (some already posted)</p>
+                        <a href="https://photos.app.goo.gl/d7ysRbdxQA3PVrC86" target="_blank" class="btn-outline">Open Videos Album ↗</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer style="background:#4a2c2a;" class="text-white py-16">
+        <div class="max-w-7xl px-6 text-center">
+            <p class="text-2xl mb-3">Atomic-Shelf Video Production</p>
+            <p class="opacity-90">Alexis Koetting • Encore • Free Pilot TikTok Assets • February–April 2026</p>
+            <div class="mt-12 max-w-2xl text-sm leading-relaxed border-t border-white/30 pt-8" style="margin-left:auto; margin-right:auto;">
+                <p>By participating in this free pilot, you confirm you hold the rights to the book content provided and grant Atomic Shelf a limited licence to use it for the production of short-form promotional video content on your behalf.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

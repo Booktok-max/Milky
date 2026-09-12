@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Get 60 free videos for your book. No credit card. Atomic-Shelf is the creative studio for indie authors.">
+<title>Atomic‑Shelf | 60 Videos for Your Book — Free</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FDFCF8;
+  --bg-warm:#F7F2E8;
+  --ink:#0E0C1A;
+  --muted:#6B6078;
+  --light:#9490A0;
+  --copper:#C8832A;
+  --copper-2:#E09A40;
+  --copper-pale:#FBF0DC;
+  --copper-glow:rgba(200,131,42,0.18);
+  --success:#2D7A78;
+  --radius:18px;
+  --radius-sm:12px;
+  --max-w:1120px;
+  --font-serif:'Playfair Display',serif;
+  --font-sans:'Inter',sans-serif;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font-sans);
+  background:var(--bg);
+  color:var(--ink);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+
+.container{max-width:var(--max-w);margin:0 auto;padding:0 1.5rem}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+
+h1,h2,h3{font-family:var(--font-serif);letter-spacing:-0.02em;line-height:1.08}
+h1{font-size:clamp(2.4rem,5.2vw,4rem);font-weight:700}
+h2{font-size:clamp(1.5rem,3vw,2.2rem);font-weight:600}
+p.lead{font-size:1.125rem;color:var(--muted);line-height:1.7;max-width:52ch}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.4rem;
+  padding:.9rem 1.6rem;border-radius:var(--radius-sm);
+  font-family:inherit;font-size:.95rem;font-weight:600;border:none;cursor:pointer;
+  transition:transform .15s,box-shadow .2s,background .2s;
+}
+.btn:active{transform:scale(.98)}
+.btn-primary{background:var(--copper);color:#fff;box-shadow:0 4px 16px var(--copper-glow)}
+.btn-primary:hover{background:#b0711e}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid rgba(14,12,26,.12)}
+.btn-ghost:hover{border-color:var(--copper);color:var(--copper)}
+.btn-block{width:100%}
+
+/* Nav */
+.site-nav{
+  position:fixed;inset:0 0 auto 0;z-index:100;
+  background:rgba(253,252,248,.92);backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(14,12,26,.06);transform:translateY(-100%);
+  transition:transform .35s ease;
+}
+.site-nav.visible{transform:translateY(0)}
+.nav-inner{
+  max-width:var(--max-w);margin:0 auto;padding:1rem 1.5rem;
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
+}
+.logo{font-family:var(--font-serif);font-size:1.35rem;font-weight:700;color:var(--ink);letter-spacing:-.03em;text-decoration:none}
+.logo span{color:var(--copper)}
+
+/* Hero */
+.hero{
+  position:relative;overflow:hidden;
+  min-height:100vh;display:flex;align-items:center;
+  padding:7rem 0 4rem;
+}
+.hero-bg{
+  position:absolute;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(600px 600px at 85% 20%,rgba(200,131,42,.10),transparent 60%),
+             radial-gradient(400px 400px at 10% 80%,rgba(200,131,42,.06),transparent 60%);
+}
+.hero .container{position:relative;z-index:1;display:grid;grid-template-columns:1.05fr .95fr;gap:4rem;align-items:center}
+
+.badge{
+  display:inline-flex;align-items:center;gap:.5rem;
+  background:var(--copper-pale);color:var(--copper);
+  font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  padding:.38rem .9rem;border-radius:99px;margin-bottom:1.25rem;border:1px solid rgba(200,131,42,.18);
+}
+.hero h1{margin-bottom:1.1rem}
+.hero h1 em{font-style:italic;color:var(--copper)}
+.hero .lead{margin-bottom:2rem}
+
+/* Form */
+.email-form{max-width:420px;margin-bottom:1rem}
+.form-group{display:flex;gap:.5rem;flex-wrap:wrap}
+.email-form input[type="email"]{
+  flex:1 1 220px;padding:.95rem 1.1rem;border-radius:var(--radius-sm);
+  border:1.5px solid rgba(14,12,26,.10);background:#fff;font-size:.95rem;
+  font-family:inherit;outline:none;transition:border-color .2s,box-shadow .2s;
+}
+.email-form input[type="email"]:focus{border-color:var(--copper);box-shadow:0 0 0 4px var(--copper-glow)}
+.email-form .btn{flex:1 1 auto;white-space:nowrap}
+.email-form .btn[aria-busy="true"]{opacity:.85;cursor:wait}
+.under-form{display:flex;flex-wrap:wrap;gap:.6rem 1.2rem;font-size:.8rem;color:var(--light);margin-top:.6rem}
+.under-form span{display:flex;align-items:center;gap:.35rem}
+
+.success-message{
+  display:none;align-items:flex-start;gap:.75rem;
+  background:#eaf5f4;border:1.5px solid rgba(45,122,120,.2);color:var(--success);
+  padding:1rem 1.2rem;border-radius:var(--radius-sm);max-width:420px;font-size:.95rem;font-weight:500;
+}
+.success-message.visible{display:flex}
+.success-message svg{flex-shrink:0;margin-top:.1rem}
+
+.trust-row{
+  display:flex;flex-wrap:wrap;gap:1.2rem 2rem;margin-top:2.5rem;padding-top:2rem;
+  border-top:1px solid rgba(14,12,26,.06);
+}
+.trust-item{display:flex;align-items:center;gap:.5rem;font-size:.82rem;color:var(--muted);font-weight:500}
+.dot{width:5px;height:5px;border-radius:50%;background:var(--copper)}
+
+/* ── VIDEO WALL WITH REAL IMAGES ── */
+.wall-wrap{position:relative}
+.wall{
+  display:grid;grid-template-columns:repeat(6,1fr);gap:6px;
+  padding:10px;background:#fff;border-radius:var(--radius);
+  border:1px solid rgba(14,12,26,.06);box-shadow:0 20px 60px rgba(14,12,26,.08);
+}
+.wall-cell{
+  aspect-ratio:9/16;border-radius:6px;overflow:hidden;
+  position:relative;opacity:0;transform:scale(.7);
+  transition:opacity .5s ease,transform .5s cubic-bezier(.34,1.56,.64,1);
+  background:#f0ebe3;
+}
+.wall-cell img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform .4s ease;
+}
+.wall-cell:hover img{transform:scale(1.08)}
+/* Play button overlay on video cells */
+.wall-cell.video::after{
+  content:'';position:absolute;inset:0;
+  background:rgba(14,12,26,.18);
+  display:flex;align-items:center;justify-content:center;
+}
+.wall-cell.video::before{
+  content:'';position:absolute;top:50%;left:55%;transform:translate(-50%,-50%);
+  border-style:solid;border-width:5px 0 5px 9px;border-color:transparent transparent transparent #fff;
+  z-index:2;filter:drop-shadow(0 2px 4px rgba(0,0,0,.3));
+}
+.wall-label{
+  display:flex;justify-content:space-between;align-items:baseline;margin-top:.9rem;
+  font-size:.78rem;color:var(--light);
+}
+.wall-label b{color:var(--copper);font-weight:600}
+
+/* Sections */
+section{padding:5rem 0}
+.bg-warm{background:var(--bg-warm)}
+.text-center{text-align:center}
+.section-header{max-width:56ch;margin:0 auto;text-align:center}
+.section-header h2{margin-bottom:.6rem}
+.section-header .lead{margin:0 auto}
+
+/* Cards */
+.grid-3{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-top:3rem;
+}
+.card{
+  background:#fff;border:1px solid rgba(14,12,26,.06);border-radius:var(--radius);
+  padding:2rem 1.8rem;transition:transform .25s,box-shadow .25s,border-color .25s;
+}
+.card:hover{transform:translateY(-5px);box-shadow:0 18px 48px rgba(14,12,26,.06);border-color:rgba(200,131,42,.2)}
+.card-icon{
+  width:44px;height:44px;border-radius:12px;background:var(--copper-pale);color:var(--copper);
+  display:flex;align-items:center;justify-content:center;font-size:1.25rem;margin-bottom:1rem;
+}
+.card h3{font-family:var(--font-sans);font-size:1.05rem;font-weight:600;margin-bottom:.35rem}
+.card p{font-size:.9rem;color:var(--muted);line-height:1.6}
+
+/* Included list */
+.included{
+  max-width:720px;margin:2.5rem auto 0;background:#fff;border-radius:var(--radius);
+  border:1px solid rgba(14,12,26,.06);padding:2rem 2.5rem;
+  box-shadow:0 12px 40px rgba(14,12,26,.04);
+}
+.included ul{list-style:none;display:grid;gap:.7rem}
+.included li{
+  display:flex;align-items:center;gap:.7rem;font-size:.95rem;color:var(--muted);
+  padding:.35rem 0;border-bottom:1px solid rgba(14,12,26,.04);
+}
+.included li:last-child{border-bottom:none}
+.included li b{color:var(--ink);font-weight:600}
+.check{width:20px;height:20px;border-radius:50%;background:var(--copper-pale);color:var(--copper);
+  display:flex;align-items:center;justify-content:center;font-size:.7rem;flex-shrink:0}
+
+/* Steps */
+.steps{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:2.5rem;margin-top:3rem;position:relative;
+}
+.steps::before{
+  content:'';position:absolute;top:22px;left:70px;right:70px;height:1px;
+  background:linear-gradient(90deg,var(--copper),rgba(200,131,42,.08));z-index:0;
+}
+.step{position:relative;z-index:1;text-align:center}
+.step-num{
+  width:44px;height:44px;border-radius:50%;margin:0 auto 1rem;
+  background:#fff;border:1.5px solid rgba(200,131,42,.3);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-serif);font-weight:700;color:var(--copper);font-size:1.1rem;
+  box-shadow:0 4px 12px rgba(200,131,42,.08);
+}
+.step h4{font-size:1rem;margin-bottom:.25rem;font-weight:600}
+.step p{font-size:.88rem;color:var(--muted);max-width:28ch;margin:0 auto}
+
+/* Quote */
+.quote-card{
+  max-width:640px;margin:0 auto;background:#fff;border-radius:var(--radius);
+  border:1px solid rgba(14,12,26,.06);padding:2.5rem;text-align:center;
+  box-shadow:0 12px 40px rgba(14,12,26,.04);
+}
+.quote-card p{font-family:var(--font-serif);font-size:1.25rem;font-style:italic;color:var(--ink);line-height:1.5;margin-bottom:1.2rem}
+.quote-card cite{font-style:normal;font-size:.85rem;color:var(--muted);font-weight:500}
+
+/* Final CTA */
+.cta-band{
+  background:var(--ink);color:#fff;border-radius:var(--radius);
+  padding:4.5rem 2rem;text-align:center;position:relative;overflow:hidden;
+}
+.cta-band::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(600px 600px at 20% 50%,rgba(200,131,42,.15),transparent 60%);
+}
+.cta-band h2{position:relative;z-index:1;margin-bottom:.6rem}
+.cta-band p{position:relative;z-index:1;color:rgba(255,255,255,.5);max-width:46ch;margin:0 auto 1.6rem}
+
+/* Sticky mobile CTA */
+.sticky-mobile{
+  position:fixed;inset:auto 0 0 0;z-index:200;
+  background:var(--ink);padding:.9rem 1rem;
+  display:none;align-items:center;justify-content:space-between;gap:1rem;
+  border-top:1px solid rgba(200,131,42,.25);
+  transform:translateY(100%);transition:transform .3s ease;
+  box-shadow:0 -8px 32px rgba(14,12,26,.25);
+}
+.sticky-mobile.show{transform:translateY(0)}
+.sticky-mobile span{color:#fff;font-size:.85rem}
+.sticky-mobile span b{color:var(--copper-2);display:block;font-size:.95rem}
+
+footer{padding:2.5rem 0;text-align:center;font-size:.8rem;color:var(--light);border-top:1px solid rgba(14,12,26,.06)}
+
+/* Animations */
+.fade-up{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.fade-up.in{opacity:1;transform:none}
+.wall-wrap.in .wall-cell{opacity:1;transform:scale(1)}
+.wall-wrap.in .wall-cell:nth-child(1){transition-delay:.02s}
+.wall-wrap.in .wall-cell:nth-child(2){transition-delay:.04s}
+.wall-wrap.in .wall-cell:nth-child(3){transition-delay:.06s}
+.wall-wrap.in .wall-cell:nth-child(4){transition-delay:.08s}
+.wall-wrap.in .wall-cell:nth-child(5){transition-delay:.10s}
+.wall-wrap.in .wall-cell:nth-child(6){transition-delay:.12s}
+.wall-wrap.in .wall-cell:nth-child(7){transition-delay:.14s}
+.wall-wrap.in .wall-cell:nth-child(8){transition-delay:.16s}
+.wall-wrap.in .wall-cell:nth-child(9){transition-delay:.18s}
+.wall-wrap.in .wall-cell:nth-child(10){transition-delay:.20s}
+.wall-wrap.in .wall-cell:nth-child(11){transition-delay:.22s}
+.wall-wrap.in .wall-cell:nth-child(12){transition-delay:.24s}
+.wall-wrap.in .wall-cell:nth-child(n+13){transition-delay:.26s}
+
+/* Responsive */
+@media(max-width:920px){
+  .hero .container{grid-template-columns:1fr;gap:3rem}
+  .wall-wrap{max-width:420px;margin:0 auto;order:-1}
+  .grid-3,.steps{grid-template-columns:1fr}
+  .steps::before{display:none}
+  .step{text-align:left;display:flex;gap:1.2rem}
+  .step-num{margin:0;flex-shrink:0}
+  .step p{margin:0}
+}
+@media(max-width:640px){
+  .hero{padding:6rem 0 3rem}
+  .section-header .lead{font-size:1rem}
+  .included{padding:1.5rem}
+  .sticky-mobile{display:flex}
+  body{padding-bottom:70px}
+}
+@media(prefers-reduced-motion:reduce){
+  .fade-up,.wall-cell{opacity:1;transform:none;transition:none}
+  .site-nav{transform:none}
+}
+</style>
+</head>
+<body>
+
+<nav class="site-nav" id="stickyNav" aria-label="Main">
+  <div class="nav-inner">
+    <a href="#" class="logo">Atomic<span>‑</span>Shelf</a>
+    <a href="#signup" class="btn btn-primary">Get 60 free videos</a>
+  </div>
+</nav>
+
+<section class="hero" id="signup">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="container">
+    <div class="hero-text fade-up">
+      <div class="badge">✦ No credit card required</div>
+      <h1>Get <em>60 videos</em> for your book.<br>Completely free.</h1>
+      <p class="lead">
+        We script, produce, and deliver a full month of scroll-stopping content — trailers, TikToks, Reels, and Shorts. You just write. We handle the rest.
+      </p>
+
+      <form class="email-form" id="heroForm" novalidate>
+        <div class="form-group">
+          <label for="email" class="sr-only">Email address</label>
+          <input type="email" id="email" name="email" placeholder="Enter your email address" required autocomplete="email">
+          <button type="submit" class="btn btn-primary" id="submitBtn">Claim 60 free videos →</button>
+        </div>
+        <p class="under-form">
+          <span>🔒 No spam, ever</span>
+          <span>✓ Cancel anytime</span>
+          <span>⚡ Delivered in 48 hours</span>
+        </p>
+      </form>
+
+      <div class="success-message" id="successMsg" role="status" aria-live="polite">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        <span>You're on the list. Check your inbox — we'll send your first batch details shortly.</span>
+      </div>
+
+      <div class="trust-row">
+        <div class="trust-item"><span class="dot"></span>160+ authors served</div>
+        <div class="trust-item"><span class="dot"></span>12.7M+ views generated</div>
+        <div class="trust-item"><span class="dot"></span>Amazon DSP Certified</div>
+      </div>
+    </div>
+
+    <div class="wall-wrap fade-up" id="videoWall" aria-hidden="true">
+      <div class="wall" id="wallGrid"></div>
+      <div class="wall-label"><span>A month of content</span><span><b>60 videos</b> · ready to post</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="bg-warm">
+  <div class="container">
+    <div class="section-header fade-up">
+      <h2>Exactly what you get</h2>
+      <p class="lead">Not a dashboard. Not a template. A real studio delivers real assets.</p>
+    </div>
+
+    <div class="included fade-up">
+      <ul>
+        <li><span class="check">✓</span><b>40</b> short-form vertical videos (TikTok / Reels / Shorts)</li>
+        <li><span class="check">✓</span><b>10</b> cinematic quote cards / story hooks</li>
+        <li><span class="check">✓</span><b>5</b> book trailer cuts (15–30s)</li>
+        <li><span class="check">✓</span><b>3</b> long-form YouTube-ready pieces</li>
+        <li><span class="check">✓</span><b>2</b> avatar-narrated voiceovers</li>
+        <li><span class="check">✓</span>Custom captions, hashtags & posting schedule</li>
+        <li><span class="check">✓</span>1 senior creative manager assigned to your book</li>
+      </ul>
+    </div>
+
+    <div class="grid-3" style="margin-top:2.5rem">
+      <div class="card fade-up">
+        <div class="card-icon">✍️</div>
+        <h3>Genre-matched scripts</h3>
+        <p>Our writers study your comp titles and reader psychology so every hook lands.</p>
+      </div>
+      <div class="card fade-up d1">
+        <div class="card-icon">🎬</div>
+        <h3>Studio-grade production</h3>
+        <p>Cinematic color, custom music, and motion design — not cookie-cutter clips.</p>
+      </div>
+      <div class="card fade-up d2">
+        <div class="card-icon">🚀</div>
+        <h3>Algorithm-ready delivery</h3>
+        <p>Correct aspect ratios, safe zones, and pacing tuned for each platform.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-header fade-up">
+      <h2>How it works</h2>
+      <p class="lead">From signup to published in 48 hours. Zero learning curve.</p>
+    </div>
+    <div class="steps">
+      <div class="step fade-up">
+        <div class="step-num">1</div>
+        <div>
+          <h4>Tell us about your book</h4>
+          <p>Share your title, genre, and a link. Our team does the research.</p>
+        </div>
+      </div>
+      <div class="step fade-up d1">
+        <div class="step-num">2</div>
+        <div>
+          <h4>We build your content</h4>
+          <p>Scripts, video, music, and captions — all matched to your story.</p>
+        </div>
+      </div>
+      <div class="step fade-up d2">
+        <div class="step-num">3</div>
+        <div>
+          <h4>You post and grow</h4>
+          <p>Download, schedule, and watch the algorithm start working for you.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="bg-warm">
+  <div class="container text-center">
+    <div class="quote-card fade-up">
+      <p>"I went from zero social presence to posting daily in 48 hours. The quality shocked me — readers actually started asking about my book in the comments."</p>
+      <cite>— Indie Romance Author, 3 weeks in</cite>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="cta-band fade-up">
+      <h2>Give your book a studio.</h2>
+      <p>Start with 60 free videos. If you love it, stay on for $50/mo. If not, walk away with a month of content — on us.</p>
+      <a href="#signup" class="btn btn-primary" style="font-size:1.05rem;padding:1rem 2.2rem;">Get 60 videos free →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    © 2026 Atomic‑Shelf. Built for indie authors.
+  </div>
+</footer>
+
+<div class="sticky-mobile" id="stickyMobile">
+  <span><b>60 videos free</b>No credit card</span>
+  <a href="#signup" class="btn btn-primary">Claim now</a>
+</div>
+
+<script>
+/* ── SVG Thumbnail Library ──
+   8 distinct 9:16 designs that cycle through the 60-cell grid.
+   They look like real book covers, quote cards, and video frames.
+   Replace these data-URIs with real .jpg URLs whenever you have assets. */
+
+function svgUri(svg){ return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg); }
+
+const thumbs = [
+  // 0: Cream Quote Card
+  svgUri(`<svg xmlns="http://www.w3.org/2000/svg" width="300" height="533" viewBox="0 0 300 533">
+    <rect width="300" height="533" fill="#F7F2E8"/>
+    <rect x="0" y="0" width="300" height="533" fill="url(#g0)"/>
+    <defs><linearGradient id="g0" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#F7F2E8"/><stop offset="100%" stop-color="#EDE6D4"/></linearGradient></defs>
+    <text x="150" y="160" font-family="Georgia,serif" font-size="90" fill="#C8832A" opacity=".25" text-anchor="middle">“</text>
+    <rect x="60" y="220" width="180" height="2" fill="#C8832A" opacity=".3"/>
+    <rect x="60" y="250" width="140" height="2" fill="#C8832A" opacity=".15"/>
+    <rect x="60" y="280" width="160" height="2" fill="#C8832A" opacity=".15"/>
+    <rect x="60" y="310" width="100" height="2" fill="#C8832A" opacity=".15"/>
+    <text x="150" y="420" font-family="Georgia,serif" font-size="14" fill="#6B6078" text-anchor="middle" font-style="italic">Atomic Shelf</text>
+  </svg>`),
+
+  // 1: Dark Cinematic Trailer Frame
+  svgUri(`<svg xmlns="http://www.w3.org/2000/svg" width="300" height="533" viewBox="0 0 300 533">
+    <defs><linearGradient id="g1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1C1830"/><stop offset="100%" stop-color="#0E0C1A"/></linearGradient></defs>
+    <rect width="300" height="533" fill="url(#g1)"/>
+    <circle cx="150" cy="240" r="90" fill="none" stroke="#C8832A" stroke-width="1.5" opacity=".35"/>
+    <circle cx="150" cy="240" r="60" fill="none" stroke="#C8832A" stroke-width="1" opacity=".25"/>
+    <polygon points="140,220 140,260 175,240" fill="#E09A40" opacity=".9"/>
+    <text x="150" y="380" font-family="Arial,sans-serif" font-size="11" fill="#E09A40" text-anchor="middle" letter-spacing="4">TRAILER</text>
+    <rect x="90" y="410" width="120" height="1" fill="#E09A40" opacity=".3"/>
+  </svg>`),
+
+  // 2: Warm Romance Cover
+  svgUri(`<svg xmlns="http://www.w3.org/2000/svg" width="300" height="533" viewBox="0 0 300 533">
+    <defs><linearGradient id="g2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#E09A40"/><stop offset="100%" stop-color="#C8832A"/></linearGradient></defs>
+    <rect width="300" height="533" fill="url(#g2)"/>
+    <rect x="40" y="120" width="220" height="280" rx="4" fill="#F7F2E8" opacity=".12"/>
+    <text x="150" y="240" font-family="Georgia,serif" font-size="28" fill="#fff" text-anchor="middle" font-style="italic">The Last</text>
+    <text x="150" y="280" font-family="Georgia,serif" font-size="28" fill="#fff" text-anchor="middle" font-style="italic">Letter</text>
+    <rect x="100" y="320" width="100" height="1" fill="#fff" opacity=".4"/>
+    <text x="150" y="350" font-family="Arial,sans-serif" font-size="10" fill="#F7F2E8" text-anchor="middle" letter-spacing="2">A NOVEL</text>
+  </svg>`),
+
+  // 3: Moody Teal Mystery Cover
+  svgUri(`<svg xmlns="http://www.w3.org/2000/svg" width="300" height="533" viewBox="0 0 300 533">
+    <defs><linearGradient id="g3" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2D4A52"/><stop offset="100%" stop-color="#1A2E33"/></linearGradient></defs>
+    <rect width="300" height="533" fill="url(#g3)"/>
+    <rect x="50" y="140" width="200" height="240" rx="2" fill="none" stroke="#C8832A" stroke-width="1" opacity=".4"/>
+    <text x="150" y="260" font-family="Arial,sans-serif" font-size="24" fill="#F7F2E8" text-anchor="middle" font-weight="700" letter-spacing="6">SHADOW</text>
+    <text x="150" y="295" font-family="Arial,sans-serif" font-size="24" fill="#F7F2E8" text-anchor="middle" font-weight="700" letter-spacing="6">TIDE</text>
+    <text x="150" y="340" font-family="Georgia,serif" font-size="11" fill="#C8832A" text-anchor="middle" font-style="italic">E. M. Liddick</text>
+  </svg>`),
+
+  // 4: Reel Hook Card (trending style)
+  svgUri(`<svg xmlns="http://www.w3.org/2000/svg" width="300" height="533" viewBox="0 0 300 533">
+    <rect width="300" height="533" fill="#0E0C1A"/>
+    <rect x="0" y="0" width="300" height="266" fill="#C8832A"/>
+    <rect x="0" y="266" width="300" height="267" fill="#1C1830"/>
+    <text x="150" y="140" font-family="Arial,sans-serif" font-size="13" fill="#0E0C1A" text-anchor="middle" font-weight="700" letter-spacing="3">POV:</text>
+    <text x="150" y="180" font-family="Georgia,serif" font-size="22" fill="#0E0C1A" text-anchor="middle" font-style="italic">You finally</text>
+    <text x="150" y="210" font-family="Georgia,serif" font-size="22" fill="#0E0C1A" text-anchor="middle" font-style="italic">find the...</text>
+    <rect x="80" y="380" width="140" height="3" fill="#C8832A"/>
+    <text x="150" y="420" font-family="Arial,sans-serif" font-size="10" fill="#9490A0" text-anchor="middle" letter-spacing="2">HOOK #04</text>
+  </svg>`),
+
+  // 5: Aesthetic Flatlay (book + coffee)
+  svgUri(`<svg xmlns="http://www.w3.org/2000/svg" width="300" height="533" viewBox="0 0 300 533">
+    <rect width="300" height="533" fill="#E8E0D0"/>
+    <rect x="60" y="160" width="120" height="180" rx="3" fill="#F7F2E8" stroke="#C8832A" stroke-width="1.5"/>
+    <rect x="65" y="165" width="110" height="170" rx="1" fill="#fff"/>
+    <line x1="75" y1="200" x2="165" y2="200" stroke="#0E0C1A" stroke-width="2" opacity=".8"/>
+    <line x1="75" y1="215" x2="145" y2="215" stroke="#0E0C1A" stroke-width="1.5" opacity=".5"/>
+    <line x1="75" y1="230" x2="155" y2="230" stroke="#0E0C1A" stroke-width="1.5" opacity=".5"/>
+    <circle cx="210" cy="240" r="28" fill="#fff" stroke="#C8832A" stroke-width="1.5"/>
+    <circle cx="210" cy="240" r="22" fill="#C8832A" opacity=".15"/>
+    <circle cx="210" cy="240" r="14" fill="#C8832A" opacity=".3"/>
+    <rect x="80" y="380" width="140" height="40" rx="20" fill="#C8832A" opacity=".1"/>
+    <text x="150" y="405" font-family="Arial,sans-serif" font-size="10" fill="#6B6078" text-anchor="middle" letter-spacing="1">READ WITH ME</text>
+  </svg>`),
+
+  // 6: Fantasy Starlight Cover
+  svgUri(`<svg xmlns="http://www.w3.org/2000/svg" width="300" height="533" viewBox="0 0 300 533">
+    <defs><linearGradient id="g6" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1C1830"/><stop offset="60%" stop-color="#2A2640"/><stop offset="100%" stop-color="#0E0C1A"/></linearGradient></defs>
+    <rect width="300" height="533" fill="url(#g6)"/>
+    <circle cx="80" cy="120" r="1.5" fill="#fff" opacity=".6"/><circle cx="220" cy="90" r="1.5" fill="#fff" opacity=".4"/>
+    <circle cx="150" cy="80" r="1" fill="#fff" opacity=".8"/><circle cx="250" cy="180" r="1" fill="#fff" opacity=".5"/>
+    <circle cx="50" cy="220" r="1.5" fill="#fff" opacity=".3"/><circle cx="200" cy="140" r="1" fill="#fff" opacity=".7"/>
+    <circle cx="120" cy="100" r="1" fill="#E09A40" opacity=".6"/><circle cx="180" cy="160" r="1.5" fill="#E09A40" opacity=".4"/>
+    <text x="150" y="270" font-family="Georgia,serif" font-size="26" fill="#F7F2E8" text-anchor="middle" font-style="italic">Crown of</text>
+    <text x="150" y="310" font-family="Georgia,serif" font-size="26" fill="#F7F2E8" text-anchor="middle" font-style="italic">Embers</text>
+    <rect x="110" y="340" width="80" height="1" fill="#C8832A" opacity=".5"/>
+    <text x="150" y="370" font-family="Arial,sans-serif" font-size="9" fill="#C8832A" text-anchor="middle" letter-spacing="3">FANTASY</text>
+  </svg>`),
+
+  // 7: Minimal Short/Reel Frame
+  svgUri(`<svg xmlns="http://www.w3.org/2000/svg" width="300" height="533" viewBox="0 0 300 533">
+    <rect width="300" height="533" fill="#FDFAF3"/>
+    <rect x="30" y="100" width="240" height="320" rx="12" fill="#F7F2E8" stroke="#E0D8C4" stroke-width="1"/>
+    <rect x="50" y="140" width="200" height="8" rx="4" fill="#C8832A" opacity=".2"/>
+    <rect x="50" y="160" width="160" height="8" rx="4" fill="#C8832A" opacity=".12"/>
+    <rect x="50" y="180" width="180" height="8" rx="4" fill="#C8832A" opacity=".12"/>
+    <rect x="50" y="220" width="200" height="120" rx="8" fill="#EDE6D4"/>
+    <polygon points="145,270 145,290 165,280" fill="#C8832A" opacity=".6"/>
+    <rect x="50" y="360" width="120" height="8" rx="4" fill="#0E0C1A" opacity=".1"/>
+    <rect x="50" y="380" width="80" height="8" rx="4" fill="#0E0C1A" opacity=".06"/>
+  </svg>`)
+];
+
+/* ── Build the wall ── */
+const wall = document.getElementById('wallGrid');
+const videoIndices = new Set([2,7,14,23,31,38,45,52]); // cells that get play buttons
+
+for(let i=0;i<60;i++){
+  const cell = document.createElement('div');
+  cell.className = 'wall-cell';
+  const img = document.createElement('img');
+  img.src = thumbs[i % thumbs.length];
+  img.alt = '';
+  img.loading = 'lazy';
+  img.decoding = 'async';
+  cell.appendChild(img);
+  if(videoIndices.has(i)) cell.classList.add('video');
+  wall.appendChild(cell);
+}
+
+/* ── Intersection Observer ── */
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('in');
+      observer.unobserve(e.target);
+    }
+  });
+},{threshold:0.1});
+document.querySelectorAll('.fade-up, .wall-wrap').forEach(el=>observer.observe(el));
+
+/* ── Sticky nav + mobile bar ── */
+const stickyNav = document.getElementById('stickyNav');
+const stickyMobile = document.getElementById('stickyMobile');
+window.addEventListener('scroll',()=>{
+  const y = window.scrollY;
+  stickyNav.classList.toggle('visible', y > 400);
+  stickyMobile.classList.toggle('show', y > 600);
+});
+
+/* ── Form states ── */
+const form = document.getElementById('heroForm');
+const btn = document.getElementById('submitBtn');
+const success = document.getElementById('successMsg');
+const emailInput = document.getElementById('email');
+
+form.addEventListener('submit',(e)=>{
+  e.preventDefault();
+  if(!form.checkValidity()){
+    form.reportValidity();
+    emailInput.focus();
+    return;
+  }
+  btn.setAttribute('aria-busy','true');
+  const originalText = btn.textContent;
+  btn.textContent = 'Sending...';
+  setTimeout(()=>{
+    btn.textContent = originalText;
+    btn.removeAttribute('aria-busy');
+    form.style.display = 'none';
+    success.classList.add('visible');
+    success.focus();
+  },1200);
+});
+
+/* ── Smooth scroll ── */
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const id = a.getAttribute('href');
+    if(id==='#') return;
+    const target = document.querySelector(id);
+    if(target){ e.preventDefault(); target.scrollIntoView({behavior:'smooth',block:'start'}); }
+  });
+});
+</script>
+</body>
+</html>

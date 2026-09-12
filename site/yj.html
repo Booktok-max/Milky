@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Get 60 free videos for your book. No credit card. Atomic-Shelf is the creative studio for indie authors.">
+<title>Atomic‑Shelf | 60 Videos for Your Book — Free</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FDFCF8;
+  --bg-warm:#F7F2E8;
+  --ink:#0E0C1A;
+  --muted:#6B6078;
+  --light:#9490A0;
+  --copper:#C8832A;
+  --copper-2:#E09A40;
+  --copper-pale:#FBF0DC;
+  --copper-glow:rgba(200,131,42,0.18);
+  --success:#2D7A78;
+  --radius:18px;
+  --radius-sm:12px;
+  --max-w:1120px;
+  --font-serif:'Playfair Display',serif;
+  --font-sans:'Inter',sans-serif;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font-sans);
+  background:var(--bg);
+  color:var(--ink);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* Utilities */
+.container{max-width:var(--max-w);margin:0 auto;padding:0 1.5rem}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+
+/* Typography */
+h1,h2,h3{font-family:var(--font-serif);letter-spacing:-0.02em;line-height:1.08}
+h1{font-size:clamp(2.4rem,5.2vw,4rem);font-weight:700}
+h2{font-size:clamp(1.5rem,3vw,2.2rem);font-weight:600}
+p.lead{font-size:1.125rem;color:var(--muted);line-height:1.7;max-width:52ch}
+a{color:var(--copper)}
+
+/* Buttons */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.4rem;
+  padding:.9rem 1.6rem;border-radius:var(--radius-sm);
+  font-family:inherit;font-size:.95rem;font-weight:600;border:none;cursor:pointer;
+  transition:transform .15s,box-shadow .2s,background .2s;
+}
+.btn:active{transform:scale(.98)}
+.btn-primary{background:var(--copper);color:#fff;box-shadow:0 4px 16px var(--copper-glow)}
+.btn-primary:hover{background:#b0711e}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid rgba(14,12,26,.12)}
+.btn-ghost:hover{border-color:var(--copper);color:var(--copper)}
+.btn-block{width:100%}
+
+/* Nav */
+.site-nav{
+  position:fixed;inset:0 0 auto 0;z-index:100;
+  background:rgba(253,252,248,.92);backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(14,12,26,.06);transform:translateY(-100%);
+  transition:transform .35s ease;
+}
+.site-nav.visible{transform:translateY(0)}
+.nav-inner{
+  max-width:var(--max-w);margin:0 auto;padding:1rem 1.5rem;
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
+}
+.logo{font-family:var(--font-serif);font-size:1.35rem;font-weight:700;color:var(--ink);letter-spacing:-.03em;text-decoration:none}
+.logo span{color:var(--copper)}
+
+/* Hero */
+.hero{
+  position:relative;overflow:hidden;
+  min-height:100vh;display:flex;align-items:center;
+  padding:7rem 0 4rem;
+}
+.hero-bg{
+  position:absolute;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(600px 600px at 85% 20%,rgba(200,131,42,.10),transparent 60%),
+             radial-gradient(400px 400px at 10% 80%,rgba(200,131,42,.06),transparent 60%);
+}
+.hero .container{position:relative;z-index:1;display:grid;grid-template-columns:1.05fr .95fr;gap:4rem;align-items:center}
+
+.badge{
+  display:inline-flex;align-items:center;gap:.5rem;
+  background:var(--copper-pale);color:var(--copper);
+  font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  padding:.38rem .9rem;border-radius:99px;margin-bottom:1.25rem;border:1px solid rgba(200,131,42,.18);
+}
+.hero h1{margin-bottom:1.1rem}
+.hero h1 em{font-style:italic;color:var(--copper)}
+.hero .lead{margin-bottom:2rem}
+
+/* Form UX */
+.email-form{max-width:420px;margin-bottom:1rem}
+.form-group{display:flex;gap:.5rem;flex-wrap:wrap}
+.email-form input[type="email"]{
+  flex:1 1 220px;padding:.95rem 1.1rem;border-radius:var(--radius-sm);
+  border:1.5px solid rgba(14,12,26,.10);background:#fff;font-size:.95rem;
+  font-family:inherit;outline:none;transition:border-color .2s,box-shadow .2s;
+}
+.email-form input[type="email"]:focus{border-color:var(--copper);box-shadow:0 0 0 4px var(--copper-glow)}
+.email-form .btn{flex:1 1 auto;white-space:nowrap}
+.email-form .btn[aria-busy="true"]{opacity:.85;cursor:wait}
+.under-form{display:flex;flex-wrap:wrap;gap:.6rem 1.2rem;font-size:.8rem;color:var(--light);margin-top:.6rem}
+.under-form span{display:flex;align-items:center;gap:.35rem}
+
+/* Success state */
+.success-message{
+  display:none;align-items:flex-start;gap:.75rem;
+  background:#eaf5f4;border:1.5px solid rgba(45,122,120,.2);color:var(--success);
+  padding:1rem 1.2rem;border-radius:var(--radius-sm);max-width:420px;font-size:.95rem;font-weight:500;
+}
+.success-message.visible{display:flex}
+.success-message svg{flex-shrink:0;margin-top:.1rem}
+
+/* Trust row */
+.trust-row{
+  display:flex;flex-wrap:wrap;gap:1.2rem 2rem;margin-top:2.5rem;padding-top:2rem;
+  border-top:1px solid rgba(14,12,26,.06);
+}
+.trust-item{display:flex;align-items:center;gap:.5rem;font-size:.82rem;color:var(--muted);font-weight:500}
+.dot{width:5px;height:5px;border-radius:50%;background:var(--copper)}
+
+/* Video Wall (tangible proof) */
+.wall-wrap{position:relative}
+.wall{
+  display:grid;grid-template-columns:repeat(6,1fr);gap:6px;
+  padding:10px;background:#fff;border-radius:var(--radius);
+  border:1px solid rgba(14,12,26,.06);box-shadow:0 20px 60px rgba(14,12,26,.08);
+}
+.wall-cell{
+  aspect-ratio:9/16;border-radius:6px;
+  background:linear-gradient(145deg,rgba(200,131,42,.18),rgba(200,131,42,.06));
+  border:1px solid rgba(200,131,42,.12);position:relative;opacity:0;transform:scale(.7);
+  transition:opacity .5s ease,transform .5s cubic-bezier(.34,1.56,.64,1);
+}
+.wall-cell.play{background:linear-gradient(145deg,var(--copper),var(--copper-2));border:none}
+.wall-cell.play::after{
+  content:'';position:absolute;top:50%;left:55%;transform:translate(-50%,-50%);
+  border-style:solid;border-width:4px 0 4px 7px;border-color:transparent transparent transparent #fff;
+}
+.wall-label{
+  display:flex;justify-content:space-between;align-items:baseline;margin-top:.9rem;
+  font-size:.78rem;color:var(--light);
+}
+.wall-label b{color:var(--copper);font-weight:600}
+
+/* Sections */
+section{padding:5rem 0}
+.bg-warm{background:var(--bg-warm)}
+.text-center{text-align:center}
+
+.section-header{max-width:56ch;margin:0 auto;text-align:center}
+.section-header h2{margin-bottom:.6rem}
+.section-header .lead{margin:0 auto}
+
+/* Feature grid */
+.grid-3{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-top:3rem;
+}
+.card{
+  background:#fff;border:1px solid rgba(14,12,26,.06);border-radius:var(--radius);
+  padding:2rem 1.8rem;transition:transform .25s,box-shadow .25s,border-color .25s;
+}
+.card:hover{transform:translateY(-5px);box-shadow:0 18px 48px rgba(14,12,26,.06);border-color:rgba(200,131,42,.2)}
+.card-icon{
+  width:44px;height:44px;border-radius:12px;background:var(--copper-pale);color:var(--copper);
+  display:flex;align-items:center;justify-content:center;font-size:1.25rem;margin-bottom:1rem;
+}
+.card h3{font-family:var(--font-sans);font-size:1.05rem;font-weight:600;margin-bottom:.35rem}
+.card p{font-size:.9rem;color:var(--muted);line-height:1.6}
+
+/* Included list */
+.included{
+  max-width:720px;margin:2.5rem auto 0;background:#fff;border-radius:var(--radius);
+  border:1px solid rgba(14,12,26,.06);padding:2rem 2.5rem;
+  box-shadow:0 12px 40px rgba(14,12,26,.04);
+}
+.included ul{list-style:none;display:grid;gap:.7rem}
+.included li{
+  display:flex;align-items:center;gap:.7rem;font-size:.95rem;color:var(--muted);
+  padding:.35rem 0;border-bottom:1px solid rgba(14,12,26,.04);
+}
+.included li:last-child{border-bottom:none}
+.included li b{color:var(--ink);font-weight:600}
+.check{width:20px;height:20px;border-radius:50%;background:var(--copper-pale);color:var(--copper);
+  display:flex;align-items:center;justify-content:center;font-size:.7rem;flex-shrink:0}
+
+/* Steps */
+.steps{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:2.5rem;margin-top:3rem;position:relative;
+}
+.steps::before{
+  content:'';position:absolute;top:22px;left:70px;right:70px;height:1px;
+  background:linear-gradient(90deg,var(--copper),rgba(200,131,42,.08));z-index:0;
+}
+.step{position:relative;z-index:1;text-align:center}
+.step-num{
+  width:44px;height:44px;border-radius:50%;margin:0 auto 1rem;
+  background:#fff;border:1.5px solid rgba(200,131,42,.3);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-serif);font-weight:700;color:var(--copper);font-size:1.1rem;
+  box-shadow:0 4px 12px rgba(200,131,42,.08);
+}
+.step h4{font-size:1rem;margin-bottom:.25rem;font-weight:600}
+.step p{font-size:.88rem;color:var(--muted);max-width:28ch;margin:0 auto}
+
+/* Quote */
+.quote-card{
+  max-width:640px;margin:0 auto;background:#fff;border-radius:var(--radius);
+  border:1px solid rgba(14,12,26,.06);padding:2.5rem;text-align:center;
+  box-shadow:0 12px 40px rgba(14,12,26,.04);
+}
+.quote-card p{font-family:var(--font-serif);font-size:1.25rem;font-style:italic;color:var(--ink);line-height:1.5;margin-bottom:1.2rem}
+.quote-card cite{font-style:normal;font-size:.85rem;color:var(--muted);font-weight:500}
+
+/* Final CTA band */
+.cta-band{
+  background:var(--ink);color:#fff;border-radius:var(--radius);
+  padding:4.5rem 2rem;text-align:center;position:relative;overflow:hidden;
+}
+.cta-band::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(600px 600px at 20% 50%,rgba(200,131,42,.15),transparent 60%);
+}
+.cta-band h2{position:relative;z-index:1;margin-bottom:.6rem}
+.cta-band p{position:relative;z-index:1;color:rgba(255,255,255,.5);max-width:46ch;margin:0 auto 1.6rem}
+
+/* Sticky mobile CTA */
+.sticky-mobile{
+  position:fixed;inset:auto 0 0 0;z-index:200;
+  background:var(--ink);padding:.9rem 1rem;
+  display:none;align-items:center;justify-content:space-between;gap:1rem;
+  border-top:1px solid rgba(200,131,42,.25);
+  transform:translateY(100%);transition:transform .3s ease;
+  box-shadow:0 -8px 32px rgba(14,12,26,.25);
+}
+.sticky-mobile.show{transform:translateY(0)}
+.sticky-mobile span{color:#fff;font-size:.85rem}
+.sticky-mobile span b{color:var(--copper-2);display:block;font-size:.95rem}
+
+/* Footer */
+footer{padding:2.5rem 0;text-align:center;font-size:.8rem;color:var(--light);border-top:1px solid rgba(14,12,26,.06)}
+
+/* Animations */
+.fade-up{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.fade-up.in{opacity:1;transform:none}
+.wall-wrap.in .wall-cell{opacity:1;transform:scale(1)}
+.wall-wrap.in .wall-cell:nth-child(1){transition-delay:.02s}
+.wall-wrap.in .wall-cell:nth-child(2){transition-delay:.04s}
+.wall-wrap.in .wall-cell:nth-child(3){transition-delay:.06s}
+.wall-wrap.in .wall-cell:nth-child(4){transition-delay:.08s}
+.wall-wrap.in .wall-cell:nth-child(5){transition-delay:.10s}
+.wall-wrap.in .wall-cell:nth-child(6){transition-delay:.12s}
+.wall-wrap.in .wall-cell:nth-child(7){transition-delay:.14s}
+.wall-wrap.in .wall-cell:nth-child(8){transition-delay:.16s}
+.wall-wrap.in .wall-cell:nth-child(9){transition-delay:.18s}
+.wall-wrap.in .wall-cell:nth-child(10){transition-delay:.20s}
+.wall-wrap.in .wall-cell:nth-child(11){transition-delay:.22s}
+.wall-wrap.in .wall-cell:nth-child(12){transition-delay:.24s}
+/* continue pattern for all 60... but we can use a general nth-child for brevity in production; here I'll cap at 24 visible for performance and fill rest with same delay group */
+.wall-wrap.in .wall-cell:nth-child(n+13){transition-delay:.26s}
+
+/* Responsive */
+@media(max-width:920px){
+  .hero .container{grid-template-columns:1fr;gap:3rem}
+  .wall-wrap{max-width:420px;margin:0 auto;order:-1}
+  .grid-3,.steps{grid-template-columns:1fr}
+  .steps::before{display:none}
+  .step{text-align:left;display:flex;gap:1.2rem}
+  .step-num{margin:0;flex-shrink:0}
+  .step p{margin:0}
+}
+@media(max-width:640px){
+  .hero{padding:6rem 0 3rem}
+  .section-header .lead{font-size:1rem}
+  .included{padding:1.5rem}
+  .sticky-mobile{display:flex}
+  body{padding-bottom:70px}
+}
+@media(prefers-reduced-motion:reduce){
+  .fade-up,.wall-cell{opacity:1;transform:none;transition:none}
+  .site-nav{transform:none}
+}
+</style>
+</head>
+<body>
+
+<!-- Sticky Nav (appears on scroll) -->
+<nav class="site-nav" id="stickyNav" aria-label="Main">
+  <div class="nav-inner">
+    <a href="#" class="logo">Atomic<span>‑</span>Shelf</a>
+    <a href="#signup" class="btn btn-primary">Get 60 free videos</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero" id="signup">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="container">
+    <div class="hero-text fade-up">
+      <div class="badge">✦ No credit card required</div>
+      <h1>Get <em>60 videos</em> for your book.<br>Completely free.</h1>
+      <p class="lead">
+        We script, produce, and deliver a full month of scroll-stopping content — trailers, TikToks, Reels, and Shorts. You just write. We handle the rest.
+      </p>
+
+      <form class="email-form" id="heroForm" novalidate>
+        <div class="form-group">
+          <label for="email" class="sr-only">Email address</label>
+          <input type="email" id="email" name="email" placeholder="Enter your email address" required autocomplete="email">
+          <button type="submit" class="btn btn-primary" id="submitBtn">Claim 60 free videos →</button>
+        </div>
+        <p class="under-form">
+          <span>🔒 No spam, ever</span>
+          <span>✓ Cancel anytime</span>
+          <span>⚡ Delivered in 48 hours</span>
+        </p>
+      </form>
+
+      <div class="success-message" id="successMsg" role="status" aria-live="polite">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        <span>You're on the list. Check your inbox — we'll send your first batch details shortly.</span>
+      </div>
+
+      <div class="trust-row">
+        <div class="trust-item"><span class="dot"></span>160+ authors served</div>
+        <div class="trust-item"><span class="dot"></span>12.7M+ views generated</div>
+        <div class="trust-item"><span class="dot"></span>Amazon DSP Certified</div>
+      </div>
+    </div>
+
+    <div class="wall-wrap fade-up" id="videoWall" aria-hidden="true">
+      <div class="wall" id="wallGrid"></div>
+      <div class="wall-label"><span>A month of content</span><span><b>60 videos</b> · ready to post</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- What's Included -->
+<section class="bg-warm">
+  <div class="container">
+    <div class="section-header fade-up">
+      <h2>Exactly what you get</h2>
+      <p class="lead">Not a dashboard. Not a template. A real studio delivers real assets.</p>
+    </div>
+
+    <div class="included fade-up">
+      <ul>
+        <li><span class="check">✓</span><b>40</b> short-form vertical videos (TikTok / Reels / Shorts)</li>
+        <li><span class="check">✓</span><b>10</b> cinematic quote cards / story hooks</li>
+        <li><span class="check">✓</span><b>5</b> book trailer cuts (15–30s)</li>
+        <li><span class="check">✓</span><b>3</b> long-form YouTube-ready pieces</li>
+        <li><span class="check">✓</span><b>2</b> avatar-narrated voiceovers</li>
+        <li><span class="check">✓</span>Custom captions, hashtags & posting schedule</li>
+        <li><span class="check">✓</span>1 senior creative manager assigned to your book</li>
+      </ul>
+    </div>
+
+    <div class="grid-3" style="margin-top:2.5rem">
+      <div class="card fade-up">
+        <div class="card-icon">✍️</div>
+        <h3>Genre-matched scripts</h3>
+        <p>Our writers study your comp titles and reader psychology so every hook lands.</p>
+      </div>
+      <div class="card fade-up d1">
+        <div class="card-icon">🎬</div>
+        <h3>Studio-grade production</h3>
+        <p>Cinematic color, custom music, and motion design — not cookie-cutter clips.</p>
+      </div>
+      <div class="card fade-up d2">
+        <div class="card-icon">🚀</div>
+        <h3>Algorithm-ready delivery</h3>
+        <p>Correct aspect ratios, safe zones, and pacing tuned for each platform.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- How It Works -->
+<section>
+  <div class="container">
+    <div class="section-header fade-up">
+      <h2>How it works</h2>
+      <p class="lead">From signup to published in 48 hours. Zero learning curve.</p>
+    </div>
+    <div class="steps">
+      <div class="step fade-up">
+        <div class="step-num">1</div>
+        <div>
+          <h4>Tell us about your book</h4>
+          <p>Share your title, genre, and a link. Our team does the research.</p>
+        </div>
+      </div>
+      <div class="step fade-up d1">
+        <div class="step-num">2</div>
+        <div>
+          <h4>We build your content</h4>
+          <p>Scripts, video, music, and captions — all matched to your story.</p>
+        </div>
+      </div>
+      <div class="step fade-up d2">
+        <div class="step-num">3</div>
+        <div>
+          <h4>You post and grow</h4>
+          <p>Download, schedule, and watch the algorithm start working for you.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Social Proof -->
+<section class="bg-warm">
+  <div class="container text-center">
+    <div class="quote-card fade-up">
+      <p>"I went from zero social presence to posting daily in 48 hours. The quality shocked me — readers actually started asking about my book in the comments."</p>
+      <cite>— Indie Romance Author, 3 weeks in</cite>
+    </div>
+  </div>
+</section>
+
+<!-- Final CTA -->
+<section>
+  <div class="container">
+    <div class="cta-band fade-up">
+      <h2>Give your book a studio.</h2>
+      <p>Start with 60 free videos. If you love it, stay on for $50/mo. If not, walk away with a month of content — on us.</p>
+      <a href="#signup" class="btn btn-primary" style="font-size:1.05rem;padding:1rem 2.2rem;">Get 60 videos free →</a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    © 2026 Atomic‑Shelf. Built for indie authors.
+  </div>
+</footer>
+
+<!-- Sticky Mobile CTA -->
+<div class="sticky-mobile" id="stickyMobile">
+  <span><b>60 videos free</b>No credit card</span>
+  <a href="#signup" class="btn btn-primary">Claim now</a>
+</div>
+
+<script>
+/* ── Build the video wall (tangible 60-video proof) ── */
+const wall = document.getElementById('wallGrid');
+for(let i=0;i<60;i++){
+  const cell = document.createElement('div');
+  cell.className = 'wall-cell';
+  // Scatter 8 "play" icons to suggest video content
+  if([2,7,14,23,31,38,45,52].includes(i)) cell.classList.add('play');
+  wall.appendChild(cell);
+}
+
+/* ── Intersection Observer for scroll reveals ── */
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('in');
+      observer.unobserve(e.target);
+    }
+  });
+},{threshold:0.1});
+document.querySelectorAll('.fade-up, .wall-wrap').forEach(el=>observer.observe(el));
+
+/* ── Sticky nav + mobile bar on scroll ── */
+let lastScroll = 0;
+const stickyNav = document.getElementById('stickyNav');
+const stickyMobile = document.getElementById('stickyMobile');
+window.addEventListener('scroll',()=>{
+  const y = window.scrollY;
+  stickyNav.classList.toggle('visible', y > 400);
+  stickyMobile.classList.toggle('show', y > 600);
+  lastScroll = y;
+});
+
+/* ── Form states (idle → loading → success) ── */
+const form = document.getElementById('heroForm');
+const btn = document.getElementById('submitBtn');
+const success = document.getElementById('successMsg');
+const emailInput = document.getElementById('email');
+
+form.addEventListener('submit',(e)=>{
+  e.preventDefault();
+  if(!form.checkValidity()){
+    form.reportValidity();
+    emailInput.focus();
+    return;
+  }
+  // Loading
+  btn.setAttribute('aria-busy','true');
+  const originalText = btn.textContent;
+  btn.textContent = 'Sending...';
+  
+  // Simulate network (replace with real fetch)
+  setTimeout(()=>{
+    btn.textContent = originalText;
+    btn.removeAttribute('aria-busy');
+    form.style.display = 'none';
+    success.classList.add('visible');
+    success.focus();
+    // Optional: gtag/event here
+  },1200);
+});
+
+/* ── Smooth scroll for anchor links ── */
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const id = a.getAttribute('href');
+    if(id==='#') return;
+    const target = document.querySelector(id);
+    if(target){
+      e.preventDefault();
+      target.scrollIntoView({behavior:'smooth',block:'start'});
+    }
+  });
+});
+</script>
+</body>
+</html>

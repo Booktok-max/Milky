@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joe Klingler • Mash Up | Content Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #1a120b;
+            --card: #2c2118;
+            --accent: #e67a3d;
+            --accent2: #d94f2b;
+            --gold: #f4c38a;
+            --text: #f8f1e9;
+            --muted: #c8b8a8;
+        }
+        
+        * { margin:0; padding:0; box-sizing:border-box; }
+        
+        body {
+            background: linear-gradient(180deg, #1a120b 0%, #2c2118 100%);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+        
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            text-align: center;
+            border-bottom: 1px solid rgba(244, 195, 138, 0.15);
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 30% 30%, rgba(230,122,61,0.18), transparent 60%),
+                        radial-gradient(circle at 70% 70%, rgba(217,79,43,0.12), transparent 60%);
+        }
+        
+        .hero-grid {
+            position: absolute;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(244,195,138,0.06) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(244,195,138,0.06) 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.4;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 920px;
+            padding: 0 40px;
+        }
+        
+        .hero-label {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 13px;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 24px;
+        }
+        
+        .hero-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(64px, 10vw, 120px);
+            line-height: 0.9;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        
+        .hero-title span { color: var(--accent); }
+        
+        .hero-author {
+            font-size: 28px;
+            color: var(--muted);
+            margin-bottom: 40px;
+        }
+        
+        .section {
+            padding: 100px 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 28px;
+        }
+        
+        .week-card, .resource-card {
+            background: var(--card);
+            border: 1px solid rgba(244,195,138,0.2);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.23,1,0.32,1);
+        }
+        
+        .week-card:hover, .resource-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 30px 70px rgba(0,0,0,0.5);
+            border-color: var(--accent);
+        }
+        
+        .week-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+        }
+        
+        .card-header {
+            padding: 36px 36px 24px;
+            background: rgba(0,0,0,0.2);
+        }
+        
+        .week-num {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 56px;
+            font-weight: 700;
+            line-height: 1;
+            color: var(--accent);
+        }
+        
+        .week-dates {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 13px;
+            letter-spacing: 3px;
+            color: var(--muted);
+            text-transform: uppercase;
+        }
+        
+        .card-body {
+            padding: 0 36px 36px;
+        }
+        
+        .card-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 24px;
+            margin: 20px 0 12px;
+            color: var(--gold);
+        }
+        
+        .card-desc {
+            color: var(--muted);
+            font-size: 15.5px;
+            line-height: 1.65;
+        }
+        
+        .btn {
+            display: inline-block;
+            margin-top: 28px;
+            padding: 15px 36px;
+            background: transparent;
+            color: var(--gold);
+            border: 1px solid var(--accent);
+            border-radius: 8px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 13px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            background: var(--accent);
+            color: #1a120b;
+            transform: scale(1.04);
+        }
+        
+        .resource-card {
+            padding: 40px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 80px 40px;
+            border-top: 1px solid rgba(244,195,138,0.15);
+            color: var(--muted);
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+<section class="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-content">
+        <div class="hero-label">JOE KLINGLER • DETECTIVE QIGIQ SERIES</div>
+        <h1 class="hero-title">MASH <span>UP</span></h1>
+        <p class="hero-author">by Joe Klingler</p>
+        <p style="max-width:680px; margin:0 auto 48px; color:var(--muted); font-size:21px;">
+            Official Content Campaign Hub for the award-winning techno-thriller
+        </p>
+    </div>
+</section>
+
+<div class="section">
+    <h2 style="text-align:center; font-family:'Space Grotesk',sans-serif; font-size:44px; margin-bottom:70px; color:var(--gold);">
+        5-Week Content Calendars
+    </h2>
+    
+    <div class="grid">
+        <div class="week-card">
+            <div class="card-header">
+                <div class="week-num">01</div>
+                <div class="week-dates">May 22 – 28, 2026</div>
+            </div>
+            <div class="card-body">
+                <div class="card-title">Week One • Launch</div>
+                <div class="card-desc">Introducing the world, characters, and core mystery. 15 videos for the trial week.</div>
+                <a href="https://atomic-shelf.com/Content-Proposal/Joe-Klingler/Week01" class="btn">View Week 1 →</a>
+            </div>
+        </div>
+
+        <div class="week-card">
+            <div class="card-header">
+                <div class="week-num">02</div>
+                <div class="week-dates">May 29 – June 4, 2026</div>
+            </div>
+            <div class="card-body">
+                <div class="card-title">Week Two • Deep Dive</div>
+                <div class="card-desc">Character backstories, mathematical killer, and rising tension.</div>
+                <a href="https://atomic-shelf.com/Content-Proposal/Joe-Klingler/Week02" class="btn">View Week 2 →</a>
+            </div>
+        </div>
+
+        <div class="week-card">
+            <div class="card-header">
+                <div class="week-num">03</div>
+                <div class="week-dates">June 5 – 11, 2026</div>
+            </div>
+            <div class="card-body">
+                <div class="card-title">Week Three • Escalation</div>
+                <div class="card-desc">Virus spreads. Stakes rise. High-intensity thriller energy.</div>
+                <a href="https://atomic-shelf.com/Content-Proposal/Joe-Klingler/Week03" class="btn">View Week 3 →</a>
+            </div>
+        </div>
+
+        <div class="week-card">
+            <div class="card-header">
+                <div class="week-num">04</div>
+                <div class="week-dates">May 22 – 28, 2026*</div>
+            </div>
+            <div class="card-body">
+                <div class="card-title">Week Four • Momentum</div>
+                <div class="card-desc">Series expansion, author expertise, and strong reader engagement.</div>
+                <a href="https://atomic-shelf.com/Content-Proposal/Joe-Klingler/Week04" class="btn">View Week 4 →</a>
+            </div>
+        </div>
+
+        <div class="week-card">
+            <div class="card-header">
+                <div class="week-num">05</div>
+                <div class="week-dates">June 19 – 25, 2026</div>
+            </div>
+            <div class="card-body">
+                <div class="card-title">Week Five • Conversion</div>
+                <div class="card-desc">Reader-focused messaging, testimonials, and direct purchase calls.</div>
+                <a href="https://atomic-shelf.com/Content-Proposal/Joe-Klingler/Week05" class="btn">View Week 5 →</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="section">
+    <h2 style="text-align:center; font-family:'Space Grotesk',sans-serif; font-size:44px; margin-bottom:60px; color:var(--gold);">Campaign Resources</h2>
+    
+    <div class="grid">
+        <!-- Photos -->
+        <div class="resource-card">
+            <h3 style="color:var(--accent); margin-bottom:20px; font-size:26px;">Week 1 Visual Assets</h3>
+            <p style="color:var(--muted); margin-bottom:28px; line-height:1.6;">
+                Please review these images for video generation approval:
+            </p>
+            <a href="https://photos.app.goo.gl/193Ckp95gskmwtjx8" 
+               target="_blank"
+               style="display:inline-block; padding:16px 32px; background:var(--accent); color:#1a120b; font-family:'IBM Plex Mono',monospace; font-weight:600; border-radius:8px; text-decoration:none;">
+                Open Google Photos Album →
+            </a>
+            <p style="margin-top:24px; font-size:14px; color:var(--muted);">
+                Once approved, we can generate all 15 vertical videos.
+            </p>
+        </div>
+
+        <!-- YouTube Instructions -->
+        <div class="resource-card">
+            <h3 style="color:var(--accent); margin-bottom:20px; font-size:26px;">YouTube Channel Access</h3>
+            <p style="color:var(--muted); margin-bottom:20px;">To grant us access for posting during the trial week:</p>
+            <ol style="color:var(--muted); text-align:left; max-width:360px; margin:0 auto 28px; line-height:1.8; font-size:15px;">
+                <li>Go to <strong>YouTube Studio</strong> → <a href="https://studio.youtube.com" target="_blank" style="color:var(--gold);">studio.youtube.com</a></li>
+                <li>Click <strong>Settings</strong> (gear icon) → <strong>Permissions</strong></li>
+                <li>Click <strong>Invite</strong></li>
+                <li>Paste this email: <strong>powerpages30@gmail.com</strong></li>
+                <li>Select <strong>Role: Editor</strong></li>
+                <li>Click <strong>Invite</strong></li>
+            </ol>
+            <p style="font-size:14.5px; color:var(--gold); font-weight:500;">
+                Once invited, we can start uploading and scheduling content immediately.
+            </p>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <p><strong>Mash Up</strong> — Detective Qigiq Series • Joe Klingler</p>
+    <p style="margin-top:12px;">Content Campaign Hub • Atomic Shelf</p>
+</footer>
+
+</body>
+</html>

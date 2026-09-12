@@ -1,0 +1,3288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Atomic Shelf · Your Campaign</title>
+<link rel="icon" type="image/svg+xml" href="https://atomic-shelf.com/book-and-people-spring-svgrepo-com.svg"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Jost:wght@300;400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{
+  --w100:#FBF7ED;--w200:#F5EDCF;--w300:#E8D89A;--w400:#D4B95A;--w500:#C9A84C;--w600:#B8860B;--w700:#8B6914;--w800:#5C4209;
+  --b100:#F2EBE0;--b200:#E0CEBC;--b300:#C4A882;--b400:#9E7B52;--b500:#7A5C2E;--b600:#5C3D1E;--b700:#3D2B1A;--b800:#1E1208;
+  --f100:#EBF5F0;--f200:#C4E0D2;--f400:#4CAF80;--f500:#2D7A52;--f600:#1E5C3A;
+  --blue:#2471A3;--blue-bg:rgba(36,113,163,.1);--blue-bd:rgba(36,113,163,.28);
+  --purple:#7D3C98;--purple-bg:rgba(125,60,152,.1);--purple-bd:rgba(125,60,152,.28);
+  --orange:#CA6F1E;--orange-bg:rgba(202,111,30,.1);--orange-bd:rgba(202,111,30,.28);
+  --red:#C0392B;--red-bg:rgba(192,57,43,.08);--red-bd:rgba(192,57,43,.25);
+  --teal:#0D7377;--teal-bg:rgba(13,115,119,.1);--teal-bd:rgba(13,115,119,.28);
+  --bg:var(--w100);--surface:#FFFCF5;--card:#FFFEFA;--border:var(--b200);--border-lt:#EDE5D4;
+  --text:var(--b800);--muted:var(--b400);
+  --r-sm:6px;--r:10px;--r-md:14px;--r-lg:20px;
+  --sh:0 4px 20px rgba(30,18,8,.1);--sh-md:0 8px 36px rgba(30,18,8,.14);
+  --font-d:'Playfair Display',Georgia,serif;--font-b:'Jost',system-ui,sans-serif;--font-m:'DM Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-b);background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6}
+a{color:var(--f500)}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-thumb{background:var(--b300);border-radius:3px}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+/* ── Header ─────────────────────────────────────────────────────── */
+.hdr{background:linear-gradient(160deg,#162A1C,#0D1F10 45%,#1C0E04);padding:20px 6vw;display:flex;align-items:center;gap:14px;box-shadow:0 4px 24px rgba(10,25,8,.4)}
+.hdr-logo-link{display:flex;align-items:center;gap:14px;text-decoration:none}
+.logo-emblem{width:36px;height:36px;border-radius:9px;background:linear-gradient(138deg,var(--w400),#D4A030);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.logo-emblem img{width:22px;height:22px}
+.logo-name{font-family:var(--font-d);font-size:1.25rem;font-weight:700;color:#F0E8D0;line-height:1.1}
+.logo-name em{color:var(--w400);font-style:italic}
+.logo-tag{font-family:var(--font-m);font-size:.52rem;color:rgba(168,216,196,.6);letter-spacing:.16em;text-transform:uppercase;margin-top:2px}
+
+.wrap{max-width:1320px;margin:0 auto;padding:26px 3vw 80px}
+.center-state{text-align:center;padding:90px 20px;color:var(--muted)}
+.center-state .ico{font-size:2.4rem;opacity:.35;margin-bottom:12px}
+.center-state .ttl{font-family:var(--font-d);font-size:1.45rem;color:var(--b500);margin-bottom:7px}
+.center-state p{font-size:.88rem;color:var(--muted);max-width:400px;margin:0 auto}
+
+/* ── Pills (unified) ────────────────────────────────────────────── */
+.pill{font-family:var(--font-m);font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;padding:3px 11px;border-radius:40px;border:1px solid var(--border);background:var(--surface);color:var(--muted);white-space:nowrap;display:inline-flex;align-items:center;gap:5px}
+.pill.green{background:rgba(45,122,82,.12);color:var(--f600);border-color:rgba(45,122,82,.3)}
+.pill.blue{background:var(--blue-bg);color:var(--blue);border-color:var(--blue-bd)}
+.pill.purple{background:var(--purple-bg);color:var(--purple);border-color:var(--purple-bd)}
+.pill.orange{background:var(--orange-bg);color:var(--orange);border-color:var(--orange-bd)}
+.pill.red{background:var(--red-bg);color:var(--red);border-color:var(--red-bd)}
+.pill.gold{background:rgba(201,168,76,.15);color:var(--w700);border-color:rgba(201,168,76,.3)}
+.pill.count{background:var(--red);color:#fff;border-color:var(--red);min-width:18px;justify-content:center}
+
+/* ── Hero ───────────────────────────────────────────────────────── */
+.hero{background:linear-gradient(148deg,#FFFCF5,var(--w200));border:2px solid var(--border);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--sh-md);margin-bottom:18px;position:relative}
+.hero::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--f600),var(--w400),var(--f500),var(--w600))}
+.hero-in{padding:24px 26px 20px}
+.greeting{font-family:var(--font-m);font-size:.64rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--f600);margin-bottom:5px}
+.book-title{font-family:var(--font-d);font-size:1.9rem;font-weight:700;color:var(--b800);line-height:1.15}
+.book-author{font-size:.93rem;color:var(--b500);font-weight:500;margin-top:3px}
+.tags{display:flex;gap:7px;flex-wrap:wrap;margin-top:11px;align-items:center}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:9px;margin:16px 0 0}
+.stile{background:var(--surface);border:1px solid var(--border-lt);border-radius:var(--r);padding:12px;text-align:center}
+.stile-v{font-family:var(--font-d);font-size:1.55rem;font-weight:700;color:var(--b800);line-height:1}
+.stile-l{font-family:var(--font-m);font-size:.5rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-top:4px}
+
+/* ── F6 — Multi-book landing ────────────────────────────────────── */
+.portal-back-btn{display:inline-flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--border);color:var(--b600);padding:7px 14px;border-radius:var(--r-sm);font-family:var(--font-m);font-size:.68rem;font-weight:700;cursor:pointer;margin-bottom:14px}
+.portal-back-btn:hover{background:var(--w100)}
+.multi-landing-hero{background:linear-gradient(148deg,#FFFCF5,var(--w200));border:2px solid var(--border);border-radius:var(--r-lg);box-shadow:var(--sh-md);padding:24px 26px;margin-bottom:20px;position:relative;overflow:hidden}
+.multi-landing-hero::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--f600),var(--w400),var(--f500),var(--w600))}
+.multi-landing-sub{font-size:.93rem;color:var(--b500);font-weight:500;margin-top:4px}
+.book-card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.book-card{background:var(--card);border:2px solid var(--border);border-radius:var(--r-lg);box-shadow:var(--sh);cursor:pointer;overflow:hidden;transition:transform .15s,box-shadow .15s}
+.book-card:hover{transform:translateY(-2px);box-shadow:var(--sh-md)}
+.book-card-cover{height:90px;background:linear-gradient(135deg,var(--w300),var(--w500));display:flex;align-items:center;justify-content:center;font-size:2rem}
+.book-card-body{padding:14px 16px}
+.book-card-title{font-family:var(--font-d);font-size:1.05rem;font-weight:700;color:var(--b800);line-height:1.25;margin-bottom:8px}
+.book-card-meta{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.book-card-health{display:flex;align-items:center;gap:6px;font-family:var(--font-m);font-size:.66rem;color:var(--muted);font-weight:600}
+.health-dot{display:inline-block;width:8px;height:8px;border-radius:50%}
+.health-dot.green{background:var(--f600)}
+.health-dot.gold{background:var(--w600)}
+.health-dot.red{background:var(--red)}
+
+/* ── Unified collapsible section ────────────────────────────────── */
+.sec{background:var(--card);border:2px solid var(--border);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--sh);margin-bottom:18px;position:relative}
+.sec::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--sec-accent,linear-gradient(90deg,var(--f600),var(--w500)));z-index:1}
+.sec.acc-green{border-color:rgba(45,122,82,.25);--sec-accent:linear-gradient(90deg,var(--f600),var(--w500))}
+.sec.acc-purple{border-color:var(--purple-bd);--sec-accent:linear-gradient(90deg,var(--purple),var(--blue))}
+.sec.acc-red{border-color:rgba(192,57,43,.25);--sec-accent:linear-gradient(90deg,var(--red),var(--orange))}
+.sec.acc-orange{border-color:var(--orange-bd);--sec-accent:linear-gradient(90deg,var(--orange),var(--w500))}
+.sec.acc-blue{border-color:var(--blue-bd);--sec-accent:linear-gradient(90deg,var(--blue),var(--w500))}
+.sec.acc-gold{border-color:rgba(201,168,76,.3);--sec-accent:linear-gradient(90deg,var(--w600),var(--w400))}
+.sec-hdr{display:flex;align-items:center;gap:10px;padding:14px 20px;background:var(--w200);border-bottom:1px solid transparent;cursor:pointer;user-select:none;transition:background .15s;flex-wrap:wrap}
+.sec-hdr:hover{background:rgba(201,168,76,.14)}
+.sec-hdr:focus-visible{outline:2px solid var(--f500);outline-offset:-2px}
+.sec-hdr.open{border-bottom-color:var(--border)}
+.sec-ico{font-size:1.05rem;flex-shrink:0}
+.sec-ttl{font-family:var(--font-d);font-size:1.12rem;font-weight:600;color:var(--b800)}
+.sec-pills{display:flex;gap:6px;flex-wrap:wrap;margin-left:auto;align-items:center}
+.sec-arrow{font-family:var(--font-m);font-size:.72rem;color:var(--muted);transition:transform .22s ease;flex-shrink:0}
+.sec-arrow.open{transform:rotate(180deg)}
+.sec-body{max-height:0;overflow:hidden;transition:max-height .35s ease,opacity .25s ease;opacity:0}
+.sec-body.open{max-height:6000px;opacity:1;overflow:visible}
+.sec-pad{padding:18px 20px}
+#sec-thisweek .sec-pad{padding-left:12px;padding-right:12px}
+
+/* ── This Week ──────────────────────────────────────────────────── */
+.cw-now-dot{width:8px;height:8px;border-radius:50%;background:var(--f500);box-shadow:0 0 0 3px rgba(45,122,82,.2);animation:pulse 2.2s ease-in-out infinite;flex-shrink:0}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.6)}}
+.cw-tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.cw-tile{background:var(--surface);border:1px solid var(--border-lt);border-radius:var(--r);padding:13px 15px}
+.cw-tile-label{font-family:var(--font-m);font-size:.52rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px}
+.cw-tile-val{font-family:var(--font-d);font-size:1.05rem;font-weight:700;color:var(--b800);line-height:1.1}
+.cw-tile.highlight{border-color:rgba(45,122,82,.3);background:rgba(45,122,82,.04)}
+.cw-tile.highlight .cw-tile-val{color:var(--f600)}
+.prog-wrap{display:flex;align-items:center;gap:11px;margin-bottom:15px}
+.prog-bar-bg{flex:1;height:10px;background:var(--b100);border-radius:5px;overflow:hidden}
+.prog-bar-fill{height:100%;background:linear-gradient(90deg,var(--f600),var(--w500));border-radius:5px;transition:width .5s ease}
+.prog-pct{font-family:var(--font-m);font-weight:700;color:var(--w700);font-size:.82rem;white-space:nowrap}
+.step-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px}
+.step-item{display:flex;align-items:center;gap:9px;padding:9px 13px;border-radius:var(--r-sm);border:1px solid var(--border-lt);background:var(--w100)}
+.step-item.done{background:var(--f100);border-color:rgba(45,122,82,.25)}
+.step-dot{width:17px;height:17px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.62rem;color:#fff;font-weight:800}
+.step-item.done .step-dot{background:var(--f500)}
+.step-item:not(.done) .step-dot{background:var(--b300)}
+.step-label{font-size:.8rem;font-weight:600;color:var(--text)}
+.step-item:not(.done) .step-label{color:var(--muted)}
+
+/* This week's media tiles (single home — duplicate card removed) */
+.media-tiles{display:grid;grid-template-columns:1fr;gap:13px;margin-top:16px}
+@media(min-width:760px){
+  .media-tiles{grid-template-columns:1fr 1fr}
+}
+.media-fold{display:flex;align-items:center;gap:10px;padding:12px 16px;border:1px dashed var(--border-lt);border-radius:var(--r);background:var(--bg-alt,#f7f5ef);color:var(--muted);font-size:.85rem;font-style:italic}
+.media-fold-ico{font-size:1.05rem;opacity:.7}
+/* Feature E — "Where Your Campaign Stands" status card */
+.status-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.status-col{background:var(--surface);border:1px solid var(--border-lt);border-radius:var(--r);padding:14px 16px}
+.status-col.done{border-left:3px solid var(--f500)}
+.status-col.next{border-left:3px solid var(--w600)}
+.status-col-hdr{font-family:var(--font-m);font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:9px}
+.status-item{font-size:.85rem;color:var(--b700);padding:5px 0 5px 20px;position:relative;line-height:1.4}
+.status-col.done .status-item::before{content:'✓';position:absolute;left:0;color:var(--f500);font-weight:800}
+.status-col.next .status-item::before{content:'→';position:absolute;left:0;color:var(--w600);font-weight:800}
+.status-empty{font-size:.82rem;color:var(--muted);font-style:italic;padding:4px 0}
+.status-pub{display:flex;gap:10px;align-items:flex-start;background:linear-gradient(90deg,rgba(201,168,76,.14),rgba(201,168,76,.04));border:1px solid var(--w600);border-radius:var(--r);padding:12px 14px;margin-bottom:14px;font-size:.82rem;color:var(--b700);line-height:1.5}
+.status-pub-ico{font-size:1.1rem;flex-shrink:0}
+@media(max-width:640px){.status-grid{grid-template-columns:1fr}}
+/* Roadmap animated journey timeline */
+.rm-timeline{position:relative;padding:4px 0 4px 2px}
+.rm-line{position:absolute;left:17px;top:20px;bottom:22px;width:3px;background:var(--border-lt);border-radius:2px;overflow:hidden}
+.rm-line-fill{--fill:0%;position:absolute;top:0;left:0;right:0;height:var(--fill);background:linear-gradient(180deg,var(--f500),var(--f600));border-radius:2px}
+.sec-body.open .rm-line-fill{animation:rmGrow 1.1s cubic-bezier(.4,0,.2,1) .25s both}
+@keyframes rmGrow{from{height:0}to{height:var(--fill)}}
+.rm-step{position:relative;display:flex;gap:14px;padding:7px 0 15px}
+.sec-body.open .rm-step{animation:rmStepIn .5s cubic-bezier(.2,.7,.3,1) both;animation-delay:calc(var(--i) * .07s)}
+@keyframes rmStepIn{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
+.rm-node{position:relative;z-index:1;flex-shrink:0;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-m);font-size:.82rem;font-weight:800;background:var(--surface);border:2px solid var(--border-lt);color:var(--muted);transition:all .3s}
+.rm-step.done .rm-node{background:var(--f500);border-color:var(--f500);color:#fff;box-shadow:0 0 0 4px rgba(45,122,82,.16)}
+.rm-step.next .rm-node{border-color:var(--w600);color:var(--w700);background:var(--w100,#fdf7e8);animation:rmPulse 2.1s ease-in-out infinite}
+@keyframes rmPulse{0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,.5)}50%{box-shadow:0 0 0 9px rgba(201,168,76,0)}}
+.rm-step-content{padding-top:3px;min-width:0}
+.rm-step-ttl{font-weight:700;color:var(--b800);font-size:.92rem;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.rm-step.done .rm-step-ttl{color:var(--f600)}
+.rm-step:not(.done):not(.next) .rm-step-ttl{color:var(--muted)}
+.rm-nowtag{font-family:var(--font-m);font-size:.52rem;font-weight:700;letter-spacing:.08em;color:var(--w700);background:var(--w100,#fdf7e8);border:1px solid var(--w600);border-radius:20px;padding:1px 7px}
+.rm-step-desc{font-size:.82rem;color:var(--b600);margin-top:3px;line-height:1.5}
+.rm-step:not(.done):not(.next) .rm-step-desc{color:var(--muted)}
+/* Content Library — per-week video scripts */
+.wc-intro{font-size:.85rem;color:var(--muted);line-height:1.55;margin-bottom:14px}
+.wc-week{border:1px solid var(--border-lt);border-radius:var(--r);margin-bottom:10px;overflow:hidden}
+.wc-week-hdr{display:flex;align-items:center;gap:10px;padding:11px 14px;cursor:pointer;background:var(--surface);font-family:var(--font-m);font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--b700)}
+.wc-week-hdr:hover{background:var(--bg-alt,#f7f5ef)}
+.wc-week-count{margin-left:auto;font-weight:500;color:var(--muted);text-transform:none;letter-spacing:0}
+.wc-week-arrow,.wc-video-arrow{transition:transform .2s;color:var(--muted);font-size:.7rem}
+.wc-week-body{padding:4px 12px 8px}
+.wc-video{border-top:1px solid var(--border-lt)}
+.wc-video:first-child{border-top:none}
+.wc-video-hdr{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 4px;cursor:pointer}
+.wc-video-name{font-size:.86rem;font-weight:600;color:var(--b800)}
+.wc-video-body{padding:2px 4px 10px}
+.wc-field{display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-top:1px dashed var(--border-lt)}
+.wc-field-lbl{font-family:var(--font-m);font-size:.56rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);min-width:74px;padding-top:3px}
+.wc-field-val{flex:1;font-size:.82rem;color:var(--b700);line-height:1.5;white-space:pre-wrap;word-break:break-word}
+.wc-copy{flex-shrink:0;background:var(--bg-alt,#f0eee8);border:1px solid var(--border-lt);border-radius:var(--r-sm);width:28px;height:28px;cursor:pointer;font-size:.8rem;line-height:1}
+.wc-copy:hover{background:var(--purple-bg)}
+.media-tile{border-radius:var(--r);overflow:hidden;border:1.5px solid var(--border-lt);background:var(--surface)}
+/* Cover aspect matches Google Photos' 600×315 share image (40:21) so the
+   whole composite shows with no crop/zoom. contain keeps it fully visible
+   even if a rare album returns a different ratio. */
+/* Full-width tile (matches the prior layout — no side margins), but the cover
+   itself is height-capped so it can't grow into a half-page-tall image on a
+   wide container. aspect-ratio still governs width < 1070px (~560px cap /
+   40:21); max-height takes over above that. */
+.media-tile-cover{width:100%;aspect-ratio:40/21;max-height:420px;background:linear-gradient(110deg,var(--bg-alt,#f0eee8) 8%,rgba(0,0,0,.04) 18%,var(--bg-alt,#f0eee8) 33%);background-size:200% 100%;animation:cover-shimmer 1.6s linear infinite;overflow:hidden}
+.media-tile-cover img{width:100%;height:100%;object-fit:contain;display:block}
+.week-media-card-cover{width:100%;aspect-ratio:40/21;max-height:420px;background:linear-gradient(110deg,var(--bg-alt,#f0eee8) 8%,rgba(0,0,0,.04) 18%,var(--bg-alt,#f0eee8) 33%);background-size:200% 100%;animation:cover-shimmer 1.6s linear infinite;overflow:hidden;border-radius:var(--r-sm) var(--r-sm) 0 0}
+.week-media-card-cover img{width:100%;height:100%;object-fit:contain;display:block}
+@keyframes cover-shimmer{to{background-position:-200% 0}}
+/* Once the real cover has loaded, stop the shimmer and give any letterbox a
+   soft neutral mat instead of an animating gradient bleeding through. */
+.media-tile-cover:has(img[src]:not([src=""])),
+.week-media-card-cover:has(img[src]:not([src=""])){animation:none;background:#f3f1ea}
+.cover-refresh-btn{position:absolute;top:6px;right:6px;width:26px;height:26px;border:none;border-radius:50%;background:rgba(0,0,0,.45);color:#fff;font-size:.75rem;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;opacity:0;transition:opacity .15s}
+.media-tile-cover:hover .cover-refresh-btn,.week-media-card-cover:hover .cover-refresh-btn{opacity:1}
+.cover-refresh-btn:disabled{cursor:wait}
+.media-tile-hdr{padding:11px 14px;display:flex;align-items:center;gap:8px}
+.media-tile-hdr.photos{background:rgba(125,60,152,.08)}
+.media-tile-hdr.videos{background:rgba(36,113,163,.08)}
+.media-tile-ico{font-size:1.15rem}
+.media-tile-lbl{font-family:var(--font-m);font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em}
+.media-tile-hdr.photos .media-tile-lbl{color:var(--purple)}
+.media-tile-hdr.videos .media-tile-lbl{color:var(--blue)}
+.media-tile-body{padding:14px}
+.media-open{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;padding:11px 14px;border-radius:var(--r-sm);font-family:var(--font-b);font-size:.85rem;font-weight:700;text-decoration:none;transition:all .15s}
+.media-open.photos{background:var(--purple-bg);border:1px solid var(--purple-bd);color:var(--purple)}
+.media-open.photos:hover{background:rgba(125,60,152,.2)}
+.media-open.videos{background:var(--blue-bg);border:1px solid var(--blue-bd);color:var(--blue)}
+.media-open.videos:hover{background:rgba(36,113,163,.2)}
+.media-empty{font-size:.78rem;color:var(--muted);font-style:italic;text-align:center;padding:11px 0}
+
+/* ── Platform metric grids ──────────────────────────────────────── */
+.platform-block{}
+.platform-title{font-family:var(--font-m);font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-bottom:8px;display:flex;align-items:center;gap:7px}
+.platform-title::after{content:'';flex:1;height:1px;background:var(--border-lt)}
+.platform-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:7px}
+.pf-tile{background:var(--surface);border:1px solid var(--border-lt);border-radius:var(--r);padding:10px 12px;text-align:center}
+/* F5 — month aggregate table */
+.month-agg-table{width:100%;border-collapse:collapse;font-family:var(--font-m);font-size:.68rem}
+.month-agg-table th{text-align:left;padding:6px 10px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-size:.56rem;border-bottom:1px solid var(--border-lt)}
+.month-agg-table td{padding:7px 10px;border-bottom:1px solid var(--border-lt);color:var(--text)}
+.month-agg-table tr:last-child td{border-bottom:none}
+/* F1 — AMIE narrative tray */
+.amie-narrative-tray{background:var(--w100);border:1px solid rgba(201,168,76,.28);border-left:3px solid var(--w600);border-radius:var(--r);overflow:hidden}
+.amie-tray-toggle{display:flex;align-items:center;gap:8px;width:100%;text-align:left;background:none;border:none;padding:9px 12px;cursor:pointer;font-family:var(--font-m);font-size:.7rem;color:var(--w800);line-height:1.4}
+.amie-tray-toggle .amie-preview{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.amie-tray-toggle .amie-chevron{font-size:.6rem;color:var(--w600);transition:transform .15s;flex-shrink:0}
+.amie-narrative-tray.open .amie-tray-toggle .amie-chevron{transform:rotate(90deg)}
+.amie-tray-body{display:none;padding:0 12px 10px 12px;font-family:var(--font-m);font-size:.7rem;color:var(--w800);line-height:1.55}
+.amie-narrative-tray.open .amie-tray-body{display:block}
+/* F3 — weekly thumbs */
+.thumbs-row{display:flex;gap:10px}
+.thumb-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;padding:10px 14px;border-radius:var(--r-sm);border:1px solid var(--border-lt);background:var(--surface);font-family:var(--font-m);font-size:.75rem;font-weight:700;color:var(--text);cursor:pointer;transition:all .15s}
+.thumb-btn:hover{border-color:var(--w500)}
+.thumb-btn.selected.up{background:rgba(45,122,82,.12);border-color:var(--f500);color:var(--f600)}
+.thumb-btn.selected.down{background:rgba(192,57,43,.1);border-color:var(--red);color:var(--red)}
+.thumb-note{width:100%;margin-top:9px;border:1px solid var(--border-lt);border-radius:var(--r-sm);padding:9px 11px;font-family:inherit;font-size:.78rem;resize:vertical;min-height:56px;background:var(--card);color:var(--text)}
+.thumb-submit{margin-top:8px;background:var(--f600);color:#fff;border:none;padding:8px 18px;border-radius:var(--r-sm);font-family:var(--font-m);font-size:.7rem;font-weight:700;cursor:pointer}
+.thumb-submit:disabled{opacity:.6;cursor:default}
+.thumb-done{margin-top:4px;font-family:var(--font-m);font-size:.75rem;color:var(--f600);font-weight:700}
+.thumb-done-note{margin-top:4px;font-size:.78rem;color:var(--muted);font-style:italic}
+.pf-tile-v{font-family:var(--font-d);font-size:1.25rem;font-weight:700;color:var(--b800);line-height:1}
+.pf-tile-l{font-family:var(--font-m);font-size:.48rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-top:3px}
+.pf-tile.tiktok-accent{border-color:rgba(125,60,152,.25);background:rgba(125,60,152,.04)}
+.pf-tile.tiktok-accent .pf-tile-v{color:var(--purple)}
+.pf-tile.yt-accent{border-color:rgba(192,57,43,.2);background:rgba(192,57,43,.04)}
+.pf-tile.yt-accent .pf-tile-v{color:var(--red)}
+.pf-tile.az-accent{border-color:rgba(202,111,30,.2);background:rgba(202,111,30,.04)}
+.pf-tile.az-accent .pf-tile-v{color:var(--orange)}
+.chart-box{background:var(--surface);border:1px solid var(--border-lt);border-radius:var(--r);padding:14px}
+.chart-box-ttl{font-family:var(--font-m);font-size:.54rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:10px}
+
+/* ── Campaign history ───────────────────────────────────────────── */
+.hist-summary{display:flex;gap:16px;flex-wrap:wrap;padding:12px 20px;background:rgba(201,168,76,.04);border-bottom:1px solid var(--border-lt);font-family:var(--font-m);font-size:.64rem;color:var(--muted)}
+.hist-summary strong{color:var(--b700);font-weight:700}
+.week-section-label{font-family:var(--font-m);font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;padding:11px 20px 8px;display:flex;align-items:center;gap:10px;color:var(--muted)}
+.week-section-label::after{content:'';flex:1;height:1px;background:var(--border-lt)}
+.week-section-label.healthy{color:var(--f600)}
+/* Wrapping card grid — no horizontal scrolling; every ready album is visible. */
+/* Capped tracks (not 1fr) + left-align: every week card is a uniform width and
+   a lone card in the last row no longer stretches to fill the whole row. */
+.weeks-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,460px));gap:14px;padding:14px 20px;border-top:1px solid var(--border-lt);justify-content:start}.week-cell{padding:14px;border:1px solid var(--border-lt);border-radius:var(--r);position:relative;transition:transform .12s,box-shadow .12s,background .12s;background:var(--surface);overflow:hidden}
+.week-cell:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(30,18,8,.08)}
+.week-cell:hover{background:rgba(201,168,76,.04)}
+.week-cell.wk-current{background:rgba(45,122,82,.05)}
+.week-cell.wk-current::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--f500)}
+.week-cell.wk-past::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--b200)}
+.wk-label{font-family:var(--font-m);font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:9px;display:flex;align-items:center;gap:6px;justify-content:space-between}
+.wk-now-dot{width:6px;height:6px;border-radius:50%;background:var(--f500);box-shadow:0 0 6px var(--f500);animation:pulse 2.2s ease-in-out infinite;flex-shrink:0;display:inline-block;margin-right:4px}
+.wk-badge{font-family:var(--font-m);font-size:.48rem;font-weight:700;padding:1px 6px;border-radius:40px;text-transform:uppercase;letter-spacing:.05em}
+.wk-badge.now{background:rgba(45,122,82,.15);color:var(--f600)}
+.wk-badge.past{background:var(--w100);color:var(--muted)}
+.wk-pbar-wrap{margin-bottom:9px}
+.wk-pbar-bg{height:4px;background:var(--b100);border-radius:2px;overflow:hidden}
+.wk-pbar-fill{height:100%;background:linear-gradient(90deg,var(--f600),var(--w500));border-radius:2px}
+.wk-pbar-lbl{font-family:var(--font-m);font-size:.54rem;color:var(--muted);margin-top:3px;display:flex;justify-content:space-between}
+.wk-step-dots{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:7px}
+.wk-step-dot{width:9px;height:9px;border-radius:2px;border:1px solid var(--border-lt);background:var(--w100);flex-shrink:0;position:relative}
+.wk-step-dot.done{background:var(--f500);border-color:var(--f600)}
+.wk-step-dot.done::after{content:'✓';position:absolute;top:50%;left:50%;transform:translate(-50%,-52%);color:#fff;font-size:.35rem;font-weight:800;line-height:1}
+.wk-cl-toggle{background:none;border:1px dashed var(--border);border-radius:var(--r-sm);font-family:var(--font-m);font-size:.57rem;color:var(--muted);padding:4px 7px;cursor:pointer;transition:all .15s;width:100%;text-align:left}
+.wk-cl-toggle:hover{background:var(--w200);border-color:var(--w500);color:var(--w700)}
+.wk-cl-panel{display:none;flex-direction:column;gap:2px;margin-top:6px;padding-top:7px;border-top:1px solid var(--border-lt)}
+.wk-cl-panel.open{display:flex}
+.wk-cl-item{display:flex;align-items:center;gap:6px;padding:3px 0}
+.wk-cl-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.42rem;color:#fff;font-weight:800}
+.wk-cl-item.done .wk-cl-dot{background:var(--f500)}
+.wk-cl-item:not(.done) .wk-cl-dot{background:var(--b300)}
+.wk-cl-lbl{font-size:.68rem;font-weight:600;color:var(--text);line-height:1.3}
+.wk-cl-item:not(.done) .wk-cl-lbl{color:var(--muted)}
+.week-media-cards{display:grid;grid-template-columns:1fr;gap:9px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border-lt)}
+.week-media-card{background:var(--surface);border:1.5px solid var(--border-lt);border-radius:var(--r);overflow:hidden}
+.week-media-card-hdr{padding:8px 12px;display:flex;align-items:center;gap:7px;border-bottom:1px solid var(--border-lt)}
+.week-media-card-hdr.photos{background:rgba(125,60,152,.06);border-bottom-color:var(--purple-bd)}
+.week-media-card-hdr.videos{background:rgba(36,113,163,.06);border-bottom-color:var(--blue-bd)}
+.week-media-card-ico{font-size:1rem}
+.week-media-card-label{font-family:var(--font-m);font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em}
+.week-media-card-hdr.photos .week-media-card-label{color:var(--purple)}
+.week-media-card-hdr.videos .week-media-card-label{color:var(--blue)}
+.week-media-card-body{padding:9px 12px}
+.week-media-open{display:flex;align-items:center;gap:6px;width:100%;padding:8px 12px;border-radius:var(--r-sm);font-family:var(--font-m);font-size:.62rem;font-weight:700;text-decoration:none;text-align:center;justify-content:center;transition:all .15s}
+.week-media-open.photos{background:var(--purple-bg);border:1px solid var(--purple-bd);color:var(--purple)}
+.week-media-open.photos:hover{background:rgba(125,60,152,.2)}
+.week-media-open.videos{background:var(--blue-bg);border:1px solid var(--blue-bd);color:var(--blue)}
+.week-media-open.videos:hover{background:rgba(36,113,163,.2)}
+.week-media-empty{font-size:.75rem;color:var(--muted);font-style:italic;text-align:center;padding:6px 0}
+
+/* ── Roadmap ────────────────────────────────────────────────────── */
+.roadmap-intro{font-size:.85rem;color:var(--b600);line-height:1.7;margin-bottom:14px}
+.roadmap-step{display:flex;gap:13px;align-items:flex-start;padding:13px 0;border-bottom:1px solid var(--border-lt)}
+.roadmap-step:last-child{border-bottom:none}
+.roadmap-step-num{width:26px;height:26px;border-radius:50%;background:var(--blue);color:#fff;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--font-m);font-size:.78rem;font-weight:700}
+.roadmap-step.future .roadmap-step-num{background:var(--b300)}
+.roadmap-step.promo .roadmap-step-num{background:var(--purple)}
+.roadmap-step.shop .roadmap-step-num{background:var(--orange)}
+.roadmap-step-body{flex:1}
+.roadmap-step-ttl{font-size:.88rem;font-weight:700;color:var(--b800);margin-bottom:3px}
+.roadmap-step-ttl.done{text-decoration:line-through;color:var(--muted)}
+.roadmap-step-desc{font-size:.78rem;color:var(--muted);line-height:1.6}
+.roadmap-email{font-family:var(--font-m);font-weight:700;color:var(--blue);background:var(--blue-bg);padding:1px 7px;border-radius:4px;white-space:nowrap}
+.promote-box{margin-top:10px;background:rgba(125,60,152,.05);border:1px solid var(--purple-bd);border-radius:var(--r);padding:11px 14px;font-size:.78rem;color:var(--b600);line-height:1.7}
+.promote-box strong{color:var(--b800);font-weight:700}
+.promote-note{display:flex;align-items:flex-start;gap:8px;margin-top:8px;font-size:.75rem;color:var(--b600);background:rgba(125,60,152,.06);border:1px solid var(--purple-bd);border-radius:6px;padding:9px 12px;line-height:1.6}
+.promote-note-icon{flex-shrink:0;font-size:.85rem;margin-top:1px}
+.promote-note-text{flex:1}
+.shop-box{margin-top:10px;background:rgba(202,111,30,.05);border:1px solid var(--orange-bd);border-radius:var(--r);padding:11px 14px;font-size:.78rem;color:var(--b600);line-height:1.7}
+.shop-box strong{color:var(--b800);font-weight:700}
+.shop-tiers{display:flex;flex-direction:column;gap:5px;margin-top:8px}
+.shop-tier{display:flex;align-items:flex-start;gap:8px;font-size:.75rem;color:var(--muted)}
+.shop-tier-badge{font-family:var(--font-m);font-size:.55rem;font-weight:700;padding:2px 7px;border-radius:40px;background:var(--orange-bg);color:var(--orange);border:1px solid var(--orange-bd);white-space:nowrap;flex-shrink:0;margin-top:1px}
+.shop-rec{margin-top:10px;display:flex;align-items:flex-start;gap:8px;background:rgba(30,92,58,.06);border:1px solid rgba(45,122,82,.25);border-radius:6px;padding:8px 11px;font-size:.76rem;color:var(--f600)}
+.shop-rec::before{content:'✅';flex-shrink:0}
+
+/* ── Feedback & messages ────────────────────────────────────────── */
+.feedback-sub{font-size:.8rem;color:var(--muted);margin-bottom:16px}
+.feedback-star{font-size:1.4rem;cursor:pointer;color:var(--b200);transition:color .12s;line-height:1;background:none;border:none;padding:0}
+.feedback-textarea{width:100%;min-height:90px;border:1px solid var(--border);border-radius:var(--r);background:var(--surface);font-family:var(--font-b);font-size:.85rem;color:var(--text);padding:10px 13px;resize:vertical;outline:none;transition:border-color .15s;margin-bottom:12px}
+.feedback-textarea:focus{border-color:rgba(45,122,82,.4)}
+.feedback-submit{background:linear-gradient(135deg,var(--f600),var(--f500));color:#fff;border:none;border-radius:var(--r);padding:10px 22px;font-family:var(--font-b);font-size:.85rem;font-weight:700;cursor:pointer;transition:opacity .15s}
+.feedback-submit:hover{opacity:.88}
+.feedback-submit:disabled{opacity:.5;cursor:not-allowed}
+.feedback-done{text-align:center;padding:18px 0;font-family:var(--font-d);font-size:1rem;color:var(--f600)}
+
+/* ── Campaign notes ─────────────────────────────────────────────── */
+.notes-portal-ta{width:100%;min-height:110px;background:var(--surface);border:1px solid var(--blue-bd);border-radius:var(--r);font-family:var(--font-b);font-size:.85rem;color:var(--text);padding:11px 14px;resize:vertical;outline:none;transition:border-color .15s;line-height:1.65}
+.notes-portal-ta:focus{border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-bg)}
+.notes-portal-save{background:linear-gradient(135deg,var(--blue),#1a5a8a);border:none;color:#fff;padding:9px 22px;border-radius:var(--r-sm);font-family:var(--font-b);font-size:.83rem;font-weight:700;cursor:pointer;transition:opacity .15s;margin-top:10px}
+.notes-portal-save:hover{opacity:.88}
+.notes-portal-save:disabled{opacity:.45;cursor:not-allowed}
+.notes-portal-save.saved{background:linear-gradient(135deg,var(--f600),var(--f500))}
+
+/* ── Payment ────────────────────────────────────────────────────── */
+.payment-inner{padding:18px 22px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.payment-ico-wrap{width:44px;height:44px;border-radius:var(--r);background:rgba(201,168,76,.15);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0}
+.payment-text{flex:1}
+.payment-title{font-family:var(--font-d);font-size:1rem;font-weight:700;color:var(--b800)}
+.payment-sub{font-size:.78rem;color:var(--muted);margin-top:2px}
+.payment-date-badge{font-family:var(--font-d);font-size:1.4rem;font-weight:700;color:var(--w700);text-align:right;flex-shrink:0}
+
+/* ── Toast ──────────────────────────────────────────────────────── */
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(70px);background:var(--f600);color:#fff;padding:9px 22px;border-radius:40px;font-size:.84rem;font-weight:600;z-index:99;box-shadow:var(--sh-md);transition:transform .3s cubic-bezier(.22,1,.36,1);max-width:90vw;text-align:center;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast.error{background:var(--red)}
+
+@media(max-width:640px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .step-grid{grid-template-columns:1fr}
+  .cw-tiles{grid-template-columns:1fr}
+  .platform-grid{grid-template-columns:repeat(2,1fr)}
+  .media-tiles{grid-template-columns:1fr}
+  .week-media-cards{grid-template-columns:1fr}
+  /* Calendar: one full-width card per row (the 300px min would overflow the
+     smallest phones). Lone-card stretch isn't a concern here — every card is
+     already one-per-row on mobile. Tighter side padding too. */
+  .weeks-grid{grid-template-columns:1fr;padding-left:14px;padding-right:14px}
+  .sec-pills{margin-left:0;width:100%}
+}
+</style>
+<base target="_blank">
+</head>
+<body>
+
+<div class="hdr">
+  <a href="https://atomic-shelf.com" class="hdr-logo-link">
+    <div class="logo-emblem"><img src="https://atomic-shelf.com/atomic-shelf.svg" alt="AS" onerror="this.style.display='none'"></div>
+    <div>
+      <div class="logo-name">Atomic <em>Shelf</em></div>
+      <div class="logo-tag">Your Campaign Portal</div>
+    </div>
+  </a>
+</div>
+
+<div class="wrap" id="appWrap">
+  <div class="center-state"><div class="ico">⟳</div><div class="ttl">Loading your campaign…</div></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ═════════════════════════════════════════════════════════════════
+   ATOMIC SHELF — AUTHOR PORTAL  (audited rebuild)
+   Backend contract unchanged: JSONP readAll bridge + POST actions
+   getMessages / saveMessage / saveFeedback / getCampaignNotes /
+   saveCampaignNotes / saveCampaignStatus.
+   ═════════════════════════════════════════════════════════════════ */
+
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzKg58R8xMm8BbipJJlHVGg5x7VS_FPr9p-YGaoELXnMGQNrKvcdvOmiMpvP41BcIo/exec';
+const TOKEN_SALT = 'atomic-shelf-harvesting-2026';
+const EDITOR_INVITE_EMAIL = 'powerpages30@gmail.com';
+
+const STEPS = [
+  {key:'Hook Written',         label:'Hook Written'},
+  {key:'Script Approved',      label:'Script Approved'},
+  {key:'Seed Images Created',  label:'Seed Images Created'},
+  {key:'B-Roll Sourced',       label:'B-Roll Sourced'},
+  {key:'First Draft Complete', label:'First Draft Complete'},
+  {key:'Client Review Sent',   label:'Sent to You for Review'},
+  {key:'Client Approved',      label:'Approved by You'},
+  {key:'Captions Added',       label:'Captions Added'},
+  {key:'Hashtags Added',       label:'Hashtags & Hooks Set'},
+  {key:'Thumbnail Created',    label:'Thumbnail Created'},
+  {key:'Posted TikTok',        label:'Posted to TikTok'},
+  {key:'Posted YouTube',       label:'Posted to YouTube'},
+  {key:'Analytics Logged',     label:"This Week's Stats Logged"},
+  {key:'New Followers Added',  label:'New Followers Added'},
+];
+
+const MONTH_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+// F7 — Maintenance Loop Mode: same locked 6-step set as the Command Centre.
+const MAINTENANCE_STEP_KEYS = ['Script Approved','First Draft Complete','Client Approved','Posted TikTok','Posted YouTube','Analytics Logged','New Followers Added'];
+function getActiveSteps(b) { return b['Maintenance Mode'] ? STEPS.filter(s => MAINTENANCE_STEP_KEYS.includes(s.key)) : STEPS; }
+
+/* ── Helpers ──────────────────────────────────────────────────── */
+function stepDone(steps, key) {
+  if (!steps) return false;
+  if (steps[key]) return true;
+  const norm = key.trim().toLowerCase();
+  return Object.keys(steps).some(k => k.trim().toLowerCase() === norm && !!steps[k]);
+}
+function hashToken(str) {
+  let h1 = 0xdeadbeef ^ 0, h2 = 0x41c6ce57 ^ 0;
+  for (let i = 0; i < str.length; i++) {
+    const ch = str.charCodeAt(i);
+    h1 = Math.imul(h1 ^ ch, 2654435761);
+    h2 = Math.imul(h2 ^ ch, 1597334677);
+  }
+  h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+  h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+  return (4294967296 * (2097151 & h2) + (h1 >>> 0)).toString(36);
+}
+function tokenFor(author, title) {
+  return hashToken(`${String(author||'').trim().toLowerCase()}||${String(title||'').trim().toLowerCase()}||${TOKEN_SALT}`);
+}
+
+// F6 — master token, keyed to email (see index.html's masterTokenFor — must
+// stay character-for-character identical to this).
+function masterTokenFor(email) {
+  return hashToken(`${String(email||'').trim().toLowerCase()}||master||${TOKEN_SALT}`);
+}
+const esc   = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const numV  = v => { const n = parseFloat(String(v||'').replace(/[^0-9.]/g,'')); return isNaN(n) ? 0 : n; };
+const fmtN  = v => { const n = numV(v); return n >= 1000000 ? (n/1000000).toFixed(1)+'M' : n >= 1000 ? (n/1000).toFixed(1)+'K' : (n ? (Math.round(n*100)/100) : (n===0?'0':'—')); };
+
+function frontendBookId(author, title) {
+  return 'bk__' + ((String(author||'').trim().toLowerCase()) + '__' + (String(title||'').trim().toLowerCase()))
+    .replace(/[^a-z0-9]+/g,'_').replace(/^_+|_+$/g,'');
+}
+function normStatus(raw) {
+  const s = (raw||'').toLowerCase().trim();
+  if (s.includes('active') || s.includes('create')) return 'active';
+  if (s.includes('trial')) return 'trial';
+  return 'other';
+}
+function statusLabel(raw) {
+  const s = normStatus(raw);
+  return s === 'active' ? 'Campaign Active' : s === 'trial' ? 'Free Trial' : (raw || 'In Progress');
+}
+function formatAgo(ts) {
+  if (!ts) return null;
+  const d = Math.floor((Date.now() - ts) / 1000);
+  if (d < 60)    return 'just now';
+  if (d < 3600)  return `${Math.floor(d/60)}m ago`;
+  if (d < 86400) return `${Math.floor(d/3600)}h ago`;
+  if (d < 86400*7) return `${Math.floor(d/86400)}d ago`;
+  return new Date(ts).toLocaleDateString('en-GB', {day:'numeric',month:'short',year:'numeric'});
+}
+function formatDate(iso) {
+  if (!iso) return '—';
+  const d = new Date(iso); if (isNaN(d)) return '—';
+  return d.toLocaleDateString('en-GB', {day:'numeric',month:'short',year:'numeric'});
+}
+// v22 — live-updating "ago" chips (same pattern as the Command Centre): each
+// chip stores its own ts; one global interval refreshes all of them so the
+// "Updated Xm ago" pill ticks forward without a re-render.
+function agoSpan(ts) { return ts ? `<span class="live-ago" data-ts="${ts}">${formatAgo(ts) || ''}</span>` : ''; }
+function refreshAgoLabels() {
+  document.querySelectorAll('.live-ago[data-ts]').forEach(el => {
+    const ts = parseInt(el.getAttribute('data-ts'), 10);
+    const t = ts ? formatAgo(ts) : null;
+    if (t) el.textContent = t;
+  });
+}
+if (!window._agoInterval) { window._agoInterval = setInterval(refreshAgoLabels, 30000); }
+function isStale(ts) { return !ts || (Date.now() - ts) > 3*24*60*60*1000; }
+function getCampaignWeekInfo(b) {
+  const raw = b['Campaign Live Date']; if (!raw) return null;
+  const ld = new Date(raw); if (isNaN(ld.getTime())) return null;
+  const live = new Date(Date.UTC(ld.getFullYear(), ld.getMonth(), ld.getDate()));
+  const today = new Date();
+  const todayUTC = new Date(Date.UTC(today.getFullYear(), today.getMonth(), today.getDate()));
+  const diff = Math.floor((todayUTC - live) / 86400000);
+  if (diff < 0) return { started: false, daysUntil: Math.abs(diff), liveDate: live };
+  return {
+    started: true, campaignWeek: Math.floor(diff / 7) + 1,
+    campaignMonth: Math.floor(diff / 28) + 1, dayOfWeek: diff % 7 + 1,
+    dayOfCampaign: diff + 1, liveDate: live, totalDaysElapsed: diff,
+  };
+}
+function getCurrentMonthYear() { const n = new Date(); return { month: n.getMonth(), year: n.getFullYear() }; }
+function monthKeyOf(year, month) { return `${year}-${String(month+1).padStart(2,'0')}`; }
+function getNextPaymentDate(b) {
+  const raw = b['Campaign Live Date']; if (!raw) return null;
+  const ld  = new Date(raw); if (isNaN(ld.getTime())) return null;
+  const day = ld.getDate();
+  const now = new Date();
+  let year = now.getFullYear(), month = now.getMonth();
+  if (now.getDate() >= day) { month++; if (month > 11) { month = 0; year++; } }
+  let dueDay = day;
+  const daysInTargetMonth = new Date(year, month + 1, 0).getDate();
+  if (dueDay > daysInTargetMonth) dueDay = daysInTargetMonth;
+  const due = new Date(year, month, dueDay);
+  const daysUntil = Math.ceil((due - now) / 86400000);
+  return { date: due, daysUntil };
+}
+function showToast(msg, type) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (type ? ' ' + type : '');
+  clearTimeout(t._t);
+  t._t = setTimeout(() => t.classList.remove('show'), 3600);
+}
+function _shortDate(iso) {
+  if (!iso) return '';
+  const d = new Date(iso);
+  if (isNaN(d)) return String(iso).slice(0, 10);
+  return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+}
+function _deltaChip(current, previous) {
+  if (!previous || previous === 0) return '';
+  const pct = ((current - previous) / previous * 100).toFixed(1);
+  const up = current >= previous;
+  const col = up ? '#2D7A52' : '#C0392B';
+  const bg  = up ? 'rgba(45,122,82,0.1)' : 'rgba(192,57,43,0.08)';
+  const arrow = up ? '▲' : '▼';
+  return `<span style="font-family:var(--font-m);font-size:.55rem;font-weight:700;
+    padding:2px 7px;border-radius:40px;background:${bg};color:${col};
+    white-space:nowrap">${arrow} ${Math.abs(pct)}%</span>`;
+}
+
+// Inline SVG sparkline — takes an array of numbers, returns a mini trend line
+function _sparkline(data, color) {
+  if (!data || !Array.isArray(data) || data.length < 2) return '';
+  const vals = data.map(v => typeof v === 'number' ? v : parseFloat(v || 0)).filter(v => !isNaN(v));
+  if (vals.length < 2 || vals.every(v => v === 0)) return '';
+  const w = 64, h = 20, pad = 1;
+  const mn = Math.min(...vals), mx = Math.max(...vals);
+  const range = mx - mn || 1;
+  const pts = vals.map((v, i) => {
+    const x = pad + (i / (vals.length - 1)) * (w - 2*pad);
+    const y = pad + (1 - (v - mn) / range) * (h - 2*pad);
+    return `${x.toFixed(1)},${y.toFixed(1)}`;
+  }).join(' ');
+  return `<svg viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" style="display:block;margin-top:4px">
+    <polyline points="${pts}" fill="none" stroke="${color||'var(--f600)'}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>`;
+}
+function _engRate(views, likes, comments, shares) {
+  if (!views || views === 0) return null;
+  return ((likes + comments + shares) / views * 100).toFixed(2);
+}
+
+/* ── Album cover lazy-fetch queue ────────────────────────────────
+   Client-side throttle so a page with many uncached historical weeks
+   doesn't fire dozens of refreshAlbumCover requests at once. See
+   PRD_album_cover_previews.md §2.5/§3. ───────────────────────────── */
+const _albumCoverQueue = [];
+let _albumCoverRunning = 0;
+const ALBUM_COVER_MAX_CONCURRENT = 3;
+const _albumCoverRequested = new Set();
+
+function queueAlbumCoverFetch(url, imgId) {
+  if (!url || _albumCoverRequested.has(url)) return;
+  _albumCoverRequested.add(url);
+  _albumCoverQueue.push({ url, imgId });
+  _pumpAlbumCoverQueue();
+}
+
+/* Shared response handler — authors never see errors (tile just stays in
+   its icon state), but the console says exactly why a cover didn't load,
+   so "backend deployment is stale" vs "extraction found nothing" is
+   diagnosable from DevTools without guessing. */
+function _applyCoverResult(tag, url, imgId, data) {
+  if (data && data.success && data.coverUrl) {
+    const el = document.getElementById(imgId);
+    if (el) { el.src = data.coverUrl; el.style.display = ''; }
+    return;
+  }
+  if (data && data.error && /unknown action/i.test(data.error)) {
+    console.warn(`[albumCover:${tag}] backend deployment is STALE — it has no refreshAlbumCover action yet (needs clasp push + deploy). url=${url}`);
+  } else if (data && !data.success) {
+    console.warn(`[albumCover:${tag}] backend error: ${data.error || '(no message)'} url=${url}`);
+  } else {
+    console.warn(`[albumCover:${tag}] no cover found (album private / sharing off / extraction failed). url=${url}`);
+  }
+}
+
+function refreshAlbumCoverManual(url, imgId, btnEl) {
+  if (!url) return;
+  if (btnEl) { btnEl.disabled = true; btnEl.textContent = '⏳'; }
+  fetch(APPS_SCRIPT_URL, {
+    method: 'POST',
+    body: JSON.stringify({ action: 'refreshAlbumCover', url, force: true }),
+  })
+    .then(r => r.json())
+    .then(data => _applyCoverResult('manual', url, imgId, data))
+    .catch(e => console.warn(`[albumCover:manual] request failed: ${e.message} url=${url}`))
+    .finally(() => { if (btnEl) { btnEl.disabled = false; btnEl.textContent = '🔄'; } });
+}
+
+function _pumpAlbumCoverQueue() {
+  while (_albumCoverRunning < ALBUM_COVER_MAX_CONCURRENT && _albumCoverQueue.length) {
+    const item = _albumCoverQueue.shift();
+    _albumCoverRunning++;
+    fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      body: JSON.stringify({ action: 'refreshAlbumCover', url: item.url }),
+    })
+      .then(r => r.json())
+      .then(data => _applyCoverResult('lazy', item.url, item.imgId, data))
+      .catch(e => console.warn(`[albumCover:lazy] request failed: ${e.message} url=${item.url}`))
+      .finally(() => { _albumCoverRunning--; _pumpAlbumCoverQueue(); });
+  }
+}
+
+/* ── State ────────────────────────────────────────────────────── */
+let CURRENT_BOOK = null;
+let _threadPollInterval = null;
+const wkCLExpanded = {};
+let _threadMessages = [];
+let _campaignNotes = '';
+let _feedbackRatings = { overall:0, communication:0, contentQuality:0, results:0, turnaround:0, general:0 };
+window._tvExpanded = false;
+
+/* ── URL params & data adapter ────────────────────────────────── */
+function getParams() {
+  const p = new URLSearchParams(window.location.search);
+  return { token: (p.get('token') || '').trim(), author: (p.get('a') || '').trim(), title: (p.get('t') || '').trim() };
+}
+
+function adaptBook(raw) {
+  const b = {};
+  // Message threads are keyed on frontendBookId in the Command Centre
+  // (Polaris uses bk__author__title). The backend raw.id can differ, which
+  // split the thread so admin replies never reached the author. Always use
+  // frontendBookId so both sides read/write the same MessageThreads row.
+  b.book_id = frontendBookId(raw.author, raw.title);
+  b['Author Name']        = raw.author;
+  b['Book Title']         = raw.title;
+  b['Genre']              = raw.genre;
+  b['Editor Name']        = raw.editor;
+  b['Campaign Status']    = raw.campaignStatus;
+  b['Maintenance Mode']   = !!raw.maintenanceMode;
+  b['Payment Status']     = raw.paymentStatus;
+  b['Campaign Live Date'] = raw.campaignLiveDate;
+  b['Trial Start Date']   = raw.trialStartDate;
+  b.showInvoice           = (raw.showInvoice !== false);
+  b['YouTube Account']    = raw.youTubeAccount || (raw.account && raw.account.youTubeAccount) || '';
+  const m = raw.metrics || {};
+  b['Total Views']              = raw.totalViews || m['TikTok Views'] || m.totalViews || 0;
+  b['TikTok Views']             = m['TikTok Views']             || m.tikTokViews            || 0;
+  b['TikTok Likes']             = m['TikTok Likes']             || m.tikTokLikes            || 0;
+  b['TikTok Comments']          = m['TikTok Comments']          || m.tikTokComments         || 0;
+  b['TikTok Shares']            = m['TikTok Shares']            || m.tikTokShares           || 0;
+  b['TikTok Saves']             = m['TikTok Saves']             || m.tikTokSaves            || 0;
+  b['TikTok Reach']             = m['TikTok Reach']             || m.tikTokReach            || 0;
+  b['TikTok Avg Watch Time']    = m['TikTok Avg Watch Time']    || m.tikTokAvgWatchTime     || 0;
+  b['TikTok Video Completions'] = m['TikTok Video Completions'] || m.tikTokVideoCompletions || 0;
+  b['TikTok Profile Visits']    = m['TikTok Profile Visits']    || m.tikTokProfileVisits    || 0;
+  b['TikTok New Followers']     = m['TikTok New Followers']     || m.tikTokNewFollowers     || 0;
+  b['TikTok Follower Count']    = m['TikTok Follower Count']    || m.tikTokFollowerCount    || 0;
+  b['YT Views']                 = m['YT Views']                 || m.ytViews                || 0;
+  b['YT Watch Hours']           = m['YT Watch Hours']           || m.ytWatchHours           || 0;
+  b['YT CTR %']                 = m['YT CTR %']                 || m.ytCtr                  || 0;
+  b['YT Subscribers']           = m['YT Subscribers']           || m.ytSubscribers          || 0;
+  b['YT Avg View Duration']     = m['YT Avg View Duration']     || m.ytAvgViewDuration      || 0;
+  b['YT Impressions']           = m['YT Impressions']           || m.ytImpressions          || 0;
+  b['YT Likes']                 = m['YT Likes']                 || m.ytLikes                || 0;
+  b['YT Comments']              = m['YT Comments']              || m.ytComments             || 0;
+  b['YT Cards CTR %']           = m['YT Cards CTR %']           || m.ytCardsCtr             || 0;
+  b['YT End Screen Clicks']     = m['YT End Screen Clicks']     || m.ytEndScreenClicks      || 0;
+  b['YT Revenue USD']           = m['YT Revenue USD']           || m.ytRevenueUsd           || 0;
+  b['Amazon BSR']               = m['Amazon BSR']               || m.amazonBsr              || 0;
+  b['Amazon ASIN']              = m['Amazon ASIN']              || m.amazonAsin             || '';
+  b['Amazon KENP Reads']        = m['Amazon KENP Reads']        || m.amazonKenp             || 0;
+  b['Amazon Author Rank']       = m['Amazon Author Rank']       || m.amazonAuthorRank       || 0;
+  b['Amazon Review Count']      = m['Amazon Review Count']      || m.amazonReviewCount      || 0;
+  b['Amazon Avg Rating']        = m['Amazon Avg Rating']        || m.amazonAvgRating        || 0;
+  b['Amazon Units Sold']        = m['Amazon Units Sold']        || m.amazonUnitsSold        || 0;
+
+  // Prefer checklist lastUpdated over contact date for the "Updated" pill
+  b._lastContact = raw.lastUpdated || raw.lastContact || (raw.contact && raw.contact.lastDate) || null;
+  // v22 — newest ActivityLog timestamp (server-computed); this is what makes
+  // the "Updated" pill instant, matching the admin Activity Feed.
+  b._lastActivityTs = raw.lastActivityTs || 0;
+  // v22b — Amazon rank goals (admin-set)
+  b.bsrGoals = raw.bsrGoals || {};
+  b.topLinks = raw.links || {};
+  // A1/A3 — roadmap milestone states { key:{done,source,auto,override,label} }
+  b.roadmap = (raw.roadmap && typeof raw.roadmap === 'object') ? raw.roadmap : {};
+  // Per-week content workspace { weekNum: [ {videoId,name,hook,description,hashtags,voiceover} ] }
+  b.weeklyContent = (window._rawData && window._rawData.weeklyContent) ? (window._rawData.weeklyContent[raw.id] || {}) : {};
+  b.weeks = (raw.weeks || []).slice().sort((x,y) => x.weekNum - y.weekNum);
+  // Compute the real current week from the live date — never trust a stale
+  // backend field that can be frozen on whatever week last wrote to the sheet.
+  const _wi = getCampaignWeekInfo(b);
+  b.currentWeek = (_wi && _wi.started) ? _wi.campaignWeek : (raw.currentWeek || 1);
+  const cw = b.weeks.find(w => w.weekNum === b.currentWeek) || null;
+  b.currentWeekData = cw || (raw.currentWeekSteps ? {
+    weekNum: b.currentWeek,
+    weekStart: null, weekEnd: null,
+    steps: raw.currentWeekSteps,
+    stepsDone: Object.values(raw.currentWeekSteps).filter(Boolean).length,
+    // FIXED: was hard-coded /14 while STEPS has 13 entries → wrong percentage
+    pctDone: Math.round(Object.values(raw.currentWeekSteps).filter(Boolean).length / STEPS.length * 100),
+    links: {}
+  } : null);
+  b._weekLinks = (b.currentWeekData && b.currentWeekData.links) ? b.currentWeekData.links : {};
+  b.metricsHistory    = (window._rawData && window._rawData.metricsHistory)      ? (window._rawData.metricsHistory[raw.id]      || []) : [];
+  b.contentHistory    = (window._rawData && window._rawData.contentHistory)      ? (window._rawData.contentHistory[raw.id]      || []) : [];
+  b.audienceSnapshots = (window._rawData && window._rawData.audienceSnapshotsMap)? (window._rawData.audienceSnapshotsMap[raw.id]|| {}) : {};
+  b.videoDailyMetrics = (window._rawData && window._rawData.videoDailyMetrics)   ? (window._rawData.videoDailyMetrics[raw.id]   || []) : [];
+  // F1 — AMIE narratives: { tiktok:{templateKey,text}, youtube:{...}, amazon:{...} }
+  b.narratives        = (raw.narratives) ? raw.narratives
+                       : (window._rawData && window._rawData.narrativesMap) ? (window._rawData.narrativesMap[raw.id] || {}) : {};
+  // F3 — weekly thumbs history: [{weekNum, rating:'up'|'down', note, submittedAt}]
+  b.weeklyRatings      = (window._rawData && window._rawData.feedbackMap)       ? (window._rawData.feedbackMap[raw.id]?.weeklyRatings || []) : [];
+  return b;
+}
+
+// When a token is supplied, hit the scoped readPortal endpoint (returns only
+// this author's book(s) — a fraction of the whole-agency payload). With no
+// token, or against a backend that predates readPortal, this transparently
+// falls back to the full readAll read (see boot()).
+function fetchFromBridge(token) {
+  return new Promise((resolve, reject) => {
+    const cb = 'asCb_' + Date.now() + '_' + Math.floor(Math.random() * 1e6);
+    const script = document.createElement('script');
+    const scoped = token ? ('&action=readPortal&token=' + encodeURIComponent(token)) : '';
+    script.src = APPS_SCRIPT_URL + '?callback=' + cb + scoped + '&t=' + Date.now();
+    window[cb] = (data) => { delete window[cb]; document.head.removeChild(script); resolve(data); };
+    script.onerror = () => { delete window[cb]; document.head.removeChild(script); reject(new Error('Apps Script request failed')); };
+    document.head.appendChild(script);
+  });
+}
+
+/* ═════════════════════════════════════════════════════════════════
+   COLLAPSIBLE SECTION FRAMEWORK
+   One builder for every card. `startOpen` is computed from data.
+   Chart-bearing sections register an init fn that runs when the
+   section is (re)opened — fixes blank charts drawn at 0×0 height.
+   ═════════════════════════════════════════════════════════════════ */
+
+const _sectionChartInits = {};   // bodyId → fn(book)
+let _chartInstances = {};        // canvasId → Chart instance
+
+function _destroyChart(id) {
+  if (_chartInstances[id]) { _chartInstances[id].destroy(); delete _chartInstances[id]; }
+}
+
+function pillHTML(p) {
+  if (!p || !p.text) return '';
+  return `<span class="pill ${p.cls||''}" ${p.id ? `id="${p.id}"` : ''} ${p.hidden ? 'style="display:none"' : ''}>${p.text}</span>`;
+}
+
+function section({ id, icon, title, pills = [], accent = '', startOpen = true, body }) {
+  const bodyId  = id + '-body';
+  const arrowId = id + '-arrow';
+  return `<div class="sec ${accent}" id="${id}">
+    <div class="sec-hdr${startOpen ? ' open' : ''}" role="button" tabindex="0"
+         aria-expanded="${startOpen ? 'true' : 'false'}" aria-controls="${bodyId}"
+         onclick="toggleSection('${bodyId}','${arrowId}',this)"
+         onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleSection('${bodyId}','${arrowId}',this)}">
+      ${icon ? `<span class="sec-ico">${icon}</span>` : ''}
+      <div class="sec-ttl">${title}</div>
+      <div class="sec-pills">${pills.map(pillHTML).join('')}</div>
+      <span class="sec-arrow${startOpen ? ' open' : ''}" id="${arrowId}">▼</span>
+    </div>
+    <div class="sec-body${startOpen ? ' open' : ''}" id="${bodyId}">${body}</div>
+  </div>`;
+}
+
+function toggleSection(bodyId, arrowId, hdrEl) {
+  const body  = document.getElementById(bodyId);
+  const arrow = document.getElementById(arrowId);
+  if (!body) return;
+  const isOpen = body.classList.toggle('open');
+  if (arrow) arrow.classList.toggle('open', isOpen);
+  if (hdrEl) { hdrEl.classList.toggle('open', isOpen); hdrEl.setAttribute('aria-expanded', isOpen ? 'true' : 'false'); }
+  // Redraw any charts inside once the expand transition gives the
+  // canvases real dimensions.
+  if (isOpen && CURRENT_BOOK && _sectionChartInits[bodyId]) {
+    setTimeout(() => _sectionChartInits[bodyId](CURRENT_BOOK), 380);
+  }
+}
+
+/* ═════════════════════════════════════════════════════════════════
+   BOOT + RENDER
+   ═════════════════════════════════════════════════════════════════ */
+
+let MULTI_BOOK_POOL = null; // raw (un-adapted) book records sharing this author's master token, or null when not in multi-book mode
+
+async function boot() {
+  const { token, author, title } = getParams();
+  const wrap = document.getElementById('appWrap');
+  if (!token && !author) {
+    wrap.innerHTML = `<div class="center-state"><div class="ico">🔗</div><div class="ttl">Missing portal link</div><p>This page needs your personal link from Atomic Shelf.</p></div>`;
+    return;
+  }
+  try {
+    // Fast path: token-scoped read. If it's rejected (backend predates
+    // readPortal, or a token-hash mismatch) fall back to the full agency read
+    // and match client-side — the path that's always worked.
+    let data;
+    try {
+      data = await fetchFromBridge(token);
+      if (token && (!data || data.success === false)) data = await fetchFromBridge();
+    } catch (_) {
+      data = await fetchFromBridge();
+    }
+    window._rawData = data;
+    if (!data.success) throw new Error(data.error || 'Bridge returned an error');
+
+    let matched = [];
+    if (token) {
+      // F6 — master token first: matches every book whose author's email
+      // hashes to this token. Falls back to the legacy single-book token
+      // (?token= stays the same URL param for backward compatibility —
+      // the word "token" itself must never appear in author-facing copy).
+      matched = (data.books || []).filter(rb => rb.email && masterTokenFor(rb.email) === token);
+      if (!matched.length) {
+        const single = (data.books || []).find(rb => tokenFor(rb.author, rb.title) === token);
+        if (single) matched = [single];
+      }
+    } else {
+      const a = author.toLowerCase(), t = (title||'').toLowerCase();
+      const single = (data.books || []).find(rb =>
+        (rb.author||'').toLowerCase().includes(a) && (!t || (rb.title||'').toLowerCase().includes(t))
+      );
+      if (single) matched = [single];
+    }
+    if (!matched.length) throw new Error('Campaign not found');
+
+    if (matched.length > 1) {
+      MULTI_BOOK_POOL = matched;
+      renderMultiBookLanding(matched);
+    } else {
+      MULTI_BOOK_POOL = null;
+      openPortalBook(matched[0]);
+    }
+  } catch(e) {
+    wrap.innerHTML = `<div class="center-state"><div class="ico">⚠</div><div class="ttl">Couldn't load your campaign</div><p style="color:#C0392B">${esc(e.message)}</p></div>`;
+  }
+}
+
+function openPortalBook(rawBook) {
+  CURRENT_BOOK = adaptBook(rawBook);
+  CURRENT_BOOK._activityLog = (window._rawData.activityLogs || {})[rawBook.id] || [];
+  render();
+  loadThread();
+  loadCampaignNotes();
+  if (_threadPollInterval) clearInterval(_threadPollInterval);
+  _threadPollInterval = setInterval(loadThread, 30 * 1000);
+}
+
+/* ═════════════════════════════════════════════════════════════════
+   F6 — MULTI-BOOK LANDING
+   Shown when a master token (keyed to email) resolves to more than one
+   book. Navigation into a book is in-page (openPortalBook swaps
+   appWrap's content) — there is no per-book URL to link to here.
+   ═════════════════════════════════════════════════════════════════ */
+function renderMultiBookLanding(rawBooks) {
+  const wrap = document.getElementById('appWrap');
+  const adapted = rawBooks.map(rb => adaptBook(rb));
+  const firstName = ((adapted[0]['Author Name']||'').trim().split(/\s+/)[0]) || 'there';
+
+  const cards = adapted.map((b, i) => {
+    const wk = getCampaignWeekInfo(b);
+    const st = normStatus(b['Campaign Status']);
+    const sCls = st === 'active' ? 'green' : st === 'trial' ? 'blue' : 'gold';
+    const cw = b.currentWeekData;
+    const steps = cw ? cw.steps : {};
+    const activeSteps = getActiveSteps(b);
+    const done = activeSteps.filter(s => stepDone(steps, s.key)).length;
+    // Public-friendly health signal: checklist completion only — no contact
+    // recency or payment status, which are admin-internal per F2/F10.
+    const pct = activeSteps.length ? Math.round(done / activeSteps.length * 100) : 0;
+    const healthCls = pct >= 80 ? 'green' : pct >= 50 ? 'gold' : 'red';
+
+    return `<div class="book-card" onclick="selectPortalBookFromLanding(${i})">
+      <div class="book-card-cover">📖</div>
+      <div class="book-card-body">
+        <div class="book-card-title">${esc(b['Book Title'])}</div>
+        <div class="book-card-meta">
+          <span class="pill ${sCls}">${esc(statusLabel(b['Campaign Status']))}</span>
+          ${wk && wk.started ? `<span class="pill purple">Week ${wk.campaignWeek}</span>` : ''}
+        </div>
+        <div class="book-card-health"><span class="health-dot ${healthCls}"></span>${pct}% on track this week</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  wrap.innerHTML = `
+    <div class="multi-landing-hero">
+      <div class="greeting">Hi ${esc(firstName)}.</div>
+      <div class="book-title">Your Books</div>
+      <div class="multi-landing-sub">You have ${adapted.length} books in your Atomic Shelf campaign.</div>
+    </div>
+    <div class="book-card-grid">${cards}</div>`;
+}
+
+function selectPortalBookFromLanding(i) {
+  if (!MULTI_BOOK_POOL || !MULTI_BOOK_POOL[i]) return;
+  openPortalBook(MULTI_BOOK_POOL[i]);
+}
+
+/* Card order — the story an author wants, top to bottom:
+   who/where am I → what's happening this week → how is it performing
+   → who's watching → the full record → what the team did → talk to us
+   → money & controls → what's next (roadmap) → rate us. */
+function render() {
+  const b = CURRENT_BOOK;
+  const wrap = document.getElementById('appWrap');
+  if (!b) { wrap.innerHTML = `<div class="center-state"><div class="ico">📭</div><div class="ttl">No campaign found</div></div>`; return; }
+
+  const backBtn = MULTI_BOOK_POOL
+    ? `<button class="portal-back-btn" onclick="renderMultiBookLanding(MULTI_BOOK_POOL)">← Back to my books</button>`
+    : '';
+
+  wrap.innerHTML = backBtn + [
+    buildHero(b),
+    buildStatusCard(b),             // Feature E — done vs next + "to be published" backlog
+    buildThisWeekSection(b),        // merged: week widget + checklist + this week's media
+    buildTikTokSection(b),          // expanded when it has data
+    buildYouTubeSection(b),         // expanded when it has data (incl. daily views chart)
+    buildAmazonSection(b),          // expanded when it has data
+    buildAudienceSection(b),        // expanded when it has data
+    buildHistorySection(b),         // expanded when weeks exist
+    buildContentScriptsSection(b),  // Content Library — per-week videos + scripts, inventory
+    buildRoadmapSection(b),         // collapsed by default
+    buildMessagesSection(b),        // chat — collapsed by default, unread pill
+    buildPaymentSection(b),         // only appears ≤7 days out
+    buildCampaignStatusSection(b),  // pause / resume
+    buildNotesSection(b),           // collapsed by default
+    buildFeedbackSection(b),        // ALWAYS collapsed (per design)
+    buildActivitySection(b),        // Production Updates — very bottom, collapsed by default
+  ].join('');
+
+  // Draw charts for sections that start open, once the DOM has painted.
+  requestAnimationFrame(() => {
+    Object.keys(_sectionChartInits).forEach(bodyId => {
+      const el = document.getElementById(bodyId);
+      if (el && el.classList.contains('open')) _sectionChartInits[bodyId](b);
+    });
+  });
+}
+
+/* ═════════════════════════════════════════════════════════════════
+   1 · HERO
+   ═════════════════════════════════════════════════════════════════ */
+
+function buildHero(b) {
+  const wi = getCampaignWeekInfo(b);
+  const st = normStatus(b['Campaign Status']);
+  const sCls = st === 'active' ? 'green' : st === 'trial' ? 'blue' : 'gold';
+  // v22: newest activity wins — the pill reflects the most recent logged
+  // action for this book (instant, like the admin feed), falling back to the
+  // old checklist/contact stamp for books with no activity yet.
+  const legacyTs = b._lastContact ? new Date(b._lastContact).getTime() : 0;
+  const updTs = Math.max(b._lastActivityTs || 0, isNaN(legacyTs) ? 0 : legacyTs) || null;
+  const updCls = !updTs ? '' : isStale(updTs) ? 'red' : 'green';
+  const updTxt = updTs ? `Updated ` : 'No updates yet';
+  return `<div class="hero"><div class="hero-in">
+    <div class="greeting">Hi ${esc(b['Author Name'])}</div>
+    <div class="book-title">${esc(b['Book Title'])}</div>
+    <div class="book-author">by ${esc(b['Author Name'])}</div>
+    <div class="tags">
+      <span class="pill ${sCls}">${esc(statusLabel(b['Campaign Status']))}</span>
+      ${b['Maintenance Mode'] ? `<span class="pill gold">🌙 Maintenance Mode</span>` : ''}
+      ${wi && wi.started ? `<span class="pill purple">Week ${wi.campaignWeek} · Day ${wi.dayOfCampaign}</span>`
+        : wi ? `<span class="pill purple">Starts in ${wi.daysUntil}d</span>` : ''}
+      <span class="pill ${updCls}">${esc(updTxt)}${updTs ? agoSpan(updTs) : ''}</span>
+      ${b['Genre'] ? `<span class="pill gold">${esc(b['Genre'])}</span>` : ''}
+      ${b['Editor Name'] ? `<span class="pill">✎ ${esc(b['Editor Name'])}</span>` : ''}
+    </div>
+    <div class="stats">
+      <div class="stile"><div class="stile-v">${b.currentWeek||1}</div><div class="stile-l">Current Week</div></div>
+      <div class="stile"><div class="stile-v">${b.currentWeek || b.weeks.length}</div><div class="stile-l">Weeks Elapsed</div></div>
+      <div class="stile"><div class="stile-v">${fmtN(b['Total Views'])}</div><div class="stile-l">Total Views</div></div>
+      <div class="stile"><div class="stile-v">${fmtN(b['TikTok Follower Count'])}</div><div class="stile-l">TikTok Followers</div></div>
+    </div>
+  </div></div>`;
+}
+
+/* ═════════════════════════════════════════════════════════════════
+   2 · THIS WEEK — merged widget + checklist + media links
+   (Previously three overlapping cards: "Latest Media" hero,
+    "Week N in Progress" widget and "This Week's Checklist" all
+    repeated the same progress/links. One card now tells the story.)
+   ═════════════════════════════════════════════════════════════════ */
+
+/* ── Content Library helpers ─────────────────────────────────────── */
+function _wcToggle(id, hdr) {
+  const el = document.getElementById(id); if (!el) return;
+  const open = el.style.display !== 'none';
+  el.style.display = open ? 'none' : 'block';
+  const arrow = hdr && hdr.querySelector('[class$="-arrow"]');
+  if (arrow) arrow.style.transform = open ? 'rotate(0)' : 'rotate(180deg)';
+}
+function _clipFallback(text, done) {
+  const ta = document.createElement('textarea'); ta.value = text;
+  ta.style.cssText = 'position:fixed;opacity:0'; document.body.appendChild(ta); ta.select();
+  try { document.execCommand('copy'); } catch (_) {} ta.remove(); if (done) done();
+}
+function copyToClip(text, btn) {
+  const done = () => { if (btn) { const t = btn.textContent; btn.textContent = '✓'; setTimeout(() => { btn.textContent = t; }, 1400); } };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(done).catch(() => _clipFallback(text, done));
+  } else { _clipFallback(text, done); }
+}
+
+/* ═════════════════════════════════════════════════════════════════
+   Content Library · per-week videos (named) + their scripts, copyable.
+   The team enters this in the Command Centre; the author watches the
+   series build up here, week by week.
+   ═════════════════════════════════════════════════════════════════ */
+function buildContentScriptsSection(b) {
+  const wc = b.weeklyContent || {};
+  const weekNums = Object.keys(wc).map(Number).filter(n => n > 0).sort((a, z) => a - z);
+  let totalVideos = 0;
+  weekNums.forEach(wn => { totalVideos += (wc[String(wn)] || []).length; });
+
+  if (!totalVideos) {
+    return section({
+      id: 'sec-content', icon: '📚', title: 'Content Library',
+      pills: [{ text: 'Building up', cls: '' }], accent: 'acc-blue', startOpen: false,
+      body: `<div class="sec-pad"><div class="media-empty" style="padding:20px 0">Your content scripts appear here as videos are produced — you'll watch your series build up week by week.</div></div>`,
+    });
+  }
+
+  const fieldRow = (label, val, cid) => {
+    if (!val) return '';
+    return `<div class="wc-field">
+      <div class="wc-field-lbl">${label}</div>
+      <div class="wc-field-val" id="${cid}">${esc(val)}</div>
+      <button class="wc-copy" title="Copy ${label}" onclick="copyToClip(document.getElementById('${cid}').textContent, this)">📋</button>
+    </div>`;
+  };
+
+  const weeksHtml = weekNums.map(wn => {
+    const vids = wc[String(wn)] || [];
+    const wid = `wcw-${wn}`;
+    const videosHtml = vids.map((v, i) => {
+      const vidId = `wcv-${wn}-${i}`;
+      const anyScript = v.hook || v.description || v.hashtags || v.voiceover;
+      return `<div class="wc-video">
+        <div class="wc-video-hdr" onclick="_wcToggle('${vidId}',this)">
+          <span class="wc-video-name">🎬 ${esc(v.name || 'Untitled video')}</span>
+          <span class="wc-video-arrow">▾</span>
+        </div>
+        <div class="wc-video-body" id="${vidId}" style="display:none">
+          ${fieldRow('Hook', v.hook, vidId + '-hook')}
+          ${fieldRow('Description', v.description, vidId + '-desc')}
+          ${fieldRow('Hashtags', v.hashtags, vidId + '-tags')}
+          ${fieldRow('Voiceover', v.voiceover, vidId + '-vo')}
+          ${!anyScript ? `<div class="wc-field-val" style="color:var(--muted);font-style:italic;padding:6px 0">Script details coming soon.</div>` : ''}
+        </div>
+      </div>`;
+    }).join('');
+    return `<div class="wc-week">
+      <div class="wc-week-hdr" onclick="_wcToggle('${wid}',this)">
+        <span>Week ${wn}</span>
+        <span class="wc-week-count">${vids.length} video${vids.length > 1 ? 's' : ''}</span>
+        <span class="wc-week-arrow">▾</span>
+      </div>
+      <div class="wc-week-body" id="${wid}" style="display:none">${videosHtml}</div>
+    </div>`;
+  }).join('');
+
+  const body = `<div class="sec-pad">
+    <div class="wc-intro">Every video we produce for you — named and scripted, your series building up week by week. Tap any video to see and copy its hook, description, hashtags, and voiceover.</div>
+    ${weeksHtml}
+  </div>`;
+
+  return section({
+    id: 'sec-content', icon: '📚', title: 'Content Library',
+    pills: [{ text: `${totalVideos} videos`, cls: 'blue' }, { text: `${weekNums.length} week${weekNums.length > 1 ? 's' : ''}`, cls: '' }],
+    accent: 'acc-blue', startOpen: false, body,
+  });
+}
+
+/* ═════════════════════════════════════════════════════════════════
+   Feature E · "Where Your Campaign Stands" — done vs next, at a glance.
+   Includes the "to be published" backlog: content CREATED for past weeks
+   but not yet POSTED, which rolls out across the coming weeks.
+   ═════════════════════════════════════════════════════════════════ */
+function buildStatusCard(b) {
+  const RM = b.roadmap || {};
+  const rmDone = k => !!(RM[k] && RM[k].done);
+  const MS = [
+    { k: 'yt_editor',        done: 'YouTube editor access confirmed', next: 'Get YouTube editor access' },
+    { k: 'yt_live',          done: 'YouTube is live',                 next: 'Getting YouTube live' },
+    { k: 'tiktok_live',      done: 'TikTok set up & posting',         next: 'Setting up TikTok' },
+    { k: 'posting_started',  done: 'Posting weekly',                  next: 'Starting regular posting' },
+    { k: 'followers_growth', done: 'Growing your followers',          next: 'Growing your followers' },
+    { k: 'traffic_started',  done: 'Reach campaigns running',         next: 'Launching reach campaigns' },
+  ];
+
+  const weeksByNum = {};
+  (b.weeks || []).forEach(w => { weeksByNum[w.weekNum] = w; });
+  const maxWeek = Math.max(b.currentWeek || 0, ...(b.weeks || []).map(w => w.weekNum || 0), 0);
+  let pReady = 0, vReady = 0; const pMiss = [], vMiss = [], toPublish = [];
+  for (let n = 1; n <= maxWeek; n++) {
+    const w = weeksByNum[n];
+    const hp = !!(w && w.links && w.links.photos);
+    const hv = !!(w && w.links && w.links.videos);
+    if (hp) pReady++; else pMiss.push(n);
+    if (hv) vReady++; else vMiss.push(n);
+    const posted = w && w.steps && (stepDone(w.steps, 'Posted TikTok') || stepDone(w.steps, 'Posted YouTube'));
+    if ((hp || hv) && !posted) toPublish.push(n); // created but not yet published
+  }
+  const contentWeeks = Math.max(pReady, vReady);
+  const ttViews = numV(b['TikTok Views']), ttFoll = numV(b['TikTok Follower Count']), ytViews = numV(b['YT Views']);
+
+  const done = [];
+  MS.forEach(m => { if (rmDone(m.k)) done.push(m.done); });
+  if (contentWeeks) done.push(`${contentWeeks} week${contentWeeks > 1 ? 's' : ''} of content created`);
+  if (ttViews) done.push(`${fmtN(ttViews)} TikTok views`);
+  if (ytViews) done.push(`${fmtN(ytViews)} YouTube views`);
+  if (ttFoll)  done.push(`${fmtN(ttFoll)} TikTok followers`);
+
+  const next = [];
+  MS.forEach(m => { if (!rmDone(m.k)) next.push(m.next); });
+  if (vMiss.length)      next.push(`Videos for week${vMiss.length > 1 ? 's' : ''} ${summarizeWeekRanges(vMiss)}`);
+  else if (pMiss.length) next.push(`Photos for week${pMiss.length > 1 ? 's' : ''} ${summarizeWeekRanges(pMiss)}`);
+
+  const doneTop = done.slice(0, 5);
+  const nextTop = next.slice(0, 4);
+
+  const pubBanner = toPublish.length ? `<div class="status-pub">
+    <span class="status-pub-ico">📤</span>
+    <div><strong>${toPublish.length} week${toPublish.length > 1 ? 's' : ''} of content ready to publish.</strong> Your created content (week${toPublish.length > 1 ? 's' : ''} ${summarizeWeekRanges(toPublish)}) rolls out across the coming weeks as we post it to your channels — nothing already made is lost.</div>
+  </div>` : '';
+
+  const body = `<div class="sec-pad">
+    ${pubBanner}
+    <div class="status-grid">
+      <div class="status-col done">
+        <div class="status-col-hdr">✅ Done so far</div>
+        ${doneTop.length ? doneTop.map(d => `<div class="status-item">${esc(d)}</div>`).join('') : `<div class="status-empty">Getting your campaign set up…</div>`}
+      </div>
+      <div class="status-col next">
+        <div class="status-col-hdr">🎯 Coming next</div>
+        ${nextTop.length ? nextTop.map(d => `<div class="status-item">${esc(d)}</div>`).join('') : `<div class="status-empty">You're all caught up — steady growth from here.</div>`}
+      </div>
+    </div>
+  </div>`;
+
+  return section({ id: 'sec-status', icon: '📊', title: 'Where Your Campaign Stands', pills: [], accent: 'acc-green', startOpen: true, body });
+}
+
+function buildThisWeekSection(b) {
+  const cw = b.currentWeekData;
+  const wi = getCampaignWeekInfo(b);
+  const steps = cw ? cw.steps : {};
+  const activeSteps = getActiveSteps(b);
+  const done  = activeSteps.filter(s => stepDone(steps, s.key)).length;
+  const pct   = activeSteps.length ? Math.round(done / activeSteps.length * 100) : 0;
+  const wl = b._weekLinks || {};
+
+  const mediaTile = (ico, label, url, cls, openLabel, coverUrl, coverId) => {
+    const noun = cls === 'videos' ? 'videos' : 'photos';
+    // No album yet → fold to a warm one-line note instead of an empty box.
+    if (!url) {
+      return `<div class="media-fold ${cls}">
+        <span class="media-fold-ico">${ico}</span>
+        <span class="media-fold-txt">We're adding this week's ${noun}…</span>
+      </div>`;
+    }
+    if (!coverUrl) queueAlbumCoverFetch(url, coverId);
+    return `
+    <div class="media-tile">
+      <div class="media-tile-cover ${cls}" style="position:relative"><img id="${coverId}" src="${coverUrl ? esc(coverUrl) : ''}" style="${coverUrl ? '' : 'display:none'}" alt="${esc(label)}"><button class="cover-refresh-btn" title="Refresh cover" data-url="${esc(url)}" onclick="refreshAlbumCoverManual(this.dataset.url,'${coverId}',this)">🔄</button></div>
+      <div class="media-tile-hdr ${cls}">
+        <span class="media-tile-ico">${ico}</span>
+        <span class="media-tile-lbl">${label}</span>
+      </div>
+      <div class="media-tile-body">
+        <a class="media-open ${cls}" href="${esc(url)}" target="_blank" rel="noopener">${openLabel} →</a>
+      </div>
+    </div>`;
+  };
+
+  const body = `<div class="sec-pad">
+    <div class="cw-tiles">
+      <div class="cw-tile"><div class="cw-tile-label">Week Start</div><div class="cw-tile-val">${cw ? formatDate(cw.weekStart) : '—'}</div></div>
+      <div class="cw-tile highlight"><div class="cw-tile-label">Week End</div><div class="cw-tile-val">${cw ? formatDate(cw.weekEnd) : '—'}</div></div>
+    </div>
+    <div class="prog-wrap">
+      <div class="prog-bar-bg"><div class="prog-bar-fill" style="width:${pct}%"></div></div>
+      <div class="prog-pct">${done}/${activeSteps.length} · ${pct}%</div>
+    </div>
+    <div class="step-grid">
+      ${activeSteps.map(s => `<div class="step-item ${stepDone(steps, s.key) ? 'done' : ''}">
+        <div class="step-dot">${stepDone(steps, s.key) ? '✓' : ''}</div>
+        <div class="step-label">${esc(s.label)}</div>
+      </div>`).join('')}
+    </div>
+    <div class="media-tiles">
+      ${mediaTile('📸', "This Week's Photos", wl.photos, 'photos', 'Open Album', wl.photosCoverUrl, 'cover-thisweek-photos')}
+      ${mediaTile('🎬', "This Week's Videos", wl.videos, 'videos', 'Open Videos', wl.videosCoverUrl, 'cover-thisweek-videos')}
+    </div>
+    <div id="week-thumbs-wrap" style="margin-top:14px">${buildWeekThumbsWidget(b)}</div>
+  </div>`;
+
+  const pills = [
+    { text: `${done}/${activeSteps.length} steps`, cls: pct === 100 ? 'green' : 'gold' },
+  ];
+  if (b['Maintenance Mode']) pills.push({ text: '🌙 Maintenance Mode', cls: 'gold' });
+  if (wi && wi.started) pills.push({ text: `Day ${wi.dayOfCampaign}`, cls: 'purple' });
+  if (wl.photos || wl.videos) pills.push({ text: 'Media ready', cls: 'blue' });
+
+  return section({
+    id: 'sec-thisweek',
+    icon: '<span class="cw-now-dot"></span>',
+    title: b['Maintenance Mode'] ? `Maintenance Week ${b.currentWeek||1}` : `Week ${b.currentWeek||1} in Progress`,
+    pills,
+    accent: 'acc-green',
+    startOpen: true,
+    body,
+  });
+}
+
+/* ═════════════════════════════════════════════════════════════════
+   3 · TIKTOK PERFORMANCE — expanded when it has data
+   (Now opens with the 7-day summary bar with week-over-week deltas,
+    previously written but never wired in.)
+   ═════════════════════════════════════════════════════════════════ */
+
+function buildMetricsSummaryBar(b) {
+  const history = (b.metricsHistory || []).slice().sort((a, z) => new Date(a.date) - new Date(z.date));
+  const last7  = history.slice(-7);
+  const prior7 = history.slice(-14, -7);
+  const sum = (arr, key, alt) => arr.reduce((s, e) => s + parseFloat(e[key] || e[alt] || 0), 0);
+
+  const curViews  = sum(last7,  'TikTok Views',    'tikTokViews');
+  const prevViews = sum(prior7, 'TikTok Views',    'tikTokViews');
+  const curLikes  = sum(last7,  'TikTok Likes',    'tikTokLikes');
+  const prevLikes = sum(prior7, 'TikTok Likes',    'tikTokLikes');
+  const curShares = sum(last7,  'TikTok Shares',   'tikTokShares');
+  const curComm   = sum(last7,  'TikTok Comments', 'tikTokComments');
+
+  const snapViews  = parseFloat(b['TikTok Views'] || 0);
+  const snapLikes  = parseFloat(b['TikTok Likes'] || 0);
+  const snapFollow = parseFloat(b['TikTok Follower Count'] || 0);
+
+  const displayViews  = curViews  || snapViews;
+  const displayLikes  = curLikes  || snapLikes;
+
+  const er = _engRate(displayViews, displayLikes, curComm, curShares);
+  const erBenchmark = 6.5;
+  const erGood = er !== null && parseFloat(er) >= erBenchmark;
+
+  const tile = (label, value, delta, note, sparkData, sparkColor) => `
+    <div style="background:var(--surface);border:1px solid var(--border-lt);
+                border-radius:var(--r);padding:12px 15px;min-width:0">
+      <div style="font-family:var(--font-m);font-size:.5rem;text-transform:uppercase;
+                  letter-spacing:.12em;color:var(--muted);margin-bottom:5px">${label}</div>
+      <div style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap">
+        <div style="font-family:var(--font-d);font-size:1.6rem;font-weight:700;
+                    color:var(--b800);line-height:1">${value}</div>
+        ${delta}
+      </div>
+      ${sparkData ? _sparkline(sparkData, sparkColor || 'var(--purple)') : ''}
+      ${note ? `<div style="font-size:.65rem;color:var(--muted);margin-top:4px">${note}</div>` : ''}
+    </div>`;
+
+  return `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));
+                      gap:9px;margin-bottom:2px">
+    ${tile('Views (7d)', fmtN(displayViews), _deltaChip(curViews, prevViews), '',
+           history.slice(-14).map(e => parseFloat(e['TikTok Views']||e['tikTokViews']||0)), 'var(--purple)')}
+    ${tile('Likes (7d)', fmtN(displayLikes), _deltaChip(curLikes, prevLikes), '',
+           history.slice(-14).map(e => parseFloat(e['TikTok Likes']||e['tikTokLikes']||0)), 'var(--purple)')}
+    ${tile('Followers',  fmtN(snapFollow),   '', '',
+           history.slice(-14).map(e => parseFloat(e['TikTok Follower Count']||e['tikTokFollowerCount']||0)), 'var(--purple)')}
+    ${tile('Eng. Rate',
+      er !== null ? er + '%' : '—', '',
+      er !== null
+        ? (erGood
+            ? `<span style="color:var(--f600)">✓ Above avg (${erBenchmark}%)</span>`
+            : `<span style="color:var(--orange)">Avg is ${erBenchmark}%</span>`)
+        : ''
+    )}
+  </div>`;
+}
+
+/* F1 — AMIE narrative tray. One per platform, rendered only when that
+   platform has data at all (per PRD: "Empty if no data for that platform"). */
+let _amieTrayCounter = 0;
+function amieNarrativeTray(b, platformKey, hasData) {
+  const n = (b.narratives || {})[platformKey];
+  if (!hasData || !n || !n.text) return '';
+  const preview = (n.text.match(/^.*?[.!?](?:\s|$)/) || [n.text])[0].trim();
+  const trayId = `amie-tray-${platformKey}-${_amieTrayCounter++}`;
+  return `<div class="amie-narrative-tray" id="${trayId}">
+    <button class="amie-tray-toggle" onclick="toggleAmieTray('${trayId}')">
+      <span class="amie-preview">${esc(preview)}</span>
+      <span class="amie-chevron">▶</span>
+    </button>
+    <div class="amie-tray-body">${esc(n.text)}</div>
+  </div>`;
+}
+function toggleAmieTray(trayId) {
+  const el = document.getElementById(trayId);
+  if (el) el.classList.toggle('open');
+}
+
+function buildTikTokSection(b) {
+  const hasTT = parseFloat(b['TikTok Views'] || 0) > 0
+             || parseFloat(b['TikTok Likes'] || 0) > 0
+             || parseFloat(b['TikTok Follower Count'] || 0) > 0
+             || (b.metricsHistory || []).length > 0;
+  const hasHistory = (b.metricsHistory || []).length > 0;
+
+  const metric = (label, value) => `
+    <div class="pf-tile tiktok-accent">
+      <div class="pf-tile-v">${fmtN(value)}</div>
+      <div class="pf-tile-l">${label}</div>
+    </div>`;
+
+  const engViews = parseFloat(b['TikTok Views'] || 0);
+  const engLikes = parseFloat(b['TikTok Likes'] || 0);
+  const engComm  = parseFloat(b['TikTok Comments'] || 0);
+  const engShare = parseFloat(b['TikTok Shares'] || 0);
+  const er = engViews > 0 ? ((engLikes + engComm + engShare) / engViews * 100).toFixed(2) + '%' : '—';
+
+  const body = !hasTT
+    ? `<div class="sec-pad"><div class="media-empty" style="padding:22px 0">No TikTok data yet — your team logs stats weekly, and numbers appear here as soon as the first videos go live.</div></div>`
+    : `<div class="sec-pad" style="display:flex;flex-direction:column;gap:14px">
+    ${hasHistory ? buildMetricsSummaryBar(b) : ''}
+    <div class="platform-block">
+      <div class="platform-title">Core</div>
+      <div class="platform-grid">
+        ${metric('Views',    b['TikTok Views'])}
+        ${metric('Likes',    b['TikTok Likes'])}
+        ${metric('Comments', b['TikTok Comments'])}
+        ${metric('Shares',   b['TikTok Shares'])}
+        ${metric('Saves',    b['TikTok Saves'])}
+        <div class="pf-tile tiktok-accent"><div class="pf-tile-v">${er}</div><div class="pf-tile-l">Engagement Rate</div></div>
+      </div>
+    </div>
+    <div class="platform-block">
+      <div class="platform-title">Reach &amp; Audience</div>
+      <div class="platform-grid">
+        ${metric('Reach',          b['TikTok Reach'])}
+        ${metric('Profile Visits', b['TikTok Profile Visits'])}
+        ${metric('New Followers',  b['TikTok New Followers'])}
+        ${metric('Follower Count', b['TikTok Follower Count'])}
+      </div>
+    </div>
+    <div class="platform-block">
+      <div class="platform-title">Watch Behaviour</div>
+      <div class="platform-grid">
+        ${metric('Avg Watch Time (s)', b['TikTok Avg Watch Time'])}
+        ${metric('Video Completions',  b['TikTok Video Completions'])}
+      </div>
+    </div>
+    ${hasHistory ? `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div class="chart-box">
+        <div class="chart-box-ttl">Views over time</div>
+        <div style="height:160px;position:relative"><canvas id="chart-views"></canvas></div>
+      </div>
+      <div class="chart-box" id="chart-audience-wrap">
+        <div class="chart-box-ttl">Audience growth</div>
+        <div style="height:160px;position:relative"><canvas id="chart-audience"></canvas></div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:180px 1fr;gap:12px">
+      <div class="chart-box" id="chart-engagement-wrap">
+        <div class="chart-box-ttl">Engagement split</div>
+        <div style="height:140px;position:relative"><canvas id="chart-engagement"></canvas></div>
+      </div>
+      <div class="chart-box">
+        <div class="chart-box-ttl">Engagement benchmarks</div>
+        ${_buildBenchmarkBars(b)}
+      </div>
+    </div>` : ''}
+    ${amieNarrativeTray(b, 'tiktok', hasTT)}
+    ${buildTopVideosTable(b)}
+  </div>`;
+
+  if (hasTT && hasHistory) _sectionChartInits['sec-tiktok-body'] = initTikTokCharts;
+
+  return section({
+    id: 'sec-tiktok',
+    icon: '𝕋',
+    title: 'TikTok Performance',
+    pills: hasTT
+      ? [{ text: fmtN(b['TikTok Views']) + ' views', cls: 'purple' },
+         { text: fmtN(b['TikTok Follower Count']) + ' followers', cls: 'purple' }]
+      : [{ text: 'No data yet', cls: '' }],
+    accent: 'acc-purple',
+    startOpen: hasTT,
+    body,
+  });
+}
+
+/* ═════════════════════════════════════════════════════════════════
+   4 · YOUTUBE PERFORMANCE — metrics + daily views chart merged
+   (Previously a separate "YouTube Views Over Time" card whose chart
+    could never render — see fix notes on _buildYouTubeViewsChart.)
+   ═════════════════════════════════════════════════════════════════ */
+
+function buildYouTubeSection(b) {
+  const hasYT = parseFloat(b['YT Views'] || 0) > 0
+             || parseFloat(b['YT Subscribers'] || 0) > 0;
+  const rows = b.videoDailyMetrics || [];
+  const hasDaily = rows.some(r => (parseFloat(r.engagedViews) || 0) > 0);
+
+  // ── Derive aggregates from daily data if Production aggregate is 0 ──────
+  // (Chart shows views but tiles read 0 because the aggregate was never
+  // written back to the sheet — sum the daily rows as a fallback.)
+  const dailyViewsSum = rows.reduce((s,r) => s + (parseFloat(r.engagedViews)||0), 0);
+  const dailyWatchSum = rows.reduce((s,r) => s + (parseFloat(r.watchHours)||0), 0);
+  const dailyImprSum  = rows.reduce((s,r) => s + (parseFloat(r.impressions)||0), 0);
+  const dailyLikesSum = rows.reduce((s,r) => s + (parseFloat(r.likes)||0), 0);
+  const dailyCommSum  = rows.reduce((s,r) => s + (parseFloat(r.comments)||0), 0);
+
+  // Use aggregate if present, otherwise use derived sum
+  const ytViews    = parseFloat(b['YT Views'])    || dailyViewsSum;
+  const ytWatch    = parseFloat(b['YT Watch Hours']) || dailyWatchSum;
+  const ytImpr     = parseFloat(b['YT Impressions']) || dailyImprSum;
+  const ytLikes    = parseFloat(b['YT Likes'])    || dailyLikesSum;
+  const ytComm     = parseFloat(b['YT Comments']) || dailyCommSum;
+
+  const metric = (label, value, fmt) => {
+    const display = fmt ? fmt(parseFloat(value||0)) : fmtN(value);
+    return `<div class="pf-tile yt-accent">
+      <div class="pf-tile-v">${display}</div>
+      <div class="pf-tile-l">${label}</div>
+    </div>`;
+  };
+
+  const body = (!hasYT && !hasDaily)
+    ? `<div class="sec-pad"><div class="media-empty" style="padding:22px 0">No YouTube data yet — once editor access is confirmed and videos go live, your channel stats appear here.</div></div>`
+    : `<div class="sec-pad" style="display:flex;flex-direction:column;gap:14px">
+    <div class="platform-block">
+      <div class="platform-title">Core</div>
+      <div class="platform-grid">
+        ${metric('Views',        ytViews)}
+        ${metric('Watch Hours',  ytWatch)}
+        ${metric('Subscribers',  b['YT Subscribers'])}
+        ${metric('Impressions',  ytImpr)}
+        ${metric('CTR %',        b['YT CTR %'],  v => v.toFixed(1)+'%')}
+        ${metric('Avg Duration', b['YT Avg View Duration'], v => v > 0 ? v + 's' : '—')}
+      </div>
+    </div>
+    <div class="platform-block">
+      <div class="platform-title">Engagement</div>
+      <div class="platform-grid">
+        ${metric('Likes',             ytLikes)}
+        ${metric('Comments',          ytComm)}
+        ${metric('Cards CTR %',       b['YT Cards CTR %'], v => v.toFixed(1)+'%')}
+        ${metric('End Screen Clicks', b['YT End Screen Clicks'])}
+      </div>
+    </div>
+    ${parseFloat(b['YT Revenue USD']||0) > 0 ? `
+    <div class="platform-block">
+      <div class="platform-title">Revenue</div>
+      <div class="platform-grid">
+        <div class="pf-tile yt-accent">
+          <div class="pf-tile-v">$${parseFloat(b['YT Revenue USD']).toFixed(2)}</div>
+          <div class="pf-tile-l">Revenue (USD)</div>
+        </div>
+      </div>
+    </div>` : ''}
+    ${hasDaily ? `
+    <div class="platform-block">
+      <div class="platform-title">Daily engaged views · all videos</div>
+      <div class="chart-box" style="border:none;padding:6px 0 0">
+        <div style="height:240px;position:relative"><canvas id="chart-yt-views"></canvas></div>
+      </div>
+    </div>` : ''}
+    ${amieNarrativeTray(b, 'youtube', hasYT || hasDaily)}
+  </div>`;
+
+  if (hasDaily) _sectionChartInits['sec-youtube-body'] = _buildYouTubeViewsChart;
+
+  return section({
+    id: 'sec-youtube',
+    icon: '▶',
+    title: 'YouTube Performance',
+    pills: (hasYT || hasDaily)
+      ? [{ text: fmtN(b['YT Views']) + ' views', cls: 'red' },
+         { text: fmtN(b['YT Subscribers']) + ' subs', cls: 'red' }]
+      : [{ text: 'No data yet', cls: '' }],
+    accent: 'acc-red',
+    startOpen: hasYT || hasDaily,
+    body,
+  });
+}
+
+/* ═════════════════════════════════════════════════════════════════
+   5 · AMAZON — expanded when it has data
+   ═════════════════════════════════════════════════════════════════ */
+
+function buildAmazonSection(b) {
+  const hasAZ = !!(b['Amazon BSR'] || b['Amazon KENP Reads'] || b['Amazon Review Count'] || b['Amazon ASIN']);
+  // Also check imported KDP data
+  const amazonData = (window._rawData && window._rawData.amazonMetrics) ? (window._rawData.amazonMetrics[b.book_id] || []) : [];
+  const snapshots  = (window._rawData && window._rawData.amazonSnapshots) ? (window._rawData.amazonSnapshots[b.book_id] || []) : [];
+  const hasImported = amazonData.length > 0 || snapshots.length > 0;
+
+  const fmtRank = v => { const n = parseFloat(v); return (!n || isNaN(n)) ? '—' : '#' + Math.round(n).toLocaleString(); };
+  const fmtRtg  = v => { const n = parseFloat(v); return (!n || isNaN(n)) ? '—' : n.toFixed(1) + ' ★'; };
+
+  const metric = (label, value, sub) => `
+    <div class="pf-tile az-accent" style="padding:13px 15px">
+      <div class="pf-tile-v" style="font-size:1.3rem">${value}</div>
+      <div class="pf-tile-l">${label}</div>
+      ${sub ? `<div style="font-size:.65rem;color:var(--muted);margin-top:3px">${sub}</div>` : ''}
+    </div>`;
+
+  // Aggregate imported KDP data
+  const totalUnits = amazonData.reduce((s,r) => s + r.units, 0);
+  const totalKenp  = amazonData.reduce((s,r) => s + r.kenp,  0);
+  const totalRoyalty = amazonData.reduce((s,r) => s + r.royalty, 0);
+  const latestSnap = snapshots.length ? snapshots[snapshots.length - 1] : null;
+
+  let metricsGrid = '';
+  if (hasAZ || hasImported) {
+    metricsGrid = `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px">
+      ${metric('BSR', fmtRank(latestSnap ? latestSnap.bsr : b['Amazon BSR']), 'Best Seller Rank')}
+      ${metric('Reviews', fmtN(latestSnap ? latestSnap.reviewCount : b['Amazon Review Count']), latestSnap ? fmtRtg(latestSnap.rating) : fmtRtg(b['Amazon Avg Rating']))}
+      ${metric('KENP Reads', fmtN(totalKenp || b['Amazon KENP Reads']), 'Kindle pages')}
+      ${metric('Units Sold', fmtN(totalUnits || b['Amazon Units Sold']), '')}
+      ${totalRoyalty > 0 ? metric('Royalty', '$' + totalRoyalty.toFixed(2), 'From KDP data') : ''}
+    </div>`;
+  }
+
+  // v22b — Rank goals ("#500 in Social Media by 15 Aug"), set by your team,
+  // powered by the organic content engine + a small Amazon DSP campaign.
+  let goalsBlock = '';
+  const g = b.bsrGoals || {};
+  if (g.goalCategory > 0 || g.goalOverall > 0) {
+    const goalRow = (label, current, target, dateIso) => {
+      if (!target) return '';
+      const reached = current > 0 && current <= target;
+      const proximity = reached ? 100 : (current > 0 ? Math.min(99, Math.round(target / current * 100)) : 0);
+      const dateTxt = dateIso ? new Date(dateIso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : '';
+      return `<div style="margin-bottom:12px">
+        <div style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap">
+          <span style="font-size:.78rem;font-weight:700;color:var(--b800)">${esc(label)}</span>
+          <span style="font-family:var(--font-m);font-size:.66rem;color:var(--muted)">${current > 0 ? 'now ' + fmtRank(current) : 'not ranked yet'} → goal <strong style="color:var(--orange)">${fmtRank(target)}</strong>${dateTxt ? ' by ' + dateTxt : ''}</span>
+          ${reached ? '<span style="font-size:.68rem;font-weight:700;color:var(--f600)">🎉 Goal reached</span>' : ''}
+        </div>
+        <div style="height:7px;background:var(--border-lt);border-radius:4px;overflow:hidden;margin-top:5px">
+          <div style="height:100%;width:${proximity}%;background:linear-gradient(90deg,var(--orange),#D4A84D);border-radius:4px"></div>
+        </div>
+      </div>`;
+    };
+    const overallCurrent = parseFloat(latestSnap ? latestSnap.bsr : b['Amazon BSR']) || 0;
+    const topVideoViews = Math.max(0, ...((b.contentHistory || []).map(v => parseFloat(v.views || v['Total views'] || 0) || 0)), 0);
+    const DSP_THRESHOLD = 5000;
+    goalsBlock = `<div style="margin-top:14px;padding:14px 16px;background:rgba(201,144,38,.05);border:1px solid var(--border-lt);border-radius:var(--r-sm)">
+      <div class="platform-title" style="margin-bottom:10px">🎯 Rank Goals</div>
+      ${goalRow(g.categoryName ? g.categoryName + ' Rank' : 'Category Rank', g.categoryBsr, g.goalCategory, g.goalCategoryDate)}
+      ${goalRow('Overall Best Seller Rank', overallCurrent, g.goalOverall, g.goalOverallDate)}
+      <div style="font-size:.72rem;color:var(--b700);line-height:1.55;margin-top:4px;padding-top:10px;border-top:1px dashed var(--border-lt)">
+        ${topVideoViews >= DSP_THRESHOLD
+          ? `🚀 Your top video (<strong>${fmtN(topVideoViews)}</strong> views) qualifies for a small <strong>Amazon DSP campaign</strong> — retargeting the viewers your content has already reached to push these ranks.`
+          : `These goals are driven by your weekly content, boosted by a small <strong>Amazon DSP campaign</strong> once a video crosses <strong>${fmtN(DSP_THRESHOLD)}</strong> views${topVideoViews > 0 ? ` (top so far: ${fmtN(topVideoViews)})` : ''}.`}
+      </div>
+    </div>`;
+  }
+
+  // BSR trend from snapshots
+  let bsrTrend = '';
+  if (snapshots.length >= 2) {
+    bsrTrend = `<div style="margin-top:14px">
+      <div class="platform-title" style="margin-bottom:8px">BSR Trend</div>
+      <div style="display:flex;align-items:flex-end;gap:4px;height:60px">
+        ${snapshots.slice(-12).map(s => {
+          const maxBsr = Math.max(...snapshots.slice(-12).map(x=>x.bsr||1));
+          const h = s.bsr ? Math.max(4, Math.round((1 - s.bsr/maxBsr) * 56) + 4) : 4;
+          return `<div title="${s.date}: #${(s.bsr||0).toLocaleString()}" style="flex:1;height:${h}px;background:linear-gradient(180deg,var(--orange),#D4A84D);border-radius:3px;min-width:8px"></div>`;
+        }).join('')}
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:.55rem;color:var(--muted);margin-top:3px">
+        <span>${snapshots[snapshots.length - Math.min(12,snapshots.length)].date}</span>
+        <span>${snapshots[snapshots.length-1].date}</span>
+      </div>
+    </div>`;
+  }
+
+  // KDP CSV upload area
+  const uploadArea = `<div style="margin-top:16px;padding:16px;border:2px dashed var(--border);border-radius:var(--r-sm);text-align:center;background:rgba(201,144,38,.04)">
+    <div style="font-size:.82rem;font-weight:600;color:var(--b700);margin-bottom:6px">📊 Upload Your KDP Sales Report</div>
+    <div style="font-size:.72rem;color:var(--muted);margin-bottom:10px;line-height:1.5">
+      Download your report from <strong>KDP → Reports → Sales Dashboard → Export CSV</strong>, then upload it here. We'll match it to your campaign timeline automatically.
+    </div>
+    <label style="display:inline-block;background:linear-gradient(135deg,var(--orange),#D4A84D);color:#fff;padding:8px 20px;border-radius:var(--r-sm);font-family:var(--font-b);font-size:.78rem;font-weight:700;cursor:pointer">
+      Choose CSV File
+      <input type="file" accept=".csv,.txt" onchange="handleKdpUpload(this)" style="display:none">
+    </label>
+    <div id="kdp-upload-status" style="font-size:.72rem;color:var(--muted);margin-top:8px"></div>
+  </div>`;
+
+  // Correlation insight (if we have both video and KDP data)
+  let correlation = '';
+  if (amazonData.length >= 2 && b.weeks && b.weeks.length >= 2) {
+    correlation = `<div style="margin-top:14px;padding:12px 16px;background:rgba(45,122,82,.06);border-radius:var(--r-sm);border-left:4px solid var(--f600)">
+      <div style="font-size:.78rem;font-weight:700;color:var(--f600);margin-bottom:4px">📈 Campaign Impact</div>
+      <div style="font-size:.74rem;color:var(--b700);line-height:1.5">
+        ${totalUnits > 0 ? `<strong>${totalUnits}</strong> units sold and <strong>${fmtN(totalKenp)}</strong> KENP reads recorded during your ${b.weeks.length}-week campaign.` : ''}
+        ${totalRoyalty > 0 ? ` Total royalties: <strong>$${totalRoyalty.toFixed(2)}</strong>.` : ''}
+      </div>
+    </div>`;
+  }
+
+  const body = `<div class="sec-pad">
+    ${metricsGrid}
+    ${goalsBlock}
+    ${bsrTrend}
+    ${correlation}
+    ${(b['Amazon ASIN'] || (latestSnap && latestSnap.asin)) ? `<div style="margin-top:10px;font-family:var(--font-m);font-size:.62rem;color:var(--muted)">ASIN: <strong style="color:var(--orange)">${esc(latestSnap ? latestSnap.asin : b['Amazon ASIN'])}</strong></div>` : ''}
+    <div style="margin-top:14px">${amieNarrativeTray(b, 'amazon', hasAZ || hasImported)}</div>
+    ${uploadArea}
+  </div>`;
+
+  const pills = [];
+  if (latestSnap && latestSnap.bsr) pills.push({ text: 'BSR #' + Math.round(latestSnap.bsr).toLocaleString(), cls: 'orange' });
+  else if (b['Amazon BSR']) pills.push({ text: 'BSR #' + Math.round(parseFloat(b['Amazon BSR'])).toLocaleString(), cls: 'orange' });
+  if (hasImported) pills.push({ text: amazonData.length + ' KDP records', cls: 'green' });
+  if (!pills.length) pills.push({ text: 'Not tracked yet', cls: '' });
+
+  return section({
+    id: 'sec-amazon',
+    icon: '📦',
+    title: 'Amazon Performance',
+    pills,
+    accent: 'acc-orange',
+    startOpen: hasAZ || hasImported,
+    body,
+  });
+}
+
+/* ═════════════════════════════════════════════════════════════════
+   6 · AUDIENCE BREAKDOWN — expanded when it has data
+   ═════════════════════════════════════════════════════════════════ */
+
+function buildAudienceSection(b) {
+  const snaps = b.audienceSnapshots || {};
+  const gender = snaps.gender || {};
+  const territory = snaps.territory || {};
+  const hasGender = Object.keys(gender).length > 0;
+  const hasTerritory = Object.keys(territory).length > 0;
+  if (!hasGender && !hasTerritory) return '';   // nothing to say — omit card entirely
+
+  const genderColors = { Female: 'var(--purple)', Male: 'var(--blue)', Other: 'var(--muted)' };
+  const genderRows = Object.entries(gender).sort((a, z) => z[1] - a[1]).map(([label, val]) => {
+    const pct = (parseFloat(val) * 100).toFixed(1);
+    return `<div style="margin-bottom:9px">
+      <div style="display:flex;justify-content:space-between;font-size:.78rem;margin-bottom:3px">
+        <span style="font-weight:600;color:var(--b700)">${esc(label)}</span>
+        <span style="font-family:var(--font-m);color:${genderColors[label]||'var(--muted)'}">${pct}%</span>
+      </div>
+      <div style="height:6px;background:var(--b100);border-radius:3px;overflow:hidden">
+        <div style="height:100%;width:${pct}%;background:${genderColors[label]||'var(--muted)'};border-radius:3px"></div>
+      </div>
+    </div>`;
+  }).join('');
+
+  const TERRITORY_LABELS = { Other: 'International / Developing' };
+  const territoryRows = Object.entries(territory).sort((a, z) => z[1] - a[1]).slice(0, 8).map(([code, val]) => {
+    const pct = (parseFloat(val) * 100).toFixed(1);
+    const label = TERRITORY_LABELS[code] || code;
+    return `<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border-lt)">
+      <span style="font-size:.8rem;font-weight:600;color:var(--b700)">${esc(label)}</span>
+      <span style="font-family:var(--font-m);font-size:.78rem;color:var(--purple)">${pct}%</span>
+    </div>`;
+  }).join('');
+
+  const body = `<div class="sec-pad" style="display:grid;grid-template-columns:1fr 1fr;gap:18px">
+    ${hasGender ? `<div>
+      <div class="platform-title" style="margin-bottom:10px">Audience Gender</div>
+      ${genderRows}
+    </div>` : ''}
+    ${hasTerritory ? `<div>
+      <div class="platform-title" style="margin-bottom:10px">Top Locations</div>
+      ${territoryRows}
+      <div style="font-size:.68rem;color:var(--muted);margin-top:8px;line-height:1.5">Reflects live data during the early campaign phase — audience geography typically narrows as targeting matures.</div>
+    </div>` : ''}
+  </div>`;
+
+  return section({
+    id: 'sec-audience',
+    icon: '🌍',
+    title: 'Audience Breakdown',
+    pills: [{ text: 'Gender & locations', cls: 'blue' }],
+    accent: 'acc-blue',
+    startOpen: true,
+    body,
+  });
+}
+
+/* ═════════════════════════════════════════════════════════════════
+   7 · CAMPAIGN HISTORY — expanded when weeks exist
+   ═════════════════════════════════════════════════════════════════ */
+
+function buildHistorySection(b) {
+  const isTrial = normStatus(b['Campaign Status']) === 'trial';
+  const weeks   = isTrial ? b.weeks.slice(0, 1) : b.weeks;
+  const hasWeeks = weeks.length > 0;
+
+  let inner;
+  if (!hasWeeks) {
+    inner = `<div class="sec-pad"><div class="media-empty">No weeks logged yet — your first week appears here once production starts.</div></div>`;
+  } else {
+    // P1.2 — group by the locked 4-week CAMPAIGN month (Math.ceil(weekNum/4)),
+    // not the calendar month. Calendar dates are retained as secondary
+    // context per the v20 PRD ("LABELLING MONTHS IS FINE"), just not as the
+    // primary grouping key — a book live May 20 is in Month 2 by June 20
+    // regardless of calendar month boundaries.
+    const byMonth = {};
+    weeks.forEach(w => {
+      const cm = w.weekNum ? Math.ceil(w.weekNum / 4) : 0;
+      (byMonth[cm] = byMonth[cm] || []).push(w);
+    });
+    const monthKeys = Object.keys(byMonth).map(Number).sort((a,z) => a - z);
+    const totalDone = weeks.reduce((a,w) => a + w.stepsDone, 0);
+    const totalSteps = weeks.length * STEPS.length;
+    const curCampaignMonth = b.currentWeek ? Math.ceil(b.currentWeek / 4) : 0;
+
+    inner = `<div class="hist-summary">
+      <span>Total steps done: <strong>${totalDone}/${totalSteps}</strong></span>
+      <span>Avg completion: <strong>${totalSteps ? Math.round(totalDone/totalSteps*100) : 0}%</strong></span>
+    </div>`;
+    if (weeks.length >= 2) {
+      inner += `<div style="padding:14px 20px;border-bottom:1px solid var(--border-lt)">
+        <div class="chart-box-ttl" style="margin-bottom:10px">Week-over-week: completion vs TikTok views</div>
+        <div style="height:200px;position:relative"><canvas id="chart-wow"></canvas></div>
+      </div>
+      <div style="padding:14px 20px;border-bottom:1px solid var(--border-lt)">
+        <div class="chart-box-ttl" style="margin-bottom:10px">Platform comparison — views per week</div>
+        <div style="height:160px;position:relative"><canvas id="chart-platform-compare"></canvas></div>
+      </div>
+      <div style="padding:14px 20px;border-bottom:1px solid var(--border-lt)">
+        <div class="chart-box-ttl" style="margin-bottom:10px">Month-level aggregates</div>
+        ${buildMonthAggregateTable(b)}
+      </div>`;
+      _sectionChartInits['sec-history-body'] = (book) => { _buildWeekOverWeekChart(book); _buildPlatformComparisonChart(book); };
+    } else {
+      inner += `<div style="padding:14px 20px;border-bottom:1px solid var(--border-lt)"><div class="media-empty">Not enough data yet — charts appear after Week 2.</div></div>`;
+    }
+    monthKeys.forEach(cm => {
+      const monthWeeks = byMonth[cm].slice().sort((a,z) => a.weekNum - z.weekNum);
+      const label = cm ? `Month ${cm}` : 'Undated';
+      // Secondary calendar context — the date range this campaign month spans.
+      const datedWeeks = monthWeeks.filter(w => w.weekStart);
+      const calendarRange = datedWeeks.length
+        ? `${formatDate(datedWeeks[0].weekStart)} – ${formatDate(datedWeeks[datedWeeks.length-1].weekEnd || datedWeeks[datedWeeks.length-1].weekStart)}`
+        : '';
+      const isCurrent = cm === curCampaignMonth;
+      const monthDone  = monthWeeks.reduce((s,w) => s + w.stepsDone, 0);
+      const monthTotal = monthWeeks.length * STEPS.length;
+      const monthPct   = monthTotal ? Math.round(monthDone/monthTotal*100) : 0;
+      // Calendar leads with wins: show only weeks that have a ready album.
+      // Empty weeks (and any month with none) are skipped — their gaps live in
+      // the Roadmap, not here. Every month group renders expanded by default.
+      const albumWeeks = monthWeeks.filter(w => w.links && (w.links.photos || w.links.videos));
+      if (!albumWeeks.length) return;
+      const collapseId = 'hist-month-' + String(cm).replace(/[^a-z0-9]/gi,'');
+      inner += `<div class="week-section-label ${isCurrent?'healthy':''}" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="(function(){var e=document.getElementById('${collapseId}');var a=e.previousElementSibling.querySelector('.hist-arrow');if(e.style.display==='none'){e.style.display='';a.textContent='▾'}else{e.style.display='none';a.textContent='▸'}})()">
+        <span>${esc(label)}${calendarRange ? ` <span style="font-weight:400;color:var(--muted);font-size:.68rem">(${esc(calendarRange)})</span>` : ''}</span>
+        <span style="display:flex;align-items:center;gap:8px">
+          <span style="font-family:var(--font-m);font-size:.62rem;color:var(--muted)">${monthPct}%</span>
+          <span class="hist-arrow" style="font-size:.7rem;color:var(--muted)">▾</span>
+        </span>
+      </div><div id="${collapseId}" class="weeks-grid">`;
+      albumWeeks.forEach(w => { inner += buildWeekCellHTML(w, w.weekNum === b.currentWeek); });
+      inner += `</div>`;
+    });
+  }
+
+  return section({
+    id: 'sec-history',
+    icon: '📅',
+    title: 'Campaign History',
+    pills: [{ text: `${weeks.length} week${weeks.length===1?'':'s'} logged`, cls: hasWeeks ? 'green' : '' }],
+    accent: 'acc-green',
+    startOpen: hasWeeks,
+    body: inner,
+  });
+}
+
+function buildWeekCellHTML(w, isCurrent) {
+  const dots = STEPS.map(s => `<div class="wk-step-dot ${stepDone(w.steps, s.key) ? 'done' : ''}"></div>`).join('');
+  const clId = `wkcl_${w.weekNum}`;
+  const isOpen = !!wkCLExpanded[clId];
+  const photosUrl = (w.links && w.links.photos) || '';
+  const videosUrl = (w.links && w.links.videos) || '';
+  const photosCoverUrl = (w.links && w.links.photosCoverUrl) || '';
+  const videosCoverUrl = (w.links && w.links.videosCoverUrl) || '';
+  const photosCoverId = `cover-week-${w.weekNum}-photos`;
+  const videosCoverId = `cover-week-${w.weekNum}-videos`;
+  if (photosUrl && !photosCoverUrl) queueAlbumCoverFetch(photosUrl, photosCoverId);
+  if (videosUrl && !videosCoverUrl) queueAlbumCoverFetch(videosUrl, videosCoverId);
+  // Only render a card for an album that actually exists — a partially-filled
+  // week leads with the album it has; the missing piece is tracked in the
+  // Roadmap, not shown here as an empty placeholder.
+  const photoCard = photosUrl ? `<div class="week-media-card">
+      <div class="week-media-card-cover" style="position:relative"><img id="${photosCoverId}" src="${photosCoverUrl ? esc(photosCoverUrl) : ''}" style="${photosCoverUrl ? '' : 'display:none'}" alt="Photos"><button class="cover-refresh-btn" title="Refresh cover" data-url="${esc(photosUrl)}" onclick="refreshAlbumCoverManual(this.dataset.url,'${photosCoverId}',this)">🔄</button></div>
+      <div class="week-media-card-hdr photos">
+        <span class="week-media-card-ico">📸</span>
+        <span class="week-media-card-label">Photos</span>
+      </div>
+      <div class="week-media-card-body">
+        <a class="week-media-open photos" href="${esc(photosUrl)}" target="_blank" rel="noopener">Open Album →</a>
+      </div>
+    </div>` : '';
+  const videoCard = videosUrl ? `<div class="week-media-card">
+      <div class="week-media-card-cover" style="position:relative"><img id="${videosCoverId}" src="${videosCoverUrl ? esc(videosCoverUrl) : ''}" style="${videosCoverUrl ? '' : 'display:none'}" alt="Videos"><button class="cover-refresh-btn" title="Refresh cover" data-url="${esc(videosUrl)}" onclick="refreshAlbumCoverManual(this.dataset.url,'${videosCoverId}',this)">🔄</button></div>
+      <div class="week-media-card-hdr videos">
+        <span class="week-media-card-ico">🎬</span>
+        <span class="week-media-card-label">Videos</span>
+      </div>
+      <div class="week-media-card-body">
+        <a class="week-media-open videos" href="${esc(videosUrl)}" target="_blank" rel="noopener">Open Videos →</a>
+      </div>
+    </div>` : '';
+  const mediaCards = `<div class="week-media-cards">${photoCard}${videoCard}</div>`;
+
+  return `<div class="week-cell ${isCurrent ? 'wk-current' : 'wk-past'}">
+    <div class="wk-label">
+      <span>${isCurrent ? '<span class="wk-now-dot"></span>' : ''}Week ${w.weekNum}</span>
+      <span class="wk-badge ${isCurrent ? 'now' : 'past'}">${isCurrent ? 'Current' : 'Done'}</span>
+    </div>
+    <div class="wk-pbar-wrap">
+      <div class="wk-pbar-bg"><div class="wk-pbar-fill" style="width:${w.pctDone}%"></div></div>
+      <div class="wk-pbar-lbl"><span>${w.stepsDone}/${STEPS.length}</span><span>${w.pctDone}%</span></div>
+    </div>
+    <div class="wk-step-dots">${dots}</div>
+    <button class="wk-cl-toggle" onclick="toggleWkCL('${clId}')">${isOpen ? 'Hide' : 'Show'} checklist</button>
+    <div class="wk-cl-panel ${isOpen ? 'open' : ''}" id="${clId}">
+      ${STEPS.map(s => `<div class="wk-cl-item ${stepDone(w.steps, s.key) ? 'done' : ''}">
+        <div class="wk-cl-dot">${stepDone(w.steps, s.key) ? '✓' : ''}</div>
+        <div class="wk-cl-lbl">${esc(s.label)}</div>
+      </div>`).join('')}
+    </div>
+    ${mediaCards}
+  </div>`;
+}
+
+function toggleWkCL(id) {
+  wkCLExpanded[id] = !wkCLExpanded[id];
+  const panel = document.getElementById(id);
+  if (panel) {
+    panel.classList.toggle('open');
+    const btn = panel.previousElementSibling;
+    if (btn) btn.textContent = (wkCLExpanded[id] ? 'Hide' : 'Show') + ' checklist';
+  }
+}
+
+/* ═════════════════════════════════════════════════════════════════
+   8 · PRODUCTION UPDATES — activity feed
+   ═════════════════════════════════════════════════════════════════ */
+
+const ACTIVITY_ICONS = {
+  step: '✅', link: '🔗', upload: '🎬', rollover: '🌾',
+  account: '🔐', comms: '📬', notes: '📝', contact: '📌',
+};
+const ACTIVITY_HIDDEN = new Set(['account', 'notes', 'comms']);
+
+function buildActivitySection(b) {
+  const log = (b._activityLog || [])
+    .filter(e => !ACTIVITY_HIDDEN.has(e.type))
+    .filter(e => !/Posted Pinterest/i.test(e.label || ''))   // retired step
+    .filter(e => !/\b(bounty|amount paid|payment earned|earned|\$|invoice|retainer|paid out|payout)\b/i.test((e.label || '') + ' ' + (e.detail || '')))
+    .slice(0, 12);
+  if (!log.length) return '';
+
+  const rows = log.map(e => {
+    const d = new Date(e.ts);
+    const ago = formatAgo(d.getTime());
+    const icon = ACTIVITY_ICONS[e.type] || '•';
+    return `<div style="display:flex;align-items:flex-start;gap:11px;padding:10px 0;border-bottom:1px solid var(--border-lt)">
+      <span style="font-size:1rem;flex-shrink:0;margin-top:1px">${icon}</span>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:.82rem;font-weight:600;color:var(--b800);line-height:1.4">${esc(e.label)}</div>
+        ${e.detail ? `<div style="font-size:.72rem;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(e.detail.slice(0, 80))}</div>` : ''}
+      </div>
+      <div style="font-family:var(--font-m);font-size:.58rem;color:var(--muted);white-space:nowrap;flex-shrink:0;margin-top:2px">${ago || '—'}</div>
+    </div>`;
+  }).join('');
+
+  return section({
+    id: 'sec-activity',
+    icon: '⚙',
+    title: 'Production Updates',
+    pills: [{ text: `${log.length} recent`, cls: 'gold' }],
+    accent: 'acc-gold',
+    startOpen: false,
+    body: `<div style="padding:4px 20px 10px">${rows}</div>`,
+  });
+}
+
+/* ═════════════════════════════════════════════════════════════════
+   9 · MESSAGES — chat with editor (always open; unread pill in header)
+   ═════════════════════════════════════════════════════════════════ */
+
+function buildMessagesSection(b) {
+  const body = `<div class="sec-pad">
+    <div class="feedback-sub">Send a message to your Atomic Shelf team — they'll reply right here.</div>
+    <div id="message-thread-wrap">
+      <div style="text-align:center;padding:20px;color:var(--muted);font-size:.82rem">Loading messages…</div>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:12px">
+      <textarea id="new-message-text" rows="2"
+                style="flex:1;background:var(--surface);border:1px solid var(--border);
+                       border-radius:var(--r-sm);padding:9px 12px;font-family:var(--font-b);
+                       font-size:.84rem;color:var(--text);resize:none;outline:none;transition:border-color .15s"
+                onfocus="this.style.borderColor='rgba(45,122,82,.4)'"
+                onblur="this.style.borderColor='var(--border)'"
+                placeholder="Type a message to your editor…"></textarea>
+      <button onclick="sendMessage()"
+              style="background:linear-gradient(135deg,var(--f600),var(--f500));color:#fff;border:none;
+                     border-radius:var(--r-sm);padding:0 18px;font-family:var(--font-b);font-size:.82rem;
+                     font-weight:700;cursor:pointer;white-space:nowrap;transition:opacity .15s;min-height:56px"
+              onmouseover="this.style.opacity='.88'" onmouseout="this.style.opacity='1'">Send →</button>
+    </div>
+  </div>`;
+
+  return section({
+    id: 'sec-messages',
+    icon: '💬',
+    title: 'Chat with Your Editor',
+    pills: [{ text: '0', cls: 'count', id: 'as-unread-badge', hidden: true }],
+    accent: 'acc-green',
+    startOpen: false,
+    body,
+  });
+}
+
+function renderThread(messages) {
+  const wrap = document.getElementById('message-thread-wrap');
+  if (!wrap) return;
+  if (!messages || !messages.length) {
+    wrap.innerHTML = `<div style="text-align:center;padding:24px;color:var(--muted);font-size:.82rem;font-style:italic">
+      No messages yet — send your first message below.
+    </div>`;
+  } else {
+    wrap.innerHTML = `<div style="display:flex;flex-direction:column;gap:10px;max-height:360px;overflow-y:auto;
+                                  padding:14px;background:var(--surface);border:1px solid var(--border-lt);
+                                  border-radius:var(--r-sm)" id="thread-scroll">
+      ${messages.map(msg => {
+        const isAuthor = msg.from === 'author';
+        const d = new Date(msg.ts);
+        const dateStr = isNaN(d) ? '' : d.toLocaleDateString('en-GB', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' });
+        if (msg.type === 'update') {
+          const fresh = (Date.now() - d.getTime()) < AUTO_READ_MS;
+          return `<div style="align-self:stretch">
+            <div style="display:flex;align-items:center;gap:8px;font-family:var(--font-m);font-size:.56rem;color:var(--muted);margin-bottom:4px">
+              📣 Progress update · ${dateStr}${fresh ? ' <span style="background:var(--w600);color:#3D1E08;font-weight:700;padding:1px 6px;border-radius:8px;font-size:.5rem;letter-spacing:.04em">NEW</span>' : ''}
+            </div>
+            <div style="background:linear-gradient(90deg,rgba(201,168,76,.13),var(--surface));border:1px solid var(--w600);border-left:3px solid var(--w600);border-radius:10px;padding:11px 14px;font-size:.83rem;line-height:1.6;color:var(--b700);white-space:pre-wrap">${esc(msg.text)}</div>
+          </div>`;
+        }
+        return `<div style="display:flex;flex-direction:column;align-items:${isAuthor ? 'flex-end' : 'flex-start'}">
+          <div style="font-family:var(--font-m);font-size:.56rem;color:var(--muted);margin-bottom:3px;${isAuthor ? 'text-align:right' : ''}">
+            ${esc(msg.senderName || (isAuthor ? 'You' : 'Editor'))} · ${dateStr}
+          </div>
+          <div style="max-width:82%;padding:10px 14px;border-radius:${isAuthor ? '14px 14px 4px 14px' : '14px 14px 14px 4px'};
+                      font-size:.84rem;line-height:1.6;
+                      background:${isAuthor ? 'linear-gradient(135deg,var(--f600),var(--f500))' : 'var(--b100)'};
+                      color:${isAuthor ? '#fff' : 'var(--text)'};box-shadow:0 2px 8px rgba(30,18,8,.1)">
+            ${esc(msg.text)}
+          </div>
+        </div>`;
+      }).join('')}
+    </div>`;
+  }
+
+  // Unread badge
+  const unread = countUnread(messages || []);
+  updateUnreadBadge(unread);
+
+  requestAnimationFrame(() => {
+    const scroller = document.getElementById('thread-scroll');
+    if (scroller) scroller.scrollTop = scroller.scrollHeight;
+  });
+
+  // Mark read when the author interacts with the thread
+  if (wrap && !wrap._readListenerAdded) {
+    wrap._readListenerAdded = true;
+    wrap.addEventListener('click', markMessagesRead, { once: false });
+  }
+}
+
+async function loadThread() {
+  const b = CURRENT_BOOK; if (!b) return;
+  try {
+    const r = await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      body: JSON.stringify({
+        action: 'getMessages',
+        bookId: b.book_id || b['Book ID'],
+        author: b['Author Name'],
+        title:  b['Book Title'],
+      }),
+    });
+    const data = await r.json();
+    if (data.success) {
+      _threadMessages = data.thread || [];
+      renderThread(_threadMessages);
+    }
+  } catch(e) {
+    console.warn('Thread load failed:', e);
+    renderThread([]);
+  }
+}
+
+async function sendMessage() {
+  const b = CURRENT_BOOK; if (!b) return;
+  const ta = document.getElementById('new-message-text');
+  const text = (ta?.value || '').trim();
+  if (!text) { showToast('Please type a message first.', 'error'); return; }
+
+  ta.value = '';
+  ta.disabled = true;
+
+  const optimistic = { id: Date.now().toString(36), from: 'author', senderName: b['Author Name'], text, ts: new Date().toISOString() };
+  _threadMessages.push(optimistic);
+  renderThread(_threadMessages);
+
+  try {
+    const r = await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      body: JSON.stringify({
+        action: 'saveMessage',
+        bookId: b.book_id || b['Book ID'],
+        author: b['Author Name'],
+        title:  b['Book Title'],
+        message: { from: 'author', senderName: b['Author Name'], text },
+      }),
+    });
+    const data = await r.json();
+    if (!data.success) throw new Error(data.error);
+    showToast('Message sent ✓');
+  } catch(e) {
+    showToast('Could not send — please try again.', 'error');
+    _threadMessages.pop();
+    renderThread(_threadMessages);
+  } finally {
+    ta.disabled = false;
+    ta.focus();
+  }
+}
+
+/* ── Unread badge (persisted per book in localStorage) ────────── */
+
+/* ── KDP CSV Upload Handler ──────────────────────────────────── */
+async function handleKdpUpload(input) {
+  const b = CURRENT_BOOK; if (!b) return;
+  const file = input.files && input.files[0];
+  if (!file) return;
+  const status = document.getElementById('kdp-upload-status');
+  if (status) status.textContent = '⏳ Reading CSV…';
+
+  try {
+    const text = await file.text();
+    const lines = text.split(/\r?\n/).filter(l => l.trim());
+    if (lines.length < 2) throw new Error('CSV appears empty');
+
+    // Parse header row — KDP reports use various column names
+    const hdr = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, '').toLowerCase());
+    const ci = (names) => {
+      for (const n of names) { const i = hdr.findIndex(h => h.includes(n)); if (i !== -1) return i; }
+      return -1;
+    };
+    const iDate    = ci(['date', 'order date', 'transaction date']);
+    const iUnits   = ci(['net units', 'units sold', 'units']);
+    const iKenp    = ci(['kenp', 'pages read', 'kindle edition normalized pages']);
+    const iRoyalty  = ci(['royalty', 'net royalty']);
+    const iReturns  = ci(['returns', 'units returned']);
+    const iMarket   = ci(['marketplace', 'territory']);
+
+    if (iDate === -1) throw new Error('Could not find a Date column in the CSV. Expected columns like "Date" or "Order Date".');
+
+    const rows = [];
+    for (let i = 1; i < lines.length; i++) {
+      const cols = lines[i].split(',').map(c => c.trim().replace(/^"|"$/g, ''));
+      if (!cols[iDate]) continue;
+      rows.push({
+        date:        cols[iDate] || '',
+        marketplace: iMarket !== -1 ? cols[iMarket] : '',
+        units:       iUnits  !== -1 ? cols[iUnits]  : '0',
+        kenp:        iKenp   !== -1 ? cols[iKenp]   : '0',
+        royalty:     iRoyalty!== -1 ? cols[iRoyalty] : '0',
+        returns:     iReturns!== -1 ? cols[iReturns] : '0',
+      });
+    }
+
+    if (!rows.length) throw new Error('No data rows found in CSV');
+    if (status) status.textContent = `⏳ Uploading ${rows.length} records…`;
+
+    const r = await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      body: JSON.stringify({
+        action: 'saveAmazonMetrics',
+        bookId: b.book_id,
+        author: b['Author Name'],
+        title:  b['Book Title'],
+        rows,
+      }),
+    });
+    const data = await r.json();
+    if (!data.success) throw new Error(data.error || 'Save failed');
+
+    // Update local state so the section re-renders immediately
+    if (!window._rawData.amazonMetrics) window._rawData.amazonMetrics = {};
+    if (!window._rawData.amazonMetrics[b.book_id]) window._rawData.amazonMetrics[b.book_id] = [];
+    rows.forEach(row => window._rawData.amazonMetrics[b.book_id].push({
+      date: row.date, marketplace: row.marketplace,
+      units: parseFloat(row.units)||0, kenp: parseFloat(row.kenp)||0,
+      royalty: parseFloat(row.royalty)||0, returns: parseFloat(row.returns)||0,
+    }));
+
+    if (status) status.innerHTML = `<span style="color:var(--f600)">✅ ${data.imported} records imported successfully!</span>`;
+    showToast(`✅ ${data.imported} KDP records imported`);
+    // Re-render the Amazon section
+    setTimeout(() => renderPage(), 500);
+
+  } catch (e) {
+    if (status) status.innerHTML = `<span style="color:var(--err)">⚠ ${e.message}</span>`;
+    showToast('Import failed: ' + e.message, 'error');
+  }
+  input.value = ''; // reset so the same file can be re-selected
+}
+
+function getLastReadKey() {
+  const b = CURRENT_BOOK;
+  return b ? 'as_lastRead_' + b.book_id : null;
+}
+function markMessagesRead() {
+  const key = getLastReadKey();
+  if (key) { try { localStorage.setItem(key, Date.now().toString()); } catch(e){} }
+  updateUnreadBadge(0);
+}
+const AUTO_READ_MS = 18 * 3600 * 1000; // bubbles auto-clear within the 12–24h window
+function countUnread(messages) {
+  const key = getLastReadKey();
+  let lastRead = 0;
+  try { lastRead = key ? parseInt(localStorage.getItem(key) || '0', 10) : 0; } catch(e){}
+  const now = Date.now();
+  // Unread = from the team, newer than this device's last-read, AND still within
+  // the auto-read window. Opening the thread doesn't force-read (localStorage is
+  // per-device, so a team preview never clears the author's badge); anything
+  // older than ~18h reads itself, satisfying "marked read within 12–24h".
+  return messages.filter(m => {
+    if (m.from === 'author') return false;
+    const ts = new Date(m.ts).getTime();
+    return ts > lastRead && (now - ts) < AUTO_READ_MS;
+  }).length;
+}
+function updateUnreadBadge(count) {
+  const base = 'Your Campaign · Atomic Shelf';
+  document.title = count > 0 ? `(${count}) ${base}` : base;
+  const badge = document.getElementById('as-unread-badge');
+  if (!badge) return;
+  badge.textContent = count;
+  badge.style.display = count > 0 ? 'inline-flex' : 'none';
+}
+
+/* ═════════════════════════════════════════════════════════════════
+   10 · PAYMENT — only rendered within 7 days of the due date
+   ═════════════════════════════════════════════════════════════════ */
+
+function buildPaymentSection(b) {
+  if (!b.showInvoice) return '';
+  const np = getNextPaymentDate(b);
+  if (!np || np.daysUntil > 7) return '';
+
+  const d = np.date;
+  const urgentLabel = np.daysUntil <= 0 ? 'Overdue' : `Due in ${np.daysUntil}d`;
+  const urgentCls   = np.daysUntil <= 0 ? 'red' : np.daysUntil <= 2 ? 'orange' : 'gold';
+
+  const body = `<div class="payment-inner" style="padding:12px 22px 16px">
+    <div style="font-size:.82rem;color:var(--b600);line-height:1.7">
+      Your next payment of <strong style="color:var(--w700)">${esc(b['Payment Status']||'your monthly retainer')}</strong>
+      is due on <strong>${d.getDate()} ${MONTH_NAMES[d.getMonth()]} ${d.getFullYear()}</strong>.
+      If you have any questions about billing, send a message in the chat above.
+    </div>
+  </div>`;
+
+  return section({
+    id: 'sec-payment',
+    icon: '💳',
+    title: 'Upcoming Payment',
+    pills: [{ text: `${d.getDate()} ${MONTH_NAMES[d.getMonth()].slice(0,3)}`, cls: 'gold' },
+            { text: urgentLabel, cls: urgentCls }],
+    accent: 'acc-gold',
+    startOpen: true,
+    body,
+  });
+}
+
+/* ═════════════════════════════════════════════════════════════════
+   11 · CAMPAIGN STATUS — pause / resume
+   ═════════════════════════════════════════════════════════════════ */
+
+function buildCampaignStatusSection(b) {
+  const status = (b['Campaign Status'] || '').toLowerCase();
+  const isPaused = status.includes('pause');
+  const retainer = b.retainer || b['Monthly Retainer'] || '';
+
+  const body = isPaused ? `<div class="sec-pad">
+      <div style="font-size:.8rem;color:var(--muted);margin-bottom:14px">Your campaign is currently paused. Resume it below when you're ready to continue.</div>
+      <div style="background:rgba(45,122,82,.07);border:1px solid rgba(45,122,82,.2);border-radius:var(--r-sm);padding:12px 14px;margin-bottom:14px">
+        <div class="platform-title" style="color:var(--f600);margin-bottom:6px">💳 Invoice Required to Resume</div>
+        <div style="font-size:.8rem;color:var(--b600);line-height:1.7">
+          To resume, a payment of <strong style="color:var(--f600)">${esc(retainer || 'your monthly retainer')}</strong>
+          is required. Once payment is confirmed, your campaign is reactivated within 24 hours.
+        </div>
+      </div>
+      <button onclick="requestCampaignResume()"
+              style="background:linear-gradient(135deg,var(--f600),var(--f500));color:#fff;border:none;
+                     border-radius:var(--r-sm);padding:10px 22px;font-family:var(--font-b);font-size:.84rem;
+                     font-weight:700;cursor:pointer;transition:opacity .15s"
+              onmouseover="this.style.opacity='.88'" onmouseout="this.style.opacity='1'">▶ Request to Resume Campaign</button>
+    </div>`
+  : `<div class="sec-pad">
+      <div style="font-size:.8rem;color:var(--muted);margin-bottom:14px">Your campaign is running. You can pause any time — your content history is always preserved.</div>
+      <div id="pause-form" style="display:none;margin-bottom:12px">
+        <div class="platform-title" style="margin-bottom:6px">Reason for pausing (optional)</div>
+        <textarea id="pause-reason" rows="2"
+                  style="width:100%;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);
+                         padding:9px 12px;font-family:var(--font-b);font-size:.82rem;color:var(--text);resize:none;outline:none"
+                  placeholder="e.g. Taking a break, budget review, travelling…"></textarea>
+        <div style="display:flex;gap:8px;margin-top:8px">
+          <button onclick="confirmPauseCampaign()"
+                  style="background:var(--red);color:#fff;border:none;border-radius:var(--r-sm);padding:8px 18px;
+                         font-family:var(--font-b);font-size:.8rem;font-weight:700;cursor:pointer">⏸ Confirm Pause</button>
+          <button onclick="document.getElementById('pause-form').style.display='none'"
+                  style="background:var(--surface);border:1px solid var(--border);color:var(--muted);border-radius:var(--r-sm);
+                         padding:8px 14px;font-family:var(--font-b);font-size:.8rem;cursor:pointer">Cancel</button>
+        </div>
+      </div>
+      <button onclick="document.getElementById('pause-form').style.display='block'"
+              style="background:var(--red-bg);border:1px solid var(--red-bd);color:var(--red);border-radius:var(--r-sm);
+                     padding:8px 16px;font-family:var(--font-b);font-size:.8rem;font-weight:700;cursor:pointer;transition:all .15s"
+              onmouseover="this.style.background='rgba(192,57,43,.15)'" onmouseout="this.style.background='var(--red-bg)'">⏸ Pause My Campaign</button>
+    </div>`;
+
+  return section({
+    id: 'sec-status',
+    icon: isPaused ? '⏸' : '▶',
+    title: isPaused ? 'Campaign Paused' : 'Campaign Active',
+    pills: [{ text: isPaused ? 'Paused' : 'Active', cls: isPaused ? 'red' : 'green' }],
+    accent: isPaused ? 'acc-red' : 'acc-green',
+    startOpen: isPaused,   // if paused, surface it; if active, keep it tucked
+    body,
+  });
+}
+
+async function confirmPauseCampaign() {
+  const b = CURRENT_BOOK; if (!b) return;
+  const reason = document.getElementById('pause-reason')?.value || '';
+  try {
+    const r = await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      body: JSON.stringify({
+        action: 'saveCampaignStatus',
+        bookId: b.book_id || b['Book ID'], author: b['Author Name'], title: b['Book Title'],
+        status: 'paused', reason, changedBy: 'author',
+      }),
+    });
+    const data = await r.json();
+    if (!data.success) throw new Error(data.error);
+    await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      body: JSON.stringify({
+        action: 'saveMessage',
+        bookId: b.book_id || b['Book ID'], author: b['Author Name'], title: b['Book Title'],
+        message: { from: 'author', senderName: b['Author Name'],
+          text: `I've paused my campaign.${reason ? ' Reason: ' + reason : ''} Please let me know the next steps.` },
+      }),
+    });
+    showToast('Campaign paused — your team has been notified.');
+    loadThread();
+    setTimeout(() => location.reload(), 1800);
+  } catch(e) {
+    showToast('Could not pause campaign. Please try again.', 'error');
+  }
+}
+
+async function requestCampaignResume() {
+  const b = CURRENT_BOOK; if (!b) return;
+  try {
+    await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      body: JSON.stringify({
+        action: 'saveMessage',
+        bookId: b.book_id || b['Book ID'], author: b['Author Name'], title: b['Book Title'],
+        message: { from: 'author', senderName: b['Author Name'],
+          text: `I'd like to resume my campaign. Please send me the invoice so I can make payment and get things started again.` },
+      }),
+    });
+    showToast('Resume request sent — your team will be in touch with invoice details.');
+    loadThread();
+  } catch(e) {
+    showToast('Could not send request. Please try again.', 'error');
+  }
+}
+
+/* ═════════════════════════════════════════════════════════════════
+   12 · CAMPAIGN NOTES
+   ═════════════════════════════════════════════════════════════════ */
+
+function buildNotesSection(b) {
+  const body = `<div class="sec-pad">
+    <p style="font-size:.8rem;color:var(--muted);margin-bottom:10px;line-height:1.6">
+      Leave notes, questions, or context for your editor team. They can see and respond to these directly.
+    </p>
+    <textarea id="campaign-notes-ta" class="notes-portal-ta"
+      placeholder="e.g. I'd love to focus on the romance subplot in the next set of hooks. My TikTok profile is @…">${esc(_campaignNotes)}</textarea>
+    <button id="campaign-notes-save-btn" class="notes-portal-save" onclick="saveCampaignNotes()">Save Notes</button>
+  </div>`;
+
+  return section({
+    id: 'sec-notes',
+    icon: '📝',
+    title: 'Campaign Notes',
+    pills: [{ text: 'Shared with your team', cls: 'blue' }],
+    accent: 'acc-blue',
+    startOpen: false,
+    body,
+  });
+}
+
+async function loadCampaignNotes() {
+  const b = CURRENT_BOOK; if (!b) return;
+  try {
+    const r = await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      body: JSON.stringify({
+        action: 'getCampaignNotes',
+        bookId: b.book_id || b['Book ID'], author: b['Author Name'], title: b['Book Title'],
+      }),
+    });
+    const data = await r.json();
+    if (data.success) {
+      _campaignNotes = data.notes || '';
+      const ta = document.getElementById('campaign-notes-ta');
+      if (ta) ta.value = _campaignNotes;
+    }
+  } catch(e) {
+    console.warn('Campaign notes load failed:', e);
+  }
+}
+
+async function saveCampaignNotes() {
+  const b = CURRENT_BOOK; if (!b) return;
+  const ta = document.getElementById('campaign-notes-ta');
+  const btn = document.getElementById('campaign-notes-save-btn');
+  if (!ta) return;
+  const text = ta.value;
+  if (btn) { btn.disabled = true; btn.textContent = 'Saving…'; }
+  try {
+    const r = await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      body: JSON.stringify({
+        action: 'saveCampaignNotes',
+        bookId: b.book_id || b['Book ID'], author: b['Author Name'], title: b['Book Title'],
+        notes: text, savedAt: new Date().toISOString(),
+      }),
+    });
+    const data = await r.json();
+    if (!data.success) throw new Error(data.error);
+    _campaignNotes = text;
+    if (btn) { btn.classList.add('saved'); btn.textContent = '✓ Saved'; setTimeout(() => { if(btn){ btn.classList.remove('saved'); btn.textContent = 'Save Notes'; btn.disabled = false; } }, 2500); }
+    showToast('📝 Campaign notes saved');
+  } catch(e) {
+    showToast('Could not save notes — please try again.', 'error');
+    if (btn) { btn.disabled = false; btn.textContent = 'Save Notes'; }
+  }
+}
+
+/* ═════════════════════════════════════════════════════════════════
+   13 · CAMPAIGN ROADMAP — ALWAYS COLLAPSED (per design brief)
+   ═════════════════════════════════════════════════════════════════ */
+
+// Turn [21,22,23] → "21–23", [3,5,6] → "3, 5–6" for compact gap summaries.
+function summarizeWeekRanges(nums) {
+  if (!nums || !nums.length) return '';
+  const s = nums.slice().sort((a, b) => a - b);
+  const parts = []; let start = s[0], prev = s[0];
+  for (let i = 1; i <= s.length; i++) {
+    if (i < s.length && s[i] === prev + 1) { prev = s[i]; continue; }
+    parts.push(start === prev ? `${start}` : `${start}–${prev}`);
+    if (i < s.length) { start = s[i]; prev = s[i]; }
+  }
+  return parts.join(', ');
+}
+
+function buildRoadmapSection(b) {
+  const RM = b.roadmap || {};
+  const rmDone = k => !!(RM[k] && RM[k].done);
+
+  // ── 1. Milestone stages (driven by the admin-controlled roadmap state) ──
+  const milestones = [
+    { key: 'yt_editor', ttl: 'YouTube editor access',
+      done: '✅ Editor access confirmed — we\'re connected to your channel.',
+      pending: `Add <span class="roadmap-email">${EDITOR_INVITE_EMAIL}</span> as an editor so we can post your videos directly to your channel.` },
+    { key: 'yt_live', ttl: 'YouTube posting live',
+      done: '✅ YouTube is live — your videos are being posted to your channel.',
+      pending: 'Once editor access is confirmed, we begin uploading your short- and long-form videos to YouTube (first batch usually 24–48 hours).' },
+    { key: 'tiktok_live', ttl: 'TikTok set up & posting',
+      done: '✅ TikTok is set up — our account is posting and building your presence.',
+      pending: 'We establish your TikTok presence and post all your videos. Your own account can post the same content in parallel for maximum reach.' },
+    { key: 'posting_started', ttl: 'Regular posting underway',
+      done: '✅ Your content is going out on a weekly schedule.',
+      pending: 'With accounts live, we post your photos and videos every week, building a steady content library.' },
+    { key: 'followers_growth', ttl: 'Growing your TikTok followers',
+      done: '✅ We\'re actively building your follower base.',
+      pending: 'As your library grows, we steadily grow your TikTok following — more followers means more reach on every new post.' },
+    { key: 'traffic_started', ttl: 'Traffic & reach campaigns',
+      done: '✅ Reach campaigns are running to expand your audience.',
+      pending: 'We amplify your reach — including boosting your top-performing videos via TikTok Promote (below) to find lookalike audiences and drive more views.' },
+  ];
+  // Animated journey timeline — connected nodes, a progress line that fills on
+  // expand, done nodes glowing, the next node pulsing, staggered reveal.
+  const mDoneFlags   = milestones.map(m => rmDone(m.key));
+  const mFirstPending = mDoneFlags.indexOf(false);
+  const mFillPct     = Math.round(mDoneFlags.filter(Boolean).length / milestones.length * 100);
+  const milestoneSteps = `<div class="rm-timeline">
+    <div class="rm-line"><div class="rm-line-fill" style="--fill:${mFillPct}%"></div></div>
+    ${milestones.map((m, i) => {
+      const done = mDoneFlags[i];
+      const isNext = i === mFirstPending;
+      return `<div class="rm-step ${done ? 'done' : ''}${isNext ? ' next' : ''}" style="--i:${i}">
+        <div class="rm-node">${done ? '✓' : (i + 1)}</div>
+        <div class="rm-step-content">
+          <div class="rm-step-ttl">${m.ttl}${isNext ? ' <span class="rm-nowtag">UP NEXT</span>' : ''}</div>
+          <div class="rm-step-desc">${done ? m.done : m.pending}</div>
+        </div>
+      </div>`;
+    }).join('')}
+  </div>`;
+
+  // ── 2. Content still coming (gaps — leads-with-wins moved these here) ──
+  const weeksByNum = {};
+  (b.weeks || []).forEach(w => { weeksByNum[w.weekNum] = w; });
+  const maxWeek = Math.max(b.currentWeek || 0, ...(b.weeks || []).map(w => w.weekNum || 0), 0);
+  const pMiss = [], vMiss = []; let pReady = 0, vReady = 0;
+  for (let n = 1; n <= maxWeek; n++) {
+    const w = weeksByNum[n];
+    const hp = !!(w && w.links && w.links.photos);
+    const hv = !!(w && w.links && w.links.videos);
+    if (hp) pReady++; else pMiss.push(n);
+    if (hv) vReady++; else vMiss.push(n);
+  }
+  const gapBlock = maxWeek > 0 ? `<div class="roadmap-step">
+    <div class="roadmap-step-num" style="background:var(--w500)">📦</div>
+    <div class="roadmap-step-body">
+      <div class="roadmap-step-ttl">Content still coming</div>
+      <div class="roadmap-step-desc" style="line-height:1.9">
+        <div>📸 Photos — <strong>${pReady} of ${maxWeek}</strong> weeks ready${pMiss.length ? ` · coming for week${pMiss.length > 1 ? 's' : ''} ${summarizeWeekRanges(pMiss)}` : ' · all caught up ✅'}</div>
+        <div>🎬 Videos — <strong>${vReady} of ${maxWeek}</strong> weeks ready${vMiss.length ? ` · coming for week${vMiss.length > 1 ? 's' : ''} ${summarizeWeekRanges(vMiss)}` : ' · all caught up ✅'}</div>
+      </div>
+    </div>
+  </div>` : '';
+
+  // ── 3. Production progress this week (checklist rolled up by phase) ──
+  const steps = (b.currentWeekData && b.currentWeekData.steps) || {};
+  const BUCKETS = [
+    { name: 'Pre-production', keys: ['Hook Written', 'Script Approved'] },
+    { name: 'Production',     keys: ['Seed Images Created', 'B-Roll Sourced', 'First Draft Complete'] },
+    { name: 'Review & polish', keys: ['Client Review Sent', 'Client Approved', 'Captions Added', 'Hashtags Added', 'Thumbnail Created'] },
+    { name: 'Publishing',     keys: ['Posted TikTok', 'Posted YouTube', 'Analytics Logged', 'New Followers Added'] },
+  ];
+  const bucketLine = BUCKETS.map(bk => {
+    const total = bk.keys.length;
+    const doneN = bk.keys.filter(k => stepDone(steps, k)).length;
+    const label = doneN === total ? '✓' : (doneN === 0 ? 'pending' : `${doneN}/${total}`);
+    const col = doneN === total ? 'var(--f600)' : doneN === 0 ? 'var(--muted)' : 'var(--w700)';
+    return `<span style="color:${col};font-weight:700;white-space:nowrap">${bk.name} ${label}</span>`;
+  }).join('<span style="color:var(--border-lt);margin:0 4px">·</span>');
+  const progressBlock = `<div class="roadmap-step">
+    <div class="roadmap-step-num" style="background:var(--b500)">📋</div>
+    <div class="roadmap-step-body">
+      <div class="roadmap-step-ttl">Production progress <span style="font-weight:400;color:var(--muted);text-transform:none">(this week)</span></div>
+      <div class="roadmap-step-desc" style="display:flex;flex-wrap:wrap;align-items:center;gap:2px">${bucketLine}</div>
+    </div>
+  </div>`;
+
+  // ── 4. TikTok Promote — recommend boosting the actual top performer ──
+  const { withViews } = _splitVideos_(b);
+  const top = withViews && withViews[0];
+  const topViews = top ? _videoViews_(top) : 0;
+  let topTitle = top ? (top.title || top['Video title'] || top.videoTitle || '') : '';
+  const hi = topTitle.indexOf('  #'); if (hi > 0) topTitle = topTitle.slice(0, hi).trim();
+  if (topTitle.length > 56) topTitle = topTitle.slice(0, 56) + '…';
+  const topLink = top ? (top.link || top['Video link'] || top.videoLink || '') : '';
+  const boostRec = top ? `<div class="promote-note" style="margin-top:8px">
+    <span class="promote-note-icon">🚀</span>
+    <span class="promote-note-text"><strong>Recommended:</strong> boost your top performer${topViews ? ` — <strong>${esc(topTitle || 'your top video')}</strong> (${fmtN(topViews)} views)` : ''}. Promoting a video that's already resonating finds <strong>lookalike audiences</strong> and adds the most new views for your spend.${topLink ? ` <a href="${esc(topLink)}" target="_blank" rel="noopener" style="color:var(--blue);white-space:nowrap">Open video ↗</a>` : ''}</span>
+  </div>` : '';
+
+  const introText = 'Everything ahead in your campaign — where we are, what\'s coming, and how we grow your reach:';
+
+  const body = `<div class="sec-pad">
+    <div class="roadmap-intro">${introText}</div>
+    ${milestoneSteps}
+    ${gapBlock}
+    ${progressBlock}
+
+    <div class="roadmap-step promo">
+      <div class="roadmap-step-num">🚀</div>
+      <div class="roadmap-step-body">
+        <div class="roadmap-step-ttl">Boost reach with TikTok Promote</div>
+        <div class="roadmap-step-desc">Once your videos are live, TikTok's built-in <strong>Promote</strong> feature pushes a video to a much larger, lookalike audience — the fastest way to add views on top of organic growth.</div>
+        <div class="promote-box">
+          <strong>How TikTok Promote works:</strong> Inside the TikTok app, tap any posted video → More options (···) → Promote. Choose a goal, set a daily budget and duration, then tap Pay.
+          ${boostRec}
+          <div class="promote-note">
+            <span class="promote-note-icon">💡</span>
+            <span class="promote-note-text"><strong>Important:</strong> The cost of Promote is paid <strong>directly to TikTok</strong> by you — completely separate from your Atomic Shelf subscription.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="roadmap-step shop">
+      <div class="roadmap-step-num">🛒</div>
+      <div class="roadmap-step-body">
+        <div class="roadmap-step-ttl">Consider opening a TikTok Shop (optional)</div>
+        <div class="roadmap-step-desc">TikTok Shop lets you sell directly inside TikTok. This is entirely run and managed by you, independent of Atomic Shelf.</div>
+        <div class="shop-box">
+          <strong>What TikTok Shop campaigns offer:</strong> TikTok runs themed promotional campaigns tiered by scale:
+          <div class="shop-tiers">
+            <div class="shop-tier"><span class="shop-tier-badge">SS / S</span><span>Major events like Black Friday — highest exposure, requires 20–30% discount</span></div>
+            <div class="shop-tier"><span class="shop-tier-badge">A</span><span>Seasonal campaigns — moderate discount, solid visibility</span></div>
+            <div class="shop-tier"><span class="shop-tier-badge">B</span><span>Category-specific campaigns — lower discount requirements, steady sales</span></div>
+          </div>
+          <div class="shop-rec"><strong>Our recommendation:</strong> Set up a TikTok Shop after 4–6 weeks of active content. Start with a B-tier campaign to test.</div>
+        </div>
+      </div>
+    </div>
+  </div>`;
+
+  const doneCount = milestones.filter(m => rmDone(m.key)).length;
+  const hasPending = doneCount < milestones.length || pMiss.length || vMiss.length;
+  return section({
+    id: 'sec-roadmap',
+    icon: '🗺',
+    title: 'Campaign Roadmap',
+    pills: [{ text: `${doneCount}/${milestones.length} milestones`, cls: doneCount ? 'green' : '' }],
+    accent: 'acc-blue',
+    startOpen: false,
+    body,
+  });
+}
+
+/* ═════════════════════════════════════════════════════════════════
+   14 · RATE YOUR EXPERIENCE — ALWAYS COLLAPSED (per design brief)
+   ═════════════════════════════════════════════════════════════════ */
+
+function buildStarRow(category, label) {
+  return `<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border-lt)">
+    <span style="font-size:.82rem;font-weight:600;color:var(--b700);min-width:150px">${label}</span>
+    <div style="display:flex;gap:4px" id="stars-${category}">
+      ${[1,2,3,4,5].map(n =>
+        `<button class="feedback-star" id="star-${category}-${n}" data-cat="${category}" data-val="${n}" onclick="setRating('${category}',${n})">★</button>`
+      ).join('')}
+    </div>
+    <span id="rating-label-${category}" style="font-family:var(--font-m);font-size:.62rem;color:var(--muted);min-width:60px;text-align:right">Not rated</span>
+  </div>`;
+}
+
+function setRating(category, val) {
+  _feedbackRatings[category] = val;
+  const labels = { 1:'Poor', 2:'Fair', 3:'Good', 4:'Great', 5:'Excellent' };
+  [1,2,3,4,5].forEach(n => {
+    const star = document.getElementById(`star-${category}-${n}`);
+    if (star) star.style.color = n <= val ? 'var(--w500)' : 'var(--b200)';
+  });
+  const lbl = document.getElementById(`rating-label-${category}`);
+  if (lbl) lbl.textContent = labels[val] || '';
+  if (category !== 'overall') {
+    const cats = ['communication','contentQuality','results','turnaround','general'];
+    const rated = cats.filter(c => _feedbackRatings[c] > 0);
+    if (rated.length > 0) {
+      const avg = Math.round(rated.reduce((s,c) => s + _feedbackRatings[c], 0) / rated.length);
+      setRating('overall', avg);
+    }
+  }
+}
+
+/* F3 — Author Feedback (weekly thumbs), lives in the "This Week" widget
+   beneath the media tiles per the PRD. Separate from the star-based
+   "Rate Your Experience" section below — thumbs are a fast, per-week
+   reaction; stars are the author's overall campaign sentiment. */
+function buildWeekThumbsWidget(b) {
+  const weekNum  = b.currentWeek || 1;
+  const existing = (b.weeklyRatings || []).find(e => e.weekNum === weekNum);
+  if (existing) {
+    return `<div class="thumb-done">${existing.rating === 'up' ? '👍' : '👎'} Feedback received ✓</div>
+      ${existing.note ? `<div class="thumb-done-note">"${esc(existing.note)}"</div>` : ''}`;
+  }
+  return `<div class="platform-title" style="margin-bottom:8px">How was this week's content?</div>
+    <div class="thumbs-row" id="thumbs-row">
+      <button class="thumb-btn up"   id="thumb-btn-up"   onclick="selectWeekRating('up')">👍 This hit the mark</button>
+      <button class="thumb-btn down" id="thumb-btn-down" onclick="selectWeekRating('down')">👎 Needs adjustment</button>
+    </div>
+    <div id="thumb-note-wrap" style="display:none">
+      <textarea class="thumb-note" id="thumb-note" maxlength="280" placeholder="Anything specific? (optional)"></textarea>
+      <button class="thumb-submit" id="thumb-submit-btn" onclick="submitWeekFeedback()">Submit</button>
+    </div>`;
+}
+
+let _weekRatingSelection = null;
+function selectWeekRating(rating) {
+  _weekRatingSelection = rating;
+  document.getElementById('thumb-btn-up')?.classList.toggle('selected', rating === 'up');
+  document.getElementById('thumb-btn-down')?.classList.toggle('selected', rating === 'down');
+  const wrap = document.getElementById('thumb-note-wrap');
+  if (wrap) wrap.style.display = 'block';
+}
+
+async function submitWeekFeedback() {
+  const b = CURRENT_BOOK;
+  if (!b || !_weekRatingSelection) return;
+  const note = (document.getElementById('thumb-note')?.value || '').trim().slice(0, 280);
+  const btn = document.getElementById('thumb-submit-btn');
+  if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
+  try {
+    const r = await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      body: JSON.stringify({
+        action: 'saveAuthorFeedback',
+        bookId: b.book_id || b['Book ID'], author: b['Author Name'], title: b['Book Title'],
+        weekNum: b.currentWeek || 1, rating: _weekRatingSelection, note,
+      }),
+    });
+    const data = await r.json();
+    if (!data.success) throw new Error(data.error);
+    b.weeklyRatings = b.weeklyRatings || [];
+    const idx = b.weeklyRatings.findIndex(e => e.weekNum === (b.currentWeek || 1));
+    if (idx !== -1) b.weeklyRatings[idx] = data.entry; else b.weeklyRatings.push(data.entry);
+    _weekRatingSelection = null;
+    const wrap = document.getElementById('week-thumbs-wrap');
+    if (wrap) wrap.innerHTML = buildWeekThumbsWidget(b);
+  } catch (e) {
+    showToast('Could not send feedback. Please try again.', 'error');
+    if (btn) { btn.disabled = false; btn.textContent = 'Submit'; }
+  }
+}
+
+function buildFeedbackSection(b) {
+  const body = `<div class="sec-pad">
+    <div class="feedback-sub">Your ratings go directly to your editor team.</div>
+    <div style="margin-bottom:16px">
+      <div style="background:linear-gradient(135deg,rgba(45,122,82,.08),transparent);border:1px solid rgba(45,122,82,.2);border-radius:var(--r-sm);padding:11px 14px;margin-bottom:10px">
+        <div class="platform-title" style="color:var(--f600);margin-bottom:6px">Overall Score</div>
+        ${buildStarRow('overall','Overall Experience')}
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border-lt);border-radius:var(--r-sm);padding:4px 14px">
+        ${buildStarRow('communication',  '💬 Communication')}
+        ${buildStarRow('contentQuality', '🎬 Content Quality')}
+        ${buildStarRow('results',        '📈 Results So Far')}
+        ${buildStarRow('turnaround',     '⚡ Turnaround Speed')}
+        ${buildStarRow('general',        '✨ General Feel')}
+      </div>
+    </div>
+    <div id="feedback-form-wrap">
+      <textarea class="feedback-textarea" id="feedback-text" placeholder="Anything specific on your mind? What's working, what could be better…"></textarea>
+      <button class="feedback-submit" id="feedback-submit-btn" onclick="submitFeedback()">Send Feedback</button>
+    </div>
+  </div>`;
+
+  return section({
+    id: 'sec-feedback',
+    icon: '⭐',
+    title: 'Rate Your Experience',
+    pills: [{ text: 'Takes 20 seconds', cls: 'gold' }],
+    accent: 'acc-green',
+    startOpen: false,   // ← always collapsed
+    body,
+  });
+}
+
+async function submitFeedback() {
+  const b = CURRENT_BOOK; if (!b) return;
+  const text = (document.getElementById('feedback-text')?.value || '').trim();
+  const btn = document.getElementById('feedback-submit-btn');
+  btn.disabled = true; btn.textContent = 'Sending…';
+  try {
+    const r = await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      body: JSON.stringify({
+        action: 'saveFeedback',
+        bookId: b.book_id || b['Book ID'], author: b['Author Name'], title: b['Book Title'], email: b.email || '',
+        overallRating: _feedbackRatings.overall,
+        ratings: {
+          communication: _feedbackRatings.communication,
+          contentQuality: _feedbackRatings.contentQuality,
+          results: _feedbackRatings.results,
+          turnaround: _feedbackRatings.turnaround,
+          general: _feedbackRatings.general,
+        },
+        message: text, status: 'open',
+      }),
+    });
+    const data = await r.json();
+    if (!data.success) throw new Error(data.error);
+    document.getElementById('feedback-form-wrap').innerHTML =
+      `<div class="feedback-done">✅ Thank you — your feedback has been received!</div>`;
+  } catch(e) {
+    showToast('Could not send feedback. Please try again.', 'error');
+    btn.disabled = false; btn.textContent = 'Send Feedback';
+  }
+}
+
+/* ═════════════════════════════════════════════════════════════════
+   TOP VIDEOS TABLE
+   ═════════════════════════════════════════════════════════════════ */
+
+function _videoRowHTML(v, i) {
+  const views    = parseFloat(v.views || v['Total views'] || 0);
+  const likes    = parseFloat(v.likes || v['Total likes'] || 0);
+  const comments = parseFloat(v.comments || v['Total comments'] || 0);
+  const shares   = parseFloat(v.shares || v['Total shares'] || 0);
+  const er = views > 0 ? ((likes + comments + shares) / views * 100).toFixed(1) : '—';
+  const link = v.link || v['Video link'] || v.videoLink || '';
+  let title = v.title || v['Video title'] || v.videoTitle || '(untitled)';
+  const hashIdx = title.indexOf('  #');
+  if (hashIdx > 0) title = title.slice(0, hashIdx).trim();
+  if (title.length > 72) title = title.slice(0, 72) + '…';
+  const postDate = v.postDate || v['Post time'] || v.date || '';
+
+  return `<tr style="border-bottom:1px solid var(--border-lt)">
+    <td style="padding:10px 8px;font-family:var(--font-m);font-size:.62rem;font-weight:700;color:var(--muted);width:24px;text-align:center">${i + 1}</td>
+    <td style="padding:10px 8px 10px 0;max-width:0;width:100%">
+      ${link
+        ? `<a href="${esc(link)}" target="_blank" rel="noopener" style="font-size:.8rem;font-weight:600;color:var(--b800);text-decoration:none;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="${esc(v.title || '')}">${esc(title)} <span style="font-size:.6rem;color:var(--blue)">↗</span></a>`
+        : `<span style="font-size:.8rem;font-weight:600;color:var(--b800);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(title)}</span>`}
+      ${postDate ? `<div style="font-family:var(--font-m);font-size:.54rem;color:var(--muted);margin-top:2px">${esc(postDate)}</div>` : ''}
+    </td>
+    <td style="padding:10px 12px 10px 8px;text-align:right;white-space:nowrap">
+      <div style="font-family:var(--font-d);font-size:.95rem;font-weight:700;color:var(--b800)">${fmtN(views)}</div>
+      <div style="font-family:var(--font-m);font-size:.48rem;color:var(--muted)">views</div>
+    </td>
+    <td style="padding:10px 12px 10px 0;text-align:right;white-space:nowrap">
+      <div style="font-family:var(--font-d);font-size:.88rem;font-weight:600;color:var(--purple)">${fmtN(likes)}</div>
+      <div style="font-family:var(--font-m);font-size:.48rem;color:var(--muted)">likes</div>
+    </td>
+    <td style="padding:10px 12px 10px 0;text-align:right;white-space:nowrap">
+      <div style="font-family:var(--font-d);font-size:.88rem;font-weight:600;color:${parseFloat(er) >= 5 ? 'var(--f500)' : 'var(--orange)'}">${er}${er !== '—' ? '%' : ''}</div>
+      <div style="font-family:var(--font-m);font-size:.48rem;color:var(--muted)">eng.</div>
+    </td>
+  </tr>`;
+}
+
+// v22b — only videos that have actually pulled views belong in "Top Videos";
+// zero-view uploads get their own section so they read as a to-do (republish
+// candidates), not as failures padding the leaderboard.
+function _videoViews_(v) { return parseFloat(v.views || v['Total views'] || 0) || 0; }
+function _splitVideos_(b) {
+  const all = (b.contentHistory || []).slice();
+  const withViews = all.filter(v => _videoViews_(v) > 0)
+    .sort((a, z) => _videoViews_(z) - _videoViews_(a));
+  const zeroViews = all.filter(v => _videoViews_(v) <= 0);
+  return { withViews, zeroViews };
+}
+
+function buildTopVideosTable(b) {
+  const { withViews, zeroViews } = _splitVideos_(b);
+
+  if (withViews.length === 0 && zeroViews.length === 0) {
+    return `<div>
+      <div class="platform-title">Top Videos</div>
+      <div style="font-size:.78rem;color:var(--muted);font-style:italic;text-align:center;padding:18px 0">
+        No individual video data yet — your team logs this weekly.
+      </div>
+    </div>`;
+  }
+
+  const MAX_VISIBLE = 5;
+  const showAll = withViews.length <= MAX_VISIBLE;
+  const visible = withViews.slice(0, MAX_VISIBLE);
+
+  const topTable = withViews.length ? `
+    <div class="platform-title">Top Videos <span style="margin-left:auto;font-weight:400;text-transform:none;letter-spacing:0">${withViews.length} with views</span></div>
+    <div style="overflow-x:auto">
+      <table style="width:100%;border-collapse:collapse;table-layout:fixed">
+        <colgroup><col style="width:28px"><col style="width:auto"><col style="width:72px"><col style="width:64px"><col style="width:56px"></colgroup>
+        <tbody id="top-videos-tbody">${visible.map((v, i) => _videoRowHTML(v, i)).join('')}</tbody>
+      </table>
+    </div>
+    ${!showAll ? `<button onclick="toggleAllVideos()" id="tv-toggle-btn"
+        style="margin-top:10px;background:none;border:1px dashed var(--border);border-radius:var(--r-sm);
+               font-family:var(--font-m);font-size:.6rem;color:var(--muted);padding:6px 14px;cursor:pointer;width:100%;transition:all .15s"
+        onmouseover="this.style.background='var(--w200)'" onmouseout="this.style.background='none'">
+      Show all ${withViews.length} videos ▾</button>` : ''}` : `
+    <div class="platform-title">Top Videos</div>
+    <div style="font-size:.78rem;color:var(--muted);font-style:italic;text-align:center;padding:12px 0">
+      No videos with views yet — the first numbers usually land within a few days of posting.
+    </div>`;
+
+  const zeroSection = zeroViews.length ? `
+    <div style="margin-top:16px;border:1px solid var(--border-lt);border-radius:var(--r-sm);overflow:hidden">
+      <button onclick="toggleZeroViews()" id="zv-toggle-btn" style="width:100%;display:flex;align-items:center;gap:8px;background:rgba(201,144,38,.05);border:none;padding:9px 14px;cursor:pointer;font-family:var(--font-m);font-size:.62rem;font-weight:700;color:var(--muted);text-align:left">
+        ⏳ Awaiting first views (${zeroViews.length}) <span style="font-weight:400">— being monitored; may be republished for a second push</span>
+        <span id="zv-caret" style="margin-left:auto">▾</span>
+      </button>
+      <div id="zero-views-wrap" style="display:none;padding:4px 14px 10px">
+        ${zeroViews.map(v => {
+          let title = v.title || v['Video title'] || v.videoTitle || '(untitled)';
+          const hashIdx = title.indexOf('  #'); if (hashIdx > 0) title = title.slice(0, hashIdx).trim();
+          if (title.length > 72) title = title.slice(0, 72) + '…';
+          const link = v.link || v['Video link'] || v.videoLink || '';
+          const postDate = v.postDate || v['Post time'] || v.date || '';
+          return `<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border-lt);font-size:.76rem;color:var(--b700)">
+            ${link ? `<a href="${esc(link)}" target="_blank" rel="noopener" style="color:var(--b700);text-decoration:none;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(title)} <span style="font-size:.58rem;color:var(--blue)">↗</span></a>`
+                   : `<span style="flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(title)}</span>`}
+            ${postDate ? `<span style="font-family:var(--font-m);font-size:.54rem;color:var(--muted);white-space:nowrap">${esc(postDate)}</span>` : ''}
+          </div>`;
+        }).join('')}
+      </div>
+    </div>` : '';
+
+  return `<div>${topTable}${zeroSection}</div>`;
+}
+
+function toggleZeroViews() {
+  const wrap = document.getElementById('zero-views-wrap');
+  const caret = document.getElementById('zv-caret');
+  if (!wrap) return;
+  const open = wrap.style.display !== 'none';
+  wrap.style.display = open ? 'none' : 'block';
+  if (caret) caret.textContent = open ? '▾' : '▴';
+}
+
+function toggleAllVideos() {
+  const b = CURRENT_BOOK; if (!b) return;
+  window._tvExpanded = !window._tvExpanded;
+  const tbody = document.getElementById('top-videos-tbody');
+  const btn = document.getElementById('tv-toggle-btn');
+  const { withViews } = _splitVideos_(b);
+  if (!tbody) return;
+  const rows = window._tvExpanded ? withViews : withViews.slice(0, 5);
+  tbody.innerHTML = rows.map((v, i) => _videoRowHTML(v, i)).join('');
+  if (btn) btn.textContent = window._tvExpanded ? 'Show fewer ▴' : `Show all ${withViews.length} videos ▾`;
+}
+
+/* ═════════════════════════════════════════════════════════════════
+   CHARTS
+   AUDIT FIX: previously _buildWoWBarChart returned early on
+   (weeks.length < 2) and _buildYouTubeViewsChart was declared
+   *inside* it — so the WoW body after the guard was dead code and
+   the YouTube chart function was never a top-level symbol. Both are
+   now separate, complete functions.
+   ═════════════════════════════════════════════════════════════════ */
+
+function _cssVar(name) {
+  return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+}
+
+function initTikTokCharts(b) {
+  if (!b) return;
+  if (typeof Chart === 'undefined') { setTimeout(() => initTikTokCharts(b), 400); return; }
+  ['chart-views','chart-audience','chart-engagement'].forEach(_destroyChart);
+
+  const history = (b.metricsHistory || [])
+    .filter(e => e['TikTok Views'] !== undefined || e.tikTokViews !== undefined)
+    .sort((a, z) => new Date(a.date) - new Date(z.date));
+  if (history.length === 0) return;
+
+  _buildViewsLineChart(b, history);
+  _buildAudienceBarChart(b, history);
+  _buildEngagementDonut(b, history);
+}
+
+function _buildViewsLineChart(b, history) {
+  const canvas = document.getElementById('chart-views'); if (!canvas) return;
+  const active = history.filter((e, idx) =>
+    (parseFloat(e['TikTok Views'] || e.tikTokViews || 0)) > 0 || idx >= history.length - 14
+  ).slice(-30);
+  const labels  = active.map(e => _shortDate(e.date));
+  const views   = active.map(e => parseFloat(e['TikTok Views'] || e.tikTokViews || 0));
+  const profile = active.map(e => parseFloat(e['TikTok Profile Visits'] || e.tikTokProfileVisits || 0));
+
+  _chartInstances['chart-views'] = new Chart(canvas, {
+    type: 'line',
+    data: { labels, datasets: [
+      { label: 'Video Views', data: views, borderColor: '#7D3C98', backgroundColor: 'rgba(125,60,152,0.08)', borderWidth: 2, tension: 0.4, fill: true, pointRadius: 3, pointHoverRadius: 5, pointBackgroundColor: '#7D3C98' },
+      { label: 'Profile Visits', data: profile, borderColor: '#2D7A52', backgroundColor: 'rgba(45,122,82,0.06)', borderWidth: 1.5, tension: 0.4, fill: false, pointRadius: 2, pointHoverRadius: 4, pointBackgroundColor: '#2D7A52', borderDash: [4, 3] },
+    ]},
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { position: 'top', align: 'end', labels: { boxWidth: 10, padding: 14, usePointStyle: true } },
+        tooltip: { backgroundColor: '#1E1208', titleColor: '#F5EDCF', bodyColor: '#C4A882', padding: 10, cornerRadius: 8 },
+      },
+      scales: {
+        x: { grid: { display: false }, border: { display: false }, ticks: { maxTicksLimit: 8 } },
+        y: { grid: { color: 'rgba(212,185,90,0.1)' }, border: { display: false }, beginAtZero: true, ticks: { maxTicksLimit: 5 } },
+      },
+    },
+  });
+}
+
+function _buildAudienceBarChart(b, history) {
+  const canvas = document.getElementById('chart-audience'); if (!canvas) return;
+  const withAudience = history.filter(e =>
+    parseFloat(e['TikTok New Followers'] || e.tikTokNewFollowers || 0) > 0 ||
+    parseFloat(e['TikTok Follower Count'] || e.tikTokFollowerCount || 0) > 0
+  ).slice(-20);
+
+  if (withAudience.length === 0) {
+    const wrap = document.getElementById('chart-audience-wrap');
+    if (wrap) wrap.innerHTML = `<div class="chart-box-ttl">Audience growth</div><div style="display:flex;align-items:center;justify-content:center;height:140px;font-size:.78rem;color:var(--muted);font-style:italic">Audience breakdown data not yet available</div>`;
+    return;
+  }
+
+  const labels = withAudience.map(e => _shortDate(e.date));
+  const newF   = withAudience.map(e => parseFloat(e['TikTok New Followers'] || e.tikTokNewFollowers || 0));
+  const totalF = withAudience.map(e => parseFloat(e['TikTok Follower Count'] || e.tikTokFollowerCount || 0));
+
+  _chartInstances['chart-audience'] = new Chart(canvas, {
+    type: 'bar',
+    data: { labels, datasets: [
+      { label: 'New Followers', data: newF, backgroundColor: 'rgba(45,122,82,0.75)', borderRadius: 3, borderSkipped: false },
+      { label: 'Total Followers', data: totalF, backgroundColor: 'rgba(201,168,76,0.45)', borderRadius: 3, borderSkipped: false },
+    ]},
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { position: 'top', align: 'end', labels: { boxWidth: 10, padding: 12, usePointStyle: true } },
+        tooltip: { backgroundColor: '#1E1208', titleColor: '#F5EDCF', bodyColor: '#C4A882', padding: 10, cornerRadius: 8 },
+      },
+      scales: {
+        x: { grid: { display: false }, border: { display: false }, ticks: { maxTicksLimit: 6 } },
+        y: { grid: { color: 'rgba(212,185,90,0.1)' }, border: { display: false }, beginAtZero: true, ticks: { maxTicksLimit: 4 } },
+      },
+    },
+  });
+}
+
+function _buildEngagementDonut(b, history) {
+  const canvas = document.getElementById('chart-engagement'); if (!canvas) return;
+  let totalLikes = 0, totalComments = 0, totalShares = 0, totalSaves = 0;
+  history.forEach(e => {
+    totalLikes    += parseFloat(e['TikTok Likes']    || e.tikTokLikes    || 0);
+    totalComments += parseFloat(e['TikTok Comments'] || e.tikTokComments || 0);
+    totalShares   += parseFloat(e['TikTok Shares']   || e.tikTokShares   || 0);
+    totalSaves    += parseFloat(e['TikTok Saves']    || e.tikTokSaves    || 0);
+  });
+  if (totalLikes + totalComments + totalShares + totalSaves === 0) {
+    totalLikes    = parseFloat(b['TikTok Likes']    || 0);
+    totalComments = parseFloat(b['TikTok Comments'] || 0);
+    totalShares   = parseFloat(b['TikTok Shares']   || 0);
+    totalSaves    = parseFloat(b['TikTok Saves']    || 0);
+  }
+  const total = totalLikes + totalComments + totalShares + totalSaves;
+  if (total === 0) {
+    const wrap = document.getElementById('chart-engagement-wrap');
+    if (wrap) wrap.innerHTML = `<div class="chart-box-ttl">Engagement split</div><div style="display:flex;align-items:center;justify-content:center;height:140px;font-size:.78rem;color:var(--muted);font-style:italic">Engagement data not yet available</div>`;
+    return;
+  }
+
+  _chartInstances['chart-engagement'] = new Chart(canvas, {
+    type: 'doughnut',
+    data: {
+      labels: ['Likes', 'Comments', 'Shares', 'Saves'],
+      datasets: [{ data: [totalLikes, totalComments, totalShares, totalSaves],
+        backgroundColor: ['rgba(125,60,152,0.8)','rgba(36,113,163,0.8)','rgba(201,168,76,0.8)','rgba(45,122,82,0.8)'],
+        borderWidth: 0, hoverOffset: 6 }],
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, cutout: '68%',
+      plugins: {
+        legend: { position: 'right', labels: { boxWidth: 10, padding: 12, usePointStyle: true } },
+        tooltip: {
+          backgroundColor: '#1E1208', titleColor: '#F5EDCF', bodyColor: '#C4A882', padding: 10, cornerRadius: 8,
+          callbacks: { label: ctx => {
+            const pct = total > 0 ? ((ctx.parsed / total) * 100).toFixed(1) : '0';
+            return ` ${ctx.label}: ${ctx.parsed.toLocaleString()} (${pct}%)`;
+          } },
+        },
+      },
+    },
+  });
+}
+
+function _buildBenchmarkBars(b) {
+  const views    = parseFloat(b['TikTok Views'] || 0);
+  const likes    = parseFloat(b['TikTok Likes'] || 0);
+  const comments = parseFloat(b['TikTok Comments'] || 0);
+  const shares   = parseFloat(b['TikTok Shares'] || 0);
+  const er = views > 0 ? ((likes + comments + shares) / views * 100) : 0;
+  const benchmarks = [
+    { label: 'Engagement Rate', value: er, target: 6.5, fmt: v => v.toFixed(1) + '%' },
+    { label: 'Like Rate', value: views > 0 ? likes / views * 100 : 0, target: 5.0, fmt: v => v.toFixed(1) + '%' },
+    { label: 'Share Rate', value: views > 0 ? shares / views * 100 : 0, target: 1.0, fmt: v => v.toFixed(2) + '%' },
+  ];
+  return benchmarks.map(bm => {
+    const pct  = bm.target > 0 ? Math.min(bm.value / bm.target * 100, 150) : 0;
+    const good = bm.value >= bm.target;
+    const barW = Math.min(pct, 100);
+    const overW = pct > 100 ? Math.min(pct - 100, 50) : 0;
+    return `<div style="margin-bottom:12px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px">
+        <span style="font-size:.72rem;font-weight:600;color:var(--b700)">${bm.label}</span>
+        <span style="font-family:var(--font-m);font-size:.65rem;color:${good ? 'var(--f600)' : 'var(--orange)'}">
+          ${bm.fmt(bm.value)}<span style="color:var(--muted);font-weight:400"> / ${bm.fmt(bm.target)} avg</span>
+        </span>
+      </div>
+      <div style="height:6px;background:var(--b100);border-radius:3px;overflow:hidden;position:relative">
+        <div style="height:100%;width:${barW}%;background:${good ? 'var(--f500)' : 'var(--orange)'};border-radius:3px;transition:width .5s ease"></div>
+        ${overW > 0 ? `<div style="position:absolute;top:0;left:${barW}%;height:100%;width:${overW * 0.5}%;background:rgba(45,122,82,0.35);border-radius:0 3px 3px 0"></div>` : ''}
+        <div style="position:absolute;top:-1px;left:66.6%;height:8px;width:2px;background:var(--b300);border-radius:1px"></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function _wowChartOptions(yLabel, max) {
+  return {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { backgroundColor: '#1E1208', titleColor: '#F5EDCF', bodyColor: '#C4A882', padding: 10, cornerRadius: 8 },
+    },
+    scales: {
+      x: { grid: { display: false }, border: { display: false } },
+      y: { max, grid: { color: 'rgba(212,185,90,0.1)' }, border: { display: false }, beginAtZero: true,
+           title: { display: true, text: yLabel, color: '#9E7B52', font: { size: 9 } }, ticks: { maxTicksLimit: 4 } },
+    },
+  };
+}
+
+/* ═════════════════════════════════════════════════════════════════
+   F5 — WEEK-OVER-WEEK ANALYTICS CHART (Campaign History)
+   Dual-axis chart: checklist completion % (bars, left axis) vs
+   TikTok views (line, right axis) — plus a platform-comparison
+   stacked bar and a month-level aggregate table below.
+   ═════════════════════════════════════════════════════════════════ */
+
+/* Buckets each week's metricsHistory entries by campaign week (Sun-Sat from
+   live date) — shared by the dual-axis chart, the platform chart, and the
+   month aggregate table so the three always agree with each other. */
+function _weeklyMetricSeries_(b, weeks) {
+  const history  = (b.metricsHistory || []).slice().sort((a, z) => new Date(a.date) - new Date(z.date));
+  const liveDate = b['Campaign Live Date'] ? new Date(b['Campaign Live Date']) : null;
+  return weeks.map(w => {
+    if (!liveDate) return { tiktokViews: 0, ytViews: 0, bsr: null };
+    const wStart = new Date(liveDate);
+    wStart.setDate(wStart.getDate() + (w.weekNum - 1) * 7);
+    const wEnd = new Date(wStart);
+    wEnd.setDate(wEnd.getDate() + 6);
+    const entries = history.filter(e => { const d = new Date(e.date); return d >= wStart && d <= wEnd; });
+    const tiktokViews = entries.reduce((s, e) => s + parseFloat(e['TikTok Views'] || e.tikTokViews || 0), 0);
+    const ytViews     = entries.reduce((s, e) => s + parseFloat(e['YT Views']     || e.ytViews     || 0), 0);
+    const bsrVals = entries.map(e => parseFloat(e['Amazon BSR'] || e.amazonBsr || 0)).filter(v => v > 0);
+    return { tiktokViews, ytViews, bsr: bsrVals.length ? bsrVals[bsrVals.length - 1] : null };
+  });
+}
+
+function _buildWeekOverWeekChart(b) {
+  const canvasId = 'chart-wow';
+  const canvas = document.getElementById(canvasId); if (!canvas) return;
+  if (typeof Chart === 'undefined') { setTimeout(() => _buildWeekOverWeekChart(b), 400); return; }
+
+  const weeks = (b.weeks || []).slice().sort((a, z) => a.weekNum - z.weekNum);
+  if (weeks.length < 2) { _destroyChart(canvasId); return; }
+
+  const series    = _weeklyMetricSeries_(b, weeks);
+  const labels    = weeks.map(w => `Week ${w.weekNum}`);
+  const pctData   = weeks.map(w => w.pctDone || 0);
+  const viewsData = series.map(s => s.tiktokViews);
+  const maxViews  = Math.max(1, ...viewsData);
+
+  _destroyChart(canvasId);
+  _chartInstances[canvasId] = new Chart(canvas, {
+    data: {
+      labels,
+      datasets: [
+        {
+          type: 'bar', label: 'Checklist Completion %', data: pctData, yAxisID: 'y', order: 2,
+          backgroundColor: weeks.map(w => w.pctDone === 100 ? '#1B3A52' : '#FBF7ED'),
+          borderColor: '#1B3A52', borderWidth: 1.5, borderRadius: 4, borderSkipped: false,
+        },
+        {
+          type: 'line', label: 'TikTok Views', data: viewsData, yAxisID: 'y1', order: 1,
+          borderColor: '#C9A84C', backgroundColor: 'transparent', borderWidth: 2.5,
+          pointBackgroundColor: '#C9A84C', pointRadius: 3, tension: .3, fill: false,
+        },
+      ],
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: true, position: 'bottom', labels: { boxWidth: 10, font: { size: 9 }, color: '#7A5C2E' } },
+        tooltip: {
+          backgroundColor: '#1E1208', titleColor: '#F5EDCF', bodyColor: '#C4A882', padding: 10, cornerRadius: 8,
+          callbacks: {
+            title: items => {
+              const w = weeks[items[0].dataIndex];
+              const range = (w.weekStart && w.weekEnd) ? ` (${formatDate(w.weekStart)} – ${formatDate(w.weekEnd)})` : '';
+              return `Week ${w.weekNum}${range}`;
+            },
+          },
+        },
+      },
+      scales: {
+        x: { grid: { display: false }, border: { display: false } },
+        y:  { type: 'linear', position: 'left',  min: 0, max: 100, grid: { color: 'rgba(212,185,90,.1)' }, border: { display: false },
+              title: { display: true, text: 'Completion %', color: '#9E7B52', font: { size: 9 } }, ticks: { maxTicksLimit: 5 } },
+        y1: { type: 'linear', position: 'right', min: 0, max: maxViews * 1.2, grid: { display: false }, border: { display: false },
+              title: { display: true, text: 'TikTok Views', color: '#9E7B52', font: { size: 9 } }, ticks: { maxTicksLimit: 5 } },
+      },
+    },
+  });
+}
+
+function _buildPlatformComparisonChart(b) {
+  const canvasId = 'chart-platform-compare';
+  const canvas = document.getElementById(canvasId); if (!canvas) return;
+  if (typeof Chart === 'undefined') { setTimeout(() => _buildPlatformComparisonChart(b), 400); return; }
+
+  const weeks = (b.weeks || []).slice().sort((a, z) => a.weekNum - z.weekNum);
+  if (weeks.length < 2) { _destroyChart(canvasId); return; }
+
+  const series = _weeklyMetricSeries_(b, weeks);
+  if (!series.some(s => s.tiktokViews > 0 || s.ytViews > 0)) { _destroyChart(canvasId); return; }
+
+  _destroyChart(canvasId);
+  const labels = weeks.map(w => `Week ${w.weekNum}`);
+  _chartInstances[canvasId] = new Chart(canvas, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [
+        { label: 'TikTok',  data: series.map(s => s.tiktokViews), backgroundColor: 'rgba(125,60,152,0.75)', stack: 'views' },
+        { label: 'YouTube', data: series.map(s => s.ytViews),     backgroundColor: 'rgba(192,57,43,0.7)',   stack: 'views' },
+      ],
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: true, position: 'bottom', labels: { boxWidth: 10, font: { size: 9 }, color: '#7A5C2E' } },
+        tooltip: { backgroundColor: '#1E1208', titleColor: '#F5EDCF', bodyColor: '#C4A882', padding: 10, cornerRadius: 8 },
+      },
+      scales: {
+        x: { stacked: true, grid: { display: false }, border: { display: false } },
+        y: { stacked: true, grid: { color: 'rgba(212,185,90,.1)' }, border: { display: false }, ticks: { maxTicksLimit: 5 } },
+      },
+    },
+  });
+}
+
+/* Month-level aggregates — grouped by actual 4-week campaign month
+   (ceil(weekNum/4)) per the PRD's locked "campaign month" definition,
+   not the calendar month used elsewhere in this section's weeks-grid. */
+function buildMonthAggregateTable(b) {
+  const weeks = (b.weeks || []).filter(w => w.weekNum).slice().sort((a, z) => a.weekNum - z.weekNum);
+  if (weeks.length < 2) return '';
+  const series = _weeklyMetricSeries_(b, weeks);
+
+  const byMonth = {};
+  weeks.forEach((w, i) => {
+    const cm = Math.ceil(w.weekNum / 4);
+    if (!byMonth[cm]) byMonth[cm] = { count: 0, pctSum: 0, views: 0, bsrs: [] };
+    const agg = byMonth[cm];
+    agg.count++;
+    agg.pctSum += (w.pctDone || 0);
+    agg.views  += series[i].tiktokViews + series[i].ytViews;
+    if (series[i].bsr) agg.bsrs.push(series[i].bsr);
+  });
+
+  const rows = Object.keys(byMonth).map(Number).sort((a, z) => a - z).map(cm => {
+    const agg = byMonth[cm];
+    const avgCompletion = Math.round(agg.pctSum / agg.count);
+    const avgBsr = agg.bsrs.length ? Math.round(agg.bsrs.reduce((s, v) => s + v, 0) / agg.bsrs.length) : null;
+    return `<tr><td>Month ${cm}</td><td>${avgCompletion}%</td><td>${fmtN(agg.views)}</td><td>${avgBsr ? '#' + avgBsr.toLocaleString() : '—'}</td></tr>`;
+  }).join('');
+
+  return `<table class="month-agg-table">
+    <thead><tr><th>Month</th><th>Avg completion</th><th>Total views</th><th>Avg BSR</th></tr></thead>
+    <tbody>${rows}</tbody>
+  </table>`;
+}
+
+/* YouTube daily engaged-views line — now a real top-level function */
+function _buildYouTubeViewsChart(b) {
+  const canvasId = 'chart-yt-views';
+  const canvas = document.getElementById(canvasId); if (!canvas) return;
+  if (typeof Chart === 'undefined') { setTimeout(() => _buildYouTubeViewsChart(b), 400); return; }
+
+  const rows = b.videoDailyMetrics || [];
+  if (!rows.length) { _destroyChart(canvasId); return; }
+
+  const byDate = {};
+  rows.forEach(r => { if (!r.date) return; byDate[r.date] = (byDate[r.date] || 0) + (parseFloat(r.engagedViews) || 0); });
+  const dates = Object.keys(byDate).sort();
+  if (!dates.length) { _destroyChart(canvasId); return; }
+
+  _destroyChart(canvasId);
+  const labels = dates.map(d => _shortDate(d));
+  const values = dates.map(d => byDate[d]);
+
+  _chartInstances[canvasId] = new Chart(canvas, {
+    type: 'line',
+    data: { labels, datasets: [{
+      label: 'YouTube Views', data: values,
+      borderColor: '#C0392B', backgroundColor: 'rgba(192,57,43,0.08)',
+      borderWidth: 2, tension: 0.4, fill: true, pointRadius: 3, pointHoverRadius: 5, pointBackgroundColor: '#C0392B',
+    }]},
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: { backgroundColor: '#1E1208', titleColor: '#F5EDCF', bodyColor: '#C4A882', padding: 10, cornerRadius: 8 },
+      },
+      scales: {
+        x: { grid: { display: false }, border: { display: false }, ticks: { maxTicksLimit: 8 } },
+        y: { grid: { color: 'rgba(212,185,90,0.1)' }, border: { display: false }, beginAtZero: true, ticks: { maxTicksLimit: 5 } },
+      },
+    },
+  });
+}
+
+/* ── Chart.js global defaults ─────────────────────────────────── */
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof Chart !== 'undefined') {
+    Chart.defaults.font.family = "'DM Mono', monospace";
+    Chart.defaults.font.size   = 10;
+    Chart.defaults.color       = '#9E7B52';
+  }
+});
+
+boot();
+
+</script>
+</body>
+</html>

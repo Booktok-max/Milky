@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mash Up — Detective Qigiq Book 1 | Week 5 Content Calendar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;700&family=Oswald:wght@500;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream-base: #faf8f5;
+    --paper-texture: rgba(230, 226, 216, 0.3);
+    --card-bg: #ffffff;
+    --text-main: #333333;
+    --text-head: #111111;
+    --copper-main: #d34a24; /* Matches the vibrant orange-red of the author's name on the cover */
+    --copper-dark: #993311;
+    --slate: #5a6a7a;
+    --border-subtle: rgba(211, 74, 36, 0.15);
+    --highlight-bg: rgba(211, 74, 36, 0.05);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--cream-base);
+    color: var(--text-main);
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* MATHEMATICAL BACKGROUND PATTERN */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='20' y='30' font-family='Playfair Display' font-style='italic' font-size='14' fill='rgba(0, 0, 0, 0.03)'%3E\u222B f(x) dx%3C/text%3E%3Ctext x='150' y='80' font-family='Playfair Display' font-style='italic' font-size='14' fill='rgba(0, 0, 0, 0.03)'%3E\u2211(n=1 to \u221E) 1/n\u00B2 = \u03C0\u00B2/6%3C/text%3E%3Ctext x='40' y='160' font-family='Playfair Display' font-style='italic' font-size='16' fill='rgba(0, 0, 0, 0.03)'%3Ee^(i\u03C0) + 1 = 0%3C/text%3E%3Ctext x='220' y='220' font-family='Playfair Display' font-style='italic' font-size='12' fill='rgba(0, 0, 0, 0.03)'%3E(x - s - u) du%3C/text%3E%3Ctext x='80' y='320' font-family='Playfair Display' font-style='italic' font-size='18' fill='rgba(0, 0, 0, 0.03)'%3E\u221A2\u03C0%3C/text%3E%3C/svg%3E");
+    background-size: 400px 400px;
+    opacity: 1;
+    pointer-events: none;
+  }
+
+  /* TOP NAVIGATION FOR PRODUCTION PAGES */
+  .top-nav {
+    position: absolute;
+    top: 20px;
+    right: 40px;
+    z-index: 10;
+  }
+
+  .prod-link {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--copper-dark);
+    text-decoration: none;
+    border: 1px solid var(--border-subtle);
+    padding: 8px 16px;
+    border-radius: 4px;
+    background: var(--card-bg);
+    transition: all 0.2s;
+  }
+
+  .prod-link:hover {
+    background: var(--copper-main);
+    color: #fff;
+    border-color: var(--copper-main);
+  }
+
+  /* HERO SECTION */
+  .hero {
+    position: relative;
+    min-height: 85vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--paper-texture) 0%, transparent 100%);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 780px;
+    padding: 100px 48px 60px;
+    text-align: center;
+    animation: fadeUp 0.9s ease both;
+  }
+
+  .hero-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--copper-main);
+    border-bottom: 1px solid var(--copper-main);
+    display: inline-block;
+    padding-bottom: 6px;
+    margin-bottom: 30px;
+  }
+
+  .hero-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(50px, 10vw, 120px);
+    font-weight: 700;
+    line-height: 0.9;
+    letter-spacing: -1px;
+    color: var(--text-head);
+    margin-bottom: 16px;
+    text-transform: uppercase;
+  }
+
+  .hero-title em {
+    display: block;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: clamp(20px, 4vw, 38px);
+    color: var(--copper-dark);
+    letter-spacing: 0px;
+    margin-top: 12px;
+  }
+
+  .hero-author {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 16px;
+    color: var(--slate);
+    margin: 28px 0 48px;
+  }
+
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 56px;
+    flex-wrap: wrap;
+    background: var(--card-bg);
+    padding: 24px;
+    border-radius: 8px;
+    border: 1px solid var(--border-subtle);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+  }
+
+  .stat { text-align: center; }
+
+  .stat-num {
+    font-family: 'Oswald', sans-serif;
+    font-size: 38px;
+    font-weight: 700;
+    color: var(--copper-main);
+    line-height: 1;
+    display: block;
+  }
+
+  .stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--slate);
+    margin-top: 6px;
+  }
+
+  /* DIVIDER */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    max-width: 680px;
+    margin: 64px auto;
+    padding: 0 40px;
+  }
+  .divider-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border-subtle);
+  }
+  .divider-mark {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 22px;
+    color: var(--copper-main);
+  }
+
+  /* INTRO */
+  .intro {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 40px 64px;
+    text-align: center;
+  }
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--copper-dark);
+    margin-bottom: 20px;
+    display: block;
+  }
+  .intro p {
+    font-size: 18px;
+    color: var(--text-main);
+    line-height: 1.7;
+  }
+
+  /* WEEK BANNER */
+  .week-banner {
+    max-width: 1080px;
+    margin: 0 auto 40px;
+    padding: 0 40px;
+    display: flex;
+    align-items: center;
+    gap: 28px;
+  }
+  .week-banner-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border-subtle);
+  }
+  .week-banner-text {
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(24px, 4vw, 40px);
+    font-weight: 700;
+    color: var(--text-head);
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .week-banner-text span {
+    color: var(--copper-main);
+  }
+  .week-dates {
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--slate);
+    margin-bottom: 48px;
+    padding: 0 40px;
+  }
+
+  /* CALENDAR CARDS */
+  .calendar {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 32px 100px;
+  }
+
+  .video-card {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    background: var(--card-bg);
+    border: 1px solid var(--border-subtle);
+    border-left: 5px solid var(--copper-main);
+    margin-bottom: 12px;
+    transition: all 0.25s;
+    animation: fadeUp 0.5s ease both;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+  }
+  .video-card:hover {
+    border-left-color: var(--text-head);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(211, 74, 36, 0.1);
+  }
+
+  .card-date {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 8px;
+    background: var(--highlight-bg);
+    border-right: 1px solid var(--border-subtle);
+    text-align: center;
+  }
+  .date-day {
+    font-family: 'Oswald', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--text-head);
+    line-height: 1;
+  }
+  .date-month {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--copper-dark);
+    margin-top: 6px;
+  }
+  .date-vid {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--copper-main);
+    margin-top: 12px;
+    background: #ffffff;
+    border: 1px solid var(--border-subtle);
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+
+  .card-body {
+    padding: 28px 32px;
+  }
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text-head);
+    line-height: 1.3;
+    margin-bottom: 6px;
+  }
+  .card-hook {
+    font-family: 'Inter', sans-serif;
+    font-style: italic;
+    font-size: 15px;
+    color: var(--copper-dark);
+    margin-bottom: 24px;
+  }
+  .card-sections {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+  .section-block h4 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--slate);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    border-bottom: 1px solid var(--border-subtle);
+    padding-bottom: 6px;
+  }
+  .section-block p {
+    font-size: 15px;
+    color: var(--text-main);
+    line-height: 1.6;
+  }
+  
+  .copy-btn {
+    background: transparent;
+    border: 1px solid var(--copper-main);
+    color: var(--copper-main);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .copy-btn:hover {
+    background: var(--copper-main);
+    color: #ffffff;
+  }
+  .copy-btn.copied {
+    background: var(--text-head);
+    border-color: var(--text-head);
+    color: #ffffff;
+  }
+
+  /* FOOTER */
+  .footer {
+    text-align: center;
+    padding: 56px 40px;
+    border-top: 1px solid var(--border-subtle);
+    background: var(--card-bg);
+  }
+  .footer-code {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 26px;
+    color: var(--copper-main);
+    margin-bottom: 16px;
+    display: block;
+    opacity: 0.8;
+  }
+  .footer-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--text-head);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .footer-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    color: var(--slate);
+    margin-top: 10px;
+  }
+  .footer-links {
+    margin-top: 20px;
+  }
+  .footer-links a {
+    color: var(--copper-main);
+    text-decoration: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+  }
+  .footer-links a:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 768px) {
+    .card-sections { grid-template-columns: 1fr; gap: 20px; }
+    .video-card { grid-template-columns: 80px 1fr; }
+    .card-body { padding: 20px; }
+    .hero-content { padding: 80px 24px 60px; }
+    .calendar, .intro, .week-banner { padding-left: 16px; padding-right: 16px; }
+    .hero-stats { gap: 28px; }
+    .top-nav { right: 20px; top: 15px; }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-nav">
+  <a href="/production-pages" class="prod-link">Production Pages</a>
+</div>
+
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-eyebrow">Book Promotion Content Plan</div>
+    <h1 class="hero-title">
+      MASH UP
+      <em>Book 1: Detective Qigiq</em>
+    </h1>
+    <p class="hero-author">by Joe Klingler</p>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num">15</span><span class="stat-label">Videos · Week 5</span></div>
+      <div class="stat"><span class="stat-num">4.1★</span><span class="stat-label">849 Readers</span></div>
+      <div class="stat"><span class="stat-num">15–30s</span><span class="stat-label">Audio Length</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider">
+  <div class="divider-line"></div>
+  <div class="divider-mark">f(x)</div>
+  <div class="divider-line"></div>
+</div>
+
+<section class="intro">
+  <span class="section-label">Week 5 Strategy</span>
+  <p>We are now in week 5 of the promotion. We will focus clearly and plainly on the story, the mystery, and the people reading the book. We want to show new readers why so many people have picked up this book. The language is plain. The message is simple: read this book to see what happens to Kandy and Qigiq.</p>
+</section>
+
+<div class="week-banner">
+  <div class="week-banner-line"></div>
+  <div class="week-banner-text">Week <span>Five</span></div>
+  <div class="week-banner-line"></div>
+</div>
+<div class="week-dates">June 19 – June 25, 2026 · Videos 61 to 75</div>
+
+<section class="calendar">
+
+  <div class="video-card" style="animation-delay:0.02s">
+    <div class="card-date"><div class="date-day">19</div><div class="date-month">Jun</div><div class="date-vid">Video 61</div></div>
+    <div class="card-body">
+      <div class="card-title">The Math Behind the Crime</div>
+      <div class="card-hook">"This killer leaves equations, not fingerprints."</div>
+      <div class="card-sections">
+        <div class="section-block"><h4>Video Script <button class="copy-btn" onclick="copyText(this, 'Most killers try to hide their tracks. The killer in Mash Up uses math to show off. A missing cello player. A strange video. It is all part of a puzzle. Kandy understands the computers. Qigiq understands the danger. Read the book to see if they solve the math before the music stops.')">Copy</button></h4><p>Most killers try to hide their tracks. The killer in Mash Up uses math to show off. A missing cello player. A strange video. It is all part of a puzzle. Kandy understands the computers. Qigiq understands the danger. Read the book to see if they solve the math before the music stops.</p></div>
+        <div class="section-block"><h4>Text Description <button class="copy-btn" onclick="copyText(this, 'Math, music, and murder. Mash Up by Joe Klingler is a thriller that makes you think. Find out how the pieces fit together. Get the book today on Amazon. #MashUpBook #MysteryBooks #JoeKlingler')">Copy</button></h4><p>Math, music, and murder. Mash Up by Joe Klingler is a thriller that makes you think. Find out how the pieces fit together. Get the book today on Amazon. #MashUpBook #MysteryBooks #JoeKlingler</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-card" style="animation-delay:0.04s">
+    <div class="card-date"><div class="date-day">19</div><div class="date-month">Jun</div><div class="date-vid">Video 62</div></div>
+    <div class="card-body">
+      <div class="card-title">The Alaska Detective</div>
+      <div class="card-hook">"He does not understand the tech, but he knows a killer."</div>
+      <div class="card-sections">
+        <div class="section-block"><h4>Video Script <button class="copy-btn" onclick="copyText(this, 'Detective Qigiq is from Alaska. He knows how to track a person in the snow. Now, he is in San Francisco, trying to catch someone hiding behind a screen. He might not know how to code, but his old-school skills are exactly what this case needs.')">Copy</button></h4><p>Detective Qigiq is from Alaska. He knows how to track a person in the snow. Now, he is in San Francisco, trying to catch someone hiding behind a screen. He might not know how to code, but his old-school skills are exactly what this case needs.</p></div>
+        <div class="section-block"><h4>Text Description <button class="copy-btn" onclick="copyText(this, 'Meet Detective Qigiq. He trades the frozen north for the tech world of California. Read the first book in the series today. #DetectiveStory #MashUp #BookReads')">Copy</button></h4><p>Meet Detective Qigiq. He trades the frozen north for the tech world of California. Read the first book in the series today. #DetectiveStory #MashUp #BookReads</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-card" style="animation-delay:0.06s">
+    <div class="card-date"><div class="date-day">20</div><div class="date-month">Jun</div><div class="date-vid">Video 63</div></div>
+    <div class="card-body">
+      <div class="card-title">Breaking the Rules</div>
+      <div class="card-hook">"Sometimes you have to cross the line to save a life."</div>
+      <div class="card-sections">
+        <div class="section-block"><h4>Video Script <button class="copy-btn" onclick="copyText(this, 'Detective Kandy Dreeson does not follow the normal rules. When you are hunting criminals on the internet, the old rules do not work. She uses modern tech to fight back. Watch her team up with Qigiq in the thriller Mash Up. It is a fast read.')">Copy</button></h4><p>Detective Kandy Dreeson does not follow the normal rules. When you are hunting criminals on the internet, the old rules do not work. She uses modern tech to fight back. Watch her team up with Qigiq in the thriller Mash Up. It is a fast read.</p></div>
+        <div class="section-block"><h4>Text Description <button class="copy-btn" onclick="copyText(this, 'Kandy Dreeson is smart, fast, and ready to break the rules. Pick up Mash Up by Joe Klingler and see her in action. #ThrillerFiction #StrongCharacters #MashUpBook')">Copy</button></h4><p>Kandy Dreeson is smart, fast, and ready to break the rules. Pick up Mash Up by Joe Klingler and see her in action. #ThrillerFiction #StrongCharacters #MashUpBook</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-card" style="animation-delay:0.08s">
+    <div class="card-date"><div class="date-day">20</div><div class="date-month">Jun</div><div class="date-vid">Video 64</div></div>
+    <div class="card-body">
+      <div class="card-title">Stealing Music</div>
+      <div class="card-hook">"Is stealing a song a real crime?"</div>
+      <div class="card-sections">
+        <div class="section-block"><h4>Video Script <button class="copy-btn" onclick="copyText(this, 'People download music for free every day. But what happens when the creator decides to strike back? In Mash Up, digital piracy turns deadly. The book makes you think about who really owns art. Get your copy and read the story today.')">Copy</button></h4><p>People download music for free every day. But what happens when the creator decides to strike back? In Mash Up, digital piracy turns deadly. The book makes you think about who really owns art. Get your copy and read the story today.</p></div>
+        <div class="section-block"><h4>Text Description <button class="copy-btn" onclick="copyText(this, 'A mystery that looks at the real cost of stealing digital music. Mash Up by Joe Klingler. #MusicPiracy #MysteryBooks #ReadMore')">Copy</button></h4><p>A mystery that looks at the real cost of stealing digital music. Mash Up by Joe Klingler. #MusicPiracy #MysteryBooks #ReadMore</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-card" style="animation-delay:0.10s">
+    <div class="card-date"><div class="date-day">21</div><div class="date-month">Jun</div><div class="date-vid">Video 65</div></div>
+    <div class="card-body">
+      <div class="card-title">San Francisco Setting</div>
+      <div class="card-hook">"The city is a big part of the story."</div>
+      <div class="card-sections">
+        <div class="section-block"><h4>Video Script <button class="copy-btn" onclick="copyText(this, 'San Francisco is famous for big tech companies. It is the perfect place for a modern mystery. In Mash Up, the fog and the steep streets hide a dangerous stalker. If you like books with great locations, you will enjoy this one. Check it out.')">Copy</button></h4><p>San Francisco is famous for big tech companies. It is the perfect place for a modern mystery. In Mash Up, the fog and the steep streets hide a dangerous stalker. If you like books with great locations, you will enjoy this one. Check it out.</p></div>
+        <div class="section-block"><h4>Text Description <button class="copy-btn" onclick="copyText(this, 'San Francisco comes to life in this thriller by Joe Klingler. A great setting for a dark mystery. Get the book now. #SanFrancisco #ThrillerBooks #MashUp')">Copy</button></h4><p>San Francisco comes to life in this thriller by Joe Klingler. A great setting for a dark mystery. Get the book now. #SanFrancisco #ThrillerBooks #MashUp</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-card" style="animation-delay:0.12s">
+    <div class="card-date"><div class="date-day">21</div><div class="date-month">Jun</div><div class="date-vid">Video 66</div></div>
+    <div class="card-body">
+      <div class="card-title">The Video Clue</div>
+      <div class="card-hook">"A weird video on the internet starts it all."</div>
+      <div class="card-sections">
+        <div class="section-block"><h4>Video Script <button class="copy-btn" onclick="copyText(this, 'A user named F112358 posts a strange video on YouTube. It is the first real clue for the detectives. They have to figure out what it means before another person gets hurt. It is a race against time in the book Mash Up. Read it to see what happens.')">Copy</button></h4><p>A user named F112358 posts a strange video on YouTube. It is the first real clue for the detectives. They have to figure out what it means before another person gets hurt. It is a race against time in the book Mash Up. Read it to see what happens.</p></div>
+        <div class="section-block"><h4>Text Description <button class="copy-btn" onclick="copyText(this, 'One video online changes the whole case. Mash Up is full of modern clues and fast action. Grab your copy. #InternetMystery #JoeKlingler #BookLover')">Copy</button></h4><p>One video online changes the whole case. Mash Up is full of modern clues and fast action. Grab your copy. #InternetMystery #JoeKlingler #BookLover</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-card" style="animation-delay:0.14s">
+    <div class="card-date"><div class="date-day">22</div><div class="date-month">Jun</div><div class="date-vid">Video 67</div></div>
+    <div class="card-body">
+      <div class="card-title">800 Readers Agree</div>
+      <div class="card-hook">"Over 800 people have reviewed this book."</div>
+      <div class="card-sections">
+        <div class="section-block"><h4>Video Script <button class="copy-btn" onclick="copyText(this, 'When looking for a new book, reviews help. Mash Up has over 800 ratings and 4.1 stars. Readers say it is full of suspense and has great characters. Join the people who have already enjoyed this story. Grab your copy of Mash Up today.')">Copy</button></h4><p>When looking for a new book, reviews help. Mash Up has over 800 ratings and 4.1 stars. Readers say it is full of suspense and has great characters. Join the people who have already enjoyed this story. Grab your copy of Mash Up today.</p></div>
+        <div class="section-block"><h4>Text Description <button class="copy-btn" onclick="copyText(this, 'Join over 800 readers who gave Mash Up high marks. A great thriller to read this weekend. #BookReviews #MashUpBook #GoodReads')">Copy</button></h4><p>Join over 800 readers who gave Mash Up high marks. A great thriller to read this weekend. #BookReviews #MashUpBook #GoodReads</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-card" style="animation-delay:0.16s">
+    <div class="card-date"><div class="date-day">22</div><div class="date-month">Jun</div><div class="date-vid">Video 68</div></div>
+    <div class="card-body">
+      <div class="card-title">The Fake Ad</div>
+      <div class="card-hook">"Be careful what you click on."</div>
+      <div class="card-sections">
+        <div class="section-block"><h4>Video Script <button class="copy-btn" onclick="copyText(this, 'A simple ad on the internet looks normal. But in this book, the ad is a trap. The killer uses normal websites to stalk his victims. It shows how dangerous the internet can be. Read Mash Up to see how the detectives track down the ad.')">Copy</button></h4><p>A simple ad on the internet looks normal. But in this book, the ad is a trap. The killer uses normal websites to stalk his victims. It shows how dangerous the internet can be. Read Mash Up to see how the detectives track down the ad.</p></div>
+        <div class="section-block"><h4>Text Description <button class="copy-btn" onclick="copyText(this, 'A normal internet ad turns into a deadly clue. Read the thriller Mash Up by Joe Klingler. #CyberSafety #ThrillerNovel #MashUp')">Copy</button></h4><p>A normal internet ad turns into a deadly clue. Read the thriller Mash Up by Joe Klingler. #CyberSafety #ThrillerNovel #MashUp</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-card" style="animation-delay:0.18s">
+    <div class="card-date"><div class="date-day">23</div><div class="date-month">Jun</div><div class="date-vid">Video 69</div></div>
+    <div class="card-body">
+      <div class="card-title">A Great Team</div>
+      <div class="card-hook">"They are different, but they work well together."</div>
+      <div class="card-sections">
+        <div class="section-block"><h4>Video Script <button class="copy-btn" onclick="copyText(this, 'Qigiq is from the cold woods. Kandy is from the busy city. They are complete opposites. But when they work together, they are a great team. Readers love how they interact in the book. Get Mash Up to meet your new favorite detective duo.')">Copy</button></h4><p>Qigiq is from the cold woods. Kandy is from the busy city. They are complete opposites. But when they work together, they are a great team. Readers love how they interact in the book. Get Mash Up to meet your new favorite detective duo.</p></div>
+        <div class="section-block"><h4>Text Description <button class="copy-btn" onclick="copyText(this, 'Opposites attract in this detective story. Meet Qigiq and Kandy in Mash Up. Available in paperback and Kindle. #DetectiveDuo #BookCharacters #MashUp')">Copy</button></h4><p>Opposites attract in this detective story. Meet Qigiq and Kandy in Mash Up. Available in paperback and Kindle. #DetectiveDuo #BookCharacters #MashUp</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-card" style="animation-delay:0.20s">
+    <div class="card-date"><div class="date-day">23</div><div class="date-month">Jun</div><div class="date-vid">Video 70</div></div>
+    <div class="card-body">
+      <div class="card-title">The Virus in the Code</div>
+      <div class="card-hook">"A computer virus that causes real harm."</div>
+      <div class="card-sections">
+        <div class="section-block"><h4>Video Script <button class="copy-btn" onclick="copyText(this, 'We all worry about computer viruses. But the virus in this book does not just delete files. It helps the killer find targets. It is a scary idea because it feels so real. Joe Klingler knows computers, and he makes the danger clear in Mash Up. Read it today.')">Copy</button></h4><p>We all worry about computer viruses. But the virus in this book does not just delete files. It helps the killer find targets. It is a scary idea because it feels so real. Joe Klingler knows computers, and he makes the danger clear in Mash Up. Read it today.</p></div>
+        <div class="section-block"><h4>Text Description <button class="copy-btn" onclick="copyText(this, 'A computer virus that tracks music fans. Read about it in the thriller Mash Up. #TechBooks #Suspense #JoeKlingler')">Copy</button></h4><p>A computer virus that tracks music fans. Read about it in the thriller Mash Up. #TechBooks #Suspense #JoeKlingler</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-card" style="animation-delay:0.22s">
+    <div class="card-date"><div class="date-day">24</div><div class="date-month">Jun</div><div class="date-vid">Video 71</div></div>
+    <div class="card-body">
+      <div class="card-title">Real World Action</div>
+      <div class="card-hook">"It is not just typing on keyboards."</div>
+      <div class="card-sections">
+        <div class="section-block"><h4>Video Script <button class="copy-btn" onclick="copyText(this, 'Some tech books are just people looking at screens. Not Mash Up. When the internet clues lead to real places, the action is fast. Qigiq has to use his physical skills to survive. It is a book that keeps moving. Order the book and enjoy the ride.')">Copy</button></h4><p>Some tech books are just people looking at screens. Not Mash Up. When the internet clues lead to real places, the action is fast. Qigiq has to use his physical skills to survive. It is a book that keeps moving. Order the book and enjoy the ride.</p></div>
+        <div class="section-block"><h4>Text Description <button class="copy-btn" onclick="copyText(this, 'A tech story with real world action. Read Mash Up for a fast-paced mystery. #ActionBooks #MashUpBook #ReadFiction')">Copy</button></h4><p>A tech story with real world action. Read Mash Up for a fast-paced mystery. #ActionBooks #MashUpBook #ReadFiction</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-card" style="animation-delay:0.24s">
+    <div class="card-date"><div class="date-day">24</div><div class="date-month">Jun</div><div class="date-vid">Video 72</div></div>
+    <div class="card-body">
+      <div class="card-title">A Smart Book</div>
+      <div class="card-hook">"A mystery that respects the reader."</div>
+      <div class="card-sections">
+        <div class="section-block"><h4>Video Script <button class="copy-btn" onclick="copyText(this, 'A good book makes you think. Mash Up asks hard questions about modern technology and who owns digital art. Kirkus Reviews said it is a thoughtful tale. It is smart, but it is also very entertaining. Add it to your reading list this week.')">Copy</button></h4><p>A good book makes you think. Mash Up asks hard questions about modern technology and who owns digital art. Kirkus Reviews said it is a thoughtful tale. It is smart, but it is also very entertaining. Add it to your reading list this week.</p></div>
+        <div class="section-block"><h4>Text Description <button class="copy-btn" onclick="copyText(this, 'A thoughtful, smart mystery about digital life. Get Mash Up by Joe Klingler today. #SmartReads #MashUp #BookCommunity')">Copy</button></h4><p>A thoughtful, smart mystery about digital life. Get Mash Up by Joe Klingler today. #SmartReads #MashUp #BookCommunity</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-card" style="animation-delay:0.26s">
+    <div class="card-date"><div class="date-day">25</div><div class="date-month">Jun</div><div class="date-vid">Video 73</div></div>
+    <div class="card-body">
+      <div class="card-title">What Readers Say</div>
+      <div class="card-hook">"I read it slow so it would not end."</div>
+      <div class="card-sections">
+        <div class="section-block"><h4>Video Script <button class="copy-btn" onclick="copyText(this, 'One reader left a review saying, I read it slow so it would not end. That is the best thing you can hear about a book. Readers love the mystery, the characters, and the setting. If you want a book that pulls you in, read Mash Up.')">Copy</button></h4><p>One reader left a review saying, I read it slow so it would not end. That is the best thing you can hear about a book. Readers love the mystery, the characters, and the setting. If you want a book that pulls you in, read Mash Up.</p></div>
+        <div class="section-block"><h4>Text Description <button class="copy-btn" onclick="copyText(this, 'Readers love Mash Up. Get your copy today and see what the excitement is about. #ReaderReview #MashUp #MysteryLover')">Copy</button></h4><p>Readers love Mash Up. Get your copy today and see what the excitement is about. #ReaderReview #MashUp #MysteryLover</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-card" style="animation-delay:0.28s">
+    <div class="card-date"><div class="date-day">25</div><div class="date-month">Jun</div><div class="date-vid">Video 74</div></div>
+    <div class="card-body">
+      <div class="card-title">The First of Four</div>
+      <div class="card-hook">"Start a new series today."</div>
+      <div class="card-sections">
+        <div class="section-block"><h4>Video Script <button class="copy-btn" onclick="copyText(this, 'If you hate when a good book ends, there is good news. Mash Up is the first book in a four-part series. You can read this one, and keep following Qigiq and Kandy in the next books. Start the series today with book one.')">Copy</button></h4><p>If you hate when a good book ends, there is good news. Mash Up is the first book in a four-part series. You can read this one, and keep following Qigiq and Kandy in the next books. Start the series today with book one.</p></div>
+        <div class="section-block"><h4>Text Description <button class="copy-btn" onclick="copyText(this, 'Mash Up is book 1 of the Detective Qigiq series. Start reading today. #BookSeries #DetectiveQigiq #MashUpBook')">Copy</button></h4><p>Mash Up is book 1 of the Detective Qigiq series. Start reading today. #BookSeries #DetectiveQigiq #MashUpBook</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-card" style="animation-delay:0.30s">
+    <div class="card-date"><div class="date-day">25</div><div class="date-month">Jun</div><div class="date-vid">Video 75</div></div>
+    <div class="card-body">
+      <div class="card-title">Get The Book Now</div>
+      <div class="card-hook">"The mystery is waiting for you."</div>
+      <div class="card-sections">
+        <div class="section-block"><h4>Video Script <button class="copy-btn" onclick="copyText(this, 'A missing musician. A strange virus. Two detectives trying to stop it all. Mash Up by Joe Klingler is a story that moves fast and keeps you guessing. It is available right now on Kindle and in paperback. Go get the book and start reading.')">Copy</button></h4><p>A missing musician. A strange virus. Two detectives trying to stop it all. Mash Up by Joe Klingler is a story that moves fast and keeps you guessing. It is available right now on Kindle and in paperback. Go get the book and start reading.</p></div>
+        <div class="section-block"><h4>Text Description <button class="copy-btn" onclick="copyText(this, 'The mystery is waiting. Get Mash Up on Amazon today and meet Qigiq and Kandy. Link in bio. #MashUp #JoeKlingler #ReadBooks')">Copy</button></h4><p>The mystery is waiting. Get Mash Up on Amazon today and meet Qigiq and Kandy. Link in bio. #MashUp #JoeKlingler #ReadBooks</p></div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<footer class="footer">
+  <span class="footer-code">\u221E</span>
+  <div class="footer-title">Mash Up — Joe Klingler</div>
+  <div class="footer-sub">Week 5 Content Plan · June 19 – June 25, 2026 · Videos 61 to 75</div>
+  <div class="footer-links">
+  </div>
+</footer>
+
+<script>
+function copyText(btn, text) {
+  navigator.clipboard.writeText(text).then(() => {
+    const original = btn.textContent;
+    btn.textContent = 'Copied';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = original;
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — Atomic Shelf</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=DM+Serif+Display&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink:       #0f1117;
+    --ink-mid:   #3d4354;
+    --ink-muted: #6b7280;
+    --accent:    #2563eb;
+    --rule:      #e2e6f0;
+    --bg:        #ffffff;
+    --bg-tint:   #f6f8fd;
+    --serif: 'DM Serif Display', Georgia, serif;
+    --sans:  'Inter', system-ui, sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--ink);
+    background: var(--bg);
+  }
+
+  /* ── TOP BAR ─────────────────────────────── */
+  .topbar {
+    border-bottom: 1px solid var(--rule);
+    padding: 18px 0;
+    position: sticky;
+    top: 0;
+    background: rgba(255,255,255,.96);
+    backdrop-filter: blur(6px);
+    z-index: 100;
+  }
+  .topbar-inner {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .brand {
+    font-family: var(--serif);
+    font-size: 20px;
+    color: var(--ink);
+    text-decoration: none;
+    letter-spacing: -.3px;
+  }
+  .brand span { color: var(--accent); }
+  .badge {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--ink-muted);
+    letter-spacing: .06em;
+    text-transform: uppercase;
+  }
+
+  /* ── HERO ────────────────────────────────── */
+  .hero {
+    background: var(--bg-tint);
+    border-bottom: 1px solid var(--rule);
+    padding: 64px 28px 52px;
+    text-align: center;
+  }
+  .hero-eyebrow {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+    padding: 5px 14px;
+    border: 1px solid #bfcfee;
+    border-radius: 20px;
+    background: #eef3fd;
+  }
+  .hero h1 {
+    font-family: var(--serif);
+    font-size: clamp(32px, 6vw, 48px);
+    font-weight: 400;
+    line-height: 1.15;
+    color: var(--ink);
+    letter-spacing: -.5px;
+    margin-bottom: 14px;
+  }
+  .hero-meta {
+    font-size: 13px;
+    color: var(--ink-muted);
+  }
+  .hero-meta strong { color: var(--ink-mid); font-weight: 500; }
+
+  /* ── TOC ─────────────────────────────────── */
+  .toc-wrap {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 40px 28px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .toc-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 16px;
+  }
+  .toc {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 6px 24px;
+    list-style: none;
+  }
+  .toc li a {
+    font-size: 13px;
+    color: var(--ink-mid);
+    text-decoration: none;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+  .toc li a:hover { color: var(--accent); }
+  .toc li a .n {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent);
+    min-width: 18px;
+  }
+
+  /* ── BODY ────────────────────────────────── */
+  .content {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 48px 28px 80px;
+  }
+
+  .sec {
+    margin-bottom: 52px;
+    scroll-margin-top: 80px;
+  }
+
+  .sec-header {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid var(--rule);
+  }
+  .sec-num {
+    font-family: var(--serif);
+    font-size: 22px;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .sec-title {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--ink);
+    letter-spacing: -.2px;
+  }
+
+  .preamble {
+    font-size: 14px;
+    color: var(--ink-mid);
+    line-height: 1.75;
+    padding: 20px 24px;
+    background: var(--bg-tint);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 48px;
+  }
+
+  p { margin-bottom: 14px; color: var(--ink-mid); }
+  p:last-child { margin-bottom: 0; }
+
+  .sub {
+    font-weight: 600;
+    color: var(--ink);
+    font-size: 14px;
+    margin-top: 22px;
+    margin-bottom: 8px;
+  }
+
+  ul.bullets {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0 14px;
+  }
+  ul.bullets li {
+    color: var(--ink-mid);
+    padding-left: 20px;
+    position: relative;
+    margin-bottom: 7px;
+    font-size: 14px;
+    line-height: 1.65;
+  }
+  ul.bullets li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 10px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: .55;
+  }
+
+  /* data table */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin: 16px 0 20px;
+  }
+  .data-table th {
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    padding: 8px 12px;
+    border-bottom: 2px solid var(--rule);
+    background: var(--bg-tint);
+  }
+  .data-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--rule);
+    color: var(--ink-mid);
+    vertical-align: top;
+  }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table td:first-child { font-weight: 600; color: var(--ink); }
+
+  /* rights grid */
+  .rights-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+    margin: 16px 0;
+  }
+  .right-card {
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 16px;
+    background: var(--bg-tint);
+  }
+  .right-card .right-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .right-card p {
+    font-size: 12px;
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  /* highlight box */
+  .info-box {
+    background: #eef3fd;
+    border: 1px solid #bfcfee;
+    border-radius: 6px;
+    padding: 16px 20px;
+    font-size: 13.5px;
+    line-height: 1.65;
+    color: var(--ink-mid);
+    margin: 14px 0;
+  }
+  .info-box strong { color: var(--ink); }
+
+  /* contact block */
+  .contact-block {
+    background: var(--bg-tint);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    padding: 28px 32px;
+    margin-top: 52px;
+  }
+  .contact-block h2 {
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 16px;
+  }
+  .contact-block dl {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 8px 16px;
+    font-size: 14px;
+  }
+  .contact-block dt { font-weight: 600; color: var(--ink); }
+  .contact-block dd { color: var(--ink-mid); }
+  .contact-block dd a { color: var(--accent); text-decoration: none; }
+  .contact-block dd a:hover { text-decoration: underline; }
+
+  footer {
+    border-top: 1px solid var(--rule);
+    padding: 28px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--ink-muted);
+  }
+  footer a { color: var(--accent); text-decoration: none; }
+
+  a { color: var(--accent); }
+
+  @media (max-width: 600px) {
+    .toc { grid-template-columns: 1fr; }
+    .rights-grid { grid-template-columns: 1fr 1fr; }
+    .data-table { font-size: 12px; }
+    .data-table th, .data-table td { padding: 8px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<nav class="topbar" aria-label="Site navigation">
+  <div class="topbar-inner">
+    <a class="brand" href="https://atomic-shelf.com">Atomic<span>·</span>Shelf</a>
+    <span class="badge">Privacy Policy</span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-eyebrow">Legal</div>
+  <h1>Privacy Policy</h1>
+  <p class="hero-meta">
+    <strong>Effective date:</strong> 1 September 2026 &nbsp;·&nbsp;
+    <strong>Applies to:</strong> atomic-shelf.com and all Atomic Shelf services
+  </p>
+</header>
+
+<!-- TABLE OF CONTENTS -->
+<nav class="toc-wrap" aria-label="Page sections">
+  <div class="toc-label">Sections</div>
+  <ol class="toc">
+    <li><a href="#s1"><span class="n">1</span> Who We Are</a></li>
+    <li><a href="#s2"><span class="n">2</span> What Data We Collect</a></li>
+    <li><a href="#s3"><span class="n">3</span> How We Use Your Data</a></li>
+    <li><a href="#s4"><span class="n">4</span> Legal Basis for Processing</a></li>
+    <li><a href="#s5"><span class="n">5</span> Sharing Your Data</a></li>
+    <li><a href="#s6"><span class="n">6</span> Cookies &amp; Tracking</a></li>
+    <li><a href="#s7"><span class="n">7</span> Data Retention</a></li>
+    <li><a href="#s8"><span class="n">8</span> International Transfers</a></li>
+    <li><a href="#s9"><span class="n">9</span> Your Rights</a></li>
+    <li><a href="#s10"><span class="n">10</span> Children&rsquo;s Privacy</a></li>
+    <li><a href="#s11"><span class="n">11</span> Third-Party Links</a></li>
+    <li><a href="#s12"><span class="n">12</span> Changes to This Policy</a></li>
+    <li><a href="#s13"><span class="n">13</span> Contact &amp; Complaints</a></li>
+  </ol>
+</nav>
+
+<!-- MAIN CONTENT -->
+<main class="content">
+
+  <p class="preamble">
+    Atomic Shelf takes your privacy seriously. This Privacy Policy explains what personal data we collect when you use our website and services, why we collect it, how we use it, and what rights you have. We aim to be clear and direct — if anything here is unclear, please reach out to <a href="mailto:nick@atomic-shelf.com">nick@atomic-shelf.com</a>.
+  </p>
+
+  <!-- 1 -->
+  <section class="sec" id="s1">
+    <div class="sec-header">
+      <span class="sec-num">1</span>
+      <h2 class="sec-title">Who We Are</h2>
+    </div>
+    <p>Atomic Shelf (&ldquo;we,&rdquo; &ldquo;us,&rdquo; or &ldquo;our&rdquo;) operates the website at <a href="https://atomic-shelf.com">atomic-shelf.com</a> and provides AI-powered book marketing services to independent authors. For the purposes of applicable data protection law, Atomic Shelf is the <strong>data controller</strong> of personal data collected through this website and our services.</p>
+    <p>You can contact us at <a href="mailto:nick@atomic-shelf.com">nick@atomic-shelf.com</a> with any privacy-related queries.</p>
+  </section>
+
+  <!-- 2 -->
+  <section class="sec" id="s2">
+    <div class="sec-header">
+      <span class="sec-num">2</span>
+      <h2 class="sec-title">What Data We Collect</h2>
+    </div>
+
+    <div class="sub">2.1 &nbsp;Data you give us directly</div>
+    <table class="data-table" aria-label="Data collected directly from you">
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Examples</th>
+          <th>When</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Account &amp; identity</td>
+          <td>Name, email address, author name or pen name</td>
+          <td>Signing up or contacting us</td>
+        </tr>
+        <tr>
+          <td>Billing</td>
+          <td>Payment method details (processed by our payment provider — we do not store card numbers)</td>
+          <td>Subscribing to a plan</td>
+        </tr>
+        <tr>
+          <td>Book &amp; creative content</td>
+          <td>Book title, cover art, genre, target audience, excerpts, author bio and photo</td>
+          <td>Onboarding and campaign setup</td>
+        </tr>
+        <tr>
+          <td>Communications</td>
+          <td>Messages, feedback, support requests</td>
+          <td>Contacting us by email or through the platform</td>
+        </tr>
+        <tr>
+          <td>Platform credentials</td>
+          <td>Social media account access tokens (where you grant them)</td>
+          <td>Connecting accounts for content publishing</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="sub">2.2 &nbsp;Data we collect automatically</div>
+    <ul class="bullets">
+      <li><strong>Usage data</strong> — pages visited, time on site, clicks, referral source</li>
+      <li><strong>Device data</strong> — browser type, operating system, screen resolution, IP address</li>
+      <li><strong>Cookies and similar technologies</strong> — see Section 6 for details</li>
+    </ul>
+
+    <div class="sub">2.3 &nbsp;Data from third parties</div>
+    <ul class="bullets">
+      <li><strong>Analytics platforms</strong> — TikTok, YouTube, Amazon, and Meta may provide us with aggregated performance data related to content published on your behalf</li>
+      <li><strong>Amazon Advertising</strong> — attribution and sales data from DSP campaigns we manage for you</li>
+      <li><strong>Payment processors</strong> — confirmation of successful or failed payments (not full card details)</li>
+    </ul>
+  </section>
+
+  <!-- 3 -->
+  <section class="sec" id="s3">
+    <div class="sec-header">
+      <span class="sec-num">3</span>
+      <h2 class="sec-title">How We Use Your Data</h2>
+    </div>
+    <table class="data-table" aria-label="How we use your data">
+      <thead>
+        <tr>
+          <th>Purpose</th>
+          <th>Details</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Delivering the Services</td>
+          <td>Producing your Deliverables, publishing content to connected platforms, managing your ad campaigns</td>
+        </tr>
+        <tr>
+          <td>Account management</td>
+          <td>Creating and managing your account, processing payments, issuing invoices</td>
+        </tr>
+        <tr>
+          <td>Performance reporting</td>
+          <td>Compiling monthly analytics reports on your campaigns' views, attribution, and sales metrics</td>
+        </tr>
+        <tr>
+          <td>Customer support</td>
+          <td>Responding to your queries, troubleshooting issues, managing complaints</td>
+        </tr>
+        <tr>
+          <td>Service improvement</td>
+          <td>Analysing how our platform and services are used so we can improve them; training and refining our AI pipeline (using aggregated, non-identifiable data only)</td>
+        </tr>
+        <tr>
+          <td>Legal &amp; compliance</td>
+          <td>Meeting our obligations under applicable law, resolving disputes, enforcing our Terms of Service</td>
+        </tr>
+        <tr>
+          <td>Marketing (our own)</td>
+          <td>Sending service updates and, where you have opted in, promotional communications about Atomic Shelf. You can opt out at any time.</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>We do not sell your personal data to third parties, and we do not use your data to train external AI models.</p>
+  </section>
+
+  <!-- 4 -->
+  <section class="sec" id="s4">
+    <div class="sec-header">
+      <span class="sec-num">4</span>
+      <h2 class="sec-title">Legal Basis for Processing</h2>
+    </div>
+    <p>Where the UK GDPR or EU GDPR applies, we process your personal data on the following legal bases:</p>
+    <ul class="bullets">
+      <li><strong>Contract</strong> — processing necessary to deliver the Services you have subscribed to (account data, billing, content production, campaign management).</li>
+      <li><strong>Legitimate interests</strong> — improving our Services, detecting fraud, security monitoring, and direct marketing to existing clients, where these interests are not overridden by your rights.</li>
+      <li><strong>Legal obligation</strong> — where we must process data to comply with applicable law (e.g. tax records, responding to lawful requests from authorities).</li>
+      <li><strong>Consent</strong> — for optional marketing communications and for placing non-essential cookies. You may withdraw consent at any time without affecting the lawfulness of prior processing.</li>
+    </ul>
+  </section>
+
+  <!-- 5 -->
+  <section class="sec" id="s5">
+    <div class="sec-header">
+      <span class="sec-num">5</span>
+      <h2 class="sec-title">Sharing Your Data</h2>
+    </div>
+    <p>We share personal data only where necessary and with appropriate safeguards in place.</p>
+
+    <div class="sub">Service providers (data processors)</div>
+    <ul class="bullets">
+      <li><strong>Payment processors</strong> — to handle subscription billing securely</li>
+      <li><strong>Cloud hosting &amp; infrastructure</strong> — to store data and run the Platform</li>
+      <li><strong>Email and communication tools</strong> — to send you notifications and reports</li>
+      <li><strong>Amazon Advertising</strong> — to run DSP campaigns on your behalf</li>
+      <li><strong>Social media platforms</strong> — TikTok, YouTube, Meta, Pinterest, X — to publish Deliverables and retrieve performance data</li>
+    </ul>
+    <p>All service providers are contractually required to process data only on our instructions and to maintain appropriate security measures.</p>
+
+    <div class="sub">Other disclosures</div>
+    <ul class="bullets">
+      <li><strong>Legal requirements</strong> — if required by law, court order, or government authority</li>
+      <li><strong>Business transfers</strong> — in connection with a merger, acquisition, or sale of assets, subject to equivalent privacy protections</li>
+      <li><strong>With your consent</strong> — for any other purpose not listed here</li>
+    </ul>
+
+    <div class="info-box">
+      <strong>We never sell your data.</strong> Your personal information is not sold, rented, or traded to any third party for their own marketing purposes.
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="sec" id="s6">
+    <div class="sec-header">
+      <span class="sec-num">6</span>
+      <h2 class="sec-title">Cookies &amp; Tracking</h2>
+    </div>
+    <p>Our website uses cookies and similar technologies. Here is what we use and why:</p>
+    <table class="data-table" aria-label="Cookie types">
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Purpose</th>
+          <th>Can you opt out?</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Essential</td>
+          <td>Keeping you logged in, security tokens, load balancing</td>
+          <td>No — required for the site to function</td>
+        </tr>
+        <tr>
+          <td>Analytics</td>
+          <td>Understanding how visitors use the site (page views, session duration, referral source)</td>
+          <td>Yes — via your browser settings or our cookie banner</td>
+        </tr>
+        <tr>
+          <td>Marketing</td>
+          <td>Measuring ad campaign effectiveness (e.g. retargeting pixels)</td>
+          <td>Yes — via our cookie banner or browser settings</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>You can manage cookies through your browser settings at any time. Disabling non-essential cookies will not prevent you from using the site, but some features may be limited.</p>
+  </section>
+
+  <!-- 7 -->
+  <section class="sec" id="s7">
+    <div class="sec-header">
+      <span class="sec-num">7</span>
+      <h2 class="sec-title">Data Retention</h2>
+    </div>
+    <p>We keep your personal data for as long as necessary to provide the Services and meet our legal obligations.</p>
+    <table class="data-table" aria-label="Retention periods">
+      <thead>
+        <tr>
+          <th>Data type</th>
+          <th>Retention period</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Account &amp; billing records</td>
+          <td>7 years from the end of the subscription (tax and accounting obligations)</td>
+        </tr>
+        <tr>
+          <td>Campaign and performance data</td>
+          <td>3 years after the end of your subscription</td>
+        </tr>
+        <tr>
+          <td>Support communications</td>
+          <td>3 years from the date of the communication</td>
+        </tr>
+        <tr>
+          <td>Creative content submitted by you</td>
+          <td>Deleted within 90 days of account closure on written request</td>
+        </tr>
+        <tr>
+          <td>Analytics / cookies</td>
+          <td>Up to 26 months (standard analytics window)</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>After the applicable retention period, data is securely deleted or anonymised.</p>
+  </section>
+
+  <!-- 8 -->
+  <section class="sec" id="s8">
+    <div class="sec-header">
+      <span class="sec-num">8</span>
+      <h2 class="sec-title">International Data Transfers</h2>
+    </div>
+    <p>Atomic Shelf operates globally and some of our service providers are based outside the UK or European Economic Area (EEA). Where we transfer personal data internationally, we ensure appropriate safeguards are in place, such as:</p>
+    <ul class="bullets">
+      <li>Standard Contractual Clauses (SCCs) approved by the relevant authority</li>
+      <li>Adequacy decisions recognising the destination country's data protection standards</li>
+      <li>Other lawful transfer mechanisms under applicable law</li>
+    </ul>
+    <p>You can request details of the specific safeguards in place for any transfer by contacting us at <a href="mailto:nick@atomic-shelf.com">nick@atomic-shelf.com</a>.</p>
+  </section>
+
+  <!-- 9 -->
+  <section class="sec" id="s9">
+    <div class="sec-header">
+      <span class="sec-num">9</span>
+      <h2 class="sec-title">Your Rights</h2>
+    </div>
+    <p>Depending on where you are located, you may have the following rights regarding your personal data. We honour all valid requests within 30 days.</p>
+    <div class="rights-grid">
+      <div class="right-card">
+        <div class="right-title">Access</div>
+        <p>Request a copy of the personal data we hold about you.</p>
+      </div>
+      <div class="right-card">
+        <div class="right-title">Correction</div>
+        <p>Ask us to correct inaccurate or incomplete data.</p>
+      </div>
+      <div class="right-card">
+        <div class="right-title">Erasure</div>
+        <p>Request deletion of your data where we no longer have a lawful reason to hold it.</p>
+      </div>
+      <div class="right-card">
+        <div class="right-title">Restriction</div>
+        <p>Ask us to limit how we use your data in certain circumstances.</p>
+      </div>
+      <div class="right-card">
+        <div class="right-title">Portability</div>
+        <p>Receive your data in a structured, machine-readable format.</p>
+      </div>
+      <div class="right-card">
+        <div class="right-title">Objection</div>
+        <p>Object to processing based on legitimate interests, including direct marketing.</p>
+      </div>
+      <div class="right-card">
+        <div class="right-title">Withdraw Consent</div>
+        <p>Withdraw consent at any time where processing is consent-based.</p>
+      </div>
+      <div class="right-card">
+        <div class="right-title">Automated Decisions</div>
+        <p>Not be subject to solely automated decisions with significant legal effects.</p>
+      </div>
+    </div>
+    <p>To exercise any of these rights, email <a href="mailto:nick@atomic-shelf.com">nick@atomic-shelf.com</a> with a description of your request. We may need to verify your identity before responding. There is no charge for exercising your rights unless requests are manifestly unfounded or excessive.</p>
+  </section>
+
+  <!-- 10 -->
+  <section class="sec" id="s10">
+    <div class="sec-header">
+      <span class="sec-num">10</span>
+      <h2 class="sec-title">Children&rsquo;s Privacy</h2>
+    </div>
+    <p>Our Services are intended for adults aged 18 and over. We do not knowingly collect personal data from anyone under the age of 18. If you believe we have inadvertently collected data about a minor, please contact us immediately at <a href="mailto:nick@atomic-shelf.com">nick@atomic-shelf.com</a> and we will delete it promptly.</p>
+  </section>
+
+  <!-- 11 -->
+  <section class="sec" id="s11">
+    <div class="sec-header">
+      <span class="sec-num">11</span>
+      <h2 class="sec-title">Third-Party Links</h2>
+    </div>
+    <p>Our website and communications may contain links to third-party websites and platforms (including Amazon, TikTok, YouTube, and others). This Privacy Policy applies only to Atomic Shelf. We are not responsible for the privacy practices of third-party sites, and we encourage you to review their privacy policies before sharing any personal data with them.</p>
+  </section>
+
+  <!-- 12 -->
+  <section class="sec" id="s12">
+    <div class="sec-header">
+      <span class="sec-num">12</span>
+      <h2 class="sec-title">Changes to This Policy</h2>
+    </div>
+    <p>We may update this Privacy Policy from time to time to reflect changes in our practices, technology, or legal requirements. When we make material changes, we will update the effective date at the top of this page and, where appropriate, notify you by email.</p>
+    <p>We encourage you to review this page periodically. Continued use of the Services after an update constitutes acceptance of the revised policy.</p>
+  </section>
+
+  <!-- 13 -->
+  <section class="sec" id="s13">
+    <div class="sec-header">
+      <span class="sec-num">13</span>
+      <h2 class="sec-title">Contact &amp; Complaints</h2>
+    </div>
+    <p>If you have any questions about this Privacy Policy or how we handle your data, please contact us:</p>
+    <p>If you are not satisfied with our response, and you are located in the UK or EEA, you have the right to lodge a complaint with your local data protection authority. In the UK, this is the <strong>Information Commissioner&rsquo;s Office (ICO)</strong> at <a href="https://ico.org.uk" target="_blank" rel="noopener">ico.org.uk</a>.</p>
+  </section>
+
+  <!-- CONTACT -->
+  <div class="contact-block">
+    <h2>Get in Touch</h2>
+    <dl>
+      <dt>General enquiries</dt>
+      <dd><a href="mailto:powerpages30@gmail.com">powerpages30@gmail.com</a></dd>
+      <dt>Privacy &amp; data requests</dt>
+      <dd><a href="mailto:nick@atomic-shelf.com">nick@atomic-shelf.com</a></dd>
+      <dt>Website</dt>
+      <dd><a href="https://atomic-shelf.com">atomic-shelf.com</a></dd>
+    </dl>
+  </div>
+
+</main>
+
+<footer>
+  <p>&copy; 2026 Atomic Shelf. All rights reserved. &nbsp;&middot;&nbsp; <a href="https://atomic-shelf.com">atomic-shelf.com</a></p>
+</footer>
+
+</body>
+</html>

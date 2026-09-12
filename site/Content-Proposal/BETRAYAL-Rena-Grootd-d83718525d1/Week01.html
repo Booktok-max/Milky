@@ -1,0 +1,1570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>BETRAYAL: A Shocking Revelation of Infidelity and One Woman's Journey to Wholeness • Rena Groot | Atomic Shelf</title>
+<link rel="icon" type="image/svg+xml" href="https://atomic-shelf.com/atomic-shelf.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --cream:      #FDF6EE;
+  --cream-2:    #F5EAD8;
+  --cream-3:    #ECD9C0;
+  --plum:       #2E1A2E;
+  --plum-2:     #3D2440;
+  --plum-light: #5A3860;
+  --rose:       #C4426A;
+  --rose-2:     #E05B85;
+  --rose-pale:  #FBEDF3;
+  --rose-dim:   rgba(196,66,106,0.12);
+  --rose-glow:  rgba(196,66,106,0.28);
+  --gold:       #C8943A;
+  --gold-pale:  #FDF3E0;
+  --teal:       #2C7A6E;
+  --teal-pale:  #E4F3F0;
+  --ink:        #1A0F1A;
+  --muted:      #7A5870;
+  --border:     rgba(196,66,106,0.14);
+  --shadow-sm:  0 2px 14px rgba(46,26,46,0.08);
+  --shadow-md:  0 10px 40px rgba(46,26,46,0.14);
+  --shadow-lg:  0 24px 72px rgba(46,26,46,0.20);
+  --r:          20px;
+  --r-sm:       12px;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  line-height: 1.7;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* grain overlay */
+body::after {
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:998; opacity:0.22;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+}
+
+/* ── TYPOGRAPHY ── */
+h1,h2,h3,h4 { font-family:'Playfair Display', serif; line-height:1.1; }
+h1 { font-size: clamp(3rem, 7vw, 6rem); font-weight:900; }
+h2 { font-size: clamp(2rem, 4vw, 3.2rem); font-weight:700; }
+h3 { font-size: clamp(1.25rem, 2vw, 1.6rem); font-weight:600; }
+
+.mono { font-family:'DM Mono', monospace; }
+
+/* ── PILL ── */
+.pill {
+  display:inline-flex; align-items:center; gap:0.4rem;
+  padding:0.3rem 0.9rem; border-radius:99px;
+  font-size:0.68rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase;
+}
+.pill-rose  { background:var(--rose-pale); color:var(--rose); border:1px solid rgba(196,66,106,0.25); }
+.pill-gold  { background:var(--gold-pale); color:var(--gold); border:1px solid rgba(200,148,58,0.25); }
+.pill-teal  { background:var(--teal-pale); color:var(--teal); border:1px solid rgba(44,122,110,0.25); }
+.pill-plum  { background:rgba(46,26,46,0.07); color:var(--plum-light); border:1px solid rgba(46,26,46,0.15); }
+.pill-dark  { background:rgba(255,255,255,0.1); color:rgba(255,255,255,0.7); border:1px solid rgba(255,255,255,0.15); }
+
+/* ── HERO ── */
+.hero {
+  min-height:100vh;
+  background: linear-gradient(160deg, var(--plum) 0%, var(--plum-2) 55%, #1F0F2A 100%);
+  position:relative; overflow:hidden;
+  display:grid; grid-template-columns:1fr 1fr;
+  align-items:center;
+}
+
+.hero::before {
+  content:'';
+  position:absolute; inset:0;
+  background:
+    radial-gradient(ellipse at 20% 30%, rgba(196,66,106,0.25) 0%, transparent 55%),
+    radial-gradient(ellipse at 75% 75%, rgba(200,148,58,0.12) 0%, transparent 50%);
+  pointer-events:none;
+}
+
+/* decorative lines */
+.hero-lines {
+  position:absolute; inset:0; overflow:hidden; pointer-events:none;
+}
+.hero-lines::before, .hero-lines::after {
+  content:'';
+  position:absolute; border-radius:50%;
+  border:1px solid rgba(196,66,106,0.12);
+}
+.hero-lines::before {
+  width:700px; height:700px;
+  top:-200px; right:-150px;
+}
+.hero-lines::after {
+  width:500px; height:500px;
+  bottom:-100px; left:-100px;
+}
+
+.hero-left {
+  padding:5rem 4vw 5rem 8vw;
+  position:relative; z-index:2;
+}
+
+.hero-eyebrow {
+  display:inline-flex; align-items:center; gap:0.7rem;
+  font-size:0.65rem; font-weight:600; letter-spacing:0.22em; text-transform:uppercase;
+  color:rgba(255,255,255,0.4); margin-bottom:1.8rem;
+}
+.hero-eyebrow span {
+  display:inline-block; width:28px; height:1px;
+  background:var(--rose); opacity:0.7;
+}
+
+.hero h1 {
+  color:#fff; margin-bottom:0.5rem;
+  text-shadow: 0 2px 30px rgba(196,66,106,0.3);
+}
+.hero h1 em {
+  font-style:italic; color:var(--rose-2);
+  display:block;
+  font-size:0.38em;
+  line-height:1.4;
+  letter-spacing:0.01em;
+  margin-top:0.5rem;
+  max-width:22ch;
+}
+
+.hero-author {
+  font-family:'DM Mono', monospace;
+  font-size:0.82rem; letter-spacing:0.18em; text-transform:uppercase;
+  color:rgba(255,255,255,0.35); margin-bottom:1.8rem;
+}
+
+.hero-desc {
+  font-size:1.05rem; color:rgba(255,255,255,0.55); max-width:42ch;
+  line-height:1.8; margin-bottom:2.5rem;
+}
+
+.hero-pills { display:flex; gap:0.6rem; flex-wrap:wrap; margin-bottom:2.5rem; }
+
+.hero-cta-row { display:flex; gap:0.9rem; flex-wrap:wrap; }
+.btn {
+  display:inline-flex; align-items:center; gap:0.4rem;
+  padding:0.85rem 1.9rem; border-radius:var(--r-sm);
+  font-size:0.88rem; font-weight:600; text-decoration:none;
+  transition:all 0.25s; cursor:pointer; border:none;
+}
+.btn-rose {
+  background:var(--rose); color:#fff;
+  box-shadow:0 8px 28px var(--rose-glow);
+}
+.btn-rose:hover { background:#b0365c; transform:translateY(-2px); box-shadow:0 14px 36px var(--rose-glow); }
+.btn-outline-light {
+  border:1.5px solid rgba(255,255,255,0.2); color:rgba(255,255,255,0.65);
+  background:transparent;
+}
+.btn-outline-light:hover { border-color:rgba(255,255,255,0.5); color:#fff; }
+
+/* right hero panel */
+.hero-right {
+  padding:5rem 8vw 5rem 4vw;
+  position:relative; z-index:2;
+  display:flex; flex-direction:column; gap:1.2rem;
+}
+
+.hero-book-card {
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:var(--r);
+  padding:1.8rem;
+  backdrop-filter:blur(10px);
+}
+.hero-book-card h4 {
+  font-family:'Playfair Display',serif;
+  font-size:1rem; color:rgba(255,255,255,0.55);
+  font-weight:400; margin-bottom:1.2rem; letter-spacing:0.04em;
+}
+
+.star-row {
+  display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem;
+}
+.stars { color:var(--gold); font-size:1.1rem; letter-spacing:2px; }
+.star-count {
+  font-family:'DM Mono',monospace; font-size:0.8rem;
+  color:rgba(255,255,255,0.4);
+}
+.review-text {
+  font-size:0.9rem; color:rgba(255,255,255,0.5); line-height:1.72;
+  font-style:italic;
+}
+.review-author {
+  font-size:0.72rem; color:var(--rose-2); margin-top:0.6rem;
+  font-family:'DM Mono',monospace; letter-spacing:0.08em;
+}
+
+.hero-stat-row {
+  display:grid; grid-template-columns:1fr 1fr 1fr; gap:1rem;
+}
+.hero-stat {
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:var(--r-sm); padding:1.1rem;
+  text-align:center;
+}
+.hero-stat-num {
+  font-family:'Playfair Display',serif;
+  font-size:2rem; font-weight:700; color:var(--rose-2);
+  line-height:1; margin-bottom:0.2rem;
+}
+.hero-stat-label {
+  font-size:0.65rem; color:rgba(255,255,255,0.3);
+  letter-spacing:0.08em; text-transform:uppercase;
+}
+
+.hero-amazon-btn {
+  display:flex; align-items:center; justify-content:space-between;
+  background:rgba(200,148,58,0.15); border:1px solid rgba(200,148,58,0.3);
+  border-radius:var(--r-sm); padding:1rem 1.3rem;
+  text-decoration:none; transition:all 0.25s;
+}
+.hero-amazon-btn:hover {
+  background:rgba(200,148,58,0.25); border-color:rgba(200,148,58,0.5);
+  transform:translateY(-2px); box-shadow:0 10px 28px rgba(200,148,58,0.15);
+}
+.hero-amazon-left { display:flex; align-items:center; gap:0.9rem; }
+.amazon-icon {
+  width:40px; height:40px; border-radius:10px;
+  background:var(--gold); display:flex; align-items:center; justify-content:center;
+  font-size:1.2rem;
+}
+.amazon-text h4 { font-family:'DM Sans',sans-serif; font-size:0.88rem; color:var(--gold); margin-bottom:0.1rem; }
+.amazon-text p { font-size:0.73rem; color:rgba(255,255,255,0.35); }
+.amazon-arr { color:var(--gold); font-size:1.1rem; }
+
+/* ── SECTION SHARED ── */
+.section { padding:7rem 6vw; }
+.container { max-width:1240px; margin:0 auto; }
+.section-eyebrow {
+  display:inline-flex; align-items:center; gap:0.7rem;
+  font-family:'DM Mono',monospace; font-size:0.63rem;
+  letter-spacing:0.22em; text-transform:uppercase;
+  color:var(--rose); margin-bottom:0.9rem;
+}
+.section-eyebrow::before {
+  content:''; display:block; width:22px; height:1.5px;
+  background:var(--rose); border-radius:2px; flex-shrink:0;
+}
+.section-sub {
+  font-size:1.02rem; color:var(--muted); max-width:52ch; line-height:1.82; margin-top:0.6rem;
+}
+
+/* ── DIVIDER ── */
+.divider {
+  height:1px; margin:0 6vw;
+  background:linear-gradient(90deg, transparent, var(--border), transparent);
+}
+
+/* ══════════════════════════════════════
+   DATE-SENSITIVE WEEK SLIDER
+══════════════════════════════════════ */
+.slider-section {
+  background: var(--cream);
+}
+
+.slider-header { margin-bottom:2.5rem; }
+
+/* Today pill */
+.today-pill {
+  display:inline-flex; align-items:center; gap:0.55rem;
+  background:var(--rose-pale); border:1.5px solid rgba(196,66,106,0.28);
+  color:var(--rose); padding:0.45rem 1.1rem; border-radius:99px;
+  font-family:'DM Mono',monospace; font-size:0.72rem; font-weight:500;
+  margin-bottom:1.5rem;
+}
+.today-dot {
+  width:7px; height:7px; border-radius:50%;
+  background:var(--rose); animation:pulse 2s infinite;
+}
+@keyframes pulse {
+  0%,100% { opacity:1; transform:scale(1); }
+  50% { opacity:0.4; transform:scale(0.8); }
+}
+
+/* Slider track */
+.slider-track-wrap {
+  position:relative; margin-bottom:2.5rem;
+}
+
+.week-tabs {
+  display:flex; gap:0; background:var(--cream-2);
+  border:1.5px solid var(--border); border-radius:var(--r);
+  overflow:hidden; position:relative;
+}
+
+.week-tab {
+  flex:1; padding:1.2rem 0.8rem; cursor:pointer;
+  display:flex; flex-direction:column; align-items:center; gap:0.35rem;
+  background:transparent; border:none; transition:all 0.28s;
+  position:relative; overflow:hidden;
+  border-right:1px solid var(--border);
+}
+.week-tab:last-child { border-right:none; }
+
+.week-tab::before {
+  content:''; position:absolute; top:0; left:0; right:0;
+  height:3px; background:var(--rose);
+  transform:scaleX(0); transform-origin:left; transition:transform 0.3s;
+}
+.week-tab.active::before { transform:scaleX(1); }
+
+.week-tab.active { background:rgba(196,66,106,0.06); }
+.week-tab:hover:not(.active) { background:rgba(196,66,106,0.03); }
+
+.tab-week-num {
+  font-family:'Playfair Display',serif;
+  font-size:1.8rem; font-weight:700; color:var(--cream-3);
+  line-height:1; transition:color 0.3s;
+}
+.week-tab.active .tab-week-num { color:var(--rose); }
+.week-tab.today-week .tab-week-num { color:var(--rose); }
+
+.tab-label {
+  font-size:0.62rem; font-weight:600; letter-spacing:0.12em; text-transform:uppercase;
+  color:var(--muted); transition:color 0.3s;
+}
+.week-tab.active .tab-label { color:var(--rose); }
+
+.tab-dates {
+  font-family:'DM Mono',monospace;
+  font-size:0.6rem; color:rgba(0,0,0,0.25); letter-spacing:0.05em;
+}
+
+.tab-status {
+  font-size:0.58rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase;
+  padding:0.18rem 0.6rem; border-radius:99px;
+}
+.tab-status.live    { background:rgba(44,122,110,0.12); color:var(--teal); }
+.tab-status.upcoming{ background:rgba(200,148,58,0.12); color:var(--gold); }
+.tab-status.done    { background:rgba(0,0,0,0.06); color:var(--muted); }
+.tab-status.today   { background:var(--rose-dim); color:var(--rose); animation:pulse 2.5s infinite; }
+
+/* Week content panel */
+.week-panel {
+  display:none; animation:slideUp 0.38s cubic-bezier(0.4,0,0.2,1);
+}
+.week-panel.active { display:block; }
+
+@keyframes slideUp {
+  from { opacity:0; transform:translateY(16px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+.week-panel-inner {
+  background:#fff; border:1.5px solid var(--border);
+  border-radius:var(--r); box-shadow:var(--shadow-md);
+  overflow:hidden;
+}
+
+.panel-header {
+  background:linear-gradient(135deg, var(--plum) 0%, var(--plum-2) 100%);
+  padding:2.2rem 2.5rem;
+  display:flex; justify-content:space-between; align-items:flex-start;
+  position:relative; overflow:hidden;
+}
+.panel-header::before {
+  content:''; position:absolute; inset:0;
+  background:radial-gradient(circle at 80% 50%, rgba(196,66,106,0.2) 0%, transparent 60%);
+}
+.panel-header-left { position:relative; z-index:1; }
+.panel-header-right { position:relative; z-index:1; text-align:right; }
+
+.panel-week-big {
+  font-family:'Playfair Display',serif;
+  font-size:5rem; font-weight:900; color:rgba(255,255,255,0.08);
+  line-height:1; position:absolute; right:2rem; bottom:-1rem;
+  letter-spacing:-0.04em; pointer-events:none;
+}
+
+.panel-title {
+  font-family:'Playfair Display',serif;
+  font-size:1.8rem; font-weight:700; color:#fff; margin-bottom:0.3rem;
+}
+.panel-subtitle { font-size:0.88rem; color:rgba(255,255,255,0.45); }
+.panel-dates {
+  font-family:'DM Mono',monospace;
+  font-size:0.7rem; color:rgba(255,255,255,0.4); letter-spacing:0.1em;
+  text-transform:uppercase; margin-top:0.5rem;
+}
+
+.panel-progress-wrap {
+  margin-top:1rem; background:rgba(255,255,255,0.08);
+  border-radius:99px; height:4px; width:180px;
+}
+.panel-progress-fill {
+  height:100%; border-radius:99px;
+  background:linear-gradient(90deg, var(--rose), var(--rose-2));
+  transition:width 0.6s ease;
+}
+.panel-progress-label {
+  font-size:0.65rem; color:rgba(255,255,255,0.35);
+  margin-top:0.4rem; font-family:'DM Mono',monospace;
+}
+
+.panel-body {
+  display:grid; grid-template-columns:1fr 1fr; gap:0;
+}
+
+.panel-videos {
+  padding:2rem 2.5rem;
+  border-right:1px solid rgba(196,66,106,0.1);
+}
+.panel-videos h4 {
+  font-family:'Playfair Display',serif;
+  font-size:1.05rem; color:var(--plum); margin-bottom:1.2rem;
+}
+
+.video-list { display:flex; flex-direction:column; gap:0.6rem; }
+.video-item {
+  display:flex; align-items:flex-start; gap:0.8rem;
+  padding:0.8rem; border-radius:var(--r-sm);
+  background:var(--cream); border:1px solid rgba(196,66,106,0.08);
+  transition:all 0.22s;
+}
+.video-item:hover {
+  border-color:rgba(196,66,106,0.22); background:var(--rose-pale);
+  transform:translateX(3px);
+}
+.video-num {
+  width:24px; height:24px; border-radius:6px;
+  background:var(--rose-dim); color:var(--rose);
+  font-family:'DM Mono',monospace; font-size:0.65rem; font-weight:500;
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;
+}
+.video-title { font-size:0.84rem; color:var(--ink); line-height:1.45; }
+.video-type {
+  font-size:0.62rem; color:var(--muted); margin-top:0.15rem;
+  font-family:'DM Mono',monospace; letter-spacing:0.06em;
+}
+
+.panel-sidebar {
+  padding:2rem 2.5rem;
+}
+.panel-sidebar h4 {
+  font-family:'Playfair Display',serif;
+  font-size:1.05rem; color:var(--plum); margin-bottom:1.2rem;
+}
+
+.theme-card {
+  background:var(--cream); border:1.5px solid var(--border);
+  border-radius:var(--r-sm); padding:1.3rem; margin-bottom:1rem;
+}
+.theme-card h5 {
+  font-family:'Playfair Display',serif;
+  font-size:1rem; color:var(--plum); margin-bottom:0.4rem;
+}
+.theme-card p { font-size:0.83rem; color:var(--muted); line-height:1.65; }
+
+.stat-row {
+  display:grid; grid-template-columns:1fr 1fr; gap:0.8rem; margin-top:1rem;
+}
+.stat-mini {
+  background:var(--cream); border:1px solid var(--border);
+  border-radius:var(--r-sm); padding:0.9rem; text-align:center;
+}
+.stat-mini-num {
+  font-family:'Playfair Display',serif;
+  font-size:1.6rem; font-weight:700; color:var(--rose); line-height:1;
+}
+.stat-mini-label {
+  font-size:0.62rem; color:var(--muted); text-transform:uppercase;
+  letter-spacing:0.08em; margin-top:0.2rem;
+}
+
+.panel-cta-row {
+  padding:1.5rem 2.5rem;
+  border-top:1px solid rgba(196,66,106,0.08);
+  display:flex; align-items:center; justify-content:space-between;
+  flex-wrap:wrap; gap:1rem;
+  background:var(--cream);
+}
+.panel-cta-row a {
+  display:inline-flex; align-items:center; gap:0.4rem;
+  padding:0.75rem 1.6rem; border-radius:var(--r-sm);
+  font-size:0.84rem; font-weight:600; text-decoration:none;
+  transition:all 0.25s;
+}
+.cta-primary {
+  background:var(--rose); color:#fff;
+  box-shadow:0 4px 18px var(--rose-dim);
+}
+.cta-primary:hover { background:#b0365c; transform:translateY(-1px); }
+.cta-secondary {
+  border:1.5px solid var(--border); color:var(--plum-light);
+}
+.cta-secondary:hover { border-color:var(--rose); color:var(--rose); }
+.cta-week-status {
+  font-size:0.78rem; color:var(--muted); font-family:'DM Mono',monospace;
+}
+
+/* ══════════════════════════════════════
+   PRICING SECTION
+══════════════════════════════════════ */
+.pricing-section { background:var(--cream-2); }
+
+.pricing-grid {
+  display:grid; grid-template-columns:1fr 1fr 1fr; gap:1.2rem; margin-top:3rem;
+}
+
+.plan-card {
+  background:#fff; border:1.5px solid rgba(196,66,106,0.14);
+  border-radius:var(--r); padding:2rem;
+  display:flex; flex-direction:column;
+  box-shadow:var(--shadow-sm); transition:all 0.32s;
+  position:relative; overflow:hidden;
+}
+.plan-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:4px;
+  background:var(--cream-3); transition:background 0.3s;
+}
+.plan-card.featured::before { background:linear-gradient(90deg, var(--rose), var(--rose-2)); }
+.plan-card.featured {
+  border-color:var(--rose);
+  background:linear-gradient(160deg, #fff 0%, var(--rose-pale) 100%);
+  box-shadow:0 16px 54px rgba(196,66,106,0.14);
+}
+.plan-card:hover:not(.featured) { transform:translateY(-6px); box-shadow:var(--shadow-lg); }
+.plan-card:hover::before { background:linear-gradient(90deg, var(--rose), var(--rose-2)); }
+
+.plan-badge {
+  position:absolute; top:-12px; left:50%; transform:translateX(-50%);
+  background:var(--rose); color:#fff;
+  font-size:0.6rem; font-weight:700; letter-spacing:0.14em; text-transform:uppercase;
+  padding:0.28rem 1.1rem; border-radius:99px; white-space:nowrap;
+}
+
+.plan-name {
+  font-size:0.65rem; font-weight:700; letter-spacing:0.2em; text-transform:uppercase;
+  color:var(--muted); margin-bottom:0.5rem;
+}
+.plan-price {
+  font-family:'Playfair Display',serif;
+  font-size:3.2rem; font-weight:700; color:var(--plum); line-height:1;
+  margin-bottom:0.15rem;
+}
+.plan-per { font-size:0.8rem; color:var(--muted); margin-bottom:1.2rem; }
+
+.plan-features { list-style:none; flex:1; margin-bottom:1.5rem; }
+.plan-features li {
+  font-size:0.85rem; color:#4A3350; padding:0.45rem 0;
+  border-bottom:1px solid rgba(196,66,106,0.07);
+  display:flex; align-items:flex-start; gap:0.6rem; line-height:1.5;
+}
+.plan-features li::before { content:'✦'; color:var(--rose); font-size:0.6rem; margin-top:0.3rem; flex-shrink:0; }
+
+.plan-btn {
+  display:block; text-align:center; padding:0.88rem;
+  border-radius:var(--r-sm); font-size:0.86rem; font-weight:600;
+  text-decoration:none; transition:all 0.25s; border:none; cursor:pointer;
+}
+.plan-btn-outline { border:1.5px solid rgba(46,26,46,0.2); color:var(--plum); }
+.plan-btn-outline:hover { border-color:var(--rose); color:var(--rose); }
+.plan-btn-rose { background:var(--rose); color:#fff; box-shadow:0 6px 20px var(--rose-dim); }
+.plan-btn-rose:hover { background:#b0365c; transform:translateY(-1px); }
+
+/* ══════════════════════════════════════
+   RESOURCES SECTION
+══════════════════════════════════════ */
+.resources-section { background:var(--cream); }
+.resources-grid {
+  display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-top:3rem;
+}
+.resource-card {
+  background:#fff; border:1.5px solid rgba(196,66,106,0.14);
+  border-radius:var(--r); padding:2.2rem; box-shadow:var(--shadow-sm);
+  transition:all 0.28s;
+}
+.resource-card:hover { transform:translateY(-5px); box-shadow:var(--shadow-md); border-color:rgba(196,66,106,0.28); }
+.resource-icon {
+  width:60px; height:60px; border-radius:16px;
+  background:var(--rose-pale); display:flex; align-items:center; justify-content:center;
+  font-size:1.8rem; margin-bottom:1.2rem; transition:background 0.28s;
+}
+.resource-card:hover .resource-icon { background:var(--rose); }
+.resource-card h3 { font-size:1.2rem; color:var(--plum); margin-bottom:0.6rem; }
+.resource-card p { font-size:0.88rem; color:var(--muted); line-height:1.72; margin-bottom:1.5rem; }
+
+.yt-steps { list-style:none; counter-reset:steps; }
+.yt-steps li {
+  counter-increment:steps;
+  display:flex; align-items:flex-start; gap:0.8rem;
+  font-size:0.84rem; color:#4A3350; padding:0.5rem 0;
+  border-bottom:1px solid rgba(196,66,106,0.07);
+  line-height:1.55;
+}
+.yt-steps li::before {
+  content:counter(steps);
+  width:22px; height:22px; border-radius:6px;
+  background:var(--rose-dim); color:var(--rose);
+  font-family:'DM Mono',monospace; font-size:0.65rem; font-weight:600;
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0; margin-top:0.1rem;
+}
+.yt-steps a { color:var(--rose); }
+.yt-steps strong { color:var(--plum); font-weight:600; }
+
+.resource-btn {
+  display:inline-flex; align-items:center; gap:0.4rem;
+  padding:0.8rem 1.6rem; border-radius:var(--r-sm);
+  font-size:0.84rem; font-weight:600; text-decoration:none; transition:all 0.25s;
+}
+.resource-btn-photos {
+  background:var(--rose); color:#fff; box-shadow:0 6px 20px var(--rose-dim);
+}
+.resource-btn-photos:hover { background:#b0365c; transform:translateY(-1px); }
+.resource-note {
+  font-size:0.78rem; color:var(--muted); margin-top:0.9rem; line-height:1.6;
+}
+.resource-email-chip {
+  display:inline-flex; align-items:center; gap:0.4rem;
+  background:var(--cream-2); border:1px solid var(--border);
+  color:var(--plum); font-family:'DM Mono',monospace;
+  font-size:0.8rem; padding:0.4rem 0.9rem; border-radius:8px;
+  user-select:all; cursor:text;
+}
+
+/* ── FOOTER ── */
+footer {
+  background:var(--plum);
+  padding:3.5rem 6vw 2rem;
+}
+.footer-inner {
+  display:flex; justify-content:space-between; align-items:flex-start;
+  padding-bottom:2rem; border-bottom:1px solid rgba(255,255,255,0.07);
+  flex-wrap:wrap; gap:2rem;
+}
+.footer-logo {
+  font-family:'Playfair Display',serif;
+  font-size:1.5rem; font-weight:700; color:#fff;
+}
+.footer-logo span { color:var(--rose-2); }
+.footer-desc {
+  font-size:0.84rem; color:rgba(255,255,255,0.3);
+  max-width:30ch; margin-top:0.5rem; line-height:1.7;
+}
+.footer-links { display:flex; flex-direction:column; gap:0.45rem; }
+.footer-links a {
+  color:rgba(255,255,255,0.35); text-decoration:none; font-size:0.84rem; transition:color 0.2s;
+}
+.footer-links a:hover { color:var(--rose-2); }
+.footer-bottom {
+  padding-top:1.5rem; display:flex; justify-content:space-between;
+  font-size:0.73rem; color:rgba(255,255,255,0.2); flex-wrap:wrap; gap:0.5rem;
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width:920px) {
+  .hero { grid-template-columns:1fr; }
+  .hero-left { padding:6rem 6vw 3rem; }
+  .hero-right { padding:0 6vw 5rem; }
+  .panel-body { grid-template-columns:1fr; }
+  .panel-videos { border-right:none; border-bottom:1px solid rgba(196,66,106,0.1); }
+  .pricing-grid { grid-template-columns:1fr; }
+  .resources-grid { grid-template-columns:1fr; }
+}
+@media(max-width:640px) {
+  .week-tabs { flex-direction:column; }
+  .week-tab { flex-direction:row; justify-content:flex-start; border-right:none; border-bottom:1px solid var(--border); }
+  .week-tab::before { width:4px; height:100%; top:0; left:0; transform:scaleY(0); transform-origin:top; }
+  .week-tab.active::before { transform:scaleY(1); }
+  .hero-stat-row { grid-template-columns:1fr 1fr; }
+  .stat-row { grid-template-columns:1fr; }
+}
+
+/* fade-in animations */
+.fade-up { opacity:0; transform:translateY(28px); transition:opacity 0.65s ease, transform 0.65s ease; }
+.fade-up.in { opacity:1; transform:none; }
+.fade-up.d1 { transition-delay:0.1s; }
+.fade-up.d2 { transition-delay:0.2s; }
+.fade-up.d3 { transition-delay:0.3s; }
+</style>
+</head>
+<body>
+
+<!-- ══════ HERO ══════ -->
+<section class="hero">
+  <div class="hero-lines"></div>
+
+  <div class="hero-left">
+    <div class="hero-eyebrow"><span></span>Atomic Shelf × Rena Groot</div>
+
+    <h1>BETRAYAL<em>A Shocking Revelation of Infidelity and One Woman's Journey to Wholeness</em></h1>
+    <div class="hero-author mono">by Rena Groot</div>
+
+    <p class="hero-desc">
+      One woman's journey through infidelity, gaslighting, and heartbreak — 
+      toward wholeness. A faith-driven story for every woman who has been broken 
+      and dares to believe in beauty again.
+    </p>
+
+    <div class="hero-pills">
+      <span class="pill pill-dark">✦ Women's Religious Fiction</span>
+      <span class="pill pill-dark">📖 Epistolary Format</span>
+      <span class="pill pill-dark">⭐ 5.0 — 8 Reviews</span>
+    </div>
+
+    <div class="hero-cta-row">
+      <a href="#calendar" class="btn btn-rose">View Content Calendar →</a>
+      <a href="#pricing" class="btn btn-outline-light">Pricing Plans</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-book-card">
+      <h4>Reader Reviews</h4>
+      <div class="star-row">
+        <div class="stars">★★★★★</div>
+        <div class="star-count">5.0 out of 5 (8 ratings)</div>
+      </div>
+      <div class="review-text">
+        "Betrayal is as real as life gets on paper. It does not read like a novel at all — 
+        it's raw, revealing, and convicting. A must-read for anyone navigating the aftermath 
+        of broken trust."
+      </div>
+      <div class="review-author">— Steve Krumlauf, ARC Reader</div>
+    </div>
+
+    <div class="hero-stat-row">
+      <div class="hero-stat">
+        <div class="hero-stat-num">180</div>
+        <div class="hero-stat-label">Pages</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">100%</div>
+        <div class="hero-stat-label">5-Star</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">$3.99</div>
+        <div class="hero-stat-label">Kindle</div>
+      </div>
+    </div>
+
+    <a href="https://www.amazon.com/BETRAYAL-Shocking-Revelation-Infidelity-Wholeness-ebook/dp/B0DPNP1W2Q" 
+       target="_blank" class="hero-amazon-btn">
+      <div class="hero-amazon-left">
+        <div class="amazon-icon">📦</div>
+        <div class="amazon-text">
+          <h4>Available Now on Amazon</h4>
+          <p>Kindle · Audiobook · Hardcover · Paperback</p>
+        </div>
+      </div>
+      <span class="amazon-arr">→</span>
+    </a>
+  </div>
+</section>
+
+<!-- ══════ CONTENT CALENDAR ══════ -->
+<section id="calendar" class="section slider-section">
+  <div class="container">
+    <div class="slider-header">
+      <div id="today-display" class="today-pill">
+        <div class="today-dot"></div>
+        <span class="mono" id="today-text">Loading…</span>
+      </div>
+      <div class="section-eyebrow">5-Week Content Campaign</div>
+      <h2 style="font-size:clamp(1.8rem,3.5vw,2.8rem);">Your active campaign calendar</h2>
+      <p class="section-sub">
+        Your campaign is broken into five focused weeks, each building on the last.
+        Select any week below to explore the full video lineup and creative strategy.
+      </p>
+    </div>
+
+    <!-- Week tabs -->
+    <div class="slider-track-wrap">
+      <div class="week-tabs" id="weekTabs">
+
+        <button class="week-tab" data-week="1" onclick="selectWeek(1, this)">
+          <div class="tab-week-num">01</div>
+          <div class="tab-label">Launch</div>
+          <div class="tab-dates">Jun 3–9</div>
+          <div class="tab-status" id="status-1">—</div>
+        </button>
+
+        <button class="week-tab" data-week="2" onclick="selectWeek(2, this)">
+          <div class="tab-week-num">02</div>
+          <div class="tab-label">Deep Dive</div>
+          <div class="tab-dates">Jun 10–16</div>
+          <div class="tab-status" id="status-2">—</div>
+        </button>
+
+        <button class="week-tab" data-week="3" onclick="selectWeek(3, this)">
+          <div class="tab-week-num">03</div>
+          <div class="tab-label">Escalation</div>
+          <div class="tab-dates">Jun 17–23</div>
+          <div class="tab-status" id="status-3">—</div>
+        </button>
+
+        <button class="week-tab" data-week="4" onclick="selectWeek(4, this)">
+          <div class="tab-week-num">04</div>
+          <div class="tab-label">Momentum</div>
+          <div class="tab-dates">Jun 24–30</div>
+          <div class="tab-status" id="status-4">—</div>
+        </button>
+
+        <button class="week-tab" data-week="5" onclick="selectWeek(5, this)">
+          <div class="tab-week-num">05</div>
+          <div class="tab-label">Conversion</div>
+          <div class="tab-dates">Jul 1–7</div>
+          <div class="tab-status" id="status-5">—</div>
+        </button>
+
+      </div>
+    </div>
+
+    <!-- Week panels -->
+    <div id="panels">
+
+      <!-- WEEK 1 -->
+      <div class="week-panel" id="panel-1">
+        <div class="week-panel-inner">
+          <div class="panel-header">
+            <div class="panel-header-left">
+              <div style="display:flex;gap:0.6rem;margin-bottom:0.8rem;">
+                <span class="pill pill-rose">Week 1</span>
+                <span class="pill pill-dark">Launch</span>
+              </div>
+              <div class="panel-title">Introducing Ashley's World</div>
+              <div class="panel-subtitle">Hooks, character reveals & first emotional gut-punches</div>
+              <div class="panel-dates">June 3 – 9, 2026 · 15 videos</div>
+            </div>
+            <div class="panel-header-right">
+              <div class="panel-progress-wrap">
+                <div class="panel-progress-fill" style="width:20%"></div>
+              </div>
+              <div class="panel-progress-label">Week 1 of 5</div>
+            </div>
+            <div class="panel-week-big">01</div>
+          </div>
+          <div class="panel-body">
+            <div class="panel-videos">
+              <h4>This Week's Videos</h4>
+              <div class="video-list">
+                <div class="video-item">
+                  <div class="video-num">01</div>
+                  <div>
+                    <div class="video-title">"She thought she knew him. She didn't know anything."</div>
+                    <div class="video-type">Hook reel · Google Video</div>
+                  </div>
+                </div>
+                <div class="video-item">
+                  <div class="video-num">02</div>
+                  <div>
+                    <div class="video-title">What does betrayal actually feel like? Ashley answers.</div>
+                    <div class="video-type">Emotional reveal · Symphony</div>
+                  </div>
+                </div>
+                <div class="video-item">
+                  <div class="video-num">03</div>
+                  <div>
+                    <div class="video-title">A text message that changed everything — read live</div>
+                    <div class="video-type">Epistolary format showcase · Grok</div>
+                  </div>
+                </div>
+                <div class="video-item">
+                  <div class="video-num">04</div>
+                  <div>
+                    <div class="video-title">5 signs you're being gaslit (Ashley's story)</div>
+                    <div class="video-type">Educational hook · Symphony</div>
+                  </div>
+                </div>
+                <div class="video-item">
+                  <div class="video-num">05</div>
+                  <div>
+                    <div class="video-title">This book reads like your best friend's journal</div>
+                    <div class="video-type">Social proof reel · Google Video</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="panel-sidebar">
+              <h4>Week Theme & Strategy</h4>
+              <div class="theme-card">
+                <h5>✦ Lead with Empathy</h5>
+                <p>Week 1 is about recognition — making every viewer feel seen. We open on the universal wound: the moment trust shatters. Emotional hooks before any buy signal.</p>
+              </div>
+              <div class="theme-card">
+                <h5>📖 Format Spotlight</h5>
+                <p>Lean into the epistolary format — show-don't-tell text messages and letters from the book. This format is unique and visually distinctive in the BookTok space.</p>
+              </div>
+              <div class="stat-row">
+                <div class="stat-mini">
+                  <div class="stat-mini-num">15</div>
+                  <div class="stat-mini-label">Videos</div>
+                </div>
+                <div class="stat-mini">
+                  <div class="stat-mini-num">3</div>
+                  <div class="stat-mini-label">Formats</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="panel-cta-row">
+            <span class="cta-week-status mono" id="cta-status-1">—</span>
+            <div style="display:flex;gap:0.8rem;">
+              <a href="https://photos.app.goo.gl/fPwkT1rBCHi52cc38" target="_blank" class="cta-primary">View Visual Assets ↗</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- WEEK 2 -->
+      <div class="week-panel" id="panel-2">
+        <div class="week-panel-inner">
+          <div class="panel-header">
+            <div class="panel-header-left">
+              <div style="display:flex;gap:0.6rem;margin-bottom:0.8rem;">
+                <span class="pill pill-rose">Week 2</span>
+                <span class="pill pill-dark">Deep Dive</span>
+              </div>
+              <div class="panel-title">James Unmasked</div>
+              <div class="panel-subtitle">Narcissism, secrecy, and the anatomy of deception</div>
+              <div class="panel-dates">June 10 – 16, 2026 · 15 videos</div>
+            </div>
+            <div class="panel-header-right">
+              <div class="panel-progress-wrap">
+                <div class="panel-progress-fill" style="width:40%"></div>
+              </div>
+              <div class="panel-progress-label">Week 2 of 5</div>
+            </div>
+            <div class="panel-week-big">02</div>
+          </div>
+          <div class="panel-body">
+            <div class="panel-videos">
+              <h4>This Week's Videos</h4>
+              <div class="video-list">
+                <div class="video-item">
+                  <div class="video-num">01</div>
+                  <div>
+                    <div class="video-title">What is narcissistic personality disorder? Ashley's husband had it.</div>
+                    <div class="video-type">Educational · Symphony</div>
+                  </div>
+                </div>
+                <div class="video-item">
+                  <div class="video-num">02</div>
+                  <div>
+                    <div class="video-title">"He vowed to love and cherish her." What happened next.</div>
+                    <div class="video-type">Dramatic reveal · Grok</div>
+                  </div>
+                </div>
+                <div class="video-item">
+                  <div class="video-num">03</div>
+                  <div>
+                    <div class="video-title">Is remorse the same as repentance? The difference that changes everything.</div>
+                    <div class="video-type">Faith insight reel · Google Video</div>
+                  </div>
+                </div>
+                <div class="video-item">
+                  <div class="video-num">04</div>
+                  <div>
+                    <div class="video-title">The text she never should have found — book excerpt read</div>
+                    <div class="video-type">Book excerpt · Symphony</div>
+                  </div>
+                </div>
+                <div class="video-item">
+                  <div class="video-num">05</div>
+                  <div>
+                    <div class="video-title">This book has real footnotes. Here's why that matters.</div>
+                    <div class="video-type">Credibility hook · Google Video</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="panel-sidebar">
+              <h4>Week Theme & Strategy</h4>
+              <div class="theme-card">
+                <h5>✦ Go Deeper on James</h5>
+                <p>Once we have their attention, we go into the "why." The NPD angle is compelling, educational, and highly searchable on TikTok. Position Rena as an authority, not just a storyteller.</p>
+              </div>
+              <div class="theme-card">
+                <h5>✝ Faith Threads</h5>
+                <p>Introduce the spiritual dimension gently. The book's faith backbone is a strength in the Christian fiction niche — don't bury it, but don't lead with it either.</p>
+              </div>
+              <div class="stat-row">
+                <div class="stat-mini">
+                  <div class="stat-mini-num">15</div>
+                  <div class="stat-mini-label">Videos</div>
+                </div>
+                <div class="stat-mini">
+                  <div class="stat-mini-num">3</div>
+                  <div class="stat-mini-label">Formats</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="panel-cta-row">
+            <span class="cta-week-status mono" id="cta-status-2">—</span>
+            <div style="display:flex;gap:0.8rem;">
+              <a href="https://photos.app.goo.gl/fPwkT1rBCHi52cc38" target="_blank" class="cta-primary">View Visual Assets ↗</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- WEEK 3 -->
+      <div class="week-panel" id="panel-3">
+        <div class="week-panel-inner">
+          <div class="panel-header">
+            <div class="panel-header-left">
+              <div style="display:flex;gap:0.6rem;margin-bottom:0.8rem;">
+                <span class="pill pill-rose">Week 3</span>
+                <span class="pill pill-dark">Escalation</span>
+              </div>
+              <div class="panel-title">The Wound Gets Worse</div>
+              <div class="panel-subtitle">Raw honesty, rising stakes & reader identification peaks</div>
+              <div class="panel-dates">June 17 – 23, 2026 · 15 videos</div>
+            </div>
+            <div class="panel-header-right">
+              <div class="panel-progress-wrap">
+                <div class="panel-progress-fill" style="width:60%"></div>
+              </div>
+              <div class="panel-progress-label">Week 3 of 5</div>
+            </div>
+            <div class="panel-week-big">03</div>
+          </div>
+          <div class="panel-body">
+            <div class="panel-videos">
+              <h4>This Week's Videos</h4>
+              <div class="video-list">
+                <div class="video-item">
+                  <div class="video-num">01</div>
+                  <div>
+                    <div class="video-title">"Betrayal is like a death." Why this metaphor is so exact.</div>
+                    <div class="video-type">Emotional anchor · Symphony</div>
+                  </div>
+                </div>
+                <div class="video-item">
+                  <div class="video-num">02</div>
+                  <div>
+                    <div class="video-title">When honesty vanishes, the foundation crumbles — a letter from Ashley</div>
+                    <div class="video-type">Epistolary reel · Grok</div>
+                  </div>
+                </div>
+                <div class="video-item">
+                  <div class="video-num">03</div>
+                  <div>
+                    <div class="video-title">The moment she realized: willpower alone was never enough</div>
+                    <div class="video-type">Turning point · Google Video</div>
+                  </div>
+                </div>
+                <div class="video-item">
+                  <div class="video-num">04</div>
+                  <div>
+                    <div class="video-title">She couldn't recognize herself in the mirror. Until she did.</div>
+                    <div class="video-type">Identity arc · Symphony</div>
+                  </div>
+                </div>
+                <div class="video-item">
+                  <div class="video-num">05</div>
+                  <div>
+                    <div class="video-title">3 truths Rena Groot wants every betrayed woman to know</div>
+                    <div class="video-type">Author voice · Grok</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="panel-sidebar">
+              <h4>Week Theme & Strategy</h4>
+              <div class="theme-card">
+                <h5>✦ Peak Emotional Resonance</h5>
+                <p>Week 3 is the emotional climax of the campaign. Tap the darkest moments of Ashley's journey — this is where viewers who've lived it will share. Optimize for saves and shares over likes.</p>
+              </div>
+              <div class="theme-card">
+                <h5>🔥 Viral Potential</h5>
+                <p>The "betrayal is like a death" framing is universally relatable. Build a hook reel around this quote — it's the kind of line that stops a scroll cold.</p>
+              </div>
+              <div class="stat-row">
+                <div class="stat-mini">
+                  <div class="stat-mini-num">15</div>
+                  <div class="stat-mini-label">Videos</div>
+                </div>
+                <div class="stat-mini">
+                  <div class="stat-mini-num">↑</div>
+                  <div class="stat-mini-label">Share Focus</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="panel-cta-row">
+            <span class="cta-week-status mono" id="cta-status-3">—</span>
+            <div style="display:flex;gap:0.8rem;">
+              <a href="https://photos.app.goo.gl/fPwkT1rBCHi52cc38" target="_blank" class="cta-primary">View Visual Assets ↗</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- WEEK 4 -->
+      <div class="week-panel" id="panel-4">
+        <div class="week-panel-inner">
+          <div class="panel-header">
+            <div class="panel-header-left">
+              <div style="display:flex;gap:0.6rem;margin-bottom:0.8rem;">
+                <span class="pill pill-rose">Week 4</span>
+                <span class="pill pill-dark">Momentum</span>
+              </div>
+              <div class="panel-title">Hope Begins to Surface</div>
+              <div class="panel-subtitle">The turn — faith, strength & the first light of healing</div>
+              <div class="panel-dates">June 24 – 30, 2026 · 15 videos</div>
+            </div>
+            <div class="panel-header-right">
+              <div class="panel-progress-wrap">
+                <div class="panel-progress-fill" style="width:80%"></div>
+              </div>
+              <div class="panel-progress-label">Week 4 of 5</div>
+            </div>
+            <div class="panel-week-big">04</div>
+          </div>
+          <div class="panel-body">
+            <div class="panel-videos">
+              <h4>This Week's Videos</h4>
+              <div class="video-list">
+                <div class="video-item">
+                  <div class="video-num">01</div>
+                  <div>
+                    <div class="video-title">"Even in her darkest moments, Ashley found something she never expected."</div>
+                    <div class="video-type">Hope pivot reel · Symphony</div>
+                  </div>
+                </div>
+                <div class="video-item">
+                  <div class="video-num">02</div>
+                  <div>
+                    <div class="video-title">You are not defined by what happened to you — 60 seconds</div>
+                    <div class="video-type">Affirmation reel · Grok</div>
+                  </div>
+                </div>
+                <div class="video-item">
+                  <div class="video-num">03</div>
+                  <div>
+                    <div class="video-title">God brought her out. Here's what that looked like for Ashley.</div>
+                    <div class="video-type">Faith moment · Google Video</div>
+                  </div>
+                </div>
+                <div class="video-item">
+                  <div class="video-num">04</div>
+                  <div>
+                    <div class="video-title">From broken to whole — Ashley's transformation in 3 stages</div>
+                    <div class="video-type">Arc summary · Symphony</div>
+                  </div>
+                </div>
+                <div class="video-item">
+                  <div class="video-num">05</div>
+                  <div>
+                    <div class="video-title">Reader reaction: "This book spoke to millions of women."</div>
+                    <div class="video-type">Social proof · Grok</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="panel-sidebar">
+              <h4>Week Theme & Strategy</h4>
+              <div class="theme-card">
+                <h5>✦ The Narrative Turn</h5>
+                <p>After three weeks of pain and recognition, Week 4 is the breath of air. This shift mirrors the book's structure and earns it — viewers have been through the wound alongside Ashley, so the hope lands harder.</p>
+              </div>
+              <div class="theme-card">
+                <h5>✝ Affirmation Content</h5>
+                <p>Affirmation-style videos ("You are not defined by what happened to you") perform strongly with the Christian women's fiction audience. These become saved and shared as personal encouragement.</p>
+              </div>
+              <div class="stat-row">
+                <div class="stat-mini">
+                  <div class="stat-mini-num">15</div>
+                  <div class="stat-mini-label">Videos</div>
+                </div>
+                <div class="stat-mini">
+                  <div class="stat-mini-num">💛</div>
+                  <div class="stat-mini-label">Hope Focus</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="panel-cta-row">
+            <span class="cta-week-status mono" id="cta-status-4">—</span>
+            <div style="display:flex;gap:0.8rem;">
+              <a href="https://photos.app.goo.gl/fPwkT1rBCHi52cc38" target="_blank" class="cta-primary">View Visual Assets ↗</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- WEEK 5 -->
+      <div class="week-panel" id="panel-5">
+        <div class="week-panel-inner">
+          <div class="panel-header">
+            <div class="panel-header-left">
+              <div style="display:flex;gap:0.6rem;margin-bottom:0.8rem;">
+                <span class="pill pill-rose">Week 5</span>
+                <span class="pill pill-dark">Conversion</span>
+              </div>
+              <div class="panel-title">Freedom Is Within Reach</div>
+              <div class="panel-subtitle">Direct purchase calls, reader testimonials & closing the loop</div>
+              <div class="panel-dates">July 1 – 7, 2026 · 15 videos</div>
+            </div>
+            <div class="panel-header-right">
+              <div class="panel-progress-wrap">
+                <div class="panel-progress-fill" style="width:100%"></div>
+              </div>
+              <div class="panel-progress-label">Week 5 of 5</div>
+            </div>
+            <div class="panel-week-big">05</div>
+          </div>
+          <div class="panel-body">
+            <div class="panel-videos">
+              <h4>This Week's Videos</h4>
+              <div class="video-list">
+                <div class="video-item">
+                  <div class="video-num">01</div>
+                  <div>
+                    <div class="video-title">If this sounds like your story — this book was written for you</div>
+                    <div class="video-type">Direct address · Symphony</div>
+                  </div>
+                </div>
+                <div class="video-item">
+                  <div class="video-num">02</div>
+                  <div>
+                    <div class="video-title">5 readers share what Betrayal gave them</div>
+                    <div class="video-type">Social proof compilation · Google Video</div>
+                  </div>
+                </div>
+                <div class="video-item">
+                  <div class="video-num">03</div>
+                  <div>
+                    <div class="video-title">Start reading Betrayal free — Kindle Unlimited link in bio</div>
+                    <div class="video-type">Conversion hook · Grok</div>
+                  </div>
+                </div>
+                <div class="video-item">
+                  <div class="video-num">04</div>
+                  <div>
+                    <div class="video-title">The last page of Betrayal changed how I see my own story</div>
+                    <div class="video-type">Emotional close · Symphony</div>
+                  </div>
+                </div>
+                <div class="video-item">
+                  <div class="video-num">05</div>
+                  <div>
+                    <div class="video-title">A message from Rena — thank you for being on this journey</div>
+                    <div class="video-type">Author message · Grok</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="panel-sidebar">
+              <h4>Week Theme & Strategy</h4>
+              <div class="theme-card">
+                <h5>✦ Close with Permission</h5>
+                <p>Week 5 earns the right to sell. By now the audience has been on the full emotional arc — they're ready. Direct CTAs to Amazon, Kindle Unlimited, and the audiobook land without feeling pushy because of the trust built over weeks 1–4.</p>
+              </div>
+              <div class="theme-card">
+                <h5>📊 Conversion Focus</h5>
+                <p>All videos this week include a clear link-in-bio call. Pair with any active Amazon DSP retargeting for maximum conversion. The warm audience built over 5 weeks is primed.</p>
+              </div>
+              <div class="stat-row">
+                <div class="stat-mini">
+                  <div class="stat-mini-num">15</div>
+                  <div class="stat-mini-label">Videos</div>
+                </div>
+                <div class="stat-mini">
+                  <div class="stat-mini-num">→$</div>
+                  <div class="stat-mini-label">Buy Calls</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="panel-cta-row">
+            <span class="cta-week-status mono" id="cta-status-5">—</span>
+            <div style="display:flex;gap:0.8rem;">
+              <a href="https://photos.app.goo.gl/fPwkT1rBCHi52cc38" target="_blank" class="cta-primary">View Visual Assets ↗</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /panels -->
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════ PRICING ══════ -->
+<section id="pricing" class="section pricing-section">
+  <div class="container">
+    <div class="section-eyebrow">AFTER THE TRIAL</div>
+    <h2>Choose your campaign tier</h2>
+    <p class="section-sub">
+      All plans include content production, platform management, and weekly reporting. 
+      Higher tiers add Amazon DSP retargeting and dedicated ad budgets.
+    </p>
+
+    <div class="pricing-grid">
+
+      <div class="plan-card">
+        <div class="plan-name">Essentials</div>
+        <div class="plan-price">$20</div>
+        <div class="plan-per">per month · content only</div>
+        <ul class="plan-features">
+          <li>60 premium short-form videos monthly</li>
+          <li>Viral hooks &amp; trending audio</li>
+          <li>Strategic social management</li>
+          <li>Weekly performance insights</li>
+          <li>1 dedicated content associate</li>
+          <li>100% content production — no ad spend</li>
+        </ul>
+        <a href="https://atomic-shelf.com/Essentials" class="plan-btn plan-btn-outline">Begin Essentials →</a>
+      </div>
+
+      <div class="plan-card featured">
+        <div class="plan-badge">✦ Most Popular</div>
+        <div class="plan-name">Growth</div>
+        <div class="plan-price">$399</div>
+        <div class="plan-per">per month · content + ads</div>
+        <ul class="plan-features">
+          <li>100+ premium videos monthly</li>
+          <li>2 cinematic book trailers</li>
+          <li>Original theme song</li>
+          <li>Long-form + podcast series</li>
+          <li>$250/mo Amazon DSP budget included</li>
+          <li>Premium A+ Content build</li>
+          <li>2 dedicated account managers</li>
+        </ul>
+        <a href="https://atomic-shelf.com/Growth" class="plan-btn plan-btn-rose">Join Growth →</a>
+      </div>
+
+      <div class="plan-card">
+        <div class="plan-name">Starter</div>
+        <div class="plan-price">$199</div>
+        <div class="plan-per">per month · content + ads</div>
+        <ul class="plan-features">
+          <li>All Enhanced features included</li>
+          <li>Full social management</li>
+          <li>$75/mo Amazon DSP budget</li>
+          <li>Podcast episodes included</li>
+          <li>Basic A+ Content setup</li>
+          <li>1 dedicated account manager</li>
+        </ul>
+        <a href="https://atomic-shelf.com/Starter" class="plan-btn plan-btn-outline">Select Starter →</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════ RESOURCES ══════ -->
+<section class="section resources-section">
+  <div class="container">
+    <div class="section-eyebrow">Campaign Resources</div>
+    <h2>Get set up in minutes</h2>
+    <p class="section-sub">Everything You need to approve visuals and grant posting access for Week 1.</p>
+
+    <div class="resources-grid">
+
+      <div class="resource-card">
+        <div class="resource-icon">🖼️</div>
+        <h3>Week 1 Visual Assets</h3>
+        <p>
+          Here's a preview of the visual style we're building your content around.
+          Please review the full album and let us know you're happy with the direction —
+          once confirmed, we can produce all 15 videos immediately.
+        </p>
+
+        <!-- Visual style mood tiles -->
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:1.2rem 0;">
+          <div style="border-radius:10px; overflow:hidden; aspect-ratio:9/16; position:relative; box-shadow:var(--shadow-sm); background:linear-gradient(160deg,#D4A853 0%,#E8C47A 40%,#C8860A 100%); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:1rem; text-align:center;">
+            <div style="font-family:'Playfair Display',serif; font-size:1rem; font-weight:700; color:#fff; line-height:1.35; text-shadow:0 2px 8px rgba(0,0,0,0.3); margin-bottom:auto; padding-top:1rem;">What if betrayal isn't the end?</div>
+            <div style="width:100%; height:2px; background:rgba(255,255,255,0.2); margin:0.6rem 0;"></div>
+            <div style="font-family:'Playfair Display',serif; font-size:0.7rem; font-style:italic; color:rgba(255,255,255,0.75); line-height:1.4;">Beauty can rise from brokenness</div>
+            <div style="position:absolute; bottom:0; left:0; right:0; padding:8px; background:linear-gradient(transparent,rgba(100,60,0,0.5)); font-size:0.58rem; color:rgba(255,255,255,0.7); font-family:'DM Mono',monospace; letter-spacing:0.06em;">Hope · Golden Hour</div>
+          </div>
+          <div style="border-radius:10px; overflow:hidden; aspect-ratio:9/16; position:relative; box-shadow:var(--shadow-sm); background:linear-gradient(160deg,#2A1800 0%,#5C3A0A 50%,#3D2200 100%); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:1rem; text-align:center;">
+            <div style="font-family:'Playfair Display',serif; font-size:1rem; font-weight:700; color:#fff; line-height:1.35; text-shadow:0 2px 8px rgba(0,0,0,0.5); margin-bottom:auto; padding-top:1rem;">Then the truth finally came out.</div>
+            <div style="width:100%; height:2px; background:rgba(200,148,58,0.3); margin:0.6rem 0;"></div>
+            <div style="font-family:'Playfair Display',serif; font-size:0.7rem; font-style:italic; color:rgba(200,148,58,0.8); line-height:1.4;">Healing cannot thrive in secrecy</div>
+            <div style="position:absolute; bottom:0; left:0; right:0; padding:8px; background:linear-gradient(transparent,rgba(0,0,0,0.6)); font-size:0.58rem; color:rgba(255,255,255,0.55); font-family:'DM Mono',monospace; letter-spacing:0.06em;">Revelation · Uncovered</div>
+          </div>
+          <div style="border-radius:10px; overflow:hidden; aspect-ratio:9/16; position:relative; box-shadow:var(--shadow-sm); background:linear-gradient(160deg,#1C1008 0%,#4A2E0E 50%,#7A5020 100%); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:1rem; text-align:center;">
+            <div style="font-family:'Playfair Display',serif; font-size:1rem; font-weight:700; color:#fff; line-height:1.35; text-shadow:0 2px 8px rgba(0,0,0,0.4); margin-bottom:auto; padding-top:1rem;">Sometimes survival means letting go.</div>
+            <div style="width:100%; height:2px; background:rgba(255,255,255,0.15); margin:0.6rem 0;"></div>
+            <div style="font-family:'Playfair Display',serif; font-size:0.7rem; font-style:italic; color:rgba(255,220,140,0.75); line-height:1.4;">The goal must be a change of heart</div>
+            <div style="position:absolute; bottom:0; left:0; right:0; padding:8px; background:linear-gradient(transparent,rgba(60,30,0,0.6)); font-size:0.58rem; color:rgba(255,255,255,0.55); font-family:'DM Mono',monospace; letter-spacing:0.06em;">Grief · Letting Go</div>
+          </div>
+          <div style="border-radius:10px; overflow:hidden; aspect-ratio:9/16; position:relative; box-shadow:var(--shadow-sm); background:linear-gradient(160deg,#C8860A 0%,#E8A820 40%,#F5D080 100%); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:1rem; text-align:center;">
+            <div style="font-family:'Playfair Display',serif; font-size:1rem; font-weight:700; color:#2A1400; line-height:1.35; text-shadow:0 1px 4px rgba(255,255,255,0.2); margin-bottom:auto; padding-top:1rem;">Rock bottom became her turning point.</div>
+            <div style="width:100%; height:2px; background:rgba(42,20,0,0.15); margin:0.6rem 0;"></div>
+            <div style="font-family:'Playfair Display',serif; font-size:0.7rem; font-style:italic; color:rgba(42,20,0,0.6); line-height:1.4;">Real change comes through God's grace</div>
+            <div style="position:absolute; bottom:0; left:0; right:0; padding:8px; background:linear-gradient(transparent,rgba(180,120,0,0.4)); font-size:0.58rem; color:rgba(42,20,0,0.6); font-family:'DM Mono',monospace; letter-spacing:0.06em;">Faith · Turning Point</div>
+          </div>
+        </div>
+
+        <a href="https://photos.app.goo.gl/fPwkT1rBCHi52cc38" target="_blank" class="resource-btn resource-btn-photos">
+          View Full Album →
+        </a>
+        <div class="resource-note">
+          Simply reply <strong>"approved"</strong> and we'll begin production on all 15 Week 1 videos the same day.
+        </div>
+      </div>
+
+      <div class="resource-card">
+        <div class="resource-icon">📺</div>
+        <h3>YouTube Channel Access</h3>
+        <p>
+          To grant us editor access so we can post and schedule your YouTube Shorts 
+          during the trial week, follow these steps in YouTube Studio:
+        </p>
+        <ol class="yt-steps">
+          <li>Go to <a href="https://studio.youtube.com" target="_blank">studio.youtube.com</a></li>
+          <li>Click <strong>Settings</strong> (gear icon) → <strong>Permissions</strong></li>
+          <li>Click <strong>Invite</strong></li>
+          <li>Paste this email: <span class="resource-email-chip">powerpages30@gmail.com</span></li>
+          <li>Select <strong>Role: Editor</strong> → click <strong>Invite</strong></li>
+        </ol>
+        <div class="resource-note" style="margin-top:1rem;color:var(--rose);">
+          Once invited, we can start uploading and scheduling content immediately.
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════ FOOTER ══════ -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">Atomic<span>‑</span>Shelf</div>
+      <div class="footer-desc">Bespoke book marketing & video production for indie authors who believe their story matters.</div>
+    </div>
+    <div class="footer-links">
+      <strong style="font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.2);">Campaign</strong>
+      <a href="#calendar">Content Calendar</a>
+      <a href="#pricing">Pricing Plans</a>
+      <a href="https://photos.app.goo.gl/fPwkT1rBCHi52cc38" target="_blank">Visual Assets ↗</a>
+      <a href="https://www.amazon.com/BETRAYAL-Shocking-Revelation-Infidelity-Wholeness-ebook/dp/B0DPNP1W2Q" target="_blank">Amazon Listing ↗</a>
+    </div>
+    <div class="footer-links">
+      <strong style="font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.2);">Contact</strong>
+      <a href="mailto:nick@atomic-shelf.com">nick@atomic-shelf.com</a>
+      <a href="mailto:powerpages30@gmail.com">powerpages30@gmail.com</a>
+      <a href="https://atomic-shelf.com" target="_blank">atomic-shelf.com ↗</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Atomic‑Shelf · Infinitree LTD. All rights reserved.</span>
+    <span>Campaign Hub · <em>BETRAYAL: A Shocking Revelation of Infidelity and One Woman's Journey to Wholeness</em> by Rena Groot</span>
+  </div>
+</footer>
+
+<script>
+// ─── WEEK DATE CONFIG ───
+// Each week: [start, end] as Date objects (midnight UTC)
+const weeks = [
+  { start: new Date('2026-06-03'), end: new Date('2026-06-09') },
+  { start: new Date('2026-06-10'), end: new Date('2026-06-16') },
+  { start: new Date('2026-06-17'), end: new Date('2026-06-23') },
+  { start: new Date('2026-06-24'), end: new Date('2026-06-30') },
+  { start: new Date('2026-07-01'), end: new Date('2026-07-07') },
+];
+
+const campaignStart = weeks[0].start;
+const campaignEnd   = weeks[4].end;
+
+function getWeekStatus(weekIdx, today) {
+  const w = weeks[weekIdx];
+  if (today >= w.start && today <= w.end) return 'today';
+  if (today > w.end) return 'done';
+  if (today < w.start) return 'upcoming';
+  return 'upcoming';
+}
+
+function getActiveWeek(today) {
+  for (let i = 0; i < weeks.length; i++) {
+    if (today >= weeks[i].start && today <= weeks[i].end) return i + 1;
+  }
+  if (today < campaignStart) return 1;
+  if (today > campaignEnd)   return 5;
+  return 1;
+}
+
+function selectWeek(num, tabEl) {
+  // deactivate all tabs
+  document.querySelectorAll('.week-tab').forEach(t => t.classList.remove('active'));
+  // deactivate all panels
+  document.querySelectorAll('.week-panel').forEach(p => p.classList.remove('active'));
+  // activate
+  tabEl.classList.add('active');
+  document.getElementById('panel-' + num).classList.add('active');
+}
+
+function formatDate(d) {
+  return d.toLocaleDateString('en-US', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+}
+
+function init() {
+  const today = new Date();
+  today.setHours(0,0,0,0);
+
+  // Update "today" pill
+  document.getElementById('today-text').textContent =
+    'Today: ' + today.toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
+
+  // Status labels and classes
+  const statusLabels = { today:'🔴 Live Now', done:'✓ Complete', upcoming:'Upcoming', live:'Live' };
+
+  for (let i = 0; i < weeks.length; i++) {
+    const weekNum = i + 1;
+    const status  = getWeekStatus(i, today);
+    const statusEl = document.getElementById('status-' + weekNum);
+    const ctaEl    = document.getElementById('cta-status-' + weekNum);
+    const tabEl    = document.querySelector('[data-week="' + weekNum + '"]');
+
+    statusEl.className = 'tab-status ' + (status === 'today' ? 'today' : status === 'done' ? 'done' : 'upcoming');
+    statusEl.textContent = status === 'today' ? '🔴 Live' : status === 'done' ? '✓ Done' : 'Upcoming';
+
+    if (ctaEl) {
+      ctaEl.textContent = status === 'today'
+        ? '🔴 This week is live (' + formatDate(today) + ')'
+        : status === 'done'
+        ? '✓ Week ' + weekNum + ' complete'
+        : 'Scheduled: ' + weeks[i].start.toLocaleDateString('en-US', {month:'short', day:'numeric'}) + ' – ' + weeks[i].end.toLocaleDateString('en-US', {month:'short', day:'numeric'});
+    }
+
+    if (status === 'today') tabEl.classList.add('today-week');
+  }
+
+  // Auto-activate the current week
+  const activeWeek = getActiveWeek(today);
+  const activeTab = document.querySelector('[data-week="' + activeWeek + '"]');
+  selectWeek(activeWeek, activeTab);
+}
+
+// ─── INTERSECTION OBSERVER FOR FADE-UPS ───
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+// ─── SMOOTH SCROLL ───
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) { e.preventDefault(); t.scrollIntoView({ behavior:'smooth', block:'start' }); }
+  });
+});
+
+init();
+</script>
+</body>
+</html>

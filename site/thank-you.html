@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="Welcome to Atomic Shelf — your book marketing campaign starts here."/>
+<title>You're in — Atomic Shelf</title>
+<link rel="icon" type="image/svg+xml" href="https://atomic-shelf.com/book-and-people-spring-svgrepo-com.svg"/>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --ink:          #130f0b;
+  --cream:        #f9f5ef;
+  --amber:        #b8712a;
+  --amber-light:  #d4943d;
+  --amber-pale:   #f7eadb;
+  --stone:        #5a4b3e;
+  --muted:        #8a7868;
+  --border:       rgba(184,113,42,0.16);
+  --dark:         #1c1612;
+  --card:         #fffcf7;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+
+body{
+  font-family:'Outfit',sans-serif;
+  background:var(--cream);
+  color:var(--ink);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* ── NOISE LAYER ── */
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:999;opacity:0.3;
+}
+
+/* ── HERO BAND ── */
+.hero-band{
+  background:var(--dark);
+  padding:4.5rem 6vw 5rem;
+  position:relative;
+  overflow:hidden;
+  text-align:center;
+}
+
+.hero-band::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse at 15% 50%, rgba(184,113,42,.22) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 20%, rgba(184,113,42,.10) 0%, transparent 50%);
+  pointer-events:none;
+}
+
+.hero-band::after{
+  content:'';
+  position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg, transparent, rgba(184,113,42,.35), transparent);
+}
+
+.logo{
+  display:inline-flex;align-items:center;gap:2px;
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.5rem;font-weight:700;
+  color:rgba(255,255,255,.55);letter-spacing:-0.02em;
+  text-decoration:none;
+  margin-bottom:3rem;
+  position:relative;z-index:1;
+}
+.logo-dash{color:var(--amber)}
+
+.confetti-row{
+  font-size:2.2rem;
+  margin-bottom:1.5rem;
+  position:relative;z-index:1;
+  letter-spacing:.15em;
+  animation: popIn .6s cubic-bezier(.34,1.56,.64,1) both;
+}
+
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:.45rem;
+  font-size:.7rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--amber);border:1px solid rgba(184,113,42,.3);
+  background:rgba(184,113,42,.08);
+  padding:.32rem .85rem;border-radius:99px;
+  margin-bottom:1.5rem;
+  position:relative;z-index:1;
+  animation: fadeUp .7s .1s ease both;
+}
+
+.hero-headline{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2.8rem,6vw,4.8rem);
+  font-weight:700;line-height:1.05;
+  letter-spacing:-0.02em;
+  color:#fff;
+  margin-bottom:1.25rem;
+  position:relative;z-index:1;
+  animation: fadeUp .7s .18s ease both;
+}
+.hero-headline em{
+  font-style:italic;
+  color:var(--amber-light);
+}
+
+.hero-sub{
+  font-size:1rem;color:rgba(255,255,255,.45);
+  max-width:42ch;margin:0 auto;line-height:1.8;
+  position:relative;z-index:1;
+  animation: fadeUp .7s .26s ease both;
+}
+
+/* ── CONTENT AREA ── */
+.content-area{
+  max-width:780px;
+  margin:0 auto;
+  padding:4rem 5vw 5rem;
+}
+
+/* ── PLAN CONFIRMATION STRIP ── */
+.confirm-strip{
+  display:flex;align-items:center;justify-content:space-between;
+  background:var(--card);
+  border:1.5px solid var(--border);
+  border-radius:14px;
+  padding:1.25rem 1.75rem;
+  margin-bottom:3rem;
+  box-shadow:0 4px 24px rgba(184,113,42,.07);
+  animation: fadeUp .7s .32s ease both;
+  gap:1rem;flex-wrap:wrap;
+}
+
+.confirm-left{
+  display:flex;align-items:center;gap:1rem;
+}
+.confirm-icon{
+  width:44px;height:44px;border-radius:10px;
+  background:var(--amber-pale);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.3rem;flex-shrink:0;
+}
+.confirm-label{
+  font-size:.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:.25rem;
+}
+.confirm-plan{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.3rem;font-weight:700;color:var(--ink);
+  line-height:1;
+}
+
+.confirm-right{
+  text-align:right;
+}
+.confirm-amount-label{
+  font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:.2rem;
+}
+.confirm-amount{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.8rem;font-weight:700;color:var(--ink);line-height:1;
+}
+.confirm-amount sup{font-size:.9rem;font-weight:400;vertical-align:top;margin-top:.3rem;}
+.confirm-period{font-size:.75rem;color:var(--muted);}
+
+.confirm-divider{
+  width:1px;height:44px;background:var(--border);flex-shrink:0;
+}
+
+/* ── EMAIL NOTICE ── */
+.email-notice{
+  display:flex;align-items:flex-start;gap:.85rem;
+  background:rgba(184,113,42,.05);
+  border:1px solid rgba(184,113,42,.16);
+  border-radius:12px;padding:1rem 1.25rem;
+  margin-bottom:3rem;
+  animation: fadeUp .7s .38s ease both;
+}
+.email-notice-icon{font-size:1.2rem;flex-shrink:0;line-height:1.4}
+.email-notice-text{font-size:.85rem;color:var(--stone);line-height:1.7}
+.email-notice-text strong{color:var(--ink);font-weight:600;}
+
+/* ── NEXT STEPS ── */
+.steps-heading{
+  font-size:.7rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:2rem;
+  animation: fadeUp .7s .42s ease both;
+}
+
+.steps-list{
+  display:flex;flex-direction:column;
+  gap:0;
+  margin-bottom:3.5rem;
+}
+
+.step{
+  display:grid;
+  grid-template-columns:56px 1fr;
+  gap:0 1.5rem;
+  position:relative;
+  animation: fadeUp .7s ease both;
+}
+.step:nth-child(1){animation-delay:.46s}
+.step:nth-child(2){animation-delay:.54s}
+.step:nth-child(3){animation-delay:.62s}
+
+/* connector line between steps */
+.step:not(:last-child) .step-num-col::after{
+  content:'';
+  display:block;
+  width:1px;
+  flex:1;
+  background:linear-gradient(to bottom, rgba(184,113,42,.25), rgba(184,113,42,.05));
+  margin:0 auto;
+  min-height:2rem;
+}
+
+.step-num-col{
+  display:flex;flex-direction:column;align-items:center;
+  padding-top:.15rem;
+}
+
+.step-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2rem;font-weight:700;
+  color:var(--amber);line-height:1;
+  width:44px;height:44px;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--amber-pale);
+  border-radius:10px;
+  flex-shrink:0;
+  margin-bottom:.5rem;
+}
+
+.step-body{
+  padding-bottom:2.5rem;
+}
+.step:last-child .step-body{padding-bottom:0}
+
+.step-title{
+  font-size:1rem;font-weight:600;color:var(--ink);
+  margin-bottom:.4rem;line-height:1.3;
+}
+
+.step-desc{
+  font-size:.875rem;color:var(--stone);line-height:1.75;
+}
+
+/* ── FOOTER ACTIONS ── */
+.footer-actions{
+  display:flex;align-items:center;gap:1rem;flex-wrap:wrap;
+  animation: fadeUp .7s .7s ease both;
+}
+
+.btn-primary{
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.85rem 1.75rem;
+  background:var(--amber);color:#fff;
+  border-radius:10px;font-family:'Outfit',sans-serif;
+  font-size:.9rem;font-weight:700;letter-spacing:.02em;
+  text-decoration:none;
+  box-shadow:0 8px 24px rgba(184,113,42,.3);
+  transition:all .22s;
+}
+.btn-primary:hover{background:#a0601e;transform:translateY(-2px);box-shadow:0 12px 32px rgba(184,113,42,.4);}
+
+.btn-ghost{
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.85rem 1.5rem;
+  border:1.5px solid var(--border);
+  border-radius:10px;font-family:'Outfit',sans-serif;
+  font-size:.9rem;font-weight:500;color:var(--stone);
+  text-decoration:none;
+  transition:all .22s;
+}
+.btn-ghost:hover{border-color:rgba(184,113,42,.4);color:var(--ink);}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(22px)}
+  to{opacity:1;transform:none}
+}
+@keyframes popIn{
+  from{opacity:0;transform:scale(.6)}
+  to{opacity:1;transform:scale(1)}
+}
+
+@media(max-width:600px){
+  .hero-band{padding:3.5rem 5vw 4rem}
+  .confirm-strip{flex-direction:column;align-items:flex-start;gap:.75rem}
+  .confirm-divider{display:none}
+  .confirm-right{text-align:left}
+  .footer-actions{flex-direction:column;align-items:stretch;text-align:center;}
+  .btn-primary,.btn-ghost{justify-content:center}
+}
+</style>
+</head>
+<body>
+
+<!-- HERO BAND -->
+<div class="hero-band">
+  <div style="position:relative;z-index:1;">
+    <a href="https://atomic-shelf.com" class="logo">Atomic<span class="logo-dash">&#8209;</span>Shelf</a>
+    <div class="confetti-row">✦ ✦ ✦</div>
+    <div class="hero-eyebrow">Payment confirmed</div>
+    <h1 class="hero-headline">Your book just got<br>a <em>marketing team.</em></h1>
+    <p class="hero-sub">Nick will be in touch within 24 hours. Your campaign goes live within 5–7 business days.</p>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content-area">
+
+  <!-- PLAN CONFIRMATION STRIP -->
+  <div class="confirm-strip">
+    <div class="confirm-left">
+      <div class="confirm-icon">📋</div>
+      <div>
+        <div class="confirm-label">Active plan</div>
+        <div class="confirm-plan" id="planName">Atomic Shelf Subscription</div>
+      </div>
+    </div>
+    <div class="confirm-divider"></div>
+    <div class="confirm-right">
+      <div class="confirm-amount-label">Charged today</div>
+      <div class="confirm-amount" id="planAmount"><sup>$</sup>—</div>
+      <div class="confirm-period">renews monthly</div>
+    </div>
+  </div>
+
+  <!-- EMAIL NOTICE -->
+  <div class="email-notice">
+    <div class="email-notice-icon">📬</div>
+    <div class="email-notice-text">
+      <strong>A confirmation email is on its way to your inbox.</strong> It'll have your receipt and everything you need to get started. If you don't see it within a few minutes, check your spam folder.
+    </div>
+  </div>
+
+  <!-- NEXT STEPS -->
+  <div class="steps-heading">What happens next</div>
+
+  <div class="steps-list">
+
+    <div class="step">
+      <div class="step-num-col">
+        <div class="step-num">1</div>
+      </div>
+      <div class="step-body">
+        <div class="step-title">Nick reaches out with your campaign tracker</div>
+        <div class="step-desc">You'll hear from Nick at Atomic Shelf within 24 hours. He'll send your personal campaign tracker so you can follow along as your content is produced, scheduled, and published.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num-col">
+        <div class="step-num">2</div>
+      </div>
+      <div class="step-body">
+        <div class="step-title">We set up your YouTube &amp; TikTok presence</div>
+        <div class="step-desc">We'll connect to your YouTube channel and post directly. For TikTok, we'll walk you through a quick setup — you'll have your own account posting content, while our agency account handles follower growth and full-volume publishing in parallel. TikTok allows the same content across both accounts, so you get maximum reach from day one.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num-col">
+        <div class="step-num">3</div>
+      </div>
+      <div class="step-body">
+        <div class="step-title">Your first videos go live within 5–7 days</div>
+        <div class="step-desc">Once setup is complete, your content starts publishing. Short-form videos go out daily across TikTok, YouTube Shorts, and Pinterest — building your book's audience while you focus on writing.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ACTIONS -->
+  <div class="footer-actions">
+    <a href="https://atomic-shelf.com" class="btn-primary">← Back to Atomic Shelf</a>
+    <a href="mailto:nick@atomic-shelf.com" class="btn-ghost">✉ Email Nick directly</a>
+  </div>
+
+</div>
+
+<script>
+  const params  = new URLSearchParams(window.location.search);
+  const plan    = params.get('plan');
+  const amounts = { Essentials: '$20', Enhanced: '$50', Starter: '$199' };
+
+  if (plan) {
+    document.getElementById('planName').textContent = plan + ' Plan';
+    const amt = amounts[plan];
+    if (amt) {
+      document.getElementById('planAmount').innerHTML = '<sup>$</sup>' + amt.replace('$','');
+    }
+  }
+</script>
+</body>
+</html>

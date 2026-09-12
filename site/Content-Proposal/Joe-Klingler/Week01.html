@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mash Up — Week 1 Content Calendar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #071018;
+  --bg-soft: #0d1824;
+  --card: #101d2b;
+  --card-2: #132233;
+  --text: #f3f7fb;
+  --muted: #9fb0c3;
+  --cyan: #57d6ff;
+  --cyan-soft: rgba(87,214,255,0.18);
+  --red: #ff5c72;
+  --line: rgba(255,255,255,0.08);
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+  background:linear-gradient(180deg,#050b12 0%,#071018 40%,#0c1622 100%);
+  color:var(--text);
+  font-family:'Inter',sans-serif;
+  line-height:1.7;
+  overflow-x:hidden;
+}
+
+.hero{
+  min-height:100vh;
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  border-bottom:1px solid var(--line);
+}
+
+.hero::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at top right, rgba(87,214,255,0.15), transparent 35%),
+    radial-gradient(circle at bottom left, rgba(255,92,114,0.12), transparent 30%);
+}
+
+.hero-grid{
+  position:absolute;
+  inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size:40px 40px;
+  opacity:0.25;
+}
+
+.hero-content{
+  position:relative;
+  z-index:2;
+  max-width:900px;
+  text-align:center;
+  padding:100px 40px;
+}
+
+.hero-label{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:11px;
+  letter-spacing:4px;
+  text-transform:uppercase;
+  color:var(--cyan);
+  margin-bottom:32px;
+}
+
+.hero-title{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(52px,9vw,110px);
+  line-height:0.9;
+  font-weight:700;
+  margin-bottom:20px;
+}
+
+.hero-title span{
+  color:var(--cyan);
+}
+
+.hero-sub{
+  font-size:22px;
+  color:var(--muted);
+  max-width:700px;
+  margin:0 auto 42px;
+}
+
+.hero-stats{
+  display:flex;
+  justify-content:center;
+  gap:50px;
+  flex-wrap:wrap;
+}
+
+.stat-num{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:42px;
+  color:var(--cyan);
+  font-weight:700;
+}
+
+.stat-label{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:3px;
+  color:var(--muted);
+}
+
+.divider{
+  display:flex;
+  align-items:center;
+  gap:20px;
+  padding:60px 40px;
+  max-width:900px;
+  margin:auto;
+}
+
+.divider-line{
+  flex:1;
+  height:1px;
+  background:var(--line);
+}
+
+.divider-mark{
+  color:var(--cyan);
+  font-size:20px;
+}
+
+.intro{
+  max-width:760px;
+  margin:auto;
+  padding:0 40px 80px;
+  text-align:center;
+}
+
+.section-label{
+  display:block;
+  font-family:'IBM Plex Mono', monospace;
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:4px;
+  color:var(--cyan);
+  margin-bottom:20px;
+}
+
+.intro p{
+  font-size:20px;
+  color:#d8e5f1;
+}
+
+.week-banner{
+  display:flex;
+  align-items:center;
+  gap:24px;
+  max-width:1100px;
+  margin:0 auto 30px;
+  padding:0 40px;
+}
+
+.week-banner-line{
+  flex:1;
+  height:1px;
+  background:var(--line);
+}
+
+.week-banner-text{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:48px;
+  font-weight:700;
+}
+
+.week-banner-text span{
+  color:var(--cyan);
+}
+
+.week-dates{
+  text-align:center;
+  font-family:'IBM Plex Mono', monospace;
+  color:var(--muted);
+  font-size:11px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  margin-bottom:60px;
+}
+
+.calendar{
+  max-width:1150px;
+  margin:auto;
+  padding:0 40px 120px;
+}
+
+.video-card{
+  display:grid;
+  grid-template-columns:120px 1fr;
+  background:linear-gradient(180deg,var(--card) 0%, var(--card-2) 100%);
+  border:1px solid var(--line);
+  border-left:4px solid var(--cyan);
+  margin-bottom:8px;
+  transition:0.3s;
+}
+
+.video-card:hover{
+  transform:translateY(-2px);
+  box-shadow:0 12px 40px rgba(0,0,0,0.3);
+}
+
+.card-date{
+  border-right:1px solid var(--line);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:rgba(255,255,255,0.02);
+}
+
+.date-day{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:44px;
+  font-weight:700;
+  color:var(--cyan);
+}
+
+.date-month,.date-vid{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:9px;
+  text-transform:uppercase;
+  letter-spacing:2px;
+  color:var(--muted);
+}
+
+.date-vid{margin-top:10px}
+
+.card-body{
+  padding:30px;
+}
+
+.card-title{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:24px;
+  margin-bottom:6px;
+}
+
+.card-hook{
+  color:var(--cyan);
+  margin-bottom:24px;
+  font-size:16px;
+}
+
+.card-sections{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:24px;
+}
+
+.section-block h4{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:9px;
+  text-transform:uppercase;
+  letter-spacing:3px;
+  color:var(--cyan);
+  margin-bottom:10px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.section-block p{
+  font-size:15px;
+  color:#d5e2ee;
+}
+
+.copy-btn{
+  background:none;
+  border:1px solid var(--cyan);
+  color:var(--cyan);
+  padding:4px 10px;
+  border-radius:4px;
+  font-size:8px;
+  cursor:pointer;
+  font-family:'IBM Plex Mono', monospace;
+  text-transform:uppercase;
+  letter-spacing:2px;
+}
+
+.copy-btn:hover{
+  background:var(--cyan);
+  color:#061019;
+}
+
+.footer{
+  text-align:center;
+  padding:70px 40px;
+  border-top:1px solid var(--line);
+}
+
+.footer-title{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:24px;
+  margin-bottom:10px;
+}
+
+.footer-sub{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:10px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+
+@media(max-width:760px){
+  .video-card{grid-template-columns:85px 1fr}
+  .card-sections{grid-template-columns:1fr}
+  .hero-stats{gap:24px}
+  .calendar,.week-banner,.intro{padding-left:20px;padding-right:20px}
+}
+</style>
+</head>
+<body>
+
+<section class="hero">
+<div class="hero-grid"></div>
+<div class="hero-content">
+<div class="hero-label">Content Proposal · YouTube & TikTok</div>
+<h1 class="hero-title">Mash <span>Up</span></h1>
+<p class="hero-sub">A cyber-thriller campaign built around digital paranoia, music piracy, missing musicians, and the collision between old-school detectives and modern internet crime.</p>
+<div class="hero-stats">
+<div>
+<div class="stat-num">15</div>
+<div class="stat-label">Videos · Week 1</div>
+</div>
+<div>
+<div class="stat-num">15–30s</div>
+<div class="stat-label">Voiceover Length</div>
+</div>
+<div>
+<div class="stat-num">7 Days</div>
+<div class="stat-label">Trial Campaign</div>
+</div>
+</div>
+</div>
+</section>
+
+<div class="divider">
+<div class="divider-line"></div>
+<div class="divider-mark">◆</div>
+<div class="divider-line"></div>
+</div>
+
+<section class="intro">
+<span class="section-label">Campaign Overview</span>
+<p>Week 1 introduces the world of Mash Up through short-form thriller storytelling designed for TikTok and YouTube Shorts. The campaign blends cybercrime tension, dark internet paranoia, detective mystery, music culture, and modern surveillance aesthetics into highly bingeable vertical video hooks.</p>
+</section>
+
+<div class="week-banner">
+<div class="week-banner-line"></div>
+<div class="week-banner-text">Week <span>One</span></div>
+<div class="week-banner-line"></div>
+</div>
+
+<div class="week-dates">May 22 – May 28, 2026 · Videos 1 – 15</div>
+
+<section class="calendar">
+
+<div class="video-card">
+<div class="card-date">
+<div class="date-day">22</div>
+<div class="date-month">May</div>
+<div class="date-vid">Video 1</div>
+</div>
+<div class="card-body">
+<div class="card-title">The Package Arrives</div>
+<div class="card-hook">“It looked like a normal Amazon delivery. It wasn't.”</div>
+<div class="card-sections">
+<div class="section-block">
+<h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'A college musician opens an Amazon package that was never meant to arrive. Inside is something connected to her missing roommate. That is how Mash Up begins. Not with a body. Not with a gunshot. With a package sitting quietly outside an apartment door. And once it is opened, nothing stays normal for very long.')">Copy</button></h4>
+<p>A college musician opens an Amazon package that was never meant to arrive. Inside is something connected to her missing roommate. That is how Mash Up begins. Not with a body. Not with a gunshot. With a package sitting quietly outside an apartment door. And once it is opened, nothing stays normal for very long.</p>
+</div>
+<div class="section-block">
+<h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'An Amazon package. A missing roommate. A cybercrime mystery that spirals into something far darker. Mash Up by Joe Klingler is a techno-thriller for readers who love suspense, internet paranoia, and detective mysteries. #MashUp #JoeKlingler #TechnoThriller #BookTok #CyberThriller #MysteryBooks')">Copy</button></h4>
+<p>An Amazon package. A missing roommate. A cybercrime mystery that spirals into something far darker. Mash Up by Joe Klingler is a techno-thriller for readers who love suspense, internet paranoia, and detective mysteries. #MashUp #JoeKlingler #TechnoThriller #BookTok #CyberThriller #MysteryBooks</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="video-card">
+<div class="card-date">
+<div class="date-day">22</div>
+<div class="date-month">May</div>
+<div class="date-vid">Video 2</div>
+</div>
+<div class="card-body">
+<div class="card-title">The Detective Who Hates Technology</div>
+<div class="card-hook">“The internet changed crime. Qigiq never caught up.”</div>
+<div class="card-sections">
+<div class="section-block">
+<h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'Detective Qigiq knows criminals. He understands instinct. Human behavior. Violence. But modern cybercrime is different. Suddenly the evidence is online, the suspects hide behind usernames, and the crimes spread faster than the police can react. Mash Up throws an old-school detective into a world that no longer plays by old rules.')">Copy</button></h4>
+<p>Detective Qigiq knows criminals. He understands instinct. Human behavior. Violence. But modern cybercrime is different. Suddenly the evidence is online, the suspects hide behind usernames, and the crimes spread faster than the police can react. Mash Up throws an old-school detective into a world that no longer plays by old rules.</p>
+</div>
+<div class="section-block">
+<h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'What happens when an old-school detective is forced into the modern world of cybercrime? Mash Up by Joe Klingler combines noir detective energy with terrifyingly modern internet crime. #DetectiveThriller #MashUp #JoeKlingler #CyberCrime #BookTok #ThrillerBooks')">Copy</button></h4>
+<p>What happens when an old-school detective is forced into the modern world of cybercrime? Mash Up by Joe Klingler combines noir detective energy with terrifyingly modern internet crime. #DetectiveThriller #MashUp #JoeKlingler #CyberCrime #BookTok #ThrillerBooks</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="video-card">
+<div class="card-date">
+<div class="date-day">23</div>
+<div class="date-month">May</div>
+<div class="date-vid">Video 3</div>
+</div>
+<div class="card-body">
+<div class="card-title">Music Piracy Became Deadly</div>
+<div class="card-hook">“This killer thinks piracy deserves punishment.”</div>
+<div class="card-sections">
+<div class="section-block">
+<h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'Mash Up asks a dangerous question. What if someone became obsessed with punishing digital piracy? What if stolen music, hacked files, and illegal downloads became the center of a violent investigation? Joe Klingler turns a real-world internet debate into a dark, action-packed thriller that suddenly feels way too believable.')">Copy</button></h4>
+<p>Mash Up asks a dangerous question. What if someone became obsessed with punishing digital piracy? What if stolen music, hacked files, and illegal downloads became the center of a violent investigation? Joe Klingler turns a real-world internet debate into a dark, action-packed thriller that suddenly feels way too believable.</p>
+</div>
+<div class="section-block">
+<h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'Music piracy. Cybercrime. Murder. Mash Up by Joe Klingler transforms internet culture into a gripping detective thriller. Perfect for fans of techno-thrillers and modern noir. #TechThriller #MusicPiracy #MashUp #CyberMystery #BookTok #JoeKlingler')">Copy</button></h4>
+<p>Music piracy. Cybercrime. Murder. Mash Up by Joe Klingler transforms internet culture into a gripping detective thriller. Perfect for fans of techno-thrillers and modern noir. #TechThriller #MusicPiracy #MashUp #CyberMystery #BookTok #JoeKlingler</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="video-card">
+<div class="card-date"><div class="date-day">23</div><div class="date-month">May</div><div class="date-vid">Video 4</div></div>
+<div class="card-body">
+<div class="card-title">Kandy Dreeson Enters the Story</div>
+<div class="card-hook">“Fast. Reckless. Brilliant.”</div>
+<div class="card-sections">
+<div class="section-block">
+<h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'Kandy Dreeson is everything Detective Qigiq is not. Young. Aggressive. Completely fluent in the modern digital world. She drives too fast, bends rules constantly, and somehow keeps solving cases anyway. Together they become one of the most chaotic detective partnerships in thriller fiction.')">Copy</button></h4>
+<p>Kandy Dreeson is everything Detective Qigiq is not. Young. Aggressive. Completely fluent in the modern digital world. She drives too fast, bends rules constantly, and somehow keeps solving cases anyway. Together they become one of the most chaotic detective partnerships in thriller fiction.</p>
+</div>
+<div class="section-block">
+<h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'Meet Kandy Dreeson — one of the sharpest and most chaotic detectives in modern thriller fiction. Mash Up delivers fast-moving cybercrime suspense with unforgettable characters. #KandyDreeson #MashUp #DetectiveBooks #BookTok #CyberThriller #JoeKlingler')">Copy</button></h4>
+<p>Meet Kandy Dreeson — one of the sharpest and most chaotic detectives in modern thriller fiction. Mash Up delivers fast-moving cybercrime suspense with unforgettable characters. #KandyDreeson #MashUp #DetectiveBooks #BookTok #CyberThriller #JoeKlingler</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="video-card">
+<div class="card-date"><div class="date-day">24</div><div class="date-month">May</div><div class="date-vid">Video 5</div></div>
+<div class="card-body">
+<div class="card-title">The Internet Virus</div>
+<div class="card-hook">“Nobody understood what the virus was actually doing.”</div>
+<div class="card-sections"><div class="section-block"><h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'A strange new virus starts appearing online. At first it looks like another internet scare. Then people connected to it start disappearing. Mash Up captures the exact fear that makes techno-thrillers work so well — the feeling that something invisible online is already spreading before anyone understands it.')">Copy</button></h4><p>A strange new virus starts appearing online. At first it looks like another internet scare. Then people connected to it start disappearing. Mash Up captures the exact fear that makes techno-thrillers work so well — the feeling that something invisible online is already spreading before anyone understands it.</p></div><div class="section-block"><h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'A digital virus. Missing people. A city slowly falling into paranoia. Mash Up by Joe Klingler blends cyber suspense with detective mystery in the best possible way. #CyberThriller #MashUp #TechMystery #JoeKlingler #BookTok #ThrillerReads')">Copy</button></h4><p>A digital virus. Missing people. A city slowly falling into paranoia. Mash Up by Joe Klingler blends cyber suspense with detective mystery in the best possible way. #CyberThriller #MashUp #TechMystery #JoeKlingler #BookTok #ThrillerReads</p></div></div>
+</div>
+</div>
+
+<div class="video-card">
+<div class="card-date"><div class="date-day">24</div><div class="date-month">May</div><div class="date-vid">Video 6</div></div>
+<div class="card-body">
+<div class="card-title">This Feels Too Real</div>
+<div class="card-hook">“That is what makes the story unsettling.”</div>
+<div class="card-sections"><div class="section-block"><h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'Joe Klingler spent years working in software and digital production. And you can feel it in every chapter of Mash Up. Nothing feels exaggerated. The hacking, the surveillance, the online obsession — all of it feels plausible. That realism is exactly what makes the book impossible to put down.')">Copy</button></h4><p>Joe Klingler spent years working in software and digital production. And you can feel it in every chapter of Mash Up. Nothing feels exaggerated. The hacking, the surveillance, the online obsession — all of it feels plausible. That realism is exactly what makes the book impossible to put down.</p></div><div class="section-block"><h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'The scariest part of Mash Up is how realistic it feels. Joe Klingler uses real technological knowledge to create a cyber-thriller that feels uncomfortably possible. #RealisticThriller #CyberCrime #MashUp #JoeKlingler #BookTok #TechSuspense')">Copy</button></h4><p>The scariest part of Mash Up is how realistic it feels. Joe Klingler uses real technological knowledge to create a cyber-thriller that feels uncomfortably possible. #RealisticThriller #CyberCrime #MashUp #JoeKlingler #BookTok #TechSuspense</p></div></div>
+</div>
+</div>
+
+<div class="video-card"><div class="card-date"><div class="date-day">25</div><div class="date-month">May</div><div class="date-vid">Video 7</div></div><div class="card-body"><div class="card-title">San Francisco at Night</div><div class="card-hook">“Every street feels watched.”</div><div class="card-sections"><div class="section-block"><h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'Mash Up turns San Francisco into a noir cyberpunk nightmare. Rain on pavement. Neon reflections. Empty apartments glowing blue from computer screens. Joe Klingler builds a city that feels alive, dangerous, and permanently connected to the internet. The atmosphere alone is worth reading for.')">Copy</button></h4><p>Mash Up turns San Francisco into a noir cyberpunk nightmare. Rain on pavement. Neon reflections. Empty apartments glowing blue from computer screens. Joe Klingler builds a city that feels alive, dangerous, and permanently connected to the internet. The atmosphere alone is worth reading for.</p></div><div class="section-block"><h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'Rain-soaked streets. Neon reflections. Surveillance everywhere. Mash Up creates one of the most cinematic modern thriller settings on BookTok. #SanFranciscoNoir #MashUp #CyberpunkThriller #BookTok #JoeKlingler #ThrillerBooks')">Copy</button></h4><p>Rain-soaked streets. Neon reflections. Surveillance everywhere. Mash Up creates one of the most cinematic modern thriller settings on BookTok. #SanFranciscoNoir #MashUp #CyberpunkThriller #BookTok #JoeKlingler #ThrillerBooks</p></div></div></div></div>
+
+<div class="video-card"><div class="card-date"><div class="date-day">25</div><div class="date-month">May</div><div class="date-vid">Video 8</div></div><div class="card-body"><div class="card-title">The YouTube Video</div><div class="card-hook">“One upload changes the investigation.”</div><div class="card-sections"><div class="section-block"><h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'At one point in Mash Up, a mysterious online video changes everything. Suddenly the detectives are not just chasing a criminal. They are chasing a digital ghost hiding inside the internet itself. The deeper the investigation goes, the harder it becomes to separate reality from manipulation.')">Copy</button></h4><p>At one point in Mash Up, a mysterious online video changes everything. Suddenly the detectives are not just chasing a criminal. They are chasing a digital ghost hiding inside the internet itself. The deeper the investigation goes, the harder it becomes to separate reality from manipulation.</p></div><div class="section-block"><h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'A mysterious online video pushes the investigation into terrifying territory. Mash Up by Joe Klingler is the perfect thriller for the internet age. #InternetMystery #MashUp #CyberThriller #BookTok #JoeKlingler #MysteryBooks')">Copy</button></h4><p>A mysterious online video pushes the investigation into terrifying territory. Mash Up by Joe Klingler is the perfect thriller for the internet age. #InternetMystery #MashUp #CyberThriller #BookTok #JoeKlingler #MysteryBooks</p></div></div></div></div>
+
+<div class="video-card"><div class="card-date"><div class="date-day">26</div><div class="date-month">May</div><div class="date-vid">Video 9</div></div><div class="card-body"><div class="card-title">Everyone Is Being Watched</div><div class="card-hook">“Phones. Cameras. Data. Nothing stays private.”</div><div class="card-sections"><div class="section-block"><h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'Mash Up understands something modern thrillers often miss. Technology is frightening precisely because it feels ordinary. Phones. Search histories. Messages. GPS signals. Every normal part of life becomes dangerous when the wrong person gets access to it.')">Copy</button></h4><p>Mash Up understands something modern thrillers often miss. Technology is frightening precisely because it feels ordinary. Phones. Search histories. Messages. GPS signals. Every normal part of life becomes dangerous when the wrong person gets access to it.</p></div><div class="section-block"><h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'The scariest technology is the technology you already use every day. Mash Up weaponizes modern internet life into pure thriller tension. #DigitalParanoia #MashUp #CyberCrime #BookTok #JoeKlingler #ThrillerReads')">Copy</button></h4><p>The scariest technology is the technology you already use every day. Mash Up weaponizes modern internet life into pure thriller tension. #DigitalParanoia #MashUp #CyberCrime #BookTok #JoeKlingler #ThrillerReads</p></div></div></div></div>
+
+<div class="video-card"><div class="card-date"><div class="date-day">26</div><div class="date-month">May</div><div class="date-vid">Video 10</div></div><div class="card-body"><div class="card-title">Readers Keep Saying the Same Thing</div><div class="card-hook">“I couldn't stop reading.”</div><div class="card-sections"><div class="section-block"><h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'Readers describe Mash Up the same way again and again. Fast. Addictive. Surprisingly intelligent. The book combines detective suspense, music culture, internet paranoia, and action thriller pacing into something that constantly keeps moving. Once the mystery begins, it does not slow down.')">Copy</button></h4><p>Readers describe Mash Up the same way again and again. Fast. Addictive. Surprisingly intelligent. The book combines detective suspense, music culture, internet paranoia, and action thriller pacing into something that constantly keeps moving. Once the mystery begins, it does not slow down.</p></div><div class="section-block"><h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'Readers are calling Mash Up impossible to put down. If you love intelligent thrillers with cybercrime and detective tension, this belongs on your reading list. #PageTurner #MashUp #JoeKlingler #ThrillerBooks #BookTok #CyberMystery')">Copy</button></h4><p>Readers are calling Mash Up impossible to put down. If you love intelligent thrillers with cybercrime and detective tension, this belongs on your reading list. #PageTurner #MashUp #JoeKlingler #ThrillerBooks #BookTok #CyberMystery</p></div></div></div></div>
+
+<div class="video-card"><div class="card-date"><div class="date-day">27</div><div class="date-month">May</div><div class="date-vid">Video 11</div></div><div class="card-body"><div class="card-title">The Killer Understands the Internet Better Than the Police</div><div class="card-hook">“That is the real problem.”</div><div class="card-sections"><div class="section-block"><h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'The terrifying thing about the killer in Mash Up is not brutality. It is intelligence. This is someone who understands technology better than the people trying to stop them. And every time the detectives get closer, the internet itself seems to help the killer disappear.')">Copy</button></h4><p>The terrifying thing about the killer in Mash Up is not brutality. It is intelligence. This is someone who understands technology better than the people trying to stop them. And every time the detectives get closer, the internet itself seems to help the killer disappear.</p></div><div class="section-block"><h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'What if the killer understood the internet better than the police? Mash Up turns cybercrime into a terrifying cat-and-mouse thriller. #CyberKiller #MashUp #JoeKlingler #BookTok #TechThriller #DetectiveMystery')">Copy</button></h4><p>What if the killer understood the internet better than the police? Mash Up turns cybercrime into a terrifying cat-and-mouse thriller. #CyberKiller #MashUp #JoeKlingler #BookTok #TechThriller #DetectiveMystery</p></div></div></div></div>
+
+<div class="video-card"><div class="card-date"><div class="date-day">27</div><div class="date-month">May</div><div class="date-vid">Video 12</div></div><div class="card-body"><div class="card-title">A Thriller for the Streaming Generation</div><div class="card-hook">“This feels like a Netflix series.”</div><div class="card-sections"><div class="section-block"><h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'Mash Up reads like a prestige streaming thriller. Multiple investigations. Fast dialogue. Cybercrime twists. Brutal reveals. Complex detective partnerships. The story constantly moves between danger, mystery, and dark humor without losing momentum.')">Copy</button></h4><p>Mash Up reads like a prestige streaming thriller. Multiple investigations. Fast dialogue. Cybercrime twists. Brutal reveals. Complex detective partnerships. The story constantly moves between danger, mystery, and dark humor without losing momentum.</p></div><div class="section-block"><h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'If you love streaming crime thrillers, Mash Up needs to be on your radar. Joe Klingler delivers cinematic cybercrime suspense from page one. #StreamingThriller #MashUp #JoeKlingler #BookTok #CrimeThriller #CyberSuspense')">Copy</button></h4><p>If you love streaming crime thrillers, Mash Up needs to be on your radar. Joe Klingler delivers cinematic cybercrime suspense from page one. #StreamingThriller #MashUp #JoeKlingler #BookTok #CrimeThriller #CyberSuspense</p></div></div></div></div>
+
+<div class="video-card"><div class="card-date"><div class="date-day">28</div><div class="date-month">May</div><div class="date-vid">Video 13</div></div><div class="card-body"><div class="card-title">The Internet Never Forgets</div><div class="card-hook">“Even deleted things leave traces.”</div><div class="card-sections"><div class="section-block"><h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'Mash Up is built around one terrifying modern truth. Nothing online truly disappears. Every file leaves a trail. Every upload leaves evidence. Every digital mistake waits somewhere to be rediscovered later. The deeper this thriller goes, the more dangerous that idea becomes.')">Copy</button></h4><p>Mash Up is built around one terrifying modern truth. Nothing online truly disappears. Every file leaves a trail. Every upload leaves evidence. Every digital mistake waits somewhere to be rediscovered later. The deeper this thriller goes, the more dangerous that idea becomes.</p></div><div class="section-block"><h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'Nothing online ever really disappears. Mash Up weaponizes digital permanence into one of the most addictive cyber-thrillers on BookTok. #InternetThriller #MashUp #CyberMystery #JoeKlingler #BookTok #ThrillerBooks')">Copy</button></h4><p>Nothing online ever really disappears. Mash Up weaponizes digital permanence into one of the most addictive cyber-thrillers on BookTok. #InternetThriller #MashUp #CyberMystery #JoeKlingler #BookTok #ThrillerBooks</p></div></div></div></div>
+
+<div class="video-card"><div class="card-date"><div class="date-day">28</div><div class="date-month">May</div><div class="date-vid">Video 14</div></div><div class="card-body"><div class="card-title">The Detective Duo</div><div class="card-hook">“They should not work together. Somehow they do.”</div><div class="card-sections"><div class="section-block"><h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'One of the best parts of Mash Up is the chemistry between Qigiq and Kandy. He is cautious and instinctive. She is reckless and hypermodern. Together they constantly clash, constantly improvise, and somehow keep surviving one disaster after another.')">Copy</button></h4><p>One of the best parts of Mash Up is the chemistry between Qigiq and Kandy. He is cautious and instinctive. She is reckless and hypermodern. Together they constantly clash, constantly improvise, and somehow keep surviving one disaster after another.</p></div><div class="section-block"><h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'Qigiq and Kandy might be one of the most entertaining detective duos in modern thriller fiction. Mash Up combines character chemistry with cybercrime suspense perfectly. #DetectiveDuo #MashUp #JoeKlingler #BookTok #CrimeThriller #TechMystery')">Copy</button></h4><p>Qigiq and Kandy might be one of the most entertaining detective duos in modern thriller fiction. Mash Up combines character chemistry with cybercrime suspense perfectly. #DetectiveDuo #MashUp #JoeKlingler #BookTok #CrimeThriller #TechMystery</p></div></div></div></div>
+
+<div class="video-card"><div class="card-date"><div class="date-day">28</div><div class="date-month">May</div><div class="date-vid">Video 15</div></div><div class="card-body"><div class="card-title">Ultimate CTA — Enter the Rabbit Hole</div><div class="card-hook">“Once you start this story, you keep going.”</div><div class="card-sections"><div class="section-block"><h4>Voiceover Script <button class="copy-btn" onclick="copyText(this, 'An Amazon package. A missing musician. A cyber-virus. A detective who barely understands modern technology. And a killer hiding inside the internet itself. Mash Up by Joe Klingler combines cybercrime, detective noir, music culture, and modern paranoia into one addictive thriller. If you love stories that feel dangerously possible, this is your next read. Link in bio.')">Copy</button></h4><p>An Amazon package. A missing musician. A cyber-virus. A detective who barely understands modern technology. And a killer hiding inside the internet itself. Mash Up by Joe Klingler combines cybercrime, detective noir, music culture, and modern paranoia into one addictive thriller. If you love stories that feel dangerously possible, this is your next read. Link in bio.</p></div><div class="section-block"><h4>YouTube Description <button class="copy-btn" onclick="copyText(this, 'Cybercrime. Detective noir. Music piracy. Internet paranoia. Mash Up by Joe Klingler is the thriller readers keep binging deep into the night. Available now on Kindle and paperback. #MashUp #JoeKlingler #CyberThriller #BookTok #MysteryBooks #ThrillerReads')">Copy</button></h4><p>Cybercrime. Detective noir. Music piracy. Internet paranoia. Mash Up by Joe Klingler is the thriller readers keep binging deep into the night. Available now on Kindle and paperback. #MashUp #JoeKlingler #CyberThriller #BookTok #MysteryBooks #ThrillerReads</p></div></div></div></div>
+
+</section>
+
+<footer class="footer">
+<div class="footer-title">Mash Up — Joe Klingler</div>
+<div class="footer-sub">Week 1 Content Proposal · May 22 – 28, 2026 · Videos 1 – 15 · YouTube & TikTok</div>
+</footer>
+
+<script>
+function copyText(btn, text) {
+  navigator.clipboard.writeText(text).then(() => {
+    const original = btn.textContent;
+    btn.textContent = 'Copied';
+    setTimeout(() => {
+      btn.textContent = original;
+    }, 2000);
+  });
+}
+</script>
+
+</body>
+</html>
+```

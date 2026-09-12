@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Would You Believe It? — Week 1 Report · Atomic Shelf</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600;1,700&family=Source+Sans+3:wght@300;400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+a{color:inherit;text-decoration:none;}
+:root{
+  --bg:#f5f2ed;--bg2:#ede8df;--bg3:#e4ddd2;
+  --navy:#0e1c2a;--navy2:#1a2e42;--navy3:#2a4260;
+  --gold:#b87d20;--gold2:#d4960e;--gold-lt:#fdf5e0;--gold3:#f0c060;
+  --slate:#4a6380;--slate2:#6a82a0;
+  --ink:#1a1208;--ink2:#2a1f10;--ink3:#4a3828;--ink4:#7a6050;
+  --border:#ccc4b0;--border-lt:#ddd6c4;
+  --surface:#ffffff;--surface2:#f8f4ee;
+  --r:10px;--r-lg:16px;--r-xl:24px;
+  --glow-navy:0 4px 24px rgba(14,28,42,.18);--glow-gold:0 4px 20px rgba(184,125,32,.15);
+  --shadow-sm:0 2px 12px rgba(26,18,8,.07);--shadow:0 6px 32px rgba(26,18,8,.11);--shadow-lg:0 14px 50px rgba(26,18,8,.15);
+}
+body{font-family:'Source Sans 3',system-ui,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;font-size:17px;line-height:1.75;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(14,28,42,.06) 0%,transparent 60%);pointer-events:none;z-index:0;}
+::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:var(--bg2);}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+
+/* ── STATUS BANNER ── */
+.status-banner{background:var(--surface);border-bottom:2px solid var(--border);padding:12px 40px;position:sticky;top:0;z-index:100;box-shadow:var(--shadow-sm);}
+.status-inner{max-width:1000px;margin:0 auto;display:flex;align-items:center;gap:20px;flex-wrap:wrap;}
+.status-label{font-family:'DM Mono',monospace;font-size:.64rem;text-transform:uppercase;letter-spacing:.14em;color:var(--navy2);white-space:nowrap;}
+.status-track{flex:1;min-width:180px;background:var(--bg3);border-radius:40px;height:8px;overflow:hidden;}
+.status-fill{height:100%;background:linear-gradient(90deg,var(--navy),var(--slate));border-radius:40px;}
+.status-badge{font-family:'DM Mono',monospace;font-size:.62rem;color:var(--gold);background:rgba(184,125,32,.1);border:1px solid rgba(184,125,32,.28);border-radius:40px;padding:3px 12px;white-space:nowrap;letter-spacing:.04em;}
+.status-week{font-family:'Lora',serif;font-size:1.2rem;font-weight:700;color:var(--navy);line-height:1;}
+.status-week-lbl{font-family:'DM Mono',monospace;font-size:.56rem;color:var(--ink4);text-transform:uppercase;letter-spacing:.1em;}
+
+/* ── HERO ── */
+.hero{padding:70px 40px 80px;position:relative;overflow:hidden;z-index:1;background:linear-gradient(160deg,#0a1622 0%,#0e1a2e 55%,#14203a 100%);}
+.hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(212,148,42,.5),transparent);}
+.hero-inner{max-width:1000px;margin:0 auto;position:relative;}
+.hero-logo{display:inline-flex;align-items:center;gap:10px;margin-bottom:44px;opacity:.8;}
+.logo-mark{width:36px;height:36px;background:linear-gradient(135deg,var(--navy2),var(--slate));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;color:#fff;letter-spacing:.05em;font-family:'DM Mono',monospace;box-shadow:0 2px 16px rgba(14,28,42,.4);}
+.logo-text{font-family:'Lora',serif;font-size:1.1rem;font-style:italic;color:rgba(240,240,255,.5);letter-spacing:.02em;}
+.hero-eyebrow{font-family:'DM Mono',monospace;font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold3);margin-bottom:16px;opacity:.9;}
+.hero-title{font-family:'Lora',serif;font-size:clamp(2rem,5.5vw,4rem);font-weight:700;color:#f5f0e8;line-height:1.06;margin-bottom:8px;letter-spacing:-.01em;}
+.hero-title em{font-style:italic;color:var(--gold3);}
+.hero-sub{font-size:1rem;color:rgba(240,240,255,.5);font-weight:400;margin-bottom:40px;max-width:520px;}
+.hero-stats{display:flex;gap:0;flex-wrap:wrap;}
+.hstat{padding:20px 36px 20px 0;margin-right:36px;border-right:1px solid rgba(255,255,255,.08);}
+.hstat:last-child{border-right:none;margin-right:0;}
+.hstat-val{font-family:'Lora',serif;font-size:2.8rem;font-weight:700;color:#f5f0e8;line-height:1;margin-bottom:4px;}
+.hstat-val.gold{color:var(--gold3);}.hstat-val.slate{color:#8ab0d8;}
+.hstat-lbl{font-family:'DM Mono',monospace;font-size:.57rem;color:rgba(240,240,255,.3);text-transform:uppercase;letter-spacing:.1em;}
+
+/* ── LAYOUT ── */
+.main{max-width:1000px;margin:0 auto;padding:50px 40px 100px;position:relative;z-index:1;}
+
+/* ── TABS ── */
+.tab-nav{display:flex;gap:0;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xl);padding:5px;margin-bottom:40px;width:fit-content;overflow-x:auto;box-shadow:var(--shadow-sm);}
+.tab-btn{font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4);padding:9px 20px;border-radius:calc(var(--r-xl) - 4px);cursor:pointer;transition:all .18s;border:none;background:none;white-space:nowrap;}
+.tab-btn.active{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;box-shadow:var(--glow-navy);}
+.tab-btn:hover:not(.active){color:var(--ink);background:var(--bg2);}
+.tab-panel{display:none;}.tab-panel.active{display:block;}
+
+/* ── SECTION HEADERS ── */
+.section-hd{display:flex;align-items:center;gap:14px;margin-bottom:22px;margin-top:52px;}
+.section-hd:first-child{margin-top:0;}
+.section-accent{width:4px;height:30px;border-radius:3px;flex-shrink:0;background:linear-gradient(180deg,var(--navy),var(--slate));}
+.section-accent.gold{background:linear-gradient(180deg,var(--gold),var(--gold2));}
+.section-title{font-family:'Lora',serif;font-size:1.9rem;font-weight:700;color:var(--ink);line-height:1;letter-spacing:-.01em;}
+.section-rule{flex:1;height:1px;background:var(--border-lt);}
+.section-count{font-family:'DM Mono',monospace;font-size:.62rem;color:var(--ink4);background:var(--bg2);border:1px solid var(--border);border-radius:40px;padding:3px 12px;letter-spacing:.06em;}
+
+/* ── NOTICES ── */
+.notice{background:var(--gold-lt);border:1px solid rgba(184,125,32,.28);border-radius:var(--r);padding:16px 20px;font-size:.95rem;color:var(--ink2);display:flex;align-items:flex-start;gap:10px;margin-bottom:20px;}
+.notice-icon{font-size:1.1rem;flex-shrink:0;}
+.notice a{color:var(--navy2);font-weight:600;text-decoration:underline;}
+.notice.navy{background:rgba(14,28,42,.05);border-color:rgba(14,28,42,.18);}
+.notice.green{background:rgba(20,90,50,.06);border-color:rgba(20,90,50,.22);}
+
+/* ── CARDS ── */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:28px 32px;box-shadow:var(--shadow-sm);margin-bottom:14px;}
+
+/* ── PAYMENT CARD ── */
+.pay-card{background:linear-gradient(135deg,#0e1c2a 0%,#1a2e42 100%);border:1px solid rgba(212,148,42,.3);border-radius:var(--r-xl);padding:32px 36px;box-shadow:var(--shadow-lg);margin-bottom:20px;position:relative;overflow:hidden;}
+.pay-card::before{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;background:radial-gradient(circle,rgba(212,148,42,.12) 0%,transparent 70%);pointer-events:none;}
+.pay-title{font-family:'Lora',serif;font-size:1.6rem;font-weight:700;color:#f5f0e8;margin-bottom:6px;}
+.pay-sub{font-size:.92rem;color:rgba(240,240,255,.5);margin-bottom:24px;}
+.pay-amount{font-family:'Lora',serif;font-size:3.5rem;font-weight:700;color:var(--gold3);line-height:1;margin-bottom:4px;}
+.pay-period{font-family:'DM Mono',monospace;font-size:.64rem;color:rgba(240,240,255,.4);text-transform:uppercase;letter-spacing:.1em;margin-bottom:28px;}
+.pay-features{display:flex;flex-direction:column;gap:8px;margin-bottom:28px;}
+.pay-feat{display:flex;align-items:center;gap:10px;font-size:.9rem;color:rgba(240,240,255,.75);}
+.pay-feat-dot{width:6px;height:6px;border-radius:50%;background:var(--gold3);flex-shrink:0;}
+.pay-btn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#fff;font-family:'DM Mono',monospace;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;padding:14px 28px;border-radius:40px;box-shadow:var(--glow-gold);font-weight:600;transition:opacity .2s;}
+.pay-btn:hover{opacity:.9;}
+
+/* ── METRICS ── */
+.metrics-strip{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-bottom:14px;}
+.mbox{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:18px;text-align:center;box-shadow:var(--shadow-sm);}
+.mbox-val{font-family:'Lora',serif;font-size:2.2rem;font-weight:700;color:var(--ink);line-height:1;margin-bottom:5px;}
+.mbox-val.navy{color:var(--navy2);}.mbox-val.gold{color:var(--gold);}
+.mbox-lbl{font-family:'DM Mono',monospace;font-size:.56rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink4);}
+
+/* ── CONTENT CALENDAR ── */
+.cal-grid{display:flex;flex-direction:column;gap:8px;}
+.cal-item{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:18px 22px;display:grid;grid-template-columns:40px 1fr auto;gap:16px;align-items:start;transition:border-color .2s,box-shadow .2s;box-shadow:var(--shadow-sm);}
+.cal-item:hover{border-color:rgba(14,28,42,.3);box-shadow:var(--glow-navy);}
+.cal-item.posted{border-left:3px solid #2a8a50;}
+.cal-num{font-family:'Lora',serif;font-size:2rem;font-weight:700;color:var(--navy);line-height:1;opacity:.45;}
+.cal-hook{font-family:'Lora',serif;font-size:1.08rem;font-weight:600;color:var(--ink);line-height:1.35;margin-bottom:4px;}
+.cal-tag{font-family:'DM Mono',monospace;font-size:.6rem;text-transform:uppercase;letter-spacing:.09em;color:var(--gold);background:rgba(184,125,32,.1);border:1px solid rgba(184,125,32,.22);border-radius:40px;padding:2px 9px;display:inline-block;margin-bottom:6px;}
+.cal-vo{font-size:.88rem;color:var(--ink3);line-height:1.7;border-left:3px solid rgba(14,28,42,.15);padding-left:12px;margin-top:8px;}
+.cal-hashtags{font-family:'DM Mono',monospace;font-size:.68rem;color:var(--slate2);line-height:1.8;margin-top:8px;}
+.cal-day{font-family:'DM Mono',monospace;font-size:.6rem;color:var(--ink4);text-transform:uppercase;letter-spacing:.08em;text-align:right;white-space:nowrap;}
+.cal-posted-tag{font-family:'DM Mono',monospace;font-size:.56rem;color:#2a8a50;background:rgba(42,138,80,.1);border:1px solid rgba(42,138,80,.25);border-radius:40px;padding:2px 8px;margin-top:4px;display:inline-block;}
+.cal-vo-toggle{font-family:'DM Mono',monospace;font-size:.62rem;color:var(--navy2);cursor:pointer;letter-spacing:.06em;text-transform:uppercase;background:rgba(14,28,42,.07);border:1px solid rgba(14,28,42,.18);border-radius:40px;padding:3px 10px;margin-top:6px;transition:background .15s;}
+.cal-vo-toggle:hover{background:rgba(14,28,42,.13);}
+.vo-hidden{display:none;}
+
+/* ── SCHEDULE TABLE ── */
+.sched-table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow-sm);}
+.sched-table th{font-family:'DM Mono',monospace;font-size:.6rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink4);padding:12px 16px;text-align:left;background:var(--bg2);border-bottom:1px solid var(--border);}
+.sched-table td{padding:12px 16px;font-size:.88rem;color:var(--ink2);border-bottom:1px solid var(--border-lt);vertical-align:top;}
+.sched-table tr:last-child td{border-bottom:none;}
+.sched-table tr:hover td{background:var(--surface2);}
+.sched-clip-title{font-family:'Lora',serif;font-size:.95rem;font-weight:600;color:var(--ink);}
+.sched-status{display:inline-flex;align-items:center;gap:5px;font-family:'DM Mono',monospace;font-size:.58rem;border-radius:40px;padding:3px 10px;font-weight:600;}
+.s-posted{background:rgba(184,125,32,.1);color:var(--gold);border:1px solid rgba(184,125,32,.25);}
+.s-queued{background:rgba(184,125,32,.1);color:var(--gold);border:1px solid rgba(184,125,32,.25);}
+
+/* ── NEXT STEPS ── */
+.steps-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;}
+.step-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:24px 26px;box-shadow:var(--shadow-sm);}
+.step-num{font-family:'DM Mono',monospace;font-size:.85rem;font-weight:600;color:var(--navy2);line-height:1;margin-bottom:12px;background:rgba(14,28,42,.08);border:1px solid rgba(14,28,42,.18);border-radius:8px;display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;}
+.step-title{font-family:'Lora',serif;font-size:1.15rem;font-weight:700;color:var(--ink);margin-bottom:8px;}
+.step-desc{font-size:.92rem;color:var(--ink3);line-height:1.7;}
+.step-action{display:inline-flex;align-items:center;gap:5px;margin-top:14px;font-family:'DM Mono',monospace;font-size:.62rem;color:var(--gold);background:rgba(184,125,32,.08);border:1px solid rgba(184,125,32,.22);border-radius:40px;padding:5px 13px;letter-spacing:.04em;text-transform:uppercase;}
+
+/* ── WEEK 2 PREVIEW ── */
+.preview-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;}
+.preview-card{background:var(--surface);border:1px solid var(--border-lt);border-radius:var(--r);padding:18px 20px;box-shadow:var(--shadow-sm);opacity:.8;}
+.preview-card:hover{opacity:1;border-color:rgba(184,125,32,.3);}
+.preview-num{font-family:'DM Mono',monospace;font-size:.58rem;color:var(--gold);margin-bottom:6px;letter-spacing:.08em;}
+.preview-hook{font-family:'Lora',serif;font-size:.98rem;font-weight:600;color:var(--ink);line-height:1.4;}
+.preview-tag{font-family:'DM Mono',monospace;font-size:.58rem;color:var(--ink4);margin-top:4px;}
+
+/* ── FOOTER ── */
+.footer{background:var(--ink);padding:36px 40px;text-align:center;position:relative;z-index:1;}
+.footer-logo{font-family:'Lora',serif;font-size:1.3rem;font-style:italic;color:rgba(255,245,235,.4);margin-bottom:6px;}
+.footer-text{font-family:'DM Mono',monospace;font-size:.62rem;color:rgba(255,245,235,.2);letter-spacing:.06em;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+.card,.cal-item,.step-card,.mbox,.sched-table,.pay-card,.preview-card{animation:fadeUp .45s ease both;}
+
+@media(max-width:700px){
+  .hero{padding:40px 20px 50px;}.main{padding:30px 20px 80px;}
+  .status-banner{padding:10px 20px;}
+  .hstat{padding:14px 20px 14px 0;margin-right:20px;}.hstat-val{font-size:2rem;}
+  .steps-grid{grid-template-columns:1fr;}
+  .cal-item{grid-template-columns:36px 1fr;}.cal-day{display:none;}
+  .preview-grid{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:420px){.preview-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<!-- ── STATUS BANNER ── -->
+<div class="status-banner">
+  <div class="status-inner">
+    <div>
+      <div class="status-week">Week 1</div>
+      <div class="status-week-lbl">of 5 — Complete</div>
+    </div>
+    <div style="flex:1;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;">
+        <div class="status-label">Campaign Progress</div>
+        <div class="status-badge">Videos Ready · Awaiting Approval</div>
+      </div>
+      <div class="status-track"><div class="status-fill" style="width:20%"></div></div>
+    </div>
+    <div style="text-align:right;">
+      <div style="font-family:'DM Mono',monospace;font-size:.58rem;color:var(--ink4);text-transform:uppercase;letter-spacing:.08em;">Trial Window</div>
+      <div style="font-family:'DM Mono',monospace;font-size:.7rem;color:var(--navy2);">May 22–28, 2026</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── HERO ── -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-logo"><div class="logo-mark">AS</div><div class="logo-text">Atomic Shelf</div></div>
+    <div class="hero-eyebrow">Week 1 Campaign Report · Kyle Hogg · May 2026</div>
+    <h1 class="hero-title">Week 1 Delivered.<br><em>Would You Believe It?</em></h1>
+    <p class="hero-sub">Your 15 trial-week videos are scripted and ready for your approval. Here's everything that was built — and what happens next.</p>
+    <div class="hero-stats">
+      <div class="hstat"><div class="hstat-val gold">15</div><div class="hstat-lbl">Videos Delivered</div></div>
+      <div class="hstat"><div class="hstat-val slate">5</div><div class="hstat-lbl">Weeks Scripted</div></div>
+      <div class="hstat"><div class="hstat-val">4.9★</div><div class="hstat-lbl">Amazon Rating</div></div>
+      <div class="hstat"><div class="hstat-val">Pending</div><div class="hstat-lbl">Approval</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── MAIN ── -->
+<div class="main">
+
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="switchTab('overview',this)">Overview</button>
+    <button class="tab-btn" onclick="switchTab('calendar',this)">15 Videos</button>
+    <button class="tab-btn" onclick="switchTab('schedule',this)">Posting Schedule</button>
+    <button class="tab-btn" onclick="switchTab('week2',this)">Week 2 Preview</button>
+    <button class="tab-btn" onclick="switchTab('payment',this)">Continue →</button>
+  </div>
+
+  <!-- ══ OVERVIEW ══ -->
+  <div class="tab-panel active" id="tab-overview">
+
+    <div class="notice navy">
+      <span class="notice-icon">🎬</span>
+      <span><strong>15 videos scripted and ready to post.</strong> All scripts, voiceovers, and hashtags for the trial week are built and awaiting your approval. Posting begins once you give the go-ahead — and Weeks 2–5 are also fully written and waiting.</span>
+    </div>
+
+    <div class="section-hd">
+      <div class="section-accent"></div>
+      <div class="section-title">What Was Built</div>
+      <div class="section-rule"></div>
+    </div>
+
+    <div class="metrics-strip">
+      <div class="mbox"><div class="mbox-val navy">15</div><div class="mbox-lbl">Week 1 Scripts</div></div>
+      <div class="mbox"><div class="mbox-val gold">60</div><div class="mbox-lbl">Total Scripts Ready</div></div>
+      <div class="mbox"><div class="mbox-val gold">2–3×</div><div class="mbox-lbl">Daily Post Cadence</div></div>
+      <div class="mbox"><div class="mbox-val navy">TikTok</div><div class="mbox-lbl">Primary Platform</div></div>
+      <div class="mbox"><div class="mbox-val navy">YT</div><div class="mbox-lbl">Shorts Channel</div></div>
+      <div class="mbox"><div class="mbox-val gold">5</div><div class="mbox-lbl">Weeks Planned</div></div>
+    </div>
+
+    <div class="section-hd">
+      <div class="section-accent gold"></div>
+      <div class="section-title">The Book</div>
+      <div class="section-rule"></div>
+    </div>
+
+    <div class="card">
+      <div style="display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap;">
+        <div style="flex:1;min-width:200px;">
+          <div style="font-family:'DM Mono',monospace;font-size:.6rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink4);margin-bottom:6px;">Faith · Apologetics · Spiritual Growth</div>
+          <div style="font-family:'Lora',serif;font-size:1.5rem;font-weight:700;color:var(--ink);margin-bottom:4px;">Would You Believe It?</div>
+          <div style="font-size:.88rem;color:var(--ink3);margin-bottom:14px;">A Guide to Finding Faith for Skeptics · by <strong>Kyle Hogg</strong></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">
+            <div style="background:var(--bg2);border:1px solid var(--border-lt);border-radius:8px;padding:10px 12px;">
+              <div style="font-family:'DM Mono',monospace;font-size:.54rem;color:var(--ink4);text-transform:uppercase;letter-spacing:.07em;margin-bottom:3px;">Amazon Rating</div>
+              <div style="font-size:.9rem;color:var(--gold);font-weight:600;">4.9 / 5 ★ (100+ reviews)</div>
+            </div>
+            <div style="background:var(--bg2);border:1px solid var(--border-lt);border-radius:8px;padding:10px 12px;">
+              <div style="font-family:'DM Mono',monospace;font-size:.54rem;color:var(--ink4);text-transform:uppercase;letter-spacing:.07em;margin-bottom:3px;">Formats</div>
+              <div style="font-size:.9rem;color:var(--ink);font-weight:600;">Kindle · Paperback · Audio</div>
+            </div>
+            <div style="background:var(--bg2);border:1px solid var(--border-lt);border-radius:8px;padding:10px 12px;">
+              <div style="font-family:'DM Mono',monospace;font-size:.54rem;color:var(--ink4);text-transform:uppercase;letter-spacing:.07em;margin-bottom:3px;">Target Audience</div>
+              <div style="font-size:.9rem;color:var(--navy2);font-weight:600;">Skeptics & Rational Seekers</div>
+            </div>
+            <div style="background:var(--bg2);border:1px solid var(--border-lt);border-radius:8px;padding:10px 12px;">
+              <div style="font-family:'DM Mono',monospace;font-size:.54rem;color:var(--ink4);text-transform:uppercase;letter-spacing:.07em;margin-bottom:3px;">Content Strategy</div>
+              <div style="font-size:.9rem;color:var(--ink);font-weight:600;">Skeptics & Seekers Framework</div>
+            </div>
+          </div>
+          <div style="font-size:.92rem;color:var(--ink3);line-height:1.75;border-left:3px solid rgba(14,28,42,.15);padding-left:14px;">
+            Every video in this campaign leads with a question, not a sermon. The Skeptics & Seekers Framework positions <em>Would You Believe It?</em> as the thinking person's guide to faith — meeting rational doubters where they already are: mid-thought, mid-doubt, mid-search.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="notice navy" style="margin-top:8px;">
+      <span class="notice-icon">📋</span>
+      <span>Browse the <strong>15 Videos</strong> tab to review every script and voiceover. Check <strong>Posting Schedule</strong> for the full daily plan. <strong>Week 2 Preview</strong> shows what's queued next. When you're happy with the direction, head to <strong>Continue →</strong> to approve and move forward.</span>
+    </div>
+
+  </div>
+
+  <!-- ══ 15 VIDEOS ══ -->
+  <div class="tab-panel" id="tab-calendar">
+
+    <div class="section-hd">
+      <div class="section-accent"></div>
+      <div class="section-title">Week 1 — All 15 Videos</div>
+      <div class="section-rule"></div>
+      <div class="section-count">May 22–28, 2026</div>
+    </div>
+
+    <div class="notice">
+      <span class="notice-icon">🎙️</span>
+      <span>Tap <strong>Show Voiceover</strong> to expand any script. Each clip includes its hook, angle, full voiceover copy, and hashtag set — ready to post.</span>
+    </div>
+
+    <div class="cal-grid" id="calGrid"></div>
+
+  </div>
+
+  <!-- ══ POSTING SCHEDULE ══ -->
+  <div class="tab-panel" id="tab-schedule">
+
+    <div class="section-hd">
+      <div class="section-accent"></div>
+      <div class="section-title">Daily Deployment Schedule</div>
+      <div class="section-rule"></div>
+      <div class="section-count">May 22–28 · 15 Clips</div>
+    </div>
+
+    <div class="notice navy">
+      <span class="notice-icon">📅</span>
+      <span>Videos are <strong>scripted and scheduled</strong> — posting begins once you approve the content and grant YouTube editor access. Distribution runs at <strong>2× per day</strong> (May 22–27), scaling to <strong>3× on May 28</strong>.</span>
+    </div>
+
+    <table class="sched-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Clips</th>
+          <th>Titles</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>May 22</strong><br><span style="font-family:'DM Mono',monospace;font-size:.6rem;color:var(--ink4);">Thu</span></td>
+          <td><span style="font-family:'DM Mono',monospace;font-size:.78rem;color:var(--navy2);">01 · 02</span></td>
+          <td>
+            <div class="sched-clip-title">The Midnight Logic Loop</div>
+            <div class="sched-clip-title" style="margin-top:4px;">Nonsense vs. Mystery</div>
+          </td>
+          <td><span class="sched-status s-queued">⏳ Scheduled</span></td>
+        </tr>
+        <tr>
+          <td><strong>May 23</strong><br><span style="font-family:'DM Mono',monospace;font-size:.6rem;color:var(--ink4);">Fri</span></td>
+          <td><span style="font-family:'DM Mono',monospace;font-size:.78rem;color:var(--navy2);">03 · 04</span></td>
+          <td>
+            <div class="sched-clip-title">Pinpointing the Source of Doubt</div>
+            <div class="sched-clip-title" style="margin-top:4px;">The Real Root of 'Fides'</div>
+          </td>
+          <td><span class="sched-status s-queued">⏳ Scheduled</span></td>
+        </tr>
+        <tr>
+          <td><strong>May 24</strong><br><span style="font-family:'DM Mono',monospace;font-size:.6rem;color:var(--ink4);">Sat</span></td>
+          <td><span style="font-family:'DM Mono',monospace;font-size:.78rem;color:var(--navy2);">05 · 06</span></td>
+          <td>
+            <div class="sched-clip-title">When Evidence Isn't Enough</div>
+            <div class="sched-clip-title" style="margin-top:4px;">The Conclave Principle</div>
+          </td>
+          <td><span class="sched-status s-queued">⏳ Scheduled</span></td>
+        </tr>
+        <tr>
+          <td><strong>May 25</strong><br><span style="font-family:'DM Mono',monospace;font-size:.6rem;color:var(--ink4);">Sun</span></td>
+          <td><span style="font-family:'DM Mono',monospace;font-size:.78rem;color:var(--navy2);">07 · 08</span></td>
+          <td>
+            <div class="sched-clip-title">Conviction Over Convincing</div>
+            <div class="sched-clip-title" style="margin-top:4px;">The Illusion of Dogma</div>
+          </td>
+          <td><span class="sched-status s-queued">⏳ Scheduled</span></td>
+        </tr>
+        <tr>
+          <td><strong>May 26</strong><br><span style="font-family:'DM Mono',monospace;font-size:.6rem;color:var(--ink4);">Mon</span></td>
+          <td><span style="font-family:'DM Mono',monospace;font-size:.78rem;color:var(--navy2);">09 · 10</span></td>
+          <td>
+            <div class="sched-clip-title">Outstretching Arms for a Buoy</div>
+            <div class="sched-clip-title" style="margin-top:4px;">The Dynamic Gift</div>
+          </td>
+          <td><span class="sched-status s-queued">⏳ Scheduled</span></td>
+        </tr>
+        <tr>
+          <td><strong>May 27</strong><br><span style="font-family:'DM Mono',monospace;font-size:.6rem;color:var(--ink4);">Tue</span></td>
+          <td><span style="font-family:'DM Mono',monospace;font-size:.78rem;color:var(--navy2);">11 · 12</span></td>
+          <td>
+            <div class="sched-clip-title">The Chill Pastor Transcript</div>
+            <div class="sched-clip-title" style="margin-top:4px;">15 Years of Pastoral Clarity</div>
+          </td>
+          <td><span class="sched-status s-queued">⏳ Scheduled</span></td>
+        </tr>
+        <tr>
+          <td><strong>May 28</strong><br><span style="font-family:'DM Mono',monospace;font-size:.6rem;color:var(--ink4);">Wed · 3×</span></td>
+          <td><span style="font-family:'DM Mono',monospace;font-size:.78rem;color:var(--navy2);">13 · 14 · 15</span></td>
+          <td>
+            <div class="sched-clip-title">The Multitude of Reviews</div>
+            <div class="sched-clip-title" style="margin-top:4px;">The Companion for the Commute</div>
+            <div class="sched-clip-title" style="margin-top:4px;">The Ultimate Invitation</div>
+          </td>
+          <td><span class="sched-status s-queued">⏳ Scheduled</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="notice" style="margin-top:20px;">
+      <span class="notice-icon">📌</span>
+      <span>We still need YouTube editor access to upload directly to your channel. In YouTube Studio → Settings → Permissions, please add <strong>powerpages30@gmail.com</strong> as an Editor. This takes about 30 seconds and unlocks Shorts distribution alongside TikTok.</span>
+    </div>
+
+  </div>
+
+  <!-- ══ WEEK 2 PREVIEW ══ -->
+  <div class="tab-panel" id="tab-week2">
+
+    <div class="section-hd">
+      <div class="section-accent gold"></div>
+      <div class="section-title">Week 2 — Already Written</div>
+      <div class="section-rule"></div>
+      <div class="section-count">Jun 5–11 · 15 Scripts Ready</div>
+    </div>
+
+    <div class="notice navy">
+      <span class="notice-icon">📝</span>
+      <span>All 5 weeks of content (75 videos total) are fully scripted and waiting. Week 2 launches <strong>June 5</strong> as soon as the Essentials plan is active. Here's a preview of what's coming.</span>
+    </div>
+
+    <div class="preview-grid" id="week2Grid"></div>
+
+    <div class="card" style="margin-top:20px;background:linear-gradient(135deg,rgba(14,28,42,.04) 0%,rgba(184,125,32,.04) 100%);border-color:rgba(184,125,32,.2);">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;">
+        <div>
+          <div style="font-family:'DM Mono',monospace;font-size:.58rem;color:var(--ink4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px;">Week 3 · Jun 12–18</div>
+          <div style="font-size:.9rem;color:var(--ink2);">15 scripts ready — deepening the Skeptics &amp; Seekers framework with historical and philosophical angles.</div>
+        </div>
+        <div>
+          <div style="font-family:'DM Mono',monospace;font-size:.58rem;color:var(--ink4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px;">Week 4 · Jun 19–25</div>
+          <div style="font-size:.9rem;color:var(--ink2);">15 scripts ready — personal testimony hooks and relational doubt narratives for peak engagement.</div>
+        </div>
+        <div>
+          <div style="font-family:'DM Mono',monospace;font-size:.58rem;color:var(--ink4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px;">Week 5 · Jun 26–Jul 2</div>
+          <div style="font-size:.9rem;color:var(--ink2);">15 scripts ready — conversion-focused CTAs and social proof amplification leading into Month 2.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══ PAYMENT / CONTINUE ══ -->
+  <div class="tab-panel" id="tab-payment">
+
+    <div class="section-hd">
+      <div class="section-accent gold"></div>
+      <div class="section-title">Continue the Campaign</div>
+      <div class="section-rule"></div>
+    </div>
+
+    <div class="notice green">
+      <span class="notice-icon">🎉</span>
+      <span>Your free trial is complete. The next step is Essentials — one payment keeps everything running, and Week 2 launches June 5 without a gap.</span>
+    </div>
+
+    <div class="pay-card">
+      <div class="pay-title">Essentials Plan</div>
+      <div class="pay-sub">Your complete short-form video content engine — continued.</div>
+      <div class="pay-amount">$20</div>
+      <div class="pay-period">per month · cancel anytime</div>
+      <div class="pay-features">
+        <div class="pay-feat"><div class="pay-feat-dot"></div>15 new video scripts delivered each week</div>
+        <div class="pay-feat"><div class="pay-feat-dot"></div>Full voiceover copy + social metadata (hashtags, captions)</div>
+        <div class="pay-feat"><div class="pay-feat-dot"></div>TikTok + YouTube Shorts simultaneous distribution</div>
+        <div class="pay-feat"><div class="pay-feat-dot"></div>2–3 posts per day, every day</div>
+        <div class="pay-feat"><div class="pay-feat-dot"></div>Weekly performance reports</div>
+        <div class="pay-feat"><div class="pay-feat-dot"></div>Direct channel management (once editor access is granted)</div>
+        <div class="pay-feat"><div class="pay-feat-dot"></div>Weeks 2–5 already written — zero ramp-up delay</div>
+      </div>
+      <a href="https://store.pesapal.com/atomicshelfsubscription" target="_blank" rel="noopener" class="pay-btn">
+        Pay $20 · Start Week 2 ↗
+      </a>
+    </div>
+
+    <div class="section-hd" style="margin-top:40px;">
+      <div class="section-accent"></div>
+      <div class="section-title">Two Remaining Steps</div>
+      <div class="section-rule"></div>
+    </div>
+
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-num">01</div>
+        <div class="step-title">Pay for Essentials</div>
+        <div class="step-desc">$20/month. Pay via the Pesapal portal — you can set a custom amount at checkout. One payment keeps weeks 2–5 flowing without interruption.</div>
+        <a href="https://store.pesapal.com/atomicshelfsubscription" target="_blank" rel="noopener" class="step-action" style="color:var(--gold);">→ Payment portal ↗</a>
+      </div>
+      <div class="step-card">
+        <div class="step-num">02</div>
+        <div class="step-title">Grant YouTube Access</div>
+        <div class="step-desc">In YouTube Studio → Settings → Permissions, add <strong>powerpages30@gmail.com</strong> as an Editor. This takes 30 seconds and lets us upload Shorts directly to your channel — unlocking both platforms simultaneously.</div>
+        <div class="step-action" style="color:var(--navy2);background:rgba(14,28,42,.08);border-color:rgba(14,28,42,.18);">→ powerpages30@gmail.com</div>
+      </div>
+    </div>
+
+    <div class="notice" style="margin-top:20px;">
+      <span class="notice-icon">💬</span>
+      <span>Questions about how the pricing works, what's included, or anything else? Just reply to Nick's email — <strong>nick@atomic-shelf.com</strong> — and he'll get back to you directly.</span>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="footer">
+  <div class="footer-logo">Atomic Shelf</div>
+  <div class="footer-text">· atomic-shelf.com · Week 1 Report — Kyle Hogg · May 30, 2026</div>
+</div>
+
+<script>
+function switchTab(tabId, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-' + tabId).classList.add('active');
+  if (btn) btn.classList.add('active');
+}
+
+const VIDEOS = [
+  { day:'May 22', num:1, tag:'Existential Hook', hook:'"It is midnight, your room is dead quiet, and your brain refuses to shut off the logic loop."', angle:'The exhausting tension of an over-analytical mind chasing peace.', vo:`It is midnight, your room is dead quiet, and your brain refuses to shut off the logic loop. You want to find true internal grounding, but you've been told your whole life that faith requires turning your brain off. What if that's a complete lie? What if real faith doesn't want you to bury your intellect, but actually demands your hard questions?`, tags:'#Skeptics #Faith #Logic #Overthinking #Christianity #Apologetics #KyleHogg #TruthChasing' },
+  { day:'May 22', num:2, tag:'Philosophy Angle', hook:'"There is a massive, life-changing difference between nonsense and mystery."', angle:'Differentiating between anti-rational claims and trans-rational truths.', vo:`There is a massive, life-changing difference between nonsense that goes flatly against reason, and a deep mystery that goes completely beyond it. True faith isn't irrational nonsense. It's an expansive mystery that sits comfortably at the table right next to your toughest questions. Stop fighting the uncertainty alone.`, tags:'#Philosophy #Apologetics #FaithAndReason #Doubting #Skepticism #SeekingTruth' },
+  { day:'May 23', num:3, tag:'Doubt Framework', hook:'"Let\'s stop treating doubt like a big, scary monster and pinpoint its actual coordinates."', angle:'Categorizing doubt to dismantle its overwhelming, ambiguous power.', vo:`If you are currently wrestling with doubt, let's stop treating it like a big, scary monster and pinpoint its actual coordinates. Is your doubt strictly intellectual, or is it deeply emotional, moral, or situational? Once you give your doubt an exact name, it loses its power over your journey, and you can finally start seeking real answers.`, tags:'#Doubt #FaithJourney #SpiritualDeconstruction #ChristianApologetics #MentalHealth #TruthSeeker' },
+  { day:'May 23', num:4, tag:'Etymology Hook', hook:'"We have totally ruined the word faith."', angle:"Rescuing the definition of faith from emotionalism — the root 'fides' means trust.", vo:`We have totally ruined the word faith. We treat it like an emotional wish or an anti-scientific blind leap. But the historical root of faith comes directly from the Latin word 'fides'—which simply means trust. It's not about generating a fuzzy feeling; it's about choosing where to place your relational trust based on evidence.`, tags:'#Etymology #Fides #Faith #Trust #EvidenceBased #ChristianLiving #TheologyMatters' },
+  { day:'May 24', num:5, tag:'Evidence Paradox', hook:'"You can read every history textbook and still feel completely empty. Here\'s why."', angle:'Why intellectual arguments alone fail to spark transformation.', vo:`You can read every single history textbook, analyze every line of archaeological evidence, and memorize perfect logic arguments—and still feel completely empty. Why? Because raw evidence alone cannot generate a living connection. Evidence clears away the debris, but faith is a relational gift that has to be received.`, tags:'#Apologetics #Evidence #Reasoning #ScienceAndFaith #CSLewis #LeeStrobel #Faith' },
+  { day:'May 24', num:6, tag:'Cinematic Quote', hook:'"Our faith is a living thing precisely because it walks hand-in-hand with doubt."', angle:"The Conclave Principle — validating doubt as the necessary companion of living faith.", vo:`There is a profound cinematic monologue that states: 'Our faith is a living thing precisely because it walks hand-in-hand with doubt.' If there was only absolute mathematical certainty, there would be no room for relationship, no room for wonder, and no room for love. Don't fear your uncertainty; it proves your faith is alive.`, tags:'#Conclave #RalphFiennes #DoubtAndFaith #Uncertainty #SpiritualGrowth #HonestConversations' },
+  { day:'May 25', num:7, tag:'Heart Over Mind', hook:'"If someone can convince you into a belief, someone else can convince you out of it next week."', angle:'Conviction over convincing — the fragility of intellectual coercion vs. heart transformation.', vo:`If someone can easily convince you into a belief structure using slick arguments, guess what? Someone else can just as easily convince you out of it next week. Real transformation isn't an intellectual game of chess where your mind gets cornered; it's a deep, gut-level conviction that hits your heart and changes how you see reality.`, tags:'#HeartOverMind #Conviction #Transformation #ApologeticsDoneRight #FaithTruth #Skeptics' },
+  { day:'May 25', num:8, tag:'Deconstruction Angle', hook:'"If your main exposure to religion was rigid dogma, it makes sense why you walked away."', angle:'Dismantling the cultural view of Christianity as cold, legalistic machinery.', vo:`If your main exposure to religion was a rigid, compulsory system of strict rules and oppressive dogma, it makes complete sense why you walked away. But what if real faith in Christ isn't a monolithic, legalistic structure at all? What if it's a living, dynamic ecosystem that actively pulls up a chair at the table for your doubts?`, tags:'#ReligiousTrauma #ChurchHurt #Legalism #Grace #TrueFaith #Jesus' },
+  { day:'May 26', num:9, tag:'Human Condition', hook:'"We are all just fragile people outstretching our arms for a buoy."', angle:'Normalizing the desperation of the modern human condition.', vo:`At the end of the day, we are all just fragile people outstretching our arms for a buoy—some baseline semblance of certainty—in a massive, turbulent sea of questions. That desperate urgency isn't a sign of weakness; it is exactly the right position to be in if you want to grab hold of the answers that come our way by grace.`, tags:'#HumanCondition #ExistentialDread #SearchingForMeaning #Truth #Grace #PeaceOfMind' },
+  { day:'May 26', num:10, tag:'Journey Metaphor', hook:'"Unbelief to faith is not a sudden jump. It\'s a slow, beautiful journey."', angle:'Bridging human search with divine response — faith as a gift to unpack.', vo:`Unbelief to faith is not a sudden, aggressive jump flip; it is a slow, beautiful journey of learning how to bring your pursuit of truth into direct relationship with a God who is already looking for you. Faith is a gift waiting to be unpacked, but you have to be willing to open your hands and stop clenching your fists.`, tags:'#FaithIsAGift #SpiritualJourney #AtheistToChristian #Skeptic #GodIsReal #TruthSeeker' },
+  { day:'May 27', num:11, tag:'Book Intro', hook:'"A resource that reads like a late-night chat with a thoughtful pastor in a coffee shop."', angle:'Establishing the accessible, narrative tone of the book.', vo:`If you want to explore these massive spiritual questions without the typical high-pressure church jargon, there is a resource built exactly for you. It reads less like an aggressive textbook and more like a late-night, relaxed chat with a thoughtful pastor in a coffee shop. It's called 'Would You Believe It?' by Kyle Hogg, and it's available right now.`, tags:'#BookTok #ChristianBooks #Goodreads #MustRead #SkepticsGuide #KyleHogg #FaithTalk' },
+  { day:'May 27', num:12, tag:'Author Authority', hook:'"15 years of listening to the exact questions of cynics and seekers."', angle:"Leveraging the author's extensive experience and empathetic posture.", vo:`Pastor Kyle Hogg spent over 15 years in scriptural study and real-world ministry listening to the exact questions, arguments, and deep hurts of cynics and seekers. He packaged that entire decade and a half of clarity into a short, impactful guide designed specifically to clear away the barriers between your mind and God.`, tags:'#PastorLife #TheologyStudy #ChristianApologetics #NewBookRelease #FaithGuide #Truth' },
+  { day:'May 28', num:13, tag:'Social Proof', hook:'"4.9 stars. Readers who haven\'t been in a church in decades are finding clarity."', angle:'Social proofing via enthusiastic reader feedback.', vo:`The reviews are officially flooding in, and readers are calling this book 'the ultimate conversational primer for the curious.' People who haven't stepped inside a church building in decades are finding a profound sense of clarity and peace in these chapters. Check out 'Would You Believe It?' on Amazon and see why it has achieved a 4.9-star rating.`, tags:'#BookReviews #AmazonFinds #HighlyRecommended #FaithJourney #MustReadBook' },
+  { day:'May 28', num:14, tag:'Audiobook Angle', hook:'"Take the conversation on your morning drive. It goes with you."', angle:'Promoting the zero-friction audio adaptation — removing all barriers.', vo:`If you don't even have the spare time to sit down with a paperback right now, you can take this entire thoughtful conversation with you on your morning drive. The audiobook format of 'Would You Believe It?' lets you process these deep questions about logic, history, and truth completely at your own pace while you live your life.`, tags:'#Audiobook #Audible #PodcastVibes #CommuteListen #SpiritualGrowth #BooksOnTheGo' },
+  { day:'May 28', num:15, tag:'Direct CTA', hook:'"If you\'re exhausted by superficial answers — stop putting it off."', angle:'The definitive direct-conversion CTA. Kindle, Audio, and Paperback.', vo:`If you are completely exhausted by superficial answers and you are genuinely ready to build a faith that resonates deep within your soul, stop putting it off. Start your journey of honest discovery today. Go grab your copy of 'Would You Believe It?: A Guide to Finding Faith for Skeptics' by Kyle Hogg. It is available instantly on Kindle, Audio, and Paperback. Click the link in the bio right now.`, tags:'#LinkInBio #BuyNow #FaithForSkeptics #KyleHogg #NewBook #ChristianApologetics #SpiritualGrowth' },
+];
+
+(function renderCalendar() {
+  const grid = document.getElementById('calGrid');
+  VIDEOS.forEach(v => {
+    const voId = 'vo_' + v.num;
+    const div = document.createElement('div');
+    div.className = 'cal-item';
+    div.innerHTML = `
+      <div class="cal-num">${v.num}</div>
+      <div class="cal-body">
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px;">
+          <span class="cal-tag">${v.tag}</span>
+          <span style="font-family:'DM Mono',monospace;font-size:.56rem;color:var(--gold);background:rgba(184,125,32,.1);border:1px solid rgba(184,125,32,.25);border-radius:40px;padding:2px 8px;">Ready to Post</span>
+        </div>
+        <div class="cal-hook">${v.hook}</div>
+        <div style="font-size:.78rem;color:var(--ink4);margin:4px 0 6px;font-style:italic;">${v.angle}</div>
+        <button class="cal-vo-toggle" onclick="toggleVO('${voId}','${voId}_hash',this)">▶ Show Voiceover</button>
+        <div class="cal-vo vo-hidden" id="${voId}">${v.vo.replace(/\n/g,'<br>')}<br><br><div class="cal-hashtags">${v.tags}</div></div>
+      </div>
+      <div class="cal-day">${v.day}</div>
+    `;
+    grid.appendChild(div);
+  });
+})();
+
+function toggleVO(voId, hashId, btn) {
+  const el = document.getElementById(voId);
+  const hidden = el.classList.toggle('vo-hidden');
+  btn.textContent = hidden ? '▶ Show Voiceover' : '▼ Hide Voiceover';
+}
+
+// Week 2 preview hooks
+const WEEK2 = [
+  { num:'W2 · 01', hook:'"What if every question you have is actually a prayer you haven\'t spoken yet?"', tag:'Question Reframe' },
+  { num:'W2 · 02', hook:'"The greatest minds in history wrestled with exactly what you\'re wrestling with."', tag:'Historical Anchor' },
+  { num:'W2 · 03', hook:'"C.S. Lewis was an atheist. Then something changed."', tag:'Conversion Story' },
+  { num:'W2 · 04', hook:'"Science and faith aren\'t enemies. They never were."', tag:'Science & Faith' },
+  { num:'W2 · 05', hook:'"The silence of God doesn\'t mean the absence of God."', tag:'Theological Depth' },
+  { num:'W2 · 06', hook:'"What would it take to convince you? That\'s the most honest question you can ask."', tag:'Honest Inquiry' },
+  { num:'W2 · 07', hook:'"Grief broke her faith. These questions rebuilt it."', tag:'Emotional Hook' },
+  { num:'W2 · 08', hook:'"You don\'t have to have it all figured out to take the next step."', tag:'Permission Hook' },
+  { num:'W2 · 09', hook:'"The hardest thing to do isn\'t to believe. It\'s to stay open."', tag:'Openness Angle' },
+  { num:'W2 · 10', hook:'"What if doubt is the beginning of the most important conversation of your life?"', tag:'Reframe CTA' },
+];
+
+(function renderWeek2() {
+  const grid = document.getElementById('week2Grid');
+  WEEK2.forEach(v => {
+    const div = document.createElement('div');
+    div.className = 'preview-card';
+    div.innerHTML = `
+      <div class="preview-num">Week 2 · ${v.tag}</div>
+      <div class="preview-hook">${v.hook}</div>
+    `;
+    grid.appendChild(div);
+  });
+  const more = document.createElement('div');
+  more.className = 'preview-card';
+  more.style.display = 'flex';
+  more.style.alignItems = 'center';
+  more.style.justifyContent = 'center';
+  more.style.minHeight = '90px';
+  more.innerHTML = `<div style="text-align:center;"><div style="font-family:'DM Mono',monospace;font-size:.62rem;color:var(--ink4);letter-spacing:.08em;text-transform:uppercase;">+ 5 more scripts</div><div style="font-family:'Lora',serif;font-size:1rem;color:var(--ink3);margin-top:4px;">Ready for June 5</div></div>`;
+  grid.appendChild(more);
+})();
+</script>
+</body>
+</html>

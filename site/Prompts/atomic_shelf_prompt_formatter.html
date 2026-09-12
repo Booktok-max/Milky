@@ -1,0 +1,181 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+.wrap { padding: 1.5rem 0; max-width: 680px; font-family: var(--font-sans); }
+.label { font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-secondary); margin-bottom: 8px; display: block; }
+textarea, input {
+  width: 100%; font-size: 13px; font-family: var(--font-sans);
+  padding: 10px 12px; border-radius: var(--border-radius-md);
+  border: 0.5px solid var(--color-border-secondary);
+  background: var(--color-background-primary);
+  color: var(--color-text-primary); resize: none; line-height: 1.6;
+}
+textarea:focus, input:focus { outline: none; border-color: var(--color-border-primary); }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1.5rem; }
+.field { margin-bottom: 0; }
+.field label { font-size: 12px; color: var(--color-text-secondary); display: block; margin-bottom: 4px; }
+.divider { border: none; border-top: 0.5px solid var(--color-border-tertiary); margin: 1.5rem 0; }
+.btn-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 1rem; }
+button {
+  font-size: 13px; padding: 8px 18px;
+  border-radius: var(--border-radius-md);
+  border: 0.5px solid var(--color-border-secondary);
+  background: transparent; color: var(--color-text-primary);
+  cursor: pointer;
+}
+button:hover { background: var(--color-background-secondary); }
+button.primary { background: var(--color-text-primary); color: var(--color-background-primary); border-color: var(--color-text-primary); }
+button.primary:hover { opacity: 0.85; }
+.copy-notice { font-size: 12px; color: #1D9E75; display: none; }
+.output-wrap { display: none; margin-top: 1.5rem; }
+.output-box {
+  background: var(--color-background-secondary);
+  border: 0.5px solid var(--color-border-tertiary);
+  border-radius: var(--border-radius-lg);
+  padding: 14px 16px;
+  font-size: 12px; line-height: 1.8;
+  color: var(--color-text-primary);
+  white-space: pre-wrap; word-break: break-word;
+  max-height: 500px; overflow-y: auto;
+  font-family: var(--font-mono);
+}
+.err { font-size: 12px; color: #A32D2D; margin-top: 6px; display: none; }
+</style>
+
+<div class="wrap">
+  <h2 class="sr-only">Atomic Shelf slide prompt formatter</h2>
+
+  <span class="label">Book details</span>
+  <div class="grid">
+    <div class="field">
+      <label>Title</label>
+      <input id="title" type="text" placeholder="e.g. Six Moons, Seven Gods" />
+    </div>
+    <div class="field">
+      <label>Author</label>
+      <input id="author" type="text" placeholder="e.g. Robert A. Walker" />
+    </div>
+  </div>
+
+  <span class="label">Book blurb / description</span>
+  <textarea id="blurb" rows="5" placeholder="Paste the Amazon blurb, Goodreads description, or any book summary here..."></textarea>
+
+  <hr class="divider">
+
+  <span class="label">Slide descriptions</span>
+  <p style="font-size:12px; color:var(--color-text-secondary); margin-bottom:12px;">Paste or type one description per slide. Each line = one slide. Leave a slide blank and it will be marked [To be written].</p>
+  <textarea id="slides" rows="15" placeholder="Slide 1: Sibil on a cliff overlooking stormy Baelon...&#10;Slide 2: Close-up of a broken keepsake in her hand...&#10;Slide 3: ...&#10;(continue for all 15 slides)"></textarea>
+
+  <div class="err" id="err">Please fill in the title and author at minimum.</div>
+
+  <div class="btn-row">
+    <button class="primary" onclick="build()">Build prompt</button>
+    <button onclick="reset()">Clear</button>
+    <span class="copy-notice" id="copyNotice">Copied!</span>
+  </div>
+
+  <div class="output-wrap" id="outputWrap">
+    <hr class="divider">
+    <span class="label">Generated prompt</span>
+    <div class="output-box" id="output"></div>
+    <div class="btn-row">
+      <button onclick="copy()">Copy to clipboard ↗</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function build() {
+  const title = document.getElementById('title').value.trim();
+  const author = document.getElementById('author').value.trim();
+  const blurb = document.getElementById('blurb').value.trim();
+  const rawSlides = document.getElementById('slides').value.trim();
+
+  if (!title || !author) {
+    document.getElementById('err').style.display = 'block';
+    return;
+  }
+  document.getElementById('err').style.display = 'none';
+
+  const lines = rawSlides ? rawSlides.split('\n').filter(l => l.trim()) : [];
+
+  const total = Math.max(lines.length, 15);
+  const introEnd = Math.min(10, total - 5);
+  const ctaStart = introEnd + 1;
+
+  const aspectBlock = Array.from({length: total}, (_, i) => `SLIDE ${i+1} = 9:16 PORTRAIT.`).join('\n');
+
+  const formatSlide = (i) => {
+    const line = lines[i] ? lines[i].replace(/^slide\s*\d+[\:\.\-]?\s*/i, '').trim() : '[To be written]';
+    return `Slide ${i+1} (9:16 Portrait)\n${line}`;
+  };
+
+  const introSlides = Array.from({length: introEnd}, (_, i) => formatSlide(i)).join('\n\n');
+  const ctaSlides = Array.from({length: total - introEnd}, (_, i) => formatSlide(introEnd + i)).join('\n\n');
+
+  const prompt = `Generate EXACTLY ${total} ultra-cinematic vertical slides.
+
+════════════════════════════════════════
+CRITICAL REQUIREMENT — READ BEFORE GENERATING
+════════════════════════════════════════
+EVERY SINGLE SLIDE MUST BE STRICTLY 9:16 PORTRAIT ASPECT RATIO.
+NEVER CREATE LANDSCAPE. NEVER CREATE SQUARE.
+
+${aspectBlock}
+
+REPEAT: ALL ${total} SLIDES ARE 9:16 PORTRAIT. NO EXCEPTIONS.
+════════════════════════════════════════
+
+BOOK: ${title}
+AUTHOR: ${author}${blurb ? `\n\nBOOK CONTEXT:\n${blurb}` : ''}
+
+════════════════════════════════════════
+VISUAL STYLE — LOCKED (do not deviate)
+════════════════════════════════════════
+• Hyper-realistic, dark and gritty medieval fantasy film photography
+• "Grim dark" aesthetic with vivid world-building
+• Cinematic lighting: Chiaroscuro, high contrast, dramatic candlelight, cold moonlight
+• Settings: towering medieval spires, Castle Aranox, idyllic kingdoms, remote mountains, grimy alleys
+• Characters: richly developed, morally complex, authentic medieval costumes and weapons
+• Visceral, high-stakes settings — blood-soaked fields and vivid landscapes
+• Multiple perspective aesthetics: thieves, assassins, kings, commoners
+• Feeling of murder and intrigue, loyalty and treachery, mystery and romance
+• Moody color grading: cold blues for moon/shadows, warm oranges for fire/candlelight
+• NO cartoons. NO illustrations. NO bright, happy high-fantasy.
+• NO text overlays. NO watermarks. NO logos.
+
+════════════════════════════════════════
+SLIDES 1–${introEnd}: INTRO / HOOK / PROBLEM SECTION
+════════════════════════════════════════
+${introSlides}
+
+════════════════════════════════════════
+SLIDES ${ctaStart}–${total}: CTA SECTION
+════════════════════════════════════════
+${ctaSlides}
+
+════════════════════════════════════════
+FINAL REMINDER — ASPECT RATIO COMPLIANCE
+════════════════════════════════════════
+${aspectBlock}
+ALL ${total} SLIDES = 9:16 PORTRAIT. ZERO EXCEPTIONS.`;
+
+  document.getElementById('output').textContent = prompt;
+  document.getElementById('outputWrap').style.display = 'block';
+  document.getElementById('outputWrap').scrollIntoView({behavior: 'smooth', block: 'start'});
+}
+
+function copy() {
+  navigator.clipboard.writeText(document.getElementById('output').textContent).then(() => {
+    const n = document.getElementById('copyNotice');
+    n.style.display = 'inline';
+    setTimeout(() => n.style.display = 'none', 2000);
+  });
+}
+
+function reset() {
+  ['title','author','blurb','slides'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('outputWrap').style.display = 'none';
+  document.getElementById('err').style.display = 'none';
+}
+</script>

@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Would You Believe It — Trial Week Content Proposal | Atomic Shelf</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,900;1,400;1,600&family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#f7f3ec;--parchment:#ede6d6;--warm-white:#faf8f4;--ink:#1e1a14;--ink-mid:#3d3628;--ink-soft:#6b5e48;--gold:#a07c3a;--gold-light:#c9a55a;--gold-pale:#e8d4a0;--gold-bg:#fdf6e3;--sage:#7a8c72;--sage-light:#e8ede6;--rule:rgba(160,124,58,0.2);--shadow:rgba(30,26,20,0.08);}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--cream);color:var(--ink);font-family:'Lora',serif;font-size:18px;line-height:1.8;overflow-x:hidden;}
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(247,243,236,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--rule);padding:0 40px;height:64px;display:flex;align-items:center;justify-content:space-between;}
+.nav-brand{font-family:'Playfair Display',serif;font-size:18px;font-weight:900;color:var(--ink);letter-spacing:1px;}
+.nav-brand span{color:var(--gold);}
+.nav-links{display:flex;gap:28px;list-style:none;}
+.nav-links a{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-soft);text-decoration:none;transition:color .2s;}
+.nav-links a:hover{color:var(--gold);}
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;background:linear-gradient(170deg,#ddd5c2 0%,#ede6d6 40%,#f7f3ec 100%);padding-top:64px;}
+.hero-road{position:absolute;bottom:0;left:0;right:0;height:55%;background:linear-gradient(to top,#c8bda8 0%,transparent 100%);clip-path:polygon(35% 100%,65% 100%,58% 0%,42% 0%);opacity:.15;}
+.hero-road-stripe{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:3px;height:55%;background:repeating-linear-gradient(to top,var(--gold-light) 0px,var(--gold-light) 24px,transparent 24px,transparent 48px);opacity:.22;}
+.hero-ml{position:absolute;bottom:28%;left:0;width:42%;height:38%;background:linear-gradient(135deg,#bab0a0 0%,transparent 80%);clip-path:polygon(0% 100%,50% 0%,100% 100%);opacity:.12;}
+.hero-mr{position:absolute;bottom:28%;right:0;width:42%;height:42%;background:linear-gradient(225deg,#bab0a0 0%,transparent 80%);clip-path:polygon(0% 100%,50% 0%,100% 100%);opacity:.09;}
+.hero-glow{position:absolute;top:20%;left:50%;transform:translate(-50%,-50%);width:700px;height:500px;background:radial-gradient(ellipse,rgba(201,165,90,.15) 0%,transparent 70%);pointer-events:none;}
+.hero-grain{position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;opacity:.6;}
+.hero-content{position:relative;z-index:2;max-width:820px;padding:80px 48px;text-align:center;animation:fadeUp 1.1s ease both;}
+.hero-eyebrow{display:inline-block;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);border-bottom:1px solid var(--gold-pale);padding-bottom:8px;margin-bottom:36px;}
+.hero-title{font-family:'Playfair Display',serif;font-size:clamp(48px,8vw,96px);font-weight:900;line-height:.92;letter-spacing:-1px;color:var(--ink);margin-bottom:6px;}
+.hero-title em{display:block;font-style:italic;font-weight:400;font-size:clamp(20px,3vw,38px);color:var(--gold);letter-spacing:0;line-height:1.5;margin-top:12px;}
+.hero-author{font-family:'Lora',serif;font-style:italic;font-size:20px;color:var(--ink-soft);margin:28px 0 52px;}
+.hero-stats{display:flex;justify-content:center;gap:56px;flex-wrap:wrap;}
+.stat{text-align:center;}
+.stat-num{font-family:'Playfair Display',serif;font-size:40px;font-weight:900;color:var(--gold);line-height:1;display:block;}
+.stat-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-soft);margin-top:4px;}
+.divider{display:flex;align-items:center;gap:20px;max-width:640px;margin:80px auto;padding:0 40px;opacity:.55;}
+.divider-line{flex:1;height:1px;background:var(--rule);}
+.divider-mark{font-family:'Playfair Display',serif;font-size:22px;color:var(--gold-light);line-height:1;}
+.intro-section{max-width:760px;margin:0 auto;padding:0 40px 80px;text-align:center;}
+.section-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);margin-bottom:18px;display:block;}
+.intro-section p{font-size:20px;font-style:italic;color:var(--ink-mid);line-height:1.9;}
+
+/* trailer */
+.trailer-section{max-width:1080px;margin:0 auto 80px;padding:0 40px;}
+.trailer-inner{background:var(--warm-white);border:1px solid rgba(160,124,58,.15);border-radius:12px;overflow:hidden;}
+.trailer-header{padding:24px 32px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--rule);}
+.trailer-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:4px;}
+.trailer-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--ink);}
+.trailer-badge{display:inline-flex;align-items:center;gap:6px;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--sage);background:var(--sage-light);border:1px solid rgba(122,140,114,.3);padding:6px 14px;border-radius:4px;}
+.trailer-link-wrap{padding:32px;text-align:center;}
+.trailer-link-wrap a{display:inline-flex;align-items:center;gap:8px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);background:var(--gold-bg);border:1px solid var(--gold-pale);padding:14px 28px;border-radius:6px;text-decoration:none;transition:background .2s,color .2s;}
+.trailer-link-wrap a:hover{background:var(--gold);color:var(--warm-white);}
+.trailer-link-wrap p{font-family:'Lora',serif;font-style:italic;font-size:15px;color:var(--ink-soft);margin-top:12px;}
+
+/* progress */
+.status-section{max-width:1080px;margin:0 auto 80px;padding:0 40px;}
+.status-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+.status-card{background:var(--warm-white);border:1px solid rgba(160,124,58,.15);border-radius:12px;padding:32px 36px;}
+.status-card-title{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:20px;display:flex;align-items:center;gap:10px;}
+.status-card-title::after{content:'';flex:1;height:1px;background:var(--rule);}
+.progress-wrap{margin-bottom:14px;}
+.progress-label-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;}
+.progress-label{font-family:'Lora',serif;font-size:14px;color:var(--ink-mid);}
+.progress-pct{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--gold);}
+.progress-track{height:6px;background:var(--parchment);border-radius:99px;overflow:hidden;}
+.progress-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--gold) 0%,var(--gold-light) 100%);transition:width 1.2s cubic-bezier(.4,0,.2,1);}
+.progress-fill.sage{background:linear-gradient(90deg,var(--sage) 0%,#9ab08f 100%);}
+.timeline{display:flex;flex-direction:column;gap:10px;margin-top:4px;}
+.timeline-item{display:flex;align-items:center;gap:12px;font-family:'Lora',serif;font-size:14px;color:var(--ink-mid);}
+.timeline-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.dot-done{background:var(--sage);}
+.dot-active{background:var(--gold);box-shadow:0 0 0 3px rgba(160,124,58,.2);}
+.dot-future{background:var(--parchment);border:2px solid var(--gold-pale);}
+.timeline-label{font-weight:500;}
+.timeline-date{margin-left:auto;font-family:'DM Mono',monospace;font-size:10px;color:var(--ink-soft);letter-spacing:1px;}
+.info-row{display:flex;justify-content:space-between;align-items:baseline;padding:10px 0;border-bottom:1px solid var(--rule);font-family:'Lora',serif;font-size:14px;}
+.info-row:last-child{border-bottom:none;}
+.info-key{color:var(--ink-soft);}
+.info-val{font-weight:500;color:var(--ink);text-align:right;}
+.info-val.gold{color:var(--gold);font-family:'Playfair Display',serif;font-size:17px;font-weight:700;}
+
+/* week banner */
+.week-banner{max-width:1080px;margin:0 auto 20px;padding:0 40px;display:flex;align-items:center;gap:24px;}
+.week-banner-line{flex:1;height:1px;background:var(--rule);}
+.week-banner-text{font-family:'Playfair Display',serif;font-size:clamp(26px,4vw,42px);font-weight:900;color:var(--ink);white-space:nowrap;}
+.week-banner-text span{color:var(--gold);}
+.week-dates{text-align:center;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-soft);margin-bottom:48px;padding:0 40px;}
+
+/* calendar */
+.calendar{max-width:1080px;margin:0 auto;padding:0 40px 80px;}
+.video-card{display:grid;grid-template-columns:110px 1fr;background:var(--warm-white);border:1px solid rgba(160,124,58,.13);border-left:3px solid var(--gold-pale);margin-bottom:3px;transition:border-left-color .3s,box-shadow .3s,background .2s;animation:fadeUp .5s ease both;}
+.video-card:hover{border-left-color:var(--gold);box-shadow:0 6px 40px var(--shadow);background:#fffdf8;}
+.video-card.done{background:var(--sage-light);opacity:.72;}
+.video-card.done .card-title{text-decoration:line-through;color:var(--ink-soft);}
+.video-card.done .date-day{color:var(--sage);}
+.video-card.done .date-vid{color:var(--sage);}
+.video-card:first-child{border-radius:8px 8px 0 0;}
+.video-card:last-child{border-radius:0 0 8px 8px;}
+.card-date{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px 10px;background:linear-gradient(180deg,var(--parchment) 0%,var(--warm-white) 100%);border-right:1px solid rgba(160,124,58,.1);text-align:center;}
+.date-day{font-family:'Playfair Display',serif;font-size:34px;font-weight:900;color:var(--gold);line-height:1;}
+.date-month{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-soft);margin-top:3px;}
+.date-vid{font-family:'DM Mono',monospace;font-size:8px;color:var(--gold-light);margin-top:10px;letter-spacing:1px;}
+.done-badge{margin-top:8px;font-family:'DM Mono',monospace;font-size:7px;letter-spacing:2px;text-transform:uppercase;color:var(--sage);background:var(--sage-light);border:1px solid rgba(122,140,114,.3);padding:2px 6px;border-radius:3px;}
+.card-body{padding:24px 28px;}
+.card-title{font-family:'Playfair Display',serif;font-size:19px;font-weight:700;color:var(--ink);line-height:1.3;margin-bottom:4px;}
+.card-hook{font-style:italic;color:var(--gold);font-size:15px;margin-bottom:18px;opacity:.9;}
+.card-sections{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.section-block h4{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.section-block p{font-size:14px;color:var(--ink-mid);line-height:1.7;font-family:'Lora',serif;}
+.copy-btn{background:none;border:1px solid var(--gold-pale);color:var(--gold);font-family:'DM Mono',monospace;font-size:7px;letter-spacing:2px;text-transform:uppercase;padding:3px 8px;cursor:pointer;border-radius:2px;transition:all .2s;white-space:nowrap;flex-shrink:0;}
+.copy-btn:hover{background:var(--gold);color:var(--warm-white);border-color:var(--gold);}
+.copy-btn.copied{background:var(--sage);color:var(--warm-white);border-color:var(--sage);}
+
+/* week nav */
+.week-nav-section{max-width:1080px;margin:0 auto 80px;padding:0 40px;}
+.week-nav-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;}
+.week-nav-card{background:var(--warm-white);border:1px solid rgba(160,124,58,.15);border-top:3px solid var(--gold-pale);border-radius:10px;padding:24px 20px 20px;text-decoration:none;color:inherit;transition:border-top-color .3s,box-shadow .3s,transform .2s;display:flex;flex-direction:column;gap:10px;}
+.week-nav-card:hover{border-top-color:var(--gold);box-shadow:0 8px 32px var(--shadow);transform:translateY(-3px);}
+.week-nav-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);}
+.week-nav-title{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:var(--ink);line-height:1.3;}
+.week-nav-dates{font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-soft);letter-spacing:1px;}
+.week-nav-videos{font-family:'Lora',serif;font-size:13px;color:var(--ink-soft);font-style:italic;}
+.week-nav-arrow{margin-top:auto;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:6px;}
+.week-nav-arrow::after{content:'→';font-size:12px;}
+.week-nav-card.current-week .week-nav-label{color:var(--sage);}
+.week-nav-card.current-week{border-top-color:var(--sage);}
+.week-nav-card.current-week .week-nav-arrow{color:var(--sage);}
+
+/* albums */
+.albums-section{max-width:1080px;margin:0 auto 80px;padding:0 40px;}
+.albums-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.album-card{background:var(--warm-white);border:1px solid rgba(160,124,58,.15);border-radius:12px;overflow:hidden;transition:box-shadow .3s,transform .3s;}
+.album-card:hover{box-shadow:0 12px 48px var(--shadow);transform:translateY(-4px);}
+.album-card-header{padding:20px 24px 16px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;border-bottom:1px solid var(--rule);}
+.album-card-week{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:4px;}
+.album-card-title{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--ink);line-height:1.3;}
+.album-link{display:inline-flex;align-items:center;gap:5px;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);background:var(--gold-bg);border:1px solid var(--gold-pale);padding:6px 12px;border-radius:4px;text-decoration:none;white-space:nowrap;flex-shrink:0;transition:background .2s,color .2s;}
+.album-link:hover{background:var(--gold);color:var(--warm-white);}
+.album-body{padding:20px 24px;font-family:'Lora',serif;font-style:italic;font-size:14px;color:var(--ink-soft);}
+
+/* onboarding */
+.onboarding-card{max-width:1080px;margin:0 auto 80px;padding:0 40px;}
+.onboarding-inner{background:linear-gradient(135deg,#1e1a14 0%,#2d2618 100%);border-radius:12px;padding:40px 48px;color:var(--cream);}
+.onboarding-title{font-family:'Playfair Display',serif;font-size:26px;font-weight:900;color:var(--gold-light);margin-bottom:24px;}
+.onboarding-steps{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.step{display:flex;gap:16px;align-items:flex-start;}
+.step-num{font-family:'Playfair Display',serif;font-size:28px;font-weight:900;color:var(--gold-light);line-height:1;flex-shrink:0;width:32px;}
+.step-body h5{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold-pale);margin-bottom:4px;}
+.step-body p{font-family:'Lora',serif;font-size:14px;color:rgba(240,230,214,.85);line-height:1.6;}
+.step-body a{color:var(--gold-light);text-underline-offset:3px;}
+.footer{text-align:center;padding:72px 40px;border-top:1px solid var(--rule);background:var(--parchment);}
+.footer-cross{font-size:24px;color:var(--gold-light);margin-bottom:16px;display:block;opacity:.7;}
+.footer-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--ink);letter-spacing:2px;text-transform:uppercase;}
+.footer-sub{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--ink-soft);margin-top:8px;text-transform:uppercase;}
+.footer-contact{margin-top:20px;font-family:'Lora',serif;font-size:14px;color:var(--ink-soft);font-style:italic;}
+
+@media(max-width:900px){.week-nav-grid{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:780px){
+  .card-sections,.status-grid,.albums-grid,.onboarding-steps{grid-template-columns:1fr;}
+  .video-card{grid-template-columns:80px 1fr;}
+  .card-body{padding:18px 16px;}
+  .hero-content{padding:60px 24px;}
+  .calendar,.intro-section,.week-banner,.albums-section,.status-section,.onboarding-card,.trailer-section,.week-nav-section{padding-left:20px;padding-right:20px;}
+  .hero-stats{gap:28px;}
+  .nav-links{display:none;}
+  .onboarding-inner{padding:28px 24px;}
+  .week-nav-grid{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:480px){.week-nav-grid{grid-template-columns:1fr;}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-brand">Atomic <span>Shelf</span></div>
+  <ul class="nav-links">
+    <li><a href="#trailer">Trailer</a></li>
+    <li><a href="#progress">Progress</a></li>
+    <li><a href="#trial">Trial Week</a></li>
+    <li><a href="#weeks">All Weeks</a></li>
+    <li><a href="#assets">Photo Assets</a></li>
+    <li><a href="#onboarding">Getting Started</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-road"></div>
+  <div class="hero-road-stripe"></div>
+  <div class="hero-ml"></div>
+  <div class="hero-mr"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-grain"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Trial Week &middot; Content Proposal &middot; YouTube &amp; TikTok</div>
+    <h1 class="hero-title">Would You<br>Believe It?<em>A Guide to Finding Faith for Skeptics</em></h1>
+    <p class="hero-author">by Kyle Hogg</p>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num">15</span><span class="stat-label">Videos &middot; Trial Week</span></div>
+      <div class="stat"><span class="stat-num">4.9&#9733;</span><span class="stat-label">116 Reviews</span></div>
+      <div class="stat"><span class="stat-num">5</span><span class="stat-label">Weeks Planned</span></div>
+      <div class="stat"><span class="stat-num">75</span><span class="stat-label">Total Videos</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-line"></div><div class="divider-mark">&#10022;</div><div class="divider-line"></div></div>
+
+<section class="intro-section">
+  <span class="section-label">Campaign Overview</span>
+  <p>A 7-day trial followed by five weeks of short-form content for YouTube and TikTok. Each week carries 15 videos &mdash; voiceover scripts, YouTube descriptions, and photo assets ready to post. We handle everything; you review and approve.</p>
+</section>
+
+<!-- CHANNEL TRAILER -->
+<section class="trailer-section" id="trailer">
+  <div class="divider" style="margin-top:0;margin-bottom:40px;"><div class="divider-line"></div><div class="divider-mark">&#10022;</div><div class="divider-line"></div></div>
+  <div style="text-align:center;margin-bottom:32px;"><span class="section-label">YouTube Channel Trailer</span></div>
+  <div class="trailer-inner">
+    <div class="trailer-header">
+      <div>
+        <div class="trailer-label">Visual Assets &middot; Preview</div>
+        <div class="trailer-title">Kyle Hogg &mdash; Channel Trailer</div>
+      </div>
+      <div class="trailer-badge">&#127885; Channel Preview</div>
+    </div>
+    <div class="trailer-link-wrap">
+      <a href="https://photos.app.goo.gl/Kr2XUzDwBuc2eqVz8" target="_blank">&#128247; Open Channel Trailer Album &#8599;</a>
+      <p>Click to browse and download trailer assets in Google Photos</p>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRESS -->
+<section class="status-section" id="progress">
+  <div class="divider" style="margin-top:0;"><div class="divider-line"></div><div class="divider-mark">&#10022;</div><div class="divider-line"></div></div>
+  <div style="text-align:center;margin-bottom:40px;"><span class="section-label">Campaign Progress</span></div>
+  <div class="status-grid">
+    <div class="status-card">
+      <div class="status-card-title">Content Timeline</div>
+      <div class="progress-wrap">
+        <div class="progress-label-row"><span class="progress-label">Trial Week (7 days)</span><span class="progress-pct" id="trial-pct">&mdash;</span></div>
+        <div class="progress-track"><div class="progress-fill" id="trial-bar" style="width:0%"></div></div>
+      </div>
+      <div class="progress-wrap" style="margin-top:18px">
+        <div class="progress-label-row"><span class="progress-label">5-Week Production Campaign</span><span class="progress-pct" id="campaign-pct">&mdash;</span></div>
+        <div class="progress-track"><div class="progress-fill sage" id="campaign-bar" style="width:0%"></div></div>
+      </div>
+      <div class="timeline" style="margin-top:28px" id="timeline-items"></div>
+    </div>
+    <div class="status-card">
+      <div class="status-card-title">Campaign Details</div>
+      <div class="info-row"><span class="info-key">Trial Start</span><span class="info-val">Thursday, May 22, 2026</span></div>
+      <div class="info-row"><span class="info-key">Trial End</span><span class="info-val">Wednesday, May 28, 2026</span></div>
+      <div class="info-row"><span class="info-key">Week 1 (Essentials)</span><span class="info-val">May 29 &ndash; Jun 4</span></div>
+      <div class="info-row"><span class="info-key">Week 2</span><span class="info-val">Jun 5 &ndash; Jun 11</span></div>
+      <div class="info-row"><span class="info-key">Week 3</span><span class="info-val">Jun 12 &ndash; Jun 18</span></div>
+      <div class="info-row"><span class="info-key">Week 4</span><span class="info-val">Jun 19 &ndash; Jun 25</span></div>
+      <div class="info-row"><span class="info-key">Week 5</span><span class="info-val">Jun 26 &ndash; Jul 2</span></div>
+      <div class="info-row"><span class="info-key">Total Videos</span><span class="info-val gold">75</span></div>
+      <div class="info-row"><span class="info-key">Platforms</span><span class="info-val">YouTube &middot; TikTok</span></div>
+      <div class="info-row"><span class="info-key">Editor Invite</span><span class="info-val">powerpages30@gmail.com</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- TRIAL WEEK -->
+<div id="trial" style="margin-top:80px;">
+  <div class="week-banner"><div class="week-banner-line"></div><div class="week-banner-text">Trial <span>Week</span></div><div class="week-banner-line"></div></div>
+  <div class="week-dates">Thursday, May 22 &ndash; Wednesday, May 28, 2026 &middot; Videos 1&ndash;15</div>
+  <section class="calendar">
+
+    <div class="video-card" data-date="2026-05-22" style="animation-delay:0.03s">
+      <div class="card-date">
+        <div class="date-day">22</div>
+        <div class="date-month">May</div>
+        <div class="date-vid">Video 01</div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">The Question You've Been Afraid to Ask</div>
+        <div class="card-hook">&#8220;What if you're not too skeptical — you're just asking the right questions?&#8221;</div>
+        <div class="card-sections">
+          <div class="section-block">
+            <h4>Voiceover Script <button class="copy-btn" data-copy="You have questions about faith. Real ones. Hard ones. The kind you don't say out loud because you don't want to be dismissed. Kyle Hogg — a pastor with over 15 years of scripture study — wrote Would You Believe It for exactly that person. Not to silence your doubts. To finally take them seriously.">Copy</button></h4>
+            <p>You have questions about faith. Real ones. Hard ones. The kind you don't say out loud because you don't want to be dismissed. Kyle Hogg — a pastor with over 15 years of scripture study — wrote Would You Believe It for exactly that person. Not to silence your doubts. To finally take them seriously.</p>
+          </div>
+          <div class="section-block">
+            <h4>YouTube Description <button class="copy-btn" data-copy="What if your doubts about faith aren't a problem to fix — but a door to walk through? Kyle Hogg's Would You Believe It? gives real, honest answers to the questions most people are afraid to ask. Kindle $3.99 · Paperback $12.99. #WouldYouBelieveIt #KyleHogg #FaithForSkeptics #ChristianApologetics #BookTok">Copy</button></h4>
+            <p>What if your doubts about faith aren't a problem to fix — but a door to walk through? Kyle Hogg's Would You Believe It? gives real, honest answers to the questions most people are afraid to ask. Kindle $3.99 · Paperback $12.99. #WouldYouBelieveIt #KyleHogg #FaithForSkeptics #ChristianApologetics #BookTok</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="video-card" data-date="2026-05-22" style="animation-delay:0.06s">
+      <div class="card-date">
+        <div class="date-day">22</div>
+        <div class="date-month">May</div>
+        <div class="date-vid">Video 02</div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">What Is Faith, Actually?</div>
+        <div class="card-hook">&#8220;Most people have never heard faith defined this clearly.&#8221;</div>
+        <div class="card-sections">
+          <div class="section-block">
+            <h4>Voiceover Script <button class="copy-btn" data-copy="Faith is not wishful thinking. It is not ignoring evidence. Kyle Hogg opens Would You Believe It with what one reviewer called the clearest, most accessible definition of faith they have ever read. If you have spent years confused about what believing actually means — this is the book that finally explains it.">Copy</button></h4>
+            <p>Faith is not wishful thinking. It is not ignoring evidence. Kyle Hogg opens Would You Believe It with what one reviewer called the clearest, most accessible definition of faith they have ever read. If you have spent years confused about what believing actually means — this is the book that finally explains it.</p>
+          </div>
+          <div class="section-block">
+            <h4>YouTube Description <button class="copy-btn" data-copy="What does faith actually mean? Not the cliché — the real definition. Kyle Hogg delivers it in Would You Believe It? 4.9 stars, 116 reviews. Kindle $3.99 · Paperback $12.99. #WhatIsFaith #WouldYouBelieveIt #KyleHogg #ChristianFaith #BookTok">Copy</button></h4>
+            <p>What does faith actually mean? Not the cliché — the real definition. Kyle Hogg delivers it in Would You Believe It? 4.9 stars, 116 reviews. Kindle $3.99 · Paperback $12.99. #WhatIsFaith #WouldYouBelieveIt #KyleHogg #ChristianFaith #BookTok</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="video-card" data-date="2026-05-23" style="animation-delay:0.09s">
+      <div class="card-date">
+        <div class="date-day">23</div>
+        <div class="date-month">May</div>
+        <div class="date-vid">Video 03</div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Doubt Is Not Your Enemy</div>
+        <div class="card-hook">&#8220;A living faith walks hand in hand with doubt. Not against it.&#8221;</div>
+        <div class="card-sections">
+          <div class="section-block">
+            <h4>Voiceover Script <button class="copy-btn" data-copy="Doubt is not the enemy of faith. It may be the very thing that keeps faith honest and alive. Kyle Hogg doesn't ask you to pretend your questions don't exist. He asks you to bring every one of them — because a belief that cannot survive your questions was never strong enough to hold your life anyway.">Copy</button></h4>
+            <p>Doubt is not the enemy of faith. It may be the very thing that keeps faith honest and alive. Kyle Hogg doesn't ask you to pretend your questions don't exist. He asks you to bring every one of them — because a belief that cannot survive your questions was never strong enough to hold your life anyway.</p>
+          </div>
+          <div class="section-block">
+            <h4>YouTube Description <button class="copy-btn" data-copy="What if doubt is part of the path to faith, not a barrier to it? Kyle Hogg's Would You Believe It? makes space for every hard question and answers them without flinching. Kindle and paperback. #DoubtAndFaith #WouldYouBelieveIt #KyleHogg #LivingFaith #BookTok">Copy</button></h4>
+            <p>What if doubt is part of the path to faith, not a barrier to it? Kyle Hogg's Would You Believe It? makes space for every hard question and answers them without flinching. Kindle and paperback. #DoubtAndFaith #WouldYouBelieveIt #KyleHogg #LivingFaith #BookTok</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="video-card" data-date="2026-05-23" style="animation-delay:0.12s">
+      <div class="card-date">
+        <div class="date-day">23</div>
+        <div class="date-month">May</div>
+        <div class="date-vid">Video 04</div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Faith and Reason Are Not at War</div>
+        <div class="card-hook">&#8220;Mystery doesn't go against reason. It goes beyond it.&#8221;</div>
+        <div class="card-sections">
+          <div class="section-block">
+            <h4>Voiceover Script <button class="copy-btn" data-copy="There is a difference between nonsense that goes against reason — and mystery that goes beyond reason. Kyle Hogg builds Would You Believe It on that single distinction. Faith is not the rejection of evidence. It is where an honest mind goes after following the evidence all the way to its edge.">Copy</button></h4>
+            <p>There is a difference between nonsense that goes against reason — and mystery that goes beyond reason. Kyle Hogg builds Would You Believe It on that single distinction. Faith is not the rejection of evidence. It is where an honest mind goes after following the evidence all the way to its edge.</p>
+          </div>
+          <div class="section-block">
+            <h4>YouTube Description <button class="copy-btn" data-copy="Reason and faith are not enemies. Kyle Hogg shows exactly where evidence ends and genuine faith begins — and why that boundary is not a weakness but a doorway. Would You Believe It? Kindle and paperback. #FaithAndReason #WouldYouBelieveIt #KyleHogg #ChristianApologetics #BookTok">Copy</button></h4>
+            <p>Reason and faith are not enemies. Kyle Hogg shows exactly where evidence ends and genuine faith begins — and why that boundary is not a weakness but a doorway. Would You Believe It? Kindle and paperback. #FaithAndReason #WouldYouBelieveIt #KyleHogg #ChristianApologetics #BookTok</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="video-card" data-date="2026-05-24" style="animation-delay:0.15s">
+      <div class="card-date">
+        <div class="date-day">24</div>
+        <div class="date-month">May</div>
+        <div class="date-vid">Video 05</div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">The Clearest Book on Faith You'll Ever Read</div>
+        <div class="card-hook">&#8220;118 pages. No jargon. No seminary required.&#8221;</div>
+        <div class="card-sections">
+          <div class="section-block">
+            <h4>Voiceover Script <button class="copy-btn" data-copy="Kyle Hogg has 15 years of scriptural study and ministry behind him. He could have written a textbook. Instead he wrote Would You Believe It — 118 pages of clear, honest, jargon-free truth written for people who never went to seminary and don't intend to. Readers call it impactful and accessible. The book that finally makes sense.">Copy</button></h4>
+            <p>Kyle Hogg has 15 years of scriptural study and ministry behind him. He could have written a textbook. Instead he wrote Would You Believe It — 118 pages of clear, honest, jargon-free truth written for people who never went to seminary and don't intend to. Readers call it impactful and accessible. The book that finally makes sense.</p>
+          </div>
+          <div class="section-block">
+            <h4>YouTube Description <button class="copy-btn" data-copy="15 years of ministry. 118 pages. Zero jargon. Would You Believe It? by Kyle Hogg — the most accessible book on Christian faith published in years. Kindle $3.99. #WouldYouBelieveIt #KyleHogg #AccessibleFaith #ChristianBooks #BookTok">Copy</button></h4>
+            <p>15 years of ministry. 118 pages. Zero jargon. Would You Believe It? by Kyle Hogg — the most accessible book on Christian faith published in years. Kindle $3.99. #WouldYouBelieveIt #KyleHogg #AccessibleFaith #ChristianBooks #BookTok</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="video-card" data-date="2026-05-24" style="animation-delay:0.18s">
+      <div class="card-date">
+        <div class="date-day">24</div>
+        <div class="date-month">May</div>
+        <div class="date-vid">Video 06</div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Faith Is Received, Not Achieved</div>
+        <div class="card-hook">&#8220;You can't manufacture it. But you can open yourself to it.&#8221;</div>
+        <div class="card-sections">
+          <div class="section-block">
+            <h4>Voiceover Script <button class="copy-btn" data-copy="One of the most important things Kyle Hogg teaches in this book: faith is received, not achieved. You cannot think your way into it. You cannot earn it. But you can position yourself to receive it. Would You Believe It explains how — with the clarity of a teacher and the warmth of a pastor who genuinely cares whether you find what you're looking for.">Copy</button></h4>
+            <p>One of the most important things Kyle Hogg teaches in this book: faith is received, not achieved. You cannot think your way into it. You cannot earn it. But you can position yourself to receive it. Would You Believe It explains how — with the clarity of a teacher and the warmth of a pastor who genuinely cares whether you find what you're looking for.</p>
+          </div>
+          <div class="section-block">
+            <h4>YouTube Description <button class="copy-btn" data-copy="Faith isn't something you produce — it's something you receive. Kyle Hogg unpacks what that means in Would You Believe It? 4.9 stars. Kindle and paperback. #FaithIsReceived #WouldYouBelieveIt #KyleHogg #FindingFaith #BookTok">Copy</button></h4>
+            <p>Faith isn't something you produce — it's something you receive. Kyle Hogg unpacks what that means in Would You Believe It? 4.9 stars. Kindle and paperback. #FaithIsReceived #WouldYouBelieveIt #KyleHogg #FindingFaith #BookTok</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="video-card" data-date="2026-05-25" style="animation-delay:0.21s">
+      <div class="card-date">
+        <div class="date-day">25</div>
+        <div class="date-month">May</div>
+        <div class="date-vid">Video 07</div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">It Didn't Preach at Me. It Talked to Me.</div>
+        <div class="card-hook">&#8220;Readers who expected to be lectured found something else entirely.&#8221;</div>
+        <div class="card-sections">
+          <div class="section-block">
+            <h4>Voiceover Script <button class="copy-btn" data-copy="A lifelong skeptic picked up Would You Believe It reluctantly. A friend had insisted. They expected to put it down after twenty pages. Instead they finished it and found — not a debate win for the other side — but a quiet, unexpected peace. Kyle Hogg doesn't argue you into a corner. He opens a door and asks if you're ready to look inside.">Copy</button></h4>
+            <p>A lifelong skeptic picked up Would You Believe It reluctantly. A friend had insisted. They expected to put it down after twenty pages. Instead they finished it and found — not a debate win for the other side — but a quiet, unexpected peace. Kyle Hogg doesn't argue you into a corner. He opens a door and asks if you're ready to look inside.</p>
+          </div>
+          <div class="section-block">
+            <h4>YouTube Description <button class="copy-btn" data-copy="A lifelong skeptic picked this up and finished it feeling peace, not pressure. Would You Believe It? by Kyle Hogg earns trust before it asks for belief. Kindle and paperback. #SkepticReview #WouldYouBelieveIt #KyleHogg #NoJudgement #BookTok">Copy</button></h4>
+            <p>A lifelong skeptic picked this up and finished it feeling peace, not pressure. Would You Believe It? by Kyle Hogg earns trust before it asks for belief. Kindle and paperback. #SkepticReview #WouldYouBelieveIt #KyleHogg #NoJudgement #BookTok</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="video-card" data-date="2026-05-25" style="animation-delay:0.24s">
+      <div class="card-date">
+        <div class="date-day">25</div>
+        <div class="date-month">May</div>
+        <div class="date-vid">Video 08</div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Even Lifelong Believers Need This Book</div>
+        <div class="card-hook">&#8220;It reminded me of why I first believed. And that mattered.&#8221;</div>
+        <div class="card-sections">
+          <div class="section-block">
+            <h4>Voiceover Script <button class="copy-btn" data-copy="Would You Believe It is billed for skeptics. But the believers reading it keep saying the same thing. This book reminded me of how I came to faith. It gave me language for things I have always known but could never quite say. Lauren P wrote: this is a great reminder of how we as Christians came to saving faith. Read it to find faith — or to remember why yours matters.">Copy</button></h4>
+            <p>Would You Believe It is billed for skeptics. But the believers reading it keep saying the same thing. This book reminded me of how I came to faith. It gave me language for things I have always known but could never quite say. Lauren P wrote: this is a great reminder of how we as Christians came to saving faith. Read it to find faith — or to remember why yours matters.</p>
+          </div>
+          <div class="section-block">
+            <h4>YouTube Description <button class="copy-btn" data-copy="Skeptics find faith in this book. Believers rediscover it. Would You Believe It? works for both — because Kyle Hogg writes about foundations every Christian needs to revisit. Kindle and paperback. #ForBelieversAndSkeptics #WouldYouBelieveIt #KyleHogg #ChristianFaith #BookTok">Copy</button></h4>
+            <p>Skeptics find faith in this book. Believers rediscover it. Would You Believe It? works for both — because Kyle Hogg writes about foundations every Christian needs to revisit. Kindle and paperback. #ForBelieversAndSkeptics #WouldYouBelieveIt #KyleHogg #ChristianFaith #BookTok</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="video-card" data-date="2026-05-26" style="animation-delay:0.27s">
+      <div class="card-date">
+        <div class="date-day">26</div>
+        <div class="date-month">May</div>
+        <div class="date-vid">Video 09</div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">It Convicts the Heart, Not Just the Mind</div>
+        <div class="card-hook">&#8220;If someone convinces you, someone else can unconvince you. This book does something different.&#8221;</div>
+        <div class="card-sections">
+          <div class="section-block">
+            <h4>Voiceover Script <button class="copy-btn" data-copy="Maddy, a reader, said it best: if someone can convince you of something, someone else can convince you out of it. What Kyle Hogg does in these pages is not convince your mind — he convicts your heart. After reading this, Jesus, the Bible, and faith itself become not just more convincing but more compelling. That is a different kind of change. And it is the kind that lasts.">Copy</button></h4>
+            <p>Maddy, a reader, said it best: if someone can convince you of something, someone else can convince you out of it. What Kyle Hogg does in these pages is not convince your mind — he convicts your heart. After reading this, Jesus, the Bible, and faith itself become not just more convincing but more compelling. That is a different kind of change. And it is the kind that lasts.</p>
+          </div>
+          <div class="section-block">
+            <h4>YouTube Description <button class="copy-btn" data-copy="There's a difference between being convinced and being convicted. Kyle Hogg's readers say this book does the latter — and that's why the change it creates sticks. Would You Believe It? Kindle and paperback. #ConvictedNotConvinced #WouldYouBelieveIt #KyleHogg #BookTok">Copy</button></h4>
+            <p>There's a difference between being convinced and being convicted. Kyle Hogg's readers say this book does the latter — and that's why the change it creates sticks. Would You Believe It? Kindle and paperback. #ConvictedNotConvinced #WouldYouBelieveIt #KyleHogg #BookTok</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="video-card" data-date="2026-05-26" style="animation-delay:0.30s">
+      <div class="card-date">
+        <div class="date-day">26</div>
+        <div class="date-month">May</div>
+        <div class="date-vid">Video 10</div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Unbelief to Faith Is a Journey</div>
+        <div class="card-hook">&#8220;Nobody arrives in one step. This book walks with you.&#8221;</div>
+        <div class="card-sections">
+          <div class="section-block">
+            <h4>Voiceover Script <button class="copy-btn" data-copy="Kyle Hogg says it plainly: unbelief to faith is a journey. No single argument converts anyone on the spot. No single book does either — including this one. But this book can be the companion that walks alongside you for a mile. That answers the question you have been afraid to ask. That treats your doubt not as something to crush but as something to understand.">Copy</button></h4>
+            <p>Kyle Hogg says it plainly: unbelief to faith is a journey. No single argument converts anyone on the spot. No single book does either — including this one. But this book can be the companion that walks alongside you for a mile. That answers the question you have been afraid to ask. That treats your doubt not as something to crush but as something to understand.</p>
+          </div>
+          <div class="section-block">
+            <h4>YouTube Description <button class="copy-btn" data-copy="Faith isn't a switch — it's a journey. And Would You Believe It? by Kyle Hogg is the wisest companion for every step of it. Kindle and paperback. #FaithJourney #WouldYouBelieveIt #KyleHogg #FindingFaith #BookTok">Copy</button></h4>
+            <p>Faith isn't a switch — it's a journey. And Would You Believe It? by Kyle Hogg is the wisest companion for every step of it. Kindle and paperback. #FaithJourney #WouldYouBelieveIt #KyleHogg #FindingFaith #BookTok</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="video-card" data-date="2026-05-27" style="animation-delay:0.33s">
+      <div class="card-date">
+        <div class="date-day">27</div>
+        <div class="date-month">May</div>
+        <div class="date-vid">Video 11</div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">116 Reviews. 4.9 Stars.</div>
+        <div class="card-hook">&#8220;The readers have spoken. Every single one of them says the same thing.&#8221;</div>
+        <div class="card-sections">
+          <div class="section-block">
+            <h4>Voiceover Script <button class="copy-btn" data-copy="One hundred and sixteen people have reviewed Would You Believe It. The average is 4.9 out of 5. Ninety-three percent gave it five stars. The rest gave four. Not one person rated it below three. These are skeptics, seekers, lifelong believers, and everyone in between. And every single one of them finished saying the same thing: this book is worth your time. Link in bio.">Copy</button></h4>
+            <p>One hundred and sixteen people have reviewed Would You Believe It. The average is 4.9 out of 5. Ninety-three percent gave it five stars. The rest gave four. Not one person rated it below three. These are skeptics, seekers, lifelong believers, and everyone in between. And every single one of them finished saying the same thing: this book is worth your time. Link in bio.</p>
+          </div>
+          <div class="section-block">
+            <h4>YouTube Description <button class="copy-btn" data-copy="116 reviews. 4.9 stars. 93% five-star ratings. Skeptics and believers alike saying the same thing: read this. Would You Believe It? by Kyle Hogg. Kindle $3.99 · Paperback $12.99. #WouldYouBelieveIt #KyleHogg #BookReviews #ChristianApologetics #BookTok">Copy</button></h4>
+            <p>116 reviews. 4.9 stars. 93% five-star ratings. Skeptics and believers alike saying the same thing: read this. Would You Believe It? by Kyle Hogg. Kindle $3.99 · Paperback $12.99. #WouldYouBelieveIt #KyleHogg #BookReviews #ChristianApologetics #BookTok</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="video-card" data-date="2026-05-27" style="animation-delay:0.36s">
+      <div class="card-date">
+        <div class="date-day">27</div>
+        <div class="date-month">May</div>
+        <div class="date-vid">Video 12</div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Short Enough for an Afternoon. Deep Enough to Change You.</div>
+        <div class="card-hook">&#8220;Read it this weekend. Then give it to someone who needs it.&#8221;</div>
+        <div class="card-sections">
+          <div class="section-block">
+            <h4>Voiceover Script <button class="copy-btn" data-copy="Would You Believe It is 118 pages. Short enough to read in an afternoon. Deep enough to start a real conversation. Kind enough that no one will feel ambushed when you hand it to them. You know someone in your life who is searching. This is the book for them. Kindle. Paperback. Link in bio.">Copy</button></h4>
+            <p>Would You Believe It is 118 pages. Short enough to read in an afternoon. Deep enough to start a real conversation. Kind enough that no one will feel ambushed when you hand it to them. You know someone in your life who is searching. This is the book for them. Kindle. Paperback. Link in bio.</p>
+          </div>
+          <div class="section-block">
+            <h4>YouTube Description <button class="copy-btn" data-copy="118 pages. One afternoon. One book that could change everything for someone you love. Would You Believe It? by Kyle Hogg. Kindle $3.99 · Paperback $12.99. #GiftABook #WouldYouBelieveIt #KyleHogg #FaithGift #ShareYourFaith #BookTok">Copy</button></h4>
+            <p>118 pages. One afternoon. One book that could change everything for someone you love. Would You Believe It? by Kyle Hogg. Kindle $3.99 · Paperback $12.99. #GiftABook #WouldYouBelieveIt #KyleHogg #FaithGift #ShareYourFaith #BookTok</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="video-card" data-date="2026-05-28" style="animation-delay:0.39s">
+      <div class="card-date">
+        <div class="date-day">28</div>
+        <div class="date-month">May</div>
+        <div class="date-vid">Video 13</div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">The Book That Clears Away the Barriers</div>
+        <div class="card-hook">&#8220;Every chapter removes one more reason not to believe.&#8221;</div>
+        <div class="card-sections">
+          <div class="section-block">
+            <h4>Voiceover Script <button class="copy-btn" data-copy="Jeff, a reader, wrote: this book does an amazing job walking you through several helpful steps to growing in your faith. Every chapter's truth and purpose helps those of us struggling to put our faith in God's existence, in the truth of the Bible, in the stories of Jesus. The author has a compelling message that comes through the pages. This book clears away the barriers. One by one.">Copy</button></h4>
+            <p>Jeff, a reader, wrote: this book does an amazing job walking you through several helpful steps to growing in your faith. Every chapter's truth and purpose helps those of us struggling to put our faith in God's existence, in the truth of the Bible, in the stories of Jesus. The author has a compelling message that comes through the pages. This book clears away the barriers. One by one.</p>
+          </div>
+          <div class="section-block">
+            <h4>YouTube Description <button class="copy-btn" data-copy="Every chapter of Would You Believe It clears away one more barrier to genuine faith — without pressure, without manipulation, without pretence. Kyle Hogg. Kindle and paperback. #BarriersToFaith #WouldYouBelieveIt #KyleHogg #ChristianApologetics #BookTok">Copy</button></h4>
+            <p>Every chapter of Would You Believe It clears away one more barrier to genuine faith — without pressure, without manipulation, without pretence. Kyle Hogg. Kindle and paperback. #BarriersToFaith #WouldYouBelieveIt #KyleHogg #ChristianApologetics #BookTok</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="video-card" data-date="2026-05-28" style="animation-delay:0.42s">
+      <div class="card-date">
+        <div class="date-day">28</div>
+        <div class="date-month">May</div>
+        <div class="date-vid">Video 14</div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">A Calm, Clear Guide Through Big Questions</div>
+        <div class="card-hook">&#8220;It doesn't argue with you. It sits with you.&#8221;</div>
+        <div class="card-sections">
+          <div class="section-block">
+            <h4>Voiceover Script <button class="copy-btn" data-copy="Jay Williams wrote from Canada: this book feels like sitting down with someone who genuinely wants to help you understand — not argue with you. The tone is steady, respectful, full of practical examples that make tough concepts easier. It acknowledges doubts and doesn't shy away from the hard stuff — which makes the message feel more authentic. A solid read for those open to learning without needing all the answers upfront.">Copy</button></h4>
+            <p>Jay Williams wrote from Canada: this book feels like sitting down with someone who genuinely wants to help you understand — not argue with you. The tone is steady, respectful, full of practical examples that make tough concepts easier. It acknowledges doubts and doesn't shy away from the hard stuff — which makes the message feel more authentic. A solid read for those open to learning without needing all the answers upfront.</p>
+          </div>
+          <div class="section-block">
+            <h4>YouTube Description <button class="copy-btn" data-copy="Readers across Canada, the UK, and the US are calling Would You Believe It? a calm, clear guide through the biggest questions a person can ask. Steady. Respectful. Honest. Kindle and paperback. #CalmAndClear #WouldYouBelieveIt #KyleHogg #FaithGuide #BookTok">Copy</button></h4>
+            <p>Readers across Canada, the UK, and the US are calling Would You Believe It? a calm, clear guide through the biggest questions a person can ask. Steady. Respectful. Honest. Kindle and paperback. #CalmAndClear #WouldYouBelieveIt #KyleHogg #FaithGuide #BookTok</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="video-card" data-date="2026-05-28" style="animation-delay:0.45s">
+      <div class="card-date">
+        <div class="date-day">28</div>
+        <div class="date-month">May</div>
+        <div class="date-vid">Video 15</div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Would You Believe It?</div>
+        <div class="card-hook">&#8220;Three words. One invitation. The question that opens everything.&#8221;</div>
+        <div class="card-sections">
+          <div class="section-block">
+            <h4>Voiceover Script <button class="copy-btn" data-copy="Three words. Would you believe it. Not a challenge. Not a dare. An invitation. Kyle Hogg has spent 15 years studying scripture, walking with doubters, answering the hard questions. And after all of it, his question is still the same gentle one he started with. Would you believe it? Not because you have to. Not because the proof is overwhelming. But because something in you is still open. If that's you — this book was written for you. Would You Believe It. Available now. Link in bio.">Copy</button></h4>
+            <p>Three words. Would you believe it. Not a challenge. Not a dare. An invitation. Kyle Hogg has spent 15 years studying scripture, walking with doubters, answering the hard questions. And after all of it, his question is still the same gentle one he started with. Would you believe it? Not because you have to. Not because the proof is overwhelming. But because something in you is still open. If that's you — this book was written for you. Would You Believe It. Available now. Link in bio.</p>
+          </div>
+          <div class="section-block">
+            <h4>YouTube Description <button class="copy-btn" data-copy="Would you believe it? Not as a challenge. As an invitation. Kyle Hogg's Would You Believe It? has guided hundreds of readers closer to genuine faith in Jesus Christ. If something in you is still open, this book was written for you. Kindle $3.99 · Paperback $12.99. #WouldYouBelieveIt #KyleHogg #TheInvitation #FindingFaith #Jesus #BookTok">Copy</button></h4>
+            <p>Would you believe it? Not as a challenge. As an invitation. Kyle Hogg's Would You Believe It? has guided hundreds of readers closer to genuine faith in Jesus Christ. If something in you is still open, this book was written for you. Kindle $3.99 · Paperback $12.99. #WouldYouBelieveIt #KyleHogg #TheInvitation #FindingFaith #Jesus #BookTok</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+</div>
+
+<!-- WEEK NAV -->
+<div id="weeks" style="margin-top:40px;">
+  <div class="divider"><div class="divider-line"></div><div class="divider-mark">&#10022;</div><div class="divider-line"></div></div>
+  <div style="text-align:center;margin-bottom:40px;">
+    <span class="section-label">Essentials Weeks &mdash; Content Calendars</span>
+    <p style="font-family:'Lora',serif;font-style:italic;font-size:18px;color:var(--ink-mid);margin-top:8px;">Each week contains 15 videos, voiceover scripts, and YouTube descriptions. Click any card to open the full content calendar.</p>
+  </div>
+  <div class="week-nav-section">
+    <div class="week-nav-grid">
+      <a href="https://atomic-shelf.com/Content-Proposal/Kyle-Hogg/Week01" target="_blank" class="week-nav-card current-week">
+        <div class="week-nav-label">Trial Week &middot; Active</div>
+        <div class="week-nav-title">Week 01 &mdash; Trial</div>
+        <div class="week-nav-dates">May 22 &ndash; May 28</div>
+        <div class="week-nav-videos">Videos 1&ndash;15 &middot; This page</div>
+        <div class="week-nav-arrow">View</div>
+      </a>
+      <a href="https://atomic-shelf.com/Content-Proposal/Kyle-Hogg/Week02" target="_blank" class="week-nav-card">
+        <div class="week-nav-label">Essentials &middot; Week 2</div>
+        <div class="week-nav-title">Week 02 &mdash; Essentials</div>
+        <div class="week-nav-dates">Jun 5 &ndash; Jun 11</div>
+        <div class="week-nav-videos">Videos 16&ndash;30</div>
+        <div class="week-nav-arrow">Open Calendar</div>
+      </a>
+      <a href="https://atomic-shelf.com/Content-Proposal/Kyle-Hogg/Week03" target="_blank" class="week-nav-card">
+        <div class="week-nav-label">Essentials &middot; Week 3</div>
+        <div class="week-nav-title">Week 03 &mdash; Essentials</div>
+        <div class="week-nav-dates">Jun 12 &ndash; Jun 18</div>
+        <div class="week-nav-videos">Videos 31&ndash;45</div>
+        <div class="week-nav-arrow">Open Calendar</div>
+      </a>
+      <a href="https://atomic-shelf.com/Content-Proposal/Kyle-Hogg/Week04" target="_blank" class="week-nav-card">
+        <div class="week-nav-label">Essentials &middot; Week 4</div>
+        <div class="week-nav-title">Week 04 &mdash; Essentials</div>
+        <div class="week-nav-dates">Jun 19 &ndash; Jun 25</div>
+        <div class="week-nav-videos">Videos 46&ndash;60</div>
+        <div class="week-nav-arrow">Open Calendar</div>
+      </a>
+      <a href="https://atomic-shelf.com/Content-Proposal/Kyle-Hogg/Week05" target="_blank" class="week-nav-card">
+        <div class="week-nav-label">Retarget / Month 2</div>
+        <div class="week-nav-title">Week 05 &mdash; Finale</div>
+        <div class="week-nav-dates">Jun 26 &ndash; Jul 2</div>
+        <div class="week-nav-videos">Videos 61&ndash;75</div>
+        <div class="week-nav-arrow">Open Calendar</div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- PHOTO ASSETS -->
+<div id="assets" style="margin-top:40px;">
+  <div class="divider"><div class="divider-line"></div><div class="divider-mark">&#10022;</div><div class="divider-line"></div></div>
+  <div class="intro-section" style="padding-bottom:40px;">
+    <span class="section-label">Photo Assets</span>
+    <p>Five weekly photo albums for creating videos and cross-posting. Click <strong style="font-style:normal;">Open Album</strong> to browse and download assets in Google Photos.</p>
+  </div>
+  <section class="albums-section">
+    <div class="albums-grid">
+      <div class="album-card">
+        <div class="album-card-header">
+          <div>
+            <div class="album-card-week">Trial Week &middot; May 22&ndash;28</div>
+            <div class="album-card-title">Week 01 Photo Assets</div>
+          </div>
+          <a href="https://photos.app.goo.gl/C1iL369RzxcTYD8v5" target="_blank" class="album-link">Open Album &#8599;</a>
+        </div>
+        <div class="album-body">15 images ready for video creation and social posting.</div>
+      </div>
+      <div class="album-card">
+        <div class="album-card-header">
+          <div>
+            <div class="album-card-week">Week 2 Essentials &middot; Jun 5&ndash;11</div>
+            <div class="album-card-title">Week 02 Photo Assets</div>
+          </div>
+          <a href="https://photos.app.goo.gl/XS2Z4QckC7VvLMdLA" target="_blank" class="album-link">Open Album &#8599;</a>
+        </div>
+        <div class="album-body">15 images ready for video creation and social posting.</div>
+      </div>
+      <div class="album-card">
+        <div class="album-card-header">
+          <div>
+            <div class="album-card-week">Week 3 Essentials &middot; Jun 12&ndash;18</div>
+            <div class="album-card-title">Week 03 Photo Assets</div>
+          </div>
+          <a href="https://photos.app.goo.gl/3GwaZ96oSZPU9Xyc9" target="_blank" class="album-link">Open Album &#8599;</a>
+        </div>
+        <div class="album-body">15 images ready for video creation and social posting.</div>
+      </div>
+      <div class="album-card">
+        <div class="album-card-header">
+          <div>
+            <div class="album-card-week">Week 4 Essentials &middot; Jun 19&ndash;25</div>
+            <div class="album-card-title">Week 04 Photo Assets</div>
+          </div>
+          <a href="https://photos.app.goo.gl/X9tT7xAh7MJ4wvu37" target="_blank" class="album-link">Open Album &#8599;</a>
+        </div>
+        <div class="album-body">15 images ready for video creation and social posting.</div>
+      </div>
+      <div class="album-card" style="grid-column:1/-1;">
+        <div class="album-card-header">
+          <div>
+            <div class="album-card-week">Week 5 &middot; Jun 26 &ndash; Jul 2 &middot; Retarget or Proceed to Month 2</div>
+            <div class="album-card-title">Week 05 Photo Assets</div>
+          </div>
+          <a href="https://photos.app.goo.gl/Z58JRyPsmCddKTMJ7" target="_blank" class="album-link">Open Album &#8599;</a>
+        </div>
+        <div class="album-body">15 images ready for video creation and social posting.</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ONBOARDING -->
+<div id="onboarding">
+  <div class="divider"><div class="divider-line"></div><div class="divider-mark">&#10022;</div><div class="divider-line"></div></div>
+  <div class="onboarding-card">
+    <div class="onboarding-inner">
+      <div class="onboarding-title">Getting Started &mdash; Trial Week</div>
+      <div class="onboarding-steps">
+        <div class="step"><div class="step-num">1</div><div class="step-body"><h5>Create Your YouTube Channel</h5><p>If you don&rsquo;t have one already, create a YouTube channel for the book. We recommend naming it something close to the book title or author name for discoverability.</p></div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-body"><h5>Invite Us as Editors</h5><p>In YouTube Studio &rarr; Settings &rarr; Permissions, invite <strong style="color:var(--gold-light)">powerpages30@gmail.com</strong> as an Editor so we can post directly to your channel.</p></div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-body"><h5>Review the Content Proposal</h5><p>Browse the 15 videos above. Use the copy buttons to grab voiceover scripts and YouTube descriptions. All photo assets are in the albums section.</p></div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-body"><h5>Content Portal</h5><p>Full content and assets also available at <a href="https://atomic-shelf.com/Content-Proposal/Kyle-Hogg/Week01" target="_blank">atomic-shelf.com/Content-Proposal/Kyle-Hogg/Week01</a></p></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <span class="footer-cross">&#10022;</span>
+  <div class="footer-title">Would You Believe It? &mdash; Kyle Hogg</div>
+  <div class="footer-sub">Trial Week &middot; May 22&ndash;28, 2026 &middot; Videos 1&ndash;15 &middot; YouTube &amp; TikTok &middot; Atomic Shelf</div>
+  <div class="footer-contact">Questions? powerpages30@gmail.com &middot; atomic-shelf.com/Content-Proposal/Kyle-Hogg/Week01</div>
+</footer>
+
+<script>
+// Copy button logic — reads from data-copy attribute, no inline JS
+document.querySelectorAll('.copy-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var text = btn.getAttribute('data-copy');
+    navigator.clipboard.writeText(text).then(function() {
+      var original = btn.textContent;
+      btn.textContent = 'Copied';
+      btn.classList.add('copied');
+      setTimeout(function() {
+        btn.textContent = original;
+        btn.classList.remove('copied');
+      }, 2000);
+    });
+  });
+});
+
+// Mark past video cards as done
+(function() {
+  var today = new Date(); today.setHours(0, 0, 0, 0);
+  document.querySelectorAll('.video-card[data-date]').forEach(function(card) {
+    var d = new Date(card.dataset.date + 'T00:00:00');
+    if (d < today) {
+      card.classList.add('done');
+      var dv = card.querySelector('.date-vid');
+      if (dv && !card.querySelector('.done-badge')) {
+        var b = document.createElement('div');
+        b.className = 'done-badge';
+        b.textContent = 'Posted';
+        dv.after(b);
+      }
+    }
+  });
+})();
+
+// Progress bars and timeline
+(function() {
+  var now = new Date();
+  var ts = new Date('2026-05-22T00:00:00'), te = new Date('2026-05-29T00:00:00');
+  var cs = new Date('2026-05-29T00:00:00'), ce = new Date('2026-07-03T00:00:00');
+  var tp = Math.round(Math.min(Math.max(now - ts, 0), te - ts) / (te - ts) * 100);
+  var cp = Math.round(Math.min(Math.max(now - cs, 0), ce - cs) / (ce - cs) * 100);
+  document.getElementById('trial-pct').textContent = tp + '%';
+  document.getElementById('campaign-pct').textContent = cp + '%';
+  document.getElementById('trial-bar').style.width = tp + '%';
+  document.getElementById('campaign-bar').style.width = cp + '%';
+  var phases = [
+    {label:'Trial Week', start:'2026-05-22', end:'2026-05-28', dates:'May 22–28'},
+    {label:'Week 1 — Essentials', start:'2026-05-29', end:'2026-06-04', dates:'May 29 – Jun 4'},
+    {label:'Week 2 — Essentials', start:'2026-06-05', end:'2026-06-11', dates:'Jun 5–11'},
+    {label:'Week 3 — Essentials', start:'2026-06-12', end:'2026-06-18', dates:'Jun 12–18'},
+    {label:'Week 4 — Essentials', start:'2026-06-19', end:'2026-06-25', dates:'Jun 19–25'},
+    {label:'Week 5 — Retarget / Month 2', start:'2026-06-26', end:'2026-07-02', dates:'Jun 26 – Jul 2'},
+  ];
+  var tl = document.getElementById('timeline-items');
+  phases.forEach(function(p) {
+    var s = new Date(p.start + 'T00:00:00'), e = new Date(p.end + 'T23:59:59');
+    var dc = now > e ? 'dot-done' : now >= s ? 'dot-active' : 'dot-future';
+    var item = document.createElement('div');
+    item.className = 'timeline-item';
+    item.innerHTML = '<div class="timeline-dot ' + dc + '"></div><span class="timeline-label">' + p.label + '</span><span class="timeline-date">' + p.dates + '</span>';
+    tl.appendChild(item);
+  });
+})();
+</script>
+</body>
+</html>

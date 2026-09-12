@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Daniel J. Voelker - Return to Hawaii • Atomic-Shelf Receipt & Confirmation • 10-Month Monthly Retainer" />
+    <title>Daniel J. Voelker • Receipt & Confirmation | Atomic-Shelf</title>
+    <link rel="icon" type="image/svg+xml" href="/atomicshelf.svg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f9f6f0 0%, #f0ebe2 100%);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+        .receipt-card {
+            background: rgba(255,255,255,0.96);
+            backdrop-filter: blur(4px);
+            border-radius: 2rem;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+            border: 1px solid rgba(74,44,42,0.15);
+        }
+        .hero-bg {
+            background: linear-gradient(rgba(44,26,24,0.85), rgba(44,26,24,0.9)),
+                        url('https://lh3.googleusercontent.com/pw/AP1GczNbd2dWGjlgzTP_qSfol2e0HQD32ukFamXHbEskoL6Kovi3-fe1soO5-U5h11w9yfoGAbCJyiQUFXhjE97h4pzT1EJOtJZXFtfcGx9buiPWXgxNKME=w1920-h1080')
+                        center/cover no-repeat;
+            height: 65vh;
+        }
+        .paid-badge {
+            background: linear-gradient(135deg, #2b9348, #1a6e35);
+            box-shadow: 0 8px 20px -6px rgba(43,147,72,0.4);
+        }
+        .thankyou-card {
+            background: linear-gradient(135deg, #fff8f0, #fef3e7);
+            border: 2px solid #d97706;
+            border-radius: 2rem;
+        }
+        @keyframes gentle-float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-6px); }
+            100% { transform: translateY(0px); }
+        }
+        .float-icon {
+            animation: gentle-float 4s ease-in-out infinite;
+        }
+        .section-header {
+            position: relative;
+            display: inline-block;
+        }
+        .section-header::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60%;
+            height: 3px;
+            background: linear-gradient(to right, #4a2c2a, #d97706);
+            border-radius: 999px;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-b border-[#4a2c2a]/20 shadow-sm">
+        <nav class="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <span class="text-3xl">🎥</span>
+                <div>
+                    <div class="text-2xl font-bold tracking-tight text-[#4a2c2a]">Atomic-Shelf</div>
+                    <div class="text-xs text-gray-500 -mt-0.5">Daniel J. Voelker • Return to Hawaii</div>
+                </div>
+            </div>
+            <a href="https://atomic-shelf.com" class="text-sm bg-[#4a2c2a] hover:bg-[#2f1e1b] text-white px-5 py-2 rounded-full transition shadow-md">← Dashboard</a>
+        </nav>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero-bg flex items-center text-white pt-28">
+        <div class="max-w-5xl mx-auto px-6 text-center">
+            <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-5 py-2 rounded-full text-sm font-medium mb-6">
+                <span class="text-emerald-300 text-lg">✓</span>
+                <span>CONFIRMATION & RECEIPT</span>
+            </div>
+            <h1 class="text-5xl md:text-6xl font-bold leading-tight mb-4">
+                Daniel J. Voelker<br>
+                <span class="text-4xl md:text-5xl text-amber-200">Return to Hawaii</span>
+            </h1>
+            <p class="text-xl text-white/90 max-w-2xl mx-auto">A Donovan Cross Novel • Monthly Retainer Confirmation</p>
+        </div>
+    </section>
+
+    <div class="max-w-6xl mx-auto px-6 py-16 -mt-20 relative z-10">
+
+        <!-- Receipt Card -->
+        <div class="receipt-card p-8 md:p-12 mb-12">
+            <div class="flex flex-wrap justify-between items-start gap-6 border-b border-[#e0d5c8] pb-8 mb-8">
+                <div>
+                    <div class="paid-badge inline-flex items-center gap-2 text-white px-5 py-2 rounded-full text-sm font-bold mb-4">
+                        <span class="text-lg">✓</span> PAID IN FULL
+                    </div>
+                    <h2 class="text-3xl font-bold text-[#4a2c2a]">Payment Confirmation</h2>
+                    <p class="text-gray-600 mt-1">Thank you for your continued trust in Atomic-Shelf.</p>
+                </div>
+                <div class="text-right">
+                    <p class="text-sm text-gray-500">Receipt Date</p>
+                    <p class="font-semibold text-[#4a2c2a]">April 12, 2026</p>
+                    <p class="text-sm text-gray-500 mt-2">Transaction ID</p>
+                    <p class="font-mono text-sm text-[#4a2c2a]">ATOMIC-RTH-2412-10M</p>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 mb-8">
+                <div>
+                    <h3 class="font-bold text-[#4a2c2a] uppercase text-xs tracking-wider mb-3">BILLING DETAILS</h3>
+                    <p class="font-semibold">Daniel J. Voelker</p>
+                    <p class="text-gray-600 text-sm mt-1">Return to Hawaii: A Donovan Cross Novel</p>
+                    <p class="text-gray-600 text-sm">@returnhawaiidonovancross</p>
+                </div>
+                <div>
+                    <h3 class="font-bold text-[#4a2c2a] uppercase text-xs tracking-wider mb-3">SERVICE DETAILS</h3>
+                    <p class="font-semibold">Monthly Social Media Retainer</p>
+                    <p class="text-gray-600 text-sm mt-1">Full-service BookTok video production & management</p>
+                    <p class="text-gray-600 text-sm">Daily posting • Trend research • Amazon Attribution</p>
+                </div>
+            </div>
+
+            <div class="bg-amber-50 rounded-2xl p-6 mb-8">
+                <div class="flex flex-wrap justify-between items-center">
+                    <div>
+                        <p class="text-sm text-amber-800 font-medium">Payment Term</p>
+                        <p class="text-2xl font-bold text-[#4a2c2a]">10 Months</p>
+                        <p class="text-xs text-gray-500 mt-1">Monthly Retainer • Prepaid in Full</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-sm text-amber-800 font-medium">Total Amount</p>
+                        <p class="text-4xl font-black text-[#e07a2c]">$200</p>
+                        <p class="text-xs text-gray-500 mt-1">($20/month × 10 months)</p>
+                    </div>
+                </div>
+                <div class="mt-4 pt-4 border-t border-amber-200">
+                    <div class="flex justify-between text-sm">
+                        <span class="text-gray-600">Monthly Retainer Rate</span>
+                        <span class="font-semibold">$20.00</span>
+                    </div>
+                    <div class="flex justify-between text-sm mt-1">
+                        <span class="text-gray-600">Number of Months</span>
+                        <span class="font-semibold">10</span>
+                    </div>
+                    <div class="flex justify-between text-sm mt-2 pt-2 border-t border-amber-200 font-bold">
+                        <span>Total Paid</span>
+                        <span class="text-[#e07a2c] text-xl">$200.00</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center text-sm text-gray-500 bg-gray-50 rounded-xl p-4">
+                <span class="inline-block w-2 h-2 rounded-full bg-green-500 mr-2"></span>
+                Payment Status: <strong class="text-green-700">Completed</strong> • No further action required
+            </div>
+        </div>
+
+        <!-- Thank You Note -->
+        <div class="thankyou-card p-10 text-center mb-12">
+            <div class="text-6xl mb-4 float-icon">🙏</div>
+            <h2 class="text-3xl md:text-4xl font-bold text-[#4a2c2a] mb-4">Thank You, Daniel!</h2>
+            <p class="text-gray-700 text-lg max-w-2xl mx-auto leading-relaxed">
+                Your trust in Atomic-Shelf means the world to us. We're honored to bring <strong class="text-[#e07a2c]">Return to Hawaii</strong> to life on BookTok.
+            </p>
+            <div class="mt-6 flex flex-wrap justify-center gap-4">
+                <div class="bg-white/70 rounded-full px-4 py-2 text-sm text-gray-600 shadow-sm">🎬 Daily video production</div>
+                <div class="bg-white/70 rounded-full px-4 py-2 text-sm text-gray-600 shadow-sm">📈 5K+ views guarantee</div>
+                <div class="bg-white/70 rounded-full px-4 py-2 text-sm text-gray-600 shadow-sm">🎯 Amazon retargeting included</div>
+            </div>
+            <p class="text-sm text-gray-500 mt-6 italic">"We're ready to make your book a BookTok sensation."</p>
+            <div class="mt-8 pt-6 border-t border-amber-200">
+                <p class="text-sm text-gray-600">Questions? We're always here for you.</p>
+                <p class="text-xs text-gray-400 mt-2">📧 powerpages30@gmail.com • 📧 nick@atomic-shelf.com</p>
+            </div>
+        </div>
+
+        <!-- Content Delivery Summary -->
+        <div class="bg-white rounded-2xl p-8 shadow-md border border-[#e0d5c8] mb-12">
+            <div class="flex items-center gap-3 mb-6">
+                <span class="text-3xl">📦</span>
+                <h2 class="text-2xl font-bold text-[#4a2c2a]">What's Included in Your Retainer</h2>
+            </div>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                    <ul class="space-y-3 text-gray-700">
+                        <li class="flex items-center gap-3">✓ <span>Daily faceless BookTok videos (2-3/day)</span></li>
+                        <li class="flex items-center gap-3">✓ <span>YouTube Shorts syndication</span></li>
+                        <li class="flex items-center gap-3">✓ <span>Trend research & hashtag strategy</span></li>
+                        <li class="flex items-center gap-3">✓ <span>Amazon Attribution setup & tracking</span></li>
+                    </ul>
+                </div>
+                <div>
+                    <ul class="space-y-3 text-gray-700">
+                        <li class="flex items-center gap-3">✓ <span>Weekly performance reports</span></li>
+                        <li class="flex items-center gap-3">✓ <span>Audience retargeting setup</span></li>
+                        <li class="flex items-center gap-3">✓ <span>10,000 views guarantee (first month, with growth expected to 20k-30k/mo by the second month)</span></li>
+                        <li class="flex items-center gap-3">✓ <span>Priority & strategy support</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-6 bg-amber-50 rounded-xl p-4 text-sm text-gray-600">
+                <span class="font-semibold">📌 Your 10-month prepaid term begins April 13, 2026.</span> All content production and posting will continue uninterrupted.
+            </div>
+        </div>
+
+        <!-- Next Steps -->
+        <div class="text-center">
+            <div class="inline-block bg-[#4a2c2a]/10 rounded-full px-6 py-3">
+                <p class="text-sm text-[#4a2c2a] font-medium">✨ We'll send you weekly performance reports. ✨</p>
+            </div>
+            <div class="mt-8">
+                <a href="https://atomic-shelf.com" class="inline-block bg-[#4a2c2a] hover:bg-[#e07a2c] text-white px-8 py-4 rounded-full font-semibold transition shadow-md">
+                    Return to Atomic-Shelf Dashboard →
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-[#2b241c] text-stone-300 py-12 mt-8 text-center text-sm">
+        <div class="max-w-7xl mx-auto px-6">
+            <p>Atomic-Shelf — BookTok video marketing for indie authors</p>
+            <p class="mt-2 text-xs opacity-70">© 2026 Atomic-Shelf. All rights reserved.</p>
+            <p class="mt-4 text-xs opacity-50">This receipt serves as confirmation of payment for 10 months of Monthly Retainer service.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

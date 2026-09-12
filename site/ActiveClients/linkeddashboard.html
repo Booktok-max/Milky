@@ -1,0 +1,1529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Atomic Shelf · Author Command Centre</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+:root{
+  --bg:#faf6ef;
+  --surface:#ffffff;
+  --surface2:#f5efe4;
+  --surface3:#ede4d6;
+  --border:#e2d5c3;
+  --border-lt:#ede6d9;
+  --amber:#b8711f;
+  --amber2:#d4892a;
+  --amber-lt:#fef4e2;
+  --amber-glow:rgba(184,113,31,0.12);
+  --dark:#1e120a;
+  --dark2:#2d1c0f;
+  --text:#1a0f06;
+  --text2:#5c4230;
+  --text3:#9a7d68;
+  --text4:#c4aa95;
+  --green:#1a6b3a;
+  --green-bg:#e8f5ee;
+  --red:#991515;
+  --red-bg:#fde8e8;
+  --yellow:#8b6010;
+  --yellow-bg:#fef6d8;
+  --blue:#1a4a7a;
+  --blue-bg:#e8f0fa;
+  --teal:#1a6060;
+  --teal-bg:#e4f5f5;
+  --purple:#5a2d8a;
+  --purple-bg:#f0eafa;
+  --slate:#475569;
+  --slate-bg:#f1f5f9;
+  --r:10px;--r-sm:6px;--r-lg:16px;--r-xl:24px;
+  --shadow-sm:0 1px 3px rgba(30,18,10,.06),0 1px 2px rgba(30,18,10,.04);
+  --shadow:0 4px 16px rgba(30,18,10,.08),0 2px 6px rgba(30,18,10,.05);
+  --shadow-lg:0 12px 40px rgba(30,18,10,.12),0 4px 12px rgba(30,18,10,.07);
+  --shadow-xl:0 24px 64px rgba(30,18,10,.16),0 8px 24px rgba(30,18,10,.09);
+}
+
+body{font-family:'Outfit',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:15px;line-height:1.5;}
+a{color:inherit;text-decoration:none;}
+button{cursor:pointer;font-family:'Outfit',sans-serif;}
+
+/* ── NOISE TEXTURE ── */
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.6;}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:6px;height:6px;}
+::-webkit-scrollbar-track{background:var(--surface2);}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+::-webkit-scrollbar-thumb:hover{background:var(--text4);}
+
+/* ════════════════════════════════════════
+   HEADER
+════════════════════════════════════════ */
+.hdr{
+  background:var(--dark);
+  padding:0 28px;
+  height:60px;
+  display:flex;align-items:center;gap:20px;
+  position:sticky;top:0;z-index:100;
+  border-bottom:1px solid rgba(255,255,255,.06);
+  box-shadow:0 2px 20px rgba(0,0,0,.3);
+}
+.hdr::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--amber),transparent);opacity:.4;}
+
+.logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.3rem;font-weight:600;
+  color:#fdf2df;letter-spacing:.01em;
+  white-space:nowrap;flex-shrink:0;
+  display:flex;align-items:center;gap:8px;
+}
+.logo-dot{width:6px;height:6px;border-radius:50%;background:var(--amber2);box-shadow:0 0 8px var(--amber2);}
+.logo em{font-style:normal;color:var(--amber2);}
+
+.srch-wrap{position:relative;flex:1;max-width:380px;}
+.srch-wrap svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,.35);pointer-events:none;flex-shrink:0;}
+.srch{
+  width:100%;
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.11);
+  border-radius:40px;
+  padding:8px 16px 8px 36px;
+  color:#fff;font-family:'Outfit',sans-serif;font-size:.82rem;
+  outline:none;transition:all .2s;
+}
+.srch::placeholder{color:rgba(255,255,255,.3);}
+.srch:focus{border-color:rgba(212,137,42,.5);background:rgba(255,255,255,.11);box-shadow:0 0 0 3px rgba(212,137,42,.08);}
+
+.hdr-right{display:flex;gap:8px;margin-left:auto;align-items:center;}
+.hdr-btn{
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.1);
+  color:rgba(255,255,255,.65);
+  padding:6px 14px;border-radius:40px;
+  font-size:.72rem;font-weight:500;letter-spacing:.02em;
+  display:flex;align-items:center;gap:5px;
+  transition:all .18s;white-space:nowrap;
+}
+.hdr-btn:hover{background:rgba(255,255,255,.13);color:#fff;border-color:rgba(255,255,255,.18);}
+.hdr-btn svg{opacity:.7;}
+
+.live-chip{display:flex;align-items:center;gap:6px;font-family:'DM Mono',monospace;font-size:.65rem;color:rgba(255,255,255,.4);letter-spacing:.06em;}
+.live-dot{width:6px;height:6px;border-radius:50%;background:#4ade80;box-shadow:0 0 6px #4ade80;animation:livepulse 2.5s ease-in-out infinite;}
+@keyframes livepulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+
+/* ════════════════════════════════════════
+   STATUS TABS
+════════════════════════════════════════ */
+.tabs-bar{
+  background:var(--surface);
+  border-bottom:1px solid var(--border-lt);
+  padding:0 28px;
+  display:flex;gap:0;
+  overflow-x:auto;scrollbar-width:none;
+  position:sticky;top:60px;z-index:90;
+  box-shadow:var(--shadow-sm);
+}
+.tabs-bar::-webkit-scrollbar{display:none;}
+.tab-btn{
+  padding:13px 16px;
+  font-size:.72rem;font-weight:600;
+  letter-spacing:.04em;text-transform:uppercase;
+  color:var(--text3);
+  cursor:pointer;white-space:nowrap;
+  border:none;border-bottom:2px solid transparent;
+  background:none;font-family:'Outfit',sans-serif;
+  display:flex;align-items:center;gap:6px;
+  transition:all .15s;
+}
+.tab-btn:hover{color:var(--text2);}
+.tab-btn.on{color:var(--amber);border-bottom-color:var(--amber);}
+.tab-count{
+  background:var(--surface2);
+  color:var(--text3);
+  border-radius:40px;
+  padding:1px 7px;font-size:.63rem;
+  font-family:'DM Mono',monospace;
+  transition:all .15s;
+}
+.tab-btn.on .tab-count{background:var(--amber);color:#fff;}
+
+/* ════════════════════════════════════════
+   CONTROLS BAR
+════════════════════════════════════════ */
+.ctrl-bar{
+  background:var(--surface);
+  border-bottom:1px solid var(--border-lt);
+  padding:10px 28px;
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+}
+.ctrl-label{font-size:.72rem;color:var(--text3);font-weight:500;}
+.ctrl-select{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--r-sm);
+  padding:5px 10px;
+  font-size:.75rem;font-family:'Outfit',sans-serif;
+  color:var(--text2);outline:none;cursor:pointer;
+  transition:border-color .15s;
+}
+.ctrl-select:focus{border-color:var(--amber);}
+.view-btns{display:flex;gap:4px;margin-left:auto;}
+.vbtn{
+  padding:5px 12px;border-radius:var(--r-sm);
+  background:none;border:1px solid var(--border);
+  color:var(--text3);font-size:.72rem;
+  font-family:'Outfit',sans-serif;font-weight:500;
+  display:flex;align-items:center;gap:5px;
+  transition:all .15s;
+}
+.vbtn:hover{color:var(--text2);border-color:var(--text4);}
+.vbtn.on{background:var(--dark);color:#fef2df;border-color:var(--dark);}
+
+/* ════════════════════════════════════════
+   STATS STRIP
+════════════════════════════════════════ */
+.stats-strip{
+  background:linear-gradient(135deg,var(--dark2) 0%,var(--dark) 100%);
+  padding:16px 28px;
+  display:flex;gap:0;overflow-x:auto;scrollbar-width:none;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.stats-strip::-webkit-scrollbar{display:none;}
+.stat-item{
+  flex:1;min-width:100px;
+  padding:0 20px;
+  border-right:1px solid rgba(255,255,255,.07);
+  display:flex;flex-direction:column;gap:2px;
+}
+.stat-item:first-child{padding-left:0;}
+.stat-item:last-child{border-right:none;}
+.stat-val{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2rem;font-weight:700;
+  color:#fdf2df;line-height:1;
+}
+.stat-val.green{color:#4ade80;}
+.stat-val.amber{color:var(--amber2);}
+.stat-val.red{color:#f87171;}
+.stat-lbl{font-size:.63rem;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.08em;font-family:'DM Mono',monospace;}
+.stat-sub{font-size:.65rem;color:rgba(255,255,255,.25);margin-top:1px;}
+
+/* ════════════════════════════════════════
+   MISSING AUTHORS BANNER
+════════════════════════════════════════ */
+.missing-banner{
+  margin:20px 28px 0;
+  background:var(--yellow-bg);
+  border:1px solid rgba(139,96,16,.2);
+  border-radius:var(--r);
+  padding:12px 16px;
+  display:flex;align-items:flex-start;gap:10px;
+  font-size:.78rem;color:var(--yellow);
+}
+.missing-banner svg{flex-shrink:0;margin-top:1px;}
+.missing-banner strong{font-weight:600;}
+.missing-names{margin-top:4px;font-family:'DM Mono',monospace;font-size:.68rem;opacity:.8;}
+
+/* ════════════════════════════════════════
+   MAIN CONTENT
+════════════════════════════════════════ */
+.main{padding:20px 28px 60px;}
+
+/* ════════════════════════════════════════
+   GRID VIEW
+════════════════════════════════════════ */
+.cards-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+  gap:14px;
+}
+
+/* ════════════════════════════════════════
+   AUTHOR CARD
+════════════════════════════════════════ */
+.card{
+  background:var(--surface);
+  border:1px solid var(--border-lt);
+  border-radius:var(--r-lg);
+  overflow:hidden;
+  cursor:pointer;
+  transition:transform .18s ease,box-shadow .18s ease,border-color .18s;
+  position:relative;
+  display:flex;flex-direction:column;
+}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);border-color:var(--border);}
+.card::before{
+  content:'';position:absolute;top:0;left:0;right:0;
+  height:3px;border-radius:var(--r-lg) var(--r-lg) 0 0;
+}
+.card.s-active::before{background:linear-gradient(90deg,#22c55e,#4ade80);}
+.card.s-needs::before{background:linear-gradient(90deg,#ef4444,#f87171);}
+.card.s-awaiting::before{background:linear-gradient(90deg,#f59e0b,#fbbf24);}
+.card.s-trial::before{background:linear-gradient(90deg,#3b82f6,#60a5fa);}
+.card.s-prospect::before{background:linear-gradient(90deg,#f97316,#fb923c);}
+.card.s-low::before{background:linear-gradient(90deg,#94a3b8,#cbd5e1);}
+.card.s-old::before{background:linear-gradient(90deg,#8b5cf6,#a78bfa);}
+.card.unverified{opacity:.82;}
+.card.unverified::after{
+  content:'unverified';position:absolute;top:12px;right:12px;
+  font-family:'DM Mono',monospace;font-size:.57rem;letter-spacing:.07em;text-transform:uppercase;
+  background:rgba(255,255,255,.85);color:var(--text3);
+  padding:2px 6px;border-radius:4px;border:1px solid var(--border);
+  pointer-events:none;
+}
+
+.card-top{padding:16px 16px 12px;}
+.card-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.12rem;font-weight:600;
+  color:var(--text);line-height:1.25;
+  margin-bottom:2px;
+  display:flex;align-items:center;gap:6px;
+}
+.vip-star{color:var(--amber2);font-size:.9rem;}
+.card-book{
+  font-size:.78rem;color:var(--amber);
+  font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;
+  margin-bottom:10px;line-height:1.3;
+}
+.card-meta{display:flex;flex-wrap:wrap;gap:5px;align-items:center;}
+
+.card-body{padding:0 16px 12px;flex:1;}
+
+.info-row{
+  display:flex;justify-content:space-between;align-items:flex-start;
+  font-size:.75rem;padding:5px 0;
+  border-bottom:1px solid var(--border-lt);
+}
+.info-row:last-child{border-bottom:none;}
+.info-row-label{color:var(--text3);font-family:'DM Mono',monospace;font-size:.65rem;text-transform:uppercase;letter-spacing:.05em;flex-shrink:0;padding-right:8px;}
+.info-row-val{color:var(--text2);text-align:right;font-size:.75rem;}
+
+.links-row{
+  display:flex;flex-wrap:wrap;gap:5px;
+  padding:10px 16px 0;
+}
+.link-chip{
+  display:inline-flex;align-items:center;gap:4px;
+  background:var(--surface2);border:1px solid var(--border-lt);
+  border-radius:var(--r-sm);padding:3px 8px;
+  font-size:.67rem;color:var(--text2);
+  transition:all .13s;white-space:nowrap;
+  text-decoration:none;
+}
+.link-chip:hover{background:var(--amber-lt);border-color:rgba(184,113,31,.25);color:var(--amber);}
+.link-chip svg{opacity:.6;flex-shrink:0;}
+
+.card-foot{
+  display:flex;gap:6px;padding:10px 16px 14px;
+  border-top:1px solid var(--border-lt);margin-top:10px;
+}
+
+/* ════════════════════════════════════════
+   LIST VIEW
+════════════════════════════════════════ */
+.list-wrap{display:flex;flex-direction:column;gap:6px;}
+.list-hdr{
+  display:grid;
+  grid-template-columns:2fr 1.8fr 1fr 1fr 1fr 120px;
+  gap:12px;padding:6px 16px;
+  font-family:'DM Mono',monospace;font-size:.62rem;
+  color:var(--text3);text-transform:uppercase;letter-spacing:.07em;
+}
+.list-row{
+  background:var(--surface);
+  border:1px solid var(--border-lt);
+  border-radius:var(--r);
+  padding:12px 16px;
+  display:grid;
+  grid-template-columns:2fr 1.8fr 1fr 1fr 1fr 120px;
+  gap:12px;align-items:center;
+  cursor:pointer;
+  transition:all .14s;
+}
+.list-row:hover{box-shadow:var(--shadow);border-color:var(--border);}
+.list-row.s-active{border-left:3px solid #22c55e;}
+.list-row.s-needs{border-left:3px solid #ef4444;}
+.list-row.s-awaiting{border-left:3px solid #f59e0b;}
+.list-row.s-trial{border-left:3px solid #3b82f6;}
+.list-row.s-prospect{border-left:3px solid #f97316;}
+.list-row.s-low{border-left:3px solid #94a3b8;}
+.list-row.s-old{border-left:3px solid #8b5cf6;}
+.list-name{font-family:'Cormorant Garamond',serif;font-size:.97rem;font-weight:600;color:var(--text);}
+.list-book{font-size:.7rem;color:var(--text3);font-style:italic;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.list-email{font-family:'DM Mono',monospace;font-size:.67rem;color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.list-actions{display:flex;gap:4px;justify-content:flex-end;}
+
+/* ════════════════════════════════════════
+   BADGES
+════════════════════════════════════════ */
+.badge{
+  display:inline-flex;align-items:center;
+  padding:2px 8px;border-radius:40px;
+  font-size:.62rem;font-weight:600;
+  letter-spacing:.03em;white-space:nowrap;
+  font-family:'Outfit',sans-serif;
+}
+.b-active{background:var(--green-bg);color:var(--green);}
+.b-needs{background:var(--red-bg);color:var(--red);}
+.b-awaiting{background:var(--yellow-bg);color:var(--yellow);}
+.b-trial{background:var(--blue-bg);color:var(--blue);}
+.b-prospect{background:#fff1e8;color:#c2410c;}
+.b-low{background:var(--slate-bg);color:var(--slate);}
+.b-old{background:var(--purple-bg);color:var(--purple);}
+
+.days-badge{
+  font-family:'DM Mono',monospace;font-size:.62rem;
+  padding:2px 7px;border-radius:40px;white-space:nowrap;
+}
+.d-fresh{background:var(--green-bg);color:var(--green);}
+.d-ok{background:var(--yellow-bg);color:var(--yellow);}
+.d-stale{background:#fff1e8;color:#c2410c;}
+.d-urgent{background:var(--red-bg);color:var(--red);}
+.d-none{background:var(--slate-bg);color:var(--slate);}
+
+.inv-badge{
+  font-family:'DM Mono',monospace;font-size:.62rem;
+  padding:2px 7px;border-radius:4px;white-space:nowrap;
+}
+.inv-paid{background:var(--green-bg);color:var(--green);}
+.inv-due{background:var(--yellow-bg);color:var(--yellow);}
+.inv-pend{background:var(--slate-bg);color:var(--slate);}
+.inv-na{font-family:'DM Mono',monospace;font-size:.62rem;color:var(--text4);}
+
+/* ════════════════════════════════════════
+   BUTTONS
+════════════════════════════════════════ */
+.btn{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:6px 13px;border-radius:var(--r-sm);
+  font-size:.72rem;font-weight:500;
+  transition:all .15s;white-space:nowrap;border:none;
+}
+.btn-primary{background:var(--dark);color:#fef2df;}
+.btn-primary:hover{background:var(--dark2);box-shadow:var(--shadow);}
+.btn-ghost{background:none;border:1px solid var(--border);color:var(--text2);}
+.btn-ghost:hover{background:var(--surface2);border-color:var(--text4);}
+.btn-ghost.done{background:var(--green-bg);border-color:rgba(26,107,58,.25);color:var(--green);}
+.btn-sm{padding:4px 10px;font-size:.68rem;}
+.btn-amber{background:var(--amber);color:#fff;}
+.btn-amber:hover{background:var(--amber2);}
+
+/* ════════════════════════════════════════
+   EMAIL CHIP
+════════════════════════════════════════ */
+.email-chip{
+  font-family:'DM Mono',monospace;font-size:.65rem;
+  color:var(--text3);background:var(--surface2);
+  border:1px solid var(--border-lt);
+  padding:2px 7px;border-radius:4px;cursor:pointer;
+  transition:all .13s;max-width:160px;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.email-chip:hover{background:var(--border-lt);color:var(--text2);}
+
+/* ════════════════════════════════════════
+   DRAWER
+════════════════════════════════════════ */
+.overlay{
+  position:fixed;inset:0;
+  background:rgba(15,8,2,.5);
+  z-index:200;
+  opacity:0;pointer-events:none;
+  transition:opacity .28s;
+  backdrop-filter:blur(2px);
+}
+.overlay.on{opacity:1;pointer-events:auto;}
+
+.drawer{
+  position:fixed;top:0;right:0;
+  width:580px;max-width:96vw;height:100vh;
+  overflow-y:auto;
+  background:var(--surface);
+  z-index:201;
+  transform:translateX(110%);
+  transition:transform .32s cubic-bezier(.22,1,.36,1);
+  box-shadow:var(--shadow-xl);
+  display:flex;flex-direction:column;
+}
+.drawer.on{transform:translateX(0);}
+
+.drw-hdr{
+  background:linear-gradient(135deg,var(--dark2) 0%,var(--dark) 100%);
+  padding:24px 24px 20px;
+  position:sticky;top:0;z-index:1;
+  flex-shrink:0;
+}
+.drw-hdr::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(212,137,42,.4),transparent);}
+.drw-close{
+  position:absolute;top:16px;right:16px;
+  width:32px;height:32px;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);
+  border-radius:50%;color:rgba(255,255,255,.6);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.9rem;transition:all .15s;
+}
+.drw-close:hover{background:rgba(255,255,255,.15);color:#fff;}
+.drw-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.65rem;font-weight:700;
+  color:#fdf2df;line-height:1.15;
+  margin-bottom:4px;
+}
+.drw-book{
+  font-family:'Cormorant Garamond',serif;
+  font-size:.9rem;font-style:italic;
+  color:rgba(212,137,42,.85);
+  margin-bottom:12px;line-height:1.4;
+}
+.drw-badges{display:flex;gap:6px;flex-wrap:wrap;}
+
+.drw-body{padding:24px;flex:1;}
+
+.drw-section{margin-bottom:24px;}
+.drw-section-title{
+  font-family:'DM Mono',monospace;
+  font-size:.63rem;text-transform:uppercase;
+  letter-spacing:.1em;color:var(--text3);
+  margin-bottom:10px;padding-bottom:6px;
+  border-bottom:1px solid var(--border-lt);
+  display:flex;align-items:center;gap:8px;
+}
+.drw-section-title svg{opacity:.6;}
+
+.info-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.info-box{
+  background:var(--surface2);
+  border:1px solid var(--border-lt);
+  border-radius:var(--r-sm);
+  padding:10px 12px;
+}
+.info-box-full{grid-column:1/-1;}
+.info-box-label{
+  font-family:'DM Mono',monospace;font-size:.6rem;
+  text-transform:uppercase;letter-spacing:.07em;
+  color:var(--text3);margin-bottom:4px;
+}
+.info-box-val{
+  font-size:.8rem;color:var(--text);
+  font-weight:500;word-break:break-word;line-height:1.4;
+}
+.info-box-val.amber{color:var(--amber);}
+.info-box-val a{color:var(--amber);text-decoration:none;}
+.info-box-val a:hover{text-decoration:underline;}
+
+.notes-display{
+  background:var(--surface2);border:1px solid var(--border-lt);
+  border-radius:var(--r);padding:14px;
+  font-size:.78rem;color:var(--text2);
+  line-height:1.7;white-space:pre-line;
+}
+.notes-edit{
+  width:100%;background:var(--surface2);
+  border:1.5px solid var(--border);
+  border-radius:var(--r);padding:12px;
+  font-size:.78rem;font-family:'Outfit',sans-serif;
+  color:var(--text);min-height:100px;resize:vertical;
+  line-height:1.65;outline:none;transition:border-color .15s;
+}
+.notes-edit:focus{border-color:var(--amber);}
+
+.links-grid{display:flex;flex-wrap:wrap;gap:6px;}
+.drw-link{
+  display:inline-flex;align-items:center;gap:5px;
+  background:var(--surface2);border:1px solid var(--border-lt);
+  border-radius:var(--r-sm);padding:6px 12px;
+  font-size:.73rem;color:var(--text2);
+  transition:all .14s;text-decoration:none;
+}
+.drw-link:hover{background:var(--amber-lt);border-color:rgba(184,113,31,.3);color:var(--amber);}
+
+.log-entry{
+  background:var(--surface2);
+  border-left:3px solid var(--amber);
+  padding:8px 12px;
+  border-radius:0 var(--r-sm) var(--r-sm) 0;
+  font-size:.73rem;color:var(--text2);
+  margin-bottom:5px;
+}
+.log-ts{
+  font-family:'DM Mono',monospace;font-size:.62rem;
+  color:var(--text3);margin-bottom:2px;
+}
+
+.quick-actions{display:flex;gap:7px;flex-wrap:wrap;}
+
+/* ════════════════════════════════════════
+   EMPTY STATE
+════════════════════════════════════════ */
+.empty-state{
+  text-align:center;padding:64px 24px;
+  color:var(--text3);
+}
+.empty-state .empty-icon{
+  font-size:3rem;margin-bottom:16px;
+  opacity:.4;
+}
+.empty-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.4rem;font-weight:600;
+  color:var(--text2);margin-bottom:8px;
+}
+.empty-sub{font-size:.82rem;}
+
+/* ════════════════════════════════════════
+   TOAST
+════════════════════════════════════════ */
+.toast{
+  position:fixed;bottom:28px;left:50%;
+  transform:translateX(-50%) translateY(80px);
+  background:var(--dark);color:#fef2df;
+  padding:10px 20px;border-radius:40px;
+  font-size:.78rem;font-weight:500;
+  z-index:999;
+  box-shadow:var(--shadow-lg);
+  transition:transform .28s cubic-bezier(.22,1,.36,1);
+  pointer-events:none;
+  border:1px solid rgba(255,255,255,.08);
+  display:flex;align-items:center;gap:8px;
+}
+.toast.show{transform:translateX(-50%) translateY(0);}
+
+/* ════════════════════════════════════════
+   RESPONSIVE
+════════════════════════════════════════ */
+@media(max-width:768px){
+  .hdr{padding:0 16px;}
+  .tabs-bar,.ctrl-bar,.main,.missing-banner{padding-left:16px;padding-right:16px;}
+  .stats-strip{padding:14px 16px;}
+  .cards-grid{grid-template-columns:1fr;}
+  .drw-body{padding:16px;}
+  .drw-hdr{padding:18px 16px 16px;}
+  .info-grid-2{grid-template-columns:1fr;}
+  .info-box-full{grid-column:1;}
+  .list-hdr,.list-row{grid-template-columns:1.5fr 1fr 80px;}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="hdr">
+  <div class="logo">
+    <span class="logo-dot"></span>
+    Atomic <em>Shelf</em>
+  </div>
+  <div class="srch-wrap">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input class="srch" id="srchInput" type="text" placeholder="Search authors, books, email, notes…" oninput="onSearch(this.value)">
+  </div>
+  <div class="hdr-right">
+    <div class="live-chip"><span class="live-dot"></span>Live Dashboard</div>
+    <button class="hdr-btn" onclick="exportCSV()">
+      <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Export CSV
+    </button>
+    <button class="hdr-btn" onclick="openAddModal()">
+      <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Add Author
+    </button>
+  </div>
+</header>
+
+<!-- TABS -->
+<nav class="tabs-bar" id="tabsBar"></nav>
+
+<!-- CONTROLS -->
+<div class="ctrl-bar">
+  <span class="ctrl-label">Sort:</span>
+  <select class="ctrl-select" id="sortSelect" onchange="onSort(this.value)">
+    <option value="urgency">Urgency (days since contact)</option>
+    <option value="name">Name A–Z</option>
+    <option value="status">Status priority</option>
+    <option value="invoice">Invoice status</option>
+  </select>
+  <div class="view-btns">
+    <button class="vbtn on" id="vGrid" onclick="setView('grid')">
+      <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Grid
+    </button>
+    <button class="vbtn" id="vList" onclick="setView('list')">
+      <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>List
+    </button>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-strip" id="statsStrip"></div>
+
+<!-- MISSING AUTHORS BANNER -->
+<div class="missing-banner" id="missingBanner">
+  <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+  <div>
+    <strong>Source note:</strong> The following authors from your roster were <strong>not found in the uploaded email communications PDF</strong> and are marked <em>unverified</em>. Please confirm their current status.
+    <div class="missing-names" id="missingNames"></div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<main class="main" id="mainContent"></main>
+
+<!-- OVERLAY + DRAWER -->
+<div class="overlay" id="overlay" onclick="closeDrawer()"></div>
+<aside class="drawer" id="drawer"></aside>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ════════════════════════════════════════════════
+// DATA — ALL AUTHORS
+// source=true  → confirmed from email PDF
+// source=false → from existing dashboard, not in PDF
+// ════════════════════════════════════════════════
+const AUTHORS = [
+
+  // ── PDF-CONFIRMED AUTHORS ──────────────────
+
+  {id:"daniel_voelker",source:true,
+   name:"Daniel Voelker",email:"daniel.voelker59@gmail.com",
+   status:"active",vip:"10-Month Prepaid ($200)",
+   books:["Return to Hawaii: A Donovan Cross Novel"],
+   primaryBook:"Return to Hawaii: A Donovan Cross Novel",
+   genre:"Espionage Thriller",
+   invoiceInfo:"PAID IN FULL — $200 (Apr 12, 2026)",
+   lastContact:"May 12, 2026",
+   timeline:"Apr 13, 2026 – Feb 13, 2027 (10 months)",
+   nextAction:"Monitor weekly reports; Drive folder updated daily; continue 10-month push.",
+   notes:"✅ FULL 10-MONTH PREPAID RETAINER ($200) PAID IN FULL.\nTransaction ID: ATOMIC-RTH-2412-10M. Receipt Date: Apr 12, 2026.\n104+ pieces of content produced across 11 cinematic series.\n2–3 daily faceless BookTok videos + YouTube Shorts syndication.\nGuarantee: 10k+ views month one, scaling to 20k–30k/month by month two. Weekly reports every Monday.\n4.5-star rating / 45 reviews on Amazon. Accounts rebuilt from scratch in March 2026.\nDaniel confirmed 'Looks great' on Feb 18.",
+   links:[
+     {label:"🎬 Video Album",url:"https://photos.app.goo.gl/Yi2adHBHCTxRr2EY6",icon:"photo"},
+     {label:"📄 Productions Page",url:"https://atomic-shelf.com/Productions/Daniel_V_Return_To_Hawaii",icon:"page"},
+     {label:"🌳 Linktree",url:"https://linktr.ee/returntohawaii101",icon:"link"},
+     {label:"📌 TikTok",url:"https://www.tiktok.com/@returnhawaiidonovancross",icon:"tiktok"},
+     {label:"📌 TikTok #2",url:"https://www.tiktok.com/@donovancrossthriller",icon:"tiktok"},
+     {label:"🎨 Pinterest",url:"https://www.pinterest.com/returntohawaii101/",icon:"link"},
+     {label:"▶️ YouTube",url:"https://www.youtube.com/@ReturntoHawaii101",icon:"youtube"},
+     {label:"🧾 Receipt",url:"https://atomic-shelf.com/Productions/Receipts/Return_To_Hawaii",icon:"page"},
+   ]},
+
+  {id:"wayne_turner",source:true,
+   name:"Wayne Turner",email:"wayneturnerauthor@gmail.com",
+   status:"active",
+   books:["Seaside Glitter"],
+   primaryBook:"Seaside Glitter",
+   genre:"Historical Fiction",
+   invoiceInfo:"PAID — April 2026",
+   lastContact:"Apr 30, 2026",
+   timeline:"Mar 2026 – ongoing",
+   nextAction:"May episodic/long-form content in production. Custom score in composition.",
+   notes:"Best-performing active campaign.\n12,000+ total views across TikTok & YouTube Shorts.\n886 TikTok followers as of Mar 27.\n95.8% FYP (For You Page) reach. Global audience: Italy, US, UK, France.\n45 videos posted in April alone (Series 1–8).\nCustom soundtrack being composed. Long-form episodic content in pre-production for May.",
+   links:[
+     {label:"🎬 Video Album",url:"https://photos.app.goo.gl/sqHVWXrvcSC1QNzFA",icon:"photo"},
+     {label:"📄 Productions Page",url:"https://atomic-shelf.com/Productions/Seaside_Glitter_by_Wayne_Turner",icon:"page"},
+   ]},
+
+  {id:"jad_el_khoury",source:true,
+   name:"Jad El Khoury",email:"jad.elkhoury89@gmail.com",
+   status:"active",
+   books:["The Jade Necklace","Blood Moon Dawn","To Love a Monster","Black Shards","Chosen & Cursed Series"],
+   primaryBook:"The Jade Necklace + 4 Books",
+   genre:"Urban Fantasy / Paranormal Romance",
+   invoiceInfo:"Active — $20/month",
+   lastContact:"May 21, 2026",
+   timeline:"Apr 6, 2026 – ongoing",
+   nextAction:"Blood Moon Dawn videos sent for review May 21. Remaining book videos in production. Resolve TikTok posting issue.",
+   notes:"MD / screenwriter. 5-book campaign.\nBooks: The Jade Necklace, Blood Moon Dawn, To Love a Monster, Black Shards, Chosen & Cursed series.\nContent calendar live: https://atomic-shelf.com/Productions/CMS/booksbyjad\nAuthor added as editor to TikTok & YouTube.\nEarly content had double-text error & wrong book attribution — corrected Apr 18.\nAuthor wants to download all videos for Instagram & Facebook posting.\nTikTok account: @atomic.shelf (Atomic Shelf managed).",
+   links:[
+     {label:"🎬 Jade Necklace S1",url:"https://photos.app.goo.gl/BGyC5Z5t5yCPv3Tr9",icon:"photo"},
+     {label:"🎬 Jade Necklace S2",url:"https://photos.app.goo.gl/5mrXobQAL5DW8Bhj6",icon:"photo"},
+     {label:"🎬 Jade Necklace S3",url:"https://photos.app.goo.gl/Ux51FeRSQVjLyjeA7",icon:"photo"},
+     {label:"🎬 Black Shards Gallery 1",url:"https://photos.app.goo.gl/AFMdVia5X8qxPyuE6",icon:"photo"},
+     {label:"🎬 Black Shards Gallery 2",url:"https://photos.app.goo.gl/nhZ72iJEwPEkfn57A",icon:"photo"},
+     {label:"🎬 Black Shards Gallery 3",url:"https://photos.app.goo.gl/tE8ZqFbRKhkrwV7ZA",icon:"photo"},
+     {label:"🎬 Jade Necklace Full",url:"https://photos.app.goo.gl/crk975LYgcDCndPe6",icon:"photo"},
+     {label:"🎬 To Love a Monster",url:"https://photos.app.goo.gl/bSnyYkMuqX7LWZ2Z8",icon:"photo"},
+     {label:"🎬 Blood Moon Dawn",url:"https://photos.app.goo.gl/TfQiHLtaGVtt1dbZ9",icon:"photo"},
+     {label:"📄 Productions Page",url:"https://atomic-shelf.com/Productions/Jad_P_The_Jade_Necklace",icon:"page"},
+     {label:"📅 Content Calendar",url:"https://atomic-shelf.com/Productions/CMS/booksbyjad",icon:"page"},
+     {label:"📌 TikTok",url:"https://www.tiktok.com/@atomic.shelf",icon:"tiktok"},
+   ]},
+
+  {id:"luciano_nisi",source:true,
+   name:"Luciano Nisi",email:"liferesq@gmail.com",
+   status:"active",
+   books:["Trail Ready","Crossing the Line","Untold Stories of a Paramedic"],
+   primaryBook:"Trail Ready + Crossing the Line + Paramedic",
+   genre:"Non-Fiction / Memoir / Outdoor",
+   invoiceInfo:"Active — $20/month",
+   lastContact:"May 12, 2026",
+   timeline:"Apr 2026 – ongoing",
+   nextAction:"Series 3 Parts 1 & 2 delivered. Monitor for further correction requests. Unified TikTok @lucianonisi.",
+   notes:"Three books under a unified TikTok account @lucianonisi (confirmed May 8).\nSeries 3 (Parts 1 & 2) delivered May 12. Author approved with minor name pronunciation note (not Nissi — it's Nisi).\nEarly Crossing the Line videos had errors — corrected versions delivered.\nParamedic series also in active production.\nAuthor noted garbled CTA text in one batch but accepted as-is.\nYouTube: @LucianosBooks.",
+   links:[
+     {label:"🎬 Trail Ready S1",url:"https://photos.app.goo.gl/ztMgnzCFHvQ9JXBj9",icon:"photo"},
+     {label:"🎬 Trail Ready S2",url:"https://photos.app.goo.gl/xN5hyoAPT864Xxnh9",icon:"photo"},
+     {label:"🎬 Trail Ready S3",url:"https://photos.app.goo.gl/6oeBFjrMkEXSsxw76",icon:"photo"},
+     {label:"🎬 Trail Ready Corrections",url:"https://photos.app.goo.gl/S8b427un6dPihP737",icon:"photo"},
+     {label:"🎬 Trail Ready Add. Corr.",url:"https://photos.app.goo.gl/4SEajonVMScAoxan7",icon:"photo"},
+     {label:"🎬 Crossing the Line S1",url:"https://photos.app.goo.gl/JYRuaekeqK41EysQ9",icon:"photo"},
+     {label:"🎬 Crossing the Line Corr.",url:"https://photos.app.goo.gl/CCXNmfbCFZxgME7eA",icon:"photo"},
+     {label:"🎬 Paramedic Series",url:"https://photos.app.goo.gl/wtEDHpZerxjd2kgC9",icon:"photo"},
+     {label:"🎬 All Books (latest)",url:"https://photos.app.goo.gl/ycjVo4zmC3rVDp5U7",icon:"photo"},
+     {label:"🎬 Error Removal Album",url:"https://photos.app.goo.gl/u72Z51PSPojZrUuPA",icon:"photo"},
+     {label:"📌 TikTok",url:"https://www.tiktok.com/@lucianonisi",icon:"tiktok"},
+     {label:"▶️ YouTube",url:"https://www.youtube.com/@LucianosBooks",icon:"youtube"},
+   ]},
+
+  {id:"ns_wikarski",source:true,
+   name:"N.S. Wikarski",email:"nswikarski@gmail.com",
+   status:"trial",
+   books:["The Granite Key (Arkana Series)"],
+   primaryBook:"The Granite Key (Arkana Series)",
+   genre:"Historical Fiction Thriller",
+   invoiceInfo:"Free Trial — $20/month after",
+   lastContact:"May 17, 2026",
+   timeline:"Trial agreed May 17, 2026",
+   nextAction:"Send onboarding & account setup. Author skeptical but agreed. Build productions page.",
+   notes:"8-book Arkana series. 1,000+ Amazon reviews. Compared to Dan Brown.\nAuthor runs nswikarski.org.\nInitial outreach via Atomic Shelf landing page (atomicshelf.neocities.org).\nAuthor flagged AI caution — expressed skepticism but agreed to free trial.\nContent proposal page: atomic-shelf.com/Content-Proposal/theGraniteKey",
+   links:[
+     {label:"📄 Content Proposal",url:"https://atomic-shelf.com/Content-Proposal/theGraniteKey",icon:"page"},
+     {label:"🌐 Author Website",url:"https://www.nswikarski.org",icon:"link"},
+   ]},
+
+  {id:"alexis_koetting",source:true,
+   name:"Alexis Koetting",email:"alexiskoetting@gmail.com",
+   status:"needs",
+   books:["Encore"],
+   primaryBook:"Encore",
+   genre:"Fiction",
+   invoiceInfo:"Invoice Due — Trial Ended",
+   lastContact:"Apr 13, 2026",
+   timeline:"Apr 6–11, 2026 (Trial ended)",
+   nextAction:"URGENT: Follow up on payment. Trial wrapped Apr 11. 11 videos went live. Invoice sent Apr 13 — no payment confirmed.",
+   notes:"Free trial wrapped April 11, 2026.\n11 videos posted Apr 6–10.\nInvoice sent Apr 13. No payment response on record.\nLast email not confirmed opened.",
+   links:[
+     {label:"📄 Productions Page",url:"https://atomic-shelf.com/Productions/Encore_by_Alexis_Koetting",icon:"page"},
+   ]},
+
+  {id:"daniel_shelia",source:true,
+   name:"Daniel Zane Bryan & Shelia Zulfiqar",email:"zulfiqarshelia@gmail.com",
+   status:"active",
+   books:["Indoor Vegetable Gardening for Small Spaces","The Plant Nook","Clair Senses"],
+   primaryBook:"Indoor Veg. Gardening + Plant Nook + Clair Senses",
+   genre:"Non-Fiction / Gardening / Wellness",
+   invoiceInfo:"Active — $20/month",
+   lastContact:"May 8, 2026",
+   timeline:"Apr 6, 2026 – ongoing",
+   nextAction:"Author interested in promoting 'Digital Skills for the Modern World Series' next. Confirm next content batch.",
+   notes:"Three books across two TikTok channels:\n@the.plantnook — plant / gardening content\n@clair.senses — wellness / psychic development content\n@daniel.zane.bryan — author profile\nSeries 7 for Indoor Veg. Gardening delivered May 5 — approved.\nAuthor notes TikTok performing better than YouTube.\nYouTube editor access granted to @the.plantnook channel.\nInterested in Digital Skills for the Modern World Series as next project.",
+   links:[
+     {label:"🎬 Indoor Veg. S1",url:"https://photos.app.goo.gl/Z83uXqFsPXSieexi9",icon:"photo"},
+     {label:"🎬 Indoor Veg. S2",url:"https://photos.app.goo.gl/DQa58H7ei9oNpvKNA",icon:"photo"},
+     {label:"🎬 Indoor Veg. S3",url:"https://photos.app.goo.gl/i1kTU7RpS8nWPuBw7",icon:"photo"},
+     {label:"🎬 Indoor Veg. Soundtrack",url:"https://photos.app.goo.gl/M56zApRKeRjqf9R58",icon:"photo"},
+     {label:"🎬 Plant Nook (latest)",url:"https://photos.app.goo.gl/3LZsupYDEmYTNPCf7",icon:"photo"},
+     {label:"📄 Productions Page",url:"https://atomic-shelf.com/Productions/Daniel_Zane_Bryan_Indoor_Vegetable_Gardening",icon:"page"},
+     {label:"📌 TikTok — Plant Nook",url:"https://www.tiktok.com/@the.plantnook",icon:"tiktok"},
+     {label:"📌 TikTok — Clair Senses",url:"https://www.tiktok.com/@clair.senses",icon:"tiktok"},
+     {label:"📌 TikTok — Author",url:"https://www.tiktok.com/@daniel.zane.bryan",icon:"tiktok"},
+   ]},
+
+  {id:"ray_strong",source:true,
+   name:"Ray Strong",email:"thermoray@gmail.com",
+   status:"needs",
+   books:["Zephyr's Flight: An Epic YA Fantasy Adventure with Dragons"],
+   primaryBook:"Zephyr's Flight",
+   genre:"YA Fantasy",
+   invoiceInfo:"Payment Pending",
+   lastContact:"May 11, 2026",
+   timeline:"Apr 3, 2026 – ongoing",
+   nextAction:"URGENT: Follow up on payment. Payment link sent Apr 25 — no confirmation. Series 2 delivered May 11.",
+   notes:"Video Series 1 delivered Apr 3–12 (7 videos queued).\nSeries 2 delivered May 11 — author engaged and giving feedback.\nAuthor requested video ordering changes Apr 25.\nPayment link sent Apr 25 — no payment confirmed.\nAuthor granted YouTube editor access. TikTok: @zephyrs27.\nAlso has The Wounded Sky — separate title; could bundle.",
+   links:[
+     {label:"🎬 Zephyr's Flight S1",url:"https://photos.app.goo.gl/DM63SzJ8agFoHjHy9",icon:"photo"},
+     {label:"🎬 Zephyr's Flight S2",url:"https://photos.app.goo.gl/PtNdznLV4V2s2nEAA",icon:"photo"},
+     {label:"🎬 Zephyr's Flight S3",url:"https://photos.app.goo.gl/6doGxGuBDnXbAUDu8",icon:"photo"},
+     {label:"🎬 Zephyr's Flight S4",url:"https://photos.app.goo.gl/pELGaor84qcEqh6H6",icon:"photo"},
+     {label:"📄 Productions Page",url:"https://atomic-shelf.com/Productions/Ray_Strong_ZF",icon:"page"},
+     {label:"📌 TikTok",url:"https://www.tiktok.com/@zephyrs27",icon:"tiktok"},
+   ]},
+
+  {id:"robbin_laird",source:true,
+   name:"Robbin Laird",email:"robbinflaird@icloud.com",
+   status:"active",
+   books:["Public Speaking for Professionals","Listen to Lead","Mastering Chaos (coming Jun 2026)"],
+   primaryBook:"Public Speaking + Listen to Lead (3-book series)",
+   genre:"Non-Fiction / Leadership",
+   invoiceInfo:"Active — $20/month",
+   lastContact:"May 12, 2026",
+   timeline:"Apr 6, 2026 – ongoing",
+   nextAction:"May 12 email not opened (Mailsuite). Follow up. Phase 2 rollout for Listen to Lead ongoing.",
+   notes:"3-book leadership series:\n1. Public Speaking for Professionals\n2. Listen to Lead (ASIN: B0GGJ8NY5M)\n3. Mastering Chaos (ASIN: B0GPMRBF6S) — publishing June 2026. Combined volume planned for later summer.\nAuthor created own YouTube channel and granted Atomic Shelf editor access.\nImage Series 4 for Listen to Lead delivered Apr 25 — author replied 'Well done'.\nLatest email (May 12) not opened per Mailsuite tracking.",
+   links:[
+     {label:"🎬 Public Speaking Videos",url:"https://photos.app.goo.gl/qJw6Hd4FYuCoWhuZ6",icon:"photo"},
+     {label:"🎬 Listen to Lead S1",url:"https://photos.app.goo.gl/YhkUtPWVhDY5nowy7",icon:"photo"},
+     {label:"🎬 Listen to Lead Image S4",url:"https://photos.app.goo.gl/d1CDA8cxEgC7bVDg7",icon:"photo"},
+     {label:"📄 Productions Page",url:"https://atomic-shelf.com/Productions/Robbin_Lairds_Public_Speaking_for_Professionals",icon:"page"},
+   ]},
+
+  // ── UNVERIFIED (from roster, not in PDF) ────
+
+  {id:"robert_walker",source:false,
+   name:"Robert Walker",email:"contact@robertwalker.com",
+   status:"active",
+   books:["Six Moons Seven Gods"],primaryBook:"Six Moons Seven Gods",genre:"Fantasy",
+   invoiceInfo:"Due Apr 20",lastContact:"Apr 10, 2026",timeline:"Mar 3 – Apr 20",
+   nextAction:"Confirm final assets",
+   notes:"Series 3 voiceovers done. Report + invoice due Apr 20.",
+   links:[{label:"📄 Productions Page",url:"https://atomic-shelf.com/Productions/Six_Moons_Seven_Gods_Robert_Walker",icon:"page"}]},
+
+  {id:"jill_featherstone",source:false,
+   name:"Jill Featherstone",email:"kunajillbooks@gmail.com",
+   status:"needs",
+   books:["The Tale of Tiger Lily"],primaryBook:"The Tale of Tiger Lily",genre:"Fiction",
+   invoiceInfo:"On hold",lastContact:"Apr 8, 2026",timeline:"Mar 18 – Apr 18",
+   nextAction:"URGENT: 0 videos posted. Chase reply immediately.",
+   notes:"⚠️ No videos posted at all. Chase reply urgently.",
+   links:[{label:"📄 Productions Page",url:"https://atomic-shelf.com/Productions/Jill_Featherstones_The_Tale_of_Tiger_Lily",icon:"page"}]},
+
+  {id:"steve_morris",source:false,
+   name:"Steve Morris",email:"stevemorrisbooks@gmail.com",
+   status:"needs",
+   books:["Mother of Trees"],primaryBook:"Mother of Trees",genre:"Fantasy",
+   invoiceInfo:"Expired",lastContact:"Apr 9, 2026",timeline:"Mar 8 – Apr 8 (Closed)",
+   nextAction:"Follow up on re-engagement email.",
+   notes:"Closed campaign. Grimoire content found. Re-engagement email sent.",
+   links:[{label:"📄 Productions Page",url:"https://atomic-shelf.com/Productions/Steve_Morris_Mother_Trees",icon:"page"}]},
+
+  {id:"eliza_mcjames",source:false,
+   name:"Eliza McJames",email:"magnoliainnbooks@gmail.com",
+   status:"needs",
+   books:["Magnolia Inn"],primaryBook:"Magnolia Inn",genre:"Fiction",
+   invoiceInfo:"Pending restart",lastContact:"Apr 5, 2026",timeline:"Feb 25 – Mar 28 (Closed)",
+   nextAction:"Relaunch proposal. Content ready. Accounts disabled.",
+   notes:"Content ready, accounts disabled. Chase reply for relaunch.",
+   links:[{label:"📄 Productions Page",url:"https://atomic-shelf.com/Productions/Magnolia_Inn",icon:"page"}]},
+
+  {id:"zev_bagel",source:false,
+   name:"Zev Bagel",email:"zevbagelbooks@gmail.com",
+   status:"awaiting",
+   books:["The Last Jew in Hania"],primaryBook:"The Last Jew in Hania",genre:"Historical Fiction",
+   invoiceInfo:"—",lastContact:"Apr 7, 2026",timeline:"Not started",
+   nextAction:"Follow up. Samples sent.",notes:"Build productions page once confirmed.",links:[]},
+
+  {id:"nancy_mclennan",source:false,
+   name:"Nancy Ellen McLennan",email:"nancyellenbooks@gmail.com",
+   status:"awaiting",
+   books:["Finding Strength"],primaryBook:"Finding Strength",genre:"Non-Fiction",
+   invoiceInfo:"—",lastContact:"Apr 6, 2026",timeline:"Not started",
+   nextAction:"Send reminder.",notes:"Samples sent.",links:[]},
+
+  {id:"todd_carolyn",source:false,
+   name:"Todd & Carolyn",email:"relationshiprockbooks@gmail.com",
+   status:"awaiting",
+   books:["7 Day Marriage Challenge"],primaryBook:"7 Day Marriage Challenge",genre:"Self-Help",
+   invoiceInfo:"—",lastContact:"Apr 5, 2026",timeline:"Not started",
+   nextAction:"Follow-up.",notes:"Samples sent.",links:[]},
+
+  {id:"l_wilder",source:false,
+   name:"L. Wilder",email:"satansfurymcbooks@gmail.com",
+   status:"awaiting",
+   books:["Seven (Satan's Fury MC)"],primaryBook:"Seven (Satan's Fury MC)",genre:"MC Romance",
+   invoiceInfo:"—",lastContact:"Apr 9, 2026",timeline:"Not started",
+   nextAction:"VIP follow-up. High-value prospect.",notes:"High-value prospect. Await response.",links:[]},
+
+  {id:"spiros_scafidas",source:false,
+   name:"Spiros Scafidas",email:"subtleartbooks@gmail.com",
+   status:"awaiting",
+   books:["The Subtle Art of Becoming Yourself"],primaryBook:"The Subtle Art of Becoming Yourself",genre:"Self-Help",
+   invoiceInfo:"—",lastContact:"Apr 10, 2026",timeline:"Not started",
+   nextAction:"Reminder email.",
+   notes:"Follow-up sent.",
+   links:[{label:"📄 Productions Page",url:"https://atomic-shelf.com/Productions/Spiros_Scafidas_The_Art_of_Being_Yourself",icon:"page"}]},
+
+  {id:"ryan_ambrose",source:false,
+   name:"Ryan Ambrose",email:"ryanambrose@darklit.com",
+   status:"active",
+   books:["A Pawn in Dire Game"],primaryBook:"A Pawn in Dire Game",genre:"Dark Fantasy",
+   invoiceInfo:"Due Apr 22",lastContact:"Apr 11, 2026",timeline:"Apr 5 – Apr 20",
+   nextAction:"Post reaction teaser.",notes:"Dark fantasy. Short-form content performing well.",
+   links:[{label:"📄 Productions Page",url:"https://atomic-shelf.com/Productions/Pawn_Dire_Game",icon:"page"}]},
+
+  {id:"kyle_hogg",source:false,
+   name:"Kyle Hogg",email:"kyle@hoggmedia.com",
+   status:"active",
+   books:["Would You Believe It"],primaryBook:"Would You Believe It",genre:"Comedy / Storytelling",
+   invoiceInfo:"Paid",lastContact:"Apr 12, 2026",timeline:"Mar 28 – Apr 18",
+   nextAction:"Release 3 new reels.",notes:"Comedic storytelling. Viral potential.",
+   links:[{label:"📄 Productions Page",url:"https://atomic-shelf.com/Productions/Would_You_Believe_It",icon:"page"}]},
+
+  {id:"vv_sinclair",source:false,
+   name:"VV Sinclair",email:"vv@sinclairbooks.com",
+   status:"active",
+   books:["Timewrecked"],primaryBook:"Timewrecked",genre:"Sci-Fi / Time Travel",
+   invoiceInfo:"Pending",lastContact:"Apr 9, 2026",timeline:"Apr 2 – Apr 23",
+   nextAction:"Send draft storyboards.",notes:"Editor needed.",
+   links:[{label:"📄 Productions Page",url:"https://atomic-shelf.com/Productions/Timewrecked_VV",icon:"page"}]},
+
+  {id:"paul_bauer",source:false,
+   name:"Paul Bauer",email:"paul@bauermedia.com",
+   status:"active",
+   books:["Everything I Wish I Knew When I Was 18"],primaryBook:"Everything I Wish I Knew When I Was 18",genre:"Self-Help / Inspirational",
+   invoiceInfo:"Quote sent",lastContact:"Apr 10, 2026",timeline:"Apr 10 – Apr 25",
+   nextAction:"Confirm video style.",notes:"Large following potential.",
+   links:[{label:"📄 Productions Page",url:"https://atomic-shelf.com/Productions/Paul_Bauer_18",icon:"page"}]},
+
+  {id:"nicola_briggs",source:false,
+   name:"Nicola Briggs",email:"nicola@briggslit.com",
+   status:"active",
+   books:["Peacock on the Moon"],primaryBook:"Peacock on the Moon",genre:"Literary Fiction",
+   invoiceInfo:"Est. May 1",lastContact:"Apr 11, 2026",timeline:"Apr 8 – Apr 29",
+   nextAction:"Mood board review.",notes:"Atmospheric reels planned.",
+   links:[{label:"📄 Productions Page",url:"https://atomic-shelf.com/Productions/Peacock_Moon",icon:"page"}]},
+
+  {id:"jc_brandt",source:false,
+   name:"J.C. Brandt",email:"jcbrandtbooks@gmail.com",
+   status:"active",
+   books:["J.C. Brandt Series"],primaryBook:"J.C. Brandt Series",genre:"Fiction",
+   invoiceInfo:"Pending",lastContact:"Apr 2026",timeline:"Mar 2026 – ongoing",
+   nextAction:"Deliver updated content report.",
+   notes:"Content report HTML produced. Productions page live.",
+   links:[{label:"📄 Productions Page",url:"https://atomic-shelf.com/Productions/JC_Brandt",icon:"page"}]},
+
+  {id:"charles_santana",source:false,
+   name:"Charles Santana",email:"vibecheck.books@gmail.com",
+   status:"active",
+   books:["Vibe Check"],primaryBook:"Vibe Check",genre:"Fiction",
+   invoiceInfo:"Pending",lastContact:"Apr 2026",timeline:"Mar 2026 – ongoing",
+   nextAction:"Push next content batch.",notes:"Vibe Check content series in production.",
+   links:[{label:"📄 Productions Page",url:"https://atomic-shelf.com/Productions/Charles_Santana_Vibe_Check",icon:"page"}]},
+
+  {id:"paul_mcallister",source:false,
+   name:"Paul McAllister",email:"tilleystailbooks@gmail.com",
+   status:"low",
+   books:["Tilley's Tail"],primaryBook:"Tilley's Tail",genre:"Children's Fiction",
+   invoiceInfo:"N/A",lastContact:"Apr 4, 2026",timeline:"Mar 15 – Apr 15",
+   nextAction:"Monitor engagement. No marketing budget.",
+   notes:"Trial running. No marketing budget stated.",links:[]},
+
+  {id:"grace_anderson",source:false,
+   name:"Dr. Grace Anderson",email:"grace@andersoncoach.com",
+   status:"old",
+   books:["The Relationship Blueprint"],primaryBook:"The Relationship Blueprint",genre:"Self-Help",
+   invoiceInfo:"Inactive",lastContact:"Feb 2026",timeline:"Past project",
+   nextAction:"REACH OUT: ask if interested in a new campaign.",
+   notes:"Old author — previously missed videos. Follow-up needed to gauge interest.",links:[]},
+
+  {id:"amoghavarsha_patil",source:false,
+   name:"Amoghavarsha V Patil",email:"N/A",
+   status:"awaiting",
+   books:["ANAADHI"],primaryBook:"ANAADHI",genre:"Literary Fiction",
+   invoiceInfo:"Quote stage",lastContact:"Apr 1, 2026",timeline:"Confirmed — not started",
+   nextAction:"Draft content pack. Author posts own content (Instagram only).",
+   notes:"Author posts own content. Instagram only — no TikTok/YouTube.",links:[]},
+
+  {id:"kurosh_taromi",source:false,
+   name:"Kurosh Taromi",email:"momkissesdaughterbooks@gmail.com",
+   status:"awaiting",
+   books:["When a Mom Kisses Her Daughter","Funny Sharks & Poems"],primaryBook:"When a Mom Kisses Her Daughter + Funny Sharks",genre:"Children's",
+   invoiceInfo:"Pending",lastContact:"Apr 11, 2026",timeline:"Samples sent",
+   nextAction:"Create sample reel.",notes:"Two children's books. Produce trial content.",links:[]},
+
+  {id:"ryan_silver",source:false,
+   name:"Ryan Silver",email:"silverandthestonebooks@gmail.com",
+   status:"prospect",
+   books:["Silver and the Stone"],primaryBook:"Silver and the Stone",genre:"Fantasy",
+   invoiceInfo:"—",lastContact:"Apr 8, 2026",timeline:"Not confirmed",
+   nextAction:"Check interest.",notes:"Samples sent.",links:[]},
+
+  {id:"shaun_kokoro",source:false,
+   name:"Shaun Kokoro",email:"kokoro.books@gmail.com",
+   status:"prospect",
+   books:["Kokoro"],primaryBook:"Kokoro",genre:"Literary Fiction",
+   invoiceInfo:"—",lastContact:"Apr 7, 2026",timeline:"Not confirmed",
+   nextAction:"Follow-up call.",notes:"Samples sent.",links:[]},
+];
+
+// ════════════════════════════════════════════════
+// STATE
+// ════════════════════════════════════════════════
+let filterStatus = 'all';
+let sortBy = 'urgency';
+let viewMode = 'grid';
+let searchQuery = '';
+
+// ════════════════════════════════════════════════
+// UTILITIES
+// ════════════════════════════════════════════════
+function parseDate(s) {
+  if (!s || s === '—' || s === 'N/A') return null;
+  // "Apr 2026" format
+  const my = s.match(/^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+(\d{4})$/i);
+  if (my) return new Date(`${my[1]} 1, ${my[2]}`);
+  // "Apr 10, 2026" or "Apr 10 2026"
+  const full = s.match(/^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+(\d+),?\s*(\d{4})?/i);
+  if (full) return new Date(`${full[1]} ${full[2]}, ${full[3] || new Date().getFullYear()}`);
+  const d = new Date(s); return isNaN(d) ? null : d;
+}
+
+function daysSince(a) {
+  const stored = localStorage.getItem('as_lc_' + a.id);
+  const d = parseDate(stored || a.lastContact);
+  if (!d) return null;
+  return Math.max(0, Math.floor((Date.now() - d) / 864e5));
+}
+
+function daysBadge(days) {
+  if (days === null) return { cls: 'd-none', lbl: '—' };
+  if (days === 0) return { cls: 'd-fresh', lbl: 'Today' };
+  if (days <= 3) return { cls: 'd-fresh', lbl: days + 'd ago' };
+  if (days <= 7) return { cls: 'd-ok', lbl: days + 'd ago' };
+  if (days <= 14) return { cls: 'd-stale', lbl: days + 'd ago' };
+  return { cls: 'd-urgent', lbl: days + 'd ago' };
+}
+
+function invBadge(info) {
+  if (!info || info === '—' || info === 'N/A') return '<span class="inv-na">—</span>';
+  const u = info.toUpperCase();
+  if (u.startsWith('PAID') || u.includes('PAID IN')) return '<span class="inv-badge inv-paid">PAID</span>';
+  if (u.includes('DUE') || u.includes('INVOICE DUE')) return '<span class="inv-badge inv-due">DUE</span>';
+  if (u.includes('PENDING') || u.includes('AWAITING')) return '<span class="inv-badge inv-due">PENDING</span>';
+  if (u.includes('ACTIVE')) return '<span class="inv-badge inv-paid">ACTIVE</span>';
+  if (u.includes('EXPIRED') || u.includes('INACTIVE')) return '<span class="inv-badge inv-due">EXPIRED</span>';
+  return `<span class="inv-badge inv-pend">${info.slice(0, 18)}</span>`;
+}
+
+const STATUS_MAP = {
+  active:   ['b-active',   'Active'],
+  needs:    ['b-needs',    'Needs Attention'],
+  awaiting: ['b-awaiting', 'Awaiting Reply'],
+  trial:    ['b-trial',    'Trial'],
+  prospect: ['b-prospect', 'Prospect'],
+  low:      ['b-low',      'Low Priority'],
+  old:      ['b-old',      'Old — Check Interest'],
+};
+function badge(status) {
+  const [cls, lbl] = STATUS_MAP[status] || ['b-low', 'Unknown'];
+  return `<span class="badge ${cls}">${lbl}</span>`;
+}
+
+const STATUS_PRI = { needs:0, active:1, awaiting:2, trial:3, prospect:4, low:5, old:6 };
+function pri(a) { return STATUS_PRI[a.status] ?? 7; }
+function urgencyScore(a) { return pri(a) * 1000 + (daysSince(a) ?? 999); }
+
+function lc(a) {
+  const s = localStorage.getItem('as_lc_' + a.id);
+  if (s) {
+    const d = new Date(s);
+    return d.toDateString() === new Date().toDateString() ? 'Today' :
+      d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+  }
+  return a.lastContact || '—';
+}
+function isToday(id) {
+  const s = localStorage.getItem('as_lc_' + id);
+  return s && new Date(s).toDateString() === new Date().toDateString();
+}
+
+function getLog(id) { try { return JSON.parse(localStorage.getItem('as_log_' + id) || '[]'); } catch { return []; } }
+function addLog(id, note) {
+  const l = getLog(id); l.unshift({ d: new Date().toISOString(), n: note });
+  localStorage.setItem('as_log_' + id, JSON.stringify(l.slice(0, 25)));
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.innerHTML = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2600);
+}
+
+function markContacted(id, e) {
+  if (e) e.stopPropagation();
+  localStorage.setItem('as_lc_' + id, new Date().toISOString());
+  addLog(id, 'Marked as contacted');
+  renderAll(); renderDrawer(id);
+  showToast('✓ Marked as contacted today');
+}
+
+function copyEmail(email, e) {
+  if (e) e.stopPropagation();
+  navigator.clipboard.writeText(email).then(() => showToast('📋 Copied: ' + email));
+}
+
+function linkIcon(icon) {
+  if (icon === 'photo') return '<svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>';
+  if (icon === 'tiktok') return '<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.75a4.85 4.85 0 01-1.01-.06z"/></svg>';
+  if (icon === 'youtube') return '<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>';
+  return '<svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>';
+}
+
+// ════════════════════════════════════════════════
+// FILTER & SORT
+// ════════════════════════════════════════════════
+function getFiltered() {
+  let list = AUTHORS;
+  if (filterStatus !== 'all') list = list.filter(a => a.status === filterStatus);
+  if (searchQuery) {
+    const q = searchQuery.toLowerCase();
+    list = list.filter(a => [a.name, ...a.books, a.email, a.notes, a.primaryBook, a.genre].join(' ').toLowerCase().includes(q));
+  }
+  return [...list].sort((a, b) => {
+    if (sortBy === 'name') return a.name.localeCompare(b.name);
+    if (sortBy === 'status') return pri(a) - pri(b);
+    if (sortBy === 'invoice') {
+      const iv = s => { const u = (s||'').toUpperCase(); if(u.includes('PAID'))return 0; if(u.includes('DUE')||u.includes('PENDING'))return 1; return 2; };
+      return iv(a.invoiceInfo) - iv(b.invoiceInfo);
+    }
+    return urgencyScore(a) - urgencyScore(b);
+  });
+}
+
+// ════════════════════════════════════════════════
+// STATS
+// ════════════════════════════════════════════════
+function renderStats() {
+  const all = AUTHORS;
+  const active = all.filter(a => a.status === 'active').length;
+  const needsAttn = all.filter(a => a.status === 'needs').length;
+  const paid = all.filter(a => (a.invoiceInfo||'').toUpperCase().includes('PAID')).length;
+  const overdue = all.filter(a => { const d = daysSince(a); return d !== null && d > 7 && !['low','old'].includes(a.status); }).length;
+  const verified = all.filter(a => a.source).length;
+
+  document.getElementById('statsStrip').innerHTML = `
+    <div class="stat-item"><div class="stat-val">${all.length}</div><div class="stat-lbl">Total Authors</div><div class="stat-sub">in roster</div></div>
+    <div class="stat-item"><div class="stat-val green">${active}</div><div class="stat-lbl">Active</div><div class="stat-sub">live campaigns</div></div>
+    <div class="stat-item"><div class="stat-val red">${needsAttn}</div><div class="stat-lbl">Needs Attention</div><div class="stat-sub">require action</div></div>
+    <div class="stat-item"><div class="stat-val amber">${overdue}</div><div class="stat-lbl">Contact Overdue</div><div class="stat-sub">&gt;7d since contact</div></div>
+    <div class="stat-item"><div class="stat-val green">${paid}</div><div class="stat-lbl">Paid Invoices</div><div class="stat-sub">confirmed</div></div>
+    <div class="stat-item"><div class="stat-val">${verified}</div><div class="stat-lbl">PDF Verified</div><div class="stat-sub">confirmed from emails</div></div>`;
+}
+
+// ════════════════════════════════════════════════
+// TABS
+// ════════════════════════════════════════════════
+function renderTabs() {
+  const tabs = [
+    {k:'all',l:'All Authors'},
+    {k:'active',l:'Active'},
+    {k:'needs',l:'Needs Attention'},
+    {k:'awaiting',l:'Awaiting Reply'},
+    {k:'trial',l:'Trial'},
+    {k:'prospect',l:'Prospects'},
+    {k:'low',l:'Low Priority'},
+    {k:'old',l:'Old — Check'},
+  ];
+  const counts = {};
+  AUTHORS.forEach(a => { counts[a.status] = (counts[a.status]||0)+1; });
+  document.getElementById('tabsBar').innerHTML = tabs.map(t => `
+    <button class="tab-btn ${filterStatus===t.k?'on':''}" onclick="setFilter('${t.k}')">
+      ${t.l} <span class="tab-count">${t.k==='all'?AUTHORS.length:(counts[t.k]||0)}</span>
+    </button>`).join('');
+}
+
+// ════════════════════════════════════════════════
+// MISSING BANNER
+// ════════════════════════════════════════════════
+function renderMissingBanner() {
+  const missing = AUTHORS.filter(a => !a.source).map(a => a.name);
+  document.getElementById('missingNames').textContent = missing.join(' · ');
+}
+
+// ════════════════════════════════════════════════
+// CARD BUILDER
+// ════════════════════════════════════════════════
+function buildCard(a) {
+  const days = daysSince(a), db = daysBadge(days), td = isToday(a.id);
+  const bookList = a.books.length > 1
+    ? `<span title="${a.books.join(', ')}">${a.books[0]}${a.books.length>1?` <span style="font-family:'DM Mono',monospace;font-size:.6rem;color:var(--text3)">+${a.books.length-1} more</span>`:''}</span>`
+    : a.books[0];
+  const topLinks = a.links.slice(0, 4);
+
+  return `
+  <div class="card s-${a.status}${!a.source?' unverified':''}" onclick="openDrawer('${a.id}')">
+    <div class="card-top">
+      <div class="card-name">${a.vip?'<span class="vip-star">★</span>':''}${a.name}</div>
+      <div class="card-book">${bookList}</div>
+      <div class="card-meta">
+        ${badge(a.status)}
+        <span class="days-badge ${db.cls}">${db.lbl}</span>
+        ${invBadge(a.invoiceInfo)}
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="info-row">
+        <span class="info-row-label">Email</span>
+        <span class="info-row-val email-chip" onclick="copyEmail('${a.email}',event)" title="Click to copy">${a.email}</span>
+      </div>
+      <div class="info-row">
+        <span class="info-row-label">Last Contact</span>
+        <span class="info-row-val">${lc(a)}</span>
+      </div>
+      <div class="info-row">
+        <span class="info-row-label">Next Action</span>
+        <span class="info-row-val" style="color:var(--amber);font-size:.72rem;">${(a.nextAction||'—').slice(0,60)}${(a.nextAction||'').length>60?'…':''}</span>
+      </div>
+    </div>
+    ${topLinks.length ? `<div class="links-row">${topLinks.map(l=>`<a href="${l.url}" target="_blank" rel="noopener" class="link-chip" onclick="event.stopPropagation()">${linkIcon(l.icon)} ${l.label.replace(/^[^ ]+ /,'')}</a>`).join('')}${a.links.length>4?`<span class="link-chip">+${a.links.length-4} more</span>`:''}</div>` : ''}
+    <div class="card-foot">
+      <button class="btn btn-ghost btn-sm ${td?'done':''}" onclick="markContacted('${a.id}',event)">${td?'✓ Contacted':'Mark Contacted'}</button>
+      <button class="btn btn-primary btn-sm" onclick="event.stopPropagation();openDrawer('${a.id}')">View →</button>
+    </div>
+  </div>`;
+}
+
+// ════════════════════════════════════════════════
+// LIST ROW BUILDER
+// ════════════════════════════════════════════════
+function buildRow(a) {
+  const days = daysSince(a), db = daysBadge(days), td = isToday(a.id);
+  return `
+  <div class="list-row s-${a.status}" onclick="openDrawer('${a.id}')">
+    <div>
+      <div class="list-name">${a.vip?'★ ':''} ${a.name}</div>
+      <div class="list-book">${a.primaryBook}</div>
+    </div>
+    <div class="list-email" title="${a.email}">${a.email}</div>
+    ${badge(a.status)}
+    <span class="days-badge ${db.cls}">${db.lbl}</span>
+    ${invBadge(a.invoiceInfo)}
+    <div class="list-actions">
+      <button class="btn btn-ghost btn-sm ${td?'done':''}" onclick="markContacted('${a.id}',event)" style="padding:3px 8px">${td?'✓':'○'}</button>
+      <button class="btn btn-primary btn-sm" onclick="event.stopPropagation();openDrawer('${a.id}')" style="padding:3px 8px">View</button>
+    </div>
+  </div>`;
+}
+
+// ════════════════════════════════════════════════
+// MAIN RENDER
+// ════════════════════════════════════════════════
+function renderAll() {
+  renderTabs(); renderStats(); renderMissingBanner();
+  const list = getFiltered();
+  const el = document.getElementById('mainContent');
+  if (!list.length) {
+    el.innerHTML = `<div class="empty-state"><div class="empty-icon">📭</div><div class="empty-title">No authors found</div><div class="empty-sub">Try adjusting your search or filter.</div></div>`;
+    return;
+  }
+  if (viewMode === 'list') {
+    el.innerHTML = `<div class="list-hdr"><div>Author / Book</div><div>Email</div><div>Status</div><div>Last Contact</div><div>Invoice</div><div style="text-align:right">Actions</div></div>
+      <div class="list-wrap">${list.map(buildRow).join('')}</div>`;
+  } else {
+    el.innerHTML = `<div class="cards-grid">${list.map(buildCard).join('')}</div>`;
+  }
+}
+
+// ════════════════════════════════════════════════
+// DRAWER
+// ════════════════════════════════════════════════
+let currentDrawerID = null;
+
+function openDrawer(id) {
+  currentDrawerID = id;
+  renderDrawer(id);
+  document.getElementById('drawer').classList.add('on');
+  document.getElementById('overlay').classList.add('on');
+}
+
+function renderDrawer(id) {
+  const a = AUTHORS.find(x => x.id === id);
+  if (!a) return;
+  const days = daysSince(a), db = daysBadge(days), td = isToday(a.id);
+  const myNote = localStorage.getItem('as_note_' + a.id) || '';
+  const log = getLog(a.id);
+  const logHTML = log.length
+    ? log.slice(0,10).map(e => `<div class="log-entry"><div class="log-ts">${new Date(e.d).toLocaleString('en-GB',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'})}</div>${e.n}</div>`).join('')
+    : '<div style="font-size:.73rem;color:var(--text3)">No actions logged yet.</div>';
+
+  const booksHTML = a.books.map(b => `<span style="display:inline-block;background:var(--surface2);border:1px solid var(--border-lt);border-radius:5px;padding:3px 9px;font-size:.73rem;margin:0 4px 4px 0;">📘 ${b}</span>`).join('');
+  const linksHTML = a.links.length
+    ? a.links.map(l => `<a href="${l.url}" target="_blank" rel="noopener" class="drw-link">${linkIcon(l.icon)} ${l.label}</a>`).join('')
+    : '<span style="font-size:.73rem;color:var(--text3)">No links on file.</span>';
+
+  const verifiedBadge = a.source
+    ? `<span style="background:#e8f5ee;color:#1a6b3a;font-family:'DM Mono',monospace;font-size:.6rem;padding:2px 7px;border-radius:4px;letter-spacing:.04em;">✓ PDF Verified</span>`
+    : `<span style="background:#fef6d8;color:#8b6010;font-family:'DM Mono',monospace;font-size:.6rem;padding:2px 7px;border-radius:4px;letter-spacing:.04em;">⚠ Unverified</span>`;
+
+  document.getElementById('drawer').innerHTML = `
+    <div class="drw-hdr">
+      <button class="drw-close" onclick="closeDrawer()">✕</button>
+      <div class="drw-name">${a.vip?'★ ':''}${a.name}</div>
+      <div class="drw-book">${a.primaryBook}</div>
+      <div class="drw-badges">
+        ${badge(a.status)}
+        <span class="days-badge ${db.cls}">${db.lbl}</span>
+        ${invBadge(a.invoiceInfo)}
+        ${verifiedBadge}
+        ${a.vip?`<span style="background:#fef3c7;color:#92400e;font-family:'DM Mono',monospace;font-size:.6rem;padding:2px 7px;border-radius:4px;">${a.vip}</span>`:''}
+      </div>
+    </div>
+    <div class="drw-body">
+
+      <div class="drw-section">
+        <div class="drw-section-title">
+          <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Campaign Info
+        </div>
+        <div class="info-grid-2">
+          <div class="info-box">
+            <div class="info-box-label">Email</div>
+            <div class="info-box-val">
+              ${a.email}
+              <button onclick="copyEmail('${a.email}')" style="background:none;border:none;cursor:pointer;font-size:.65rem;color:var(--amber);font-family:'Outfit',sans-serif;margin-left:4px;">copy</button>
+            </div>
+          </div>
+          <div class="info-box">
+            <div class="info-box-label">Genre</div>
+            <div class="info-box-val">${a.genre || '—'}</div>
+          </div>
+          <div class="info-box">
+            <div class="info-box-label">Timeline</div>
+            <div class="info-box-val" style="font-size:.75rem">${a.timeline || '—'}</div>
+          </div>
+          <div class="info-box">
+            <div class="info-box-label">Last Contact</div>
+            <div class="info-box-val">${lc(a)}</div>
+          </div>
+          <div class="info-box">
+            <div class="info-box-label">Invoice</div>
+            <div class="info-box-val">${a.invoiceInfo || '—'}</div>
+          </div>
+          <div class="info-box">
+            <div class="info-box-label">Books in Campaign</div>
+            <div class="info-box-val">${a.books.length}</div>
+          </div>
+          <div class="info-box info-box-full">
+            <div class="info-box-label">Next Action</div>
+            <div class="info-box-val amber">→ ${a.nextAction || '—'}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="drw-section">
+        <div class="drw-section-title">
+          <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          Books
+        </div>
+        <div>${booksHTML}</div>
+      </div>
+
+      <div class="drw-section">
+        <div class="drw-section-title">
+          <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Campaign Notes
+        </div>
+        <div class="notes-display">${a.notes || 'No notes on file.'}</div>
+      </div>
+
+      <div class="drw-section">
+        <div class="drw-section-title">
+          <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          My Notes <span style="font-size:.58rem;color:var(--text4);font-family:'DM Mono',monospace;margin-left:4px;">(saved locally)</span>
+        </div>
+        <textarea class="notes-edit" id="myNoteTA" placeholder="Add your own notes…">${myNote}</textarea>
+        <div style="margin-top:7px;">
+          <button class="btn btn-amber btn-sm" onclick="saveNote('${a.id}')">Save Note</button>
+        </div>
+      </div>
+
+      <div class="drw-section">
+        <div class="drw-section-title">
+          <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+          Video Albums & Links
+        </div>
+        <div class="links-grid">${linksHTML}</div>
+      </div>
+
+      <div class="drw-section">
+        <div class="drw-section-title">
+          <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          Quick Actions
+        </div>
+        <div class="quick-actions">
+          <button class="btn ${td?'btn-ghost done':'btn-ghost'}" onclick="markContacted('${a.id}')">${td?'✓ Contacted Today':'○ Mark as Contacted'}</button>
+          <button class="btn btn-ghost" onclick="copyEmail('${a.email}')">📋 Copy Email</button>
+        </div>
+      </div>
+
+      <div class="drw-section">
+        <div class="drw-section-title">
+          <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          Action Log
+        </div>
+        <div>${logHTML}</div>
+      </div>
+
+      <div style="font-size:.62rem;color:var(--text4);text-align:center;padding:14px 0;border-top:1px solid var(--border-lt);font-family:'DM Mono',monospace;letter-spacing:.05em;">
+        ATOMIC SHELF · AUTHOR COMMAND CENTRE · Notes stored locally in browser
+      </div>
+    </div>`;
+}
+
+function closeDrawer() {
+  document.getElementById('drawer').classList.remove('on');
+  document.getElementById('overlay').classList.remove('on');
+  currentDrawerID = null;
+}
+
+function saveNote(id) {
+  const v = document.getElementById('myNoteTA')?.value || '';
+  localStorage.setItem('as_note_' + id, v);
+  addLog(id, `Note updated: "${v.slice(0,60)}${v.length>60?'…':''}"`);
+  showToast('✓ Note saved');
+  renderAll();
+}
+
+// ════════════════════════════════════════════════
+// CONTROLS
+// ════════════════════════════════════════════════
+function onSearch(v) { searchQuery = v.trim(); renderAll(); }
+function setFilter(k) { filterStatus = k; renderAll(); }
+function onSort(v) { sortBy = v; renderAll(); }
+function setView(v) {
+  viewMode = v;
+  document.getElementById('vGrid').classList.toggle('on', v === 'grid');
+  document.getElementById('vList').classList.toggle('on', v === 'list');
+  renderAll();
+}
+
+// ════════════════════════════════════════════════
+// CSV EXPORT
+// ════════════════════════════════════════════════
+function exportCSV() {
+  const headers = ['Name','Status','Source Verified','Primary Book','All Books','Genre','Email','Invoice','Last Contact','Days Since Contact','Timeline','Next Action','Notes'];
+  const rows = AUTHORS.map(a => [
+    a.name, a.status, a.source?'Yes':'No', a.primaryBook,
+    a.books.join(' | '), a.genre||'', a.email,
+    a.invoiceInfo||'', lc(a),
+    daysSince(a)!==null?daysSince(a)+'d':'—',
+    a.timeline||'', a.nextAction||'', (a.notes||'').replace(/\n/g,' ')
+  ]);
+  const csv = [headers, ...rows].map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const url = URL.createObjectURL(new Blob([csv], {type:'text/csv'}));
+  const el = document.createElement('a'); el.href = url;
+  el.download = `atomic-shelf-${new Date().toISOString().slice(0,10)}.csv`;
+  el.click(); URL.revokeObjectURL(url);
+  showToast('⬇ CSV exported');
+}
+
+// ════════════════════════════════════════════════
+// KEYBOARD
+// ════════════════════════════════════════════════
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeDrawer();
+  if ((e.metaKey||e.ctrlKey) && e.key==='k') {
+    e.preventDefault();
+    document.getElementById('srchInput').focus();
+  }
+});
+
+// ════════════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════════════
+renderAll();
+</script>
+</body>
+</html>

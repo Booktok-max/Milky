@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Atomic Shelf — Operational Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,400&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --dark:#14120F; --dark-2:#1C1810;
+  --paper:#F5EDD8; --paper-2:#EDE0C4; --paper-3:#E5D7B8;
+  --inv:#F3EEE3; --inv-m:rgba(243,238,227,.6);
+  --amber:#FFB020;
+  --ink:#1C1209; --stone:#5E4A30; --muted:#7A5C38;
+  --copper:#A8461E; --copper-l:#C8673C; --copper-d:#7F3410;
+  --teal:#2E5A4E; --teal-l:#7FC4AC;
+  --sep-l:rgba(28,18,9,.13);
+  --card:#FFFEFA;
+  --r:6px; --max:1180px;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;}
+body{font-family:'DM Sans',sans-serif;background:var(--paper);color:var(--ink);line-height:1.7;overflow-x:hidden;}
+h1,h2,h3,h4,h5{font-family:'Fraunces',serif;letter-spacing:-.015em;line-height:1.2;}
+a{color:inherit;text-decoration:none;}
+code, pre{font-family:'DM Mono',monospace;}
+
+/* NAV */
+.nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(245,237,216,.85);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--sep-l);
+  padding:1rem 2rem;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.logo{font-family:'Fraunces',serif;font-weight:700;font-size:1.2rem;display:flex;align-items:center;gap:.5rem;color:var(--ink);}
+.logo span{color:var(--copper);}
+.nav-right{display:flex;align-items:center;gap:1.5rem;}
+.progress-bar-nav{
+  width:100px;height:6px;background:var(--paper-3);border-radius:3px;overflow:hidden;
+}
+.progress-fill-nav{height:100%;width:0;background:var(--copper);transition:width .3s;}
+
+/* AUTH UI */
+.auth-btn{
+  background:var(--ink);color:var(--paper);border:none;padding:.5rem 1rem;border-radius:var(--r);
+  font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:600;cursor:pointer;transition:background .2s;
+  display:flex;align-items:center;gap:.5rem;
+}
+.auth-btn:hover{background:var(--copper);}
+.user-chip{
+  display:flex;align-items:center;gap:.6rem;font-size:.8rem;font-weight:600;color:var(--ink);
+  background:var(--paper-2);padding:.3rem .8rem .3rem .3rem;border-radius:20px;border:1px solid var(--sep-l);
+}
+.user-avatar{
+  width:24px;height:24px;border-radius:50%;background:var(--copper);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;
+}
+.logout-link{color:var(--muted);cursor:pointer;font-size:.7rem;margin-left:.5rem;}
+.logout-link:hover{color:var(--copper);}
+
+/* AUTH MODAL */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(28,18,9,.6);backdrop-filter:blur(4px);
+  z-index:200;display:none;align-items:center;justify-content:center;padding:1rem;
+}
+.modal-overlay.active{display:flex;}
+.modal-card{
+  background:var(--card);padding:2.5rem;border-radius:12px;max-width:400px;width:100%;
+  text-align:center;box-shadow:0 20px 50px rgba(0,0,0,.2);
+}
+.modal-card h3{font-size:1.5rem;margin-bottom:.5rem;}
+.modal-card p{color:var(--muted);font-size:.9rem;margin-bottom:2rem;}
+.google-btn{
+  display:flex;align-items:center;justify-content:center;gap:.8rem;width:100%;
+  background:#fff;border:1px solid var(--sep-l);padding:.8rem;border-radius:var(--r);
+  font-family:'DM Sans',sans-serif;font-weight:600;font-size:.9rem;color:var(--ink);cursor:pointer;
+  transition:box-shadow .2s;
+}
+.google-btn:hover{box-shadow:0 4px 12px rgba(0,0,0,.1);}
+.mock-note{font-size:.7rem;color:var(--muted);margin-top:1.5rem;font-style:italic;}
+
+/* LAYOUT */
+.layout{display:flex;max-width:var(--max);margin:0 auto;padding:2rem 1.5rem 5rem;gap:3rem;}
+.sidebar{
+  width:260px;flex-shrink:0;
+  position:sticky;top:90px;height:calc(100vh - 110px);overflow-y:auto;
+  padding-right:1rem;border-right:1px solid var(--sep-l);
+}
+.sidebar::-webkit-scrollbar{width:4px;}
+.sidebar::-webkit-scrollbar-thumb{background:var(--paper-3);border-radius:2px;}
+.sidebar h4{font-family:'DM Mono',monospace;font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:1rem;}
+.chapter-nav{list-style:none;display:flex;flex-direction:column;gap:.5rem;}
+.chapter-nav a{
+  display:flex;align-items:center;gap:.8rem;padding:.6rem .8rem;border-radius:var(--r);
+  font-size:.85rem;font-weight:500;color:var(--stone);transition:all .2s;
+}
+.chapter-nav a:hover{background:var(--paper-2);color:var(--ink);}
+.chapter-nav a.active{background:var(--ink);color:var(--paper);}
+.chapter-num{font-family:'DM Mono',monospace;font-size:.7rem;opacity:.5;}
+
+.content{flex:1;min-width:0;}
+
+/* HERO */
+.hero{
+  background:var(--dark);color:var(--inv);
+  padding:4rem 3rem;border-radius:16px;position:relative;overflow:hidden;
+  margin-bottom:4rem;border:1px solid var(--dark-2);
+}
+.hero::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:4px;
+  background:linear-gradient(90deg,var(--copper),var(--amber),var(--teal));
+}
+.hero-tag{
+  display:inline-block;font-family:'DM Mono',monospace;font-size:.7rem;font-weight:500;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--amber);margin-bottom:1.2rem;
+  border:1px solid rgba(255,176,32,.3);padding:.3rem .8rem;border-radius:4px;
+}
+.hero h1{font-size:clamp(2.5rem,5vw,3.8rem);margin-bottom:1rem;}
+.hero h1 em{font-style:italic;font-weight:300;color:var(--amber);}
+.hero p{font-size:1.1rem;color:var(--inv-m);max-width:60ch;margin-bottom:2.5rem;}
+.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;border-top:1px solid rgba(255,255,255,.1);padding-top:2rem;}
+.stat-item label{font-family:'DM Mono',monospace;font-size:.65rem;color:var(--inv-m);text-transform:uppercase;display:block;margin-bottom:.4rem;}
+.stat-item span{font-family:'Fraunces',serif;font-size:1.4rem;font-weight:700;color:var(--paper);}
+
+/* CHAPTERS */
+.chapter{margin-bottom:5rem;scroll-margin-top:90px;}
+.chapter-header{margin-bottom:2.5rem;border-bottom:1px solid var(--sep-l);padding-bottom:1.5rem;}
+.chapter-num-large{font-family:'DM Mono',monospace;font-size:.8rem;color:var(--copper);font-weight:700;letter-spacing:.1em;margin-bottom:.5rem;display:block;}
+.chapter-header h2{font-size:2.4rem;font-weight:700;margin-bottom:.5rem;}
+.chapter-header h2 em{font-style:italic;font-weight:400;color:var(--copper);}
+.chapter-header p{color:var(--stone);font-size:1.1rem;font-style:italic;}
+
+.strategy-box{
+  background:var(--card);border:1px solid var(--sep-l);border-left:4px solid var(--teal);
+  padding:1.5rem 2rem;border-radius:var(--r);margin-bottom:2.5rem;
+}
+.strategy-box h4{font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;color:var(--teal);margin-bottom:1rem;font-family:'DM Mono',monospace;}
+.strategy-box ul{list-style:none;padding-left:0;}
+.strategy-box li{padding-left:1.5rem;position:relative;margin-bottom:.6rem;color:var(--stone);}
+.strategy-box li::before{content:'⚡';position:absolute;left:0;color:var(--teal);font-weight:700;}
+
+.modules{display:flex;flex-direction:column;gap:1.5rem;}
+.module{
+  background:var(--card);border:1px solid var(--sep-l);border-radius:var(--r);
+  padding:1.8rem 2rem;transition:box-shadow .3s,transform .3s;
+}
+.module:hover{box-shadow:0 10px 30px rgba(28,18,9,.06);transform:translateY(-2px);}
+.module h3{font-size:1.3rem;margin-bottom:1rem;color:var(--ink);display:flex;align-items:baseline;gap:.5rem;}
+.module h3 span{font-family:'DM Mono',monospace;font-size:.85rem;color:var(--muted);}
+.module p{color:var(--stone);margin-bottom:1rem;}
+.module p:last-child{margin-bottom:0;}
+
+/* ACTION ITEMS */
+.action-items{
+  margin-top:1.5rem;background:rgba(168,70,30,.04);border:1px solid rgba(168,70,30,.2);
+  border-radius:var(--r);padding:1.2rem 1.5rem;
+}
+.action-head{display:flex;align-items:center;gap:.5rem;font-family:'DM Mono',monospace;font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--copper);margin-bottom:.8rem;font-weight:700;}
+.action-items ul{list-style:none;padding-left:0;}
+.action-items li{padding-left:1.2rem;position:relative;margin-bottom:.5rem;font-size:.9rem;color:var(--ink);}
+.action-items li::before{content:'▸';position:absolute;left:0;color:var(--copper);font-weight:700;}
+
+/* TABLES */
+.table-wrap{overflow-x:auto;border:1px solid var(--sep-l);border-radius:var(--r);margin:1.5rem 0;background:var(--card);}
+table{width:100%;border-collapse:collapse;font-size:.9rem;}
+th{text-align:left;padding:1rem 1.2rem;background:var(--paper-2);font-family:'DM Mono',monospace;font-size:.7rem;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--sep-l);}
+td{padding:1rem 1.2rem;border-bottom:1px solid var(--sep-l);color:var(--stone);}
+tr:last-child td{border-bottom:none;}
+td strong{color:var(--ink);}
+
+/* CALLOUT */
+.callout{
+  background:var(--dark);color:var(--paper);padding:2rem;border-radius:var(--r);
+  margin:2rem 0;border-left:4px solid var(--amber);
+}
+.callout h4{color:var(--amber);font-family:'DM Mono',monospace;font-size:.8rem;text-transform:uppercase;margin-bottom:1rem;}
+.callout p{color:var(--inv-m);}
+
+/* DIAGRAM */
+.diagram{
+  background:var(--ink);color:var(--paper);padding:2rem;border-radius:var(--r);
+  font-family:'DM Mono',monospace;font-size:.85rem;text-align:center;
+  white-space:pre;overflow-x:auto;margin:1.5rem 0;
+}
+
+/* QUICK REFERENCE */
+.ref-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:2rem;margin-top:2rem;}
+.ref-card{background:var(--card);border:1px solid var(--sep-l);border-radius:var(--r);padding:1.5rem;}
+.ref-card h4{font-family:'Fraunces',serif;font-size:1.1rem;margin-bottom:1rem;color:var(--ink);border-bottom:1px solid var(--sep-l);padding-bottom:.5rem;}
+.flags{display:flex;flex-direction:column;gap:.8rem;}
+.flag-item{display:flex;align-items:flex-start;gap:.8rem;font-size:.9rem;}
+.flag-icon{width:24px;height:24px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:#fff;}
+.flag-good{background:var(--teal);}
+.flag-bad{background:var(--copper);}
+
+/* IMPLEMENTATION CHECKLIST */
+.checklist{background:var(--card);border:1px solid var(--sep-l);border-radius:var(--r);padding:2rem;margin-top:2rem;}
+.check-item{display:flex;align-items:center;gap:1rem;padding:1rem 0;border-bottom:1px solid var(--sep-l);cursor:pointer;font-size:1rem;color:var(--stone);}
+.check-item:last-child{border-bottom:none;}
+.check-item input{display:none;}
+.check-box{width:22px;height:22px;border:2px solid var(--paper-3);border-radius:4px;flex-shrink:0;transition:all .2s;position:relative;}
+.check-item input:checked + .check-box{background:var(--teal);border-color:var(--teal);}
+.check-item input:checked + .check-box::after{content:'✓';position:absolute;color:#fff;font-size:.8rem;top:50%;left:50%;transform:translate(-50%,-50%);}
+.check-item input:checked ~ .check-text{text-decoration:line-through;color:var(--muted);}
+
+.save-badge{
+  display:inline-flex;align-items:center;gap:.4rem;font-family:'DM Mono',monospace;
+  font-size:.7rem;color:var(--teal);background:rgba(46,90,78,.1);padding:.3rem .6rem;border-radius:4px;
+  margin-left:auto;transition:opacity .3s;
+}
+
+/* CTA */
+.cta{
+  background:var(--copper);color:#fff;padding:3rem;border-radius:16px;text-align:center;
+  margin-top:4rem;position:relative;overflow:hidden;
+}
+.cta h2{font-size:2.2rem;margin-bottom:1rem;color:#fff;}
+.cta p{color:rgba(255,255,255,.8);max-width:50ch;margin:0 auto 2rem;}
+.cta-btn{
+  display:inline-block;background:#fff;color:var(--copper);padding:1rem 2.5rem;
+  border-radius:var(--r);font-weight:700;font-family:'DM Sans',sans-serif;transition:transform .2s;
+}
+.cta-btn:hover{transform:translateY(-2px);}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .sidebar{display:none;}
+  .hero{padding:2.5rem 1.5rem;}
+  .hero-stats{grid-template-columns:1fr 1fr;gap:1rem;}
+  .layout{padding:1rem;}
+  .chapter-header h2{font-size:1.8rem;}
+  .nav{padding:1rem;}
+  .progress-bar-nav{display:none;}
+  #progressText{display:none;}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="#top" class="logo">Atomic<span>Shelf</span> <span style="font-weight:400;font-size:.9rem;font-style:italic;color:var(--muted);margin-left:.5rem;">Operational Guide</span></a>
+  <div class="nav-right">
+    <div class="progress-bar-nav"><div class="progress-fill-nav" id="navProgress"></div></div>
+    <span style="font-family:'DM Mono',monospace;font-size:.7rem;color:var(--muted);" id="progressText">0%</span>
+    
+    <!-- AUTH BUTTON AREA -->
+    <div id="auth-container">
+      <button class="auth-btn" id="login-btn" onclick="openAuthModal()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+        Sign In
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- AUTH MODAL -->
+<div class="modal-overlay" id="auth-modal">
+  <div class="modal-card">
+    <h3>Sign in to save progress</h3>
+    <p>Track your checklist completion across sessions.</p>
+    <button class="google-btn" onclick="mockGoogleLogin()">
+      <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/><path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/></svg>
+      Sign in with Google
+    </button>
+    <div class="mock-note">Frontend simulation for progress saving.</div>
+  </div>
+</div>
+
+<div class="layout" id="top">
+  
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <h4>Guide Sections</h4>
+    <ul class="chapter-nav">
+      <li><a href="#c1" class="active"><span class="chapter-num">01</span> The Strategy</a></li>
+      <li><a href="#c2"><span class="chapter-num">02</span> The Content Engine</a></li>
+      <li><a href="#c3"><span class="chapter-num">03</span> The Trust Layer</a></li>
+      <li><a href="#c4"><span class="chapter-num">04</span> The Compounding Math</a></li>
+      <li><a href="#c5"><span class="chapter-num">05</span> Portal Operations</a></li>
+      <li><a href="#c6"><span class="chapter-num">06</span> Scaling Strategy</a></li>
+      <li><a href="#ref"><span class="chapter-num">★</span> Quick Reference</a></li>
+      <li><a href="#impl"><span class="chapter-num">✓</span> Implementation</a></li>
+    </ul>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="content">
+    
+    <!-- HERO -->
+    <header class="hero">
+      <span class="hero-tag">Operational Guide · v1.0</span>
+      <h1>Build a readership <em>that lasts.</em></h1>
+      <p>This is the operational guide on how we run your campaign—what happens behind the scenes, how to read your portal, and how we compound results book after book.</p>
+      <div class="hero-stats">
+        <div class="stat-item"><label>Strategy</label><span>5-Stage Orbit</span></div>
+        <div class="stat-item"><label>Cadence</label><span>14-Step Weekly</span></div>
+        <div class="stat-item"><label>Goal</label><span>Long-Term Equity</span></div>
+      </div>
+    </header>
+
+    <!-- CHAPTER 1 -->
+    <section class="chapter" id="c1">
+      <div class="chapter-header">
+        <span class="chapter-num-large">CHAPTER 01</span>
+        <h2>The Strategy</h2>
+        <p>Why most indie books vanish—and the one operational shift that fixes it.</p>
+      </div>
+      
+      <div class="strategy-box">
+        <h4>The Core Thesis</h4>
+        <ul>
+          <li>Writing a good book is no longer enough; discovery is a system, not a lottery.</li>
+          <li>Scattered marketing stacks kill momentum through data loss and friction.</li>
+          <li>Atomic Shelf operates as one connected orbit: Video → Reviews → Listing → List → Ads.</li>
+        </ul>
+      </div>
+
+      <div class="modules">
+        <div class="module">
+          <h3>1.1 — The 3.2× Lift <span>· The Baseline</span></h3>
+          <p>The average Atomic Shelf author sees a 3.2× sales lift in 90 days. This isn't derived from one tactic; it's the compounding of five. We'll break down the actual data from 200+ clients to show why isolated tactics (just ads, just reviews, just video) inevitably plateau.</p>
+        </div>
+        <div class="module">
+          <h3>1.2 — The Fragmented Stack Trap <span>· The Problem</span></h3>
+          <p>Most authors juggle 5 separate vendors: a video freelancer, a deal newsletter ($400+/deal), an ARC platform ($400+/listing), a separate ad manager, and a review service. None of them share data. We'll map out the real monthly cost ($1,500–$5,000+) and expose the gaps where momentum dies.</p>
+        </div>
+        <div class="module">
+          <h3>1.3 — One Orbit, One Team <span>· The Solution</span></h3>
+          <p>Your book sits at the center of one orbit. Video (TikTok, Shorts, Reels) drives discovery; Reviews build trust; the Listing converts; the Reader List (ShelfMates/StoryPals) owns the audience; and Ads close the loop. Every stage feeds the next.</p>
+        </div>
+      </div>
+
+      <div class="action-items">
+        <div class="action-head">▶ Action Items</div>
+        <ul>
+          <li>Open your portal.</li>
+          <li>Locate the "Where Your Campaign Stands" card.</li>
+          <li>Audit which milestones are already ✅ and which are 🎯. This is your operational baseline.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- CHAPTER 2 -->
+    <section class="chapter" id="c2">
+      <div class="chapter-header">
+        <span class="chapter-num-large">CHAPTER 02</span>
+        <h2>The Content Engine</h2>
+        <p>60+ videos a month—how they are built, where they go, and how to read them.</p>
+      </div>
+      
+      <div class="strategy-box">
+        <h4>Engine Mechanics</h4>
+        <ul>
+          <li>Production follows a strict 14-step sequence to ensure quality and velocity.</li>
+          <li>The Content Library is your operational source of truth for hooks and scripts.</li>
+          <li>Metrics dictate strategy: Engagement Rate (benchmark 6.5%) is the north star.</li>
+        </ul>
+      </div>
+
+      <div class="modules">
+        <div class="module">
+          <h3>2.1 — The 14-Step Production Cycle <span>· Operations</span></h3>
+          <p>Every video moves through 14 stages: Hook Written → Script Approved → Seed Images Created → B-Roll Sourced → First Draft Complete → Sent to You for Review → Approved by You → Captions Added → Hashtags & Hooks Set → Thumbnail Created → Posted to TikTok → Posted to YouTube → This Week's Stats Logged → New Followers Added.</p>
+          <p>In Maintenance Mode, this collapses to 7 essential steps to preserve budget while keeping the algorithm fed.</p>
+        </div>
+        <div class="module">
+          <h3>2.2 — Navigating the Content Library <span>· Workflow</span></h3>
+          <p>Each week's videos are listed by name, featuring copyable fields for Hooks, Descriptions, Hashtags, and Voiceover scripts. Review scripts before production and flag any hook that doesn't match your book's voice immediately via the portal chat.</p>
+        </div>
+        <div class="module">
+          <h3>2.3 — Reading TikTok Performance <span>· Analytics</span></h3>
+          <p>Your TikTok section tracks Core metrics (Views, Likes, Comments, Shares, Saves, Engagement Rate), Reach & Audience (Profile Visits, New Followers), and Watch Behavior (Avg Watch Time, Video Completions).</p>
+          <div class="callout">
+            <h4>Benchmark</h4>
+            <p>The Engagement Rate benchmark is <strong>6.5%</strong>. Above that = green; below = orange. If it drops below 4% for two weeks, trigger a strategy chat with your editor.</p>
+          </div>
+        </div>
+        <div class="module">
+          <h3>2.4 — Reading YouTube Performance <span>· Analytics</span></h3>
+          <p>YouTube tracks the same core metrics, plus daily engaged views across all videos (a line chart). Watch Hours matter for monetization thresholds. CTR % tells you whether your thumbnails and titles are earning the click.</p>
+        </div>
+        <div class="module">
+          <h3>2.5 — The Top Videos Table <span>· Actionable Data</span></h3>
+          <p>Videos with views appear in the leaderboard. Zero-view videos get their own "Awaiting first views" section—these are republish candidates, not failures. Know the difference: leaders get amplified, zeros get reformatted.</p>
+        </div>
+      </div>
+
+      <div class="action-items">
+        <div class="action-head">▶ Action Items</div>
+        <ul>
+          <li>Open Content Library → expand Week 1 → copy any hook to your clipboard.</li>
+          <li>Open TikTok Performance → find your Engagement Rate. Is it above or below 6.5%?</li>
+          <li>Open Top Videos → identify your #1 performer by views.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- CHAPTER 3 -->
+    <section class="chapter" id="c3">
+      <div class="chapter-header">
+        <span class="chapter-num-large">CHAPTER 03</span>
+        <h2>The Trust Layer</h2>
+        <p>Honest ratings on your listing before you spend a dollar on ads.</p>
+      </div>
+      
+      <div class="strategy-box">
+        <h4>Trust Architecture</h4>
+        <ul>
+          <li>Reviews are not a one-off purchase; they are a stage in the compounding system.</li>
+          <li>Atomic Shelf bundles ARCs into a coordinated package, synchronizing with video and ads.</li>
+          <li>Listing copy and A+ content must be optimized to convert the trust when traffic arrives.</li>
+        </ul>
+      </div>
+
+      <div class="modules">
+        <div class="module">
+          <h3>3.1 — Where Reviews Come From <span>· Market Map</span></h3>
+          <p>Three standalone options most authors consider:</p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>Approach</th><th>Cost</th><th>Strength</th><th>Weakness</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Budget platform</td><td>~$10/book</td><td>Fast volume</td><td>Low quality, no video coordination</td></tr>
+                <tr><td>Pro review co.</td><td>$400–$850</td><td>Industry reach</td><td>~15% review rate, standalone</td></tr>
+                <tr><td>Prestige review</td><td>$400–$750</td><td>Established brand</td><td>7–9 week turnaround</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>Atomic Shelf syncs ARC reviews into the timeline: video warms the audience → ARC readers add early social proof → listing copy converts → ads close the loop.</p>
+        </div>
+        <div class="module">
+          <h3>3.2 — ARC Campaigns by Tier <span>· Allocation</span></h3>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Tier</th><th>Price</th><th>ARC Reviews Targeted</th></tr></thead>
+              <tbody>
+                <tr><td>Spark</td><td>$20/mo</td><td>—</td></tr>
+                <tr><td>Foundation</td><td>$79/mo</td><td>—</td></tr>
+                <tr><td>Momentum</td><td>$249/mo</td><td>10 per campaign</td></tr>
+                <tr><td>Growth</td><td>$499/mo</td><td>25 per campaign</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="module">
+          <h3>3.3 — Listing Copy & A+ Content <span>· Conversion</span></h3>
+          <p>Every tier from Foundation up includes listing optimization. Your team audits and rewrites Book descriptions, A+ Content blocks, and Backend keywords. When readers land on your page, the trust they arrived with actually converts.</p>
+        </div>
+      </div>
+
+      <div class="action-items">
+        <div class="action-head">▶ Action Items</div>
+        <ul>
+          <li>Open the Amazon Performance section.</li>
+          <li>Note your current Review Count and Average Rating.</li>
+          <li>Set a 90-day target for both metrics.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- CHAPTER 4 -->
+    <section class="chapter" id="c4">
+      <div class="chapter-header">
+        <span class="chapter-num-large">CHAPTER 04</span>
+        <h2>The Compounding Math</h2>
+        <p>Why each stage makes the next one cheaper.</p>
+      </div>
+      
+      <div class="strategy-box">
+        <h4>The System Logic</h4>
+        <ul>
+          <li>Skipping stages is the most expensive shortcut in indie publishing.</li>
+          <li>Cold traffic to an unproven listing destroys ad efficiency.</li>
+          <li>Momentum carries forward across multiple books.</li>
+        </ul>
+      </div>
+
+      <div class="modules">
+        <div class="module">
+          <h3>4.1 — The Funnel, Animated <span>· The Sequence</span></h3>
+          <p>Five nodes light up in sequence in your portal: Content → Reviews → Listing → Reader list → Advertising. Each stage feeds the next.</p>
+          <div class="diagram">Video ──→ Reviews ──→ Listing ──→ Reader List ──→ Ads
+  │            │           │             │           │
+discovery    trust       conversion   ownership    close loop
+  │            │           │             │           │
+  └────────────┴───────────┴─────────────┴───────────┘
+                       COMPOUNDS</div>
+        </div>
+        <div class="module">
+          <h3>4.2 — The Common Shortcut (and why it fails) <span>· Failure Analysis</span></h3>
+          <p>Most authors go: Write book → Jump straight to Amazon ads. The result: cold traffic lands on a listing with no social proof, no audience recognition, no reviews. CTRs collapse. ACOS spikes. The author concludes "ads don't work" — when really, the sequence was broken.</p>
+        </div>
+        <div class="module">
+          <h3>4.3 — The Atomic Shelf Sequence <span>· Execution</span></h3>
+          <p>Video warms the audience → Reviews earn the trust → Listing converts the traffic → Ads close the loop. Across multiple books, one team managing all five stages means every launch builds on the last. Shared data. One strategy. Momentum that carries forward.</p>
+        </div>
+        <div class="module">
+          <h3>4.4 — Reading Your Roadmap <span>· Milestones</span></h3>
+          <p>Six milestones, tracked in real time: YouTube editor access → YouTube posting live → TikTok set up & posting → Regular posting underway → Growing your TikTok followers → Traffic & reach campaigns running. Each milestone has a "done" state and a "pending" state.</p>
+        </div>
+      </div>
+
+      <div class="action-items">
+        <div class="action-head">▶ Action Items</div>
+        <ul>
+          <li>Open Campaign Roadmap.</li>
+          <li>Identify your next pending milestone.</li>
+          <li>Send your editor a message in the chat asking what you can do to help unlock it.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- CHAPTER 5 -->
+    <section class="chapter" id="c5">
+      <div class="chapter-header">
+        <span class="chapter-num-large">CHAPTER 05</span>
+        <h2>Portal Operations</h2>
+        <p>Every chart, every tile, every button—what it means and when to use it.</p>
+      </div>
+      
+      <div class="strategy-box">
+        <h4>Operational Cadence</h4>
+        <ul>
+          <li>Review the Hero card daily for staleness.</li>
+          <li>Log KDP data monthly to measure true ROI.</li>
+          <li>Use weekly thumbs feedback to steer content direction rapidly.</li>
+        </ul>
+      </div>
+
+      <div class="modules">
+        <div class="module">
+          <h3>5.1 — The Hero Card <span>· Status</span></h3>
+          <p>Top of your portal. Shows greeting + book title + author, status pills (Active/Trial, Maintenance Mode, Week N · Day N, Updated X ago, Genre, Editor), and four stats: Current Week, Weeks Elapsed, Total Views, TikTok Followers. The "Updated X ago" pill turns red if stale (3+ days).</p>
+        </div>
+        <div class="module">
+          <h3>5.2 — "Where Your Campaign Stands" <span>· Snapshot</span></h3>
+          <p>Two columns: Done so far (top 5 milestones reached) and Coming next (top 4 pending items). If you have content ready but not yet published, a gold banner explains the rollout schedule.</p>
+        </div>
+        <div class="module">
+          <h3>5.3 — This Week in Progress <span>· Execution</span></h3>
+          <p>The most important card. Shows Week Start/End dates, Progress bar (X/14 steps), full checklist with ✓ marks, Media tiles (Photos & Videos), and Weekly thumbs feedback (👍 This hit the mark / 👎 Needs adjustment). The thumbs widget is your fastest way to steer content direction.</p>
+        </div>
+        <div class="module">
+          <h3>5.4 — Campaign History <span>· Archives</span></h3>
+          <p>All past weeks, grouped by 4-week campaign months. Each week cell shows progress bar, 14 step dots, expandable checklist, and photo/video album cards with previews. Three charts appear once you have 2+ weeks: Week-over-week dual-axis, Platform comparison stacked, and Month-level aggregates.</p>
+        </div>
+        <div class="module">
+          <h3>5.5 — Audience Breakdown <span>· Demographics</span></h3>
+          <p>Gender split and top territories (countries). Reflects live data during early campaign phase — geography narrows as targeting matures.</p>
+        </div>
+        <div class="module">
+          <h3>5.6 — Amazon Performance + KDP Upload <span>· ROI</span></h3>
+          <p>The most ROI-relevant section. Shows BSR, Reviews, KENP Reads, Units Sold, Royalty, Rank Goals, BSR trend, and Campaign Impact correlation block.</p>
+          <div class="callout">
+            <h4>KDP CSV Upload Protocol</h4>
+            <p>1. Go to KDP → Reports → Sales Dashboard → Export CSV.<br>2. Click "Choose CSV File" in your portal.<br>3. We match it to your campaign timeline automatically.<br>4. See units sold, KENP reads, and royalties side-by-side with your content output.</p>
+          </div>
+        </div>
+        <div class="module">
+          <h3>5.7 — Chat with Your Editor <span>· Comms</span></h3>
+          <p>Messages flow both ways. Unread count appears in the section header and browser tab title. Messages auto-mark-read after ~18 hours. Use this for: script feedback, hook ideas, pausing questions, anything.</p>
+        </div>
+        <div class="module">
+          <h3>5.8 — Campaign Notes <span>· Strategy</span></h3>
+          <p>Long-form notes your whole team can see. Use for: series-level strategy, character voice preferences, recurring hashtag sets, anything you don't want to repeat in chat.</p>
+        </div>
+        <div class="module">
+          <h3>5.9 — Pause & Resume <span>· Controls</span></h3>
+          <p>Pause: Click "⏸ Pause My Campaign" → optional reason → confirm. Your content history is always preserved. Resume: Requires invoice payment. Click "▶ Request to Resume Campaign" → your team sends the invoice → reactivation within 24 hours.</p>
+        </div>
+        <div class="module">
+          <h3>5.10 — Rate Your Experience <span>· Feedback</span></h3>
+          <p>Six star categories: Overall, Communication, Content Quality, Results, Turnaround, General Feel. The Overall auto-averages from the other five. Your editor sees every rating.</p>
+        </div>
+      </div>
+
+      <div class="action-items">
+        <div class="action-head">▶ Action Items</div>
+        <ul>
+          <li>Download your latest KDP CSV → upload it to the Amazon section.</li>
+          <li>Send your editor a message asking about your top-performing video this week.</li>
+          <li>Leave a thumbs-up or thumbs-down on this week's content.</li>
+          <li>Save one note in Campaign Notes about your series direction.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- CHAPTER 6 -->
+    <section class="chapter" id="c6">
+      <div class="chapter-header">
+        <span class="chapter-num-large">CHAPTER 06</span>
+        <h2>Scaling Strategy</h2>
+        <p>When to boost, when to open a Shop, when to upgrade tiers.</p>
+      </div>
+      
+      <div class="strategy-box">
+        <h4>Scaling Triggers</h4>
+        <ul>
+          <li>Boost proven winners, not recent uploads. Let data drive ad spend.</li>
+          <li>Upgrade tiers when organic traction outpaces your current production capacity.</li>
+          <li>Build a backlist. The goal isn't one book, it's an asset that compounds.</li>
+        </ul>
+      </div>
+
+      <div class="modules">
+        <div class="module">
+          <h3>6.1 — TikTok Promote: The Right Way <span>· Amplification</span></h3>
+          <p>TikTok's built-in Promote feature pushes a video to a much larger lookalike audience. Inside the TikTok app: tap any posted video → More options (···) → Promote → choose goal → set daily budget & duration → Pay.</p>
+          <div class="callout">
+            <h4>The Golden Rule</h4>
+            <p>Promote your top performer, not your most recent video. Your portal's Top Videos table tells you which one that is. Promote costs are paid directly to TikTok, separate from your Atomic Shelf subscription.</p>
+          </div>
+        </div>
+        <div class="module">
+          <h3>6.2 — TikTok Shop (Optional, Self-Managed) <span>· Monetization</span></h3>
+          <p>TikTok Shop lets you sell directly inside TikTok. Tiered campaigns: SS/S (Black Friday-scale, 20-30% discount), A (Seasonal, moderate discount), B (Category-specific, lower discount). Recommendation: Set up Shop after 4-6 weeks of active content. Start with a B-tier campaign to test.</p>
+        </div>
+        <div class="module">
+          <h3>6.3 — Amazon DSP Campaigns <span>· Retargeting</span></h3>
+          <p>Once a video crosses 5,000 views, it qualifies for a small Amazon DSP campaign — retargeting the viewers your content already reached to push your book's BSR rank. Your team manages this automatically at Momentum and Growth tiers.</p>
+        </div>
+        <div class="module">
+          <h3>6.4 — When to Upgrade Tiers <span>· Expansion</span></h3>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Signal</th><th>Action</th></tr></thead>
+              <tbody>
+                <tr><td>Top video crosses 5K views</td><td>Momentum or higher (unlocks DSP)</td></tr>
+                <tr><td>Selling 50+ units/month</td><td>Growth (25 ARC reviews, monthly newsletter feature)</td></tr>
+                <tr><td>Multiple books in catalogue</td><td>Surge or Orbit (custom pricing)</td></tr>
+                <tr><td>Maintenance mode for 3+ months</td><td>Consider Spark ($20/mo) to keep content flowing</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="module">
+          <h3>6.5 — Compounding Across Books <span>· The Endgame</span></h3>
+          <p>The real goal isn't one book — it's a backlist. Each launch builds on the last because your TikTok following carries over, your reader list grows, your editor team knows what hooks worked, your listing copy templates are reusable, and your ad audiences are pre-warmed. By book 3 or 4, launches get cheaper and faster.</p>
+        </div>
+      </div>
+
+      <div class="action-items">
+        <div class="action-head">▶ Action Items</div>
+        <ul>
+          <li>Identify your top-performing video (Top Videos table).</li>
+          <li>If it's above 5,000 views, message your editor about running Amazon DSP.</li>
+          <li>Decide whether you'll open a TikTok Shop — write your decision in Campaign Notes.</li>
+          <li>List your next book idea in Campaign Notes so your team can start planning hooks.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- QUICK REFERENCE -->
+    <section class="chapter" id="ref">
+      <div class="chapter-header">
+        <span class="chapter-num-large">★ APPENDIX</span>
+        <h2>Quick Reference Cards</h2>
+        <p>Cheat sheets for your daily and weekly portal operations.</p>
+      </div>
+
+      <div class="ref-grid">
+        <div class="ref-card">
+          <h4>Portal Operations Cadence</h4>
+          <div class="table-wrap" style="border:none;margin:0;">
+            <table style="font-size:.85rem;">
+              <tbody>
+                <tr><td>Hero</td><td>Daily</td></tr>
+                <tr><td>Where Your Campaign Stands</td><td>Weekly</td></tr>
+                <tr><td>This Week in Progress</td><td>Weekly</td></tr>
+                <tr><td>TikTok Performance</td><td>Weekly</td></tr>
+                <tr><td>YouTube Performance</td><td>Weekly</td></tr>
+                <tr><td>Amazon Performance</td><td>Weekly</td></tr>
+                <tr><td>Campaign History</td><td>Monthly</td></tr>
+                <tr><td>Content Library</td><td>As posted</td></tr>
+                <tr><td>Campaign Roadmap</td><td>Monthly</td></tr>
+                <tr><td>Chat with Your Editor</td><td>Daily</td></tr>
+                <tr><td>Amazon KDP Upload</td><td>Monthly</td></tr>
+                <tr><td>Rate Your Experience</td><td>Monthly</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="ref-card">
+          <h4>Red Flags & Green Flags</h4>
+          <div class="flags">
+            <div class="flag-item"><div class="flag-icon flag-good">✓</div><span>Updated pill is green (fresh)</span></div>
+            <div class="flag-item"><div class="flag-icon flag-bad">!</div><span>Updated pill is red (3+ days stale)</span></div>
+            <div class="flag-item"><div class="flag-icon flag-good">✓</div><span>Engagement Rate ≥ 6.5%</span></div>
+            <div class="flag-item"><div class="flag-icon flag-bad">!</div><span>Engagement Rate < 4% for 2+ weeks</span></div>
+            <div class="flag-item"><div class="flag-icon flag-good">✓</div><span>BSR trending downward</span></div>
+            <div class="flag-item"><div class="flag-icon flag-bad">!</div><span>BSR flat or climbing for 3+ weeks</span></div>
+            <div class="flag-item"><div class="flag-icon flag-good">✓</div><span>Top video gaining views daily</span></div>
+            <div class="flag-item"><div class="flag-icon flag-bad">!</div><span>Zero-view videos accumulating</span></div>
+            <div class="flag-item"><div class="flag-icon flag-good">✓</div><span>Weekly thumbs 👍</span></div>
+            <div class="flag-item"><div class="flag-icon flag-bad">!</div><span>Three consecutive 👎</span></div>
+            <div class="flag-item"><div class="flag-icon flag-good">✓</div><span>Editor responds within 24h</span></div>
+            <div class="flag-item"><div class="flag-icon flag-bad">!</div><span>Editor silent for 48h+</span></div>
+          </div>
+        </div>
+
+        <div class="ref-card">
+          <h4>Tier Comparison</h4>
+          <div class="table-wrap" style="border:none;margin:0;">
+            <table style="font-size:.85rem;">
+              <thead>
+                <tr><th>Tier</th><th>Price</th><th>ARC</th><th>Ads</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Spark</td><td>$20</td><td>—</td><td>—</td></tr>
+                <tr><td>Foundation</td><td>$79</td><td>—</td><td>—</td></tr>
+                <tr><td>Momentum</td><td>$249</td><td>10</td><td>Included</td></tr>
+                <tr><td>Growth</td><td>$499</td><td>25</td><td>Included</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- IMPLEMENTATION -->
+    <section class="chapter" id="impl">
+      <div class="chapter-header">
+        <span class="chapter-num-large">✓ EXECUTE</span>
+        <h2>Implementation Checklist</h2>
+        <p>Before you consider this guide fully operational, confirm you can execute the following:</p>
+        <div id="save-status-container"></div>
+      </div>
+
+      <div class="checklist" id="checklist-container">
+        <label class="check-item">
+          <input type="checkbox" class="progress-check">
+          <span class="check-box"></span>
+          <span class="check-text">Identify where your current book sits within the 5-stage Atomic Shelf sequence</span>
+        </label>
+        <label class="check-item">
+          <input type="checkbox" class="progress-check">
+          <span class="check-box"></span>
+          <span class="check-text">Locate and read your Engagement Rate in the portal</span>
+        </label>
+        <label class="check-item">
+          <input type="checkbox" class="progress-check">
+          <span class="check-box"></span>
+          <span class="check-text">Upload a KDP CSV and interpret the Campaign Impact block</span>
+        </label>
+        <label class="check-item">
+          <input type="checkbox" class="progress-check">
+          <span class="check-box"></span>
+          <span class="check-text">Identify your top-performing video by views</span>
+        </label>
+        <label class="check-item">
+          <input type="checkbox" class="progress-check">
+          <span class="check-box"></span>
+          <span class="check-text">Send your editor a message with a specific question</span>
+        </label>
+        <label class="check-item">
+          <input type="checkbox" class="progress-check">
+          <span class="check-box"></span>
+          <span class="check-text">Leave thumbs feedback on this week's content</span>
+        </label>
+        <label class="check-item">
+          <input type="checkbox" class="progress-check">
+          <span class="check-box"></span>
+          <span class="check-text">Know your next pending roadmap milestone</span>
+        </label>
+        <label class="check-item">
+          <input type="checkbox" class="progress-check">
+          <span class="check-box"></span>
+          <span class="check-text">Decide whether TikTok Promote makes sense for your top video</span>
+        </label>
+        <label class="check-item">
+          <input type="checkbox" class="progress-check">
+          <span class="check-box"></span>
+          <span class="check-text">Pause and resume your campaign without panicking</span>
+        </label>
+        <label class="check-item">
+          <input type="checkbox" class="progress-check">
+          <span class="check-box"></span>
+          <span class="check-text">Set a 90-day sales goal and track it in Campaign Notes</span>
+        </label>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+      <h2>Stuck? We're here.</h2>
+      <p>Three ways to get help: Chat your editor in the portal for tactical questions. Email nick@atomic-shelf.com for billing. Or rely on Our Promise: if you haven't hit the growth target you agreed on together, we keep the file open, add work at no extra charge, and stay until we get there.</p>
+      <a href="mailto:nick@atomic-shelf.com" class="cta-btn">Talk to Us</a>
+    </section>
+
+  </main>
+</div>
+
+<script>
+// ==========================================
+// ATOMIC SHELF - PROGRESS & AUTH LOGIC
+// ==========================================
+// NOTE: This is a front-end simulation of OAuth using localStorage.
+// To implement real cross-device OAuth, replace `mockGoogleLogin` 
+// and `loadProgress` with Firebase Auth or Supabase Auth SDK calls.
+
+const navProgress = document.getElementById('navProgress');
+const progressText = document.getElementById('progressText');
+const authContainer = document.getElementById('auth-container');
+const authModal = document.getElementById('auth-modal');
+const saveStatusContainer = document.getElementById('save-status-container');
+const checkboxes = document.querySelectorAll('.progress-check');
+
+let currentUser = null;
+
+// --- Nav Scroll & Progress ---
+const sections = document.querySelectorAll('.chapter');
+const navLinks = document.querySelectorAll('.chapter-nav a');
+
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(section => {
+    const sectionTop = section.offsetTop - 120;
+    if (window.scrollY >= sectionTop) {
+      current = section.getAttribute('id');
+    }
+  });
+
+  navLinks.forEach(a => {
+    a.classList.remove('active');
+    if (a.getAttribute('href') === '#' + current) {
+      a.classList.add('active');
+    }
+  });
+
+  updateProgressBar();
+});
+
+function updateProgressBar() {
+  let totalHeight = document.body.scrollHeight - window.innerHeight;
+  let progress = (window.scrollY / totalHeight) * 100;
+  let scrollPercentage = Math.min(Math.max(progress, 0), 100);
+  navProgress.style.width = scrollPercentage + '%';
+  progressText.textContent = Math.round(scrollPercentage) + '%';
+}
+
+// --- Auth Modal Controls ---
+function openAuthModal() {
+  authModal.classList.add('active');
+}
+
+function closeAuthModal() {
+  authModal.classList.remove('active');
+}
+
+// Close modal if clicking outside
+window.onclick = function(event) {
+  if (event.target == authModal) {
+    closeAuthModal();
+  }
+}
+
+// --- Mock OAuth Login ---
+function mockGoogleLogin() {
+  // In a real app, this would trigger Google's OAuth popup and return a user object
+  // For this demo, we simulate a logged-in user
+  const mockEmail = "author@gmail.com";
+  const mockName = "Author User";
+  
+  currentUser = {
+    email: mockEmail,
+    name: mockName
+  };
+  
+  // Save user session
+  localStorage.setItem('as_user', JSON.stringify(currentUser));
+  
+  // Update UI
+  renderAuthState();
+  loadProgress();
+  closeAuthModal();
+}
+
+function logout() {
+  localStorage.removeItem('as_user');
+  localStorage.removeItem('as_progress_' + currentUser?.email);
+  currentUser = null;
+  renderAuthState();
+  checkboxes.forEach(cb => cb.checked = false);
+  updateProgressBar();
+}
+
+// --- Render Auth State ---
+function renderAuthState() {
+  const savedUser = localStorage.getItem('as_user');
+  
+  if (savedUser) {
+    currentUser = JSON.parse(savedUser);
+    const initials = currentUser.name.split(' ').map(n => n[0]).join('').substring(0,2).toUpperCase();
+    
+    authContainer.innerHTML = `
+      <div class="user-chip">
+        <div class="user-avatar">${initials}</div>
+        <span>${currentUser.name.split(' ')[0]}</span>
+        <span class="logout-link" onclick="logout()">Sign Out</span>
+      </div>
+    `;
+  } else {
+    authContainer.innerHTML = `
+      <button class="auth-btn" id="login-btn" onclick="openAuthModal()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+        Sign In
+      </button>
+    `;
+  }
+}
+
+// --- Progress Saving ---
+checkboxes.forEach(cb => {
+  cb.addEventListener('change', () => {
+    updateProgressBar();
+    saveProgress();
+  });
+});
+
+function saveProgress() {
+  if (!currentUser) return;
+  
+  let checkedCount = 0;
+  const states = [];
+  checkboxes.forEach((cb, index) => {
+    if (cb.checked) checkedCount++;
+    states.push(cb.checked);
+  });
+  
+  // Save to localStorage scoped to user email
+  localStorage.setItem('as_progress_' + currentUser.email, JSON.stringify(states));
+  
+  // Visual feedback
+  saveStatusContainer.innerHTML = `
+    <div class="save-badge" style="opacity:1">
+      ✓ Progress Saved (${checkedCount}/${checkboxes.length})
+    </div>
+  `;
+  
+  // Fade out badge after 2 seconds
+  setTimeout(() => {
+    const badge = saveStatusContainer.querySelector('.save-badge');
+    if(badge) badge.style.opacity = '0';
+  }, 2000);
+}
+
+function loadProgress() {
+  if (!currentUser) return;
+  
+  const savedStates = localStorage.getItem('as_progress_' + currentUser.email);
+  if (savedStates) {
+    const states = JSON.parse(savedStates);
+    checkboxes.forEach((cb, index) => {
+      cb.checked = states[index] || false;
+    });
+    updateProgressBar();
+  } else {
+    // Reset if no saved progress for this user
+    checkboxes.forEach(cb => cb.checked = false);
+    updateProgressBar();
+  }
+}
+
+// Initialize on load
+renderAuthState();
+if(currentUser) {
+  loadProgress();
+}
+
+</script>
+
+</body>
+</html>

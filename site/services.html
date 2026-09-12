@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="Every Atomic Shelf service in detail — video, ARC reviews, preorders, free promos, managed advertising, and reader-list apps."/>
+<title>Services — Atomic Shelf</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,400;1,9..144,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet"/>
+<style>
+:root{--ink:#1C1209;--paper:#F5EDD8;--paper-2:#EDE0C4;--paper-3:#E5D7B8;--copper:#A8461E;--copper-l:#C8673C;--amber:#B87820;--teal:#2E5A4E;--card:#FAF4E4;--stone:#5E4A30;--rule:rgba(28,18,9,0.13);--r:2px;--topnav-h:68px;}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--paper);color:var(--ink);line-height:1.65;-webkit-font-smoothing:antialiased;padding-top:var(--topnav-h);}
+h1,h2,h3,h4{font-family:'Fraunces',serif;letter-spacing:-0.015em;}
+.section{padding:7vh 8vw;position:relative;}
+.section-inner{max-width:1080px;margin:0 auto;width:100%;}
+.section.p1{background:var(--paper);}.section.p2{background:var(--paper-2);}.section.p3{background:var(--paper-3);}
+.section-rule{border:none;border-top:1px solid var(--rule);}
+.eyebrow{font-family:'Fraunces',serif;font-style:italic;font-size:0.88rem;color:var(--copper);margin-bottom:1.4rem;display:flex;align-items:center;gap:0.8rem;}
+.eyebrow::after{content:'';flex:0 0 36px;height:1px;background:var(--copper);opacity:0.35;}
+
+.topnav{position:fixed;top:0;left:0;right:0;z-index:600;display:flex;align-items:center;justify-content:space-between;padding:0 4vw;height:var(--topnav-h);background:rgba(245,237,216,0.92);backdrop-filter:blur(14px) saturate(1.3);border-bottom:1px solid var(--rule);}
+.topnav-logo{font-family:'Fraunces',serif;font-weight:700;font-size:1.32rem;color:var(--ink);text-decoration:none;letter-spacing:-0.02em;}
+.topnav-logo .accent{color:var(--copper);}
+.topnav-links{display:flex;align-items:center;gap:2.1rem;list-style:none;}
+.topnav-links a{color:var(--stone);text-decoration:none;font-size:0.85rem;font-weight:500;transition:color 0.2s;position:relative;padding:4px 0;}
+.topnav-links a:hover{color:var(--copper);}
+.topnav-links a.current{color:var(--copper);}
+.topnav-links a.current::after{content:'';position:absolute;left:0;right:0;bottom:-3px;height:2px;background:var(--copper);border-radius:2px;}
+.topnav-cta{background:var(--copper);color:#fff;padding:0.58rem 1.3rem;border-radius:var(--r);font-size:0.82rem;font-weight:600;text-decoration:none;transition:all 0.2s;white-space:nowrap;}
+.topnav-cta:hover{background:var(--copper-l);transform:translateY(-1px);}
+.topnav-mobile-toggle{display:none;background:none;border:1.5px solid var(--rule);border-radius:6px;width:38px;height:38px;align-items:center;justify-content:center;cursor:pointer;color:var(--ink);}
+@media(max-width:880px){.topnav-links{display:none;position:fixed;top:var(--topnav-h);left:0;right:0;background:var(--paper);border-bottom:1px solid var(--rule);flex-direction:column;align-items:flex-start;gap:0;padding:0.5rem 6vw 1.2rem;}.topnav-links.open{display:flex;}.topnav-links a{width:100%;padding:0.75rem 0;border-bottom:1px solid var(--rule);}.topnav-mobile-toggle{display:flex;}.topnav-cta{display:none;}.topnav-links.open .topnav-cta{display:inline-block;margin-top:0.6rem;}}
+
+.xlink{display:inline-flex;align-items:center;gap:5px;color:var(--copper);font-weight:600;text-decoration:none;border-bottom:1.5px solid rgba(168,70,30,0.32);padding-bottom:1px;transition:all 0.2s;}
+.xlink:hover{border-bottom-color:var(--copper);color:var(--copper-l);gap:8px;}
+.xlink::after{content:'→';font-size:0.92em;transition:transform 0.2s;}
+.xlink:hover::after{transform:translateX(2px);}
+.xlink-block{display:inline-flex;align-items:center;gap:8px;background:rgba(168,70,30,0.06);border:1px solid rgba(168,70,30,0.24);color:var(--copper);text-decoration:none;font-size:0.84rem;font-weight:600;padding:0.6rem 1.1rem;border-radius:var(--r);transition:all 0.2s;}
+.xlink-block:hover{background:rgba(168,70,30,0.12);border-color:var(--copper);gap:11px;}
+.xlink-block::after{content:'→';transition:transform 0.2s;}
+.xlink-block:hover::after{transform:translateX(2px);}
+
+.page-hero{padding:8vh 8vw 5vh;max-width:900px;}
+.page-hero .eyebrow{margin-bottom:1.2rem;}
+.page-hero h1{font-size:clamp(2.4rem,5vw,4rem);line-height:1.04;font-weight:600;margin-bottom:1.2rem;max-width:16ch;}
+.page-hero p{font-size:1.05rem;color:var(--stone);max-width:56ch;line-height:1.9;}
+
+.service-list{display:flex;flex-direction:column;}
+.service-row{display:grid;grid-template-columns:60px 1fr;gap:1.6rem;padding:2.6rem 0;border-top:1px solid var(--rule);}
+.service-row:last-child{border-bottom:1px solid var(--rule);}
+.service-num{font-family:'Fraunces',serif;font-style:italic;font-weight:300;font-size:2rem;color:var(--copper);}
+.service-row h3{font-size:1.5rem;font-weight:600;margin-bottom:0.6rem;}
+.service-row p{font-size:0.96rem;color:var(--stone);line-height:1.85;max-width:62ch;margin-bottom:1rem;}
+.service-tags{display:flex;gap:0.5rem;flex-wrap:wrap;}
+.service-tag{font-size:0.72rem;font-weight:600;color:var(--copper);background:rgba(168,70,30,0.07);border:1px solid rgba(168,70,30,0.2);border-radius:99px;padding:3px 11px;}
+
+.btn{display:inline-flex;align-items:center;gap:6px;padding:0.82rem 1.85rem;border-radius:var(--r);font-size:0.86rem;font-weight:600;text-decoration:none;transition:all 0.2s;cursor:pointer;border:1.5px solid transparent;}
+.btn-copper{background:var(--copper);color:#fff;border-color:var(--copper);}
+.btn-copper:hover{background:var(--copper-l);border-color:var(--copper-l);transform:translateY(-1px);}
+.btn-outline{border-color:var(--ink);color:var(--ink);}
+.btn-outline:hover{background:var(--ink);color:#fff;}
+
+footer{background:var(--ink);color:rgba(245,237,216,0.55);padding:3.4rem 8vw 2.2rem;font-size:0.8rem;}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2.4rem;max-width:1080px;margin:0 auto;padding-bottom:2.2rem;border-bottom:1px solid rgba(245,237,216,0.1);}
+@media(max-width:760px){.footer-grid{grid-template-columns:1fr 1fr;}}
+.footer-logo{font-family:'Fraunces',serif;font-weight:700;font-size:1.4rem;color:#fff;margin-bottom:0.7rem;}
+.footer-logo .accent{color:var(--copper-l);}
+.footer-desc{color:rgba(245,237,216,0.42);line-height:1.75;max-width:34ch;}
+.footer-col h5{color:rgba(245,237,216,0.85);font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.9rem;}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:0.55rem;}
+footer a{color:rgba(245,237,216,0.55);text-decoration:none;transition:color 0.2s;}
+footer a:hover{color:var(--copper-l);}
+.footer-bottom{max-width:1080px;margin:0 auto;padding-top:1.6rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.6rem;color:rgba(245,237,216,0.32);}
+</style>
+</head>
+<body>
+
+<nav class="topnav" id="topnav">
+  <a href="index.html" class="topnav-logo">Atomic<span class="accent">&#8209;</span>Shelf</a>
+  <ul class="topnav-links" id="topnavLinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="services.html" class="current">Services</a></li>
+    <li><a href="results.html">Results</a></li>
+    <li><a href="faq.html">FAQ</a></li>
+    <li><a href="index.html#pricing">Pricing</a></li>
+    <li><a href="mailto:nick@atomic-shelf.com" class="topnav-cta">Talk to us</a></li>
+  </ul>
+  <button class="topnav-mobile-toggle" id="navToggle" aria-label="Menu">☰</button>
+</nav>
+
+<div class="page-hero section-inner">
+  <div class="eyebrow">Services</div>
+  <h1>Everything that goes into selling one more book.</h1>
+  <p>Each piece below stands on its own, but they were built to run together — content that earns trust, trust that earns a click, and a listing built to close the sale. Here's exactly what's included in each. Pricing and expected results by tier live on the <a href="index.html#pricing" class="xlink">pricing page</a>.</p>
+</div>
+
+<section class="section p1">
+  <div class="section-inner">
+    <div class="service-list">
+
+      <div class="service-row">
+        <div class="service-num">01</div>
+        <div>
+          <h3>Short-form video production</h3>
+          <p>We write, produce, and publish genre-matched video for your book every month — no camera, no editing software, no scripts to approve line by line. Content goes out on TikTok, YouTube Shorts, and Instagram Reels, calibrated to how your specific genre's readers actually discover books.</p>
+          <div class="service-tags">
+            <span class="service-tag">TikTok</span><span class="service-tag">YouTube Shorts</span><span class="service-tag">Reels</span><span class="service-tag">Book trailers</span><span class="service-tag">Theme songs (higher tiers)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="service-row">
+        <div class="service-num">02</div>
+        <div>
+          <h3>ARC &amp; beta reader campaigns</h3>
+          <p>We recruit genre-matched readers from our own network, send advance copies, brief them, and follow up until reviews land. Your listing gets honest, early social proof before it needs to convert a single stranger.</p>
+          <div class="service-tags">
+            <span class="service-tag">Reader recruitment</span><span class="service-tag">Managed follow-up</span><span class="service-tag">Genuine reviews only</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="service-row">
+        <div class="service-num">03</div>
+        <div>
+          <h3>Preorder campaigns</h3>
+          <p>We set up your preorder listing correctly — pricing, release timing, and back-of-book links — then run a countdown campaign across your video channels, ARC readers, and reader lists in the weeks before launch. Every preorder converts to a same-day sale, giving Amazon's algorithm the concentrated signal that moves category rank hardest.</p>
+          <div class="service-tags">
+            <span class="service-tag">Listing setup</span><span class="service-tag">6–8 week countdown series</span><span class="service-tag">Launch-day rank spike</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="service-row">
+        <div class="service-num">04</div>
+        <div>
+          <h3>Listing &amp; A+ page builds</h3>
+          <p>Your Amazon listing gets rewritten copy and a designed A+ page — built to hold the attention your video and reviews send its way, and to turn that attention into a sale or a Kindle Unlimited borrow.</p>
+          <div class="service-tags">
+            <span class="service-tag">Copy rewrite</span><span class="service-tag">A+ content build</span><span class="service-tag">Conversion-focused design</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="service-row">
+        <div class="service-num">05</div>
+        <div>
+          <h3>Free promo &amp; newsletter features</h3>
+          <p>When your book goes free on KDP, we time a newsletter feature and a push to our ARC and beta network to coincide with it. The download spike climbs the free charts fast, and the rank momentum typically carries into paid sales for weeks after the price resets.</p>
+          <div class="service-tags">
+            <span class="service-tag">Newsletter placement</span><span class="service-tag">Timed to KDP free days</span><span class="service-tag">Also-bought row growth</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="service-row">
+        <div class="service-num">06</div>
+        <div>
+          <h3>Managed Amazon advertising</h3>
+          <p>Once there's an audience worth advertising to, our team runs your Amazon campaigns day to day — retargeting readers who've already seen your content or reviews, right when they're closest to buying or borrowing. You see the plan and the outcomes; we run the console.</p>
+          <div class="service-tags">
+            <span class="service-tag">Certified Amazon Advertising Partner</span><span class="service-tag">Weekly optimization</span><span class="service-tag">Full attribution</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="service-row">
+        <div class="service-num">07</div>
+        <div>
+          <h3>Reader-list apps — ShelfMates &amp; StoryPals</h3>
+          <p>Our own in-house apps build a reader list that's yours, not a platform's. ShelfMates matches adult fiction to genre-tagged readers; StoryPals matches children's books to parents browsing by age range. Every release reaches an audience that's already said yes to you.</p>
+          <div class="service-tags">
+            <span class="service-tag">Owned audience</span><span class="service-tag">Genre &amp; age-range matching</span><span class="service-tag">No extra cost per release</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div style="margin-top:3rem;display:flex;gap:1rem;flex-wrap:wrap;align-items:center;">
+      <a href="index.html#pricing" class="btn btn-copper">See plans &amp; pricing</a>
+      <a href="results.html" class="xlink-block">See real results by tier</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo">Atomic<span class="accent">&#8209;</span>Shelf</div>
+      <p class="footer-desc">Video, reviews, preorders, free promos, reader lists, and managed Amazon advertising — one team, one system, built for indie authors.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Site</h5>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="results.html">Results</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Plans</h5>
+      <ul>
+        <li><a href="index.html#pricing">Pricing</a></li>
+        <li><a href="index.html#pricing">Compare tiers</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Contact</h5>
+      <ul><li><a href="mailto:nick@atomic-shelf.com">nick@atomic-shelf.com</a></li></ul>
+    </div>
+  </div>
+  <div class="footer-bottom"><span>© 2026 Atomic Shelf. All rights reserved.</span></div>
+</footer>
+
+<script>
+document.getElementById('navToggle').addEventListener('click',()=>{document.getElementById('topnavLinks').classList.toggle('open');});
+</script>
+</body>
+</html>

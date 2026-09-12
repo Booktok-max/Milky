@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Atomic Shelf · Peacock on the Moon · Campaign Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600;1,700&family=Jost:wght@300;400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+a{color:inherit;text-decoration:none;}
+:root{
+  --bg:#f5f0e8;--bg2:#ede5d6;--bg3:#e3d8c4;
+  --teal:#1a5c5c;--teal2:#267070;--teal-lt:#e4f0f0;
+  --amber:#b06820;--amber2:#c87a28;--amber-lt:#fdf3e0;
+  --ink:#141210;--ink2:#2a2018;--ink3:#4a3c28;--ink4:#7a6a50;
+  --border:#cfc0a0;--border-lt:#ddd0b4;
+  --surface:#ffffff;--surface2:#f9f5ec;
+  --r:10px;--r-lg:16px;--r-xl:24px;
+  --glow-teal:0 4px 24px rgba(26,92,92,.14);--glow-amber:0 4px 20px rgba(176,104,32,.13);
+  --shadow-sm:0 2px 12px rgba(20,18,10,.06);--shadow:0 6px 32px rgba(20,18,10,.10);--shadow-lg:0 14px 50px rgba(20,18,10,.14);
+}
+body{font-family:'Jost',system-ui,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;font-size:17px;line-height:1.75;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(26,92,92,.07) 0%,transparent 65%);pointer-events:none;z-index:0;}
+::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:var(--bg2);}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+
+/* ── TRIAL BANNER ── */
+.trial-banner{background:var(--surface);border-bottom:2px solid var(--border);padding:12px 40px;position:sticky;top:0;z-index:100;box-shadow:var(--shadow-sm);}
+.trial-inner{max-width:1060px;margin:0 auto;display:flex;align-items:center;gap:20px;flex-wrap:wrap;}
+.trial-label{font-family:'DM Mono',monospace;font-size:.66rem;text-transform:uppercase;letter-spacing:.14em;color:var(--amber);white-space:nowrap;}
+.trial-track{flex:1;min-width:200px;background:var(--bg3);border-radius:40px;height:8px;position:relative;overflow:hidden;}
+.trial-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--amber2));border-radius:40px;transition:width 1s cubic-bezier(.34,1.56,.64,1);}
+.trial-day-num{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--teal);line-height:1;}
+.trial-day-lbl{font-family:'DM Mono',monospace;font-size:.58rem;color:var(--ink4);text-transform:uppercase;letter-spacing:.1em;}
+.trial-status{font-family:'DM Mono',monospace;font-size:.62rem;color:var(--teal2);background:rgba(26,92,92,.08);border:1px solid rgba(26,92,92,.2);border-radius:40px;padding:3px 11px;white-space:nowrap;animation:blink-badge 3s ease-in-out infinite;}
+@keyframes blink-badge{0%,100%{opacity:1;}50%{opacity:.65;}}
+
+/* ── HERO ── */
+.hero{padding:70px 40px 80px;position:relative;overflow:hidden;z-index:1;background:linear-gradient(160deg,#0d2e2e 0%,#091818 55%,#142020 100%);}
+.hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(176,104,32,.5),transparent);}
+/* decorative peacock feather eye motif */
+.hero::before{content:'◉';position:absolute;top:-30px;right:-30px;font-size:20rem;color:rgba(26,92,92,.06);line-height:1;pointer-events:none;}
+.hero-inner{max-width:1060px;margin:0 auto;position:relative;}
+.hero-logo{display:inline-flex;align-items:center;gap:10px;margin-bottom:44px;opacity:.8;}
+.logo-mark{width:36px;height:36px;background:linear-gradient(135deg,var(--teal),var(--teal2));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;color:#fff;letter-spacing:.05em;font-family:'DM Mono',monospace;box-shadow:0 2px 16px rgba(26,92,92,.4);}
+.logo-text{font-family:'Playfair Display',serif;font-size:1.1rem;font-style:italic;color:rgba(240,235,220,.6);letter-spacing:.02em;}
+.hero-eyebrow{font-family:'DM Mono',monospace;font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:#d4a84a;margin-bottom:16px;opacity:.9;}
+.hero-title{font-family:'Playfair Display',serif;font-size:clamp(2rem,5.5vw,4.2rem);font-weight:700;color:#f5f0e8;line-height:1.07;margin-bottom:8px;letter-spacing:-.01em;}
+.hero-title em{font-style:italic;color:#d4a84a;}
+.hero-sub{font-size:1.05rem;color:rgba(240,235,220,.58);font-weight:400;margin-bottom:40px;max-width:520px;}
+.hero-stats{display:flex;gap:0;flex-wrap:wrap;}
+.hstat{padding:20px 36px 20px 0;margin-right:36px;border-right:1px solid rgba(255,255,255,.1);}
+.hstat:last-child{border-right:none;margin-right:0;}
+.hstat-val{font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:#f5f0e8;line-height:1;margin-bottom:4px;}
+.hstat-val.teal{color:#80d0c0;}.hstat-val.amber{color:#d4a84a;}
+.hstat-lbl{font-family:'DM Mono',monospace;font-size:.57rem;color:rgba(240,235,220,.32);text-transform:uppercase;letter-spacing:.1em;}
+
+/* ── LAYOUT ── */
+.main{max-width:1060px;margin:0 auto;padding:50px 40px 100px;position:relative;z-index:1;}
+
+/* ── TABS ── */
+.tab-nav{display:flex;gap:0;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xl);padding:5px;margin-bottom:40px;width:fit-content;overflow-x:auto;box-shadow:var(--shadow-sm);}
+.tab-btn{font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4);padding:9px 20px;border-radius:calc(var(--r-xl) - 4px);cursor:pointer;transition:all .18s;border:none;background:none;white-space:nowrap;}
+.tab-btn.active{background:linear-gradient(135deg,var(--teal),var(--teal2));color:#fff;box-shadow:var(--glow-teal);}
+.tab-btn:hover:not(.active){color:var(--ink);background:var(--bg2);}
+.tab-panel{display:none;}.tab-panel.active{display:block;}
+
+/* ── SECTION HEADERS ── */
+.section-hd{display:flex;align-items:center;gap:14px;margin-bottom:22px;margin-top:52px;}
+.section-hd:first-child{margin-top:0;}
+.section-accent{width:4px;height:30px;border-radius:3px;flex-shrink:0;background:linear-gradient(180deg,var(--teal),var(--teal2));}
+.section-accent.amber{background:linear-gradient(180deg,var(--amber),var(--amber2));}
+.section-title{font-family:'Playfair Display',serif;font-size:1.9rem;font-weight:700;color:var(--ink);line-height:1;letter-spacing:-.01em;}
+.section-rule{flex:1;height:1px;background:var(--border-lt);}
+.section-count{font-family:'DM Mono',monospace;font-size:.62rem;color:var(--ink4);background:var(--bg2);border:1px solid var(--border);border-radius:40px;padding:3px 12px;letter-spacing:.06em;}
+
+/* ── NOTICE ── */
+.notice{background:var(--amber-lt);border:1px solid rgba(176,104,32,.25);border-radius:var(--r);padding:16px 20px;font-size:.95rem;color:var(--ink2);display:flex;align-items:flex-start;gap:10px;margin-bottom:20px;}
+.notice.teal{background:var(--teal-lt);border-color:rgba(26,92,92,.22);}
+.notice-icon{font-size:1.1rem;flex-shrink:0;}
+.notice a{color:var(--teal);font-weight:600;text-decoration:underline;}
+
+/* ── CARDS ── */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:28px 32px;box-shadow:var(--shadow-sm);margin-bottom:14px;}
+.card-title{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--ink);margin-bottom:4px;}
+
+/* ── PHOTO ALBUM CARD ── */
+.album-section{margin-bottom:32px;}
+.album-link-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;transition:transform .2s,box-shadow .2s;display:block;box-shadow:var(--shadow-sm);}
+.album-link-card:hover{transform:translateY(-3px);box-shadow:var(--shadow);}
+.album-thumb-wrap{width:100%;aspect-ratio:16/9;overflow:hidden;position:relative;background:var(--bg2);}
+.album-thumb-wrap img{width:100%;height:100%;object-fit:cover;display:block;transition:opacity .2s;}
+.album-link-card:hover .album-thumb-wrap img{opacity:.92;}
+.album-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(14,28,20,.65) 0%,transparent 50%);display:flex;align-items:flex-end;padding:14px;}
+.album-overlay-text{font-family:'DM Mono',monospace;font-size:.62rem;color:#d4a84a;text-transform:uppercase;letter-spacing:.1em;}
+.album-info-row{padding:14px 18px;display:flex;align-items:center;justify-content:space-between;background:var(--surface);}
+.album-name{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:600;color:var(--ink);}
+.album-meta{font-size:.75rem;color:var(--ink4);}
+.album-open-btn{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.08em;color:var(--teal2);background:rgba(26,92,92,.07);border:1px solid rgba(26,92,92,.2);border-radius:40px;padding:4px 12px;text-transform:uppercase;white-space:nowrap;}
+
+/* ── CONTENT CALENDAR ── */
+.cal-grid{display:flex;flex-direction:column;gap:8px;}
+.cal-item{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:18px 22px;display:grid;grid-template-columns:40px 1fr auto;gap:16px;align-items:start;transition:border-color .2s,box-shadow .2s;box-shadow:var(--shadow-sm);}
+.cal-item:hover{border-color:rgba(26,92,92,.3);box-shadow:var(--glow-teal);}
+.cal-num{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:var(--teal);line-height:1;opacity:.5;}
+.cal-hook{font-family:'Playfair Display',serif;font-size:1.08rem;font-weight:600;color:var(--ink);line-height:1.35;margin-bottom:4px;}
+.cal-tag{font-family:'DM Mono',monospace;font-size:.6rem;text-transform:uppercase;letter-spacing:.09em;color:var(--amber);background:rgba(176,104,32,.1);border:1px solid rgba(176,104,32,.22);border-radius:40px;padding:2px 9px;display:inline-block;margin-bottom:6px;}
+.cal-vo{font-size:.88rem;color:var(--ink3);line-height:1.7;border-left:3px solid rgba(26,92,92,.2);padding-left:12px;margin-top:8px;}
+.cal-day{font-family:'DM Mono',monospace;font-size:.6rem;color:var(--ink4);text-transform:uppercase;letter-spacing:.08em;text-align:right;white-space:nowrap;}
+.cal-vo-toggle{font-family:'DM Mono',monospace;font-size:.62rem;color:var(--teal2);cursor:pointer;letter-spacing:.06em;text-transform:uppercase;background:rgba(26,92,92,.07);border:1px solid rgba(26,92,92,.18);border-radius:40px;padding:3px 10px;margin-top:6px;transition:background .15s;}
+.cal-vo-toggle:hover{background:rgba(26,92,92,.13);}
+.vo-hidden{display:none;}
+
+/* ── NEXT STEPS ── */
+.steps-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;}
+.step-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:24px 26px;box-shadow:var(--shadow-sm);}
+.step-num{font-family:'DM Mono',monospace;font-size:.85rem;font-weight:600;color:var(--teal2);line-height:1;margin-bottom:12px;background:rgba(26,92,92,.08);border:1px solid rgba(26,92,92,.2);border-radius:8px;display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;letter-spacing:.06em;}
+.step-title{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;color:var(--ink);margin-bottom:8px;}
+.step-desc{font-size:.92rem;color:var(--ink3);line-height:1.7;}
+.step-action{display:inline-flex;align-items:center;gap:5px;margin-top:14px;font-family:'DM Mono',monospace;font-size:.62rem;color:var(--amber);background:rgba(176,104,32,.08);border:1px solid rgba(176,104,32,.22);border-radius:40px;padding:5px 13px;letter-spacing:.04em;text-transform:uppercase;cursor:pointer;}
+
+/* ── STRATEGY ── */
+.strategy-timeline{display:flex;flex-direction:column;gap:0;position:relative;}
+.strategy-timeline::before{content:'';position:absolute;left:18px;top:20px;bottom:20px;width:2px;background:linear-gradient(180deg,var(--teal),var(--amber2),var(--teal));opacity:.2;}
+.stl-item{display:flex;gap:20px;padding:18px 0;border-bottom:1px solid var(--border-lt);}
+.stl-item:last-child{border-bottom:none;}
+.stl-dot{width:36px;height:36px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:.6rem;font-weight:600;letter-spacing:.04em;border:2px solid;}
+.stl-dot.organic{background:rgba(26,92,92,.1);border-color:var(--teal);color:var(--teal);}
+.stl-dot.promote{background:rgba(176,104,32,.1);border-color:var(--amber);color:var(--amber);}
+.stl-dot.dsp{background:rgba(38,112,112,.1);border-color:var(--teal2);color:var(--teal2);}
+.stl-phase{font-family:'DM Mono',monospace;font-size:.63rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink4);margin-bottom:4px;}
+.stl-title{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;color:var(--ink);margin-bottom:6px;}
+.stl-desc{font-size:.92rem;color:var(--ink3);line-height:1.7;}
+.stl-metric{display:inline-block;font-family:'DM Mono',monospace;font-size:.68rem;font-weight:600;color:var(--amber);margin-top:8px;}
+
+/* ── BADGE ── */
+.badge{display:inline-flex;align-items:center;padding:3px 11px;border-radius:40px;font-size:.64rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;font-family:'DM Mono',monospace;}
+.b-trial{background:rgba(38,112,112,.1);color:var(--teal2);border:1px solid rgba(38,112,112,.25);}
+.b-active{background:rgba(26,92,92,.09);color:var(--teal);border:1px solid rgba(26,92,92,.22);}
+.b-next{background:rgba(176,104,32,.1);color:var(--amber);border:1px solid rgba(176,104,32,.25);}
+
+/* ── METRICS ── */
+.metrics-strip{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-bottom:14px;}
+.mbox{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:18px;text-align:center;box-shadow:var(--shadow-sm);}
+.mbox-val{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:700;color:var(--ink);line-height:1;margin-bottom:5px;}
+.mbox-val.teal{color:var(--teal2);}.mbox-val.amber{color:var(--amber);}
+.mbox-lbl{font-family:'DM Mono',monospace;font-size:.56rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink4);}
+
+/* ── FOOTER ── */
+.footer{background:var(--ink);padding:36px 40px;text-align:center;position:relative;z-index:1;}
+.footer-logo{font-family:'Playfair Display',serif;font-size:1.3rem;font-style:italic;color:rgba(240,235,220,.4);margin-bottom:6px;}
+.footer-text{font-family:'DM Mono',monospace;font-size:.62rem;color:rgba(240,235,220,.2);letter-spacing:.06em;}
+
+@media(max-width:700px){
+  .hero{padding:40px 20px 50px;}.main{padding:30px 20px 80px;}
+  .trial-banner{padding:10px 20px;}.hstat{padding:14px 20px 14px 0;margin-right:20px;}
+  .hstat-val{font-size:2rem;}.steps-grid{grid-template-columns:1fr;}
+  .cal-item{grid-template-columns:36px 1fr;}.cal-day{display:none;}
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+.card,.cal-item,.step-card,.album-link-card{animation:fadeUp .45s ease both;}
+</style>
+</head>
+<body>
+
+<!-- ── TRIAL BANNER ── -->
+<div class="trial-banner">
+  <div class="trial-inner">
+    <div>
+      <div class="trial-day-num" id="trialDayNum">1</div>
+      <div class="trial-day-lbl">of 9 days</div>
+    </div>
+    <div style="flex:1;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;">
+        <div class="trial-label">Trial Progress</div>
+        <div class="trial-status" id="trialStatus">Day 1 — Trial Active</div>
+      </div>
+      <div class="trial-track"><div class="trial-fill" id="trialFill" style="width:7.1%"></div></div>
+    </div>
+    <div style="text-align:right;">
+      <div style="font-family:'DM Mono',monospace;font-size:.58rem;color:var(--ink4);text-transform:uppercase;letter-spacing:.08em;">Started</div>
+      <div style="font-family:'DM Mono',monospace;font-size:.7rem;color:var(--amber2);" id="trialStart">May 24, 2026</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── HERO ── -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-logo"><div class="logo-mark">AS</div><div class="logo-text">Atomic Shelf</div></div>
+    <div class="hero-eyebrow">Campaign Dashboard · Extended Trial · Day 5 of 9 · May 2026</div>
+    <h1 class="hero-title">Nicola Briggs<br><em>Peacock on the Moon</em></h1>
+    <p class="hero-sub">Your extended 14-day trial campaign is live. 15 videos planned. Your seed photos are ready for review below.</p>
+    <div class="hero-stats">
+      <div class="hstat"><div class="hstat-val teal">15</div><div class="hstat-lbl">Videos Planned</div></div>
+      <div class="hstat"><div class="hstat-val amber">9</div><div class="hstat-lbl">Trial Days</div></div>
+      <div class="hstat"><div class="hstat-val">4.4★</div><div class="hstat-lbl">Amazon Rating</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── MAIN ── -->
+<div class="main">
+
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="switchTab('overview',this)">Overview</button>
+    <button class="tab-btn" onclick="switchTab('calendar',this)">Content Calendar</button>
+    <button class="tab-btn" onclick="switchTab('media',this)">Photo Albums</button>
+    <button class="tab-btn" onclick="switchTab('nextsteps',this)">Next Steps</button>
+    <button class="tab-btn" onclick="switchTab('strategy',this)">Strategy</button>
+  </div>
+
+  <!-- ══ OVERVIEW ══ -->
+  <div class="tab-panel active" id="tab-overview">
+
+    <div class="notice teal">
+      <span class="notice-icon">🦚</span>
+      <span>You're on <strong>Day 5 of your extended 9-day trial</strong>. Content is being prepared. The one outstanding item is the <strong>YouTube channel setup</strong> — head to the <strong>Next Steps</strong> tab for the quick instructions. Everything else is in motion.</span>
+    </div>
+
+    <div class="section-hd">
+      <div class="section-accent"></div>
+      <div class="section-title">The Book</div>
+      <div class="section-rule"></div>
+    </div>
+
+    <div class="card">
+      <div style="display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap;">
+        <div style="flex:1;min-width:200px;">
+          <div style="font-family:'DM Mono',monospace;font-size:.6rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink4);margin-bottom:6px;">Memoir · Coming-of-Age · Discrimination & Racism · Biographies of Women</div>
+          <div class="card-title" style="font-size:1.5rem;font-family:'Playfair Display',serif;">Peacock on the Moon</div>
+          <div style="font-family:'Playfair Display',serif;font-size:.9rem;font-style:italic;color:var(--ink3);margin-bottom:4px;">A childhood recollection of prejudice in action and pride stretched too far</div>
+          <div style="font-size:.85rem;color:var(--ink3);margin-bottom:12px;">by <strong>Nicola Briggs</strong> · Published March 31, 2026</div>
+          <div style="margin-bottom:14px;display:flex;gap:6px;flex-wrap:wrap;">
+            <span class="badge b-trial">Extended Trial</span>
+            <span class="badge b-active">Active</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">
+            <div style="background:var(--bg2);border:1px solid var(--border-lt);border-radius:8px;padding:10px 12px;">
+              <div style="font-family:'DM Mono',monospace;font-size:.54rem;color:var(--ink4);text-transform:uppercase;letter-spacing:.07em;margin-bottom:3px;">Amazon Rating</div>
+              <div style="font-size:.9rem;color:var(--amber2);font-weight:600;">4.4 / 5 ★ (14 reviews)</div>
+            </div>
+            <div style="background:var(--bg2);border:1px solid var(--border-lt);border-radius:8px;padding:10px 12px;">
+              <div style="font-family:'DM Mono',monospace;font-size:.54rem;color:var(--ink4);text-transform:uppercase;letter-spacing:.07em;margin-bottom:3px;">BSR Kindle</div>
+              <div style="font-size:.9rem;color:var(--ink2);font-weight:600;">#439,601</div>
+            </div>
+            <div style="background:var(--bg2);border:1px solid var(--border-lt);border-radius:8px;padding:10px 12px;">
+              <div style="font-family:'DM Mono',monospace;font-size:.54rem;color:var(--ink4);text-transform:uppercase;letter-spacing:.07em;margin-bottom:3px;">Discrimination &amp; Racism</div>
+              <div style="font-size:.9rem;color:var(--teal2);font-weight:600;">#266 in Studies</div>
+            </div>
+            <div style="background:var(--bg2);border:1px solid var(--border-lt);border-radius:8px;padding:10px 12px;">
+              <div style="font-family:'DM Mono',monospace;font-size:.54rem;color:var(--ink4);text-transform:uppercase;letter-spacing:.07em;margin-bottom:3px;">Kindle Price</div>
+              <div style="font-size:.9rem;color:var(--ink2);font-weight:600;">$6.99 / £ Paperback $16.99</div>
+            </div>
+          </div>
+          <a href="https://www.amazon.com/dp/B0G7X7R7JK" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.06em;color:var(--amber2);background:rgba(176,104,32,.09);border:1px solid rgba(176,104,32,.25);border-radius:40px;padding:6px 14px;text-transform:uppercase;">📚 View on Amazon ↗</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Standout quote from reviews -->
+    <div class="card" style="background:linear-gradient(135deg,#f0ebe0,#e8e0d0);border-color:var(--border);">
+      <div style="font-family:'DM Mono',monospace;font-size:.58rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink4);margin-bottom:10px;">Reader Review Highlight</div>
+      <div style="font-family:'Playfair Display',serif;font-size:1.15rem;font-style:italic;color:var(--ink2);line-height:1.65;margin-bottom:10px;">"A brave, mesmerizing memoir, which I think would melt even the coldest of hearts."</div>
+      <div style="font-family:'DM Mono',monospace;font-size:.62rem;color:var(--ink4);">— S. Chandler, 5★ Verified Purchase, UK</div>
+    </div>
+
+    <div class="section-hd" style="margin-top:40px;">
+      <div class="section-accent amber"></div>
+      <div class="section-title">Trial at a Glance</div>
+      <div class="section-rule"></div>
+    </div>
+    <div class="metrics-strip">
+      <div class="mbox"><div class="mbox-val teal">15</div><div class="mbox-lbl">Videos This Trial</div></div>
+      <div class="mbox"><div class="mbox-val">2–3</div><div class="mbox-lbl">Posts Per Day</div></div>
+      <div class="mbox"><div class="mbox-val amber">TikTok</div><div class="mbox-lbl">Primary Platform</div></div>
+      <div class="mbox"><div class="mbox-val">YT</div><div class="mbox-lbl">Secondary Platform</div></div>
+      <div class="mbox"><div class="mbox-val teal">9</div><div class="mbox-lbl">Trial Days Total</div></div>
+      <div class="mbox"><div class="mbox-val" id="daysRemBox">13</div><div class="mbox-lbl">Days Remaining</div></div>
+    </div>
+
+    <div class="notice" style="margin-top:4px;">
+      <span class="notice-icon">📸</span>
+      <span>Your seed images for Week 1 are ready. Head to the <strong>Photo Albums</strong> tab to review them and leave feedback on any image that feels off. We'll adjust before videos are finalised.</span>
+    </div>
+
+  </div>
+
+  <!-- ══ CONTENT CALENDAR ══ -->
+  <div class="tab-panel" id="tab-calendar">
+
+    <div class="section-hd">
+      <div class="section-accent"></div>
+      <div class="section-title">15-Video Content Calendar</div>
+      <div class="section-rule"></div>
+      <div class="section-count">Extended Trial · May 24 – Jun 1</div>
+    </div>
+
+    <div class="notice teal">
+      <span class="notice-icon">🎙️</span>
+      <span>Each video has a hook, angle, and full voiceover script below. Tap <strong>Show Voiceover</strong> to expand any script. These are designed for 30–45 second short-form videos tailored to BookTok's memoir and #MemoirTok audience.</span>
+    </div>
+
+    <div class="cal-grid" id="calGrid"></div>
+
+  </div>
+
+  <!-- ══ MEDIA ALBUMS ══ -->
+  <div class="tab-panel" id="tab-media">
+
+    <div class="section-hd">
+      <div class="section-accent"></div>
+      <div class="section-title">Seed Photo Albums</div>
+      <div class="section-rule"></div>
+      <div class="section-count">1 album</div>
+    </div>
+
+    <div class="notice teal">
+      <span class="notice-icon">👁️</span>
+      <span>These are the images we'll use as visual backdrops for your videos. <strong>Click the album to open it in Google Photos in a new tab.</strong> To leave feedback on a photo, open the album and comment directly on the image inside Google Photos.</span>
+    </div>
+
+    <!-- Album 1 -->
+    <div class="album-section">
+      <a href="https://photos.app.goo.gl/GfQzXdwAFZwoUs4u5" target="_blank" rel="noopener" class="album-link-card">
+        <div class="album-thumb-wrap">
+          <img src="https://lh3.googleusercontent.com/pw/AP1GczOYjlP6EU5pbR6qs-3DwfMFINHSsP4KYJ1KsbB2pfoF6jO5lHINqeRvKbirDrdG8--C1ivckbPyHA_ZN5-v5FMAnvKKcNCJEKThMfmBMzxiNcFcRr0=w800-h450" alt="Week 01 Photos - Peacock on the Moon" loading="lazy">
+          <div class="album-overlay"><div class="album-overlay-text">↗ Click to open in Google Photos</div></div>
+        </div>
+        <div class="album-info-row">
+          <div>
+            <div class="album-name">Week 01 — Seed Images</div>
+            <div class="album-meta">Peacock on the Moon · Nicola Briggs · May 22, 2026 · 15 photos</div>
+          </div>
+          <div class="album-open-btn">Open Album ↗</div>
+        </div>
+      </a>
+    </div>
+
+    <div class="notice" style="margin-top:8px;">
+      <span class="notice-icon">💬</span>
+      <span>If any image feels wrong in mood, colour, or tone for the book — open the album, click the image, and leave a comment. We check regularly and will swap before videos are produced.</span>
+    </div>
+
+  </div>
+
+  <!-- ══ NEXT STEPS ══ -->
+  <div class="tab-panel" id="tab-nextsteps">
+
+    <div class="section-hd">
+      <div class="section-accent amber"></div>
+      <div class="section-title">What You Need to Do</div>
+      <div class="section-rule"></div>
+    </div>
+
+    <div class="notice" style="background:rgba(176,104,32,.1);border-color:rgba(176,104,32,.3);">
+      <span class="notice-icon">⚠️</span>
+      <span><strong>One item outstanding:</strong> the YouTube channel. TikTok is in progress, photos are shared, and the content calendar is live. Once the YouTube channel is set up and we're added as Editor, we're fully ready to post on both platforms.</span>
+    </div>
+
+    <div class="steps-grid">
+
+      <div class="step-card" style="opacity:.7;border-color:var(--border-lt);">
+        <div class="step-num" style="background:rgba(26,92,92,.15);border-color:var(--teal);">✓</div>
+        <div class="step-title">Create a TikTok Account</div>
+        <div class="step-desc" style="color:var(--ink4);">Download TikTok, create your account, then go to <strong>Settings → Manage Account → Switch to Business Account</strong>. Choose the <em>Books &amp; Literature</em> or <em>Entertainment</em> category. Once done, share your TikTok username with us so we can request Editor access and begin posting directly to your account.</div>
+        <div class="step-action" style="color:var(--teal);background:rgba(26,92,92,.08);border-color:rgba(26,92,92,.2);">✓ In progress</div>
+      </div>
+
+      <div class="step-card" style="border:2px solid var(--amber2);box-shadow:var(--glow-amber);">
+        <div class="step-num" style="background:rgba(176,104,32,.15);border-color:var(--amber2);color:var(--amber2);">!</div>
+        <div class="step-title" style="color:var(--amber2);">⚠ Create a YouTube Channel — Pending</div>
+        <div class="step-desc">This is the outstanding item. Go to <strong>youtube.com</strong>, sign in with a Google account, and create a channel under the name <em>Nicola Briggs</em> or your preferred brand name. Then go to <strong>Settings → Permissions → Invite</strong> and add <strong>powerpages30@gmail.com</strong> as an Editor. This lets us upload and manage your YouTube videos directly.<br><br>Once this is done, we're fully set up to post on both platforms.</div>
+        <div class="step-action" style="color:var(--amber2);background:rgba(176,104,32,.1);border-color:rgba(176,104,32,.35);">→ Invite: powerpages30@gmail.com</div>
+      </div>
+
+      <div class="step-card" style="opacity:.7;border-color:var(--border-lt);">
+        <div class="step-num" style="background:rgba(26,92,92,.15);border-color:var(--teal);">✓</div>
+        <div class="step-title">Review Your Photos</div>
+        <div class="step-desc" style="color:var(--ink4);">Head to the <strong>Photo Albums</strong> tab and open the album in Google Photos. If any image feels off-brand, wrong in mood, or you'd like it replaced — leave a comment directly on that photo inside Google Photos. We check the albums regularly and will swap images before videos are finalised.</div>
+        <div class="step-action" onclick="switchTab('media',document.querySelectorAll('.tab-btn')[2])" style="cursor:pointer;color:var(--teal);background:rgba(26,92,92,.08);border-color:rgba(26,92,92,.2);">✓ Album shared</div>
+      </div>
+
+      <div class="step-card" style="opacity:.7;border-color:var(--border-lt);">
+        <div class="step-num" style="background:rgba(26,92,92,.15);border-color:var(--teal);">✓</div>
+        <div class="step-title">Approve Content Calendar</div>
+        <div class="step-desc" style="color:var(--ink4);">Review the 15 video hooks and voiceover scripts in the <strong>Content Calendar</strong> tab. Let us know if any angle doesn't feel right for your voice or the book's tone — we can adjust scripts before production is finalised.</div>
+        <div class="step-action" onclick="switchTab('calendar',document.querySelectorAll('.tab-btn')[1])" style="cursor:pointer;color:var(--teal);background:rgba(26,92,92,.08);border-color:rgba(26,92,92,.2);">✓ Calendar live</div>
+      </div>
+
+    </div>
+
+    <div class="section-hd" style="margin-top:48px;">
+      <div class="section-accent"></div>
+      <div class="section-title">Payment</div>
+      <div class="section-rule"></div>
+    </div>
+    <div class="notice" style="background:linear-gradient(135deg,rgba(176,104,32,.09),rgba(176,104,32,.04));">
+      <span class="notice-icon">💳</span>
+      <span>To continue after the trial or pay for a full month, use our <a href="https://store.pesapal.com/atomicshelfsubscription" target="_blank" rel="noopener">payment portal</a> — you can set a custom amount at checkout. Thank you!</span>
+    </div>
+
+  </div>
+
+  <!-- ══ STRATEGY ══ -->
+  <div class="tab-panel" id="tab-strategy">
+
+    <div class="section-hd">
+      <div class="section-accent"></div>
+      <div class="section-title">Your 3-Phase Growth Strategy</div>
+      <div class="section-rule"></div>
+    </div>
+
+    <div class="notice teal">
+      <span class="notice-icon">📊</span>
+      <span>This is the full picture of how we grow <em>Peacock on the Moon</em> from discovery to a consistent sales engine. Each phase builds on the last.</span>
+    </div>
+
+    <div class="card" style="margin-bottom:28px;">
+      <div class="strategy-timeline">
+
+        <div class="stl-item">
+          <div class="stl-dot organic">P1</div>
+          <div class="stl-body">
+            <div class="stl-phase">Phase 1 · Weeks 1–4</div>
+            <div class="stl-title">Organic Content First</div>
+            <div class="stl-desc">We post 2–3 short-form videos per day on TikTok and YouTube Shorts, targeting hashtags like <strong>#MemoirTok</strong>, <strong>#ComingOfAge</strong>, <strong>#FamilySecrets</strong>, and <strong>#BookTok</strong>. The goal is to build an audience around the book's themes — identity, belonging, prejudice, a daughter finding her own voice — before spending a single dollar on ads. Organic views tell the algorithm <em>who</em> your reader is.</div>
+            <div class="stl-metric">Target: 10,000–30,000 organic views in Month 1</div>
+          </div>
+        </div>
+
+        <div class="stl-item">
+          <div class="stl-dot promote">P2</div>
+          <div class="stl-body">
+            <div class="stl-phase">Phase 2 · After Month 1</div>
+            <div class="stl-title">TikTok Promote — Lookalike Expansion</div>
+            <div class="stl-desc">Once we have organic data, we activate <strong>TikTok Promote</strong> on your top-performing videos. Promote takes your real viewers and finds <em>lookalike audiences</em> — people with the same interests, behaviors, and demographics — at a fraction of traditional ad costs. At this stage, we're amplifying what's already working, not guessing.</div>
+            <div class="stl-metric">Typical CPM at this stage: $3–6 · Starts after Month 1</div>
+          </div>
+        </div>
+
+        <div class="stl-item">
+          <div class="stl-dot dsp">P3</div>
+          <div class="stl-body">
+            <div class="stl-phase">Phase 3 · Ongoing</div>
+            <div class="stl-title">Amazon DSP — Direct Retargeting to Book Page</div>
+            <div class="stl-desc">Amazon DSP lets us place display ads <strong>directly in front of people who have already seen your TikTok or YouTube content</strong> — and send them straight to your Amazon book page. Because we've built a content-first audience, your DSP CPM drops dramatically: instead of the standard <strong>$10 CPM</strong>, content-warmed audiences typically cost around <strong>$2 CPM</strong> — 80% cheaper, far more targeted.<br><br>Without DSP, video views don't reliably convert to sales. With DSP retargeting, you close the loop — views become clicks, clicks become purchases.</div>
+            <div class="stl-metric">DSP CPM: ~$2 (vs $10 cold) · Content-first advantage</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="section-hd" style="margin-top:40px;">
+      <div class="section-accent amber"></div>
+      <div class="section-title">Why Memoir Works on BookTok</div>
+      <div class="section-rule"></div>
+    </div>
+    <div class="card">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;">
+        <div style="background:var(--bg2);border:1px solid var(--border-lt);border-radius:10px;padding:16px;">
+          <div style="font-family:'DM Mono',monospace;font-size:.58rem;color:var(--ink4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;">The Audience</div>
+          <div style="font-size:.85rem;color:var(--ink3);line-height:1.6;">BookTok readers devour emotionally honest coming-of-age stories. Memoirs about difficult families, boarding school life, and class/race dynamics generate enormous engagement — readers share them because they see themselves.</div>
+        </div>
+        <div style="background:var(--teal-lt);border:1px solid rgba(26,92,92,.2);border-radius:10px;padding:16px;">
+          <div style="font-family:'DM Mono',monospace;font-size:.58rem;color:var(--teal2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;">The Hashtag Opportunity</div>
+          <div style="font-size:.85rem;color:var(--ink2);line-height:1.6;">#MemoirTok, #ComingOfAge, #FamilySecrets, and #RacismStories are all active, underserved niches. A 4.4-star memoir with real depth and humour stands out immediately against the average BookTok content.</div>
+        </div>
+        <div style="background:var(--amber-lt);border:1px solid rgba(176,104,32,.2);border-radius:10px;padding:16px;">
+          <div style="font-family:'DM Mono',monospace;font-size:.58rem;color:var(--amber2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;">The Result</div>
+          <div style="font-size:.85rem;color:var(--ink2);line-height:1.6;">Readers who discover <em>Peacock on the Moon</em> through an emotionally resonant short-form clip, get retargeted on Amazon, and click through — are readers who will leave reviews, recommend to friends, and come back for your next book.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="footer">
+  <div class="footer-logo">Atomic Shelf</div>
+  <div class="footer-text">· atomic-shelf.com · Campaign started May 29, 2026</div>
+</div>
+
+<script>
+// ── TAB SWITCHING ──
+function switchTab(tabId, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-' + tabId).classList.add('active');
+  if (btn) btn.classList.add('active');
+  else {
+    document.querySelectorAll('.tab-btn').forEach(b => {
+      if (b.getAttribute('onclick') && b.getAttribute('onclick').includes("'"+tabId+"'")) b.classList.add('active');
+    });
+  }
+}
+
+// ── TRIAL SLIDER (14-day) ──
+(function() {
+  const TRIAL_START = new Date('2026-05-24T00:00:00');
+  const TRIAL_DAYS = 9;
+  function updateTrial() {
+    const now = new Date();
+    const elapsed = (now - TRIAL_START) / (1000 * 60 * 60 * 24);
+    const day = Math.min(Math.ceil(elapsed + 0.001), TRIAL_DAYS);
+    const pct = Math.min((elapsed / TRIAL_DAYS) * 100, 100);
+    document.getElementById('trialDayNum').textContent = Math.max(day, 1);
+    document.getElementById('trialFill').style.width = Math.max(pct, 3) + '%';
+    const remaining = TRIAL_DAYS - Math.floor(elapsed);
+    if (remaining <= 0) {
+      document.getElementById('trialStatus').textContent = 'Trial Complete';
+      document.getElementById('trialStatus').style.color = '#b06820';
+      document.getElementById('daysRemBox').textContent = '0';
+    } else {
+      document.getElementById('trialStatus').textContent = 'Day ' + Math.max(day,1) + ' — Trial Active';
+      document.getElementById('daysRemBox').textContent = Math.max(remaining, 0);
+    }
+  }
+  updateTrial();
+  setInterval(updateTrial, 60000);
+})();
+
+// ── CONTENT CALENDAR ──
+const VIDEOS = [
+  {
+    day: 'Day 1 · May 29', num: 1,
+    tag: 'Book Intro Hook',
+    hook: '"She grew up in a beautiful house. But beauty can imprison you."',
+    angle: 'Mystery/intrigue opener — contrast of outward privilege and inner damage',
+    vo: `A Georgian house in Huddersfield. Prestigious boarding school. A father everyone admired.\n\nFrom the outside, it looked like everything.\n\nFrom the inside, it was a childhood spent navigating bigotry, loneliness, and a love she was never quite given.\n\nPeacock on the Moon — a memoir that refuses to be nostalgic.\n\nOn Kindle and paperback now. Link in bio.`
+  },
+  {
+    day: 'Day 1 · May 29', num: 2,
+    tag: 'Boarding School Angle',
+    hook: '"Sent away at eleven. They called it privilege. She called it something else."',
+    angle: 'Tap the emotional wound of boarding school separation — resonates universally',
+    vo: `Eleven years old. Packed off to a prestigious school in the Cotswolds.\n\nFor most of the year, home was just a concept — sixteen weeks where she was allowed back.\n\nNicola Briggs writes about what happens to a child when the people who are supposed to protect her choose status over presence.\n\nPeacock on the Moon. Honest. Humorous. Unflinching.\n\nKindle and paperback. Link in bio.`
+  },
+  {
+    day: 'Day 2 · May 30', num: 3,
+    tag: 'Father Figure',
+    hook: '"He was charismatic. He was brilliant. He stood before a Race Tribunal in 1979."',
+    angle: 'Lead with the father — the tension between love and moral reckoning',
+    vo: `Everyone loved him at parties.\nHe was articulate, successful, the kind of man who took up every room he entered.\n\nHe was also a bigot — one whose anti-immigration views eventually landed him before a Leeds Race Tribunal.\n\nThis is a memoir about loving someone complicated. About what children absorb when they have no choice.\n\nPeacock on the Moon by Nicola Briggs. On Kindle now.`
+  },
+  {
+    day: 'Day 2 · May 30', num: 4,
+    tag: 'Yorkshire Setting',
+    hook: '"1960s Yorkshire. Middle-class England. A world that thought it had the right to decide who belonged."',
+    angle: 'Evoke time and place — tap historical drama readers',
+    vo: `There's a particular kind of English middle-class life from the 1960s and 70s — suffocating, coded, deeply sure of itself.\n\nNicola Briggs grew up inside it.\n\nHer memoir maps the status wars, the unspoken rules, the racism dressed up as common sense — and the daughter who quietly decided she didn't agree with any of it.\n\nPeacock on the Moon. A story of reckoning, told with clarity and humour. Link in bio.`
+  },
+  {
+    day: 'Day 3 · May 31', num: 5,
+    tag: '#MemoirTok Angle',
+    hook: '"For everyone who grew up in a family that looked fine from the outside."',
+    angle: 'Direct appeal to the MemoirTok core audience — emotionally honest',
+    vo: `The house was beautiful. The school was prestigious. The family looked like success.\n\nBut families have interiors that the outside world never sees.\n\nNicola Briggs writes about what it really felt like — the loneliness, the love she craved, the slow realisation that the values she was given weren't the ones she wanted to keep.\n\nIf memoirs that tell the truth are your thing — Peacock on the Moon was written for you.\n\nLink in bio.`
+  },
+  {
+    day: 'Day 3 · May 31', num: 6,
+    tag: 'Humour Angle',
+    hook: '"A memoir about racism and pride — told with real humour. Because sometimes that\'s the only way through."',
+    angle: 'Highlight the tonal balance — readers who fear "heavy" books need permission to enjoy this',
+    vo: `This isn't a memoir that beats you over the head.\n\nIt's honest. It's moving. And it's also — genuinely — funny.\n\nNicola Briggs has the rare gift of writing about difficult things with lightness and intelligence. You'll laugh. You'll ache a little. You'll think.\n\nPeacock on the Moon. A coming-of-age story with teeth and warmth in equal measure.\n\nKindle and paperback. Link in bio.`
+  },
+  {
+    day: 'Day 4 · Jun 1', num: 7,
+    tag: 'Quote Pull',
+    hook: '"Own your present, in your own words." — Peacock on the Moon',
+    angle: 'Pull the standout quote from reader reviews — diary-keeping as theme',
+    vo: `Four words from a reader's favourite quote:\n\n"Own your present. In your own words."\n\nNicola Briggs kept diaries. Her father kept diaries. After his death, she read them — and understood her childhood in a way she couldn't while living it.\n\nThis memoir is an argument for writing it down. For witnessing your own life.\n\nPeacock on the Moon. On Kindle now.`
+  },
+  {
+    day: 'Day 4 · Jun 1', num: 8,
+    tag: 'Author Voice',
+    hook: '"She practised law for forty years. Then she wrote the book she needed to write."',
+    angle: 'Brand the author — build Nicola Briggs as a name to follow',
+    vo: `Nicola Briggs spent nearly four decades as a probate and property lawyer in Yorkshire.\n\nWhen the need to write took over, she didn't hesitate.\n\nThe result is a memoir of precision and honesty — the skills of someone trained to see clearly, applied to her own life with unflinching courage.\n\nPeacock on the Moon. Her debut. And it's extraordinary.\n\nLink in bio.`
+  },
+  {
+    day: 'Day 5 · Jun 2', num: 9,
+    tag: 'Reader Proof',
+    hook: '"I demolished this in 3 days." — a real reader from Huddersfield.',
+    angle: 'Localised social proof — use the authentic reader quote',
+    vo: `"One of the most interesting and captivating books I've read in a long time. For someone who doesn't read a lot of books, I demolished this one in 3 days."\n\nThat's a real reader — someone from Huddersfield who lived through a similar era.\n\nPeacock on the Moon resonates because it's true. Deeply, uncomfortably, beautifully true.\n\nKindle and paperback. Link in bio.`
+  },
+  {
+    day: 'Day 5 · Jun 2', num: 10,
+    tag: 'Women\'s Stories Angle',
+    hook: '"A woman looking back at her own life and refusing to let it be misremembered."',
+    angle: 'Biographies of Women category — speak directly to that reader',
+    vo: `There's something powerful about a woman writing her own life back into existence.\n\nNot the version her family told. Not the version the outside world assumed.\n\nHer own version — clear-eyed, compassionate, and unwilling to smooth over the parts that hurt.\n\nNicola Briggs writes with the kind of honesty that takes decades to earn.\n\nPeacock on the Moon. Link in bio.`
+  },
+  {
+    day: 'Day 6 · Jun 3', num: 11,
+    tag: 'Race & Identity Hook',
+    hook: '"What do you do when the prejudice you grew up with isn\'t yours — but it shaped you anyway?"',
+    angle: 'Reach the discrimination/racism reader — the moral and emotional reckoning angle',
+    vo: `She didn't choose her father's views.\nShe didn't choose the era she was born into.\nShe didn't choose to sit with the discomfort of loving someone whose beliefs she found repugnant.\n\nBut she chose to write about all of it — with honesty, and without excusing him.\n\nPeacock on the Moon. A memoir about identity, inheritance, and where one ends and the other begins.\n\nOn Kindle now. Link in bio.`
+  },
+  {
+    day: 'Day 6 · Jun 3', num: 12,
+    tag: 'Mood / Atmosphere',
+    hook: '"Georgian houses. Boarding school corridors. The quiet devastation of a childhood that looked complete."',
+    angle: 'Visual, atmospheric — for readers who love a strong sense of place and era',
+    vo: `Imagine the smell of a Georgian hallway.\nThe sound of a school dormitory at night, far from anyone who loves you.\nThe particular silence of a house where things are said with furniture and address, not words.\n\nNicola Briggs puts you inside a world that most people only know from the outside.\n\nPeacock on the Moon. A memoir with extraordinary atmosphere.\n\nKindle and paperback. Link in bio.`
+  },
+  {
+    day: 'Day 7 · Jun 4', num: 13,
+    tag: 'Diary Angle',
+    hook: '"Her father\'s diaries changed everything she thought she understood about him."',
+    angle: 'Create mystery and intrigue — the posthumous diary revelation',
+    vo: `After his death, she read his diaries.\n\nThe man she'd spent a lifetime trying to understand had written it all down — his own version of events, his reasoning, his certainties.\n\nIt didn't excuse anything. But it made her see him differently.\n\nPeacock on the Moon is a memoir built partly from her own diaries, partly from his — and the truth that lives in the space between two people's memories.\n\nKindle now. Link in bio.`
+  },
+  {
+    day: 'Day 7 · Jun 4', num: 14,
+    tag: 'Final Trial CTA',
+    hook: '"366 pages. One extraordinary life. You\'ll read it in a long weekend."',
+    angle: 'Low-barrier urgency — page count is approachable, not intimidating',
+    vo: `366 pages.\n\nThat's a weekend on the sofa with good light.\nThat's a flight where you forget you're flying.\nThat's the kind of book you finish and immediately want to give to someone you love.\n\nPeacock on the Moon by Nicola Briggs.\nMemoir. Coming-of-age. Deeply, unexpectedly funny. Absolutely honest.\n\n$6.99 on Kindle. Paperback available. Link in bio.`
+  },
+  {
+    day: 'Day 7 · Jun 4', num: 15,
+    tag: 'Legacy Close',
+    hook: '"She asked one question her whole life: who am I, apart from them? This book is the answer."',
+    angle: 'Emotional close — identity and independence as the ultimate theme',
+    vo: `Every person who has ever tried to figure out where their family ends and they begin will understand this book.\n\nNicola Briggs grew up inside a world of expectations, prejudices, and love that came with conditions attached.\n\nShe wrote her way out of it.\n\nPeacock on the Moon. The memoir you'll think about long after you've finished it.\n\nOn Kindle and paperback. Link in bio. Go read it.`
+  }
+];
+
+(function renderCalendar() {
+  const grid = document.getElementById('calGrid');
+  VIDEOS.forEach(v => {
+    const voId = 'vo_' + v.num;
+    const div = document.createElement('div');
+    div.className = 'cal-item';
+    div.innerHTML = `
+      <div class="cal-num">${v.num}</div>
+      <div class="cal-body">
+        <div class="cal-tag">${v.tag}</div>
+        <div class="cal-hook">${v.hook}</div>
+        <div style="font-size:.78rem;color:var(--ink4);margin:4px 0 6px;font-style:italic;">${v.angle}</div>
+        <button class="cal-vo-toggle" onclick="toggleVO('${voId}', this)">▶ Show Voiceover</button>
+        <div class="cal-vo vo-hidden" id="${voId}">${v.vo.replace(/\n/g,'<br>')}</div>
+      </div>
+      <div class="cal-day">${v.day}</div>
+    `;
+    grid.appendChild(div);
+  });
+})();
+
+function toggleVO(id, btn) {
+  const el = document.getElementById(id);
+  const hidden = el.classList.toggle('vo-hidden');
+  btn.textContent = hidden ? '▶ Show Voiceover' : '▼ Hide Voiceover';
+}
+</script>
+</body>
+</html>

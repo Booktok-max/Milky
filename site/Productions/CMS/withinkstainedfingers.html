@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atomic Shelf × Amy Kaplan — With Ink‑Stained Fingers · Short Story & Poetry Campaign</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0d0d12;
+    --paper: #f5f0e8;
+    --gold: #c9a84c;
+    --gold-dim: #8a6e32;
+    --mist: #d6cfc4;
+    --moss: #2a3528;
+    --night: #131920;
+    --accent: #b04a3a;
+    --text-body: #2b2620;
+    --soft-rose: #cbb2a3;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--ink);
+    color: var(--paper);
+    overflow-x: hidden;
+  }
+
+  .hero {
+    min-height: 100vh;
+    background: var(--night);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+    padding: 60px 24px 80px;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 20%, rgba(201,168,76,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 80% at 80% 80%, rgba(42,53,40,0.6) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 50% at 20% 60%, rgba(176,74,58,0.06) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .hero-noise {
+    position: absolute;
+    inset: 0;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 200px;
+    pointer-events: none;
+  }
+
+  .agency-badge {
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 48px;
+    opacity: 0.85;
+    animation: fadeDown 0.8s ease both;
+  }
+
+  .hero-eyebrow {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(14px, 2vw, 17px);
+    font-style: italic;
+    color: var(--mist);
+    letter-spacing: 0.08em;
+    margin-bottom: 20px;
+    animation: fadeDown 0.9s 0.1s ease both;
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(42px, 8vw, 96px);
+    font-weight: 900;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    color: var(--paper);
+    animation: fadeDown 1s 0.2s ease both;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .hero-sub {
+    margin-top: 28px;
+    font-size: clamp(15px, 2vw, 19px);
+    font-weight: 300;
+    color: var(--mist);
+    max-width: 560px;
+    line-height: 1.7;
+    animation: fadeDown 1s 0.35s ease both;
+  }
+
+  .hero-divider {
+    width: 64px;
+    height: 1px;
+    background: var(--gold);
+    margin: 36px auto;
+    animation: expand 1.2s 0.5s ease both;
+    transform-origin: center;
+  }
+
+  .hero-meta {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    flex-wrap: wrap;
+    animation: fadeUp 1s 0.6s ease both;
+  }
+
+  .meta-item {
+    text-align: center;
+  }
+
+  .meta-label {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    margin-bottom: 6px;
+  }
+
+  .meta-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    color: var(--paper);
+  }
+
+  .scroll-cue {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    animation: fadeUp 1s 1s ease both;
+  }
+
+  .scroll-cue span {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scrollPulse 2s 1.5s ease-in-out infinite;
+  }
+
+  section {
+    padding: 96px 24px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 5vw, 52px);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--paper);
+    margin-bottom: 24px;
+  }
+
+  .section-title em { font-style: italic; color: var(--gold); }
+
+  .section-body {
+    font-size: 17px;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--mist);
+    max-width: 680px;
+  }
+
+  .strategy-strip {
+    background: var(--night);
+    border-top: 1px solid rgba(201,168,76,0.15);
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+    padding: 80px 24px;
+  }
+
+  .strategy-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .strategy-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 40px;
+    margin-top: 56px;
+  }
+
+  .strategy-card {
+    border-left: 2px solid var(--gold);
+    padding-left: 24px;
+  }
+
+  .strategy-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    font-weight: 900;
+    color: rgba(201,168,76,0.18);
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+
+  .strategy-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 19px;
+    color: var(--paper);
+    margin-bottom: 10px;
+  }
+
+  .strategy-desc {
+    font-size: 15px;
+    font-weight: 300;
+    color: var(--mist);
+    line-height: 1.7;
+  }
+
+  .videos-section {
+    background: #0f1117;
+    padding: 96px 0;
+  }
+
+  .videos-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .videos-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin-bottom: 56px;
+  }
+
+  .video-count-badge {
+    background: rgba(201,168,76,0.1);
+    border: 1px solid rgba(201,168,76,0.3);
+    color: var(--gold);
+    font-size: 13px;
+    letter-spacing: 0.15em;
+    padding: 8px 20px;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+
+  .video-grid {
+    display: grid;
+    gap: 24px;
+  }
+
+  .video-card {
+    background: var(--night);
+    border: 1px solid rgba(201,168,76,0.1);
+    display: grid;
+    grid-template-columns: 72px 1fr;
+    gap: 0;
+    transition: border-color 0.3s;
+    cursor: default;
+  }
+
+  .video-card:hover {
+    border-color: rgba(201,168,76,0.4);
+  }
+
+  .video-num-col {
+    background: rgba(201,168,76,0.07);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid rgba(201,168,76,0.1);
+    flex-shrink: 0;
+  }
+
+  .video-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 900;
+    color: var(--gold-dim);
+  }
+
+  .video-content {
+    padding: 28px 28px;
+  }
+
+  .video-tag {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    margin-bottom: 8px;
+  }
+
+  .video-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--paper);
+    margin-bottom: 12px;
+    line-height: 1.25;
+  }
+
+  .video-desc {
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--mist);
+    line-height: 1.65;
+    margin-bottom: 16px;
+  }
+
+  details.vo-block {
+    border-top: 1px solid rgba(201,168,76,0.12);
+    padding-top: 14px;
+  }
+
+  details.vo-block summary {
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    cursor: pointer;
+    user-select: none;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 0;
+  }
+
+  details.vo-block summary::after {
+    content: '▾';
+    transition: transform 0.25s;
+  }
+
+  details.vo-block[open] summary::after {
+    transform: rotate(180deg);
+  }
+
+  details.vo-block summary::-webkit-details-marker { display: none; }
+
+  .vo-text {
+    margin-top: 14px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-style: italic;
+    color: var(--paper);
+    line-height: 1.8;
+    padding-left: 16px;
+    border-left: 2px solid var(--gold);
+    opacity: 0.9;
+  }
+
+  .hashtags {
+    margin-top: 12px;
+    font-size: 13px;
+    color: var(--gold-dim);
+    line-height: 1.8;
+    font-weight: 300;
+  }
+
+  .aplus-section {
+    background: var(--moss);
+    padding: 96px 24px;
+  }
+
+  .aplus-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+
+  @media (max-width: 700px) {
+    .aplus-inner { grid-template-columns: 1fr; }
+    .hero-meta { gap: 24px; }
+    .video-card { grid-template-columns: 56px 1fr; }
+    .video-content { padding: 20px 18px; }
+    .videos-header { flex-direction: column; align-items: flex-start; }
+  }
+
+  .aplus-panel {
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(201,168,76,0.2);
+    padding: 40px;
+  }
+
+  .aplus-panel-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 23px;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+
+  .aplus-panel-body {
+    font-size: 15px;
+    font-weight: 300;
+    color: var(--mist);
+    line-height: 1.75;
+  }
+
+  .aplus-panel-link {
+    display: inline-block;
+    margin-top: 20px;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(201,168,76,0.4);
+    padding-bottom: 2px;
+    transition: border-color 0.25s;
+  }
+
+  .aplus-panel-link:hover { border-color: var(--gold); }
+
+  .retarget-section {
+    background: var(--night);
+    border-top: 1px solid rgba(201,168,76,0.12);
+    padding: 96px 24px;
+  }
+
+  .retarget-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .retarget-flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    flex-wrap: wrap;
+    margin-top: 56px;
+  }
+
+  .flow-step {
+    text-align: center;
+    padding: 32px 28px;
+    background: rgba(201,168,76,0.04);
+    border: 1px solid rgba(201,168,76,0.12);
+    min-width: 180px;
+    flex: 1;
+    max-width: 220px;
+  }
+
+  .flow-icon {
+    font-size: 28px;
+    margin-bottom: 14px;
+  }
+
+  .flow-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    color: var(--paper);
+    margin-bottom: 8px;
+  }
+
+  .flow-desc {
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--mist);
+    line-height: 1.65;
+  }
+
+  .flow-arrow {
+    font-size: 22px;
+    color: var(--gold-dim);
+    padding: 0 8px;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 750px) {
+    .retarget-flow { flex-direction: column; align-items: stretch; }
+    .flow-step { max-width: 100%; }
+    .flow-arrow { transform: rotate(90deg); align-self: center; }
+    .aplus-inner { grid-template-columns: 1fr; gap: 32px; }
+  }
+
+  .cta-section {
+    background: var(--ink);
+    text-align: center;
+    padding: 120px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .cta-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(22px, 4vw, 40px);
+    font-style: italic;
+    font-weight: 300;
+    color: var(--paper);
+    max-width: 720px;
+    margin: 0 auto 16px;
+    line-height: 1.4;
+  }
+
+  .cta-attr {
+    font-size: 13px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    margin-bottom: 56px;
+  }
+
+  .cta-btn {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--ink);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 18px 48px;
+    text-decoration: none;
+    transition: background 0.25s, transform 0.2s;
+  }
+
+  .cta-btn:hover {
+    background: #e0bb5c;
+    transform: translateY(-2px);
+  }
+
+  .cta-secondary {
+    display: block;
+    margin-top: 20px;
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--mist);
+  }
+
+  footer {
+    background: #080a0d;
+    padding: 40px 24px;
+    text-align: center;
+    border-top: 1px solid rgba(201,168,76,0.1);
+  }
+
+  footer p {
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    color: var(--gold-dim);
+    margin-bottom: 6px;
+  }
+
+  footer a { color: var(--gold-dim); text-decoration: none; }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes expand {
+    from { transform: scaleX(0); opacity: 0; }
+    to   { transform: scaleX(1); opacity: 1; }
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(1); }
+    50%       { opacity: 1;   transform: scaleY(1.2); }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-noise"></div>
+  <div class="agency-badge">Atomic Shelf · Content Proposal · For Amy Kaplan</div>
+  <div class="hero-eyebrow">A BookTok & YouTube Shorts Campaign for the Collection</div>
+  <h1 class="hero-title">With Ink‑Stained Fingers<br><em>and a Heart Brimming with Stories</em></h1>
+  <p class="hero-sub">15 short cinematic videos that celebrate the quiet epiphanies, wild wonder, and tender corners of your writing — from bank heists to backyard cats. We turn your words into scroll‑stopping moments, then retarget every viewer on Amazon. You approve everything first.</p>
+  <div class="hero-divider"></div>
+  <div class="hero-meta">
+    <div class="meta-item"><div class="meta-label">Collection</div><div class="meta-value">Short Stories & Poetry</div></div>
+    <div class="meta-item"><div class="meta-label">ASIN</div><div class="meta-value">B0CSWQG83M</div></div>
+    <div class="meta-item"><div class="meta-label">Pages</div><div class="meta-value">28 · Lyrical & Vivid</div></div>
+    <div class="meta-item"><div class="meta-label">Videos</div><div class="meta-value">15 Original</div></div>
+    <div class="meta-item"><div class="meta-label">Trial Platform</div><div class="meta-value">YouTube Shorts</div></div>
+  </div>
+  <div class="scroll-cue"><span>Scroll</span><div class="scroll-line"></div></div>
+</div>
+
+<div class="strategy-strip">
+  <div class="strategy-inner">
+    <div class="section-label">Our Approach</div>
+    <h2 class="section-title">Emotion first.<br><em>Discovery second. Sales third.</em></h2>
+    <p class="section-body">Short stories and poetry collections thrive when they feel like whispered secrets — not billboards. We extract the beating heart of each piece (a bank robbery flash, a near‑death memory, a cat’s mischief) and turn it into native short‑form content that resonates with the old‑soul reader. Then we retarget those same viewers on Amazon with your book cover and sample.</p>
+    <div class="strategy-grid">
+      <div class="strategy-card"><div class="strategy-num">01</div><div class="strategy-title">Script & Visuals</div><div class="strategy-desc">15 bespoke videos, each anchored by a specific story/poem from your collection. Soft cinematic visuals + your authentic narrative voice (or evocative VO) that mirrors your lyrical prose.</div></div>
+      <div class="strategy-card"><div class="strategy-num">02</div><div class="strategy-title">Approval & Publishing</div><div class="strategy-desc">We share every video draft. After you say “go,” we publish to YouTube Shorts during your 7‑day free trial. No long‑term lock‑in, no surprises.</div></div>
+      <div class="strategy-card"><div class="strategy-num">03</div><div class="strategy-title">Amazon Retargeting</div><div class="strategy-desc">Viewers who watch your videos become a warm audience. Amazon DSP serves them your listing + sample link — turning organic discovery into measurable Kindle reads and purchases.</div></div>
+      <div class="strategy-card"><div class="strategy-num">04</div><div class="strategy-title">A+ Content Ready</div><div class="strategy-desc">Every visual asset we craft doubles as Amazon A+ Content — elevating your book page with mood imagery and lifestyle panels that increase conversion.</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="videos-section">
+  <div class="videos-inner">
+    <div class="videos-header"><div><div class="section-label">Video Blueprint</div><h2 class="section-title"><em>15 stories, 15 videos</em></h2></div><div class="video-count-badge">YouTube Shorts · TikTok Ready</div></div>
+    <div class="video-grid">
+      <!-- 15 unique short-form video concepts rooted in the actual description of "With Ink-Stained Fingers" -->
+      <div class="video-card"><div class="video-num-col"><span class="video-num">01</span></div><div class="video-content"><div class="video-tag">Hook · Bank robbery flash</div><div class="video-title">A bank robbery in progress — and the hostage who doesn't flinch.</div><div class="video-desc"><strong>Post title:</strong> The gunman’s voice shook. She counted the ceiling tiles. #FlashFiction #ShortStoryVibes<br><strong>Caption:</strong> From "With Ink‑Stained Fingers" — a story that begins with chaos and finds stillness. For fans of lyrical tension. #BookTokPoetry</div><details class="vo-block"><summary>Voiceover script</summary><div class="vo-text">"Three masked figures. Twenty panicked faces. But the woman in the gray coat never raised her voice. She simply waited — because she’d survived worse than a heist. She'd survived silence."</div></details><div class="hashtags">#ShortStoryCollection #AmyKaplan #InkStainedFingers</div></div></div>
+
+      <div class="video-card"><div class="video-num-col"><span class="video-num">02</span></div><div class="video-content"><div class="video-tag">Near‑death memory</div><div class="video-title">The day I nearly drowned — and what the river whispered.</div><div class="video-desc"><strong>Post title:</strong> At seven years old, the current pulled me under. Then everything went quiet. #MemoirMoments<br><strong>Caption:</strong> A near‑death childhood memory retold as poetry. Haunting, beautiful, unforgettable. #WithInkStainedFingers</div><details class="vo-block"><summary>Voiceover script</summary><div class="vo-text">"The water wasn't cold. It was indifferent. I stopped fighting and saw the sun through a liquid lens — and the world above looked like a dream I was leaving."</div></details><div class="hashtags">#NarrativePoetry #BookTokCommunity #ShortFormLit</div></div></div>
+
+      <div class="video-card"><div class="video-num-col"><span class="video-num">03</span></div><div class="video-content"><div class="video-tag">Backyard cats · Whimsy</div><div class="video-title">Three feral cats, one broken fence, and a treaty signed in tuna.</div><div class="video-desc"><strong>Post title:</strong> The orange one negotiates. The grey one judges. The kitten doesn't care. #CatsOfBookTok #ShortStory<br><strong>Caption:</strong> From the backyard chronicles — humor, heart, and whiskers. A palate cleanser between the heavy pieces.</div><details class="vo-block"><summary>Voiceover script</summary><div class="vo-text">"They arrived as strangers. By autumn, they'd formed a rotating shift on the porch chair. No one declared a truce. But the empty bowl every morning told the truth."</div></details><div class="hashtags">#PoetryAndProse #AmyKaplanCollection #LiteraryTikTok</div></div></div>
+
+      <div class="video-card"><div class="video-num-col"><span class="video-num">04</span></div><div class="video-content"><div class="video-tag">Old soul · Reflection</div><div class="video-title">She collects train tickets from cities she’s never visited.</div><div class="video-desc"><strong>Post title:</strong> An old soul's confession: nostalgia for places I've never been. #OldSoulThoughts<br><strong>Caption:</strong> A poem about inherited longing. For anyone who feels homesick for a decade they didn't live through.</div><details class="vo-block"><summary>Voiceover script</summary><div class="vo-text">"My passport is empty. But my heart carries departures from Prague, Lisbon, Kyoto. I am a traveler who never moved — and that might be the loneliest journey."</div></details><div class="hashtags">#WithInkStainedFingers #LiteraryShort #KindlePoetry</div></div></div>
+
+      <div class="video-card"><div class="video-num-col"><span class="video-num">05</span></div><div class="video-content"><div class="video-tag">Human condition · Trigger</div><div class="video-title">My mother’s hands looked like mine. Then they didn’t.</div><div class="video-desc"><strong>Post title:</strong> Time wears us all down. But the love stays underneath. #GenerationalPoetry<br><strong>Caption:</strong> Grief, memory, and the small geography of hands. A micro‑essay from the collection.</div><details class="vo-block"><summary>Voiceover script</summary><div class="vo-text">"I recognized her knuckles before I recognized her face. Some things run deeper than bone. Like the way she still tapped the table twice — I love you — without saying a word."</div></details><div class="hashtags">#ShortStoryCollection #KindleUnlimitedReads #BookTokLit</div></div></div>
+
+      <div class="video-card"><div class="video-num-col"><span class="video-num">06</span></div><div class="video-content"><div class="video-tag">Teaser · Eclectic mix</div><div class="video-title">From a bank heist to a childhood fever dream — 28 pages of everything.</div><div class="video-desc"><strong>Post title:</strong> You haven't read a collection like this. Raw. Varied. Alive. #EclecticReads<br><strong>Caption:</strong> With Ink‑Stained Fingers swings from thriller‑adjacent to tender pet eulogies. That's the point.</div><details class="vo-block"><summary>Voiceover script</summary><div class="vo-text">"Some authors pick a lane. Amy Kaplan builds a whole town in 28 pages — complete with heists, hauntings, and the hilarious tyranny of backyard cats. Come for the poetry, stay for the chaos."</div></details><div class="hashtags">#KindleDeals #AmyNKaplan #InkStainedFingers</div></div></div>
+
+      <!-- 7-15: additional distinct concepts pulled from author world / emotional range -->
+      <div class="video-card"><div class="video-num-col"><span class="video-num">07</span></div><div class="video-content"><div class="video-tag">Author voice</div><div class="video-title">Amy Kaplan writes like a friend who has seen too much — and still finds wonder.</div><div class="video-desc"><strong>Post title:</strong> The author behind "Free Range Pigs" turns to lyrical memoir. #MeetTheAuthor<br><strong>Caption:</strong> Amy's range: children's books, RPG journals, and now this intimate collection. #WriterTok</div><details class="vo-block"><summary>Voiceover script</summary><div class="vo-text">"She’s written for gamers, for kids, for dreamers. But With Ink‑Stained Fingers is Amy Kaplan at her most exposed — storytelling as survival."</div></details><div class="hashtags">#IndieAuthorSpotlight #BookTokCommunity</div></div></div>
+      <div class="video-card"><div class="video-num-col"><span class="video-num">08</span></div><div class="video-content"><div class="video-tag">Chicago origins</div><div class="video-title">Born in Chicago, shaped by the world — Amy’s voice carries three continents.</div><div class="video-desc"><strong>Post title:</strong> From Illinois to Australia and back — the stories that made her. #ChicagoWriter<br><strong>Caption:</strong> Amy's global heart pours into each tiny story.</div><details class="vo-block"><summary>Voiceover script</summary><div class="vo-text">"Growing up near Chicago, then wandering far — every city left a stain on her ink. But the heart never left the Midwest. It just expanded."</div></details><div class="hashtags">#TravelMemoir #ShortStoryAuthor</div></div></div>
+      <div class="video-card"><div class="video-num-col"><span class="video-num">09</span></div><div class="video-content"><div class="video-tag">Connection theme</div><div class="video-title">We’re all looking for the story that says: me too.</div><div class="video-desc"><strong>Post title:</strong> That's the real magic of short stories. They remind us we're not alone. #HumanConnection<br><strong>Caption:</strong> "Laugh, cry, and reflect" — that’s the promise of this collection.</div><details class="vo-block"><summary>Voiceover script</summary><div class="vo-text">"When you read With Ink‑Stained Fingers, you aren’t just reading words. You’re recognizing a feeling you thought was yours alone."</div></details><div class="hashtags">#BookTokFeelings #PoetryCollection</div></div></div>
+      <div class="video-card"><div class="video-num-col"><span class="video-num">10</span></div><div class="video-content"><div class="video-tag">Sample hook</div><div class="video-title">Read the first story for free. Then see if you can stop.</div><div class="video-desc"><strong>Post title:</strong> Sample on Kindle is zero risk. The emotional hangover? That's on you. #KindleSample<br><strong>Caption:</strong> Start with "The Bank Robbery's Witness" — free on Amazon.</div><details class="vo-block"><summary>Voiceover script</summary><div class="vo-text">"You’re three swipes away from the opening story. And ten minutes from texting a friend: you have to read this."</div></details><div class="hashtags">#KindleUnlimited #ShortReads #AmyKaplan</div></div></div>
+      <div class="video-card"><div class="video-num-col"><span class="video-num">11</span></div><div class="video-content"><div class="video-tag">Masterful prose</div><div class="video-title">"Lyrical language" isn't a buzzword — it's every sentence.</div><div class="video-desc"><strong>Post title:</strong> A single paragraph from Amy Kaplan will stop your scroll. Trust us. #BeautifulProse<br><strong>Caption:</strong> The old soul in all of us craves this elegance.</div><details class="vo-block"><summary>Voiceover script</summary><div class="vo-text">"'The rain didn't fall so much as reconsider gravity.' That's the opening line of one story. And yes, the rest delivers."</div></details><div class="hashtags">#ProsePoetry #Bookish #WithInkStainedFingers</div></div></div>
+      <div class="video-card"><div class="video-num-col"><span class="video-num">12</span></div><div class="video-content"><div class="video-tag">Free range pigs easter egg</div><div class="video-title">Yes, the author of "Free Range Pigs" also wrote this achingly beautiful poetry.</div><div class="video-desc"><strong>Post title:</strong> Amy Kaplan’s range is absurd (in the best way). #WriterRange<br><strong>Caption:</strong> Kids' books, gaming journals & now heart‑wrenching prose. Unreal.</div><details class="vo-block"><summary>Voiceover script</summary><div class="vo-text">"She makes you laugh with pig escapades, then breaks you with a meditation on mortality. That's not inconsistency — that's range."</div></details><div class="hashtags">#KidlitAuthor #FantasyRPG #LiteraryFiction</div></div></div>
+      <div class="video-card"><div class="video-num-col"><span class="video-num">13</span></div><div class="video-content"><div class="video-tag">Engagement · Comment prompt</div><div class="video-title">What's a memory that still visits you uninvited?</div><div class="video-desc"><strong>Post title:</strong> Amy Kaplan writes about hers. Share yours below. 👇 #StoryPrompt<br><strong>Caption:</strong> Near‑death, a lost pet, a first love — some memories refuse to fade.</div><details class="vo-block"><summary>Voiceover script</summary><div class="vo-text">"We all have a moment that rewired us. In this collection, Amy shares hers. Now it's your turn — comment a memory that still whispers to you."</div></details><div class="hashtags">#StorytellingPrompt #BookTokWriters #ReadersOfTikTok</div></div></div>
+      <div class="video-card"><div class="video-num-col"><span class="video-num">14</span></div><div class="video-content"><div class="video-tag">Call to kindle</div><div class="video-title">With Ink‑Stained Fingers: $2.99 or FREE on Kindle Unlimited.</div><div class="video-desc"><strong>Post title:</strong> For the price of a coffee, you get 28 pages that linger for weeks. #KindleDeals<br><strong>Caption:</strong> Also available as a gift for the old soul in your life.</div><details class="vo-block"><summary>Voiceover script</summary><div class="vo-text">"One click. That's all it takes to carry these stories in your pocket. And if you have Kindle Unlimited, it's already waiting for you."</div></details><div class="hashtags">#KUReads #ShortStoryCollection #4.8StarsExpected</div></div></div>
+      <div class="video-card"><div class="video-num-col"><span class="video-num">15</span></div><div class="video-content"><div class="video-tag">Closing · Celebration</div><div class="video-title">Stories connect us. This one will find you exactly when you need it.</div><div class="video-desc"><strong>Post title:</strong> For anyone who's ever felt like their heart has more pages than their life. #WithInkStainedFingers<br><strong>Caption:</strong> Amy Kaplan's "With Ink‑Stained Fingers" is your next 30‑minute escape.</div><details class="vo-block"><summary>Voiceover script</summary><div class="vo-text">"There's a moment in every reader's life when a tiny book changes everything. This might be yours. The rebellion is quiet, the stakes are tender — and the stories stay."</div></details><div class="hashtags">#BookTokMadeMeReadIt #AmyNKaplan #KindleBook</div></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="aplus-section">
+  <div class="aplus-inner">
+    <div><div class="section-label">Amazon Bonus</div><h2 class="section-title" style="color:var(--paper);">Every video asset becomes<br><em>A+ Content for your book page</em></h2><p class="section-body" style="color:var(--mist);">Each cinematic still, AI‑generated mood image, and visual motif we produce can be uploaded as Amazon A+ Content — transforming your listing into an immersive gallery that draws readers in and increases conversion. No extra production costs.</p></div>
+    <div><div class="aplus-panel"><div class="aplus-panel-title">Why A+ works for indie authors</div><div class="aplus-panel-body">Enhanced brand, premium feel, and up to 15% higher conversion on detail pages. Use our visuals to showcase atmosphere, story snippets, and your author voice directly on Amazon. Simply upload and publish via KDP.</div><a href="https://kdp.amazon.com/en_US/help/topic/G202145200" target="_blank" class="aplus-panel-link">Learn about A+ Content →</a></div></div>
+  </div>
+</div>
+
+<div class="retarget-section">
+  <div class="retarget-inner">
+    <div class="section-label">Phase Two · Amazon Retargeting</div>
+    <h2 class="section-title">From scroll to Kindle.<br><em>Retargeting that follows with care.</em></h2>
+    <p class="section-body">After your 15 videos build organic views, Amazon DSP pixel captures warm viewers — people who watched at least 3 seconds. We show them your book cover + “read sample” ad while they browse Amazon. No cold audiences. No wasted spend.</p>
+    <div class="retarget-flow">
+      <div class="flow-step"><div class="flow-icon">🎬</div><div class="flow-label">Video Views</div><div class="flow-desc">YouTube Shorts & TikTok reach</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="flow-icon">👁</div><div class="flow-label">Warm Audience</div><div class="flow-desc">Viewers opt into retargeting pool</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="flow-icon">🎯</div><div class="flow-label">Amazon DSP Ad</div><div class="flow-desc">Book cover + “Buy Now” shown on Amazon</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="flow-icon">📖</div><div class="flow-label">Kindle Sale</div><div class="flow-desc">Reader downloads sample or buys</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="cta-section">
+  <p class="cta-quote">"Somewhere right now, your perfect reader is scrolling. We'll make your ink‑stained words stop their thumb."</p>
+  <p class="cta-attr">— Atomic Shelf for Amy Kaplan</p>
+  <a href="mailto:powerpages30@gmail.com?subject=Amy%20Kaplan%20%E2%80%93%20Show%20Me%20(Ink%20Stained%20Fingers)" class="cta-btn">Reply “Show Me” to Start Your Free Trial</a>
+  <span class="cta-secondary">7‑day free trial · No commitment · $20/month if you love results</span>
+</div>
+
+<footer>
+  <p>Atomic Shelf · Short‑form marketing for indie authors & poets</p>
+  <p>Operated by <a href="#">Atomic Shelf Studios Ltd</a> · <a href="#">atomic-shelf.com/work</a></p>
+  <p style="margin-top:12px; color:#444; font-size:11px;">Prepared for Amy Kaplan — With Ink-Stained Fingers and a Heart Brimming with Stories · ASIN B0CSWQG83M</p>
+</footer>
+</body>
+</html>
+
+</body>
+</html>

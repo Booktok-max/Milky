@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>N. S. Wikarski - The Granite Key - Week 2 Slides | Viral Video Kit</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #e9e5dd;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', system-ui, -apple-system, sans-serif;
+            padding: 2rem 1.5rem;
+            color: #1e2a2e;
+        }
+
+        .master-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .hero {
+            background: #2c3e2f;
+            color: #fef7e0;
+            padding: 1.5rem 2rem;
+            border-radius: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 12px 24px -12px rgba(0,0,0,0.2);
+        }
+        .hero h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+        .hero .meta {
+            font-size: 1rem;
+            margin-top: 0.5rem;
+            opacity: 0.85;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+        .badge {
+            background: #b5651e;
+            padding: 0.2rem 1rem;
+            border-radius: 40px;
+            display: inline-block;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 2rem 0 1rem 0;
+            padding-left: 0.75rem;
+            border-left: 6px solid #b5651e;
+            color: #2c3e2f;
+        }
+
+        .grid-2col {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.8rem;
+            margin-top: 0.5rem;
+        }
+        .col {
+            flex: 1;
+            min-width: 280px;
+        }
+
+        .card {
+            background: #ffffffef;
+            border-radius: 1.5rem;
+            margin-bottom: 1.8rem;
+            box-shadow: 0 5px 14px rgba(0,0,0,0.05);
+            border: 1px solid #e2d9ce;
+            overflow: hidden;
+            transition: all 0.1s ease;
+        }
+        .card-header {
+            background: #f5f0e6;
+            padding: 0.9rem 1.2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            border-bottom: 1px solid #e2d4c4;
+        }
+        .card-header h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #4a3b28;
+        }
+        .copy-btn {
+            background: #2c3e2f;
+            border: none;
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: 60px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.1s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+        }
+        .copy-btn:hover {
+            background: #b5651e;
+            transform: scale(0.97);
+        }
+        .content-box {
+            padding: 1.2rem 1.4rem;
+            line-height: 1.5;
+            font-size: 0.95rem;
+            color: #2c2b26;
+            white-space: pre-wrap;
+            word-break: break-word;
+            background: #fffdf9;
+        }
+        .footer-note {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 1.5rem;
+            background: #dfd6c8;
+            border-radius: 2rem;
+            font-size: 0.85rem;
+            color: #2f3e2e;
+        }
+        @media (max-width: 760px) {
+            body { padding: 1rem; }
+            .hero h1 { font-size: 1.6rem; }
+        }
+        .toast-msg {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #1e2a2e;
+            color: #f9eec1;
+            padding: 8px 18px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            z-index: 999;
+            opacity: 0;
+            transition: 0.2s;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+<div class="master-container">
+    <div class="hero">
+        <h1>🗝️ N. S. Wikarski — The Granite Key — Week 2 Slides</h1>
+        <div class="meta">
+            <span>📘 Book 1 of 8: Arkana Archaeology Thrillers</span>
+            <span>🔖 ASIN: B004NIFTI8</span>
+            <span class="badge">🎬 Week 2 • 15 fresh slides • 9:16 • viral ready</span>
+        </div>
+        <p style="margin-top: 12px; font-size: 0.9rem;">✅ Copy any block with one click — voiceovers, YouTube or TikTok descriptions — new content for week 2 campaign.</p>
+    </div>
+
+    <!-- SLIDES SECTION will be injected -->
+    <div class="section-title">📸 SLIDES (1–15) — 9:16 aspect ratio (Week 2: deeper into the mystery)</div>
+    <div id="dynamic-slides" class="grid-2col">
+        <div class="col" id="slides-col-left"></div>
+        <div class="col" id="slides-col-right"></div>
+    </div>
+
+    <div class="section-title">🎙️ VOICEOVERS (1–15) — warm, conversational, 10–20 sec (Week 2)</div>
+    <div id="voiceovers-grid" class="grid-2col">
+        <div class="col" id="vo-left"></div>
+        <div class="col" id="vo-right"></div>
+    </div>
+
+    <div class="section-title">▶️ YOUTUBE DESCRIPTIONS (Video 1–15) – Week 2</div>
+    <div id="youtube-grid" class="grid-2col">
+        <div class="col" id="yt-left"></div>
+        <div class="col" id="yt-right"></div>
+    </div>
+
+    <div class="section-title">📱 TIKTOK DESCRIPTIONS (Video 1–15) + CTA + links – Week 2</div>
+    <div id="tiktok-grid" class="grid-2col">
+        <div class="col" id="tt-left"></div>
+        <div class="col" id="tt-right"></div>
+    </div>
+
+    <div class="footer-note">
+        ⚡ Week 2 production kit — all new angles: character development, cult secrets, archaeological puzzles.<br>
+        🖱️ Click any "Copy" button to instantly grab text for video editing.
+    </div>
+</div>
+<div id="toast" class="toast-msg">✅ Copied to clipboard!</div>
+
+<script>
+    // --------------------------------------------------------------
+    // WEEK 2 DATA: same book, new creative assets (slides, voiceovers, YT, TT)
+    // Author: N. S. Wikarski | Title: The Granite Key | ASIN: B004NIFTI8
+    // --------------------------------------------------------------
+
+    // SLIDES descriptions 9:16 photorealistic, emotional, viral potential, week2 theme: tension, secrets, artifacts & hidden history
+    const slidesData = [
+        "Ancient parchment partially unrolled on a wooden table, the granite key pressing down one corner. Mysterious symbols glow faintly under candlelight. Warm flicker, realistic aged paper, hands hovering in curiosity. 9:16 aspect ratio.",
+        "A young woman stands inside a cave in Crete, looking at a wall painting of a Minoan goddess. Sunlight streams from an opening above, illuminating dust motes. Her expression shows awe and determination. Natural, photorealistic adventure moment. 9:16 aspect ratio.",
+        "Close-up of a hidden compartment inside an antique desk: the granite key nestled next to a leather journal with 'Arkana' embossed. Shallow depth of field, warm afternoon light, authentic textures. 9:16 aspect ratio.",
+        "Two figures silhouetted against a sunset in the Mediterranean, one handing the granite key to the other. Sea breeze, golden rim light, emotional trust and danger. Cinematic, realistic, 9:16.",
+        "A high-tech laboratory with ancient relics on metal tables – a scientist analyzing the key under a microscope. Cool blue light mixed with warm desk lamp. Modern vs ancient, scroll-stopping realism. 9:16 aspect ratio.",
+        "The villain of the cult (male, severe expression) holding a photo of the granite key in a dim office, a map of Crete pinned on the wall behind him. Gritty, realistic lighting, suspenseful. 9:16.",
+        "A bustling archaeological dig in Knossos: workers carefully excavating, a female lead holding a brush, sweat on her brow. Authentic equipment, natural sunlight, documentary style. 9:16.",
+        "A nightmare sequence: fractured image of a woman touching the key and seeing flashes of ancient rituals. Blurred but photorealistic, emotional distress, warm earthy tones. 9:16 aspect ratio.",
+        "Inside a secret Arkana library: wall-to-wall scrolls, a globe, the granite key resting on a pedestal. Dusty sunbeams, deep shadows, atmosphere of hidden knowledge. 9:16.",
+        "A car chase through narrow Greek village streets: the protagonist gripping the granite key in the passenger seat, rearview mirror showing pursuit. Realistic motion blur, authentic setting, tense. 9:16 aspect ratio.",
+        "A woman's hand touching an ancient Minoan seal stone – a vision overlay of a matriarchal ceremony. Double exposure style but photorealistic, warm golden hour. Emotional, spiritual. 9:16.",
+        "The granite key held up against the full moon over the ruins of Phaistos. Silhouette figure, mystical yet real, cool night air, stars above. Cinematic, viral composition. 9:16.",
+        "A heated debate inside a modern museum storage room: two factions arguing over the key. Expressive faces, realistic artifacts in background, tense body language. 9:16.",
+        "An elderly woman (Faye) explaining the key's origin, pointing to a star chart. Crackling fireplace, warm intimate lighting, wisdom and urgency. Photorealistic portrait. 9:16.",
+        "Final slide of week 2: a close-up of the granite key with code-like inscriptions, superimposed over a blurred map of the ancient world. Mystery unsolved. 9:16 aspect ratio, high detail."
+    ];
+
+    // Voiceovers (15) week2 – deeper hook, character tension, and strong CTA
+    const voiceoversData = [
+        "\"Week two of the mystery: The Granite Key isn't just an artifact — it's a ticking clock buried for 3000 years.\"",
+        "\"Cassie's gift gets stronger. Every touch reveals a secret, but also puts her in the cult's crosshairs.\"",
+        "\"The Arkana believe the key leads to something that could shatter modern dogma. That's why the 'Masters' want it destroyed.\"",
+        "\"What if ancient matriarchies were real? And what if someone has been hiding that truth for centuries?\"",
+        "\"In Crete, a hidden chamber. In the chamber, a riddle. In the riddle — the location of the second artifact.\"",
+        "\"Erik, the Arkana's guardian, has a past darker than anyone expects. And he'll kill to protect Cassie.\"",
+        "\"Griffin, the bookish scholar, discovers a coded message inside the key. It points to a forgotten island.\"",
+        "\"The cult leader, Daniel, believes the key will trigger the end of days. He's willing to burn history to make that happen.\"",
+        "\"Every chapter peels back layers of archaeology you've never seen — Minoan rituals, lost hymns, and forbidden tombs.\"",
+        "\"Fans of Dan Brown and Kate Quinn, listen: this series is your next obsession. Smart, fast, and fearless.\"",
+        "\"Now the action heats up: the second book in the series is waiting, but you need to start with THE GRANITE KEY.\"",
+        "\"You can get the Kindle edition for 99 cents right now. That's less than a coffee for 600+ pages of suspense.\"",
+        "\"Prefer listening? The audiobook is free with a trial. Hear the adventure while you drive or workout.\"",
+        "\"Don't let the past stay buried. Tap the link and start reading tonight — no spoilers, but the plot twist will shock you.\"",
+        "\"The hunt continues. Unlock the truth with The Granite Key. Available on Kindle Unlimited or just 99c. Link below.\""
+    ];
+
+    // YouTube Descriptions (15) title + full description + hashtags - Week 2
+    const youtubeData = [
+        "The Granite Key – The cult is getting closer\n\nThe secret society Arkana races against extremists. Week 2 trailer. Based on real Minoan mysteries.\n#ArchaeologyThriller #TheGraniteKey #BookTube",
+        "Why this artifact terrifies religious extremists\n\nA stone that rewrites history. The Granite Key by N.S. Wikarski.\n#ConspiracyBooks #HiddenHistory #Thrillers",
+        "She can see the past. They want her dead.\n\nCassie’s psychic gift is her only weapon. Start the Arkana series today.\n#FemaleProtagonist #SuspenseBooks #KindleReads",
+        "Crete’s hidden chambers – real locations in the book\n\nVisit the real ruins that inspired The Granite Key. Fact meets fiction.\n#Minoan #Archaeology #TravelThriller",
+        "The matriarchal secret – Episode 2\n\nWhat if early civilizations were led by women? The Granite Key explores the evidence.\n#Matriarchy #LostHistory #Edutainment",
+        "99 cent thriller that readers compare to Dan Brown\n\nOver 1,200 4-star reviews. Binge the series now.\n#BookDeal #KindleDeals #MysterySeries",
+        "Arkana vs. The Masters: the ideological war\n\nTwo factions fighting for the soul of history. Which side wins?\n#SecretSocieties #BookTok #ThrillerAddict",
+        "The code inside the granite key explained\n\nCiphers, astrology, and forgotten languages. Perfect for puzzle lovers.\n #CipherMystery #ArchaeologyFiction #SmartThrillers",
+        "Character deep dive: Cassie’s transformation\n\nFrom reluctant hero to fearless truth-seeker. Week 2 character spotlight.\n#CharacterArc #BookLovers #TheGraniteKey",
+        "Why you should read The Granite Key on Kindle Unlimited\n\nFree for subscribers. Start the 8-book adventure today.\n#KindleUnlimited #FreeBook #SuspenseSeries",
+        "The villain you’ll love to hate: Daniel\n\nCult leader, fanatic, brilliant. Meet the antagonist of the Arkana saga.\n #VillainOrigin #ThrillerBooks #MustRead",
+        "From the author of Gilded Age Mysteries\n\nN.S. Wikarski delivers nonstop action in The Granite Key.\n #IndieAuthor #BookRecommendation #AdventureReads",
+        "Inside the Arkana vault: props that feel real\n\nAuthor’s attention to archaeological detail brings the story to life.\n #ResearchMatters #HistoricalThriller #Bookish",
+        "The plot twist everyone is talking about (no spoilers)\n\nJust trust us — you won’t see it coming. Grab Book 1 now.\n #BookTwist #PageTurner #ThrillSeeker",
+        "Start The Granite Key tonight – link in description\n\nWeek 2 campaign ends soon. Get the ebook for 94% off.\n #ReadMoreBooks #MysteryThriller #TheArkanaSaga"
+    ];
+
+    // TikTok Descriptions (15) engaging + CTA + links + hashtags – Week 2 fresh
+    const tiktokData = [
+        "Replying to @booklover123 The Granite Key gets DARKER in week 2. Cult infiltration. Secret maps. And a betrayal you won't see coming. 🔥\n\n⬇️ Read free with KU ⬇️\n🔗 Link in bio\n#BookTok #ThrillerBooks #TheGraniteKey",
+        "POV: you’re the only one who can touch an artifact and see 3000 years into the past. No pressure. 😰\n\nGet The Granite Key — link in bio 👆\n#PsychicMystery #Archaeology #BookRecs",
+        "He said 'it's just a rock.' She said 'it's the key to human history.' 🗝️\n\nRead for 99c on Kindle.\n🔗 #BookCouple #MysteryTok #TheGraniteKey",
+        "Imagine Da Vinci Code meets Lara Croft with a feminist twist. That's The Granite Key.\n\n👉 Start the series today — link below\n#GirlPower #ThrillerAddict #KindleBooks",
+        "Cults hate this one artifact (not clickbait). The granite key exposes a truth that could collapse their entire belief system.\n\nGrab book 1 now! #ConspiracyTok #HiddenHistory #FreeKU",
+        "Drop a 🗝️ if you love puzzles and ancient mysteries. The Granite Key has codes within codes.\n\nLink in bio to decode the past.\n#Cipher #MysteryLover #Bookish",
+        "Week 2 of the Arkana series: Cassie finally unlocks a vision that changes everything. I audibly gasped.\n\n👉 Tap link to read.\n#BookGasp #ThrillerSeries #MustRead2026",
+        "You think you know ancient history? Nope. The Granite Key will rewire your brain 🧠\n\nDownload now with KU.\n#LearnOnTikTok #HistoryMystery #TheGraniteKey",
+        "The villain quotes ancient scriptures to justify murder. Chilling and realistic.\n\n🔥 Get the book — link in bio.\n#VillainTok #DarkAcademia #ThrillerBooks",
+        "One scene takes place in a real Minoan tomb. The author actually visited every location. Authenticity hits different.\n\nRead The Granite Key.\n#TravelBooks #ArchaeologyLife #BookTok",
+        "If you like smart, fast-paced thrillers, I found your next binge. 8 books, 1 key.\n\n🔓 Start for 99 cents ➡️ link in bio.\n#SeriesBinge #ReadingRecommendation #KindleUnlimited",
+        "🚨 94% off for week 2! That’s 99 cents for a 600-page archaeological thriller.\n\nDon’t sleep — link below.\n#BookDeal #SaleAlert #MysteryReader",
+        "The Granite Key made me stay up till 3 AM. No regrets. Worth every page.\n\n👇 Download tonight 👇\n#LateNightReading #PageTurner #BookObsessed",
+        "Reply with your favorite Dan Brown book — then go read The Granite Key. Seriously, it’s that good.\n\n🔗 Link in bio. #BookComparison #ThrillerCommunity #NewSeries",
+        "Week 2 ends soon. If you haven’t met Cassie and the Arkana, you're missing out. Start reading in 2 minutes.\n\n👉 Amazon link in bio\n#WeekendRead #TheGraniteKey #BookLaunch"
+    ];
+
+    // Helper: create card with copy button
+    function createCard(titleText, contentText, index) {
+        const cardDiv = document.createElement('div');
+        cardDiv.className = 'card';
+        const header = document.createElement('div');
+        header.className = 'card-header';
+        const titleSpan = document.createElement('h3');
+        titleSpan.innerHTML = `${titleText} <span style="font-weight:normal;">#${index}</span>`;
+        const copyButton = document.createElement('button');
+        copyButton.className = 'copy-btn';
+        copyButton.innerHTML = '📋 Copy';
+        copyButton.setAttribute('data-copytext', contentText);
+        copyButton.addEventListener('click', () => {
+            navigator.clipboard.writeText(contentText).then(() => {
+                const toast = document.getElementById('toast');
+                toast.style.opacity = '1';
+                setTimeout(() => { toast.style.opacity = '0'; }, 1500);
+            });
+        });
+        header.appendChild(titleSpan);
+        header.appendChild(copyButton);
+        const body = document.createElement('div');
+        body.className = 'content-box';
+        body.innerText = contentText;
+        cardDiv.appendChild(header);
+        cardDiv.appendChild(body);
+        return cardDiv;
+    }
+
+    function renderToColumns(leftId, rightId, itemsArray, titlePrefix) {
+        const left = document.getElementById(leftId);
+        const right = document.getElementById(rightId);
+        left.innerHTML = '';
+        right.innerHTML = '';
+        itemsArray.forEach((item, idx) => {
+            const card = createCard(titlePrefix, item, idx+1);
+            if (idx % 2 === 0) left.appendChild(card);
+            else right.appendChild(card);
+        });
+    }
+
+    // Slides render (9:16 already in text)
+    function renderSlides() {
+        const left = document.getElementById('slides-col-left');
+        const right = document.getElementById('slides-col-right');
+        left.innerHTML = '';
+        right.innerHTML = '';
+        slidesData.forEach((slide, idx) => {
+            const card = createCard('🎬 Slide (9:16)', slide, idx+1);
+            if (idx % 2 === 0) left.appendChild(card);
+            else right.appendChild(card);
+        });
+    }
+
+    function renderVoiceovers() {
+        renderToColumns('vo-left', 'vo-right', voiceoversData, '🎙️ Voiceover');
+    }
+    function renderYoutube() {
+        renderToColumns('yt-left', 'yt-right', youtubeData, '▶️ YouTube');
+    }
+    function renderTikTok() {
+        renderToColumns('tt-left', 'tt-right', tiktokData, '📱 TikTok');
+    }
+
+    renderSlides();
+    renderVoiceovers();
+    renderYoutube();
+    renderTikTok();
+</script>
+</body>
+</html>

@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atomic Shelf | Author CRM</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+    :root { 
+        --bg: #0f1115; --surface: #1e2128; --surface-hover: #2a2e37;
+        --border: #333842; --text: #f0f0f0; --text-muted: #94a3b8;
+        --amber: #f59e0b; --amber-hover: #d97706; --green: #10b981; --red: #ef4444; --blue: #3b82f6;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); padding: 20px; }
+    
+    /* Header & Controls */
+    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+    .header h1 { color: var(--amber); font-weight: 700; letter-spacing: -0.5px; }
+    .controls { display: flex; gap: 15px; align-items: center; }
+    select, button, input { background: var(--surface); color: var(--text); border: 1px solid var(--border); padding: 8px 12px; border-radius: 6px; font-family: inherit; font-size: 14px; outline: none; }
+    select:focus, input:focus { border-color: var(--amber); }
+    button { cursor: pointer; transition: 0.2s; font-weight: 500; }
+    button:hover { background: var(--surface-hover); }
+    .btn-primary { background: var(--amber); color: #000; border: none; }
+    .btn-primary:hover { background: var(--amber-hover); }
+    
+    /* Grid & Cards */
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px; }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column; }
+    .card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.3); border-color: #4b5263; }
+    .c-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+    .c-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 4px; }
+    .c-project { color: var(--amber); font-size: 0.85rem; font-weight: 500; }
+    .badge { padding: 3px 8px; border-radius: 12px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+    .b-Active { background: rgba(16, 185, 129, 0.15); color: var(--green); }
+    .b-Trial { background: rgba(59, 130, 246, 0.15); color: var(--blue); }
+    .b-Ended { background: rgba(148, 163, 184, 0.15); color: var(--text-muted); }
+    .b-Awaiting, .b-Outreach { background: rgba(245, 158, 11, 0.15); color: var(--amber); }
+    
+    .c-meta { display: flex; flex-wrap: wrap; gap: 10px; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 15px; }
+    .meta-item { display: flex; align-items: center; gap: 4px; }
+    .report-Due { color: var(--red); font-weight: 600; }
+    .report-Sent { color: var(--green); }
+    
+    .c-action { background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; border-left: 3px solid var(--amber); font-size: 0.85rem; margin-top: auto; }
+    .c-action strong { display: block; margin-bottom: 4px; color: #fff; }
+
+    /* Drawer */
+    .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(2px); opacity: 0; pointer-events: none; transition: 0.3s; z-index: 99; }
+    .drawer { position: fixed; top: 0; right: -450px; width: 450px; max-width: 100%; height: 100%; background: var(--bg); border-left: 1px solid var(--border); box-shadow: -5px 0 25px rgba(0,0,0,0.5); transition: 0.3s; z-index: 100; display: flex; flex-direction: column; }
+    .open .overlay { opacity: 1; pointer-events: auto; }
+    .open .drawer { right: 0; }
+    
+    .d-header { padding: 25px; border-bottom: 1px solid var(--border); background: var(--surface); display: flex; justify-content: space-between; align-items: center; }
+    .d-header h2 { font-size: 1.4rem; color: #fff; }
+    .d-close { background: none; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer; }
+    .d-close:hover { color: #fff; }
+    
+    .d-body { padding: 25px; overflow-y: auto; flex: 1; }
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+    textarea { width: 100%; min-height: 80px; background: rgba(0,0,0,0.2); color: var(--text); border: 1px solid var(--border); padding: 12px; border-radius: 8px; font-family: inherit; font-size: 0.9rem; resize: vertical; }
+    textarea:focus { border-color: var(--amber); outline: none; }
+    
+    .links-grid { display: flex; flex-direction: column; gap: 8px; }
+    .link-row { display: flex; gap: 8px; align-items: center; }
+    .link-btn { flex: 1; background: var(--surface); color: var(--amber); text-decoration: none; padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border); font-size: 0.85rem; text-align: center; transition: 0.2s; font-weight: 500;}
+    .link-btn:hover { background: var(--border); color: #fff; }
+    .copy-btn { background: var(--surface); border: 1px solid var(--border); padding: 8px; border-radius: 6px; cursor: pointer; color: var(--text-muted); }
+    .copy-btn:hover { color: #fff; background: var(--border); }
+
+    .d-footer { padding: 20px 25px; border-top: 1px solid var(--border); background: var(--surface); display: flex; gap: 10px; }
+    .d-footer button { flex: 1; padding: 12px; font-size: 1rem; }
+
+    #toast { position: fixed; bottom: 20px; left: 50%; transform: translate(-50%, 20px); background: var(--green); color: #fff; padding: 10px 20px; border-radius: 30px; font-weight: 500; opacity: 0; pointer-events: none; transition: 0.3s; z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+    #toast.show { transform: translate(-50%, 0); opacity: 1; }
+</style>
+</head>
+<body>
+
+<div class="header">
+    <h1>Atomic Shelf CRM</h1>
+    <div class="controls">
+        <input type="text" id="search" placeholder="Search authors, books..." oninput="render()">
+        <select id="sort" onchange="render()">
+            <option value="needsUpdate">Sort: Needs Report First</option>
+            <option value="recent">Sort: Latest Contacted</option>
+            <option value="status">Sort: By Status</option>
+            <option value="paid">Sort: Paid Status</option>
+        </select>
+        <button class="btn-primary" onclick="fetchData()">⟳ Refresh Sync</button>
+    </div>
+</div>
+
+<div id="main" class="grid">
+    <div style="color:var(--text-muted);">Initializing secure connection to database...</div>
+</div>
+
+<div id="app-drawer">
+    <div class="overlay" onclick="closeDrawer()"></div>
+    <div class="drawer">
+        <div class="d-header">
+            <div>
+                <h2 id="d-name">Author Name</h2>
+                <div id="d-book" style="color:var(--amber); font-size:0.9rem; margin-top:4px;">Book Title</div>
+            </div>
+            <button class="d-close" onclick="closeDrawer()">✕</button>
+        </div>
+        <div class="d-body">
+            
+            <div class="form-group">
+                <label>Weekly Report Status</label>
+                <select id="edit-report" style="width:100%; background:rgba(0,0,0,0.2);">
+                    <option value="Due">🚨 Due</option>
+                    <option value="Working">⏳ Working</option>
+                    <option value="Sent">✅ Sent</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Contact Info</label>
+                <div class="link-row">
+                    <input type="text" id="d-email" readonly style="flex:1; background:rgba(0,0,0,0.2); border:1px solid var(--border); color:var(--text-muted);">
+                    <button class="copy-btn" onclick="copyToClip(document.getElementById('d-email').value)">Copy</button>
+                </div>
+                <div style="margin-top:10px; font-size:0.85rem; color:var(--text-muted);">
+                    Last Contact: <input type="date" id="edit-contact" style="background:rgba(0,0,0,0.2); border:1px solid var(--border); color:var(--text); padding:4px;">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Project Links & Assets</label>
+                <div id="d-links" class="links-grid"></div>
+            </div>
+
+            <div class="form-group">
+                <label>Pending Actions</label>
+                <textarea id="edit-action" placeholder="What needs to be done next?"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Internal Notes</label>
+                <textarea id="edit-notes" placeholder="Private notes regarding this campaign..."></textarea>
+            </div>
+            
+        </div>
+        <div class="d-footer">
+            <button onclick="closeDrawer()">Cancel</button>
+            <button class="btn-primary" onclick="saveData()">Save Changes</button>
+        </div>
+    </div>
+</div>
+
+<div id="toast">Changes Saved Successfully</div>
+
+<script>
+// REPLACE THIS URL WITH YOUR NEW APPS SCRIPT DEPLOYMENT URL
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzwDQCnUeI3VfWjsTKHwHzGiuA_fKV9kZL6hKgzHaIZTC_mMNJ3UQXE4gXGpSq62zz_/exec';
+
+let DB = [];
+let currentOpenUID = null;
+
+async function fetchData() {
+    document.getElementById('main').innerHTML = '<div style="color:var(--text-muted);">Syncing from Google Sheets...</div>';
+    try {
+        const res = await fetch(SCRIPT_URL);
+        DB = await res.json();
+        render();
+    } catch(e) {
+        document.getElementById('main').innerHTML = `<div style="color:var(--red);">Connection failed. Check SCRIPT_URL and Deployment.</div>`;
+    }
+}
+
+function render() {
+    const sortVal = document.getElementById('sort').value;
+    const searchVal = document.getElementById('search').value.toLowerCase();
+    
+    let filtered = DB.filter(a => 
+        a.name.toLowerCase().includes(searchVal) || 
+        a.project.toLowerCase().includes(searchVal) || 
+        a.email.toLowerCase().includes(searchVal)
+    );
+
+    // Sorting Logic
+    filtered.sort((a,b) => {
+        if(sortVal === 'needsUpdate') {
+            const aDue = a.reportStatus === 'Due' ? 0 : 1;
+            const bDue = b.reportStatus === 'Due' ? 0 : 1;
+            return aDue - bDue;
+        }
+        if(sortVal === 'recent') {
+            return new Date(b.lastContact || 0) - new Date(a.lastContact || 0);
+        }
+        if(sortVal === 'status') {
+            const order = {"Active":1, "Trial":2, "Awaiting":3, "Ended":4, "Outreach":5};
+            return (order[a.status]||9) - (order[b.status]||9);
+        }
+        if(sortVal === 'paid') {
+            const isPaid = s => s.toLowerCase().includes('paid') ? 0 : 1;
+            return isPaid(a.payment) - isPaid(b.payment);
+        }
+    });
+
+    const html = filtered.map(a => {
+        // Format Date
+        let dateStr = "No Date";
+        if(a.lastContact) {
+            const d = new Date(a.lastContact);
+            if(!isNaN(d)) dateStr = d.toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'});
+        }
+
+        // Report Badge Logic
+        let repBadge = '';
+        if(a.reportStatus === 'Due') repBadge = `<span class="report-Due">● Report Due</span>`;
+        else if(a.reportStatus === 'Sent') repBadge = `<span class="report-Sent">✓ Report Sent</span>`;
+
+        return `
+        <div class="card" onclick="openDrawer('${a.uid}')">
+            <div class="c-head">
+                <div>
+                    <div class="c-title">${a.name}</div>
+                    <div class="c-project">${a.project}</div>
+                </div>
+                <span class="badge b-${a.status}">${a.status}</span>
+            </div>
+            
+            <div class="c-meta">
+                <span class="meta-item">💳 ${a.payment}</span>
+                <span class="meta-item">📅 Contacted: ${dateStr}</span>
+                ${repBadge}
+            </div>
+
+            <div class="c-action">
+                <strong>Next Action:</strong>
+                ${a.nextAction || 'None assigned.'}
+            </div>
+        </div>
+        `;
+    }).join('');
+
+    document.getElementById('main').innerHTML = html || '<div style="color:var(--text-muted);">No records found.</div>';
+}
+
+function openDrawer(uid) {
+    const a = DB.find(x => String(x.uid) === String(uid));
+    if(!a) return;
+    currentOpenUID = uid;
+    
+    document.getElementById('d-name').innerText = a.name;
+    document.getElementById('d-book').innerText = a.project;
+    document.getElementById('d-email').value = a.email;
+    
+    // Format Date for Input
+    if(a.lastContact) {
+        const d = new Date(a.lastContact);
+        if(!isNaN(d)) document.getElementById('edit-contact').value = d.toISOString().split('T')[0];
+    } else {
+        document.getElementById('edit-contact').value = '';
+    }
+
+    // Set Select
+    const repSelect = document.getElementById('edit-report');
+    repSelect.value = a.reportStatus || 'N/A';
+    if(!Array.from(repSelect.options).some(o => o.value === a.reportStatus)) repSelect.value = 'N/A';
+
+    // Parse Links (Format: Label|URL;;Label2|URL2)
+    let linksHtml = '';
+    if(a.links) {
+        const linkPairs = a.links.split(';;');
+        linkPairs.forEach(pair => {
+            const parts = pair.split('|');
+            if(parts.length === 2) {
+                linksHtml += `
+                <div class="link-row">
+                    <a href="${parts[1]}" target="_blank" class="link-btn">${parts[0]} ↗</a>
+                    <button class="copy-btn" onclick="copyToClip('${parts[1]}')" title="Copy Link">📋</button>
+                </div>`;
+            }
+        });
+    }
+    if(!linksHtml) linksHtml = '<div style="font-size:0.85rem; color:var(--text-muted);">No links saved yet.</div>';
+    document.getElementById('d-links').innerHTML = linksHtml;
+
+    document.getElementById('edit-action').value = a.nextAction || '';
+    document.getElementById('edit-notes').value = a.notes || '';
+
+    document.getElementById('app-drawer').classList.add('open');
+}
+
+function closeDrawer() {
+    document.getElementById('app-drawer').classList.remove('open');
+    currentOpenUID = null;
+}
+
+async function saveData() {
+    if(currentOpenUID === null) return;
+    
+    const payload = {
+        uid: currentOpenUID,
+        lastContact: document.getElementById('edit-contact').value,
+        reportStatus: document.getElementById('edit-report').value,
+        nextAction: document.getElementById('edit-action').value,
+        notes: document.getElementById('edit-notes').value
+    };
+
+    // Optimistic UI update
+    const idx = DB.findIndex(x => String(x.uid) === String(currentOpenUID));
+    if(idx > -1) {
+        DB[idx].lastContact = payload.lastContact;
+        DB[idx].reportStatus = payload.reportStatus;
+        DB[idx].nextAction = payload.nextAction;
+        DB[idx].notes = payload.notes;
+        render();
+    }
+    
+    closeDrawer();
+    showToast("Saving to Database...");
+
+    try {
+        const res = await fetch(SCRIPT_URL, {
+            method: 'POST',
+            body: JSON.stringify(payload)
+        });
+        const result = await res.json();
+        if(result.success) showToast("✓ Changes Saved Successfully");
+        else showToast("❌ Save Failed");
+    } catch(e) {
+        showToast("❌ Network Error: Could not save");
+    }
+}
+
+function copyToClip(text) {
+    navigator.clipboard.writeText(text).then(() => showToast("📋 Copied to clipboard!"));
+}
+
+function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.innerText = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// Init
+fetchData();
+</script>
+</body>
+</html>

@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Would You Believe It? — Content Calendar | Atomic Shelf</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0d0f12;
+    --deep: #141920;
+    --char: #1b222c;
+    --ember: #d4882a;
+    --gold: #dfb15b;
+    --cream: #e2e8f0;
+    --mist: #94a3b8;
+    --light: #cbd5e1;
+    --white: #f8fafc;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--black);
+    color: var(--cream);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 21px;
+    line-height: 1.75;
+    overflow-x: hidden;
+  }
+
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 40%, #1e293b 0%, #0d0f12 70%);
+  }
+
+  .hero-grain {
+    position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 900px;
+    padding: 80px 60px;
+    text-align: center;
+    animation: fadeUp 1.2s ease both;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--ember);
+    border: 1px solid var(--ember);
+    padding: 6px 20px;
+    margin-bottom: 32px;
+    opacity: 0.9;
+  }
+
+  .hero-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(38px, 6vw, 76px);
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -1px;
+    color: var(--white);
+    margin-bottom: 16px;
+  }
+
+  .hero-title span {
+    color: var(--gold);
+    display: block;
+    font-size: clamp(24px, 4vw, 48px);
+    font-weight: 400;
+    letter-spacing: 2px;
+    margin-top: 10px;
+  }
+
+  .hero-sub {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(13px, 1.8vw, 16px);
+    font-weight: 400;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--mist);
+    margin-bottom: 24px;
+  }
+
+  .hero-author {
+    font-style: italic;
+    font-size: 24px;
+    color: var(--light);
+    margin-bottom: 48px;
+  }
+
+  .hero-meta {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .hero-meta-item {
+    text-align: center;
+  }
+
+  .hero-meta-item .num {
+    font-family: 'Cinzel', serif;
+    font-size: 36px;
+    font-weight: 900;
+    color: var(--ember);
+    line-height: 1;
+  }
+
+  .hero-meta-item .label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--mist);
+    margin-top: 4px;
+  }
+
+  .divider {
+    width: 80px; height: 1px;
+    background: linear-gradient(to right, transparent, var(--ember), transparent);
+    margin: 64px auto;
+  }
+
+  .intro {
+    max-width: 740px;
+    margin: 0 auto;
+    padding: 0 40px 80px;
+    text-align: center;
+  }
+
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 20px;
+  }
+
+  .intro p {
+    font-size: 24px;
+    font-style: italic;
+    color: var(--light);
+    line-height: 1.9;
+  }
+
+  .calendar {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 40px 120px;
+  }
+
+  .calendar-header {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+
+  .calendar-header h2 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(28px, 4vw, 48px);
+    font-weight: 900;
+    color: var(--white);
+    margin-bottom: 12px;
+  }
+
+  .calendar-header p {
+    color: var(--mist);
+    font-size: 17px;
+    font-style: italic;
+  }
+
+  .video-card {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 0;
+    margin-bottom: 16px;
+    background: var(--deep);
+    border: 1px solid rgba(212, 136, 42, 0.12);
+    border-radius: 6px;
+    transition: border-color 0.3s ease, background 0.3s ease;
+    overflow: hidden;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .video-card:hover {
+    border-color: rgba(212, 136, 42, 0.4);
+    background: var(--char);
+  }
+
+  .card-date {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(212, 136, 42, 0.05);
+    border-right: 1px solid rgba(212, 136, 42, 0.15);
+    padding: 24px 16px;
+    text-align: center;
+    position: relative;
+  }
+
+  .card-date::after {
+    content: '';
+    position: absolute;
+    right: -1px; top: 20%; bottom: 20%;
+    width: 2px;
+    background: var(--ember);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .video-card:hover .card-date::after { opacity: 1; }
+
+  .date-num {
+    font-family: 'Cinzel', serif;
+    font-size: 32px;
+    font-weight: 900;
+    color: var(--ember);
+    line-height: 1;
+  }
+
+  .date-month {
+    font-family: 'Space Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--mist);
+    margin-top: 4px;
+  }
+
+  .date-vid {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    color: rgba(212, 136, 42, 0.7);
+    margin-top: 10px;
+    font-weight: bold;
+  }
+
+  .card-body {
+    padding: 28px 36px;
+    position: relative;
+  }
+
+  .card-title {
+    font-family: 'Cinzel', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
+
+  .card-hook {
+    font-style: italic;
+    color: var(--gold);
+    font-size: 18px;
+    margin-bottom: 20px;
+    opacity: 0.9;
+  }
+
+  .card-sections {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  @media (max-width: 768px) {
+    .card-sections { grid-template-columns: 1fr; }
+    .hero-content { padding: 60px 24px; }
+    .calendar { padding: 0 20px 80px; }
+    .video-card { grid-template-columns: 1fr; }
+    .card-date { border-right: none; border-bottom: 1px solid rgba(212, 136, 42, 0.15); flex-direction: row; gap: 12px; padding: 12px; justify-content: flex-start; }
+    .date-vid { margin-top: 0; margin-left: auto; }
+    .card-body { padding: 20px; }
+  }
+
+  .section-block {
+    position: relative;
+    background: rgba(13, 15, 18, 0.3);
+    padding: 16px;
+    border-radius: 4px;
+    border: 1px solid rgba(255,255,255,0.02);
+  }
+
+  .section-block h4 {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .section-block p {
+    font-size: 17px;
+    color: var(--light);
+    line-height: 1.7;
+  }
+
+  .section-block.desc p {
+    color: var(--mist);
+  }
+
+  .copy-btn {
+    background: transparent;
+    border: 1px solid rgba(212, 136, 42, 0.3);
+    color: var(--gold);
+    font-family: 'Space Mono', monospace;
+    font-size: 8px;
+    padding: 2px 8px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .copy-btn:hover {
+    background: var(--ember);
+    color: var(--white);
+    border-color: var(--ember);
+  }
+
+  .footer {
+    text-align: center;
+    padding: 60px 40px;
+    border-top: 1px solid rgba(212, 136, 42, 0.15);
+    background: rgba(20, 25, 32, 0.6);
+  }
+
+  .footer-brand {
+    font-family: 'Cinzel', serif;
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--ember);
+    letter-spacing: 4px;
+  }
+
+  .footer-note {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--mist);
+    margin-top: 10px;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+<script>
+  function copyText(elementId, btn) {
+    var text = document.getElementById(elementId).innerText;
+    navigator.clipboard.writeText(text).then(function() {
+      var originalText = btn.innerText;
+      btn.innerText = "Copied!";
+      btn.style.background = "rgba(212, 136, 42, 0.2)";
+      setTimeout(function() {
+        btn.innerText = originalText;
+        btn.style.background = "transparent";
+      }, 1500);
+    }, function(err) {
+      console.error('Could not copy text: ', err);
+    });
+  }
+</script>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grain"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Campaign Strategist Deployment</div>
+    <div class="hero-sub">Skeptics & Seekers Framework</div>
+    <h1 class="hero-title">Would You Believe It?<span>A Guide to Finding Faith for Skeptics</span></h1>
+    <p class="hero-author">by Kyle Hogg</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <div class="num">15</div>
+        <div class="label">Total Clips</div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="num">10/5</div>
+        <div class="label">Hook / CTA Split</div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="num">4.9★</div>
+        <div class="label">Amazon Rating</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="intro">
+  <div class="section-label">Strategic Blueprint</div>
+  <p>A rigorous, thoughtful short-form video assembly designed for YouTube and TikTok. This distribution matrix positions deep existential, intellectual, and relational questions directly into the feeds of rational doubters, avoiding preachy jargon in favor of authentic intellectual hospitality.</p>
+</section>
+
+<section class="calendar">
+  <div class="calendar-header">
+    <div class="section-label">Launch Sequence</div>
+    <h2>Week 1 Deployment</h2>
+    <p>Operational start date: 22 May 2026 (3 days from baseline) · Formatted with 2x daily distribution, scaling to 3x on final day</p>
+  </div>
+
+  <div class="video-card">
+    <div class="card-date">
+      <div class="date-num">22</div>
+      <div class="date-month">May</div>
+      <div class="date-vid">Clip 01</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">The Midnight Logic Loop</div>
+      <div class="card-hook">Focus: The exhausting tension of an over-analytical mind chasing peace.</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText('vo1', this)">Copy</button></h4>
+          <p id="vo1">It is midnight, your room is dead quiet, and your brain refuses to shut off the logic loop. You want to find true internal grounding, but you’ve been told your whole life that faith requires turning your brain off. What if that’s a complete lie? What if real faith doesn't want you to bury your intellect, but actually demands your hard questions?</p>
+        </div>
+        <div class="section-block desc">
+          <h4>Social Metadata <button class="copy-btn" onclick="copyText('md1', this)">Copy</button></h4>
+          <p id="md1">For the overthinkers who want to believe but refuse to ignore logic. You don't have to leave your brain at the door. #Skeptics #Faith #Logic #Overthinking #Christianity #Apologetics #KyleHogg #TruthChasing</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <div class="card-date">
+      <div class="date-num">22</div>
+      <div class="date-month">May</div>
+      <div class="date-vid">Clip 02</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">Nonsense vs. Mystery</div>
+      <div class="card-hook">Focus: Differentiating between anti-rational claims and trans-rational truths.</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText('vo2', this)">Copy</button></h4>
+          <p id="vo2">There is a massive, life-changing difference between nonsense that goes flatly against reason, and a deep mystery that goes completely beyond it. True faith isn't irrational nonsense. It’s an expansive mystery that sits comfortably at the table right next to your toughest questions. Stop fighting the uncertainty alone.</p>
+        </div>
+        <div class="section-block desc">
+          <h4>Social Metadata <button class="copy-btn" onclick="copyText('md2', this)">Copy</button></h4>
+          <p id="md2">Faith isn't anti-reason; it's trans-reason. Understanding the difference between logical nonsense and divine mystery changes everything. #Philosophy #Apologetics #FaithAndReason #Doubting #Skepticism #SeekingTruth</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <div class="card-date">
+      <div class="date-num">23</div>
+      <div class="date-month">May</div>
+      <div class="date-vid">Clip 03</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">Pinpointing the Source of Doubt</div>
+      <div class="card-hook">Focus: Categorizing doubt to dismantle its overwhelming, ambiguous power.</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText('vo3', this)">Copy</button></h4>
+          <p id="vo3">If you are currently wrestling with doubt, let’s stop treating it like a big, scary monster and pinpoint its actual coordinates. Is your doubt strictly intellectual, or is it deeply emotional, moral, or situational? Once you give your doubt an exact name, it loses its power over your journey, and you can finally start seeking real answers.</p>
+        </div>
+        <div class="section-block desc">
+          <h4>Social Metadata <button class="copy-btn" onclick="copyText('md3', this)">Copy</button></h4>
+          <p id="md3">Deconstruct your doubt before it deconstructs you. Pinpoint exactly where the hesitation is coming from. #Doubt #FaithJourney #SpiritualDeconstruction #ChristianApologetics #MentalHealth #TruthSeeker</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <div class="card-date">
+      <div class="date-num">23</div>
+      <div class="date-month">May</div>
+      <div class="date-vid">Clip 04</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">The Real Root of 'Fides'</div>
+      <div class="card-hook">Focus: Rescuing the definition of faith from emotionalism.</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText('vo4', this)">Copy</button></h4>
+          <p id="vo4">We have totally ruined the word faith. We treat it like an emotional wish or an anti-scientific blind leap. But the historical root of faith comes directly from the Latin word 'fides'—which simply means trust. It’s not about generating a fuzzy feeling; it’s about choosing where to place your relational trust based on evidence.</p>
+        </div>
+        <div class="section-block desc">
+          <h4>Social Metadata <button class="copy-btn" onclick="copyText('md4', this)">Copy</button></h4>
+          <p id="md4">What if faith isn't a blind leap, but an informed step of relational trust? Let's fix our definitions. #Etymology #Fides #Faith #Trust #EvidenceBased #ChristianLiving #TheologyMatters</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <div class="card-date">
+      <div class="date-num">24</div>
+      <div class="date-month">May</div>
+      <div class="date-vid">Clip 05</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">When Evidence Isn't Enough</div>
+      <div class="card-hook">Focus: Addressing why intellectual arguments alone fail to spark transformation.</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText('vo5', this)">Copy</button></h4>
+          <p id="vo5">You can read every single history textbook, analyze every line of archaeological evidence, and memorize perfect logic arguments—and still feel completely empty. Why? Because raw evidence alone cannot generate a living connection. Evidence clears away the debris, but faith is a relational gift that has to be received.</p>
+        </div>
+        <div class="section-block desc">
+          <h4>Social Metadata <button class="copy-btn" onclick="copyText('md5', this)">Copy</button></h4>
+          <p id="md5">Arguments can win an debate, but they won't settle a restless soul. Here is why evidence isn't the final destination. #Apologetics #Evidence #Reasoning #ScienceAndFaith #CSLewis #LeeStrobel #Faith</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <div class="card-date">
+      <div class="date-num">24</div>
+      <div class="date-month">May</div>
+      <div class="date-vid">Clip 06</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">The Conclave Principle</div>
+      <div class="card-hook">Focus: Validating doubt as the necessary companion of living faith.</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText('vo6', this)">Copy</button></h4>
+          <p id="vo6">There is a profound cinematic monologue that states: 'Our faith is a living thing precisely because it walks hand-in-hand with doubt.' If there was only absolute mathematical certainty, there would be no room for relationship, no room for wonder, and no room for love. Don't fear your uncertainty; it proves your faith is alive.</p>
+        </div>
+        <div class="section-block desc">
+          <h4>Social Metadata <button class="copy-btn" onclick="copyText('md6', this)">Copy</button></h4>
+          <p id="md6">A faith without questions is a faith without life. Your doubts don't disqualify you—they mean you care about what's true. #Conclave #RalphFiennes #DoubtAndFaith #Uncertainty #SpiritualGrowth #HonestConversations</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <div class="card-date">
+      <div class="date-num">25</div>
+      <div class="date-month">May</div>
+      <div class="date-vid">Clip 07</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">Conviction Over Convincing</div>
+      <div class="card-hook">Focus: The fragility of intellectual coercion vs. heart transformation.</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText('vo7', this)">Copy</button></h4>
+          <p id="vo7">If someone can easily convince you into a belief structure using slick arguments, guess what? Someone else can just as easily convince you out of it next week. Real transformation isn't an intellectual game of chess where your mind gets cornered; it’s a deep, gut-level conviction that hits your heart and changes how you see reality.</p>
+        </div>
+        <div class="section-block desc">
+          <h4>Social Metadata <button class="copy-btn" onclick="copyText('md7', this)">Copy</button></h4>
+          <p id="md7">Stop playing mental chess with God. True belief runs much deeper than just winning an intellectual argument. #HeartOverMind #Conviction #Transformation #ApologeticsDoneRight #FaithTruth #Skeptics</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <div class="card-date">
+      <div class="date-num">25</div>
+      <div class="date-month">May</div>
+      <div class="date-vid">Clip 08</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">The Illusion of Dogma</div>
+      <div class="card-hook">Focus: Dismantling the cultural view of Christianity as cold, legalistic machinery.</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText('vo8', this)">Copy</button></h4>
+          <p id="vo8">If your main exposure to religion was a rigid, compulsory system of strict rules and oppressive dogma, it makes complete sense why you walked away. But what if real faith in Christ isn't a monolithic, legalistic structure at all? What if it's a living, dynamic ecosystem that actively pulls up a chair at the table for your doubts?</p>
+        </div>
+        <div class="section-block desc">
+          <h4>Social Metadata <button class="copy-btn" onclick="copyText('md8', this)">Copy</button></h4>
+          <p id="md8">If you left religion because of legalism, you might have left something that wasn't actually Christ. Let's talk about the difference. #ReligiousTrauma #ChurchHurt #Legalism #Grace #TrueFaith #Jesus</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <div class="card-date">
+      <div class="date-num">26</div>
+      <div class="date-month">May</div>
+      <div class="date-vid">Clip 09</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">Outstretching Arms for a Buoy</div>
+      <div class="card-hook">Focus: Normalizing the desperation of the modern human condition.</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText('vo9', this)">Copy</button></h4>
+          <p id="vo9">At the end of the day, we are all just fragile people outstretching our arms for a buoy—some baseline semblance of certainty—in a massive, turbulent sea of questions. That desperate urgency isn't a sign of weakness; it is exactly the right position to be in if you want to grab hold of the answers that come our way by grace.</p>
+        </div>
+        <div class="section-block desc">
+          <h4>Social Metadata <button class="copy-btn" onclick="copyText('md9', this)">Copy</button></h4>
+          <p id="md9">Searching for a lifeline in a chaotic world isn't weakness—it's human. The answers might be closer than you think. #HumanCondition #ExistentialDread #SearchingForMeaning #Truth #Grace #PeaceOfMind</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <div class="card-date">
+      <div class="date-num">26</div>
+      <div class="date-month">May</div>
+      <div class="date-vid">Clip 10</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">The Dynamic Gift</div>
+      <div class="card-hook">Focus: Bridging human search with divine response.</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText('vo10', this)">Copy</button></h4>
+          <p id="vo10">Unbelief to faith is not a sudden, aggressive jump flip; it is a slow, beautiful journey of learning how to bring your pursuit of truth into direct relationship with a God who is already looking for you. Faith is a gift waiting to be unpacked, but you have to be willing to open your hands and stop clenching your fists.</p>
+        </div>
+        <div class="section-block desc">
+          <h4>Social Metadata <button class="copy-btn" onclick="copyText('md10', this)">Copy</button></h4>
+          <p id="md10">Stop clenching your fists against the universe. Open your hands to a gift that actually meets your intellectual needs. #FaithIsAGift #SpiritualJourney #AtheistToChristian #Skeptic #GodIsReal #TruthSeeker</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <div class="card-date">
+      <div class="date-num">27</div>
+      <div class="date-month">May</div>
+      <div class="date-vid">Clip 11</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">The Chill Pastor Transcript</div>
+      <div class="card-hook">Focus: Establishing the accessible, narrative tone of the resource.</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText('vo11', this)">Copy</button></h4>
+          <p id="vo11">If you want to explore these massive spiritual questions without the typical high-pressure church jargon, there is a resource built exactly for you. It reads less like an aggressive textbook and more like a late-night, relaxed chat with a thoughtful pastor in a coffee shop. It's called 'Would You Believe It?' by Kyle Hogg, and it’s available right now.</p>
+        </div>
+        <div class="section-block desc">
+          <h4>Social Metadata <button class="copy-btn" onclick="copyText('md11', this)">Copy</button></h4>
+          <p id="md11">A book for skeptics that doesn't feel preachy or defensive. Just an honest, grounded talk about faith. #BookTok #ChristianBooks #Goodreads #MustRead #SkepticsGuide #KyleHogg #FaithTalk</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <div class="card-date">
+      <div class="date-num">27</div>
+      <div class="date-month">May</div>
+      <div class="date-vid">Clip 12</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">15 Years of Pastoral Clarity</div>
+      <div class="card-hook">Focus: Leveraging the author's extensive experience and empathetic posture.</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText('vo12', this)">Copy</button></h4>
+          <p id="vo12">Pastor Kyle Hogg spent over 15 years in scriptural study and real-world ministry listening to the exact questions, arguments, and deep hurts of cynics and seekers. He packaged that entire decade and a half of clarity into a short, impactful guide designed specifically to clear away the barriers between your mind and God.</p>
+        </div>
+        <div class="section-block desc">
+          <h4>Social Metadata <button class="copy-btn" onclick="copyText('md12', this)">Copy</button></h4>
+          <p id="md12">Fifteen years of tracking down answers for skeptics, distilled into one short, clear, accessible volume. #PastorLife #TheologyStudy #ChristianApologetics #NewBookRelease #FaithGuide #Truth</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <div class="card-date">
+      <div class="date-num">28</div>
+      <div class="date-month">May</div>
+      <div class="date-vid">Clip 13</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">The Multitude of Reviews</div>
+      <div class="card-hook">Focus: Social proofing via early, highly enthusiastic feedback.</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText('vo13', this)">Copy</button></h4>
+          <p id="vo13">The reviews are officially flooding in, and readers are calling this book 'the ultimate conversational primer for the curious.' People who haven't stepped inside a church building in decades are finding a profound sense of clarity and peace in these chapters. Check out 'Would You Believe It?' on Amazon and see why it has achieved a 4.9-star rating.</p>
+        </div>
+        <div class="section-block desc">
+          <h4>Social Metadata <button class="copy-btn" onclick="copyText('md13', this)">Copy</button></h4>
+          <p id="md13">Over 100 reviews and a 4.9-star average. See why seekers and skeptics are calling this book an essential read for 2026. #BookReviews #AmazonFinds #HighlyRecommended #FaithJourney #MustReadBook</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <div class="card-date">
+      <div class="date-num">28</div>
+      <div class="date-month">May</div>
+      <div class="date-vid">Clip 14</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">The Companion for the Commute</div>
+      <div class="card-hook">Focus: Promoting the zero-friction audio adaptation.</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText('vo14', this)">Copy</button></h4>
+          <p id="vo14">If you don't even have the spare time to sit down with a paperback right now, you can take this entire thoughtful conversation with you on your morning drive. The audiobook format of 'Would You Believe It?' lets you process these deep questions about logic, history, and truth completely at your own pace while you live your life.</p>
+        </div>
+        <div class="section-block desc">
+          <h4>Social Metadata <button class="copy-btn" onclick="copyText('md14', this)">Copy</button></h4>
+          <p id="md14">Take the conversation on the go. The audiobook version is perfect for your morning commute or evening walk. #Audiobook #Audible #PodcastVibes #CommuteListen #SpiritualGrowth #BooksOnTheGo</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <div class="card-date">
+      <div class="date-num">28</div>
+      <div class="date-month">May</div>
+      <div class="date-vid">Clip 15</div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">The Ultimate Invitation</div>
+      <div class="card-hook">Focus: The definitive, direct transaction copy for conversions.</div>
+      <div class="card-sections">
+        <div class="section-block">
+          <h4>Voiceover Script <button class="copy-btn" onclick="copyText('vo15', this)">Copy</button></h4>
+          <p id="vo15">If you are completely exhausted by superficial answers and you are genuinely ready to build a faith that resonates deep within your soul, stop putting it off. Start your journey of honest discovery today. Go grab your copy of 'Would You Believe It?: A Guide to Finding Faith for Skeptics' by Kyle Hogg. It is available instantly on Kindle, Audio, and Paperback. Click the link in the bio right now.</p>
+        </div>
+        <div class="section-block desc">
+          <h4>Social Metadata <button class="copy-btn" onclick="copyText('md15', this)">Copy</button></h4>
+          <p id="md15">Your intellect isn't an obstacle to God—it's the highway. Click the link in our bio to grab 'Would You Believe It?' on Amazon today. Available on Kindle, Paperback, and Audible. #LinkInBio #BuyNow #FaithForSkeptics #KyleHogg #NewBook #ChristianApologetics #SpiritualGrowth</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<footer class="footer">
+  <div class="footer-brand">ATOMIC SHELF</div>
+  <div class="footer-note">Digital Content Distribution Hub · Prepared for Kyle Hogg · Active Matrix Window May 2026</div>
+</footer>
+
+</body>
+</html>

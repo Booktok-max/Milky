@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jade Series — Jad El Khoury | White-Glove Campaign Dashboard | Atomic Shelf</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,900;1,400&family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+:root {
+  --cream: #f7f3ec;
+  --parchment: #ede6d6;
+  --warm-white: #faf8f4;
+  --surface: #ffffff;
+  --ink: #1e1a14;
+  --ink-mid: #3d3628;
+  --ink-soft: #6b5e48;
+  --gold: #a07c3a;
+  --gold-2: #c9a55a;
+  --gold-pale: #e8d4a0;
+  --gold-bg: #fdf6e3;
+  --sage: #5a7a52;
+  --sage-bg: #e8ede6;
+  --teal: #1D9E75;
+  --teal-bg: #e4f2ee;
+  --blue: #2468c0;
+  --blue-bg: #e6f0fb;
+  --red: #b53a2f;
+  --red-bg: #fce8e6;
+  --jade: #2d6a4f;
+  --jade-bg: #d8f3dc;
+  --emerald: #40916c;
+  --rule: rgba(160,124,58,0.18);
+  --rule-lt: rgba(160,124,58,0.10);
+  --shadow-sm: 0 1px 4px rgba(30,26,20,0.06);
+  --shadow: 0 4px 20px rgba(30,26,20,0.09);
+  --shadow-lg: 0 10px 40px rgba(30,26,20,0.13);
+  --r: 8px;
+  --r-lg: 12px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+a { color: inherit; text-decoration: none; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--parchment); }
+::-webkit-scrollbar-thumb { background: var(--gold-pale); border-radius: 3px; }
+
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(30,26,20,.96);
+  backdrop-filter: blur(14px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  height: 58px;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.nav::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--gold) 40%, var(--gold-2) 60%, transparent 100%);
+  opacity: .4;
+}
+.nav-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: #fdf4e8;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.nav-mark {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: linear-gradient(138deg, var(--jade) 0%, var(--emerald) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .65rem;
+  font-weight: 700;
+  color: #fff;
+}
+.nav-brand em { font-style: italic; color: var(--gold-2); }
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a {
+  font-family: 'DM Mono', monospace;
+  font-size: .67rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.38);
+  transition: color .18s;
+}
+.nav-links a:hover { color: var(--gold-2); }
+.nav-pill {
+  font-family: 'DM Mono', monospace;
+  font-size: .62rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  background: rgba(45,106,79,.3);
+  border: 1px solid rgba(45,106,79,.45);
+  color: #74c69d;
+  padding: 4px 12px;
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.nav-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #52b788;
+  box-shadow: 0 0 7px #52b788;
+  animation: pulse 2.5s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1}50%{opacity:.3} }
+
+.hero {
+  background: linear-gradient(160deg, #1a3a2e 0%, #0f2a20 55%, #071a12 100%);
+  padding: 60px 40px 50px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 60% 40%, rgba(64,145,108,.15) 0%, transparent 65%);
+}
+.hero-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 40px;
+}
+.hero-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: .65rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--gold-2);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.hero-eyebrow::before {
+  content: '';
+  width: 28px;
+  height: 1px;
+  background: var(--gold);
+}
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  font-weight: 900;
+  color: #fdf4e8;
+  line-height: 1.02;
+  letter-spacing: -.02em;
+  margin-bottom: 6px;
+}
+.hero-subtitle {
+  font-family: 'Lora', serif;
+  font-style: italic;
+  font-size: 1rem;
+  color: rgba(253,244,232,.5);
+  margin-bottom: 22px;
+}
+.hero-author {
+  font-size: .88rem;
+  color: rgba(253,244,232,.6);
+  font-weight: 500;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.hero-stats {
+  display: flex;
+  gap: 28px;
+  flex-wrap: wrap;
+  text-align: right;
+}
+.hs-item { text-align: right; }
+.hs-val {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: var(--gold-2);
+  line-height: 1;
+}
+.hs-lbl {
+  font-family: 'DM Mono', monospace;
+  font-size: .58rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(253,244,232,.35);
+}
+.main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 36px 40px 100px;
+  position: relative;
+  z-index: 1;
+}
+.sec-label {
+  font-family: 'DM Mono', monospace;
+  font-size: .62rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.sec-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--rule-lt);
+}
+.card {
+  background: var(--surface);
+  border: 1px solid var(--rule-lt);
+  border-radius: var(--r-lg);
+  padding: 20px 24px;
+  box-shadow: var(--shadow-sm);
+}
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+  margin-bottom: 28px;
+}
+.metric-box {
+  background: var(--surface);
+  border: 1px solid var(--rule-lt);
+  border-radius: var(--r);
+  padding: 18px 20px;
+  position: relative;
+  box-shadow: var(--shadow-sm);
+  transition: transform .18s;
+}
+.metric-box:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+.metric-val {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--ink);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.metric-lbl {
+  font-family: 'DM Mono', monospace;
+  font-size: .6rem;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.metric-sub { font-size: .72rem; color: var(--ink-soft); margin-top: 2px; }
+.progress-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+.progress-label {
+  font-size: .78rem;
+  color: var(--ink-mid);
+  min-width: 140px;
+}
+.progress-track {
+  flex: 1;
+  height: 6px;
+  background: var(--parchment);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 1s;
+}
+.pf-gold { background: linear-gradient(90deg, var(--gold) 0%, var(--gold-2) 100%); }
+.pf-jade { background: linear-gradient(90deg, var(--jade) 0%, var(--emerald) 100%); }
+.progress-pct {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: var(--gold);
+  min-width: 44px;
+  text-align: right;
+}
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 28px; }
+.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 28px; }
+.book-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.book-card {
+  background: var(--warm-white);
+  border: 1px solid var(--rule-lt);
+  border-radius: var(--r);
+  padding: 12px 16px;
+  transition: all .15s;
+}
+.book-card.priority {
+  border-left: 4px solid var(--jade);
+  background: var(--jade-bg);
+}
+.book-title {
+  font-weight: 700;
+  font-size: .9rem;
+  color: var(--ink);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.book-status {
+  font-family: 'DM Mono', monospace;
+  font-size: .55rem;
+  padding: 2px 8px;
+  border-radius: 40px;
+}
+.status-ready { background: var(--gold-bg); color: var(--gold); }
+.status-prod { background: var(--jade-bg); color: var(--jade); }
+.status-queued { background: var(--parchment); color: var(--ink-soft); }
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--rule-lt);
+  gap: 12px;
+}
+.info-row:last-child { border-bottom: none; }
+.info-key { font-size: .74rem; color: var(--ink-soft); flex-shrink: 0; }
+.info-val { font-size: .8rem; font-weight: 500; color: var(--ink); text-align: right; }
+.info-val.gold { color: var(--gold); }
+.info-val.jade { color: var(--jade); }
+.info-val.red { color: var(--red); }
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: .62rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 40px;
+}
+.b-active { background: var(--sage-bg); color: var(--sage); }
+.b-trial { background: var(--blue-bg); color: var(--blue); }
+.b-warning { background: var(--gold-bg); color: var(--gold); }
+.b-whiteglove { background: linear-gradient(135deg, var(--jade-bg), var(--gold-bg)); color: var(--jade); font-weight: 700; }
+.action-box {
+  background: #fdf6e3;
+  border-left: 4px solid var(--gold);
+  border-radius: var(--r);
+  padding: 14px 18px;
+  font-size: .82rem;
+  color: var(--ink-mid);
+  margin-bottom: 28px;
+}
+.action-box.urgent { background: var(--red-bg); border-left-color: var(--red); }
+.video-list { display: flex; flex-direction: column; gap: 3px; }
+.video-item {
+  display: grid;
+  grid-template-columns: 34px 1fr auto;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  border-radius: var(--r);
+  background: var(--warm-white);
+  border: 1px solid var(--rule-lt);
+}
+.video-item.review { background: var(--gold-bg); border-color: var(--gold-pale); }
+.video-item.queued { opacity: .6; }
+.video-num {
+  font-family: 'DM Mono', monospace;
+  font-size: .65rem;
+  color: var(--ink-soft);
+}
+.video-title { font-size: .8rem; color: var(--ink); line-height: 1.3; }
+.video-badge {
+  font-family: 'DM Mono', monospace;
+  font-size: .57rem;
+  padding: 2px 8px;
+  border-radius: 40px;
+  white-space: nowrap;
+}
+.vb-review { background: var(--gold-bg); color: var(--gold); }
+.vb-queued { background: var(--parchment); color: var(--ink-soft); }
+.footer {
+  background: #1e1a14;
+  padding: 36px 40px;
+  text-align: center;
+  color: rgba(253,244,232,.3);
+}
+.links-grid { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 28px; }
+.drw-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--warm-white);
+  border: 1px solid var(--rule-lt);
+  border-radius: var(--r);
+  padding: 7px 13px;
+  font-size: .74rem;
+  font-weight: 500;
+  transition: all .14s;
+}
+.drw-link:hover { background: var(--gold-bg); border-color: rgba(160,124,58,.35); }
+@media (max-width: 900px) {
+  .nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  .hero-inner { grid-template-columns: 1fr; }
+  .main { padding: 24px 20px; }
+  .two-col, .three-col { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <div class="nav-brand"><div class="nav-mark">AS</div>Atomic <em>Shelf</em></div>
+  <ul class="nav-links"><li><a href="#">Dashboard</a></li><li><a href="#">White-Glove</a></li><li><a href="#">Jade Series</a></li></ul>
+  <div class="nav-pill"><span class="nav-dot"></span>White-Glove · Trial Active</div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-eyebrow">White-Glove Client · Jade Series · Urban Fantasy / Paranormal Romance</div>
+      <h1 class="hero-title">The Jade<br>Necklace Saga</h1>
+      <div class="hero-subtitle">5 books · Blood Moon Dawn in production · Paranormal Romance</div>
+      <div class="hero-author"><span>Jad El Khoury</span><span class="hero-author-dot"></span><span>Urban Fantasy</span><span class="hero-author-dot"></span><span>5-Book Series</span></div>
+    </div>
+    <div class="hero-stats">
+      <div class="hs-item"><div class="hs-val">Day 14</div><div class="hs-lbl">Trial active</div></div>
+      <div class="hs-item"><div class="hs-val">Blood Moon</div><div class="hs-lbl">Priority book</div></div>
+      <div class="hs-item"><div class="hs-val">✨ VIP</div><div class="hs-lbl">White-glove</div></div>
+    </div>
+  </div>
+</div>
+
+<main class="main">
+  <div class="metrics-grid">
+    <div class="metric-box"><div class="metric-val">Trial</div><div class="metric-lbl">Status</div><div class="metric-sub">Started May 12, 2026</div></div>
+    <div class="metric-box"><div class="metric-val">$20</div><div class="metric-lbl">Monthly retainer</div><div class="metric-sub" style="color:var(--gold);">Invoice pending</div></div>
+    <div class="metric-box"><div class="metric-val">5</div><div class="metric-lbl">Total books</div><div class="metric-sub">Jade Series complete</div></div>
+    <div class="metric-box"><div class="metric-val">📹 Ready</div><div class="metric-lbl">Blood Moon Dawn</div><div class="metric-sub">Awaiting client review</div></div>
+    <div class="metric-box"><div class="metric-val">✉️ May 21</div><div class="metric-lbl">Last contact</div><div class="metric-sub">Videos ready for review</div></div>
+  </div>
+
+  <div class="two-col">
+    <div class="card">
+      <div style="font-weight:500;margin-bottom:18px;">Trial campaign progress</div>
+      <div class="progress-row"><span class="progress-label">Blood Moon Dawn videos</span><div class="progress-track"><div class="progress-fill pf-gold" style="width:100%"></div></div><span class="progress-pct">100%</span></div>
+      <div class="progress-row"><span class="progress-label">Client review status</span><div class="progress-track"><div class="progress-fill pf-jade" style="width:0%"></div></div><span class="progress-pct" style="color:var(--gold);">Pending</span></div>
+      <div class="progress-row"><span class="progress-label">Jade Necklace (queued)</span><div class="progress-track"><div class="progress-fill" style="width:0%;background:var(--parchment);"></div></div><span class="progress-pct">0%</span></div>
+      <div class="progress-row"><span class="progress-label">To Love a Monster</span><div class="progress-track"><div class="progress-fill" style="width:0%;background:var(--parchment);"></div></div><span class="progress-pct">0%</span></div>
+      <div class="progress-row"><span class="progress-label">Black Shards</span><div class="progress-track"><div class="progress-fill" style="width:0%;background:var(--parchment);"></div></div><span class="progress-pct">0%</span></div>
+      <div style="margin-top:16px; padding-top:12px; border-top:1px solid var(--rule-lt);">
+        <div class="info-row"><span class="info-key">Production priority</span><span class="info-val jade">Blood Moon Dawn → Jade Necklace → To Love a Monster → Black Shards</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <div style="font-weight:500;margin-bottom:12px;">⚡ Immediate actions</div>
+      <ul style="margin-left: 20px; font-size: .82rem; color: var(--ink-mid); line-height: 1.6;">
+        <li>📹 <strong>Blood Moon Dawn videos ready for review</strong> — await client approval</li>
+        <li>💳 <strong>Send invoice for trial-to-retainer transition</strong> ($20/month starting May 29)</li>
+        <li>📚 <strong>Queue Jade Necklace series</strong> — production ready after Blood Moon approval</li>
+        <li>🤝 <strong>White-glove check-in</strong> — 5-book series requires close coordination</li>
+        <li>📧 Contact: <strong>jad.elkhoury89@gmail.com</strong></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <div class="sec-label">Jade Series — 5-book collection</div>
+    <div class="book-stack">
+      <div class="book-card priority">
+        <div class="book-title">
+          <span>🌙 Blood Moon Dawn</span>
+          <span class="book-status status-prod">IN PRODUCTION · READY FOR REVIEW</span>
+        </div>
+        <div style="font-size:.72rem; color:var(--ink-soft); margin-top:6px;">Videos complete — awaiting client sign-off. Priority book for trial week.</div>
+      </div>
+      <div class="book-card">
+        <div class="book-title">
+          <span>📿 The Jade Necklace</span>
+          <span class="book-status status-queued">QUEUED · NEXT</span>
+        </div>
+        <div style="font-size:.72rem; color:var(--ink-soft); margin-top:6px;">Production ready. Will begin after Blood Moon Dawn approval.</div>
+      </div>
+      <div class="book-card">
+        <div class="book-title">
+          <span>❤️ To Love a Monster</span>
+          <span class="book-status status-queued">QUEUED</span>
+        </div>
+        <div style="font-size:.72rem; color:var(--ink-soft); margin-top:6px;">Third in Jade Series — paranormal romance arc.</div>
+      </div>
+      <div class="book-card">
+        <div class="book-title">
+          <span>⚫ Black Shards</span>
+          <span class="book-status status-queued">QUEUED · FINAL</span>
+        </div>
+        <div style="font-size:.72rem; color:var(--ink-soft); margin-top:6px;">Series conclusion. Production scheduled after To Love a Monster.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="section-block">
+      <div class="sec-label">Client details</div>
+      <div class="card">
+        <div class="info-row"><span class="info-key">Author</span><span class="info-val">Jad El Khoury</span></div>
+        <div class="info-row"><span class="info-key">Email</span><span class="info-val">jad.elkhoury89@gmail.com</span></div>
+        <div class="info-row"><span class="info-key">Genre</span><span class="info-val">Urban Fantasy / Paranormal Romance</span></div>
+        <div class="info-row"><span class="info-key">Series</span><span class="info-val">Jade Series (5 books)</span></div>
+        <div class="info-row"><span class="info-key">Trial start</span><span class="info-val">May 12, 2026</span></div>
+        <div class="info-row"><span class="info-key">Trial end</span><span class="info-val">May 26, 2026</span></div>
+        <div class="info-row"><span class="info-key">Retainer start</span><span class="info-val">May 27, 2026 (projected)</span></div>
+        <div class="info-row"><span class="info-key">Payment status</span><span class="info-val red">Invoice pending</span></div>
+        <div class="info-row"><span class="info-key">Client tier</span><span class="info-val jade"><span class="badge b-whiteglove">🤍 White-Glove</span></span></div>
+      </div>
+    </div>
+    <div class="section-block">
+      <div class="sec-label">Campaign resources</div>
+      <div class="card">
+        <div class="info-row"><span class="info-key">Campaign page</span><span class="info-val"><a href="https://atomic-shelf.com/Productions/Jad_P_The_Jade_Necklace" target="_blank" style="color:var(--blue);">View production page ↗</a></span></div>
+        <div class="info-row"><span class="info-key">TikTok</span><span class="info-val">Not yet active</span></div>
+        <div class="info-row"><span class="info-key">YouTube</span><span class="info-val">Setup pending</span></div>
+        <div class="info-row"><span class="info-key">Pinterest</span><span class="info-val">—</span></div>
+        <div class="info-row"><span class="info-key">Campaign notes</span><span class="info-val" style="font-size:.72rem;">White-glove client. 5 books total. Priority sequencing: Blood Moon Dawn first.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="action-box urgent">
+    <strong>📹 Awaiting client review — Blood Moon Dawn video set ready.</strong> All videos for the priority book "Blood Moon Dawn" have been produced and are ready for Jad's review. Once approved, we will launch daily posting and queue The Jade Necklace series. Please follow up if no response within 48 hours (last contact: May 21, 2026).
+  </div>
+
+  <div class="section-block">
+    <div class="sec-label">Blood Moon Dawn — video series (ready for review)</div>
+    <div class="video-list" id="bloodMoonVideos"></div>
+  </div>
+
+  <div class="three-col">
+    <div class="card">
+      <div class="sec-label" style="margin-bottom:8px;">📋 Pending actions</div>
+      <ul style="margin-left: 20px; font-size: .78rem; color: var(--ink-mid);">
+        <li>✅ Get client approval on Blood Moon Dawn</li>
+        <li>💰 Send trial-to-retainer invoice ($20/month)</li>
+        <li>🎬 Launch daily posting schedule upon approval</li>
+        <li>📚 Begin Jade Necklace production</li>
+        <li>📱 Set up TikTok/YouTube for series launch</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="sec-label" style="margin-bottom:8px;">📝 Campaign notes</div>
+      <div style="font-size:.78rem; color: var(--ink-mid); line-height:1.6;">
+        <strong>White-glove client with 5-book series.</strong> Trial started May 12, 2026. Blood Moon Dawn is the priority entry point — videos complete as of May 21. Client was responsive on May 21 confirming videos ready for review. Jade Necklace, To Love a Monster, and Black Shards queued in that order. Paranormal romance / urban fantasy niche with strong crossover appeal.
+      </div>
+    </div>
+    <div class="card">
+      <div class="sec-label" style="margin-bottom:8px;">📞 Contact history</div>
+      <div class="info-row"><span class="info-key">May 21, 2026</span><span class="info-val gold">Blood Moon Dawn videos ready — client to review</span></div>
+      <div class="info-row"><span class="info-key">May 12, 2026</span><span class="info-val">Trial started · White-glove onboarding</span></div>
+      <div class="info-row"><span class="info-key">Next follow-up</span><span class="info-val red">May 26 if no response</span></div>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <div class="sec-label">Quick links</div>
+    <div class="links-grid">
+      <a href="https://atomic-shelf.com/Productions/Jad_P_The_Jade_Necklace" target="_blank" class="drw-link">📖 Production Dashboard</a>
+      <a href="#" class="drw-link">🎬 Blood Moon Dawn Assets</a>
+      <a href="#" class="drw-link">📷 Jade Necklace Assets</a>
+      <a href="#" class="drw-link">📋 Content Calendar</a>
+      <a href="#" class="drw-link">✉️ Client Email Template</a>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="footer-brand" style="color:#fdf4e8;">Atomic <em style="color:var(--gold-2);">Shelf</em></div>
+  <div class="footer-sub">Jade Series · Jad El Khoury · White-Glove Campaign · 5 Books · Trial Active</div>
+</footer>
+
+<script>
+(function() {
+  const bloodMoonVideos = [
+    { title: "Blood Moon Dawn — The Prophecy Begins", status: "review" },
+    { title: "Paranormal Romance Meets Urban Fantasy", status: "review" },
+    { title: "Jade Necklace Origins: The Blood Curse", status: "review" },
+    { title: "To Love a Monster: A Sneak Peek", status: "review" },
+    { title: "Blood Moon Rituals & Dark Magic", status: "review" },
+    { title: "Character Deep Dive: The Seer", status: "review" },
+    { title: "5 Books. One Epic Saga.", status: "review" },
+    { title: "Why Jade? The Symbolism Explained", status: "review" },
+    { title: "Blood Moon Dawn — Release Trailer", status: "review" },
+    { title: "Urban Fantasy Worldbuilding", status: "review" }
+  ];
+
+  const container = document.getElementById('bloodMoonVideos');
+  if(container) {
+    container.innerHTML = bloodMoonVideos.map((v, idx) => {
+      return `<div class="video-item review">
+        <span class="video-num">${(idx+1).toString().padStart(2,'0')}</span>
+        <span class="video-title">${v.title}</span>
+        <span class="video-badge vb-review">⏳ Awaiting Review</span>
+      </div>`;
+    }).join('');
+  }
+})();
+</script>
+</body>
+</html>

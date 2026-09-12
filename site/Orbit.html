@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="Atomic‑Shelf Orbit — our highest-tier, unlimited production plan. By conversation only."/>
+<title>Atomic‑Shelf | Orbit Plan — Get In Touch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="icon" type="image/svg+xml" href="https://atomic-shelf.com/book-and-people-spring-svgrepo-com.svg"/>
+
+<style>
+:root {
+  --ink:          #130f0b;
+  --cream:        #f9f5ef;
+  --warm:         #f2ebe0;
+  --amber:        #b8712a;
+  --amber-light:  #d4943d;
+  --amber-pale:   #f7eadb;
+  --stone:        #5a4b3e;
+  --muted:        #8a7868;
+  --border:       rgba(184,113,42,0.18);
+  --card:         #fffcf7;
+  --dark:         #1c1612;
+  --shadow-soft:  0 8px 40px rgba(19,15,11,0.08);
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+
+body{
+  font-family:'Outfit',sans-serif;
+  background:var(--cream);
+  color:var(--ink);
+  line-height:1.65;
+  overflow-x:hidden;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+
+/* ─── NOISE OVERLAY ─── */
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:999;opacity:0.35;
+}
+
+/* ─── AMBIENT GLOW ─── */
+body::after{
+  content:'';position:fixed;
+  top:-25%;left:50%;transform:translateX(-50%);
+  width:1100px;height:700px;border-radius:50%;
+  background:radial-gradient(ellipse,rgba(184,113,42,0.10) 0%,transparent 65%);
+  pointer-events:none;z-index:0;
+}
+
+/* ─── NAV ─── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1rem 4vw;
+  background:rgba(249,245,239,0.88);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+}
+.logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.6rem;font-weight:700;
+  color:var(--ink);letter-spacing:-0.02em;
+  text-decoration:none;
+  display:flex;align-items:center;gap:2px;
+}
+.logo-dash{color:var(--amber)}
+.nav-back{
+  font-size:.83rem;font-weight:500;color:var(--stone);
+  text-decoration:none;
+  display:flex;align-items:center;gap:.45rem;
+  transition:color .2s;letter-spacing:.01em;
+}
+.nav-back:hover{color:var(--amber)}
+.nav-back svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;transition:transform .2s}
+.nav-back:hover svg{transform:translateX(-3px)}
+
+/* ─── ORBIT BANNER ─── */
+.orbit-banner{
+  width:100%;
+  background:var(--dark);
+  text-align:center;
+  padding:.6rem 1rem;
+  font-size:.76rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:rgba(255,255,255,.65);
+  position:fixed;top:64px;left:0;right:0;z-index:190;
+  display:flex;align-items:center;justify-content:center;gap:.6rem;
+  border-bottom:1px solid rgba(184,113,42,.2);
+}
+.banner-star{color:var(--amber);opacity:.9}
+
+/* ─── MAIN WRAPPER ─── */
+.page-wrapper{
+  width:100%;max-width:1080px;
+  padding:9rem 3vw 5rem;
+  position:relative;z-index:1;
+  display:grid;
+  grid-template-columns:1fr 440px;
+  gap:3.5rem;
+  align-items:start;
+}
+
+/* ─── LEFT COLUMN ─── */
+.left-col{animation:fadeUp .8s ease both;}
+
+.plan-eyebrow{
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-size:.73rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--amber);border:1px solid rgba(184,113,42,.3);
+  background:rgba(184,113,42,.08);
+  padding:.38rem .95rem;border-radius:99px;margin-bottom:1.75rem;
+}
+
+h1{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2.6rem,4.5vw,4.2rem);
+  font-weight:700;line-height:1.06;
+  letter-spacing:-0.015em;color:var(--ink);
+  margin-bottom:1.25rem;
+}
+h1 em{font-style:italic;color:var(--amber);}
+
+.hero-desc{
+  font-size:1rem;color:var(--stone);
+  max-width:46ch;line-height:1.8;
+  margin-bottom:2.5rem;font-weight:400;
+}
+
+/* ─── PROOF PILLS ─── */
+.proof-row{
+  display:flex;gap:1.5rem;margin-bottom:2.75rem;flex-wrap:wrap;
+  animation:fadeUp .8s .06s ease both;
+}
+.proof-pill{
+  display:flex;align-items:center;gap:.55rem;
+  background:var(--card);
+  border:1.5px solid var(--border);
+  border-radius:99px;
+  padding:.5rem 1rem;
+  font-size:.78rem;font-weight:600;color:var(--stone);
+}
+.proof-pill-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--amber);flex-shrink:0;
+}
+
+/* ─── FEATURES ─── */
+.features-heading{
+  font-size:.73rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:1.35rem;
+}
+
+.essence-list{
+  list-style:none;
+  display:flex;flex-direction:column;gap:.75rem;
+  margin-bottom:2.5rem;
+}
+.essence-item{
+  display:flex;align-items:flex-start;gap:1rem;
+  padding:.9rem 1.15rem;
+  background:var(--card);
+  border:1.5px solid var(--border);
+  border-radius:10px;
+  transition:border-color .25s,box-shadow .25s;
+  animation:fadeUp .8s ease both;
+}
+.essence-item:nth-child(1){animation-delay:.10s}
+.essence-item:nth-child(2){animation-delay:.18s}
+.essence-item:nth-child(3){animation-delay:.26s}
+.essence-item:hover{border-color:rgba(184,113,42,.42);box-shadow:var(--shadow-soft)}
+
+.essence-icon{
+  width:38px;height:38px;flex-shrink:0;
+  background:var(--amber-pale);border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;
+}
+.essence-title{font-size:.9rem;font-weight:600;color:var(--ink);margin-bottom:.18rem}
+.essence-sub{font-size:.8rem;color:var(--muted);line-height:1.55}
+
+/* ─── CONFIDENTIAL NOTE ─── */
+.confidential-note{
+  background:var(--dark);
+  border-radius:16px;
+  padding:1.6rem 1.75rem;
+  margin-bottom:2.5rem;
+  position:relative;overflow:hidden;
+  animation:fadeUp .8s .42s ease both;
+}
+.confidential-note::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 10% 50%,rgba(184,113,42,.22) 0%,transparent 60%);
+}
+.cn-inner{position:relative;z-index:1;display:flex;align-items:flex-start;gap:1.1rem}
+.cn-icon{font-size:1.5rem;flex-shrink:0;line-height:1;margin-top:.1rem}
+.cn-heading{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.2rem;font-weight:700;color:#fff;margin-bottom:.5rem;
+}
+.cn-desc{font-size:.85rem;color:rgba(255,255,255,.5);line-height:1.7}
+
+/* ─── TESTIMONIAL ─── */
+.testimonial{
+  background:linear-gradient(135deg,var(--amber-pale) 0%,#fff8f0 100%);
+  border:1.5px solid rgba(184,113,42,.22);
+  border-radius:14px;
+  padding:1.6rem 1.75rem;
+  position:relative;
+  animation:fadeUp .8s .5s ease both;
+}
+.quote-mark{
+  font-family:'Cormorant Garamond',serif;
+  font-size:4.5rem;font-weight:700;color:var(--amber);
+  line-height:.6;
+  position:absolute;top:1rem;left:1.5rem;
+  opacity:.25;
+}
+.testimonial-text{
+  font-size:.88rem;color:var(--stone);
+  line-height:1.8;font-style:italic;
+  padding-left:.5rem;
+  position:relative;z-index:1;
+  margin-bottom:.9rem;
+}
+.testimonial-author{
+  font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--muted);padding-left:.5rem;
+}
+
+/* ─── RIGHT: CONTACT CARD ─── */
+.contact-card{
+  background:var(--card);
+  border:2px solid var(--ink);
+  border-radius:22px;
+  overflow:hidden;
+  box-shadow:0 28px 72px rgba(19,15,11,0.18);
+  position:sticky;top:8.5rem;
+  animation:fadeUp .7s .12s ease both;
+}
+
+.card-orbit-badge{
+  background:var(--dark);
+  text-align:center;
+  padding:.55rem 1rem;
+  font-size:.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(184,113,42,.9);
+}
+
+.card-header{
+  background:var(--dark);
+  padding:2rem 2rem 1.75rem;
+  position:relative;overflow:hidden;
+}
+.card-header::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse at 15% 10%,rgba(184,113,42,.28) 0%,transparent 55%),
+    radial-gradient(ellipse at 85% 85%,rgba(184,113,42,.12) 0%,transparent 50%);
+}
+.card-plan-name{
+  font-size:.72rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(184,113,42,.8);margin-bottom:.6rem;
+  position:relative;z-index:1;
+}
+.card-heading{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.85rem;font-weight:700;color:#fff;line-height:1.15;
+  position:relative;z-index:1;margin-bottom:.6rem;
+}
+.card-tagline{font-size:.83rem;color:rgba(255,255,255,.45);position:relative;z-index:1;line-height:1.6;}
+
+/* Card body */
+.card-body{padding:1.75rem 2rem 2rem}
+
+.card-includes{
+  font-size:.78rem;color:var(--stone);line-height:1.7;
+  margin-bottom:1.5rem;
+}
+
+/* ─── FORM ─── */
+.checkout-form-wrap{margin-bottom:1.25rem;}
+.form-heading{
+  font-size:.72rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:1rem;
+}
+.form-row{display:flex;gap:.75rem;margin-bottom:.75rem;}
+.form-row.single{display:block;margin-bottom:.75rem;}
+.field-wrap{flex:1;display:flex;flex-direction:column;gap:.3rem;}
+.field-wrap label{font-size:.72rem;font-weight:600;color:var(--stone);letter-spacing:.04em;}
+.field-wrap input,
+.field-wrap textarea{
+  padding:.65rem .85rem;
+  border:1.5px solid var(--border);
+  border-radius:8px;background:var(--cream);
+  font-family:'Outfit',sans-serif;
+  font-size:.875rem;color:var(--ink);
+  outline:none;transition:border-color .2s,box-shadow .2s;width:100%;
+  resize:vertical;
+}
+.field-wrap textarea{min-height:90px;line-height:1.5;}
+.field-wrap input:focus,
+.field-wrap textarea:focus{
+  border-color:var(--ink);
+  box-shadow:0 0 0 3px rgba(19,15,11,.08);
+}
+.field-wrap input::placeholder,
+.field-wrap textarea::placeholder{color:var(--muted);opacity:.6;}
+.field-wrap input.error,
+.field-wrap textarea.error{border-color:#c0392b;}
+
+.form-error{
+  font-size:.75rem;color:#c0392b;
+  margin-bottom:.75rem;display:none;
+  padding:.5rem .75rem;
+  background:rgba(192,57,43,.06);
+  border-radius:6px;border:1px solid rgba(192,57,43,.2);
+}
+.form-error.visible{display:block;}
+
+.status-msg{
+  font-size:.8rem;padding:.6rem .85rem;border-radius:8px;
+  margin-bottom:.75rem;display:none;line-height:1.5;
+}
+.status-msg.info{
+  display:block;background:rgba(184,113,42,.08);
+  border:1px solid rgba(184,113,42,.22);color:var(--stone);
+}
+.status-msg.success-msg{
+  display:block;background:rgba(46,125,50,.08);
+  border:1px solid rgba(46,125,50,.25);color:#2e7d32;
+}
+.status-msg.error-msg{
+  display:block;background:rgba(192,57,43,.06);
+  border:1px solid rgba(192,57,43,.2);color:#c0392b;
+}
+
+/* ─── SUBMIT BUTTON ─── */
+.pay-btn{
+  display:flex;align-items:center;justify-content:center;gap:.5rem;
+  width:100%;padding:1.1rem 1.5rem;
+  background:var(--ink);color:#fff;
+  border:none;border-radius:10px;
+  font-family:'Outfit',sans-serif;
+  font-size:.98rem;font-weight:700;
+  letter-spacing:.03em;cursor:pointer;
+  box-shadow:0 10px 32px rgba(19,15,11,.3);
+  transition:all .25s cubic-bezier(.4,0,.2,1);
+  position:relative;overflow:hidden;
+  margin-bottom:1rem;text-decoration:none;
+}
+.pay-btn::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,.07) 0%,transparent 60%);
+  pointer-events:none;
+}
+.pay-btn:hover:not(:disabled){
+  background:#2d2520;transform:translateY(-2px);
+  box-shadow:0 16px 40px rgba(19,15,11,.4);
+}
+.pay-btn:active:not(:disabled){transform:translateY(0)}
+.pay-btn:disabled{opacity:.6;cursor:not-allowed;transform:none;}
+.pay-btn-icon{display:flex;align-items:center;transition:transform .2s;}
+.pay-btn:hover:not(:disabled) .pay-btn-icon{transform:translateX(3px)}
+
+.spinner{
+  width:16px;height:16px;border-radius:50%;
+  border:2px solid rgba(255,255,255,.3);
+  border-top-color:#fff;
+  animation:spin .7s linear infinite;display:none;
+}
+.pay-btn.loading .spinner{display:block;}
+.pay-btn.loading .btn-label{opacity:.7;}
+.pay-btn.loading .pay-btn-icon{display:none;}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Security note */
+.security-note{
+  display:flex;align-items:center;justify-content:center;gap:.5rem;
+  font-size:.76rem;color:var(--muted);margin-bottom:1.4rem;text-align:center;
+}
+.security-note svg{width:13px;height:13px;stroke:var(--muted);fill:none;stroke-width:2;flex-shrink:0}
+
+/* Divider */
+.card-divider{
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--border),transparent);
+  margin:1.2rem 0;
+}
+
+/* Guarantee */
+.guarantee{
+  background:rgba(184,113,42,.05);
+  border:1px solid rgba(184,113,42,.14);
+  border-radius:10px;
+  padding:1rem 1.15rem;
+  display:flex;align-items:flex-start;gap:.85rem;
+}
+.guarantee-icon{font-size:1.35rem;flex-shrink:0;line-height:1}
+.guarantee-text{font-size:.78rem;color:var(--stone);line-height:1.6}
+.guarantee-text strong{color:var(--ink);font-weight:600;display:block;margin-bottom:.18rem}
+
+/* ─── ANIMATIONS ─── */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(26px)}
+  to{opacity:1;transform:none}
+}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:820px){
+  .page-wrapper{
+    grid-template-columns:1fr;
+    gap:2.5rem;
+    padding:8.5rem 5vw 4rem;
+  }
+  .contact-card{position:static}
+  h1{font-size:2.6rem}
+  .proof-row{gap:1rem}
+  .form-row{flex-direction:column;gap:.75rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="logo">Atomic<span class="logo-dash">&#8209;</span>Shelf</a>
+  <a href="/#pricing" class="nav-back">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    Back to plans
+  </a>
+</nav>
+
+<!-- ORBIT BANNER -->
+<div class="orbit-banner">
+  <span class="banner-star">✦</span>
+  Orbit Plan — Our Highest-Tier, Unlimited Production Experience
+  <span class="banner-star">✦</span>
+</div>
+
+<!-- MAIN -->
+<div class="page-wrapper">
+
+  <!-- LEFT COLUMN -->
+  <div class="left-col">
+
+    <div class="plan-eyebrow">✦ Orbit Plan — Maximum Power</div>
+
+    <h1>Limitless reach,<br>relentlessly <em>engineered.</em></h1>
+
+    <p class="hero-desc">
+      Orbit is for authors who refuse to compromise. It's our highest tier of production, retargeting, and strategic support — built around your catalogue rather than a fixed package. Details are shaped per author, so we keep the specifics for a direct conversation.
+    </p>
+
+    <div class="proof-row">
+      <div class="proof-pill"><span class="proof-pill-dot"></span>Unlimited production volume</div>
+      <div class="proof-pill"><span class="proof-pill-dot"></span>Dedicated brand strategist</div>
+      <div class="proof-pill"><span class="proof-pill-dot"></span>Enterprise Amazon DSP</div>
+    </div>
+
+    <div class="features-heading">What Orbit is built around</div>
+
+    <ul class="essence-list">
+      <li class="essence-item">
+        <div class="essence-icon">🎬</div>
+        <div>
+          <div class="essence-title">Unlimited high-end production</div>
+          <div class="essence-sub">No caps on volume — every piece crafted to a cinematic standard across all platforms, scoped to your catalogue.</div>
+        </div>
+      </li>
+      <li class="essence-item">
+        <div class="essence-icon">🚀</div>
+        <div>
+          <div class="essence-title">Enterprise Amazon DSP</div>
+          <div class="essence-sub">Full-funnel retargeting across Amazon and its advertising network, sized to your spend and goals.</div>
+        </div>
+      </li>
+      <li class="essence-item">
+        <div class="essence-icon">🧭</div>
+        <div>
+          <div class="essence-title">A dedicated brand strategist</div>
+          <div class="essence-sub">A senior strategist assigned exclusively to your account, working across your full catalogue rather than a single title.</div>
+        </div>
+      </li>
+    </ul>
+
+    <div class="confidential-note">
+      <div class="cn-inner">
+        <div class="cn-icon">🔒</div>
+        <div>
+          <div class="cn-heading">Orbit is by conversation, not checkout.</div>
+          <div class="cn-desc">Pricing, production volume, and DSP budget at this tier are tailored to each author's catalogue, so we don't publish them here. Tell us a bit about your books below and a strategist will reach out to walk through what Orbit would look like for you.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonial">
+      <div class="quote-mark">&ldquo;</div>
+      <p class="testimonial-text">Orbit is in a different league. Having a dedicated strategist who truly understands my genre — and an unlimited production pipeline — means my book never falls out of the cultural conversation. It's not marketing, it's a full creative operation.</p>
+      <div class="testimonial-author">— Indie author, Thriller genre</div>
+    </div>
+
+  </div>
+
+  <!-- RIGHT COLUMN: CONTACT CARD -->
+  <div class="contact-card">
+
+    <div class="card-orbit-badge">✦ Maximum Power Plan — Orbit</div>
+
+    <div class="card-header">
+      <div class="card-plan-name">Orbit Plan</div>
+      <div class="card-heading">Let's talk about your catalogue.</div>
+      <div class="card-tagline">Orbit is tailored per author — share a few details and we'll be in touch.</div>
+    </div>
+
+    <div class="card-body">
+
+      <div class="card-includes">Reach out below and a member of our team will follow up by email to discuss whether Orbit is the right fit, what it would include, and how it's priced for your catalogue.</div>
+
+      <div class="checkout-form-wrap">
+        <div class="form-heading">Your details</div>
+
+        <div class="form-row">
+          <div class="field-wrap">
+            <label for="firstName">First name</label>
+            <input type="text" id="firstName" placeholder="Jane" autocomplete="given-name"/>
+          </div>
+          <div class="field-wrap">
+            <label for="lastName">Last name</label>
+            <input type="text" id="lastName" placeholder="Smith" autocomplete="family-name"/>
+          </div>
+        </div>
+
+        <div class="form-row single">
+          <div class="field-wrap">
+            <label for="email">Email address</label>
+            <input type="email" id="email" placeholder="jane@example.com" autocomplete="email"/>
+          </div>
+        </div>
+
+        <div class="form-row single">
+          <div class="field-wrap">
+            <label for="bookTitle">Book title(s)</label>
+            <input type="text" id="bookTitle" placeholder="e.g. The Midnight Garden"/>
+          </div>
+        </div>
+
+        <div class="form-row single" style="margin-bottom:1.25rem;">
+          <div class="field-wrap">
+            <label for="message">What are you looking for? <span style="color:var(--muted);font-weight:400">(optional)</span></label>
+            <textarea id="message" placeholder="A bit about your catalogue, goals, or timeline…"></textarea>
+          </div>
+        </div>
+
+        <div class="form-error" id="formError"></div>
+        <div class="status-msg" id="statusMsg"></div>
+
+        <button class="pay-btn" id="payBtn" onclick="handleContactSubmit()">
+          <div class="spinner"></div>
+          <span class="btn-label">Request an Orbit Conversation</span>
+          <span class="pay-btn-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="5" y1="12" x2="19" y2="12"/>
+              <polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </span>
+        </button>
+      </div>
+
+      <div class="security-note">
+        <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        Your details go straight to our team — no payment is collected here
+      </div>
+
+      <div class="card-divider"></div>
+
+      <div class="guarantee">
+        <div class="guarantee-icon">🛡️</div>
+        <div class="guarantee-text">
+          <strong>No commitment to reach out</strong>
+          Submitting this form starts a conversation, not a subscription. We'll follow up by email to discuss fit, scope, and pricing before anything is agreed.
+        </div>
+      </div>
+
+    </div><!-- /card-body -->
+  </div><!-- /contact-card -->
+
+</div><!-- /page-wrapper -->
+
+<script>
+// ─── CONFIG ───────────────────────────────────────────────────────────────────
+// Apps Script webapp endpoint — action=contact routes to saveContactRequest()
+// which writes to ContactLog (Email / Message / Source columns, v17 schema).
+const ORBIT_WEBAPP = 'https://script.google.com/macros/s/AKfycbwKr8PFWmagXYh8YiZ54Mg4JBJUnUACt91AEDEgw4qDPjGAtRM8Nmozb-sYkVoBEoIZ/exec';
+
+// ─── FORM SUBMIT ──────────────────────────────────────────────────────────────
+async function handleContactSubmit() {
+  const firstName = document.getElementById('firstName').value.trim();
+  const lastName  = document.getElementById('lastName').value.trim();
+  const email     = document.getElementById('email').value.trim();
+  const bookTitle = document.getElementById('bookTitle').value.trim();
+  const message   = document.getElementById('message').value.trim();
+  const errorEl   = document.getElementById('formError');
+  const statusEl  = document.getElementById('statusMsg');
+  const btn       = document.getElementById('payBtn');
+
+  // Reset UI state
+  errorEl.className  = 'form-error';
+  errorEl.textContent = '';
+  statusEl.className = 'status-msg';
+  statusEl.textContent = '';
+  ['firstName', 'lastName', 'email'].forEach(id =>
+    document.getElementById(id).classList.remove('error')
+  );
+
+  // Validate
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  let valid = true;
+  if (!firstName) { document.getElementById('firstName').classList.add('error'); valid = false; }
+  if (!lastName)  { document.getElementById('lastName').classList.add('error');  valid = false; }
+  if (!emailOk)   { document.getElementById('email').classList.add('error');     valid = false; }
+
+  if (!valid) {
+    errorEl.textContent = 'Please fill in your name and a valid email address.';
+    errorEl.classList.add('visible');
+    return;
+  }
+
+  // Loading state
+  btn.disabled = true;
+  btn.classList.add('loading');
+  statusEl.className   = 'status-msg info';
+  statusEl.textContent = 'Sending your details to our team…';
+
+  // Build params — matches handleContactGet() param map exactly:
+  // plan, firstName, lastName, email, author (book title or full name), message, channel
+  const params = new URLSearchParams({
+    action:    'contact',
+    plan:      'Orbit',
+    firstName,
+    lastName,
+    email,
+    author:    bookTitle || (firstName + ' ' + lastName),
+    message:   message,
+    channel:   'Orbit contact form',
+  });
+
+  try {
+    const res = await fetch(ORBIT_WEBAPP + '?' + params.toString());
+
+    // Apps Script always returns 200; parse JSON to check success flag
+    if (!res.ok) throw new Error('Server responded ' + res.status);
+    const data = await res.json();
+
+    if (data.success || data.ok) {
+      btn.classList.remove('loading');
+      statusEl.className   = 'status-msg success-msg';
+      statusEl.textContent = "Thanks — we've got your details. A strategist will email you shortly to talk through Orbit.";
+      btn.querySelector('.btn-label').textContent = 'Request Sent ✓';
+      btn.disabled = true; // keep disabled after success
+    } else {
+      throw new Error(data.error || 'Submission was not confirmed by the server.');
+    }
+  } catch (err) {
+    btn.disabled = false;
+    btn.classList.remove('loading');
+
+    // Distinguish network errors from server-side errors
+    const isNetwork = (err instanceof TypeError && err.message.includes('fetch'));
+    statusEl.className   = 'status-msg error-msg';
+    statusEl.textContent = isNetwork
+      ? 'Could not reach our server — please check your connection and try again, or email us directly.'
+      : 'Something went wrong: ' + err.message + '. Please try again or email us directly.';
+  }
+}
+
+// ─── KEYBOARD SHORTCUT ───────────────────────────────────────────────────────
+// Enter on any text input (not textarea) triggers submit
+document.addEventListener('keydown', function (e) {
+  if (e.key !== 'Enter') return;
+  const textInputs = ['firstName', 'lastName', 'email', 'bookTitle'];
+  if (textInputs.includes(document.activeElement.id)) {
+    e.preventDefault();
+    handleContactSubmit();
+  }
+});
+</script>
+</body>
+</html>

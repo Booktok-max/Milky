@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="AI-powered book marketing for indie authors — video production, reader-list apps, ARC review campaigns, listing optimization, and managed Amazon advertising."/>
+<title>Atomic Shelf — Your book deserves readers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,500;1,9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --ink:#2A1B12; --ink-2:#3B2818; --paper:#F4EBDA; --paper-2:#EBDEC3;
+  --copper:#B85C34; --copper-2:#D0794F; --copper-pale:#F3DFCB;
+  --rose:#A6462F; --teal:#8A7B3E; --card:#FBF6EA;
+  --stone:#6B5A47; --muted:#9C8975; --border:rgba(42,27,18,0.14);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+h1,h2,h3{font-family:'Fraunces',serif;letter-spacing:-0.01em;}
+.serif-italic{font-style:italic;font-weight:500;}
+.chapter{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:8vh 8vw;position:relative;}
+.chapter-inner{max-width:1100px;margin:0 auto;width:100%;}
+.chapter-num{font-family:'Fraunces',serif;font-style:italic;font-size:0.95rem;color:var(--copper);margin-bottom:1.4rem;display:flex;align-items:center;gap:0.6rem;}
+.chapter-num::after{content:'';flex:1;max-width:60px;height:1px;background:var(--copper);opacity:0.4;}
+.reveal{opacity:0;transform:translateY(36px);transition:opacity 0.9s cubic-bezier(0.16,1,0.3,1),transform 0.9s cubic-bezier(0.16,1,0.3,1);}
+.reveal.in{opacity:1;transform:none;}
+.reveal-scale{opacity:0;transform:scale(0.94);transition:opacity 1s cubic-bezier(0.16,1,0.3,1),transform 1s cubic-bezier(0.16,1,0.3,1);}
+.reveal-scale.in{opacity:1;transform:none;}
+.reveal-delay-1{transition-delay:0.12s;} .reveal-delay-2{transition-delay:0.24s;} .reveal-delay-3{transition-delay:0.36s;}
+
+/* Ribbon nav */
+.ribbon{position:fixed;right:2.4rem;top:50%;transform:translateY(-50%);z-index:300;display:flex;flex-direction:column;gap:1.05rem;}
+.ribbon a{width:9px;height:9px;border-radius:50%;background:rgba(18,16,28,0.18);display:block;position:relative;transition:background 0.3s;}
+.ribbon a.active{background:var(--copper);}
+.ribbon a::before{content:attr(data-label);position:absolute;right:22px;top:50%;transform:translateY(-50%);white-space:nowrap;font-size:0.72rem;color:var(--ink);background:var(--card);padding:0.3rem 0.7rem;border-radius:6px;border:1px solid var(--border);opacity:0;pointer-events:none;transition:opacity 0.2s;}
+.ribbon a:hover::before{opacity:1;}
+@media(max-width:860px){.ribbon{display:none;}}
+
+/* Hero */
+.hero{background:var(--ink);color:var(--paper);position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 25% 20%,rgba(184,92,52,0.24) 0%,transparent 55%),radial-gradient(ellipse at 80% 85%,rgba(138,123,62,0.14) 0%,transparent 50%);}
+.hero-inner{position:relative;z-index:1;max-width:1000px;}
+.hero-eyebrow{font-size:0.8rem;color:rgba(244,235,218,0.5);margin-bottom:1.6rem;font-weight:500;}
+.hero-stat{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(4.5rem,14vw,10rem);line-height:0.92;letter-spacing:-0.035em;color:#fff;}
+.hero-stat .suffix{color:var(--copper-2);}
+.hero-line{font-size:clamp(1.3rem,2.4vw,1.9rem);color:rgba(244,235,218,0.72);margin-top:1.6rem;max-width:32ch;line-height:1.5;font-weight:400;}
+.hero-sub{margin-top:2.2rem;font-size:1rem;color:rgba(244,235,218,0.4);max-width:50ch;line-height:1.8;}
+.hero-btns{margin-top:2.8rem;display:flex;gap:1rem;flex-wrap:wrap;}
+.btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.9rem 2rem;border-radius:3px;font-size:0.88rem;font-weight:600;text-decoration:none;transition:all 0.25s;cursor:pointer;border:1.5px solid transparent;}
+.btn-copper{background:var(--copper);color:#fff;}
+.btn-copper:hover{background:var(--copper-2);transform:translateY(-2px);}
+.btn-line{border-color:rgba(244,235,218,0.3);color:var(--paper);}
+.btn-line:hover{border-color:var(--copper-2);color:var(--copper-2);}
+.scroll-cue{position:absolute;bottom:3rem;left:8vw;display:flex;align-items:center;gap:0.7rem;color:rgba(244,235,218,0.34);font-size:0.75rem;z-index:1;}
+.scroll-cue-line{width:28px;height:1px;background:currentColor;position:relative;overflow:hidden;}
+.scroll-cue-line::after{content:'';position:absolute;left:-100%;top:0;width:100%;height:100%;background:var(--copper-2);animation:cue 2.2s ease-in-out infinite;}
+@keyframes cue{0%{left:-100%;}50%{left:0;}100%{left:100%;}}
+
+/* Benefit chapters */
+.chapter.paper{background:var(--paper);}
+.chapter.paper-2{background:var(--paper-2);}
+.benefit-head{font-size:clamp(2.1rem,4.6vw,3.7rem);font-weight:600;line-height:1.06;max-width:14ch;margin-bottom:1.6rem;}
+.benefit-detail{font-size:1.02rem;color:var(--stone);max-width:52ch;line-height:1.85;}
+.benefit-row{display:grid;grid-template-columns:1.1fr 0.9fr;gap:4rem;align-items:center;}
+@media(max-width:860px){.benefit-row{grid-template-columns:1fr;gap:2.5rem;}}
+.benefit-figure{background:var(--ink);border-radius:4px;padding:3rem 2.4rem;position:relative;overflow:hidden;}
+.benefit-figure::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 20%,rgba(184,92,52,0.2),transparent 60%);}
+.bf-num{font-family:'Fraunces',serif;font-weight:600;font-size:4.2rem;color:#fff;line-height:1;letter-spacing:-0.03em;position:relative;}
+.bf-num .s{color:var(--copper-2);}
+.bf-label{font-size:0.82rem;color:rgba(244,235,218,0.42);margin-top:0.6rem;position:relative;}
+.bf-list{list-style:none;margin-top:1.8rem;position:relative;}
+.bf-list li{font-size:0.86rem;color:rgba(244,235,218,0.68);padding:0.5rem 0;border-top:1px solid rgba(244,235,218,0.08);}
+.bf-list li:first-child{border-top:none;}
+
+/* Funnel chapter — horizontal steps that draw in sequence */
+.funnel-row{display:flex;flex-direction:column;gap:0;margin-top:2.5rem;}
+.funnel-item{display:grid;grid-template-columns:64px 1fr;gap:1.6rem;padding:1.5rem 0;border-bottom:1px solid var(--border);align-items:start;}
+.funnel-item:last-child{border-bottom:none;}
+.funnel-mark{font-family:'Fraunces',serif;font-style:italic;font-size:1.6rem;color:var(--copper);}
+.funnel-item h4{font-size:1.15rem;font-weight:600;margin-bottom:0.35rem;}
+.funnel-item p{font-size:0.92rem;color:var(--stone);max-width:56ch;}
+
+/* Apps */
+.app-row{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;margin-top:2.5rem;}
+@media(max-width:860px){.app-row{grid-template-columns:1fr;}}
+.app-card{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:2.4rem;}
+.app-card h4{font-family:'Fraunces',serif;font-weight:600;font-size:1.3rem;margin-bottom:0.7rem;}
+.app-card p{font-size:0.9rem;color:var(--stone);line-height:1.8;}
+.app-tag{display:inline-block;font-size:0.72rem;color:var(--copper);margin-bottom:0.9rem;font-weight:600;}
+
+/* Pricing */
+.pricing-intro{max-width:60ch;}
+.tier-toggle{display:inline-flex;background:var(--paper-2);border:1px solid var(--border);border-radius:99px;padding:4px;gap:2px;margin:2rem 0 0.8rem;}
+.tier-btn{padding:0.5rem 1.15rem;border-radius:99px;font-size:0.78rem;font-weight:600;border:none;cursor:pointer;background:transparent;color:var(--muted);transition:all 0.22s;}
+.tier-btn.active{background:var(--card);color:var(--ink);box-shadow:0 2px 8px rgba(18,16,28,0.08);}
+.tier-note{font-size:0.8rem;color:var(--stone);margin-bottom:2.4rem;}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1rem;}
+@media(max-width:960px){.plans{grid-template-columns:1fr 1fr;}}
+@media(max-width:640px){.plans{grid-template-columns:1fr;}}
+.plan{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:2rem;display:flex;flex-direction:column;transition:border-color 0.25s,transform 0.25s;}
+.plan:hover{transform:translateY(-4px);border-color:rgba(184,92,52,0.35);}
+.plan.featured{border-color:var(--copper);background:linear-gradient(160deg,#fffdf7,#fef6e4);}
+.plan-name{font-family:'Fraunces',serif;font-weight:600;font-size:1.2rem;margin-bottom:0.5rem;}
+.plan-price{font-family:'Fraunces',serif;font-weight:600;font-size:2.4rem;letter-spacing:-0.02em;}
+.plan-price-sub{font-size:0.78rem;color:var(--muted);display:block;margin-top:0.1rem;margin-bottom:1.2rem;}
+.plan-ad{font-size:0.78rem;color:var(--copper);font-weight:600;margin-bottom:1rem;}
+.plan ul{list-style:none;margin-bottom:1.6rem;flex:1;}
+.plan li{font-size:0.83rem;color:var(--stone);padding:0.4rem 0;border-top:1px solid var(--border);}
+.plan li:first-child{border-top:none;}
+.plan-cta{text-align:center;padding:0.78rem;border-radius:3px;font-size:0.84rem;font-weight:600;text-decoration:none;border:1.5px solid var(--ink);color:var(--ink);transition:all 0.22s;}
+.plan-cta:hover{background:var(--ink);color:#fff;}
+.plan.featured .plan-cta{background:var(--copper);border-color:var(--copper);color:#fff;}
+.plan.featured .plan-cta:hover{background:var(--copper-2);border-color:var(--copper-2);}
+
+/* Orbit / enterprise strip */
+.orbit-strip{background:var(--ink);color:var(--paper);border-radius:4px;padding:2.4rem 2.6rem;margin-top:1rem;display:flex;justify-content:space-between;align-items:center;gap:2rem;flex-wrap:wrap;}
+.orbit-strip h4{font-family:'Fraunces',serif;font-weight:600;font-size:1.4rem;}
+.orbit-strip p{font-size:0.85rem;color:rgba(244,235,218,0.5);margin-top:0.4rem;max-width:46ch;}
+
+/* Closing chapter */
+.chapter.close{background:var(--ink);color:var(--paper);text-align:left;}
+.close h2{color:#fff;font-size:clamp(2.4rem,5vw,4.4rem);max-width:16ch;}
+.close p{color:rgba(244,235,218,0.46);margin-top:1.4rem;max-width:48ch;font-size:1.02rem;}
+.close .hero-btns{margin-top:2.4rem;}
+
+footer{background:var(--ink);color:rgba(244,235,218,0.34);padding:2.4rem 8vw;display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.6rem;font-size:0.78rem;border-top:1px solid rgba(244,235,218,0.08);}
+footer a{color:rgba(244,235,218,0.5);text-decoration:none;}
+footer a:hover{color:var(--copper-2);}
+
+@media(prefers-reduced-motion:reduce){.reveal,.reveal-scale{opacity:1;transform:none;transition:none;}.scroll-cue-line::after{animation:none;}}
+</style>
+</head>
+<body>
+
+<nav class="ribbon" id="ribbon">
+  <a href="#hero" data-label="Open"></a>
+  <a href="#production" data-label="Content"></a>
+  <a href="#reviews" data-label="Reviews"></a>
+  <a href="#ads" data-label="Advertising"></a>
+  <a href="#funnel" data-label="How it works"></a>
+  <a href="#apps" data-label="Reader apps"></a>
+  <a href="#pricing" data-label="Pricing"></a>
+</nav>
+
+<section class="chapter hero" id="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Atomic Shelf — book marketing for indie authors</div>
+    <div class="hero-stat reveal-scale in" id="heroCount">1<span class="suffix">×</span></div>
+    <p class="hero-line reveal in reveal-delay-1">the average sales lift our authors see within 90 days of running the full stack.</p>
+    <p class="hero-sub reveal in reveal-delay-2">Video, reviews, reader lists, listing pages, and managed Amazon advertising — run as one connected system, not five separate vendors.</p>
+    <div class="hero-btns reveal in reveal-delay-3">
+      <a href="#pricing" class="btn btn-copper">See plans & pricing</a>
+      <a href="#production" class="btn btn-line">Read the chapters</a>
+    </div>
+  </div>
+  <div class="scroll-cue"><div class="scroll-cue-line"></div>Scroll</div>
+</section>
+
+<section class="chapter paper" id="production">
+  <div class="chapter-inner">
+    <div class="chapter-num reveal">Chapter One</div>
+    <div class="benefit-row">
+      <div class="reveal">
+        <h2 class="benefit-head">Video that a studio can't make at this pace</h2>
+        <p class="benefit-detail">Every script starts from your story and your genre's reader psychology, then goes through AI-engineered production and human creative direction. The result: consistent, on-brand video at a volume no traditional studio can sustain.</p>
+      </div>
+      <div class="benefit-figure reveal reveal-delay-1">
+        <div class="bf-num">60<span class="s">+</span></div>
+        <div class="bf-label">short-form videos produced monthly, minimum</div>
+        <ul class="bf-list">
+          <li>Book trailers &amp; long-form YouTube</li>
+          <li>Custom theme songs on higher tiers</li>
+          <li>Genre-calibrated scripts, every time</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter paper-2" id="reviews">
+  <div class="chapter-inner">
+    <div class="chapter-num reveal">Chapter Two</div>
+    <div class="benefit-row">
+      <div class="benefit-figure reveal reveal-delay-1" style="order:2;">
+        <div class="bf-num">50<span class="s">+</span></div>
+        <div class="bf-label">reviews targeted per ARC campaign at our top tier</div>
+        <ul class="bf-list">
+          <li>Readers recruited from our own network</li>
+          <li>Genre-matched, briefed, and followed up</li>
+          <li>Built before your ads ever launch</li>
+        </ul>
+      </div>
+      <div class="reveal" style="order:1;">
+        <h2 class="benefit-head">Trust, before you spend a dollar on ads</h2>
+        <p class="benefit-detail">Strangers don't buy from an author with zero reviews. We recruit and manage advance reader copy campaigns so your listing has honest, early social proof — the thing every other channel depends on to convert.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter paper" id="ads">
+  <div class="chapter-inner">
+    <div class="chapter-num reveal">Chapter Three</div>
+    <div class="benefit-row">
+      <div class="reveal">
+        <h2 class="benefit-head">Ad management you approve, not operate</h2>
+        <p class="benefit-detail">From Momentum upward, your subscription includes a managed advertising budget. Our team deploys and optimizes it across Amazon's advertising ecosystem, retargeting every warm viewer your content built at the exact moment purchase intent peaks. You set the strategy; we run the console.</p>
+      </div>
+      <div class="benefit-figure reveal reveal-delay-1">
+        <div class="bf-num">+20<span class="s">%</span></div>
+        <div class="bf-label">average listing conversion lift after optimization</div>
+        <ul class="bf-list">
+          <li>Certified Amazon Advertising Partner</li>
+          <li>A+ listing builds included at every ad tier</li>
+          <li>Full attribution, fed back into the system</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter paper-2" id="funnel">
+  <div class="chapter-inner">
+    <div class="chapter-num reveal">How it fits together</div>
+    <h2 class="benefit-head reveal">Every stage feeds the next one</h2>
+    <div class="funnel-row">
+      <div class="funnel-item reveal"><div class="funnel-mark">i</div><div><h4>Content deploys</h4><p>Genre-calibrated video goes live across TikTok, YouTube Shorts, and Reels, optimized for discovery.</p></div></div>
+      <div class="funnel-item reveal reveal-delay-1"><div class="funnel-mark">ii</div><div><h4>Reviews land</h4><p>ARC readers leave the early, honest reviews that give your listing credibility with strangers.</p></div></div>
+      <div class="funnel-item reveal reveal-delay-2"><div class="funnel-mark">iii</div><div><h4>The listing converts</h4><p>Optimized copy, banners, and social proof turn the traffic content and reviews send into sales.</p></div></div>
+      <div class="funnel-item reveal reveal-delay-3"><div class="funnel-mark">iv</div><div><h4>Reader lists compound</h4><p>ShelfMates and StoryPals grow an owned audience you can reach again, at zero marginal ad cost.</p></div></div>
+      <div class="funnel-item reveal reveal-delay-3"><div class="funnel-mark">v</div><div><h4>Advertising closes the sale</h4><p>Managed campaigns retarget warm readers right when purchase intent peaks, and every sale feeds back into the loop.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter paper" id="apps">
+  <div class="chapter-inner">
+    <div class="chapter-num reveal">Proprietary tech</div>
+    <h2 class="benefit-head reveal">Reader lists, built for your genre</h2>
+    <p class="benefit-detail reveal reveal-delay-1">Our own in-house apps for growing a real, owned reader list — the asset that keeps paying off long after a single launch window closes.</p>
+    <div class="app-row">
+      <div class="app-card reveal reveal-delay-1">
+        <span class="app-tag">Adult fiction</span>
+        <h4>ShelfMates</h4>
+        <p>Reader-matching for romance, thriller, fantasy, and beyond. Authors get direct access to genre-tagged readers who've opted in to hear about new releases in exactly their niche.</p>
+      </div>
+      <div class="app-card reveal reveal-delay-2">
+        <span class="app-tag">Children's books</span>
+        <h4>StoryPals</h4>
+        <p>List-building for children's authors and parents, matching new picture books and early readers to families already looking in that age range and category.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter paper-2" id="pricing">
+  <div class="chapter-inner">
+    <div class="chapter-num reveal">Plans</div>
+    <h2 class="benefit-head reveal">Your growth stack, priced for authors</h2>
+    <p class="benefit-detail pricing-intro reveal reveal-delay-1">Production, reviews, and listing work are included at every paid tier. Momentum and above add a managed advertising budget we deploy on your behalf.</p>
+
+    <div class="reveal reveal-delay-1">
+      <div class="tier-toggle">
+        <button class="tier-btn active" onclick="setBilling('monthly',this)">Monthly</button>
+        <button class="tier-btn" onclick="setBilling('3month',this)">3 mo · 10% off</button>
+        <button class="tier-btn" onclick="setBilling('6month',this)">6 mo · 20% off</button>
+        <button class="tier-btn" onclick="setBilling('12month',this)">12 mo · 25% off</button>
+      </div>
+      <div class="tier-note" id="tierNote">Pay month-to-month. Cancel anytime.</div>
+    </div>
+
+    <div class="plans reveal reveal-delay-2">
+      <div class="plan" data-base="79">
+        <div class="plan-name">Foundation</div>
+        <div class="plan-price">$79</div>
+        <span class="plan-price-sub">per month</span>
+        <ul>
+          <li>80 short-form videos monthly</li>
+          <li>1 professional book trailer</li>
+          <li>Listing copy audit &amp; rewrite</li>
+          <li>ShelfMates / StoryPals access</li>
+          <li>Content only — no ad spend</li>
+        </ul>
+        <a href="mailto:nick@atomic-shelf.com" class="plan-cta">Choose Foundation</a>
+      </div>
+      <div class="plan featured" data-base="249">
+        <div class="plan-name">Momentum</div>
+        <div class="plan-price">$249</div>
+        <span class="plan-price-sub">per month</span>
+        <div class="plan-ad">$90/mo managed ad budget included</div>
+        <ul>
+          <li>All Foundation features</li>
+          <li>Full social media management</li>
+          <li>ARC campaign — 10 reviews targeted</li>
+          <li>Basic A+ listing build</li>
+        </ul>
+        <a href="mailto:nick@atomic-shelf.com" class="plan-cta">Select Momentum</a>
+      </div>
+      <div class="plan" data-base="499">
+        <div class="plan-name">Growth</div>
+        <div class="plan-price">$499</div>
+        <span class="plan-price-sub">per month</span>
+        <div class="plan-ad">$300/mo managed ad budget included</div>
+        <ul>
+          <li>100+ premium videos monthly</li>
+          <li>2 cinematic trailers, 1 theme song</li>
+          <li>ARC campaign — 25 reviews targeted</li>
+          <li>Premium A+ listing build</li>
+        </ul>
+        <a href="mailto:nick@atomic-shelf.com" class="plan-cta">Join Growth</a>
+      </div>
+    </div>
+
+    <div class="orbit-strip reveal reveal-delay-3">
+      <div>
+        <h4>Surge &amp; Orbit — for full-time authors and catalogues</h4>
+        <p>$899/mo for a dedicated team of four, or a bespoke dedicated advertising seat under your own brand at Orbit. Pricing is custom.</p>
+      </div>
+      <a href="mailto:nick@atomic-shelf.com" class="btn btn-copper">Talk to us</a>
+    </div>
+  </div>
+</section>
+
+<section class="chapter close">
+  <div class="chapter-inner">
+    <h2 class="reveal">Put the whole system to work for your book</h2>
+    <p class="reveal reveal-delay-1">Join 160+ authors running the full stack — content, reviews, reader lists, listing optimization, and managed advertising that compounds every month.</p>
+    <div class="hero-btns reveal reveal-delay-2">
+      <a href="#pricing" class="btn btn-copper">Choose your tier</a>
+      <a href="mailto:nick@atomic-shelf.com" class="btn btn-line">Talk to us</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 Atomic Shelf. All rights reserved.</span>
+  <span><a href="mailto:nick@atomic-shelf.com">nick@atomic-shelf.com</a></span>
+</footer>
+
+<script>
+// Reveal on scroll
+const obs = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in'); });
+},{threshold:0.15});
+document.querySelectorAll('.reveal, .reveal-scale').forEach(el=>obs.observe(el));
+
+// Hero count-up (runs once on load)
+(function(){
+  const el = document.getElementById('heroCount');
+  const target = 3.2;
+  const dur = 1600, start = performance.now();
+  function tick(now){
+    const p = Math.min((now-start)/dur,1);
+    const ease = 1-Math.pow(1-p,3);
+    el.innerHTML = (target*ease).toFixed(1)+'<span class="suffix">×</span>';
+    if(p<1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+})();
+
+// Ribbon active state
+const chapters = document.querySelectorAll('.chapter[id]');
+const ribbonLinks = document.querySelectorAll('.ribbon a');
+const ribbonObs = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      ribbonLinks.forEach(l=>l.classList.remove('active'));
+      const match = document.querySelector('.ribbon a[href="#'+e.target.id+'"]');
+      if(match) match.classList.add('active');
+    }
+  });
+},{threshold:0.5});
+chapters.forEach(c=>ribbonObs.observe(c));
+
+// Pricing billing toggle
+const BILLING={monthly:{discount:0,months:1},'3month':{discount:0.10,months:3},'6month':{discount:0.20,months:6},'12month':{discount:0.25,months:12}};
+const NOTES={monthly:'Pay month-to-month. Cancel anytime.','3month':'Billed every 3 months — 10% off.','6month':'Billed every 6 months — 20% off.','12month':'Billed annually — 25% off.'};
+function setBilling(period,btn){
+  document.querySelectorAll('.tier-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const {discount,months} = BILLING[period];
+  document.querySelectorAll('.plan[data-base]').forEach(plan=>{
+    const base = parseFloat(plan.dataset.base);
+    const priceEl = plan.querySelector('.plan-price');
+    const subEl = plan.querySelector('.plan-price-sub');
+    if(months===1){
+      priceEl.textContent = '$'+base;
+      subEl.textContent = 'per month';
+    } else {
+      const discMo = Math.round(base*(1-discount));
+      const total = discMo*months;
+      priceEl.textContent = '$'+total.toLocaleString('en-US');
+      subEl.textContent = 'total for '+months+' months ($'+discMo+'/mo)';
+    }
+  });
+  document.getElementById('tierNote').textContent = NOTES[period];
+}
+</script>
+</body>
+</html>

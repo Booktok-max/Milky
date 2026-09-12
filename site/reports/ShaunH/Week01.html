@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Shaun Humphries · Kokoro · Campaign Proposal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;0,600;1,400;1,600&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+a{color:inherit;text-decoration:none;}
+
+:root{
+  --bg:#08090d;--bg2:#0e1018;--bg3:#13151f;
+  --ink:#e8e2d4;--ink2:#c8c0ae;--ink3:#8a8272;--ink4:#565044;
+  --red:#c8312a;--red2:#e84040;--red-glow:rgba(200,49,42,.25);
+  --gold:#c9963a;--gold2:#e8b84a;--gold-lt:rgba(201,150,58,.12);
+  --jade:#2a8a6a;--jade2:#3ab888;
+  --border:rgba(255,255,255,.07);--border-lt:rgba(255,255,255,.04);
+  --surface:rgba(255,255,255,.035);--surface2:rgba(255,255,255,.06);
+  --r:8px;--r-lg:14px;--r-xl:20px;
+  --shadow:0 8px 40px rgba(0,0,0,.6);--shadow-lg:0 20px 80px rgba(0,0,0,.8);
+  --glow-red:0 0 40px rgba(200,49,42,.18);--glow-gold:0 0 30px rgba(201,150,58,.15);
+}
+
+body{
+  font-family:'Crimson Pro',Georgia,serif;
+  background:var(--bg);
+  color:var(--ink);
+  min-height:100vh;
+  font-size:18px;
+  line-height:1.8;
+  overflow-x:hidden;
+}
+
+/* ── BACKGROUND TEXTURE ── */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 15% 0%,rgba(200,49,42,.07) 0%,transparent 55%),
+    radial-gradient(ellipse 60% 40% at 85% 100%,rgba(201,150,58,.05) 0%,transparent 50%),
+    radial-gradient(ellipse 100% 80% at 50% 50%,rgba(20,22,35,.95) 0%,transparent 100%);
+  pointer-events:none;z-index:0;
+}
+/* SVG diagonal line texture */
+body::after{
+  content:'';position:fixed;inset:0;
+  background-image:repeating-linear-gradient(
+    -45deg,
+    transparent,transparent 40px,
+    rgba(255,255,255,.008) 40px,rgba(255,255,255,.008) 41px
+  );
+  pointer-events:none;z-index:0;
+}
+
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:rgba(200,49,42,.4);border-radius:2px;}
+
+/* ── HOLD BANNER ── */
+.hold-banner{
+  background:linear-gradient(90deg,rgba(201,150,58,.15),rgba(201,150,58,.08));
+  border-bottom:1px solid rgba(201,150,58,.3);
+  padding:11px 40px;
+  position:sticky;top:0;z-index:100;
+  backdrop-filter:blur(12px);
+}
+.hold-inner{
+  max-width:1020px;margin:0 auto;
+  display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+}
+.hold-icon{font-size:1rem;flex-shrink:0;}
+.hold-text{
+  font-family:'Space Mono',monospace;
+  font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--gold2);
+  line-height:1.6;
+}
+.hold-text strong{color:#fff;}
+.hold-pill{
+  margin-left:auto;
+  font-family:'Space Mono',monospace;font-size:.58rem;
+  letter-spacing:.1em;text-transform:uppercase;
+  background:rgba(201,150,58,.18);
+  border:1px solid rgba(201,150,58,.4);
+  border-radius:40px;padding:4px 14px;
+  color:var(--gold2);white-space:nowrap;
+  flex-shrink:0;
+}
+
+/* ── HERO ── */
+.hero{
+  position:relative;z-index:1;
+  padding:90px 40px 100px;
+  overflow:hidden;
+  background:linear-gradient(175deg,#0d0e16 0%,#080a10 60%,#0c0a10 100%);
+}
+/* brushstroke accent top */
+.hero::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,transparent 0%,var(--red) 30%,var(--gold) 60%,transparent 100%);
+  opacity:.7;
+}
+/* large kanji-inspired background glyph */
+.hero-bg-glyph{
+  position:absolute;right:-40px;top:50%;transform:translateY(-50%);
+  font-family:'Cinzel',serif;
+  font-size:clamp(160px,28vw,320px);
+  font-weight:900;
+  color:rgba(255,255,255,.018);
+  line-height:1;
+  letter-spacing:-.05em;
+  pointer-events:none;
+  user-select:none;
+  white-space:nowrap;
+}
+.hero-inner{max-width:1020px;margin:0 auto;position:relative;}
+.hero-logo{
+  display:inline-flex;align-items:center;gap:10px;
+  margin-bottom:48px;
+}
+.logo-mark{
+  width:34px;height:34px;
+  background:linear-gradient(135deg,var(--red),var(--red2));
+  border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Space Mono',monospace;font-size:.55rem;font-weight:700;
+  color:#fff;letter-spacing:.04em;
+  box-shadow:0 2px 18px rgba(200,49,42,.45);
+}
+.logo-text{
+  font-family:'Crimson Pro',serif;font-style:italic;
+  font-size:1rem;color:rgba(232,226,212,.4);letter-spacing:.04em;
+}
+.hero-eyebrow{
+  font-family:'Space Mono',monospace;
+  font-size:.63rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:20px;opacity:.9;
+}
+.hero-title{
+  font-family:'Cinzel',serif;
+  font-size:clamp(2.8rem,8vw,6rem);
+  font-weight:900;
+  color:#fff;
+  line-height:.95;
+  letter-spacing:-.02em;
+  margin-bottom:12px;
+}
+.hero-title .red{color:var(--red2);}
+.hero-title .thin{font-weight:400;letter-spacing:.04em;font-size:clamp(1rem,2.5vw,1.8rem);display:block;margin-bottom:8px;color:rgba(255,255,255,.5);}
+.hero-tagline{
+  font-family:'Crimson Pro',serif;font-style:italic;
+  font-size:clamp(1rem,2.2vw,1.35rem);
+  color:rgba(232,226,212,.55);
+  max-width:520px;
+  margin-bottom:44px;
+  font-weight:300;
+  line-height:1.6;
+}
+.hero-stats{display:flex;gap:0;flex-wrap:wrap;}
+.hstat{
+  padding:20px 40px 20px 0;margin-right:40px;
+  border-right:1px solid rgba(255,255,255,.08);
+}
+.hstat:last-child{border-right:none;margin-right:0;}
+.hstat-val{
+  font-family:'Cinzel',serif;
+  font-size:clamp(1.8rem,4vw,2.8rem);
+  font-weight:700;color:#fff;line-height:1;margin-bottom:5px;
+}
+.hstat-val.red{color:var(--red2);}
+.hstat-val.gold{color:var(--gold2);}
+.hstat-lbl{
+  font-family:'Space Mono',monospace;
+  font-size:.54rem;color:rgba(232,226,212,.3);
+  text-transform:uppercase;letter-spacing:.12em;
+}
+
+/* ── MAIN ── */
+.main{max-width:1020px;margin:0 auto;padding:54px 40px 110px;position:relative;z-index:1;}
+
+/* ── HOLD NOTICE (large) ── */
+.hold-card{
+  background:linear-gradient(135deg,rgba(201,150,58,.1),rgba(201,150,58,.05));
+  border:1px solid rgba(201,150,58,.35);
+  border-left:4px solid var(--gold);
+  border-radius:var(--r-lg);
+  padding:28px 32px;
+  margin-bottom:36px;
+  display:flex;gap:18px;align-items:flex-start;
+}
+.hold-card-icon{font-size:1.6rem;flex-shrink:0;margin-top:2px;}
+.hold-card-body{}
+.hold-card-title{
+  font-family:'Cinzel',serif;font-size:1.1rem;font-weight:700;
+  color:var(--gold2);margin-bottom:8px;letter-spacing:.03em;
+}
+.hold-card-text{
+  font-size:.98rem;color:var(--ink2);line-height:1.8;
+}
+.hold-card-text strong{color:var(--ink);}
+
+/* ── TABS ── */
+.tab-nav{
+  display:flex;gap:0;
+  background:rgba(255,255,255,.04);
+  border:1px solid var(--border);
+  border-radius:var(--r-xl);
+  padding:5px;margin-bottom:44px;
+  width:fit-content;overflow-x:auto;
+}
+.tab-btn{
+  font-family:'Space Mono',monospace;
+  font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--ink3);
+  padding:9px 20px;
+  border-radius:calc(var(--r-xl) - 4px);
+  cursor:pointer;transition:all .18s;
+  border:none;background:none;white-space:nowrap;
+}
+.tab-btn.active{
+  background:linear-gradient(135deg,var(--red),#a02020);
+  color:#fff;
+  box-shadow:var(--glow-red);
+}
+.tab-btn:hover:not(.active){color:var(--ink);background:rgba(255,255,255,.06);}
+.tab-panel{display:none;}.tab-panel.active{display:block;}
+
+/* ── SECTION HEADERS ── */
+.section-hd{display:flex;align-items:center;gap:14px;margin-bottom:22px;margin-top:52px;}
+.section-hd:first-child{margin-top:0;}
+.section-accent{width:3px;height:28px;border-radius:2px;flex-shrink:0;background:linear-gradient(180deg,var(--red),var(--red2));}
+.section-accent.gold{background:linear-gradient(180deg,var(--gold),var(--gold2));}
+.section-accent.jade{background:linear-gradient(180deg,var(--jade),var(--jade2));}
+.section-title{
+  font-family:'Cinzel',serif;font-size:1.55rem;font-weight:700;
+  color:var(--ink);line-height:1;letter-spacing:.02em;
+}
+.section-rule{flex:1;height:1px;background:var(--border);}
+.section-count{
+  font-family:'Space Mono',monospace;font-size:.58rem;
+  color:var(--ink3);background:var(--surface);
+  border:1px solid var(--border);border-radius:40px;
+  padding:3px 12px;letter-spacing:.06em;
+}
+
+/* ── CARDS ── */
+.card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--r-lg);
+  padding:28px 32px;
+  margin-bottom:14px;
+}
+
+/* ── BOOK CARD ── */
+.book-meta-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
+  gap:8px;margin-bottom:18px;
+}
+.bmeta{
+  background:rgba(255,255,255,.03);
+  border:1px solid var(--border-lt);
+  border-radius:8px;padding:11px 14px;
+}
+.bmeta-lbl{
+  font-family:'Space Mono',monospace;font-size:.5rem;
+  text-transform:uppercase;letter-spacing:.08em;
+  color:var(--ink4);margin-bottom:4px;
+}
+.bmeta-val{font-size:.88rem;font-weight:600;color:var(--ink);}
+.bmeta-val.gold{color:var(--gold2);}
+.bmeta-val.red{color:var(--red2);}
+.bmeta-val.jade{color:var(--jade2);}
+
+/* ── BADGE ── */
+.badge{
+  display:inline-flex;align-items:center;
+  padding:3px 11px;border-radius:40px;
+  font-size:.6rem;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;
+  font-family:'Space Mono',monospace;
+}
+.b-hold{background:rgba(201,150,58,.15);color:var(--gold2);border:1px solid rgba(201,150,58,.35);}
+.b-trial{background:rgba(200,49,42,.12);color:var(--red2);border:1px solid rgba(200,49,42,.3);}
+.b-ready{background:rgba(58,184,136,.1);color:var(--jade2);border:1px solid rgba(58,184,136,.25);}
+
+/* ── AMAZON LINK ── */
+.amz-btn{
+  display:inline-flex;align-items:center;gap:7px;
+  font-family:'Space Mono',monospace;font-size:.6rem;
+  letter-spacing:.06em;text-transform:uppercase;
+  color:var(--gold2);
+  background:var(--gold-lt);
+  border:1px solid rgba(201,150,58,.3);
+  border-radius:40px;padding:7px 16px;
+  transition:background .15s;
+}
+.amz-btn:hover{background:rgba(201,150,58,.18);}
+
+/* ── CONTENT CALENDAR ── */
+.cal-grid{display:flex;flex-direction:column;gap:8px;}
+.cal-item{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  padding:18px 22px;
+  display:grid;
+  grid-template-columns:40px 1fr auto;
+  gap:16px;align-items:start;
+  transition:border-color .2s,box-shadow .2s;
+}
+.cal-item:hover{border-color:rgba(200,49,42,.35);box-shadow:var(--glow-red);}
+.cal-num{
+  font-family:'Cinzel',serif;
+  font-size:1.8rem;font-weight:700;
+  color:var(--red);line-height:1;opacity:.4;
+}
+.cal-body{}
+.cal-hook{
+  font-family:'Crimson Pro',serif;font-style:italic;
+  font-size:1.1rem;font-weight:600;color:var(--ink);
+  line-height:1.35;margin-bottom:4px;
+}
+.cal-tag{
+  font-family:'Space Mono',monospace;font-size:.56rem;
+  text-transform:uppercase;letter-spacing:.09em;
+  color:var(--gold);background:rgba(201,150,58,.1);
+  border:1px solid rgba(201,150,58,.2);
+  border-radius:40px;padding:2px 9px;
+  display:inline-block;margin-bottom:6px;
+}
+.cal-angle{font-size:.85rem;color:var(--ink3);font-style:italic;margin:4px 0 6px;}
+.cal-vo{
+  font-size:.9rem;color:var(--ink2);line-height:1.75;
+  border-left:2px solid rgba(200,49,42,.25);padding-left:14px;
+  margin-top:8px;
+}
+.cal-vo-toggle{
+  font-family:'Space Mono',monospace;font-size:.58rem;
+  color:var(--red2);cursor:pointer;letter-spacing:.06em;text-transform:uppercase;
+  background:rgba(200,49,42,.08);border:1px solid rgba(200,49,42,.2);
+  border-radius:40px;padding:3px 10px;margin-top:6px;
+  transition:background .15s;display:inline-block;
+}
+.cal-vo-toggle:hover{background:rgba(200,49,42,.15);}
+.vo-hidden{display:none;}
+.cal-day{
+  font-family:'Space Mono',monospace;font-size:.56rem;
+  color:var(--ink4);text-transform:uppercase;
+  letter-spacing:.08em;text-align:right;white-space:nowrap;
+}
+
+/* ── NEXT STEPS ── */
+.steps-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;}
+.step-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r-lg);padding:24px 26px;
+}
+.step-num{
+  font-family:'Cinzel',serif;font-size:.9rem;font-weight:700;
+  color:var(--red2);line-height:1;margin-bottom:12px;
+  background:rgba(200,49,42,.1);border:1px solid rgba(200,49,42,.22);
+  border-radius:8px;display:inline-flex;align-items:center;
+  justify-content:center;width:44px;height:44px;letter-spacing:.04em;
+}
+.step-title{
+  font-family:'Cinzel',serif;font-size:1.05rem;font-weight:700;
+  color:var(--ink);margin-bottom:8px;letter-spacing:.02em;
+}
+.step-desc{font-size:.93rem;color:var(--ink2);line-height:1.75;}
+.step-action{
+  display:inline-flex;align-items:center;gap:5px;margin-top:14px;
+  font-family:'Space Mono',monospace;font-size:.58rem;
+  color:var(--gold);background:var(--gold-lt);
+  border:1px solid rgba(201,150,58,.25);border-radius:40px;
+  padding:5px 13px;letter-spacing:.04em;text-transform:uppercase;cursor:pointer;
+}
+
+/* ── STRATEGY TIMELINE ── */
+.strategy-timeline{display:flex;flex-direction:column;gap:0;position:relative;}
+.strategy-timeline::before{
+  content:'';position:absolute;left:17px;top:20px;bottom:20px;width:2px;
+  background:linear-gradient(180deg,var(--red),var(--gold2),var(--red));opacity:.15;
+}
+.stl-item{display:flex;gap:20px;padding:20px 0;border-bottom:1px solid var(--border-lt);}
+.stl-item:last-child{border-bottom:none;}
+.stl-dot{
+  width:34px;height:34px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Space Mono',monospace;font-size:.56rem;font-weight:700;
+  letter-spacing:.04em;border:2px solid;
+}
+.stl-dot.organic{background:rgba(200,49,42,.1);border-color:var(--red);color:var(--red);}
+.stl-dot.promote{background:rgba(201,150,58,.1);border-color:var(--gold);color:var(--gold);}
+.stl-dot.dsp{background:rgba(58,184,136,.1);border-color:var(--jade2);color:var(--jade2);}
+.stl-phase{
+  font-family:'Space Mono',monospace;font-size:.58rem;
+  text-transform:uppercase;letter-spacing:.1em;color:var(--ink4);margin-bottom:4px;
+}
+.stl-title{
+  font-family:'Cinzel',serif;font-size:1.1rem;font-weight:700;
+  color:var(--ink);margin-bottom:6px;letter-spacing:.02em;
+}
+.stl-desc{font-size:.92rem;color:var(--ink2);line-height:1.75;}
+.stl-metric{
+  display:inline-block;font-family:'Space Mono',monospace;
+  font-size:.65rem;font-weight:700;color:var(--gold);margin-top:8px;
+}
+
+/* ── METRICS STRIP ── */
+.metrics-strip{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));
+  gap:10px;margin-bottom:14px;
+}
+.mbox{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r);padding:18px;text-align:center;
+}
+.mbox-val{
+  font-family:'Cinzel',serif;font-size:1.9rem;font-weight:700;
+  color:var(--ink);line-height:1;margin-bottom:5px;
+}
+.mbox-val.red{color:var(--red2);}
+.mbox-val.gold{color:var(--gold2);}
+.mbox-val.jade{color:var(--jade2);}
+.mbox-lbl{
+  font-family:'Space Mono',monospace;font-size:.52rem;
+  text-transform:uppercase;letter-spacing:.1em;color:var(--ink4);
+}
+
+/* ── NOTICE ── */
+.notice{
+  background:rgba(201,150,58,.07);
+  border:1px solid rgba(201,150,58,.22);
+  border-radius:var(--r);padding:15px 20px;
+  font-size:.95rem;color:var(--ink2);
+  display:flex;align-items:flex-start;gap:10px;margin-bottom:18px;
+}
+.notice-icon{font-size:1.1rem;flex-shrink:0;}
+.notice.red-tint{background:rgba(200,49,42,.06);border-color:rgba(200,49,42,.2);}
+
+/* ── TRIAL COUNTER ── */
+.trial-strip{
+  display:flex;align-items:center;gap:20px;flex-wrap:wrap;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r-lg);padding:16px 22px;margin-bottom:32px;
+}
+.trial-day-wrap{}
+.trial-day-num{
+  font-family:'Cinzel',serif;font-size:2rem;font-weight:700;
+  color:var(--gold2);line-height:1;
+}
+.trial-day-lbl{
+  font-family:'Space Mono',monospace;font-size:.52rem;
+  color:var(--ink4);text-transform:uppercase;letter-spacing:.1em;
+}
+.trial-bar-wrap{flex:1;min-width:160px;}
+.trial-bar-label{
+  display:flex;justify-content:space-between;
+  font-family:'Space Mono',monospace;font-size:.56rem;
+  color:var(--ink4);text-transform:uppercase;letter-spacing:.08em;
+  margin-bottom:6px;
+}
+.trial-bar-track{
+  height:6px;background:rgba(255,255,255,.06);
+  border-radius:40px;overflow:hidden;
+}
+.trial-bar-fill{
+  height:100%;
+  background:linear-gradient(90deg,var(--gold),var(--gold2));
+  border-radius:40px;
+  transition:width 1s cubic-bezier(.34,1.56,.64,1);
+}
+.trial-status-pill{
+  font-family:'Space Mono',monospace;font-size:.56rem;
+  letter-spacing:.08em;text-transform:uppercase;
+  color:var(--gold2);
+  background:var(--gold-lt);
+  border:1px solid rgba(201,150,58,.3);
+  border-radius:40px;padding:4px 13px;white-space:nowrap;
+}
+
+/* ── FOOTER ── */
+.footer{
+  background:rgba(0,0,0,.6);
+  border-top:1px solid var(--border);
+  padding:36px 40px;text-align:center;
+  position:relative;z-index:1;
+}
+.footer-logo{
+  font-family:'Cinzel',serif;font-size:1.2rem;font-weight:700;
+  color:rgba(232,226,212,.2);margin-bottom:6px;letter-spacing:.1em;
+}
+.footer-text{
+  font-family:'Space Mono',monospace;font-size:.58rem;
+  color:rgba(232,226,212,.15);letter-spacing:.06em;
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+.card,.cal-item,.step-card,.mbox{animation:fadeUp .4s ease both;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:700px){
+  .hero{padding:50px 20px 60px;}
+  .main{padding:32px 20px 80px;}
+  .hold-banner,.footer{padding:10px 20px;}
+  .hstat{padding:14px 22px 14px 0;margin-right:22px;}
+  .hstat-val{font-size:2rem;}
+  .steps-grid{grid-template-columns:1fr;}
+  .cal-item{grid-template-columns:36px 1fr;}.cal-day{display:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- ── HOLD BANNER ── -->
+<div class="hold-banner">
+  <div class="hold-inner">
+    <div class="hold-icon">⏸</div>
+    <div class="hold-text"><strong>Pre-Production — Awaiting Your Greenlight.</strong> Nothing has been posted. No accounts have been touched. This is a proposal only.</div>
+    <div class="hold-pill">Awaiting Approval</div>
+  </div>
+</div>
+
+<!-- ── HERO ── -->
+<div class="hero">
+  <div class="hero-bg-glyph">心</div>
+  <div class="hero-inner">
+    <div class="hero-logo">
+      <div class="logo-mark">AS</div>
+      <div class="logo-text">Atomic Shelf</div>
+    </div>
+    <div class="hero-eyebrow">Campaign Proposal · Pre-Production · May 2026</div>
+    <h1 class="hero-title">
+      <span class="thin">Shaun Humphries</span>
+      <span class="red">KO</span>KORO
+    </h1>
+    <p class="hero-tagline">A martial-arts epic of gods, fate, and the will to fight for love — and the campaign to bring it to #AnimeBookTok.</p>
+    <div class="hero-stats">
+      <div class="hstat"><div class="hstat-val red">15</div><div class="hstat-lbl">Videos Planned</div></div>
+      <div class="hstat"><div class="hstat-val gold">7</div><div class="hstat-lbl">Trial Days</div></div>
+      <div class="hstat"><div class="hstat-val">5.0★</div><div class="hstat-lbl">Amazon Rating</div></div>
+      <div class="hstat"><div class="hstat-val">27</div><div class="hstat-lbl">Reviews</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── MAIN ── -->
+<div class="main">
+
+  <!-- HOLD NOTICE -->
+  <div class="hold-card">
+    <div class="hold-card-icon">🔒</div>
+    <div class="hold-card-body">
+      <div class="hold-card-title">Nothing Moves Without Your Say-So</div>
+      <div class="hold-card-text">
+        This dashboard is a <strong>proposal</strong>. We have not posted any content, created any accounts on your behalf, or gone into production on any video. Everything here — the strategy, the 15-video calendar, the hooks and scripts — exists for you to review at your own pace. <strong>We need your greenlight before we do anything.</strong> Browse freely, ask questions, and when you're ready to move forward, let us know.
+      </div>
+    </div>
+  </div>
+
+  <!-- TRIAL STRIP -->
+  <div class="trial-strip">
+    <div class="trial-day-wrap">
+      <div class="trial-day-num" id="trialDayNum">1</div>
+      <div class="trial-day-lbl">of 7 days</div>
+    </div>
+    <div class="trial-bar-wrap">
+      <div class="trial-bar-label">
+        <span>Trial Progress</span>
+        <span id="trialStatus">Pending Your Approval</span>
+      </div>
+      <div class="trial-bar-track">
+        <div class="trial-bar-fill" id="trialFill" style="width:14.3%"></div>
+      </div>
+    </div>
+    <div class="trial-status-pill" id="trialStartDisplay">Started May 25, 2026</div>
+  </div>
+
+  <!-- ══ TABS ══ -->
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="switchTab('overview',this)">Overview</button>
+    <button class="tab-btn" onclick="switchTab('calendar',this)">Content Calendar</button>
+    <button class="tab-btn" onclick="switchTab('nextsteps',this)">Next Steps</button>
+    <button class="tab-btn" onclick="switchTab('strategy',this)">Strategy</button>
+  </div>
+
+  <!-- ══ OVERVIEW ══ -->
+  <div class="tab-panel active" id="tab-overview">
+
+    <div class="section-hd">
+      <div class="section-accent"></div>
+      <div class="section-title">The Book</div>
+      <div class="section-rule"></div>
+    </div>
+
+    <div class="card">
+      <div style="display:flex;gap:22px;align-items:flex-start;flex-wrap:wrap;">
+        <div style="flex:1;min-width:220px;">
+          <div style="font-family:'Space Mono',monospace;font-size:.56rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink4);margin-bottom:8px;">Anime-Inspired Fantasy · Martial Arts Epic · YA / Teen</div>
+          <div style="font-family:'Cinzel',serif;font-size:1.7rem;font-weight:900;color:var(--ink);letter-spacing:.04em;margin-bottom:4px;">KOKORO</div>
+          <div style="font-size:.9rem;color:var(--ink3);margin-bottom:14px;">by <strong>Shaun Humphries</strong> · Illustrated by Michael Trippler</div>
+          <div style="margin-bottom:16px;display:flex;gap:6px;flex-wrap:wrap;">
+            <span class="badge b-hold">Awaiting Greenlight</span>
+            <span class="badge b-trial">Trial Active</span>
+            <span class="badge b-ready">Materials Ready</span>
+          </div>
+          <div class="book-meta-grid">
+            <div class="bmeta">
+              <div class="bmeta-lbl">Amazon Rating</div>
+              <div class="bmeta-val gold">5.0 / 5 ★ (27 reviews)</div>
+            </div>
+            <div class="bmeta">
+              <div class="bmeta-lbl">BSR Kindle Store</div>
+              <div class="bmeta-val">#427,112</div>
+            </div>
+            <div class="bmeta">
+              <div class="bmeta-lbl">YA Light Novels</div>
+              <div class="bmeta-val red">#592</div>
+            </div>
+            <div class="bmeta">
+              <div class="bmeta-lbl">YA Epic Fantasy</div>
+              <div class="bmeta-val red">#759</div>
+            </div>
+            <div class="bmeta">
+              <div class="bmeta-lbl">Kindle / KU Price</div>
+              <div class="bmeta-val jade">Free on KU / $1.99</div>
+            </div>
+            <div class="bmeta">
+              <div class="bmeta-lbl">Print Length</div>
+              <div class="bmeta-val">379 pages</div>
+            </div>
+          </div>
+          <a href="https://www.amazon.com/dp/B0F1YCDRJH" target="_blank" rel="noopener" class="amz-btn">📚 View on Amazon ↗</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-hd" style="margin-top:44px;">
+      <div class="section-accent gold"></div>
+      <div class="section-title">Why This Book Fits #AnimeBookTok</div>
+      <div class="section-rule"></div>
+    </div>
+
+    <div class="card">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;">
+        <div style="background:rgba(200,49,42,.06);border:1px solid rgba(200,49,42,.18);border-radius:10px;padding:18px;">
+          <div style="font-family:'Space Mono',monospace;font-size:.54rem;color:var(--red2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;">The Hook</div>
+          <div style="font-size:.95rem;color:var(--ink2);line-height:1.7;">"They burned his home. They stole the one he loved most. Now he'll invade Heaven itself to bring her back." This is a one-line pitch that TikTok eats alive — primal stakes, mythic scale, emotional core.</div>
+        </div>
+        <div style="background:rgba(201,150,58,.06);border:1px solid rgba(201,150,58,.18);border-radius:10px;padding:18px;">
+          <div style="font-family:'Space Mono',monospace;font-size:.54rem;color:var(--gold2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;">The Comp</div>
+          <div style="font-size:.95rem;color:var(--ink2);line-height:1.7;">Described by readers as "Street Fighter meets Inuyasha." Those are two instantly recognisable references in the anime-adjacent BookTok space — meaning we can write hooks that resonate the moment someone reads the words.</div>
+        </div>
+        <div style="background:rgba(58,184,136,.06);border:1px solid rgba(58,184,136,.18);border-radius:10px;padding:18px;">
+          <div style="font-family:'Space Mono',monospace;font-size:.54rem;color:var(--jade2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;">The Social Proof</div>
+          <div style="font-size:.95rem;color:var(--ink2);line-height:1.7;">27 reviews, all five stars. Readers describe it as "captivating," "hard to put down," and "fantastic for all ages." That 96% five-star rate is rare and powerful — we lead with it.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-hd" style="margin-top:44px;">
+      <div class="section-accent jade"></div>
+      <div class="section-title">What's in This Proposal</div>
+      <div class="section-rule"></div>
+    </div>
+
+    <div class="metrics-strip">
+      <div class="mbox"><div class="mbox-val red">15</div><div class="mbox-lbl">Planned Videos</div></div>
+      <div class="mbox"><div class="mbox-val">2–3</div><div class="mbox-lbl">Posts/Day</div></div>
+      <div class="mbox"><div class="mbox-val gold">TikTok</div><div class="mbox-lbl">Primary</div></div>
+      <div class="mbox"><div class="mbox-val">YT</div><div class="mbox-lbl">Secondary</div></div>
+      <div class="mbox"><div class="mbox-val gold">3</div><div class="mbox-lbl">Growth Phases</div></div>
+      <div class="mbox"><div class="mbox-val jade">KU</div><div class="mbox-lbl">KU Angle</div></div>
+    </div>
+
+    <div class="notice">
+      <span class="notice-icon">📋</span>
+      <span>Use the tabs above to explore the full <strong>Content Calendar</strong> (all 15 video scripts and hooks), <strong>Next Steps</strong> (what happens after you greenlight), and the <strong>Strategy</strong> (the 3-phase growth plan). No commitment needed to look around.</span>
+    </div>
+
+  </div>
+
+  <!-- ══ CONTENT CALENDAR ══ -->
+  <div class="tab-panel" id="tab-calendar">
+
+    <div class="section-hd">
+      <div class="section-accent"></div>
+      <div class="section-title">15-Video Content Calendar</div>
+      <div class="section-rule"></div>
+      <div class="section-count">Trial Week · May 25 – May 31</div>
+    </div>
+
+    <div class="notice red-tint">
+      <span class="notice-icon">⏸</span>
+      <span><strong>These scripts have not been produced or posted.</strong> They are proposals for your review. Once you approve, we begin filming/editing. Tap <strong>Show Script</strong> to read any voiceover.</span>
+    </div>
+
+    <div class="cal-grid" id="calGrid"></div>
+
+  </div>
+
+  <!-- ══ NEXT STEPS ══ -->
+  <div class="tab-panel" id="tab-nextsteps">
+
+    <div class="section-hd">
+      <div class="section-accent gold"></div>
+      <div class="section-title">When You're Ready</div>
+      <div class="section-rule"></div>
+    </div>
+
+    <div class="notice">
+      <span class="notice-icon">⏸</span>
+      <span>You're still in the evaluation stage — <strong>no action is required right now.</strong> The steps below are what would happen <em>after</em> you decide to move forward. Browse them at your own pace.</span>
+    </div>
+
+    <div class="steps-grid">
+
+      <div class="step-card">
+        <div class="step-num">01</div>
+        <div class="step-title">Give Us Your Greenlight</div>
+        <div class="step-desc">Read through the hooks, scripts, and strategy. If something feels off — wrong tone, wrong angle, anything — tell us before we produce a single second of video. Your feedback at this stage is free and costs you nothing. Once you're happy with the direction, that's when we start.</div>
+        <div class="step-action">→ Reply to Nick's email</div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-num">02</div>
+        <div class="step-title">Create a TikTok Account</div>
+        <div class="step-desc">Download TikTok, create an account (or use an existing one), then go to <strong>Settings → Manage Account → Switch to Business Account</strong>. Choose <em>Books & Literature</em> or <em>Entertainment</em> as your category. Share your username and we'll request Editor access. You stay in full control.</div>
+        <div class="step-action">→ Only needed after greenlight</div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-num">03</div>
+        <div class="step-title">Create a YouTube Channel</div>
+        <div class="step-desc">Go to <strong>youtube.com</strong>, create a channel under <em>Shaun Humphries</em> or <em>Kokoro</em>, then go to <strong>Settings → Permissions → Invite</strong> and add <strong>powerpages30@gmail.com</strong> as an Editor. This lets us upload YouTube Shorts on your behalf.</div>
+        <div class="step-action" style="color:var(--red2);background:rgba(200,49,42,.08);border-color:rgba(200,49,42,.22);">→ Invite: powerpages30@gmail.com</div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-num">04</div>
+        <div class="step-title">Payment Portal</div>
+        <div class="step-desc">When you're ready to continue beyond the free trial or pay for a full month, the payment portal is here. You can set a custom amount at checkout.</div>
+        <a href="https://store.pesapal.com/atomicshelfsubscription" target="_blank" rel="noopener" class="step-action">→ Payment portal ↗</a>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ══ STRATEGY ══ -->
+  <div class="tab-panel" id="tab-strategy">
+
+    <div class="section-hd">
+      <div class="section-accent"></div>
+      <div class="section-title">3-Phase Growth Plan</div>
+      <div class="section-rule"></div>
+    </div>
+
+    <div class="notice">
+      <span class="notice-icon">📊</span>
+      <span>This is the full roadmap for growing <em>Kokoro</em> from zero to a consistent sales engine on Amazon and Kindle Unlimited. Each phase builds on the last.</span>
+    </div>
+
+    <div class="card" style="margin-bottom:28px;">
+      <div class="strategy-timeline">
+
+        <div class="stl-item">
+          <div class="stl-dot organic">P1</div>
+          <div>
+            <div class="stl-phase">Phase 1 · Weeks 1–4</div>
+            <div class="stl-title">Organic Content First</div>
+            <div class="stl-desc">We post 2–3 short-form videos per day on TikTok and YouTube Shorts. The goal is to build an audience around <em>Kokoro</em>'s themes — sacrifice, unbreakable bonds, gods and fate, the will to fight for love — before spending a single dollar on ads. Organic views tell the algorithm <em>exactly</em> who your reader is. With anime-adjacent content, the algorithm is your best friend: #AnimeBookTok, #LightNovel, and #MartialArtsFantasy are active, hungry communities.</div>
+            <div class="stl-metric">Target: 10,000–30,000 organic views in Month 1</div>
+          </div>
+        </div>
+
+        <div class="stl-item">
+          <div class="stl-dot promote">P2</div>
+          <div>
+            <div class="stl-phase">Phase 2 · After Month 1</div>
+            <div class="stl-title">TikTok Promote — Lookalike Expansion</div>
+            <div class="stl-desc">Once we have organic data, we activate <strong>TikTok Promote</strong> on your top-performing videos. Promote takes your real viewers and finds <em>lookalike audiences</em> — people with matching interests, behaviors, and demographics — at a fraction of traditional ad costs. We're amplifying what's already working, not guessing cold.</div>
+            <div class="stl-metric">Typical CPM at this stage: $3–6 · Activates after Month 1</div>
+          </div>
+        </div>
+
+        <div class="stl-item">
+          <div class="stl-dot dsp">P3</div>
+          <div>
+            <div class="stl-phase">Phase 3 · Ongoing</div>
+            <div class="stl-title">Amazon DSP — Direct Retargeting to Book Page</div>
+            <div class="stl-desc">Amazon DSP lets us place display ads directly in front of people who have already seen your TikTok or YouTube content — and send them straight to your Amazon listing. This is where video views become real purchases and KU reads.<br><br>Without DSP, video views don't reliably convert. With DSP retargeting on a warm audience, you close the loop. Content-warmed audiences typically cost us around <strong>$2 CPM</strong> vs the standard <strong>$10 CPM</strong> cold — 80% cheaper and far more targeted.</div>
+            <div class="stl-metric">DSP CPM: ~$2 (vs $10 cold) · Content-first advantage</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="section-hd" style="margin-top:44px;">
+      <div class="section-accent gold"></div>
+      <div class="section-title">The Kokoro Advantage</div>
+      <div class="section-rule"></div>
+    </div>
+
+    <div class="card">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;">
+        <div style="background:rgba(255,255,255,.03);border:1px solid var(--border-lt);border-radius:10px;padding:16px;">
+          <div style="font-family:'Space Mono',monospace;font-size:.54rem;color:var(--ink4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;">Perfect Review Score</div>
+          <div style="font-size:.88rem;color:var(--ink2);line-height:1.65;">27 reviews at 5.0 stars. That's extremely rare on Amazon. We lead with this prominently — social proof this strong is a campaign asset in itself.</div>
+        </div>
+        <div style="background:rgba(200,49,42,.05);border:1px solid rgba(200,49,42,.18);border-radius:10px;padding:16px;">
+          <div style="font-family:'Space Mono',monospace;font-size:.54rem;color:var(--red2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;">Cultural Niche Timing</div>
+          <div style="font-size:.88rem;color:var(--ink);line-height:1.65;">#AnimeBookTok is growing fast. Books described as "anime-inspired" or "light novel" are among the highest-engagement categories on BookTok right now. Kokoro is a natural fit.</div>
+        </div>
+        <div style="background:rgba(201,150,58,.05);border:1px solid rgba(201,150,58,.18);border-radius:10px;padding:16px;">
+          <div style="font-family:'Space Mono',monospace;font-size:.54rem;color:var(--gold2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;">Free on Kindle Unlimited</div>
+          <div style="font-size:.88rem;color:var(--ink2);line-height:1.65;">KU readers are high-volume, low-friction consumers. "Read it free" dramatically lowers the barrier to entry and converts viewers into readers faster than a paid title alone.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="footer">
+  <div class="footer-logo">ATOMIC SHELF</div>
+  <div class="footer-text">· atomic-shelf.com · Proposal prepared May 2026 · Pre-production — awaiting greenlight</div>
+</div>
+
+<script>
+// ── TAB SWITCHING ──
+function switchTab(tabId, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-' + tabId).classList.add('active');
+  if (btn) btn.classList.add('active');
+}
+
+// ── TRIAL PROGRESS ──
+(function() {
+  const TRIAL_START = new Date('2026-05-25T00:00:00');
+  const TRIAL_DAYS = 7;
+  const now = new Date();
+  const elapsed = (now - TRIAL_START) / (1000 * 60 * 60 * 24);
+  const day = Math.min(Math.ceil(elapsed + 0.001), TRIAL_DAYS);
+  const pct = Math.min((elapsed / TRIAL_DAYS) * 100, 100);
+  document.getElementById('trialDayNum').textContent = Math.max(day, 1);
+  document.getElementById('trialFill').style.width = Math.max(pct, 4) + '%';
+})();
+
+// ── CONTENT CALENDAR ──
+const VIDEOS = [
+  {
+    day: 'Day 1 · May 25', num: 1,
+    tag: 'Epic Intro Hook',
+    hook: '"He lost everything. His home. His world. The one he loved most. So he decided to invade Heaven."',
+    angle: 'Cold open with maximum mythic stakes — establish the scope immediately',
+    vo: `There are love stories.\n\nAnd then there are stories like this.\n\nSai didn't have much. A quiet village. A mentor who believed in him. The person he loved most in the world.\n\nThen one day it was all gone.\n\nMost people would accept that. Grieve and move on.\n\nSai decided to invade Heaven itself to bring her back.\n\nKokoro — a martial-arts epic of gods, fate, and the will to fight for love. On Kindle Unlimited now. Link in bio.`
+  },
+  {
+    day: 'Day 1 · May 25', num: 2,
+    tag: 'Anime Comp Hook',
+    hook: '"If you like Inuyasha. If you like Street Fighter. You need this book."',
+    angle: 'Lean into the anime cultural crossover — target the #AnimeBookTok audience directly',
+    vo: `One reader called it "Street Fighter meets Inuyasha."\n\nAnother said the characters were so vivid she felt like she was watching them move.\n\nKokoro is a martial-arts epic with an anime soul — the kind of book that fans of shonen, light novels, and mythic fantasy have been waiting to find.\n\nIllustrated characters. Ancient gods. Unbreakable bonds. A love story that will cost everything.\n\n5-star rated on Amazon. Free on Kindle Unlimited. Link in bio.`
+  },
+  {
+    day: 'Day 2 · May 26', num: 3,
+    tag: 'Reader Voice Hook',
+    hook: '"I read it with my family. Highly recommend it to everyone." — 5 stars'  ,
+    angle: 'Social proof angle — let the reviews speak. A family read signals broad appeal.',
+    vo: `27 reviews. All five stars.\n\nNot 4.8. Not 4.9. Five. Stars. Every single one.\n\nReaders describe Kokoro as captivating, vivid, emotionally powerful, and great for all ages.\n\nOne reader said she finished it in a weekend. Another said she couldn't stop thinking about it after she put it down.\n\nThis is what great storytelling does.\n\nKokoro by Shaun Humphries. Read it free on Kindle Unlimited. Link in bio.`
+  },
+  {
+    day: 'Day 2 · May 26', num: 4,
+    tag: 'Love Story Angle',
+    hook: '"This is a love story. He'll cross worlds, fight gods, and die trying — just to bring her back."',
+    angle: 'Speak to the romance reader hiding inside every anime fan',
+    vo: `She was gone.\n\nNot just lost. Stolen. By forces bigger than anything Sai had ever faced.\n\nHe could have accepted it.\nHe didn't.\n\nKokoro is, at its heart, a love story — wrapped inside a martial arts epic, threaded with gods and ancient conflict and power unlocked through grief.\n\nOne reader came for the action. She stayed for the love story.\n\n"I can't wait for the sequel," she wrote. Five stars.\n\nKokoro. Kindle Unlimited — read free. Link in bio.`
+  },
+  {
+    day: 'Day 3 · May 27', num: 5,
+    tag: 'World-Building Tease',
+    hook: '"One village. One loss. One man willing to cross every world between him and her."',
+    angle: 'Establish the scale of the world — gods, realms, ancient conflict',
+    vo: `Sai's story begins in a quiet village.\n\nIt ends — or refuses to end — somewhere between the mortal world and the realm of gods.\n\nAlong the way: bonds forged in fire. Powers buried so deep they shouldn't exist. A truth about his past that changes everything.\n\nAnd enemies. Enemies who are not ordinary. Enemies whose stakes are not just his life, but the fate of more than one soul.\n\nKokoro. A martial-arts epic that earns every word of that description. On Kindle and Kindle Unlimited now.`
+  },
+  {
+    day: 'Day 3 · May 27', num: 6,
+    tag: 'Character Study',
+    hook: '"He was raised in a quiet village. Then they burned it. You\'ll want to know what happens next."',
+    angle: 'Character-first storytelling — the origin story pull',
+    vo: `Raised in quiet.\nForged in fire.\n\nSai is the kind of protagonist you root for from the first page — not because he's the strongest, but because he has the most to lose and refuses to stop anyway.\n\nHis mentor believed in him when no one else did.\nThat belief cost something.\n\nNow Sai is carrying it across worlds, into the heart of a conflict older than anything he was prepared for.\n\nKokoro by Shaun Humphries. Perfect for fans of The Poppy War, Journey to the West, and every anime that made you feel too much. Link in bio.`
+  },
+  {
+    day: 'Day 4 · May 28', num: 7,
+    tag: 'Illustrated Book Angle',
+    hook: '"It\'s a novel. With character illustrations. Because the author knew you\'d want to see them."',
+    angle: 'The illustration angle is unique — lean into it as a premium feature',
+    vo: `Most books make you imagine the characters.\n\nKokoro shows you.\n\nShaun Humphries knew the characters so vividly — he made sure you could see them too.\n\nOne reader said the illustrations were "a nice touch." Several said they couldn't believe how well the written descriptions matched the art.\n\nThis is the kind of book that lives somewhere between a novel and a manga — and that's exactly what makes it special.\n\nKokoro. On Kindle and in paperback. Free on Kindle Unlimited. Link in bio.`
+  },
+  {
+    day: 'Day 4 · May 28', num: 8,
+    tag: 'Author Voice',
+    hook: '"Shaun Humphries writes the kind of adventure you finish and immediately want to talk about."',
+    angle: 'Brand the author — build the Shaun Humphries identity beyond just this book',
+    vo: `There's a specific kind of book you finish and immediately look for someone to tell.\n\n"Have you read this?" You don't wait. You text them.\n\nKokoro is that book.\n\nShaun Humphries writes vivid, propulsive, emotionally grounded fantasy — the kind where the action hits harder because you actually care who's in it.\n\nHe has a sequel coming. You'll want to be ready.\n\nKokoro — the first epic in the series. Read it on Kindle or free with Kindle Unlimited. Link in bio.`
+  },
+  {
+    day: 'Day 5 · May 29', num: 9,
+    tag: 'Kindle Unlimited Angle',
+    hook: '"Kindle Unlimited members — 379 pages of martial arts epic. Zero extra charge."',
+    angle: 'Reduce the barrier to entry — target KU subscribers directly',
+    vo: `If you're on Kindle Unlimited, this one's for you.\n\nKokoro is 379 pages of martial arts, mythology, unbreakable bonds, and a love story that will cost the main character everything — and it's included in your subscription.\n\nNo extra charge. Click, download, start reading.\n\n27 five-star reviews. A 100% recommendation rate from readers who've finished it.\n\nYou have nothing to lose. Except sleep. Because you'll read it in two sittings.\n\nLink in bio.`
+  },
+  {
+    day: 'Day 5 · May 29', num: 10,
+    tag: 'Series Pitch',
+    hook: '"Book 1 is just the beginning. And the ending will make you desperate for what comes next."',
+    angle: 'Build series anticipation — maximize long-term reader value',
+    vo: `Sai's journey doesn't end at the last page.\n\nIt escalates.\n\nKokoro is Book 1 of an epic — the kind of story designed to follow you. To make you think about it at dinner. To make you check when the sequel drops.\n\nReaders are already asking.\n\n"Please be a sequel?!" — that's a real review, five stars, from someone who read the whole thing and immediately started hoping.\n\nGet in early. Book 1 is on Kindle and Kindle Unlimited now. Link in bio.`
+  },
+  {
+    day: 'Day 6 · May 30', num: 11,
+    tag: 'Theme: Unbreakable Bonds',
+    hook: '"The bonds forged in this story will make you feel lucky to have people worth fighting for."',
+    angle: 'Emotional resonance — the friendship/loyalty theme that drives anime audiences',
+    vo: `Sai doesn't fight alone.\n\nAlong the way — across worlds, through ancient conflict, against enemies who should be unbeatable — he forges bonds.\n\nThe kind of bonds that change a person.\nThe kind of bonds that make the difference between surviving and winning.\n\nThis is the emotional core of Kokoro — not just the fight, but who you become in the fighting, and who you're fighting with.\n\nReaders feel it. Five stars, every time.\n\nKokoro by Shaun Humphries. On Kindle Unlimited — free to read. Link in bio.`
+  },
+  {
+    day: 'Day 6 · May 30', num: 12,
+    tag: 'Mood / Aesthetic',
+    hook: '"Dark mythos. Martial arts. Ancient gods. A man with nothing left to lose. This is your next read."',
+    angle: 'Aesthetic-first for the scroll-stopper crowd — set the visual tone',
+    vo: `If your playlist sounds like this.\nIf you've binged every anime with a revenge arc and still wanted more.\nIf you want your fantasy to feel ancient and urgent at the same time —\n\nKokoro was written for you.\n\nShaun Humphries. Martial arts epic. Gods. Fate. Love. The kind of story that reminds you why you started reading in the first place.\n\nFree on Kindle Unlimited. Under two dollars to own. Link in bio.`
+  },
+  {
+    day: 'Day 7 · May 31', num: 13,
+    tag: 'Review Spotlight',
+    hook: '"\'I was rewarded with a righteous ADVENTURE.\' — 5-star reader"',
+    angle: 'Use the most enthusiastic review as the video itself',
+    vo: `A reader found Kokoro at a comic con.\n\nShe didn't usually read this genre.\nHer husband picked it up because someone described it as "Street Fighter meets Inuyasha."\nShe read the back and saw the words: "It's basically a love story. He'll do anything to get her back."\n\nShe said — and I'm quoting — "I was rewarded with a righteous ADVENTURE."\n\nColorful characters. Sweeping imagery. Bravery and audacity.\n\n"I can't wait for the sequel. Read the first chapter and you'll be sucked in."\n\nFive stars. Link in bio.`
+  },
+  {
+    day: 'Day 7 · May 31', num: 14,
+    tag: 'Low Barrier CTA',
+    hook: '"It\'s 379 pages. That\'s a long weekend. Maybe two evenings if you\'re a fast reader."',
+    angle: 'Frame the length as achievable, not intimidating',
+    vo: `379 pages sounds like a lot.\n\nIt isn't.\n\nNot when the story moves this fast. Not when the characters are this vivid. Not when you keep telling yourself "one more chapter" and then it's midnight.\n\nKokoro is a full epic. But it reads like a sprint.\n\nMultiple readers finished it in a weekend. One said she demolished it in three days and didn't regret a single hour.\n\n$1.99 to own. Free on Kindle Unlimited. You have no excuses. Link in bio.`
+  },
+  {
+    day: 'Day 7 · May 31', num: 15,
+    tag: 'Series Close / Final CTA',
+    hook: '"Don\'t start Kokoro unless you\'re ready to immediately need whatever comes next."',
+    angle: 'Final urgency — sequel hook closes the week on a forward-facing note',
+    vo: `Here's the honest warning about Kokoro.\n\nYou'll finish it and immediately want more.\n\nThe story sets up what's coming. The characters earn your investment. The ending does its job — which is to make the next book feel necessary, not optional.\n\nShaun Humphries is building something. This is Book 1.\n\nGet in now, before everyone's talking about the sequel.\n\nKokoro — martial arts epic, illustrated characters, five stars across the board. On Kindle and Kindle Unlimited. Link in bio.`
+  }
+];
+
+(function renderCalendar() {
+  const grid = document.getElementById('calGrid');
+  VIDEOS.forEach(v => {
+    const voId = 'vo_' + v.num;
+    const div = document.createElement('div');
+    div.className = 'cal-item';
+    div.innerHTML = `
+      <div class="cal-num">${v.num}</div>
+      <div class="cal-body">
+        <div class="cal-tag">${v.tag}</div>
+        <div class="cal-hook">${v.hook}</div>
+        <div class="cal-angle">${v.angle}</div>
+        <button class="cal-vo-toggle" onclick="toggleVO('${voId}',this)">▶ Show Script</button>
+        <div class="cal-vo vo-hidden" id="${voId}">${v.vo.replace(/\n/g,'<br>')}</div>
+      </div>
+      <div class="cal-day">${v.day}</div>
+    `;
+    grid.appendChild(div);
+  });
+})();
+
+function toggleVO(id, btn) {
+  const el = document.getElementById(id);
+  const hidden = el.classList.toggle('vo-hidden');
+  btn.textContent = hidden ? '▶ Show Script' : '▼ Hide Script';
+}
+</script>
+</body>
+</html>
