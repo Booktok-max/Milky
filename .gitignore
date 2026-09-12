@@ -1,0 +1,19 @@
+# --- Secrets: never commit these ---
+**/*.env
+**/Brevo.env
+**/.env.local
+**/secrets.json
+
+# --- Node (Brevo backend) ---
+backend/**/node_modules/
+backend/**/package-lock.json
+
+# --- OS / editor junk ---
+Thumbs.db
+desktop.ini
+.DS_Store
+*.swp
+~$*
+
+# --- Local scratch / staging you don't want tracked ---
+site/staging/

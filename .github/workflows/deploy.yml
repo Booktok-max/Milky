@@ -1,0 +1,31 @@
+name: Deploy to Neocities
+
+# Only deploys when something in site/ changes on main.
+# This means you can commit backend/ or README changes without
+# triggering a live deploy.
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "site/**"
+
+concurrency:
+  group: deploy-to-neocities
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy to Neocities
+        uses: bcomnes/deploy-to-neocities@v3
+        with:
+          api_key: ${{ secrets.NEOCITIES_API_TOKEN }}
+          dist_dir: site
+          cleanup: false
+          # If you ever get a Supporter account and want larger file types
+          # allowed through, flip this to true.
+          neocities_supporter: false
