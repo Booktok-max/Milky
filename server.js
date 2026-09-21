@@ -2,6 +2,8 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
+const path = require('path');
+const fs = require('fs');
 
 const app = express();
 app.use(express.json());
@@ -241,6 +243,21 @@ app.get('/api/ipn', async (req, res) => {
 app.post('/api/ipn', (req, res) => res.redirect(307, `/api/ipn?${new URLSearchParams(req.query)}`));
 
 app.get('/health', (req, res) => res.json({ ok: true, env: ENV }));
+
+// ---- Serve pricing page (inject backend URL so no hardcoded URL in HTML) --
+const pricingHtmlPath = path.join(__dirname, 'pricing.html');
+app.get(['/', '/pricing.html'], (req, res) => {
+  try {
+    let html = fs.readFileSync(pricingHtmlPath, 'utf8');
+    // Replace the placeholder with the actual backend URL from env
+    const backendUrl = APP_BASE_URL || '';
+    html = html.replace("'https://YOUR-RAILWAY-URL-HERE'", `'${backendUrl}'`);
+    res.type('html').send(html);
+  } catch (err) {
+    console.error('Could not read pricing.html:', err.message);
+    res.status(500).send('pricing.html not found — make sure it is in the same folder as server.js');
+  }
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Pesapal backend running on port ${PORT} (${ENV})`));
