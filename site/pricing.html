@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="icon" type="image/svg+xml" href="https://atomic-shelf.com/book-and-people-spring-svgrepo-com.svg">
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
 <meta name="description" content="Atomic Shelf pricing for indie authors: Spark, Foundation, Momentum, and Growth plans covering video, reviews, listing optimization, and reader growth."/>
@@ -174,6 +175,20 @@ section{padding:clamp(3.5rem,8vw,6.5rem) 0;}
 .p-unflip{display:block;width:100%;text-align:center;background:none;border:none;font-size:.76rem;color:var(--muted);cursor:pointer;padding:.3rem;}
 .pricing-foot{font-size:.88rem;color:var(--muted);margin-top:1.6rem;}
 .pricing-disclaimer{font-size:.76rem;color:rgba(28,18,9,.5);margin-top:.6rem;line-height:1.6;max-width:900px;}
+.additional-pricing{margin-top:2.7rem;padding-top:2rem;border-top:1px solid var(--sep-l);}
+.additional-pricing h2{font-size:clamp(1.6rem,3vw,2.2rem);color:var(--ink);margin-bottom:.55rem;}
+.additional-pricing-intro{font-size:.9rem;color:var(--stone);line-height:1.7;max-width:68ch;margin-bottom:1.2rem;}
+.additional-plans{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;}
+.additional-plan{background:var(--card);border:1px solid var(--sep-l);border-radius:var(--r);padding:1.35rem;display:flex;flex-direction:column;}
+.additional-plan h3{font-size:1.15rem;color:var(--ink);margin-bottom:.25rem;}
+.additional-plan-price{font-family:'Fraunces',serif;font-size:1.9rem;font-weight:700;color:var(--copper);line-height:1.1;margin-bottom:.75rem;}
+.additional-plan p{font-size:.84rem;color:var(--stone);line-height:1.6;margin-bottom:1rem;}
+.additional-plan ul{list-style:none;margin-bottom:1.1rem;flex:1;}
+.additional-plan li{font-size:.8rem;color:var(--stone);padding:.35rem 0;border-bottom:1px solid var(--sep-l);line-height:1.45;}
+.additional-plan li::before{content:'—';color:var(--copper);margin-right:6px;}
+.additional-plan-link{display:inline-flex;justify-content:center;padding:.7rem .9rem;border:1.5px solid var(--ink);border-radius:var(--r);font-size:.8rem;font-weight:600;color:var(--ink);}
+.additional-plan-link:hover{background:var(--ink);color:var(--paper);}
+@media(max-width:720px){.additional-plans{grid-template-columns:1fr;}}
 @media(max-width:1000px){.plans{grid-template-columns:1fr 1fr;}}
 @media(max-width:560px){.plans{grid-template-columns:1fr;}}
 
@@ -206,6 +221,9 @@ footer{background:var(--dark);color:var(--inv);padding:3.5rem 0 1.6rem;}
       <a href="services.html">Services</a>
       <a href="how-it-works.html">How it works</a>
       <a href="pricing.html" aria-current="page">Pricing</a>
+      <a href="press-editorial.html">Editorial</a>
+      <a href="print-catalogue.html">Catalogue</a>
+      <a href="reading-room.html">Reading room</a>
       <a href="mailto:nick@atomic-shelf.com" class="nav-cta">Talk to us</a>
     </div>
   </div>
@@ -213,7 +231,7 @@ footer{background:var(--dark);color:var(--inv);padding:3.5rem 0 1.6rem;}
 <section class="cream hero" style="padding-bottom:1rem;">
   <div class="wrap">
     <h1 class="page-h" style="color:var(--ink);">Pick the level.<br>We handle the rest.</h1>
-    <p class="page-sub" style="color:var(--stone);">Every tier includes consistent, genre-matched content and listing copy &amp; A+ optimization from Foundation up. Higher tiers add ARC reviews, preorder campaigns, and daily lookalike-audience retargeting. Tap <b>See commitment savings</b> on any plan for multi-month pricing.</p>
+    <p class="page-sub" style="color:var(--stone);">Every tier includes consistent, genre-matched content and listing copy &amp; A+ optimization from Foundation up. Higher tiers add ARC reviews, preorder campaigns, and segmented retargeting: up to five relevant touches a day for a month. Tap <b>See commitment savings</b> on any plan for multi-month pricing.</p>
     <div class="guarantee-strip">
       <span class="gs-ic">&#128737;&#65039;</span>
       <span class="gs-t"><b>Money-back guarantee.</b> If your book sees little to no clicks or sales after a full cycle, tell us &#8212; we'll dig into your account and refund you if we dropped the ball.</span>
@@ -311,7 +329,7 @@ footer{background:var(--dark);color:var(--inv);padding:3.5rem 0 1.6rem;}
           <li>Enhanced A+ listing build</li>
           <li>Preorder campaign &#8212; 6-week countdown</li>
           <li>1 newsletter feature per quarter</li>
-          <li>Daily lookalike-audience retargeting included</li>
+          <li>Segmented retargeting, up to 5x daily for 30 days</li>
         </ul>
         <div class="p-res">
           <div class="p-res-label">Expected by month 3*</div>
@@ -350,7 +368,7 @@ footer{background:var(--dark);color:var(--inv);padding:3.5rem 0 1.6rem;}
           <li>Premium A+ listing build</li>
           <li>Preorder campaign &#8212; 8-week countdown</li>
           <li>1 newsletter feature per month</li>
-          <li>Daily lookalike-audience retargeting included</li>
+          <li>Segmented retargeting, up to 5x daily for 30 days</li>
         </ul>
         <div class="p-res">
           <div class="p-res-label">Expected by month 3*</div>
@@ -377,6 +395,45 @@ footer{background:var(--dark);color:var(--inv);padding:3.5rem 0 1.6rem;}
       </div>
     </div>
     </div>
+    <div class="additional-pricing">
+      <h2>More ways to start</h2>
+      <p class="additional-pricing-intro">These additional tiers are available as dedicated checkout paths. Essentials, Enhanced, and Starter are designed for authors who want a clear production package before moving into the broader campaign tiers above. Open any plan to review its full deliverables, payment flow, and cancellation terms.</p>
+      <div class="additional-plans">
+        <article class="additional-plan">
+          <h3>Essentials</h3>
+          <div class="additional-plan-price">$20/mo</div>
+          <p>A focused first step for building consistent short-form content around one book.</p>
+          <ul>
+            <li>Short-form content production</li>
+            <li>Genre-matched creative direction</li>
+            <li>Simple month-to-month checkout</li>
+          </ul>
+          <a class="additional-plan-link" href="Essentials.html">View Essentials</a>
+        </article>
+        <article class="additional-plan">
+          <h3>Enhanced</h3>
+          <div class="additional-plan-price">$50/mo</div>
+          <p>Add richer creative assets when your campaign needs more depth and more places to publish.</p>
+          <ul>
+            <li>Everything in Essentials</li>
+            <li>Cinematic book trailer</li>
+            <li>Long-form video and avatar narration</li>
+          </ul>
+          <a class="additional-plan-link" href="Enhanced.html">View Enhanced</a>
+        </article>
+        <article class="additional-plan">
+          <h3>Starter</h3>
+          <div class="additional-plan-price">$100/mo</div>
+          <p>A production-plus-retargeting package for authors ready to connect content with reader segments.</p>
+          <ul>
+            <li>Everything in Enhanced</li>
+            <li>Reader-segment retargeting setup</li>
+            <li>30-day message and timing test</li>
+          </ul>
+          <a class="additional-plan-link" href="Starter.html">View Starter</a>
+        </article>
+      </div>
+    </div>
     <p class="pricing-foot">Running a full catalogue, multiple books, or need bespoke campaign structure? <a href="mailto:nick@atomic-shelf.com" style="color:var(--copper);font-weight:600;">Ask about Surge &amp; Orbit</a> &#8212; dedicated team or custom seat, custom pricing.</p>
     <p class="pricing-disclaimer">*Expected ranges are 90-day averages based on 200+ clients over 24 months, measured against each book's pre-campaign baseline &#8212; many starting from little to no prior sales. Individual results vary by genre, backlist, and price point.</p>
   </div>
@@ -397,7 +454,7 @@ footer{background:var(--dark);color:var(--inv);padding:3.5rem 0 1.6rem;}
     <div class="fg">
       <div>
         <div class="fl">Atomic&#8209;Shelf</div>
-        <p class="ft">Video, reviews, preorders, free promos, reader lists, and daily lookalike-audience retargeting &#8212; one team, one system, built for indie authors. We keep working until we hit your target.</p>
+        <p class="ft">Video, reviews, preorders, free promos, reader lists, and high-frequency segmented retargeting &#8212; one team, one system, built for indie authors. We keep working until we hit your target.</p>
       </div>
       <div class="fc">
         <h5>Site</h5>
