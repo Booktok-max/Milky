@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="Atomic Shelf helps indie authors build books into businesses — video, reviews, Amazon optimization, and long-term audience building."/>
+<title>Atomic Shelf — Build a readership that lasts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,400;1,9..144,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --dark:#14120F; --dark-2:#1C1810;
+  --paper:#F5EDD8; --paper-2:#EDE0C4; --paper-3:#E5D7B8;
+  --inv:#F3EEE3; --inv-m:rgba(243,238,227,.46);
+  --amber:#FFB020;
+  --ink:#1C1209; --stone:#5E4A30; --muted:#7A5C38;
+  --copper:#A8461E; --copper-l:#C8673C; --copper-d:#7F3410;
+  --teal:#2E5A4E;
+  --sep-d:rgba(243,238,227,.1); --sep-l:rgba(28,18,9,.13);
+  --card:#FFFEFA;
+  --r:3px; --max:1080px;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{-webkit-font-smoothing:antialiased;font-size:16px;}
+body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--inv);overflow-x:hidden;}
+h1,h2,h3,h4{font-family:'Fraunces',serif;letter-spacing:-.015em;}
+a{color:inherit;text-decoration:none;}
+
+/* paper grain */
+.grain::before{
+  content:'';position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.04;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.68' numOctaves='4' seed='5' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:300px;mix-blend-mode:multiply;
+}
+
+/* SCROLL SNAP */
+.snap{height:100dvh;overflow-y:scroll;scroll-snap-type:y proximity;scrollbar-width:none;}
+.snap::-webkit-scrollbar{display:none;}
+
+section{
+  position:relative;scroll-snap-align:start;min-height:100dvh;
+  display:flex;align-items:center;justify-content:flex-start;
+  padding:7vh clamp(1.5rem,7vw,5.5rem);overflow:hidden;
+}
+section>*{position:relative;z-index:1;}
+.dark{background:var(--dark);color:var(--inv);}
+.cream{background:var(--paper);color:var(--ink);}
+.cream-2{background:var(--paper-2);color:var(--ink);}
+.inner{width:100%;max-width:var(--max);margin:0 auto;}
+
+/* DOT NAV → LABEL SWITCH */
+.dotnav{
+  position:fixed;right:1.1rem;top:50%;transform:translateY(-50%);
+  z-index:600;display:flex;flex-direction:column;gap:.3rem;
+  background:rgba(20,18,15,.8);backdrop-filter:blur(14px);
+  border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:.5rem;
+}
+.dotnav button{
+  display:flex;align-items:center;gap:.5rem;
+  background:none;border:none;cursor:pointer;padding:.38rem .55rem;
+  border-radius:8px;transition:background .25s;
+}
+.dotnav button .dnk{
+  width:6px;height:6px;border-radius:50%;flex-shrink:0;
+  background:rgba(243,238,227,.28);transition:background .3s,transform .3s;
+}
+.dotnav button .dnl{
+  font-size:.66rem;font-family:'DM Sans',sans-serif;color:var(--inv-m);
+  white-space:nowrap;max-width:0;overflow:hidden;opacity:0;
+  transition:max-width .3s ease,opacity .2s ease;
+}
+.dotnav button:hover{background:rgba(255,255,255,.06);}
+.dotnav button:hover .dnl{max-width:140px;opacity:1;}
+.dotnav button.on .dnk{background:var(--amber);transform:scale(1.6);}
+.dotnav button.on .dnl{color:var(--inv);max-width:140px;opacity:1;}
+.dotnav button.promise .dnk{background:var(--teal);}
+.dotnav button.promise.on .dnk{background:var(--teal);box-shadow:0 0 10px rgba(46,90,78,.6);}
+@media(max-width:820px){.dotnav{display:none;}}
+
+/* BUTTONS */
+.btn{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:.84rem 1.95rem;font-size:.83rem;font-weight:600;
+  border-radius:var(--r);border:1.5px solid transparent;
+  cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;
+  text-decoration:none;
+}
+.btn-amber{background:var(--amber);color:var(--dark);border-color:var(--amber);}
+.btn-amber:hover{filter:brightness(1.08);transform:translateY(-1px);}
+.btn-copper{background:var(--copper);color:#fff;border-color:var(--copper);}
+.btn-copper:hover{background:var(--copper-l);border-color:var(--copper-l);transform:translateY(-1px);}
+.btn-gd{border-color:var(--sep-d);color:var(--inv);}
+.btn-gd:hover{border-color:rgba(243,238,227,.35);}
+.btn-gl{border-color:var(--ink);color:var(--ink);}
+.btn-gl:hover{background:var(--ink);color:var(--paper);}
+.btn-row{display:flex;gap:.85rem;flex-wrap:wrap;}
+
+/* ANIMATIONS — triggered by .on on section */
+.a{opacity:0;transform:translateY(20px);transition:opacity .72s cubic-bezier(.22,1,.36,1),transform .72s cubic-bezier(.22,1,.36,1);}
+.a-s{opacity:0;transform:scale(.96);transition:opacity .88s cubic-bezier(.22,1,.36,1),transform .88s cubic-bezier(.22,1,.36,1);}
+.a-l{opacity:0;transform:translateX(-18px);transition:opacity .65s cubic-bezier(.22,1,.36,1),transform .65s cubic-bezier(.22,1,.36,1);}
+.a-illus{opacity:0;transform:scale(.97) translateY(10px);transition:opacity .9s cubic-bezier(.22,1,.36,1),transform .9s cubic-bezier(.22,1,.36,1);}
+section.on .a,section.on .a-s,section.on .a-l,section.on .a-illus{opacity:1;transform:none;}
+.d1{transition-delay:.1s;}.d2{transition-delay:.22s;}.d3{transition-delay:.36s;}.d4{transition-delay:.52s;}.d5{transition-delay:.7s;}
+@media(prefers-reduced-motion:reduce){.a,.a-s,.a-l,.a-illus{opacity:1;transform:none;transition:none;}}
+
+/* SVG illustration — paths draw on */
+.ipath{stroke-dasharray:2000;stroke-dashoffset:2000;transition:stroke-dashoffset 1.6s cubic-bezier(.4,0,.2,1);}
+.ipath.d1{transition-delay:.4s;}.ipath.d2{transition-delay:.7s;}.ipath.d3{transition-delay:1s;}
+section.on .ipath{stroke-dashoffset:0;}
+.ibox{opacity:0;transition:opacity .5s;}
+section.on .ibox{opacity:1;}
+section.on .ibox.d1{transition-delay:.3s;}section.on .ibox.d2{transition-delay:.45s;}
+section.on .ibox.d3{transition-delay:.6s;}section.on .ibox.d4{transition-delay:.75s;}
+section.on .ibox.d5{transition-delay:.9s;}
+
+/* ─── S0: HERO ─── */
+#s0{align-items:center;}
+.hero-eyebrow{font-size:.73rem;color:var(--inv-m);letter-spacing:.06em;margin-bottom:2rem;font-weight:400;}
+.hero-h1{font-size:clamp(3rem,9.5vw,8.5rem);font-weight:700;line-height:.97;max-width:14ch;margin-bottom:1.8rem;}
+.hero-h1 em{font-style:italic;font-weight:300;color:var(--amber);}
+.hero-body{font-size:clamp(.9rem,1.5vw,1.1rem);color:var(--inv-m);max-width:48ch;line-height:1.82;margin-bottom:2.4rem;}
+.hero-strip{display:flex;gap:2.5rem;flex-wrap:wrap;border-top:1px solid var(--sep-d);padding-top:2rem;}
+.mini{display:flex;flex-direction:column;gap:.22rem;}
+.mini-n{font-family:'Fraunces',serif;font-size:1.45rem;font-weight:700;letter-spacing:-.02em;}
+.mini-l{font-size:.68rem;color:var(--inv-m);}
+.hero-foot{font-size:.64rem;color:rgba(243,238,227,.32);margin-top:1rem;max-width:52ch;line-height:1.6;}
+
+/* ─── S1: PROOF ─── */
+#s1{align-items:center;}
+.big-n{font-family:'Fraunces',serif;font-size:clamp(8rem,23vw,19rem);font-weight:900;line-height:.87;letter-spacing:-.045em;}
+.big-n .sx{color:var(--amber);font-size:.55em;}
+.stat-desc{font-size:clamp(.95rem,1.8vw,1.2rem);color:var(--inv-m);max-width:44ch;line-height:1.7;margin-top:1.3rem;}
+.proof-row{display:flex;gap:3rem;flex-wrap:wrap;margin-top:3rem;padding-top:2rem;border-top:1px solid var(--sep-d);}
+.px{display:flex;flex-direction:column;gap:.2rem;}
+.px-n{font-family:'Fraunces',serif;font-size:1.4rem;font-weight:700;letter-spacing:-.02em;}
+.px-l{font-size:.7rem;color:var(--inv-m);}
+.proof-foot{font-size:.68rem;color:rgba(243,238,227,.38);margin-top:1.6rem;max-width:56ch;line-height:1.7;}
+
+/* ─── S2 / S4 / S5: ILLUSTRATION SECTIONS (cream) ─── */
+.illus-grid{display:grid;grid-template-columns:1fr 1fr;gap:5vw;align-items:center;width:100%;}
+@media(max-width:780px){.illus-grid{grid-template-columns:1fr;} .illus-panel{display:none;}}
+.illus-panel{position:relative;display:flex;align-items:center;justify-content:center;}
+.illus-panel svg{width:100%;height:auto;max-height:440px;}
+.ig-h{font-size:clamp(1.9rem,4.5vw,4rem);font-weight:700;line-height:1.05;max-width:16ch;margin-bottom:1.4rem;color:var(--ink);}
+.ig-h em{font-style:italic;font-weight:300;color:var(--copper);}
+.ig-label{font-size:.68rem;color:var(--copper);letter-spacing:.07em;margin-bottom:1rem;font-weight:500;}
+.ig-body{font-size:clamp(.85rem,1.3vw,1rem);color:var(--stone);max-width:44ch;line-height:1.83;margin-bottom:1.5rem;}
+.ig-lines{list-style:none;display:flex;flex-direction:column;max-width:50ch;}
+.igl{font-size:clamp(.84rem,1.3vw,.98rem);color:var(--stone);padding:.95rem 0;border-top:1px solid var(--sep-l);line-height:1.72;}
+.igl b{color:var(--ink);font-weight:600;}
+
+/* ─── S3: CONTENT (dark) ─── */
+#s3{}
+.feat-grid{display:grid;grid-template-columns:1fr 1fr;gap:5vw;align-items:center;width:100%;}
+@media(max-width:780px){.feat-grid{grid-template-columns:1fr;} .feat-vis{display:none;}}
+.feat-label{font-size:.7rem;color:var(--amber);letter-spacing:.07em;margin-bottom:1rem;font-weight:500;}
+.feat-h{font-size:clamp(1.9rem,4.5vw,3.8rem);font-weight:700;line-height:1.04;max-width:16ch;margin-bottom:1.2rem;}
+.feat-h em{font-style:italic;font-weight:300;}
+.feat-body{font-size:clamp(.87rem,1.3vw,1.02rem);color:var(--inv-m);max-width:44ch;line-height:1.82;margin-bottom:1.4rem;}
+.feat-stat{font-family:'Fraunces',serif;font-size:clamp(3rem,6vw,5rem);font-weight:900;letter-spacing:-.03em;color:var(--amber);line-height:1;}
+.feat-stat-l{font-size:.7rem;color:var(--inv-m);margin-top:.3rem;}
+.feat-vis{display:flex;align-items:center;justify-content:center;}
+.ghost-num{
+  font-family:'Fraunces',serif;font-size:clamp(6rem,16vw,14rem);
+  font-weight:900;line-height:.85;letter-spacing:-.04em;
+  color:rgba(255,176,32,.08);user-select:none;text-align:center;
+}
+
+/* ─── S5: SYSTEM FUNNEL (dark) ─── */
+#s5{align-items:center;}
+.sys-h{font-size:clamp(2rem,4.5vw,3.8rem);font-weight:700;line-height:1.05;margin-bottom:3.5rem;}
+.sys-h em{font-style:italic;font-weight:300;color:var(--amber);}
+.ftrack{display:flex;align-items:flex-start;gap:0;width:100%;max-width:860px;}
+.fnode{flex:1;position:relative;}
+.fdot{width:10px;height:10px;border-radius:50%;background:rgba(243,238,227,.18);margin-bottom:.9rem;position:relative;z-index:2;transition:background .4s,box-shadow .4s;}
+.fnode.lit .fdot{background:var(--amber);box-shadow:0 0 14px rgba(255,176,32,.45);}
+.fline{position:absolute;top:4px;left:10px;right:0;height:2px;background:rgba(243,238,227,.1);overflow:hidden;}
+.fnode:last-child .fline{display:none;}
+.fline::after{content:'';position:absolute;top:0;left:0;width:0;height:100%;background:var(--amber);transition:width .55s cubic-bezier(.4,0,.2,1);}
+.fnode.draw .fline::after{width:100%;}
+.fname{font-family:'Fraunces',serif;font-size:.9rem;font-weight:600;color:rgba(243,238,227,.25);margin-bottom:.4rem;transition:color .4s;}
+.fnode.lit .fname{color:var(--inv);}
+.fdesc{font-size:.7rem;color:var(--inv-m);max-width:10ch;line-height:1.55;opacity:0;transform:translateY(6px);transition:opacity .4s,transform .4s;}
+.fnode.lit .fdesc{opacity:1;transform:none;}
+@media(max-width:680px){.ftrack{flex-direction:column;gap:1.4rem;}.fline{display:none;}.fdesc{max-width:none;}}
+
+/* ─── S6: PRICING (cream) ─── */
+#s6{align-items:flex-start;}
+.pricing-h{font-size:clamp(2rem,4vw,3.2rem);font-weight:700;line-height:1.08;margin-bottom:.6rem;color:var(--ink);}
+.pricing-sub{font-size:.9rem;color:var(--stone);max-width:52ch;line-height:1.75;margin-bottom:1.8rem;}
+
+.plans{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--sep-l);border:1px solid var(--sep-l);max-width:100%;}
+@media(max-width:1000px){.plans{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:560px){.plans{grid-template-columns:1fr;}}
+
+.plan{background:var(--card);position:relative;overflow:hidden;display:flex;flex-direction:column;}
+.plan.top{background:#fff;}
+.plan-front,.plan-back{padding:1.5rem 1.3rem;display:flex;flex-direction:column;flex:1;}
+.plan-back{display:none;}
+.plan.flip .plan-front{display:none;}
+.plan.flip .plan-back{display:flex;}
+.plan-badge{position:absolute;top:0;right:1rem;background:var(--copper);color:#fff;font-size:.58rem;font-weight:700;padding:2px 8px;border-radius:0 0 5px 5px;letter-spacing:.04em;}
+
+/* corner-fold affordance for flip */
+.plan-front{position:relative;}
+.plan-fold{
+  position:absolute;top:0;right:0;width:34px;height:34px;cursor:pointer;
+  z-index:3;
+}
+.plan-fold::before{
+  content:'';position:absolute;top:0;right:0;width:0;height:0;
+  border-style:solid;border-width:0 34px 34px 0;
+  border-color:transparent var(--paper-3) transparent transparent;
+  transition:border-color .2s,transform .2s;
+}
+.plan.top .plan-fold::before{border-color:transparent #EADFC4 transparent transparent;}
+.plan-fold::after{
+  content:'↻';position:absolute;top:3px;right:2px;font-size:.62rem;
+  color:var(--copper);font-weight:700;transform:none;
+}
+.plan-fold:hover::before{border-color:transparent var(--copper) transparent transparent;}
+.plan-fold:hover::after{color:#fff;}
+@keyframes foldPulse{0%,100%{transform:scale(1);}50%{transform:scale(1.12);}}
+.plan-fold.pulse::before{animation:foldPulse 1.4s ease-in-out 2;}
+
+.p-name{font-family:'Fraunces',serif;font-size:.95rem;font-weight:700;margin-bottom:.55rem;padding-right:1.2rem;}
+.p-price{font-family:'Fraunces',serif;font-size:1.95rem;font-weight:700;letter-spacing:-.03em;line-height:1;}
+.p-per{font-size:.66rem;color:var(--muted);margin-bottom:.7rem;}
+.p-feats{list-style:none;border-top:1px solid var(--sep-l);flex:1;margin:.4rem 0 .8rem;}
+.p-feats li{font-size:.72rem;color:var(--stone);padding:.28rem 0;border-bottom:1px solid var(--sep-l);display:flex;gap:5px;align-items:flex-start;line-height:1.45;}
+.p-feats li::before{content:'›';color:var(--copper);flex-shrink:0;}
+.p-res{border-top:1px dashed var(--sep-l);padding-top:.65rem;margin-bottom:.7rem;}
+.p-res-label{font-size:.58rem;font-weight:700;color:var(--muted);letter-spacing:.05em;margin-bottom:.45rem;text-transform:uppercase;}
+.p-rr{display:flex;justify-content:space-between;font-size:.7rem;padding:.2rem 0;border-bottom:1px solid rgba(28,18,9,.05);}
+.p-rr:last-child{border-bottom:none;}
+.p-rm{color:var(--stone);}
+.p-rv{font-family:'Fraunces',serif;font-weight:600;color:var(--ink);}
+.p-rv.up{color:var(--teal);}
+.p-cta{
+  display:block;text-align:center;padding:.6rem;border-radius:var(--r);
+  font-size:.74rem;font-weight:600;cursor:pointer;
+  border:1.5px solid var(--ink);color:var(--ink);background:none;
+  font-family:'DM Sans',sans-serif;transition:all .2s;
+}
+.p-cta:hover{background:var(--ink);color:#fff;}
+.plan.top .p-cta{background:var(--copper);border-color:var(--copper);color:#fff;}
+.plan.top .p-cta:hover{background:var(--copper-l);border-color:var(--copper-l);}
+.p-flip{
+  display:block;width:100%;text-align:center;padding:.45rem;
+  font-size:.68rem;color:var(--muted);background:none;border:none;
+  cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:.3rem;transition:color .2s;
+}
+.p-flip:hover{color:var(--copper);}
+/* back */
+.p-bt{font-family:'Fraunces',serif;font-size:1rem;font-weight:700;margin-bottom:.9rem;color:var(--ink);}
+.s-row{display:flex;justify-content:space-between;font-size:.76rem;padding:.35rem 0;border-bottom:1px solid var(--sep-l);}
+.s-row span:first-child{color:var(--stone);}
+.s-row .sv{color:var(--copper);font-weight:600;font-family:'Fraunces',serif;}
+.s-best{font-family:'Fraunces',serif;font-size:1.1rem;font-weight:700;color:var(--teal);margin:.7rem 0;}
+.p-get{
+  display:block;text-align:center;padding:.6rem;border-radius:var(--r);
+  font-size:.74rem;font-weight:600;text-decoration:none;
+  background:var(--copper);color:#fff;border:1.5px solid var(--copper);
+  transition:all .2s;font-family:'DM Sans',sans-serif;margin-bottom:.5rem;
+}
+.p-get:hover{background:var(--copper-l);}
+.p-unflip{
+  display:block;width:100%;text-align:center;font-size:.68rem;
+  color:var(--muted);background:none;border:none;cursor:pointer;
+  font-family:'DM Sans',sans-serif;transition:color .2s;
+}
+.p-unflip:hover{color:var(--ink);}
+.pricing-foot{font-size:.76rem;color:var(--muted);margin-top:1rem;line-height:1.65;max-width:900px;}
+.pricing-foot a{color:var(--copper);}
+.pricing-disclaimer{font-size:.66rem;color:rgba(28,18,9,.42);margin-top:.6rem;line-height:1.65;max-width:900px;}
+
+/* ─── S7: CLOSE (dark) ─── */
+#s7{align-items:center;flex-direction:column;justify-content:center;}
+.close-h{font-size:clamp(2.4rem,7vw,6.5rem);font-weight:700;line-height:.98;max-width:14ch;margin-bottom:1.4rem;}
+.close-h em{font-style:italic;font-weight:300;color:var(--amber);}
+.close-body{font-size:clamp(.9rem,1.5vw,1.05rem);color:var(--inv-m);max-width:48ch;line-height:1.82;margin-bottom:2rem;}
+.pg-row{display:grid;grid-template-columns:1fr 1fr;gap:1.3rem;margin-bottom:2rem;width:100%;max-width:var(--max);}
+@media(max-width:680px){.pg-row{grid-template-columns:1fr;}}
+.pb-card,.guar-card{padding:1.5rem 1.7rem;border:1px solid var(--sep-d);border-radius:var(--r);}
+.pb-card h4,.guar-card h4{font-family:'Fraunces',serif;font-size:.95rem;font-weight:700;color:var(--inv);margin-bottom:.45rem;}
+.pb-card p,.guar-card p{font-size:.8rem;color:var(--inv-m);line-height:1.72;max-width:40ch;}
+.guar-card{border-color:rgba(46,90,78,.35);background:rgba(46,90,78,.06);}
+.guar-card h4{color:var(--amber);}
+.pb-mods{display:flex;flex-wrap:wrap;gap:.38rem;margin-top:.7rem;}
+.pbm{font-size:.62rem;color:var(--copper-l);border:1px solid rgba(200,103,60,.3);padding:2px 7px;border-radius:2px;white-space:nowrap;}
+
+/* ─── S8: OUR PROMISE (dedicated, dark-teal) ─── */
+#s8{background:linear-gradient(180deg,#14201C,#0E1613);color:var(--inv);align-items:center;justify-content:center;flex-direction:column;text-align:left;}
+.promise-eyebrow{font-size:.7rem;color:#7FC4AC;letter-spacing:.08em;margin-bottom:1.4rem;font-weight:600;}
+.promise-h{font-size:clamp(2.2rem,5.5vw,4.6rem);font-weight:700;line-height:1.06;max-width:16ch;margin-bottom:1.4rem;}
+.promise-h em{font-style:italic;font-weight:300;color:#7FC4AC;}
+.promise-body{font-size:clamp(.9rem,1.5vw,1.08rem);color:rgba(243,238,227,.62);max-width:52ch;line-height:1.85;margin-bottom:2rem;}
+.promise-steps{display:flex;flex-direction:column;gap:1px;background:rgba(127,196,172,.15);border:1px solid rgba(127,196,172,.2);max-width:640px;margin-bottom:2rem;}
+.pstep{background:#101B18;padding:1.1rem 1.4rem;display:flex;gap:1rem;align-items:baseline;}
+.pstep-n{font-family:'Fraunces',serif;font-weight:700;color:#7FC4AC;font-size:1.1rem;flex-shrink:0;}
+.pstep-t{font-size:.85rem;color:var(--inv-m);line-height:1.6;}
+.pstep-t b{color:var(--inv);font-weight:600;}
+
+/* ─── FOOTER ─── */
+footer{position:relative;background:var(--dark-2);color:var(--inv-m);padding:3.5rem clamp(1.5rem,7vw,5.5rem) 2rem;border-top:1px solid var(--sep-d);}
+.fg{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:3rem;max-width:var(--max);margin:0 auto 2rem;padding-bottom:2.2rem;border-bottom:1px solid var(--sep-d);}
+@media(max-width:720px){.fg{grid-template-columns:1fr 1fr;row-gap:2rem;}}
+@media(max-width:460px){.fg{grid-template-columns:1fr;}}
+.fl{font-family:'Fraunces',serif;font-size:1.5rem;font-weight:700;color:var(--inv);margin-bottom:.9rem;letter-spacing:-.01em;}
+.fl span{color:var(--copper-l);}
+.ft{font-size:.8rem;line-height:1.8;max-width:34ch;color:var(--inv-m);}
+.fc h5{font-size:.64rem;font-weight:700;letter-spacing:.09em;color:rgba(243,238,227,.55);margin-bottom:1rem;text-transform:uppercase;}
+.fc ul{list-style:none;display:flex;flex-direction:column;gap:.65rem;}
+.fc ul li a{font-size:.82rem;color:var(--inv-m);transition:color .18s;}
+.fc ul li a:hover{color:var(--amber);}
+.fc + .fc{margin-top:0;}
+.fc .fc-sub{margin-top:1.6rem;}
+footer a{color:var(--inv-m);transition:color .18s;}
+.fb{max-width:var(--max);margin:0 auto;padding-top:1.6rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;font-size:.68rem;color:rgba(243,238,227,.32);}
+
+/* ─── MOBILE BOTTOM DOT NAV ─── */
+.dotnav-mobile{
+  display:none;position:fixed;left:50%;bottom:1rem;transform:translateX(-50%);
+  z-index:600;gap:7px;padding:.5rem .7rem;border-radius:999px;
+  background:rgba(20,18,15,.82);backdrop-filter:blur(14px);
+  border:1px solid rgba(255,255,255,.12);
+}
+.dotnav-mobile button{
+  width:7px;height:7px;border-radius:50%;border:none;padding:0;
+  background:rgba(243,238,227,.28);transition:background .25s,transform .25s;
+}
+.dotnav-mobile button.on{background:var(--amber);transform:scale(1.5);}
+.dotnav-mobile button.promise.on{background:#7FC4AC;}
+@media(max-width:820px){.dotnav-mobile{display:flex;}}
+</style>
+</head>
+<body>
+
+<!-- DOT NAV (desktop, side) -->
+<nav class="dotnav" id="dotnav" aria-label="Sections"></nav>
+<!-- DOT NAV (mobile, bottom) -->
+<nav class="dotnav-mobile" id="dotnavMobile" aria-label="Sections"></nav>
+
+<div class="snap" id="snap">
+
+<!-- ═══════════ S0: HERO ═══════════ -->
+<section id="s0" class="dark">
+<div class="inner">
+  <div class="hero-eyebrow a">Atomic Shelf — for indie authors</div>
+  <h1 class="hero-h1 a-s">Build a readership<br>that <em>lasts.</em></h1>
+  <p class="hero-body a d1">Most authors are juggling five different vendors — one for video, one for reviews, one for ads — and none of them talk to each other. We run it all as one system. Video builds the audience. Reviews build the trust. Ads close the loop. One team, one strategy, compounding month over month.</p>
+  <div class="btn-row a d2" style="margin-bottom:1.6rem;">
+    <a href="#s6" class="btn btn-amber">See plans &amp; pricing</a>
+    <a href="#s1" class="btn btn-gd">See the proof</a>
+  </div>
+  <div class="hero-strip a d3">
+    <div class="mini"><span class="mini-n">450+</span><span class="mini-l">indie authors</span></div>
+    <div class="mini"><span class="mini-n">3.2×</span><span class="mini-l">avg sales lift in 90 days</span></div>
+    <div class="mini"><span class="mini-n">12k+</span><span class="mini-l">videos produced</span></div>
+  </div>
+  <p class="hero-foot a d4">Based on 200+ clients over 24 months, measured against each book's pre-campaign baseline — many starting from zero or a few copies sold per month.</p>
+</div>
+</section>
+
+<!-- ═══════════ S1: PROOF ═══════════ -->
+<section id="s1" class="dark">
+<div class="inner">
+  <div class="big-n a-s"><span id="cN">0</span><span class="sx">×</span></div>
+  <p class="stat-desc a d1">average sales lift our authors see within 90 days — when video, reviews, preorders, reader lists, and Amazon ads are running as one coordinated system instead of isolated tactics.</p>
+  <div class="proof-row a d2">
+    <div class="px"><span class="px-n" id="cB">0</span><span class="px-l">videos produced</span></div>
+    <div class="px"><span class="px-n" id="cC">0</span><span class="px-l">avg downloads per newsletter feature</span></div>
+    <div class="px"><span class="px-n">24</span><span class="px-l">months of client data behind this number</span></div>
+  </div>
+  <p class="proof-foot a d3">Averages across 200+ clients on Momentum and Growth tiers over 24 months, measured against each book's own sales in the 90 days before joining — including titles with little to no prior history. Individual results vary by genre, backlist size, and price point.</p>
+</div>
+</section>
+
+<!-- ═══════════ S2: THE OPPORTUNITY ═══════════ -->
+<section id="s2" class="cream grain">
+<div class="inner">
+  <div class="illus-grid">
+    <div>
+      <div class="ig-label a">The opportunity</div>
+      <h2 class="ig-h a d1">Each part of a launch can strengthen <em>the next.</em></h2>
+      <ul class="ig-lines">
+        <li class="igl a-l d2"><b>Video builds the audience before you spend on ads.</b> Readers discover your book on TikTok and Shorts first — so when ads run, they're talking to people who already know your name.</li>
+        <li class="igl a-l d3"><b>Reviews turn that audience into buyers.</b> Genre-matched ARC readers give your listing real social proof before launch — the thing strangers look for before they trust an unknown author.</li>
+        <li class="igl a-l d4"><b>It compounds across books.</b> One team managing content, reviews, listing copy, list-building, and ads together means every launch builds on the last — shared data, one strategy, momentum that carries forward.</li>
+      </ul>
+    </div>
+    <div class="illus-panel a-illus d2">
+      <!-- ILLUSTRATION 1: THE FRAGMENTED STACK -->
+      <svg viewBox="0 0 380 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagram showing fragmented vendor stack versus Atomic Shelf's connected system">
+        <defs>
+          <pattern id="hf1" x="0" y="0" width="6" height="6" patternUnits="userSpaceOnUse">
+            <rect width="6" height="6" fill="#F5EDD8"/>
+            <line x1="0" y1="3" x2="6" y2="3" stroke="#1C1209" stroke-width="0.35" opacity=".2"/>
+          </pattern>
+          <pattern id="dd1" x="0" y="0" width="4" height="4" patternUnits="userSpaceOnUse">
+            <rect width="4" height="4" fill="#1C1209"/>
+            <line x1="0" y1="0" x2="4" y2="4" stroke="#2A1E0A" stroke-width="1" opacity=".4"/>
+            <line x1="4" y1="0" x2="0" y2="4" stroke="#2A1E0A" stroke-width="1" opacity=".4"/>
+          </pattern>
+          <pattern id="dc1" x="0" y="0" width="4" height="4" patternUnits="userSpaceOnUse">
+            <rect width="4" height="4" fill="#A8461E"/>
+            <line x1="0" y1="0" x2="4" y2="4" stroke="#7F3410" stroke-width="0.8" opacity=".35"/>
+          </pattern>
+        </defs>
+        <rect class="ipath" x="6" y="6" width="368" height="408" fill="none" stroke="#1C1209" stroke-width="1.1"/>
+        <rect class="ipath d1" x="10" y="10" width="360" height="400" fill="none" stroke="#1C1209" stroke-width="0.35"/>
+        <g class="ipath d2" stroke="#A8461E" stroke-width="0.6" fill="none" opacity=".65">
+          <path d="M6,22 L6,6 L22,6"/><path d="M358,6 L374,6 L374,22"/>
+          <path d="M6,398 L6,414 L22,414"/><path d="M374,398 L374,414 L358,414"/>
+        </g>
+        <rect class="ibox" x="22" y="22" width="336" height="28" fill="url(#dd1)" stroke="#1C1209" stroke-width="0.7" opacity=".7"/>
+        <text class="ibox" x="190" y="41" text-anchor="middle" font-family="'Fraunces',serif" font-style="italic" font-size="11" fill="#F5EDD8" letter-spacing="3" opacity=".9">SCATTERED vs. CONNECTED</text>
+        <line class="ibox" x1="22" y1="54" x2="358" y2="54" stroke="#1C1209" stroke-width="0.6"/>
+        <rect class="ibox d1" x="28" y="68" width="100" height="42" fill="url(#hf1)" stroke="#1C1209" stroke-width="0.7"/>
+        <text class="ibox d1" x="78" y="84" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="8" fill="#1C1209" font-weight="600">Video</text>
+        <text class="ibox d1" x="78" y="96" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="7" fill="#5E4A30">freelancer</text>
+        <rect class="ibox d2" x="28" y="120" width="100" height="42" fill="url(#hf1)" stroke="#1C1209" stroke-width="0.7"/>
+        <text class="ibox d2" x="78" y="136" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="8" fill="#1C1209" font-weight="600">Deal newsletter</text>
+        <text class="ibox d2" x="78" y="148" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="7" fill="#5E4A30">$400+ / deal</text>
+        <rect class="ibox d3" x="28" y="172" width="100" height="42" fill="url(#hf1)" stroke="#1C1209" stroke-width="0.7"/>
+        <text class="ibox d3" x="78" y="188" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="8" fill="#1C1209" font-weight="600">ARC platform</text>
+        <text class="ibox d3" x="78" y="200" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="7" fill="#5E4A30">$400+ / listing</text>
+        <rect class="ibox d4" x="28" y="224" width="100" height="42" fill="url(#hf1)" stroke="#1C1209" stroke-width="0.7"/>
+        <text class="ibox d4" x="78" y="240" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="8" fill="#1C1209" font-weight="600">Ad manager</text>
+        <text class="ibox d4" x="78" y="252" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="7" fill="#5E4A30">separate hire</text>
+        <rect class="ibox d5" x="28" y="276" width="100" height="42" fill="url(#hf1)" stroke="#1C1209" stroke-width="0.7"/>
+        <text class="ibox d5" x="78" y="292" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="8" fill="#1C1209" font-weight="600">Review service</text>
+        <text class="ibox d5" x="78" y="304" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="7" fill="#5E4A30">$400+ / review</text>
+        <g class="ibox d3" stroke="#A8461E" stroke-width="0.8" fill="none" opacity=".5" stroke-dasharray="3,4">
+          <line x1="128" y1="89" x2="128" y2="141"/><line x1="128" y1="141" x2="128" y2="193"/>
+          <line x1="128" y1="193" x2="128" y2="245"/><line x1="128" y1="245" x2="128" y2="297"/>
+        </g>
+        <g class="ibox d3" stroke="#1C1209" stroke-width="1.2" fill="none" opacity=".6">
+          <line x1="148" y1="190" x2="182" y2="190"/>
+          <line x1="176" y1="184" x2="182" y2="190"/><line x1="176" y1="196" x2="182" y2="190"/>
+        </g>
+        <text class="ibox d3" x="165" y="210" text-anchor="middle" font-family="'Fraunces',serif" font-style="italic" font-size="8" fill="#1C1209" opacity=".7">vs.</text>
+        <rect class="ibox d2" x="190" y="68" width="164" height="250" fill="url(#hf1)" stroke="#A8461E" stroke-width="1.4" rx="2"/>
+        <rect class="ibox d2" x="194" y="72" width="156" height="24" fill="url(#dc1)" stroke="none" opacity=".6"/>
+        <text class="ibox d2" x="272" y="89" text-anchor="middle" font-family="'Fraunces',serif" font-weight="700" font-size="10" fill="#F5EDD8" letter-spacing="1.5">ATOMIC SHELF</text>
+        <g class="ibox d3" font-family="'DM Sans',sans-serif" font-size="8.5" fill="#1C1209" font-weight="500">
+          <text x="272" y="115" text-anchor="middle">Video + Content</text>
+          <line x1="210" y1="120" x2="334" y2="120" stroke="#1C1209" stroke-width="0.3" opacity=".3"/>
+          <text x="272" y="137" text-anchor="middle">ARC Reviews</text>
+          <line x1="210" y1="142" x2="334" y2="142" stroke="#1C1209" stroke-width="0.3" opacity=".3"/>
+          <text x="272" y="159" text-anchor="middle">Preorder Campaigns</text>
+          <line x1="210" y1="164" x2="334" y2="164" stroke="#1C1209" stroke-width="0.3" opacity=".3"/>
+          <text x="272" y="181" text-anchor="middle">Free Promo + Deal Sites</text>
+          <line x1="210" y1="186" x2="334" y2="186" stroke="#1C1209" stroke-width="0.3" opacity=".3"/>
+          <text x="272" y="203" text-anchor="middle">Listing Optimization</text>
+          <line x1="210" y1="208" x2="334" y2="208" stroke="#1C1209" stroke-width="0.3" opacity=".3"/>
+          <text x="272" y="225" text-anchor="middle">ShelfMates &amp; StoryPals</text>
+          <line x1="210" y1="230" x2="334" y2="230" stroke="#1C1209" stroke-width="0.3" opacity=".3"/>
+          <text x="272" y="247" text-anchor="middle">Managed Amazon Ads</text>
+        </g>
+        <g class="ibox d4" stroke="#A8461E" stroke-width="0.6" fill="none" opacity=".5">
+          <path d="M210,118 C220,128 260,128 272,133"/>
+          <path d="M334,140 C320,150 280,150 272,155"/>
+          <path d="M210,162 C220,172 260,172 272,177"/>
+        </g>
+        <rect class="ibox d4" x="210" y="262" width="124" height="20" fill="url(#dc1)" stroke="#A8461E" stroke-width="0.6" rx="2" opacity=".85"/>
+        <text class="ibox d4" x="272" y="276" text-anchor="middle" font-family="'Fraunces',serif" font-weight="700" font-size="9" fill="#F5EDD8" letter-spacing="1">ONE TEAM</text>
+        <line class="ibox d5" x1="22" y1="336" x2="358" y2="336" stroke="#1C1209" stroke-width="0.5"/>
+        <g class="ibox d5" font-family="'DM Sans',sans-serif" font-size="8" fill="#5E4A30">
+          <text x="78" y="356" text-anchor="middle">Piecemeal: $1,500–$5,000+/mo</text>
+          <text x="78" y="370" text-anchor="middle" font-style="italic" fill="#A8461E" opacity=".8">across 5 separate vendors</text>
+          <text x="272" y="356" text-anchor="middle">Atomic Shelf: $20–$499/mo</text>
+          <text x="272" y="370" text-anchor="middle" font-style="italic" fill="#A8461E" opacity=".8">everything coordinates</text>
+        </g>
+        <g class="ibox d5" stroke="#A8461E" stroke-width="0.5" fill="none" opacity=".4" transform="translate(22,388)">
+          <path d="M0,6 C10,0 20,12 30,6 C40,0 50,12 60,6 C70,0 80,12 90,6 C100,0 110,12 120,6 C130,0 140,12 150,6 C160,0 170,12 180,6 C190,0 200,12 210,6 C220,0 230,12 240,6 C250,0 260,12 270,6 C280,0 290,12 300,6 C310,0 320,12 330,6"/>
+        </g>
+        <text class="ibox d5" x="190" y="408" text-anchor="middle" font-family="'Fraunces',serif" font-style="italic" font-size="9" fill="#1C1209" opacity=".9" letter-spacing="2">ONE SYSTEM, BUILT TO COMPOUND</text>
+      </svg>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════ S3: CONTENT (dark) ═══════════ -->
+<section id="s3" class="dark">
+<div class="inner">
+  <div class="feat-grid">
+    <div>
+      <div class="feat-label a">Content</div>
+      <h2 class="feat-h a d1">60+ short-form videos. <em>Every month.</em></h2>
+      <p class="feat-body a d2">Genre-calibrated scripts, AI-assisted production, and human creative direction — at a volume no traditional studio can match and a speed that keeps pace with how platforms actually surface new books.</p>
+      <p class="feat-body a d3" style="font-size:.84rem;margin-bottom:1.5rem;">We post to TikTok, YouTube Shorts, and Reels. Higher tiers add book trailers, long-form YouTube, cinematic content, and custom theme songs. Formats stay current because we're watching what readers are actually watching.</p>
+      <div class="a d3">
+        <div class="feat-stat">60<span style="color:var(--amber)">+</span></div>
+        <div class="feat-stat-l">short-form videos per month, minimum</div>
+      </div>
+    </div>
+    <div class="feat-vis a d1">
+      <div class="ghost-num" aria-hidden="true">60+<br>videos</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════ S4: REVIEWS ═══════════ -->
+<section id="s4" class="cream-2 grain">
+<div class="inner">
+  <div class="illus-grid">
+    <div>
+      <div class="ig-label a">ARC reviews</div>
+      <h2 class="ig-h a d1">Social proof that's there before the ads run.</h2>
+      <p class="ig-body a d2">We recruit genre-matched readers from our own network, brief them on what's expected, and follow up until reviews are posted. The result: honest early ratings on your listing before you spend a dollar driving traffic to it.</p>
+      <p class="ig-body a d3" style="font-size:.84rem;margin-bottom:1.5rem;">Your listing copy and A+ content are part of the same package. We audit and rewrite both — so when readers land on the page, the trust they arrive with actually turns into a sale.</p>
+      <div class="a d3">
+        <div style="font-family:'Fraunces',serif;font-size:clamp(2.4rem,5vw,4rem);font-weight:900;letter-spacing:-.03em;color:var(--copper);line-height:1;">50<span style="color:var(--copper-l)">+</span></div>
+        <div style="font-size:.7rem;color:var(--stone);margin-top:.3rem;">reviews targeted per ARC campaign at our top tier</div>
+      </div>
+    </div>
+    <div class="illus-panel a-illus d2">
+      <!-- ILLUSTRATION 2: THE REVIEW TRADEOFF -->
+      <svg viewBox="0 0 380 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Comparison of review approaches versus Atomic Shelf's managed approach">
+        <defs>
+          <pattern id="hf2" x="0" y="0" width="6" height="6" patternUnits="userSpaceOnUse">
+            <rect width="6" height="6" fill="#EDE0C4"/>
+            <line x1="0" y1="3" x2="6" y2="3" stroke="#1C1209" stroke-width="0.35" opacity=".18"/>
+          </pattern>
+          <pattern id="dd2" x="0" y="0" width="4" height="4" patternUnits="userSpaceOnUse">
+            <rect width="4" height="4" fill="#1C1209"/>
+            <line x1="0" y1="0" x2="4" y2="4" stroke="#2A1E0A" stroke-width="1" opacity=".4"/>
+            <line x1="4" y1="0" x2="0" y2="4" stroke="#2A1E0A" stroke-width="1" opacity=".4"/>
+          </pattern>
+          <pattern id="dc2" x="0" y="0" width="4" height="4" patternUnits="userSpaceOnUse">
+            <rect width="4" height="4" fill="#A8461E"/>
+            <line x1="0" y1="0" x2="4" y2="4" stroke="#7F3410" stroke-width="0.8" opacity=".35"/>
+          </pattern>
+        </defs>
+        <rect class="ipath" x="6" y="6" width="368" height="408" fill="none" stroke="#1C1209" stroke-width="1.1"/>
+        <rect class="ipath d1" x="10" y="10" width="360" height="400" fill="none" stroke="#1C1209" stroke-width="0.35"/>
+        <g class="ipath d2" stroke="#A8461E" stroke-width="0.6" fill="none" opacity=".65">
+          <path d="M6,22 L6,6 L22,6"/><path d="M358,6 L374,6 L374,22"/>
+          <path d="M6,398 L6,414 L22,414"/><path d="M374,398 L374,414 L358,414"/>
+        </g>
+        <rect class="ibox" x="22" y="22" width="336" height="28" fill="url(#dd2)" stroke="#1C1209" stroke-width="0.7" opacity=".7"/>
+        <text class="ibox" x="190" y="41" text-anchor="middle" font-family="'Fraunces',serif" font-style="italic" font-size="11" fill="#F5EDD8" letter-spacing="3" opacity=".9">WHERE REVIEWS COME FROM</text>
+        <line class="ibox" x1="22" y1="54" x2="358" y2="54" stroke="#1C1209" stroke-width="0.6"/>
+        <rect class="ibox d1" x="30" y="68" width="96" height="180" fill="url(#hf2)" stroke="#1C1209" stroke-width="0.7"/>
+        <text class="ibox d1" x="78" y="86" text-anchor="middle" font-family="'Fraunces',serif" font-weight="600" font-size="10" fill="#1C1209">Budget platform</text>
+        <line class="ibox d1" x1="38" y1="92" x2="118" y2="92" stroke="#1C1209" stroke-width="0.3"/>
+        <g class="ibox d1" font-family="'DM Sans',sans-serif" font-size="7.5" fill="#5E4A30" text-anchor="middle">
+          <text x="78" y="108">~$10/book</text>
+          <text x="78" y="124" fill="#2E5A4E" font-weight="600">Budget-friendly</text>
+          <text x="78" y="140">Fast results</text>
+          <line x1="42" y1="150" x2="114" y2="150" stroke="#1C1209" stroke-width="0.3" opacity=".3"/>
+          <text x="78" y="166" fill="#5E4A30" font-weight="600">Good for:</text>
+          <text x="78" y="182">Quick volume</text>
+          <text x="78" y="198">Testing a genre</text>
+          <text x="78" y="214">Standalone, no video</text>
+        </g>
+        <rect class="ibox d2" x="142" y="68" width="96" height="180" fill="url(#hf2)" stroke="#1C1209" stroke-width="0.7"/>
+        <text class="ibox d2" x="190" y="86" text-anchor="middle" font-family="'Fraunces',serif" font-weight="600" font-size="10" fill="#1C1209">Pro review co.</text>
+        <line class="ibox d2" x1="150" y1="92" x2="230" y2="92" stroke="#1C1209" stroke-width="0.3"/>
+        <g class="ibox d2" font-family="'DM Sans',sans-serif" font-size="7.5" fill="#5E4A30" text-anchor="middle">
+          <text x="190" y="108">$400–$850</text>
+          <text x="190" y="124" fill="#2E5A4E" font-weight="600">Pro reviewers</text>
+          <text x="190" y="140">Industry reach</text>
+          <line x1="154" y1="150" x2="226" y2="150" stroke="#1C1209" stroke-width="0.3" opacity=".3"/>
+          <text x="190" y="166" fill="#5E4A30" font-weight="600">Good for:</text>
+          <text x="190" y="182">Trade credibility</text>
+          <text x="190" y="198">~15% review rate</text>
+          <text x="190" y="214">Standalone, no video</text>
+        </g>
+        <rect class="ibox d3" x="254" y="68" width="96" height="180" fill="url(#hf2)" stroke="#1C1209" stroke-width="0.7"/>
+        <text class="ibox d3" x="302" y="86" text-anchor="middle" font-family="'Fraunces',serif" font-weight="600" font-size="10" fill="#1C1209">Prestige review</text>
+        <line class="ibox d3" x1="262" y1="92" x2="342" y2="92" stroke="#1C1209" stroke-width="0.3"/>
+        <g class="ibox d3" font-family="'DM Sans',sans-serif" font-size="7.5" fill="#5E4A30" text-anchor="middle">
+          <text x="302" y="108">$400–$750</text>
+          <text x="302" y="124" fill="#2E5A4E" font-weight="600">Prestige signal</text>
+          <text x="302" y="140">Long-established brand</text>
+          <line x1="266" y1="150" x2="338" y2="150" stroke="#1C1209" stroke-width="0.3" opacity=".3"/>
+          <text x="302" y="166" fill="#5E4A30" font-weight="600">Good for:</text>
+          <text x="302" y="182">Long-lead prestige</text>
+          <text x="302" y="198">7–9 week turnaround</text>
+          <text x="302" y="214">Standalone, no promo</text>
+        </g>
+        <g class="ibox d4" stroke="#A8461E" stroke-width="1.2" fill="none">
+          <line x1="190" y1="258" x2="190" y2="280"/>
+          <line x1="184" y1="274" x2="190" y2="280"/><line x1="196" y1="274" x2="190" y2="280"/>
+        </g>
+        <rect class="ibox d4" x="42" y="286" width="296" height="82" fill="url(#hf2)" stroke="#A8461E" stroke-width="1.4" rx="2"/>
+        <rect class="ibox d4" x="46" y="290" width="288" height="22" fill="url(#dc2)" stroke="none" opacity=".55"/>
+        <text class="ibox d4" x="190" y="306" text-anchor="middle" font-family="'Fraunces',serif" font-weight="700" font-size="10" fill="#F5EDD8" letter-spacing="1.5">ATOMIC SHELF</text>
+        <g class="ibox d5" font-family="'DM Sans',sans-serif" font-size="8" fill="#1C1209" text-anchor="middle">
+          <text x="110" y="326">ARC + video + promo + ads</text>
+          <text x="270" y="326">Genre-matched, managed</text>
+          <text x="270" y="340" fill="#2E5A4E" font-weight="600">Reviews before launch</text>
+          <text x="190" y="360" font-style="italic" fill="#5E4A30">Coordinated across all channels</text>
+        </g>
+        <g class="ibox d5" stroke="#2E5A4E" stroke-width="1.2" fill="none" opacity=".8">
+          <path d="M55,320 L60,326 L70,314"/><path d="M215,320 L220,326 L230,314"/>
+        </g>
+        <g class="ibox d5" stroke="#A8461E" stroke-width="0.5" fill="none" opacity=".4" transform="translate(22,384)">
+          <path d="M0,4 C8,0 16,8 24,4 C32,0 40,8 48,4 C56,0 64,8 72,4 C80,0 88,8 96,4 C104,0 112,8 120,4 C128,0 136,8 144,4 C152,0 160,8 168,4 C176,0 184,8 192,4 C200,0 208,8 216,4 C224,0 232,8 240,4 C248,0 256,8 264,4 C272,0 280,8 288,4 C296,0 304,8 312,4 C320,0 328,8 336,4"/>
+        </g>
+        <text class="ibox d5" x="190" y="410" text-anchor="middle" font-family="'Fraunces',serif" font-style="italic" font-size="9" fill="#1C1209" opacity=".9" letter-spacing="2">EACH APPROACH, ONE PIECE</text>
+      </svg>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════ S5: THE SYSTEM (dark, animated funnel) ═══════════ -->
+<section id="s5" class="dark">
+<div class="inner">
+  <h2 class="sys-h a">Each stage makes the <em>next one cheaper.</em></h2>
+  <div class="ftrack" id="ftrack">
+    <div class="fnode"><div class="fdot"></div><div class="fline"></div><div class="fname">Content</div><div class="fdesc">Video drives discovery on TikTok, Shorts &amp; Reels</div></div>
+    <div class="fnode"><div class="fdot"></div><div class="fline"></div><div class="fname">Reviews</div><div class="fdesc">ARC readers add early, genuine social proof</div></div>
+    <div class="fnode"><div class="fdot"></div><div class="fline"></div><div class="fname">Listing</div><div class="fdesc">Optimized copy &amp; A+ convert the traffic</div></div>
+    <div class="fnode"><div class="fdot"></div><div class="fline"></div><div class="fname">Reader list</div><div class="fdesc">ShelfMates &amp; StoryPals build an audience you own</div></div>
+    <div class="fnode"><div class="fdot"></div><div class="fline"></div><div class="fname">Advertising</div><div class="fdesc">Ads retarget warm readers at peak intent</div></div>
+  </div>
+  <div style="margin-top:4rem;max-width:760px;" class="a d2">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;">
+      <div>
+        <div style="font-size:.7rem;color:rgba(200,140,90,.9);font-weight:600;letter-spacing:.06em;margin-bottom:1rem;">THE COMMON SHORTCUT</div>
+        <div style="display:flex;flex-direction:column;gap:0;">
+          <div style="background:rgba(255,176,32,.06);border:1px solid rgba(255,176,32,.18);border-radius:2px;padding:.65rem 1rem;font-size:.78rem;color:var(--inv-m);">Write book</div>
+          <div style="width:1px;height:14px;background:rgba(200,140,90,.4);margin-left:1.2rem;"></div>
+          <div style="background:rgba(200,140,90,.1);border:1.5px solid rgba(200,140,90,.35);border-radius:2px;padding:.65rem 1rem;font-size:.78rem;color:var(--copper-l);font-weight:600;">Jump straight to Amazon ads</div>
+          <div style="width:1px;height:14px;background:rgba(200,140,90,.4);margin-left:1.2rem;"></div>
+          <div style="background:rgba(200,140,90,.08);border:1px solid rgba(200,140,90,.2);border-radius:2px;padding:.65rem 1rem;font-size:.78rem;color:var(--inv-m);font-style:italic;">Ads work harder when there's an audience and reviews to point them at.</div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:.7rem;color:rgba(46,90,78,.9);font-weight:600;letter-spacing:.06em;margin-bottom:1rem;">THE ATOMIC SHELF SEQUENCE</div>
+        <div style="display:flex;flex-direction:column;gap:0;">
+          <div style="background:rgba(255,176,32,.08);border:1px solid rgba(255,176,32,.22);border-radius:2px;padding:.65rem 1rem;font-size:.78rem;color:var(--inv-m);">Video warms the audience</div>
+          <div style="width:1px;height:12px;background:rgba(46,90,78,.5);margin-left:1.2rem;"></div>
+          <div style="background:rgba(255,176,32,.08);border:1px solid rgba(255,176,32,.22);border-radius:2px;padding:.65rem 1rem;font-size:.78rem;color:var(--inv-m);">Reviews earn the trust</div>
+          <div style="width:1px;height:12px;background:rgba(46,90,78,.5);margin-left:1.2rem;"></div>
+          <div style="background:rgba(255,176,32,.08);border:1px solid rgba(255,176,32,.22);border-radius:2px;padding:.65rem 1rem;font-size:.78rem;color:var(--inv-m);">Listing converts the traffic</div>
+          <div style="width:1px;height:12px;background:rgba(46,90,78,.5);margin-left:1.2rem;"></div>
+          <div style="background:rgba(46,90,78,.15);border:1.5px solid rgba(46,90,78,.45);border-radius:2px;padding:.65rem 1rem;font-size:.78rem;color:rgba(100,200,160,.9);font-weight:600;">Ads close the loop — and it compounds</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════ S6: PRICING (cream) ═══════════ -->
+<section id="s6" class="cream grain" style="align-items:flex-start;padding-top:6vh;">
+<div class="inner">
+  <h2 class="pricing-h a">Pick the level.<br>We handle the rest.</h2>
+  <p class="pricing-sub a d1">Every tier includes consistent, genre-matched content and listing copy &amp; A+ optimization from Foundation up. Higher tiers add ARC reviews, preorder campaigns, and managed Amazon advertising. Tap the <b>↻</b> on any plan to see multi-month savings.</p>
+
+  <div class="plans a d2">
+
+    <!-- SPARK -->
+    <div class="plan">
+      <div class="plan-front">
+        <button class="plan-fold pulse" aria-label="See commitment savings for Spark"></button>
+        <div class="p-name">Spark</div>
+        <div class="p-price">$20</div>
+        <div class="p-per">per month · first 20 videos free</div>
+        <ul class="p-feats">
+          <li>Short-form video creation monthly</li>
+          <li>Posted to TikTok, Shorts &amp; Reels</li>
+          <li>Genre-matched scripts, formats evolve</li>
+          <li>Content clicks tracked</li>
+        </ul>
+        <div class="p-res">
+          <div class="p-res-label">Expected by month 3*</div>
+          <div class="p-rr"><span class="p-rm">Video views</span><span class="p-rv">5k–15k</span></div>
+          <div class="p-rr"><span class="p-rm">Content clicks</span><span class="p-rv">80–220</span></div>
+          <div class="p-rr"><span class="p-rm">Sales lift</span><span class="p-rv up">+3–8%</span></div>
+        </div>
+        <button class="p-cta p-flip">See commitment savings</button>
+      </div>
+      <div class="plan-back">
+        <div class="p-bt">Commit &amp; Save — Spark</div>
+        <div class="s-row"><span>3 months</span><span class="sv">$60 → $54 · save $6</span></div>
+        <div class="s-row"><span>6 months</span><span class="sv">$120 → $96 · save $24</span></div>
+        <div class="s-row"><span>12 months</span><span class="sv">$240 → $180 · save $60</span></div>
+        <div class="s-best">Save up to 25%</div>
+        <a href="mailto:nick@atomic-shelf.com?subject=Spark plan" class="p-get">Get started with Spark</a>
+        <button class="p-unflip">← Back to plan details</button>
+      </div>
+    </div>
+
+    <!-- FOUNDATION -->
+    <div class="plan">
+      <div class="plan-front">
+        <button class="plan-fold pulse" aria-label="See commitment savings for Foundation"></button>
+        <div class="p-name">Foundation</div>
+        <div class="p-price">$79</div>
+        <div class="p-per">per month</div>
+        <ul class="p-feats">
+          <li>80 short-form videos monthly</li>
+          <li>1 professional book trailer</li>
+          <li>Listing copy &amp; A+ optimization</li>
+          <li>Preorder listing setup</li>
+          <li>ShelfMates / StoryPals access</li>
+        </ul>
+        <div class="p-res">
+          <div class="p-res-label">Expected by month 3*</div>
+          <div class="p-rr"><span class="p-rm">Video views</span><span class="p-rv">15k–40k</span></div>
+          <div class="p-rr"><span class="p-rm">Content clicks</span><span class="p-rv">300–800</span></div>
+          <div class="p-rr"><span class="p-rm">Sales lift</span><span class="p-rv up">+8–15%</span></div>
+        </div>
+        <button class="p-cta p-flip">See commitment savings</button>
+      </div>
+      <div class="plan-back">
+        <div class="p-bt">Commit &amp; Save — Foundation</div>
+        <div class="s-row"><span>3 months</span><span class="sv">$213 → $192 · save $21</span></div>
+        <div class="s-row"><span>6 months</span><span class="sv">$474 → $379 · save $95</span></div>
+        <div class="s-row"><span>12 months</span><span class="sv">$948 → $711 · save $237</span></div>
+        <div class="s-best">Save up to 25%</div>
+        <a href="mailto:nick@atomic-shelf.com?subject=Foundation plan" class="p-get">Get started with Foundation</a>
+        <button class="p-unflip">← Back to plan details</button>
+      </div>
+    </div>
+
+    <!-- MOMENTUM (featured) -->
+    <div class="plan top">
+      <div class="plan-badge">Most popular</div>
+      <div class="plan-front">
+        <button class="plan-fold pulse" aria-label="See commitment savings for Momentum"></button>
+        <div class="p-name">Momentum</div>
+        <div class="p-price">$249</div>
+        <div class="p-per">per month</div>
+        <ul class="p-feats">
+          <li>All Foundation features</li>
+          <li>Full social media management</li>
+          <li>ARC campaign — 10 reviews targeted</li>
+          <li>Enhanced A+ listing build</li>
+          <li>Preorder campaign — 6-week countdown</li>
+          <li>1 newsletter feature per quarter</li>
+          <li>Managed Amazon campaigns included</li>
+        </ul>
+        <div class="p-res">
+          <div class="p-res-label">Expected by month 3*</div>
+          <div class="p-rr"><span class="p-rm">Preorders secured</span><span class="p-rv">80–180</span></div>
+          <div class="p-rr"><span class="p-rm">Free promo downloads</span><span class="p-rv">1,200–2,400</span></div>
+          <div class="p-rr"><span class="p-rm">KU page reads boost</span><span class="p-rv up">+40–80%</span></div>
+          <div class="p-rr"><span class="p-rm">Sales lift</span><span class="p-rv up">+25–45%</span></div>
+        </div>
+        <button class="p-cta p-flip">See commitment savings</button>
+      </div>
+      <div class="plan-back" style="background:#fff;">
+        <div class="p-bt">Commit &amp; Save — Momentum</div>
+        <div class="s-row"><span>3 months</span><span class="sv">$747 → $673 · save $74</span></div>
+        <div class="s-row"><span>6 months</span><span class="sv">$1,494 → $1,196 · save $298</span></div>
+        <div class="s-row"><span>12 months</span><span class="sv">$2,988 → $2,241 · save $747</span></div>
+        <div class="s-best">Save up to 25%</div>
+        <a href="mailto:nick@atomic-shelf.com?subject=Momentum plan" class="p-get">Select Momentum</a>
+        <button class="p-unflip">← Back to plan details</button>
+      </div>
+    </div>
+
+    <!-- GROWTH -->
+    <div class="plan">
+      <div class="plan-front">
+        <button class="plan-fold pulse" aria-label="See commitment savings for Growth"></button>
+        <div class="p-name">Growth</div>
+        <div class="p-price">$499</div>
+        <div class="p-per">per month</div>
+        <ul class="p-feats">
+          <li>100+ premium videos monthly</li>
+          <li>2 cinematic trailers, 1 theme song</li>
+          <li>ARC campaign — 25 reviews targeted</li>
+          <li>Premium A+ listing build</li>
+          <li>Preorder campaign — 8-week countdown</li>
+          <li>1 newsletter feature per month</li>
+          <li>Managed Amazon campaigns included</li>
+        </ul>
+        <div class="p-res">
+          <div class="p-res-label">Expected by month 3*</div>
+          <div class="p-rr"><span class="p-rm">Preorders secured</span><span class="p-rv">200–420</span></div>
+          <div class="p-rr"><span class="p-rm">Free promo downloads</span><span class="p-rv">2,400–4,800</span></div>
+          <div class="p-rr"><span class="p-rm">KU page reads boost</span><span class="p-rv up">+90–150%</span></div>
+          <div class="p-rr"><span class="p-rm">Sales lift</span><span class="p-rv up">+60–110%</span></div>
+        </div>
+        <button class="p-cta p-flip">See commitment savings</button>
+      </div>
+      <div class="plan-back">
+        <div class="p-bt">Commit &amp; Save — Growth</div>
+        <div class="s-row"><span>3 months</span><span class="sv">$1,497 → $1,347 · save $150</span></div>
+        <div class="s-row"><span>6 months</span><span class="sv">$2,994 → $2,396 · save $598</span></div>
+        <div class="s-row"><span>12 months</span><span class="sv">$5,988 → $4,491 · save $1,497</span></div>
+        <div class="s-best">Save up to 25%</div>
+        <a href="mailto:nick@atomic-shelf.com?subject=Growth plan" class="p-get">Join Growth</a>
+        <button class="p-unflip">← Back to plan details</button>
+      </div>
+    </div>
+
+  </div><!-- /plans -->
+
+  <p class="pricing-foot a d3">Running a full catalogue, multiple books, or need bespoke campaign structure? <a href="mailto:nick@atomic-shelf.com">Ask about Surge &amp; Orbit</a> — dedicated team or custom seat, custom pricing.</p>
+  <p class="pricing-disclaimer a d3">*Expected ranges are 90-day averages based on 200+ clients over 24 months, measured against each book's pre-campaign baseline — many starting from little to no prior sales. Individual results vary by genre, backlist, and price point.</p>
+</div>
+</section>
+
+<!-- ═══════════ S7: CLOSE (dark) ═══════════ -->
+<section id="s7" class="dark" style="flex-direction:column;align-items:flex-start;justify-content:center;">
+<div class="inner">
+  <h2 class="close-h a-s">The readers are out there.<br>Let's go <em>find them.</em></h2>
+  <p class="close-body a d1">450+ indie authors are building long-term readerships with Atomic Shelf. One team, one system — video, reviews, listing, list-building, and ads working from the same playbook, pointed at the same goal.</p>
+  <div class="pg-row a d2">
+    <div class="pb-card">
+      <h4>Included: The Atomic Launch Playbook</h4>
+      <p>Every plan comes with our 6-module onboarding course — from the discovery problem through reviews, launch mechanics, ads, and compounding. You'll know exactly what's happening at each stage and why it matters.</p>
+      <div class="pb-mods">
+        <span class="pbm">Discovery Problem</span><span class="pbm">Video</span><span class="pbm">Reviews</span>
+        <span class="pbm">Launch Mechanics</span><span class="pbm">Listing &amp; Ads</span><span class="pbm">Compounding</span>
+      </div>
+    </div>
+    <div class="guar-card">
+      <h4>Our promise</h4>
+      <p>If we haven't hit the growth target we agreed on together, we don't close the file — we keep working until we get there. <a href="#s8" style="color:#7FC4AC;text-decoration:underline;">Read the full commitment →</a></p>
+    </div>
+  </div>
+  <div class="btn-row a d3">
+    <a href="#s6" class="btn btn-amber">Choose your plan</a>
+    <a href="mailto:nick@atomic-shelf.com" class="btn btn-gd">Talk to us first</a>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════ S8: OUR PROMISE ═══════════ -->
+<section id="s8">
+<div class="inner">
+  <div class="promise-eyebrow a">Our promise</div>
+  <h2 class="promise-h a-s">We don't stop <em>until it works.</em></h2>
+  <p class="promise-body a d1">At the start of every engagement we agree on a specific growth target together — not a vague intention, a real number. Here's what happens if we haven't reached it yet.</p>
+  <div class="promise-steps a d2">
+    <div class="pstep"><div class="pstep-n">01</div><div class="pstep-t"><b>We keep the file open.</b> A missed target isn't a reason to wrap up — it's a reason to keep going.</div></div>
+    <div class="pstep"><div class="pstep-n">02</div><div class="pstep-t"><b>We add work at no extra charge.</b> More content, a deeper ARC push, a revised ad strategy — whatever the data points to.</div></div>
+    <div class="pstep"><div class="pstep-n">03</div><div class="pstep-t"><b>We stay until we get there.</b> We're building long-term author businesses, not running one-off campaigns.</div></div>
+  </div>
+  <div class="btn-row a d3">
+    <a href="mailto:nick@atomic-shelf.com" class="btn btn-amber">Ask us a question</a>
+  </div>
+</div>
+</section>
+
+</div><!-- /snap -->
+
+<footer class="grain">
+  <div class="fg">
+    <div>
+      <div class="fl">Atomic<span>-</span>Shelf</div>
+      <p class="ft">Video, reviews, preorders, free promos, reader lists, and managed Amazon advertising — one team, one system, built for indie authors.<br><br>We keep working until we hit your target.</p>
+    </div>
+    <div class="fc">
+      <h5>Site</h5>
+      <ul>
+        <li><a href="#s0">Home</a></li>
+        <li><a href="#s3">Content</a></li>
+        <li><a href="#s4">Reviews</a></li>
+        <li><a href="#s6">Pricing</a></li>
+        <li><a href="#s8">Our Promise</a></li>
+      </ul>
+    </div>
+    <div class="fc">
+      <h5>Contact</h5>
+      <ul>
+        <li><a href="mailto:nick@atomic-shelf.com">nick@atomic-shelf.com</a></li>
+        <li><a href="mailto:nick@atomic-shelf.com">Talk to us</a></li>
+      </ul>
+      <div class="fc-sub">
+        <h5>Reader apps</h5>
+        <ul>
+          <li><a href="#">ShelfMate</a></li>
+          <li><a href="#">StoryPal</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="fb">
+    <span>© 2026 Atomic Shelf · StoryPal · Shelfmate</span>
+    <span>Built with ❤️ for Indie Authors.</span>
+  </div>
+</footer>
+
+<script>
+/* ─── SECTION CONFIG ─── */
+const SECS=[
+  ['s0','Home'],['s1','Results'],['s2','The opportunity'],
+  ['s3','Content'],['s4','Reviews'],['s5','The system'],
+  ['s6','Pricing'],['s7','Get started'],['s8','Our Promise'],
+];
+
+/* ─── BUILD DOT NAVS (desktop + mobile) ─── */
+const nav=document.getElementById('dotnav');
+const navMobile=document.getElementById('dotnavMobile');
+const snap=document.getElementById('snap');
+SECS.forEach(([id,label])=>{
+  const b=document.createElement('button');
+  b.dataset.id=id;
+  if(id==='s8') b.classList.add('promise');
+  const k=document.createElement('span'); k.className='dnk';
+  const l=document.createElement('span'); l.className='dnl'; l.textContent=label;
+  b.appendChild(k); b.appendChild(l);
+  b.addEventListener('click',()=>{ document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'}); });
+  nav.appendChild(b);
+
+  const mb=document.createElement('button');
+  mb.dataset.id=id;
+  mb.setAttribute('aria-label',label);
+  if(id==='s8') mb.classList.add('promise');
+  mb.addEventListener('click',()=>{ document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'}); });
+  navMobile.appendChild(mb);
+});
+const dots=nav.querySelectorAll('button');
+const dotsMobile=navMobile.querySelectorAll('button');
+
+/* ─── INTERSECTION OBSERVER ─── */
+let proofDone=false, funnelDone=false;
+
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(!e.isIntersecting) return;
+    const sec=e.target;
+    sec.classList.add('on');
+    const idx=SECS.findIndex(([id])=>id===sec.id);
+    dots.forEach((d,i)=>d.classList.toggle('on',i===idx));
+    dotsMobile.forEach((d,i)=>d.classList.toggle('on',i===idx));
+    if(sec.id==='s1'&&!proofDone){ proofDone=true; runCountUps(); }
+    if(sec.id==='s5'&&!funnelDone){ funnelDone=true; setTimeout(runFunnel,600); }
+  });
+},{root:snap,threshold:0.35});
+
+SECS.forEach(([id])=>{ const el=document.getElementById(id); if(el) io.observe(el); });
+
+/* activate hero immediately */
+document.getElementById('s0').classList.add('on');
+dots[0]?.classList.add('on');
+dotsMobile[0]?.classList.add('on');
+
+/* ─── COUNT UPS ─── */
+function cu(id,to,suf,ms,dec){
+  const el=document.getElementById(id); if(!el) return;
+  const t0=performance.now();
+  const fmt=v=>dec?v.toFixed(dec):Math.round(v).toLocaleString('en-US');
+  const tick=n=>{
+    const p=Math.min((n-t0)/ms,1);
+    const e=1-Math.pow(1-p,4);
+    el.textContent=fmt(to*e)+(suf||'');
+    if(p<1) requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+}
+function runCountUps(){
+  setTimeout(()=>cu('cN',3.2,'×',1800,1),100);
+  setTimeout(()=>cu('cB',12000,'+',1800),300);
+  setTimeout(()=>cu('cC',2400,'',1600),400);
+}
+
+/* ─── FUNNEL ANIMATION ─── */
+function runFunnel(){
+  const nodes=document.querySelectorAll('.fnode');
+  nodes.forEach((n,i)=>{
+    setTimeout(()=>{
+      n.classList.add('lit');
+      if(i<nodes.length-1) setTimeout(()=>n.classList.add('draw'),200);
+    },i*600);
+  });
+}
+
+/* ─── PRICING FLIP CARDS (text button + corner-fold, both trigger flip) ─── */
+function flipPlan(btn){
+  const plan=btn.closest('.plan');
+  plan.classList.add('flip');
+  const fold=plan.querySelector('.plan-fold');
+  if(fold) fold.classList.remove('pulse');
+}
+function unflipPlan(btn){
+  btn.closest('.plan').classList.remove('flip');
+}
+document.querySelectorAll('.p-flip, .plan-fold').forEach(btn=>{
+  btn.addEventListener('click',()=>flipPlan(btn));
+});
+document.querySelectorAll('.p-unflip').forEach(btn=>{
+  btn.addEventListener('click',()=>unflipPlan(btn));
+});
+/* stop the pulse the first time any fold is interacted with anywhere on page */
+document.addEventListener('click',()=>{
+  document.querySelectorAll('.plan-fold.pulse').forEach(f=>{
+    setTimeout(()=>f.classList.remove('pulse'),1800);
+  });
+},{once:true});
+
+/* ─── ANCHOR LINKS ─── */
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const id=a.getAttribute('href').slice(1);
+    const el=document.getElementById(id);
+    if(el){ e.preventDefault(); el.scrollIntoView({behavior:'smooth',block:'start'}); }
+  });
+});
+
+/* ─── SCROLL-SNAP SAFETY ─── */
+function updateSnapMode(){
+  const shortViewport = window.innerHeight < 720;
+  let anySectionTallerThanViewport = false;
+  document.querySelectorAll('#snap > section').forEach(sec=>{
+    if(sec.scrollHeight > window.innerHeight + 4) anySectionTallerThanViewport = true;
+  });
+  if(shortViewport || anySectionTallerThanViewport){
+    snap.style.scrollSnapType='none';
+  } else {
+    snap.style.scrollSnapType='y proximity';
+  }
+}
+window.addEventListener('resize', updateSnapMode);
+window.addEventListener('load', updateSnapMode);
+updateSnapMode();
+</script>
+</body>
+</html>
