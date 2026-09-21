@@ -1,235 +1,438 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pricing - Atomic-Shelf</title>
-    <link rel="preconnect" href="https://www.paypal.com" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        dark: '#3D2B1F',
-                        primary: '#D2691E',
-                        accent: '#FFDAB9',
-                        secondary: '#8B4513',
-                        golden: '#DAA520',
-                    },
-                },
-            },
-        };
-    </script>
-    <style>
-        html { font-size: 16px; }
-        @media (min-width: 1024px) { html { font-size: 17px; } }
-        body {
-            font-family: Georgia, 'Times New Roman', serif;
-            line-height: 1.7;
-            font-size: 1.1rem;
-        }
-        p, li { font-size: 1.05rem; word-break: break-word; }
-        h1 { font-size: 3rem; }
-        h2 { font-size: 2.5rem; }
-        h3 { font-size: 1.8rem; }
-        .scroll-reveal { opacity: 0; transform: translateY(40px); transition: all 0.9s cubic-bezier(0.16,1,0.3,1); }
-        .scroll-reveal.revealed { opacity: 1; transform: translateY(0); }
-        .scroll-reveal-list li {
-            opacity: 0; transform: translateY(20px);
-            transition: all 800ms cubic-bezier(0.16,1,0.3,1);
-        }
-        .scroll-reveal-list li.visible { opacity: 1; transform: translateY(0); }
-        h1, h2, h3 { text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
-    </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<meta name="description" content="Atomic Shelf pricing for indie authors: Spark, Foundation, Momentum, and Growth plans covering video, reviews, listing optimization, and reader growth."/>
+<title>Pricing &#8212; Atomic Shelf</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,400;1,9..144,600&family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --dark:#14120F; --dark-2:#1C1810;
+  --paper:#F5EDD8; --paper-2:#EDE0C4; --paper-3:#E5D7B8;
+  --inv:#F3EEE3; --inv-m:rgba(243,238,227,.62);
+  --amber:#FFB020;
+  --ink:#1C1209; --stone:#5E4A30; --muted:#7A5C38;
+  --copper:#A8461E; --copper-l:#C8673C; --copper-d:#7F3410;
+  --teal:#2E5A4E;
+  --sep-d:rgba(243,238,227,.14); --sep-l:rgba(28,18,9,.13);
+  --card:#FFFEFA;
+  --r:3px; --max:1080px;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{-webkit-font-smoothing:antialiased;font-size:18px;scroll-behavior:smooth;}
+body{font-family:'Atkinson Hyperlegible Next',sans-serif;background:var(--paper);color:var(--ink);overflow-x:hidden;}
+h1,h2,h3,h4{font-family:'Fraunces',serif;letter-spacing:-.015em;}
+a{color:inherit;text-decoration:none;}
+img,svg{max-width:100%;}
+:focus-visible{outline:2px solid var(--copper);outline-offset:3px;}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;}}
+
+.wrap{width:100%;max-width:var(--max);margin:0 auto;padding:0 clamp(1.25rem,5vw,3rem);}
+
+/* ===== NAV ===== */
+.topnav{position:sticky;top:0;z-index:500;background:rgba(20,18,15,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--sep-d);}
+.topnav .wrap{display:flex;align-items:center;justify-content:space-between;padding-top:1rem;padding-bottom:1rem;gap:1.5rem;}
+.brand{font-family:'Fraunces',serif;font-weight:700;font-size:1.15rem;color:var(--inv);letter-spacing:-.01em;}
+.navlinks{display:flex;align-items:center;gap:1.9rem;flex-wrap:wrap;}
+.navlinks a{font-size:.86rem;color:var(--inv-m);font-weight:500;transition:color .15s;}
+.navlinks a:hover,.navlinks a[aria-current="page"]{color:var(--inv);}
+.navlinks a[aria-current="page"]{border-bottom:1.5px solid var(--amber);padding-bottom:2px;}
+.nav-cta{display:inline-flex;padding:.55rem 1.15rem;font-size:.8rem;font-weight:600;background:var(--amber);color:var(--dark);border-radius:var(--r);white-space:nowrap;}
+.navtoggle{display:none;}
+@media(max-width:720px){
+  .navlinks{position:fixed;inset:0 0 0 30%;top:57px;background:var(--dark);flex-direction:column;align-items:flex-start;padding:2rem 1.5rem;gap:1.5rem;transform:translateX(100%);transition:transform .25s ease;border-left:1px solid var(--sep-d);}
+  .navlinks.open{transform:translateX(0);}
+  .navlinks a{font-size:1.05rem;}
+  .navtoggle{display:block;background:none;border:1px solid var(--sep-d);color:var(--inv);border-radius:var(--r);padding:.45rem .7rem;font-size:1rem;line-height:1;}
+}
+
+/* ===== BUTTONS ===== */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:.9rem 1.95rem;font-size:.86rem;font-weight:600;border-radius:var(--r);border:1.5px solid transparent;cursor:pointer;transition:all .18s;font-family:'Atkinson Hyperlegible Next',sans-serif;text-decoration:none;}
+.btn-amber{background:var(--amber);color:var(--dark);border-color:var(--amber);}
+.btn-amber:hover{filter:brightness(1.07);transform:translateY(-1px);}
+.btn-copper{background:var(--copper);color:#fff;border-color:var(--copper);}
+.btn-copper:hover{background:var(--copper-l);border-color:var(--copper-l);}
+.btn-gd{border-color:var(--sep-d);color:var(--inv);}
+.btn-gd:hover{border-color:rgba(243,238,227,.4);}
+.btn-gl{border-color:var(--ink);color:var(--ink);}
+.btn-gl:hover{background:var(--ink);color:var(--paper);}
+.btn-row{display:flex;gap:.9rem;flex-wrap:wrap;}
+
+/* ===== SECTIONS ===== */
+section{padding:clamp(3.5rem,8vw,6.5rem) 0;}
+.dark{background:var(--dark);color:var(--inv);}
+.cream{background:var(--paper);color:var(--ink);}
+.cream-2{background:var(--paper-2);color:var(--ink);}
+.eyebrow{font-size:.8rem;color:var(--muted);font-weight:600;margin-bottom:.9rem;}
+.dark .eyebrow{color:rgba(243,238,227,.55);}
+
+/* ===== HERO ===== */
+.hero{padding-top:clamp(3.5rem,9vw,6rem);}
+.hero-h1{font-size:clamp(2.6rem,7vw,5.2rem);font-weight:700;line-height:1.03;max-width:16ch;margin-bottom:1.5rem;}
+.hero-body{font-size:1.05rem;color:var(--inv-m);max-width:52ch;line-height:1.75;margin-bottom:2rem;}
+.page-h{font-size:clamp(2.3rem,5.5vw,3.6rem);font-weight:700;line-height:1.08;max-width:18ch;margin-bottom:1.1rem;}
+.page-sub{font-size:1.02rem;line-height:1.7;max-width:56ch;color:var(--stone);}
+.dark .page-sub{color:var(--inv-m);}
+
+/* ===== STATS ===== */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;}
+.stat-n{font-family:'Fraunces',serif;font-size:clamp(2.4rem,5vw,3.6rem);font-weight:900;color:var(--amber);line-height:1;letter-spacing:-.02em;}
+.stat-l{font-size:.85rem;color:var(--inv-m);margin-top:.5rem;line-height:1.5;max-width:22ch;}
+@media(max-width:680px){.stats{grid-template-columns:1fr;gap:1.8rem;}}
+
+/* ===== CARD GRID (teasers) ===== */
+.card-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+.tcard{background:var(--card);border:1px solid var(--sep-l);border-radius:var(--r);padding:1.8rem;}
+.tcard h3{font-size:1.25rem;font-weight:700;margin-bottom:.6rem;}
+.tcard p{font-size:.92rem;color:var(--stone);line-height:1.65;margin-bottom:1rem;}
+.tcard a{font-size:.85rem;font-weight:600;color:var(--copper);}
+@media(max-width:680px){.card-grid{grid-template-columns:1fr;}}
+
+/* ===== TWO COL FEATURE ===== */
+.feat{display:grid;grid-template-columns:1.1fr .9fr;gap:3rem;align-items:start;}
+.feat h2{font-size:clamp(1.9rem,4vw,2.9rem);font-weight:700;line-height:1.1;margin-bottom:1rem;}
+.feat p{font-size:1rem;line-height:1.75;max-width:48ch;margin-bottom:1rem;}
+.dark .feat p{color:var(--inv-m);}
+.cream .feat p,.cream-2 .feat p{color:var(--stone);}
+.feat-stat{font-family:'Fraunces',serif;font-size:clamp(2.6rem,5vw,4rem);font-weight:900;color:var(--amber);line-height:1;}
+.cream .feat-stat,.cream-2 .feat-stat{color:var(--copper);}
+.feat-stat-l{font-size:.8rem;color:var(--inv-m);margin-top:.3rem;}
+.cream .feat-stat-l,.cream-2 .feat-stat-l{color:var(--stone);}
+.feat-side{background:rgba(255,255,255,.04);border:1px solid var(--sep-d);border-radius:var(--r);padding:1.6rem;}
+.cream .feat-side,.cream-2 .feat-side{background:rgba(28,18,9,.03);border-color:var(--sep-l);}
+.feat-side ul{list-style:none;display:flex;flex-direction:column;gap:.7rem;}
+.feat-side li{font-size:.88rem;padding-bottom:.7rem;border-bottom:1px solid var(--sep-d);}
+.cream .feat-side li,.cream-2 .feat-side li{border-color:var(--sep-l);}
+.feat-side li:last-child{border-bottom:none;padding-bottom:0;}
+@media(max-width:820px){.feat{grid-template-columns:1fr;}}
+
+/* ===== STEP LIST (how it works) ===== */
+.steps{display:flex;flex-direction:column;border-top:1px solid var(--sep-d);margin-top:2.5rem;}
+.step{display:grid;grid-template-columns:2.4rem 1fr;gap:1.2rem;padding:1.5rem 0;border-bottom:1px solid var(--sep-d);}
+.step-n{font-family:'Fraunces',serif;font-weight:700;color:var(--amber);font-size:1.1rem;}
+.step-t h4{font-size:1.05rem;font-weight:600;margin-bottom:.35rem;}
+.step-t p{font-size:.92rem;color:var(--inv-m);line-height:1.6;max-width:56ch;}
+
+/* ===== COMPARISON (shortcut vs sequence) ===== */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:1rem;}
+.compare-col h5{font-size:.78rem;font-weight:700;letter-spacing:.03em;margin-bottom:1rem;}
+.compare-col.bad h5{color:rgba(200,140,90,.9);}
+.compare-col.good h5{color:rgba(46,90,78,.9);}
+.compare-row{padding:.7rem 1rem;font-size:.85rem;border-radius:2px;margin-bottom:.5rem;color:var(--inv-m);}
+.compare-col.bad .compare-row{background:rgba(255,176,32,.07);border:1px solid rgba(255,176,32,.2);}
+.compare-col.good .compare-row{background:rgba(255,176,32,.08);border:1px solid rgba(255,176,32,.22);}
+.compare-col.bad .compare-row.note{font-style:italic;background:rgba(200,140,90,.08);border-color:rgba(200,140,90,.2);}
+.compare-col.good .compare-row.final{background:rgba(46,90,78,.16);border-color:rgba(46,90,78,.45);color:rgba(120,210,170,.95);font-weight:600;}
+@media(max-width:680px){.compare{grid-template-columns:1fr;}}
+
+/* ===== PROMISE STEPS ===== */
+.promise-steps{display:flex;flex-direction:column;gap:0;margin-top:2.2rem;border-top:1px solid var(--sep-d);}
+.pstep{display:grid;grid-template-columns:2.4rem 1fr;gap:1.1rem;padding:1.3rem 0;border-bottom:1px solid var(--sep-d);}
+.pstep-n{font-family:'Fraunces',serif;font-weight:700;color:var(--amber);font-size:1.05rem;}
+.pstep-t{font-size:.94rem;color:var(--inv-m);line-height:1.65;}
+.pstep.refund .pstep-n{color:#7FC4AC;}
+
+/* ===== GUARANTEE STRIP ===== */
+.guarantee-strip{display:flex;gap:.8rem;align-items:flex-start;background:var(--card);border:1px solid var(--sep-l);border-radius:var(--r);padding:1rem 1.2rem;margin:1.6rem 0 2.2rem;max-width:760px;}
+.guarantee-strip .gs-ic{font-size:1.1rem;line-height:1;flex-shrink:0;margin-top:.1rem;}
+.guarantee-strip .gs-t{font-size:.88rem;color:var(--stone);line-height:1.65;}
+
+/* ===== PRICING ===== */
+.plans{display:grid;grid-template-columns:repeat(4,1fr);gap:1.1rem;margin-top:1rem;}
+.plan{background:var(--card);border:1px solid var(--sep-l);border-radius:var(--r);position:relative;perspective:1400px;}
+.plan.top{border:1.5px solid var(--copper);box-shadow:0 8px 28px rgba(168,70,30,.13);}
+.plan-badge{position:absolute;top:0;right:1rem;background:var(--copper);color:#fff;font-size:.62rem;font-weight:700;padding:2px 8px;border-radius:0 0 5px 5px;letter-spacing:.03em;}
+.plan-front,.plan-back{padding:1.6rem 1.3rem;}
+.plan-back{display:none;background:var(--paper-2);border-top:1px solid var(--sep-l);}
+.plan.flip .plan-back{display:block;}
+.plan.flip .plan-front .p-cta{display:none;}
+.p-name{font-family:'Fraunces',serif;font-size:1.05rem;font-weight:700;margin-bottom:.5rem;}
+.p-price{font-family:'Fraunces',serif;font-size:2.1rem;font-weight:700;letter-spacing:-.03em;line-height:1;}
+.p-per{font-size:.72rem;color:var(--muted);margin-bottom:.9rem;}
+.p-feats{list-style:none;margin-bottom:1rem;}
+.p-feats li{font-size:.84rem;color:var(--stone);padding:.4rem 0;border-bottom:1px solid var(--sep-l);display:flex;gap:6px;align-items:flex-start;line-height:1.5;}
+.p-feats li::before{content:'—';color:var(--copper);flex-shrink:0;}
+.p-res{margin-bottom:1.1rem;}
+.p-res-label{font-size:.66rem;font-weight:700;color:var(--muted);letter-spacing:.04em;margin-bottom:.5rem;text-transform:uppercase;}
+.p-rr{display:flex;justify-content:space-between;font-size:.79rem;padding:.25rem 0;border-bottom:1px dashed rgba(28,18,9,.08);}
+.p-rv.up{color:var(--teal);font-weight:600;}
+.p-cta,.p-flip{display:block;width:100%;text-align:center;font-size:.82rem;font-weight:600;padding:.75rem 1rem;border-radius:var(--r);border:1.5px solid var(--ink);background:none;color:var(--ink);cursor:pointer;}
+.p-cta:hover,.p-flip:hover{background:var(--ink);color:var(--paper);}
+.p-bt{font-family:'Fraunces',serif;font-size:1.05rem;font-weight:700;margin-bottom:1rem;}
+.s-opt{border:1px solid var(--sep-l);border-radius:var(--r);padding:.7rem .9rem;margin-bottom:.6rem;background:#fff;}
+.s-opt.best{border-color:var(--copper);}
+.s-opt-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:.3rem;}
+.s-opt-len{font-size:.7rem;color:var(--stone);font-weight:700;text-transform:uppercase;letter-spacing:.03em;}
+.s-opt-pct{font-size:.65rem;color:#fff;background:var(--teal);padding:2px 7px;border-radius:20px;font-weight:700;}
+.s-opt-price{font-size:.9rem;}
+.s-was{color:var(--muted);text-decoration:line-through;}
+.s-arrow{color:var(--muted);margin:0 .3rem;}
+.s-now{font-family:'Fraunces',serif;font-weight:700;color:var(--ink);}
+.p-get{display:block;text-align:center;font-size:.84rem;font-weight:700;padding:.8rem 1rem;border-radius:var(--r);background:var(--amber);color:var(--dark);margin:.7rem 0 .6rem;}
+.p-unflip{display:block;width:100%;text-align:center;background:none;border:none;font-size:.76rem;color:var(--muted);cursor:pointer;padding:.3rem;}
+.pricing-foot{font-size:.88rem;color:var(--muted);margin-top:1.6rem;}
+.pricing-disclaimer{font-size:.76rem;color:rgba(28,18,9,.5);margin-top:.6rem;line-height:1.6;max-width:900px;}
+@media(max-width:1000px){.plans{grid-template-columns:1fr 1fr;}}
+@media(max-width:560px){.plans{grid-template-columns:1fr;}}
+
+/* ===== CTA BAND ===== */
+.cta-band{text-align:left;}
+.cta-band h2{font-size:clamp(2rem,5vw,3.4rem);font-weight:700;line-height:1.08;max-width:16ch;margin-bottom:1.1rem;}
+.cta-band p{font-size:1rem;color:var(--inv-m);max-width:56ch;line-height:1.7;margin-bottom:1.7rem;}
+
+/* ===== FOOTER ===== */
+footer{background:var(--dark);color:var(--inv);padding:3.5rem 0 1.6rem;}
+.fg{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:2.5rem;margin-bottom:2.2rem;}
+.fl{font-family:'Fraunces',serif;font-size:1.3rem;font-weight:700;margin-bottom:.8rem;}
+.ft{font-size:.85rem;line-height:1.75;max-width:34ch;color:var(--inv-m);}
+.fc h5{font-size:.7rem;font-weight:700;letter-spacing:.06em;color:rgba(243,238,227,.55);margin-bottom:.9rem;text-transform:uppercase;}
+.fc ul{list-style:none;display:flex;flex-direction:column;gap:.55rem;}
+.fc ul li a{font-size:.87rem;color:var(--inv-m);}
+.fc ul li a:hover{color:var(--inv);}
+.fb{border-top:1px solid var(--sep-d);max-width:var(--max);margin:0 auto;padding:1.4rem clamp(1.25rem,5vw,3rem) 0;display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;font-size:.76rem;color:rgba(243,238,227,.4);}
+@media(max-width:720px){.fg{grid-template-columns:1fr;gap:1.8rem;}}
+
+</style>
 </head>
-<body class="bg-dark text-white overflow-x-hidden font-serif antialiased">
-    <!-- PayPal SDK -->
-    <script src="https://www.paypal.com/sdk/js?client-id=MPL98VGKF3GJY&components=hosted-buttons&disable-funding=venmo&currency=USD"></script>
-
-    <!-- Header -->
-    <header class="fixed w-full z-40 bg-dark/90 backdrop-blur-md border-b border-white/10">
-        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="text-2xl font-bold bg-gradient-to-br from-primary to-accent text-transparent bg-clip-text">Atomic-Shelf</div>
-            <div class="hidden md:flex space-x-8">
-                <a href="index.html" class="hover:text-primary transition-colors">Home</a>
-                <a href="how-it-works.html" class="hover:text-primary transition-colors">How It Works</a>
-                <a href="pricing.html" class="text-primary transition-colors">Pricing</a>
-                <a href="results.html" class="hover:text-primary transition-colors">Results</a>
-                <a href="faq.html" class="hover:text-primary transition-colors">FAQ</a>
-            </div>
-        </nav>
-    </header>
-
-    <!-- Hero -->
-    <section class="py-20 bg-dark relative overflow-hidden pt-32">
-        <div class="container mx-auto px-6">
-            <div class="max-w-4xl mx-auto text-center mb-16 scroll-reveal">
-                <h1 class="text-4xl lg:text-6xl font-bold mb-6">
-                    AI Video &amp; Book Marketing Packages
-                </h1>
-                <p class="text-xl text-gray-400">60 AI Videos/Month + Social Growth + Amazon Retargeting</p>
-            </div>
+<body>
+<nav class="topnav">
+  <div class="wrap">
+    <a href="index.html" class="brand">Atomic<span style="color:var(--amber)">·</span>Shelf</a>
+    <button class="navtoggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">&#9776;</button>
+    <div class="navlinks" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="services.html">Services</a>
+      <a href="how-it-works.html">How it works</a>
+      <a href="pricing.html" aria-current="page">Pricing</a>
+      <a href="mailto:nick@atomic-shelf.com" class="nav-cta">Talk to us</a>
+    </div>
+  </div>
+</nav>
+<section class="cream hero" style="padding-bottom:1rem;">
+  <div class="wrap">
+    <h1 class="page-h" style="color:var(--ink);">Pick the level.<br>We handle the rest.</h1>
+    <p class="page-sub" style="color:var(--stone);">Every tier includes consistent, genre-matched content and listing copy &amp; A+ optimization from Foundation up. Higher tiers add ARC reviews, preorder campaigns, and daily lookalike-audience retargeting. Tap <b>See commitment savings</b> on any plan for multi-month pricing.</p>
+    <div class="guarantee-strip">
+      <span class="gs-ic">&#128737;&#65039;</span>
+      <span class="gs-t"><b>Money-back guarantee.</b> If your book sees little to no clicks or sales after a full cycle, tell us &#8212; we'll dig into your account and refund you if we dropped the ball.</span>
+    </div>
+    <div class="plans">
+      <div class="plan">
+      
+      <div class="plan-front">
+        <div class="p-name">Spark</div>
+        <div class="p-price">$20</div>
+        <div class="p-per">per month &middot; first 20 videos free</div>
+        <ul class="p-feats">
+          <li>Short-form video creation monthly</li>
+          <li>Posted to TikTok, Shorts &amp; Reels</li>
+          <li>Genre-matched scripts, formats evolve</li>
+          <li>Click-throughs tracked</li>
+        </ul>
+        <div class="p-res">
+          <div class="p-res-label">Expected by month 3*</div>
+          <div class="p-rr"><span>Impressions</span><span class="p-rv">30k&#8211;70k</span></div>
+          <div class="p-rr"><span>Video views</span><span class="p-rv">5k&#8211;15k</span></div>
+          <div class="p-rr"><span>Click-throughs</span><span class="p-rv">80&#8211;220</span></div>
+          <div class="p-rr"><span>Sales lift</span><span class="p-rv up">+3&#8211;8%</span></div>
         </div>
-    </section>
-
-    <!-- $20 Basic Package -->
-    <section class="py-16 bg-gradient-to-b from-dark to-secondary/10">
-        <div class="container mx-auto px-6">
-            <div class="max-w-4xl mx-auto backdrop-blur-md bg-white/10 border border-white/20 p-10 rounded-3xl text-center">
-                <div class="inline-flex items-center gap-3 bg-primary/20 text-primary px-6 py-2 rounded-full mb-6">
-                    <span class="text-2xl">🚀</span>
-                    <span class="font-bold">INSANE VALUE</span>
-                </div>
-                <h2 class="text-4xl font-bold mb-3">Basic Online Presence</h2>
-                <p class="text-6xl font-black text-primary mb-2">$20<span class="text-2xl font-normal text-gray-400">/month</span></p>
-                <p class="text-xl text-accent mb-8">60 AI-Powered Videos Per Month</p>
-                
-                <div class="grid md:grid-cols-2 gap-8 text-left max-w-2xl mx-auto">
-                    <ul class="space-y-4 text-gray-300">
-                        <li class="flex items-start gap-3"><span class="text-green-400 text-xl">✓</span> 60 Short-form AI Videos (BookTok, Reels, Shorts)</li>
-                        <li class="flex items-start gap-3"><span class="text-green-400 text-xl">✓</span> Trending audio + viral hooks</li>
-                        <li class="flex items-start gap-3"><span class="text-green-400 text-xl">✓</span> Captions, thumbnails &amp; text overlays</li>
-                        <li class="flex items-start gap-3"><span class="text-green-400 text-xl">✓</span> Strategic following &amp; engagement</li>
-                    </ul>
-                    <ul class="space-y-4 text-gray-300">
-                        <li class="flex items-start gap-3"><span class="text-green-400 text-xl">✓</span> Book Club community building</li>
-                        <li class="flex items-start gap-3"><span class="text-green-400 text-xl">✓</span> ARC &amp; review team coordination</li>
-                        <li class="flex items-start gap-3"><span class="text-green-400 text-xl">✓</span> Cross-posting to all platforms</li>
-                        <li class="flex items-start gap-3"><span class="text-green-400 text-xl">✓</span> Weekly performance report</li>
-                    </ul>
-                </div>
-                <p class="text-sm text-gray-400 mt-10">Perfect entry point. Most authors upgrade after seeing results.</p>
-            </div>
+        <button class="p-cta p-flip">See commitment savings</button>
+      </div>
+      <div class="plan-back">
+        <div class="p-bt">Commit &amp; Save &#8212; Spark</div>
+        <div class="s-opts">
+          <div class="s-opt">
+            <div class="s-opt-top"><span class="s-opt-len">3 months</span><span class="s-opt-pct">Save 10%</span></div>
+            <div class="s-opt-price"><span class="s-was">$60</span><span class="s-arrow">&rarr;</span><span class="s-now">$54</span></div>
+          </div><div class="s-opt">
+            <div class="s-opt-top"><span class="s-opt-len">6 months</span><span class="s-opt-pct">Save 20%</span></div>
+            <div class="s-opt-price"><span class="s-was">$120</span><span class="s-arrow">&rarr;</span><span class="s-now">$96</span></div>
+          </div><div class="s-opt best">
+            <div class="s-opt-top"><span class="s-opt-len">12 months &middot; best value</span><span class="s-opt-pct">Save 25%</span></div>
+            <div class="s-opt-price"><span class="s-was">$240</span><span class="s-arrow">&rarr;</span><span class="s-now">$180</span></div>
+          </div>
         </div>
-    </section>
-
-    <!-- Video & Full Service Tiers -->
-    <section class="py-20 bg-dark">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-16">
-                <h2 class="text-5xl font-bold mb-4">Full Growth Packages</h2>
-                <p class="text-2xl text-gray-400">Everything included: Videos + Management + Amazon Ads</p>
-            </div>
-
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
-                <!-- Trial -->
-                <div class="tier-card bg-white/5 border border-white/20 rounded-3xl p-8 text-center hover:shadow-2xl transition-all">
-                    <h3 class="text-3xl font-bold mb-4">Trial</h3>
-                    <p class="text-5xl font-black text-primary mb-6">$49</p>
-                    <ul class="text-left space-y-3 mb-8 text-sm text-gray-300">
-                        <li><span class="text-green-400">✓</span> 60 AI Videos</li>
-                        <li><span class="text-green-400">✓</span> Full Social Management</li>
-                        <li><span class="text-green-400">✓</span> No ad spend</li>
-                    </ul>
-                    <div id="paypal-container-trial" class="min-h-[140px]"></div>
-                </div>
-
-                <!-- Starter -->
-                <div class="tier-card bg-white/5 border border-white/20 rounded-3xl p-8 text-center hover:shadow-2xl transition-all">
-                    <h3 class="text-3xl font-bold mb-4">Starter</h3>
-                    <p class="text-5xl font-black text-primary mb-6">$199<span class="text-base font-normal">/mo</span></p>
-                    <ul class="text-left space-y-3 mb-8 text-sm text-gray-300">
-                        <li><span class="text-green-400">✓</span> 60+ AI Videos</li>
-                        <li><span class="text-green-400">✓</span> Full Social Management</li>
-                        <li><span class="text-green-400">✓</span> Light Retargeting ($75 ad spend)</li>
-                        <li><span class="text-green-400">✓</span> ~100-250 sales potential</li>
-                    </ul>
-                    <div id="paypal-container-starter" class="min-h-[140px]"></div>
-                </div>
-
-                <!-- Growth - Recommended -->
-                <div class="tier-card relative bg-gradient-to-b from-white/10 to-white/5 border-2 border-accent rounded-3xl p-8 text-center shadow-2xl scale-105">
-                    <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-accent text-dark px-6 py-1 rounded-full font-bold text-sm">MOST POPULAR</div>
-                    <h3 class="text-3xl font-bold mb-4">Growth</h3>
-                    <p class="text-5xl font-black text-primary mb-6">$499<span class="text-base font-normal">/mo</span></p>
-                    <ul class="text-left space-y-3 mb-8 text-sm text-gray-300">
-                        <li><span class="text-green-400">✓</span> 80+ Premium AI Videos</li>
-                        <li><span class="text-green-400">✓</span> Book Trailer + Avatar Narration</li>
-                        <li><span class="text-green-400">✓</span> Aggressive Retargeting ($250 ad spend)</li>
-                        <li><span class="text-green-400">✓</span> Amazon A+ Content</li>
-                        <li><span class="text-green-400">✓</span> 400-800+ sales potential</li>
-                    </ul>
-                    <div id="paypal-container-growth" class="min-h-[140px]"></div>
-                </div>
-
-                <!-- Surge -->
-                <div class="tier-card bg-white/5 border border-white/20 rounded-3xl p-8 text-center hover:shadow-2xl transition-all">
-                    <h3 class="text-3xl font-bold mb-4">Surge</h3>
-                    <p class="text-5xl font-black text-primary mb-6">$1,299<span class="text-base font-normal">/mo</span></p>
-                    <ul class="text-left space-y-3 mb-8 text-sm text-gray-300">
-                        <li><span class="text-green-400">✓</span> 120+ Cinematic Videos</li>
-                        <li><span class="text-green-400">✓</span> Multiple Trailers + Theme Song</li>
-                        <li><span class="text-green-400">✓</span> Heavy DSP Retargeting ($800+ ad spend)</li>
-                        <li><span class="text-green-400">✓</span> Full Amazon Video Ads</li>
-                        <li><span class="text-green-400">✓</span> 1,200+ sales potential</li>
-                    </ul>
-                    <div id="paypal-container-surge" class="min-h-[140px]"></div>
-                </div>
-            </div>
+        <a href="mailto:nick@atomic-shelf.com?subject=Spark plan" class="p-get">Get started with Spark</a>
+        <button class="p-unflip">&larr; Back to plan details</button>
+      </div>
+    </div>
+      <div class="plan">
+      
+      <div class="plan-front">
+        <div class="p-name">Foundation</div>
+        <div class="p-price">$79</div>
+        <div class="p-per">per month</div>
+        <ul class="p-feats">
+          <li>80 short-form videos monthly</li>
+          <li>1 professional book trailer</li>
+          <li>Listing copy &amp; A+ optimization</li>
+          <li>Preorder listing setup</li>
+          <li>ShelfMates / StoryPals access</li>
+        </ul>
+        <div class="p-res">
+          <div class="p-res-label">Expected by month 3*</div>
+          <div class="p-rr"><span>Impressions</span><span class="p-rv">90k&#8211;220k</span></div>
+          <div class="p-rr"><span>Video views</span><span class="p-rv">15k&#8211;40k</span></div>
+          <div class="p-rr"><span>Click-throughs</span><span class="p-rv">300&#8211;800</span></div>
+          <div class="p-rr"><span>Sales lift</span><span class="p-rv up">+8&#8211;15%</span></div>
         </div>
-    </section>
-
-    <!-- Amazon Ads -->
-    <section class="py-20 bg-gradient-to-b from-secondary/10 to-dark">
-        <div class="container mx-auto px-6 max-w-4xl">
-            <div class="backdrop-blur-md bg-white/10 border border-white/20 p-10 rounded-3xl">
-                <h3 class="text-3xl font-bold text-center mb-8">Amazon Ads Retargeting (Add-on)</h3>
-                <div class="grid md:grid-cols-3 gap-6 text-center">
-                    <div class="p-6 bg-white/5 rounded-2xl">
-                        <p class="font-bold">$100/mo</p>
-                        <p class="text-sm text-gray-400">~120 sales</p>
-                    </div>
-                    <div class="p-6 bg-white/5 rounded-2xl">
-                        <p class="font-bold">$250/mo</p>
-                        <p class="text-sm text-gray-400">300–600 sales</p>
-                    </div>
-                    <div class="p-6 bg-white/5 rounded-2xl">
-                        <p class="font-bold">$800+/mo</p>
-                        <p class="text-sm text-gray-400">High volume + best ROAS</p>
-                    </div>
-                </div>
-            </div>
+        <button class="p-cta p-flip">See commitment savings</button>
+      </div>
+      <div class="plan-back">
+        <div class="p-bt">Commit &amp; Save &#8212; Foundation</div>
+        <div class="s-opts">
+          <div class="s-opt">
+            <div class="s-opt-top"><span class="s-opt-len">3 months</span><span class="s-opt-pct">Save 10%</span></div>
+            <div class="s-opt-price"><span class="s-was">$213</span><span class="s-arrow">&rarr;</span><span class="s-now">$192</span></div>
+          </div><div class="s-opt">
+            <div class="s-opt-top"><span class="s-opt-len">6 months</span><span class="s-opt-pct">Save 20%</span></div>
+            <div class="s-opt-price"><span class="s-was">$474</span><span class="s-arrow">&rarr;</span><span class="s-now">$379</span></div>
+          </div><div class="s-opt best">
+            <div class="s-opt-top"><span class="s-opt-len">12 months &middot; best value</span><span class="s-opt-pct">Save 25%</span></div>
+            <div class="s-opt-price"><span class="s-was">$948</span><span class="s-arrow">&rarr;</span><span class="s-now">$711</span></div>
+          </div>
         </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-dark border-t border-white/10 py-12">
-        <div class="container mx-auto px-6">
-            <div class="grid md:grid-cols-3 gap-8 mb-8">
-                <div>
-                    <div class="text-2xl font-bold bg-gradient-to-br from-primary to-accent text-transparent bg-clip-text mb-4">Atomic-Shelf</div>
-                    <p class="text-gray-400">60 AI Videos • BookTok Growth • Amazon DSP</p>
-                </div>
-                <div>
-                    <h4 class="font-bold mb-4">Contact</h4>
-                    <p class="text-gray-400">powerpages30@gmail.com</p>
-                </div>
-            </div>
-            <div class="text-center text-gray-400 text-sm border-t border-white/10 pt-8">
-                © 2026 Atomic-Shelf. All rights reserved.
-            </div>
+        <a href="mailto:nick@atomic-shelf.com?subject=Foundation plan" class="p-get">Get started with Foundation</a>
+        <button class="p-unflip">&larr; Back to plan details</button>
+      </div>
+    </div>
+      <div class="plan top">
+      <div class="plan-badge">Most popular</div>
+      <div class="plan-front">
+        <div class="p-name">Momentum</div>
+        <div class="p-price">$249</div>
+        <div class="p-per">per month</div>
+        <ul class="p-feats">
+          <li>All Foundation features</li>
+          <li>Full social media management</li>
+          <li>ARC campaign &#8212; 10 reviews targeted</li>
+          <li>Enhanced A+ listing build</li>
+          <li>Preorder campaign &#8212; 6-week countdown</li>
+          <li>1 newsletter feature per quarter</li>
+          <li>Daily lookalike-audience retargeting included</li>
+        </ul>
+        <div class="p-res">
+          <div class="p-res-label">Expected by month 3*</div>
+          <div class="p-rr"><span>Preorders secured</span><span class="p-rv">80&#8211;180</span></div>
+          <div class="p-rr"><span>Free promo downloads</span><span class="p-rv">1,200&#8211;2,400</span></div>
+          <div class="p-rr"><span>KU page reads boost</span><span class="p-rv up">+40&#8211;80%</span></div>
+          <div class="p-rr"><span>Sales lift</span><span class="p-rv up">+25&#8211;45%</span></div>
         </div>
-    </footer>
+        <button class="p-cta p-flip">See commitment savings</button>
+      </div>
+      <div class="plan-back" style="background:#fff;">
+        <div class="p-bt">Commit &amp; Save &#8212; Momentum</div>
+        <div class="s-opts">
+          <div class="s-opt">
+            <div class="s-opt-top"><span class="s-opt-len">6 months</span><span class="s-opt-pct">Save 20%</span></div>
+            <div class="s-opt-price"><span class="s-was">$1,494</span><span class="s-arrow">&rarr;</span><span class="s-now">$1,196</span></div>
+          </div><div class="s-opt best">
+            <div class="s-opt-top"><span class="s-opt-len">12 months &middot; best value</span><span class="s-opt-pct">Save 25%</span></div>
+            <div class="s-opt-price"><span class="s-was">$2,988</span><span class="s-arrow">&rarr;</span><span class="s-now">$2,241</span></div>
+          </div>
+        </div>
+        <a href="mailto:nick@atomic-shelf.com?subject=Momentum plan" class="p-get">Get started with Momentum</a>
+        <button class="p-unflip">&larr; Back to plan details</button>
+      </div>
+    </div>
+      <div class="plan">
+      
+      <div class="plan-front">
+        <div class="p-name">Growth</div>
+        <div class="p-price">$499</div>
+        <div class="p-per">per month</div>
+        <ul class="p-feats">
+          <li>100+ premium videos monthly</li>
+          <li>2 cinematic trailers, 1 theme song</li>
+          <li>ARC campaign &#8212; 25 reviews targeted</li>
+          <li>Premium A+ listing build</li>
+          <li>Preorder campaign &#8212; 8-week countdown</li>
+          <li>1 newsletter feature per month</li>
+          <li>Daily lookalike-audience retargeting included</li>
+        </ul>
+        <div class="p-res">
+          <div class="p-res-label">Expected by month 3*</div>
+          <div class="p-rr"><span>Preorders secured</span><span class="p-rv">200&#8211;420</span></div>
+          <div class="p-rr"><span>Free promo downloads</span><span class="p-rv">2,400&#8211;4,800</span></div>
+          <div class="p-rr"><span>KU page reads boost</span><span class="p-rv up">+90&#8211;150%</span></div>
+          <div class="p-rr"><span>Sales lift</span><span class="p-rv up">+60&#8211;110%</span></div>
+        </div>
+        <button class="p-cta p-flip">See commitment savings</button>
+      </div>
+      <div class="plan-back">
+        <div class="p-bt">Commit &amp; Save &#8212; Growth</div>
+        <div class="s-opts">
+          <div class="s-opt">
+            <div class="s-opt-top"><span class="s-opt-len">6 months</span><span class="s-opt-pct">Save 20%</span></div>
+            <div class="s-opt-price"><span class="s-was">$2,994</span><span class="s-arrow">&rarr;</span><span class="s-now">$2,396</span></div>
+          </div><div class="s-opt best">
+            <div class="s-opt-top"><span class="s-opt-len">12 months &middot; best value</span><span class="s-opt-pct">Save 25%</span></div>
+            <div class="s-opt-price"><span class="s-was">$5,988</span><span class="s-arrow">&rarr;</span><span class="s-now">$4,491</span></div>
+          </div>
+        </div>
+        <a href="mailto:nick@atomic-shelf.com?subject=Growth plan" class="p-get">Get started with Growth</a>
+        <button class="p-unflip">&larr; Back to plan details</button>
+      </div>
+    </div>
+    </div>
+    <p class="pricing-foot">Running a full catalogue, multiple books, or need bespoke campaign structure? <a href="mailto:nick@atomic-shelf.com" style="color:var(--copper);font-weight:600;">Ask about Surge &amp; Orbit</a> &#8212; dedicated team or custom seat, custom pricing.</p>
+    <p class="pricing-disclaimer">*Expected ranges are 90-day averages based on 200+ clients over 24 months, measured against each book's pre-campaign baseline &#8212; many starting from little to no prior sales. Individual results vary by genre, backlist, and price point.</p>
+  </div>
+</section>
 
-    <script>
-        // PayPal Buttons - Replace with your actual Hosted Button IDs
-        try {
-            paypal.HostedButtons({ hostedButtonId: "KP8FLJCGU62M8" }).render("#paypal-container-trial");
-            paypal.HostedButtons({ hostedButtonId: "7MVWXL28WKJMS" }).render("#paypal-container-starter");
-            paypal.HostedButtons({ hostedButtonId: "2FYFQK7CA3JPE" }).render("#paypal-container-growth");
-            paypal.HostedButtons({ hostedButtonId: "22UF48VWPLXP6" }).render("#paypal-container-surge");
-        } catch (e) {
-            console.log("PayPal buttons ready");
-        }
-
-        const observer = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('revealed');
-            });
-        }, { threshold: 0.1 });
-
-        document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
-    </script>
+<section class="dark">
+  <div class="wrap cta-band">
+    <h2>Still deciding?</h2>
+    <p>Tell us about your book and where you're starting from &#8212; we'll tell you honestly which tier makes sense.</p>
+    <div class="btn-row">
+      <a href="mailto:nick@atomic-shelf.com" class="btn btn-amber">Talk to us first</a>
+      <a href="how-it-works.html" class="btn btn-gd">See how it all works</a>
+    </div>
+  </div>
+</section>
+<footer>
+  <div class="wrap">
+    <div class="fg">
+      <div>
+        <div class="fl">Atomic&#8209;Shelf</div>
+        <p class="ft">Video, reviews, preorders, free promos, reader lists, and daily lookalike-audience retargeting &#8212; one team, one system, built for indie authors. We keep working until we hit your target.</p>
+      </div>
+      <div class="fc">
+        <h5>Site</h5>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="how-it-works.html">How it works</a></li>
+          <li><a href="pricing.html">Pricing</a></li>
+        </ul>
+      </div>
+      <div class="fc">
+        <h5>Contact</h5>
+        <ul>
+          <li><a href="mailto:nick@atomic-shelf.com">nick@atomic-shelf.com</a></li>
+          <li><a href="mailto:nick@atomic-shelf.com">Talk to us</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="fb">
+    <span>&copy; 2026 Atomic Shelf &middot; StoryPal &middot; ShelfMate</span>
+    <span>Built with care for indie authors.</span>
+  </div>
+</footer>
+<script>
+const navToggle=document.getElementById('navToggle');
+const navLinks=document.getElementById('navLinks');
+if(navToggle){navToggle.addEventListener('click',()=>{
+  const open=navLinks.classList.toggle('open');
+  navToggle.setAttribute('aria-expanded',open);
+});}
+</script>
+<script>
+document.querySelectorAll('.p-flip').forEach(btn=>btn.addEventListener('click',()=>btn.closest('.plan').classList.add('flip')));
+document.querySelectorAll('.p-unflip').forEach(btn=>btn.addEventListener('click',()=>btn.closest('.plan').classList.remove('flip')));
+</script>
 </body>
 </html>
