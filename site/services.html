@@ -2,222 +2,336 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<meta name="description" content="Every Atomic Shelf service in detail — video, ARC reviews, preorders, free promos, managed advertising, and reader-list apps."/>
-<title>Services — Atomic Shelf</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<meta name="description" content="What Atomic Shelf does for indie authors: short-form video, ARC reviews, listing optimization, reader lists, and lookalike-audience retargeting."/>
+<title>Services &#8212; Atomic Shelf</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,400;1,9..144,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,400;1,9..144,600&family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet"/>
 <style>
-:root{--ink:#1C1209;--paper:#F5EDD8;--paper-2:#EDE0C4;--paper-3:#E5D7B8;--copper:#A8461E;--copper-l:#C8673C;--amber:#B87820;--teal:#2E5A4E;--card:#FAF4E4;--stone:#5E4A30;--rule:rgba(28,18,9,0.13);--r:2px;--topnav-h:68px;}
+:root{
+  --dark:#14120F; --dark-2:#1C1810;
+  --paper:#F5EDD8; --paper-2:#EDE0C4; --paper-3:#E5D7B8;
+  --inv:#F3EEE3; --inv-m:rgba(243,238,227,.62);
+  --amber:#FFB020;
+  --ink:#1C1209; --stone:#5E4A30; --muted:#7A5C38;
+  --copper:#A8461E; --copper-l:#C8673C; --copper-d:#7F3410;
+  --teal:#2E5A4E;
+  --sep-d:rgba(243,238,227,.14); --sep-l:rgba(28,18,9,.13);
+  --card:#FFFEFA;
+  --r:3px; --max:1080px;
+}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
-body{font-family:'DM Sans',sans-serif;background:var(--paper);color:var(--ink);line-height:1.65;-webkit-font-smoothing:antialiased;padding-top:var(--topnav-h);}
-h1,h2,h3,h4{font-family:'Fraunces',serif;letter-spacing:-0.015em;}
-.section{padding:7vh 8vw;position:relative;}
-.section-inner{max-width:1080px;margin:0 auto;width:100%;}
-.section.p1{background:var(--paper);}.section.p2{background:var(--paper-2);}.section.p3{background:var(--paper-3);}
-.section-rule{border:none;border-top:1px solid var(--rule);}
-.eyebrow{font-family:'Fraunces',serif;font-style:italic;font-size:0.88rem;color:var(--copper);margin-bottom:1.4rem;display:flex;align-items:center;gap:0.8rem;}
-.eyebrow::after{content:'';flex:0 0 36px;height:1px;background:var(--copper);opacity:0.35;}
+html{-webkit-font-smoothing:antialiased;font-size:18px;scroll-behavior:smooth;}
+body{font-family:'Atkinson Hyperlegible Next',sans-serif;background:var(--paper);color:var(--ink);overflow-x:hidden;}
+h1,h2,h3,h4{font-family:'Fraunces',serif;letter-spacing:-.015em;}
+a{color:inherit;text-decoration:none;}
+img,svg{max-width:100%;}
+:focus-visible{outline:2px solid var(--copper);outline-offset:3px;}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;}}
 
-.topnav{position:fixed;top:0;left:0;right:0;z-index:600;display:flex;align-items:center;justify-content:space-between;padding:0 4vw;height:var(--topnav-h);background:rgba(245,237,216,0.92);backdrop-filter:blur(14px) saturate(1.3);border-bottom:1px solid var(--rule);}
-.topnav-logo{font-family:'Fraunces',serif;font-weight:700;font-size:1.32rem;color:var(--ink);text-decoration:none;letter-spacing:-0.02em;}
-.topnav-logo .accent{color:var(--copper);}
-.topnav-links{display:flex;align-items:center;gap:2.1rem;list-style:none;}
-.topnav-links a{color:var(--stone);text-decoration:none;font-size:0.85rem;font-weight:500;transition:color 0.2s;position:relative;padding:4px 0;}
-.topnav-links a:hover{color:var(--copper);}
-.topnav-links a.current{color:var(--copper);}
-.topnav-links a.current::after{content:'';position:absolute;left:0;right:0;bottom:-3px;height:2px;background:var(--copper);border-radius:2px;}
-.topnav-cta{background:var(--copper);color:#fff;padding:0.58rem 1.3rem;border-radius:var(--r);font-size:0.82rem;font-weight:600;text-decoration:none;transition:all 0.2s;white-space:nowrap;}
-.topnav-cta:hover{background:var(--copper-l);transform:translateY(-1px);}
-.topnav-mobile-toggle{display:none;background:none;border:1.5px solid var(--rule);border-radius:6px;width:38px;height:38px;align-items:center;justify-content:center;cursor:pointer;color:var(--ink);}
-@media(max-width:880px){.topnav-links{display:none;position:fixed;top:var(--topnav-h);left:0;right:0;background:var(--paper);border-bottom:1px solid var(--rule);flex-direction:column;align-items:flex-start;gap:0;padding:0.5rem 6vw 1.2rem;}.topnav-links.open{display:flex;}.topnav-links a{width:100%;padding:0.75rem 0;border-bottom:1px solid var(--rule);}.topnav-mobile-toggle{display:flex;}.topnav-cta{display:none;}.topnav-links.open .topnav-cta{display:inline-block;margin-top:0.6rem;}}
+.wrap{width:100%;max-width:var(--max);margin:0 auto;padding:0 clamp(1.25rem,5vw,3rem);}
 
-.xlink{display:inline-flex;align-items:center;gap:5px;color:var(--copper);font-weight:600;text-decoration:none;border-bottom:1.5px solid rgba(168,70,30,0.32);padding-bottom:1px;transition:all 0.2s;}
-.xlink:hover{border-bottom-color:var(--copper);color:var(--copper-l);gap:8px;}
-.xlink::after{content:'→';font-size:0.92em;transition:transform 0.2s;}
-.xlink:hover::after{transform:translateX(2px);}
-.xlink-block{display:inline-flex;align-items:center;gap:8px;background:rgba(168,70,30,0.06);border:1px solid rgba(168,70,30,0.24);color:var(--copper);text-decoration:none;font-size:0.84rem;font-weight:600;padding:0.6rem 1.1rem;border-radius:var(--r);transition:all 0.2s;}
-.xlink-block:hover{background:rgba(168,70,30,0.12);border-color:var(--copper);gap:11px;}
-.xlink-block::after{content:'→';transition:transform 0.2s;}
-.xlink-block:hover::after{transform:translateX(2px);}
+/* ===== NAV ===== */
+.topnav{position:sticky;top:0;z-index:500;background:rgba(20,18,15,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--sep-d);}
+.topnav .wrap{display:flex;align-items:center;justify-content:space-between;padding-top:1rem;padding-bottom:1rem;gap:1.5rem;}
+.brand{font-family:'Fraunces',serif;font-weight:700;font-size:1.15rem;color:var(--inv);letter-spacing:-.01em;}
+.navlinks{display:flex;align-items:center;gap:1.9rem;flex-wrap:wrap;}
+.navlinks a{font-size:.86rem;color:var(--inv-m);font-weight:500;transition:color .15s;}
+.navlinks a:hover,.navlinks a[aria-current="page"]{color:var(--inv);}
+.navlinks a[aria-current="page"]{border-bottom:1.5px solid var(--amber);padding-bottom:2px;}
+.nav-cta{display:inline-flex;padding:.55rem 1.15rem;font-size:.8rem;font-weight:600;background:var(--amber);color:var(--dark);border-radius:var(--r);white-space:nowrap;}
+.navtoggle{display:none;}
+@media(max-width:720px){
+  .navlinks{position:fixed;inset:0 0 0 30%;top:57px;background:var(--dark);flex-direction:column;align-items:flex-start;padding:2rem 1.5rem;gap:1.5rem;transform:translateX(100%);transition:transform .25s ease;border-left:1px solid var(--sep-d);}
+  .navlinks.open{transform:translateX(0);}
+  .navlinks a{font-size:1.05rem;}
+  .navtoggle{display:block;background:none;border:1px solid var(--sep-d);color:var(--inv);border-radius:var(--r);padding:.45rem .7rem;font-size:1rem;line-height:1;}
+}
 
-.page-hero{padding:8vh 8vw 5vh;max-width:900px;}
-.page-hero .eyebrow{margin-bottom:1.2rem;}
-.page-hero h1{font-size:clamp(2.4rem,5vw,4rem);line-height:1.04;font-weight:600;margin-bottom:1.2rem;max-width:16ch;}
-.page-hero p{font-size:1.05rem;color:var(--stone);max-width:56ch;line-height:1.9;}
-
-.service-list{display:flex;flex-direction:column;}
-.service-row{display:grid;grid-template-columns:60px 1fr;gap:1.6rem;padding:2.6rem 0;border-top:1px solid var(--rule);}
-.service-row:last-child{border-bottom:1px solid var(--rule);}
-.service-num{font-family:'Fraunces',serif;font-style:italic;font-weight:300;font-size:2rem;color:var(--copper);}
-.service-row h3{font-size:1.5rem;font-weight:600;margin-bottom:0.6rem;}
-.service-row p{font-size:0.96rem;color:var(--stone);line-height:1.85;max-width:62ch;margin-bottom:1rem;}
-.service-tags{display:flex;gap:0.5rem;flex-wrap:wrap;}
-.service-tag{font-size:0.72rem;font-weight:600;color:var(--copper);background:rgba(168,70,30,0.07);border:1px solid rgba(168,70,30,0.2);border-radius:99px;padding:3px 11px;}
-
-.btn{display:inline-flex;align-items:center;gap:6px;padding:0.82rem 1.85rem;border-radius:var(--r);font-size:0.86rem;font-weight:600;text-decoration:none;transition:all 0.2s;cursor:pointer;border:1.5px solid transparent;}
+/* ===== BUTTONS ===== */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:.9rem 1.95rem;font-size:.86rem;font-weight:600;border-radius:var(--r);border:1.5px solid transparent;cursor:pointer;transition:all .18s;font-family:'Atkinson Hyperlegible Next',sans-serif;text-decoration:none;}
+.btn-amber{background:var(--amber);color:var(--dark);border-color:var(--amber);}
+.btn-amber:hover{filter:brightness(1.07);transform:translateY(-1px);}
 .btn-copper{background:var(--copper);color:#fff;border-color:var(--copper);}
-.btn-copper:hover{background:var(--copper-l);border-color:var(--copper-l);transform:translateY(-1px);}
-.btn-outline{border-color:var(--ink);color:var(--ink);}
-.btn-outline:hover{background:var(--ink);color:#fff;}
+.btn-copper:hover{background:var(--copper-l);border-color:var(--copper-l);}
+.btn-gd{border-color:var(--sep-d);color:var(--inv);}
+.btn-gd:hover{border-color:rgba(243,238,227,.4);}
+.btn-gl{border-color:var(--ink);color:var(--ink);}
+.btn-gl:hover{background:var(--ink);color:var(--paper);}
+.btn-row{display:flex;gap:.9rem;flex-wrap:wrap;}
 
-footer{background:var(--ink);color:rgba(245,237,216,0.55);padding:3.4rem 8vw 2.2rem;font-size:0.8rem;}
-.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2.4rem;max-width:1080px;margin:0 auto;padding-bottom:2.2rem;border-bottom:1px solid rgba(245,237,216,0.1);}
-@media(max-width:760px){.footer-grid{grid-template-columns:1fr 1fr;}}
-.footer-logo{font-family:'Fraunces',serif;font-weight:700;font-size:1.4rem;color:#fff;margin-bottom:0.7rem;}
-.footer-logo .accent{color:var(--copper-l);}
-.footer-desc{color:rgba(245,237,216,0.42);line-height:1.75;max-width:34ch;}
-.footer-col h5{color:rgba(245,237,216,0.85);font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.9rem;}
-.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:0.55rem;}
-footer a{color:rgba(245,237,216,0.55);text-decoration:none;transition:color 0.2s;}
-footer a:hover{color:var(--copper-l);}
-.footer-bottom{max-width:1080px;margin:0 auto;padding-top:1.6rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.6rem;color:rgba(245,237,216,0.32);}
+/* ===== SECTIONS ===== */
+section{padding:clamp(3.5rem,8vw,6.5rem) 0;}
+.dark{background:var(--dark);color:var(--inv);}
+.cream{background:var(--paper);color:var(--ink);}
+.cream-2{background:var(--paper-2);color:var(--ink);}
+.eyebrow{font-size:.8rem;color:var(--muted);font-weight:600;margin-bottom:.9rem;}
+.dark .eyebrow{color:rgba(243,238,227,.55);}
+
+/* ===== HERO ===== */
+.hero{padding-top:clamp(3.5rem,9vw,6rem);}
+.hero-h1{font-size:clamp(2.6rem,7vw,5.2rem);font-weight:700;line-height:1.03;max-width:16ch;margin-bottom:1.5rem;}
+.hero-body{font-size:1.05rem;color:var(--inv-m);max-width:52ch;line-height:1.75;margin-bottom:2rem;}
+.page-h{font-size:clamp(2.3rem,5.5vw,3.6rem);font-weight:700;line-height:1.08;max-width:18ch;margin-bottom:1.1rem;}
+.page-sub{font-size:1.02rem;line-height:1.7;max-width:56ch;color:var(--stone);}
+.dark .page-sub{color:var(--inv-m);}
+
+/* ===== STATS ===== */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;}
+.stat-n{font-family:'Fraunces',serif;font-size:clamp(2.4rem,5vw,3.6rem);font-weight:900;color:var(--amber);line-height:1;letter-spacing:-.02em;}
+.stat-l{font-size:.85rem;color:var(--inv-m);margin-top:.5rem;line-height:1.5;max-width:22ch;}
+@media(max-width:680px){.stats{grid-template-columns:1fr;gap:1.8rem;}}
+
+/* ===== CARD GRID (teasers) ===== */
+.card-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+.tcard{background:var(--card);border:1px solid var(--sep-l);border-radius:var(--r);padding:1.8rem;}
+.tcard h3{font-size:1.25rem;font-weight:700;margin-bottom:.6rem;}
+.tcard p{font-size:.92rem;color:var(--stone);line-height:1.65;margin-bottom:1rem;}
+.tcard a{font-size:.85rem;font-weight:600;color:var(--copper);}
+@media(max-width:680px){.card-grid{grid-template-columns:1fr;}}
+
+/* ===== TWO COL FEATURE ===== */
+.feat{display:grid;grid-template-columns:1.1fr .9fr;gap:3rem;align-items:start;}
+.feat h2{font-size:clamp(1.9rem,4vw,2.9rem);font-weight:700;line-height:1.1;margin-bottom:1rem;}
+.feat p{font-size:1rem;line-height:1.75;max-width:48ch;margin-bottom:1rem;}
+.dark .feat p{color:var(--inv-m);}
+.cream .feat p,.cream-2 .feat p{color:var(--stone);}
+.feat-stat{font-family:'Fraunces',serif;font-size:clamp(2.6rem,5vw,4rem);font-weight:900;color:var(--amber);line-height:1;}
+.cream .feat-stat,.cream-2 .feat-stat{color:var(--copper);}
+.feat-stat-l{font-size:.8rem;color:var(--inv-m);margin-top:.3rem;}
+.cream .feat-stat-l,.cream-2 .feat-stat-l{color:var(--stone);}
+.feat-side{background:rgba(255,255,255,.04);border:1px solid var(--sep-d);border-radius:var(--r);padding:1.6rem;}
+.cream .feat-side,.cream-2 .feat-side{background:rgba(28,18,9,.03);border-color:var(--sep-l);}
+.feat-side ul{list-style:none;display:flex;flex-direction:column;gap:.7rem;}
+.feat-side li{font-size:.88rem;padding-bottom:.7rem;border-bottom:1px solid var(--sep-d);}
+.cream .feat-side li,.cream-2 .feat-side li{border-color:var(--sep-l);}
+.feat-side li:last-child{border-bottom:none;padding-bottom:0;}
+@media(max-width:820px){.feat{grid-template-columns:1fr;}}
+
+/* ===== STEP LIST (how it works) ===== */
+.steps{display:flex;flex-direction:column;border-top:1px solid var(--sep-d);margin-top:2.5rem;}
+.step{display:grid;grid-template-columns:2.4rem 1fr;gap:1.2rem;padding:1.5rem 0;border-bottom:1px solid var(--sep-d);}
+.step-n{font-family:'Fraunces',serif;font-weight:700;color:var(--amber);font-size:1.1rem;}
+.step-t h4{font-size:1.05rem;font-weight:600;margin-bottom:.35rem;}
+.step-t p{font-size:.92rem;color:var(--inv-m);line-height:1.6;max-width:56ch;}
+
+/* ===== COMPARISON (shortcut vs sequence) ===== */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:1rem;}
+.compare-col h5{font-size:.78rem;font-weight:700;letter-spacing:.03em;margin-bottom:1rem;}
+.compare-col.bad h5{color:rgba(200,140,90,.9);}
+.compare-col.good h5{color:rgba(46,90,78,.9);}
+.compare-row{padding:.7rem 1rem;font-size:.85rem;border-radius:2px;margin-bottom:.5rem;color:var(--inv-m);}
+.compare-col.bad .compare-row{background:rgba(255,176,32,.07);border:1px solid rgba(255,176,32,.2);}
+.compare-col.good .compare-row{background:rgba(255,176,32,.08);border:1px solid rgba(255,176,32,.22);}
+.compare-col.bad .compare-row.note{font-style:italic;background:rgba(200,140,90,.08);border-color:rgba(200,140,90,.2);}
+.compare-col.good .compare-row.final{background:rgba(46,90,78,.16);border-color:rgba(46,90,78,.45);color:rgba(120,210,170,.95);font-weight:600;}
+@media(max-width:680px){.compare{grid-template-columns:1fr;}}
+
+/* ===== PROMISE STEPS ===== */
+.promise-steps{display:flex;flex-direction:column;gap:0;margin-top:2.2rem;border-top:1px solid var(--sep-d);}
+.pstep{display:grid;grid-template-columns:2.4rem 1fr;gap:1.1rem;padding:1.3rem 0;border-bottom:1px solid var(--sep-d);}
+.pstep-n{font-family:'Fraunces',serif;font-weight:700;color:var(--amber);font-size:1.05rem;}
+.pstep-t{font-size:.94rem;color:var(--inv-m);line-height:1.65;}
+.pstep.refund .pstep-n{color:#7FC4AC;}
+
+/* ===== GUARANTEE STRIP ===== */
+.guarantee-strip{display:flex;gap:.8rem;align-items:flex-start;background:var(--card);border:1px solid var(--sep-l);border-radius:var(--r);padding:1rem 1.2rem;margin:1.6rem 0 2.2rem;max-width:760px;}
+.guarantee-strip .gs-ic{font-size:1.1rem;line-height:1;flex-shrink:0;margin-top:.1rem;}
+.guarantee-strip .gs-t{font-size:.88rem;color:var(--stone);line-height:1.65;}
+
+/* ===== PRICING ===== */
+.plans{display:grid;grid-template-columns:repeat(4,1fr);gap:1.1rem;margin-top:1rem;}
+.plan{background:var(--card);border:1px solid var(--sep-l);border-radius:var(--r);position:relative;perspective:1400px;}
+.plan.top{border:1.5px solid var(--copper);box-shadow:0 8px 28px rgba(168,70,30,.13);}
+.plan-badge{position:absolute;top:0;right:1rem;background:var(--copper);color:#fff;font-size:.62rem;font-weight:700;padding:2px 8px;border-radius:0 0 5px 5px;letter-spacing:.03em;}
+.plan-front,.plan-back{padding:1.6rem 1.3rem;}
+.plan-back{display:none;background:var(--paper-2);border-top:1px solid var(--sep-l);}
+.plan.flip .plan-back{display:block;}
+.plan.flip .plan-front .p-cta{display:none;}
+.p-name{font-family:'Fraunces',serif;font-size:1.05rem;font-weight:700;margin-bottom:.5rem;}
+.p-price{font-family:'Fraunces',serif;font-size:2.1rem;font-weight:700;letter-spacing:-.03em;line-height:1;}
+.p-per{font-size:.72rem;color:var(--muted);margin-bottom:.9rem;}
+.p-feats{list-style:none;margin-bottom:1rem;}
+.p-feats li{font-size:.84rem;color:var(--stone);padding:.4rem 0;border-bottom:1px solid var(--sep-l);display:flex;gap:6px;align-items:flex-start;line-height:1.5;}
+.p-feats li::before{content:'—';color:var(--copper);flex-shrink:0;}
+.p-res{margin-bottom:1.1rem;}
+.p-res-label{font-size:.66rem;font-weight:700;color:var(--muted);letter-spacing:.04em;margin-bottom:.5rem;text-transform:uppercase;}
+.p-rr{display:flex;justify-content:space-between;font-size:.79rem;padding:.25rem 0;border-bottom:1px dashed rgba(28,18,9,.08);}
+.p-rv.up{color:var(--teal);font-weight:600;}
+.p-cta,.p-flip{display:block;width:100%;text-align:center;font-size:.82rem;font-weight:600;padding:.75rem 1rem;border-radius:var(--r);border:1.5px solid var(--ink);background:none;color:var(--ink);cursor:pointer;}
+.p-cta:hover,.p-flip:hover{background:var(--ink);color:var(--paper);}
+.p-bt{font-family:'Fraunces',serif;font-size:1.05rem;font-weight:700;margin-bottom:1rem;}
+.s-opt{border:1px solid var(--sep-l);border-radius:var(--r);padding:.7rem .9rem;margin-bottom:.6rem;background:#fff;}
+.s-opt.best{border-color:var(--copper);}
+.s-opt-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:.3rem;}
+.s-opt-len{font-size:.7rem;color:var(--stone);font-weight:700;text-transform:uppercase;letter-spacing:.03em;}
+.s-opt-pct{font-size:.65rem;color:#fff;background:var(--teal);padding:2px 7px;border-radius:20px;font-weight:700;}
+.s-opt-price{font-size:.9rem;}
+.s-was{color:var(--muted);text-decoration:line-through;}
+.s-arrow{color:var(--muted);margin:0 .3rem;}
+.s-now{font-family:'Fraunces',serif;font-weight:700;color:var(--ink);}
+.p-get{display:block;text-align:center;font-size:.84rem;font-weight:700;padding:.8rem 1rem;border-radius:var(--r);background:var(--amber);color:var(--dark);margin:.7rem 0 .6rem;}
+.p-unflip{display:block;width:100%;text-align:center;background:none;border:none;font-size:.76rem;color:var(--muted);cursor:pointer;padding:.3rem;}
+.pricing-foot{font-size:.88rem;color:var(--muted);margin-top:1.6rem;}
+.pricing-disclaimer{font-size:.76rem;color:rgba(28,18,9,.5);margin-top:.6rem;line-height:1.6;max-width:900px;}
+@media(max-width:1000px){.plans{grid-template-columns:1fr 1fr;}}
+@media(max-width:560px){.plans{grid-template-columns:1fr;}}
+
+/* ===== CTA BAND ===== */
+.cta-band{text-align:left;}
+.cta-band h2{font-size:clamp(2rem,5vw,3.4rem);font-weight:700;line-height:1.08;max-width:16ch;margin-bottom:1.1rem;}
+.cta-band p{font-size:1rem;color:var(--inv-m);max-width:56ch;line-height:1.7;margin-bottom:1.7rem;}
+
+/* ===== FOOTER ===== */
+footer{background:var(--dark);color:var(--inv);padding:3.5rem 0 1.6rem;}
+.fg{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:2.5rem;margin-bottom:2.2rem;}
+.fl{font-family:'Fraunces',serif;font-size:1.3rem;font-weight:700;margin-bottom:.8rem;}
+.ft{font-size:.85rem;line-height:1.75;max-width:34ch;color:var(--inv-m);}
+.fc h5{font-size:.7rem;font-weight:700;letter-spacing:.06em;color:rgba(243,238,227,.55);margin-bottom:.9rem;text-transform:uppercase;}
+.fc ul{list-style:none;display:flex;flex-direction:column;gap:.55rem;}
+.fc ul li a{font-size:.87rem;color:var(--inv-m);}
+.fc ul li a:hover{color:var(--inv);}
+.fb{border-top:1px solid var(--sep-d);max-width:var(--max);margin:0 auto;padding:1.4rem clamp(1.25rem,5vw,3rem) 0;display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;font-size:.76rem;color:rgba(243,238,227,.4);}
+@media(max-width:720px){.fg{grid-template-columns:1fr;gap:1.8rem;}}
+
 </style>
 </head>
 <body>
-
-<nav class="topnav" id="topnav">
-  <a href="index.html" class="topnav-logo">Atomic<span class="accent">&#8209;</span>Shelf</a>
-  <ul class="topnav-links" id="topnavLinks">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="services.html" class="current">Services</a></li>
-    <li><a href="results.html">Results</a></li>
-    <li><a href="faq.html">FAQ</a></li>
-    <li><a href="index.html#pricing">Pricing</a></li>
-    <li><a href="mailto:nick@atomic-shelf.com" class="topnav-cta">Talk to us</a></li>
-  </ul>
-  <button class="topnav-mobile-toggle" id="navToggle" aria-label="Menu">☰</button>
-</nav>
-
-<div class="page-hero section-inner">
-  <div class="eyebrow">Services</div>
-  <h1>Everything that goes into selling one more book.</h1>
-  <p>Each piece below stands on its own, but they were built to run together — content that earns trust, trust that earns a click, and a listing built to close the sale. Here's exactly what's included in each. Pricing and expected results by tier live on the <a href="index.html#pricing" class="xlink">pricing page</a>.</p>
-</div>
-
-<section class="section p1">
-  <div class="section-inner">
-    <div class="service-list">
-
-      <div class="service-row">
-        <div class="service-num">01</div>
-        <div>
-          <h3>Short-form video production</h3>
-          <p>We write, produce, and publish genre-matched video for your book every month — no camera, no editing software, no scripts to approve line by line. Content goes out on TikTok, YouTube Shorts, and Instagram Reels, calibrated to how your specific genre's readers actually discover books.</p>
-          <div class="service-tags">
-            <span class="service-tag">TikTok</span><span class="service-tag">YouTube Shorts</span><span class="service-tag">Reels</span><span class="service-tag">Book trailers</span><span class="service-tag">Theme songs (higher tiers)</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="service-row">
-        <div class="service-num">02</div>
-        <div>
-          <h3>ARC &amp; beta reader campaigns</h3>
-          <p>We recruit genre-matched readers from our own network, send advance copies, brief them, and follow up until reviews land. Your listing gets honest, early social proof before it needs to convert a single stranger.</p>
-          <div class="service-tags">
-            <span class="service-tag">Reader recruitment</span><span class="service-tag">Managed follow-up</span><span class="service-tag">Genuine reviews only</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="service-row">
-        <div class="service-num">03</div>
-        <div>
-          <h3>Preorder campaigns</h3>
-          <p>We set up your preorder listing correctly — pricing, release timing, and back-of-book links — then run a countdown campaign across your video channels, ARC readers, and reader lists in the weeks before launch. Every preorder converts to a same-day sale, giving Amazon's algorithm the concentrated signal that moves category rank hardest.</p>
-          <div class="service-tags">
-            <span class="service-tag">Listing setup</span><span class="service-tag">6–8 week countdown series</span><span class="service-tag">Launch-day rank spike</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="service-row">
-        <div class="service-num">04</div>
-        <div>
-          <h3>Listing &amp; A+ page builds</h3>
-          <p>Your Amazon listing gets rewritten copy and a designed A+ page — built to hold the attention your video and reviews send its way, and to turn that attention into a sale or a Kindle Unlimited borrow.</p>
-          <div class="service-tags">
-            <span class="service-tag">Copy rewrite</span><span class="service-tag">A+ content build</span><span class="service-tag">Conversion-focused design</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="service-row">
-        <div class="service-num">05</div>
-        <div>
-          <h3>Free promo &amp; newsletter features</h3>
-          <p>When your book goes free on KDP, we time a newsletter feature and a push to our ARC and beta network to coincide with it. The download spike climbs the free charts fast, and the rank momentum typically carries into paid sales for weeks after the price resets.</p>
-          <div class="service-tags">
-            <span class="service-tag">Newsletter placement</span><span class="service-tag">Timed to KDP free days</span><span class="service-tag">Also-bought row growth</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="service-row">
-        <div class="service-num">06</div>
-        <div>
-          <h3>Managed Amazon advertising</h3>
-          <p>Once there's an audience worth advertising to, our team runs your Amazon campaigns day to day — retargeting readers who've already seen your content or reviews, right when they're closest to buying or borrowing. You see the plan and the outcomes; we run the console.</p>
-          <div class="service-tags">
-            <span class="service-tag">Certified Amazon Advertising Partner</span><span class="service-tag">Weekly optimization</span><span class="service-tag">Full attribution</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="service-row">
-        <div class="service-num">07</div>
-        <div>
-          <h3>Reader-list apps — ShelfMates &amp; StoryPals</h3>
-          <p>Our own in-house apps build a reader list that's yours, not a platform's. ShelfMates matches adult fiction to genre-tagged readers; StoryPals matches children's books to parents browsing by age range. Every release reaches an audience that's already said yes to you.</p>
-          <div class="service-tags">
-            <span class="service-tag">Owned audience</span><span class="service-tag">Genre &amp; age-range matching</span><span class="service-tag">No extra cost per release</span>
-          </div>
-        </div>
-      </div>
-
+<nav class="topnav">
+  <div class="wrap">
+    <a href="index.html" class="brand">Atomic<span style="color:var(--amber)">·</span>Shelf</a>
+    <button class="navtoggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">&#9776;</button>
+    <div class="navlinks" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="services.html" aria-current="page">Services</a>
+      <a href="how-it-works.html">How it works</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="mailto:nick@atomic-shelf.com" class="nav-cta">Talk to us</a>
     </div>
+  </div>
+</nav>
+<section class="dark hero" style="padding-bottom:2rem;">
+  <div class="wrap">
+    <div class="eyebrow">What we do</div>
+    <h1 class="page-h">Content, reviews, and a listing that converts.</h1>
+    <p class="page-sub">Every plan starts with consistent content and an optimized listing. Higher tiers add ARC reviews, preorder campaigns, and daily lookalike-audience retargeting &#8212; all run by the same team, off the same data.</p>
+  </div>
+</section>
 
-    <div style="margin-top:3rem;display:flex;gap:1rem;flex-wrap:wrap;align-items:center;">
-      <a href="index.html#pricing" class="btn btn-copper">See plans &amp; pricing</a>
-      <a href="results.html" class="xlink-block">See real results by tier</a>
+<section class="dark">
+  <div class="wrap">
+    <div class="feat">
+      <div>
+        <div class="eyebrow">Content</div>
+        <h2>60+ short-form videos. <em>Every month.</em></h2>
+        <p>Genre-calibrated scripts, AI-assisted production, and human creative direction &#8212; at a volume no traditional studio can match, and a speed that keeps pace with how platforms actually surface new books.</p>
+        <p>We post to TikTok, YouTube Shorts, and Reels. Higher tiers add book trailers, long-form YouTube, cinematic content, and custom theme songs.</p>
+        <div class="feat-stat">60<span>+</span></div>
+        <div class="feat-stat-l">short-form videos per month, minimum</div>
+      </div>
+      <div class="feat-side">
+        <ul>
+          <li>TikTok, YouTube Shorts &amp; Reels</li>
+          <li>Genre-matched scripts</li>
+          <li>Formats updated as platforms change</li>
+          <li>Book trailers on higher tiers</li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>
 
-<footer>
-  <div class="footer-grid">
-    <div>
-      <div class="footer-logo">Atomic<span class="accent">&#8209;</span>Shelf</div>
-      <p class="footer-desc">Video, reviews, preorders, free promos, reader lists, and managed Amazon advertising — one team, one system, built for indie authors.</p>
-    </div>
-    <div class="footer-col">
-      <h5>Site</h5>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="services.html">Services</a></li>
-        <li><a href="results.html">Results</a></li>
-        <li><a href="faq.html">FAQ</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h5>Plans</h5>
-      <ul>
-        <li><a href="index.html#pricing">Pricing</a></li>
-        <li><a href="index.html#pricing">Compare tiers</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h5>Contact</h5>
-      <ul><li><a href="mailto:nick@atomic-shelf.com">nick@atomic-shelf.com</a></li></ul>
+<section class="cream-2">
+  <div class="wrap">
+    <div class="feat">
+      <div>
+        <div class="eyebrow">ARC reviews</div>
+        <h2>Social proof that's there <em>before you launch.</em></h2>
+        <p>We recruit genre-matched readers from our own network, brief them on what's expected, and follow up until reviews are posted &#8212; honest early ratings on your listing before you spend a dollar driving traffic to it.</p>
+        <p>Your listing copy and A+ content are part of the same package. We audit and rewrite both, so the trust readers arrive with actually turns into a sale.</p>
+        <div class="feat-stat">50<span>+</span></div>
+        <div class="feat-stat-l">reviews targeted per ARC campaign at our top tier</div>
+      </div>
+      <div class="feat-side">
+        <ul>
+          <li>Genre-matched ARC readers</li>
+          <li>Managed follow-up through to posting</li>
+          <li>Listing copy &amp; A+ content included</li>
+          <li>Coordinated with your content calendar</li>
+        </ul>
+      </div>
     </div>
   </div>
-  <div class="footer-bottom"><span>© 2026 Atomic Shelf. All rights reserved.</span></div>
-</footer>
+</section>
 
+<section class="dark">
+  <div class="wrap">
+    <div class="feat">
+      <div>
+        <div class="eyebrow">Reader lists &amp; growth</div>
+        <h2>An audience you <em>own</em> &#8212; growing every day.</h2>
+        <p>ShelfMates and StoryPals build a reader list that's yours across books, not rented from a platform. New readers get added to it every day &#8212; and once we have enough data on who's converting, we retarget similar readers using lookalike audiences, instead of cold-prospecting strangers.</p>
+      </div>
+      <div class="feat-side">
+        <ul>
+          <li>Reader list building (ShelfMates &amp; StoryPals)</li>
+          <li>Preorder campaigns</li>
+          <li>Daily lookalike-audience retargeting</li>
+          <li>Included from Momentum tier up</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cream">
+  <div class="wrap cta-band">
+    <h2 style="color:var(--ink);">See how it fits together.</h2>
+    <p style="color:var(--stone);">Every tier bundles these pieces differently &#8212; see what's included at each level.</p>
+    <div class="btn-row">
+      <a href="pricing.html" class="btn btn-copper">See pricing</a>
+      <a href="how-it-works.html" class="btn btn-gl">See the full system</a>
+    </div>
+  </div>
+</section>
+<footer>
+  <div class="wrap">
+    <div class="fg">
+      <div>
+        <div class="fl">Atomic&#8209;Shelf</div>
+        <p class="ft">Video, reviews, preorders, free promos, reader lists, and daily lookalike-audience retargeting &#8212; one team, one system, built for indie authors. We keep working until we hit your target.</p>
+      </div>
+      <div class="fc">
+        <h5>Site</h5>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="how-it-works.html">How it works</a></li>
+          <li><a href="pricing.html">Pricing</a></li>
+        </ul>
+      </div>
+      <div class="fc">
+        <h5>Contact</h5>
+        <ul>
+          <li><a href="mailto:nick@atomic-shelf.com">nick@atomic-shelf.com</a></li>
+          <li><a href="mailto:nick@atomic-shelf.com">Talk to us</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="fb">
+    <span>&copy; 2026 Atomic Shelf &middot; StoryPal &middot; ShelfMate</span>
+    <span>Built with care for indie authors.</span>
+  </div>
+</footer>
 <script>
-document.getElementById('navToggle').addEventListener('click',()=>{document.getElementById('topnavLinks').classList.toggle('open');});
+const navToggle=document.getElementById('navToggle');
+const navLinks=document.getElementById('navLinks');
+if(navToggle){navToggle.addEventListener('click',()=>{
+  const open=navLinks.classList.toggle('open');
+  navToggle.setAttribute('aria-expanded',open);
+});}
 </script>
+
 </body>
 </html>
