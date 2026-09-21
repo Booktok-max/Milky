@@ -4,7 +4,7 @@
   <link rel="icon" type="image/svg+xml" href="https://atomic-shelf.com/book-and-people-spring-svgrepo-com.svg">
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-<meta name="description" content="Atomic Shelf pricing for indie authors: Spark, Foundation, Momentum, and Growth plans covering video, reviews, listing optimization, and reader growth."/>
+<meta name="description" content="Atomic Shelf pricing for indie authors: six production and growth plans covering video, reviews, listing optimization, and reader growth."/>
 <title>Pricing &#8212; Atomic Shelf</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,400;1,9..144,600&family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet"/>
@@ -141,7 +141,7 @@ section{padding:clamp(3.5rem,8vw,6.5rem) 0;}
 .guarantee-strip .gs-t{font-size:.88rem;color:var(--stone);line-height:1.65;}
 
 /* ===== PRICING ===== */
-.plans{display:grid;grid-template-columns:repeat(4,1fr);gap:1.1rem;margin-top:1rem;align-items:stretch;}
+.plans{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.5rem;margin-top:1rem;align-items:stretch;}
 .plan{background:var(--card);border:1px solid var(--sep-l);border-radius:var(--r);position:relative;perspective:1400px;}
 .plan.top{border:1.5px solid var(--copper);box-shadow:0 8px 28px rgba(168,70,30,.13);}
 .plan-badge{position:absolute;top:0;right:1rem;background:var(--copper);color:#fff;font-size:.62rem;font-weight:700;padding:2px 8px;border-radius:0 0 5px 5px;letter-spacing:.03em;}
@@ -191,8 +191,8 @@ section{padding:clamp(3.5rem,8vw,6.5rem) 0;}
 @media(max-width:720px){.additional-plans{grid-template-columns:1fr;}}
 .plan.compact .plan-front{height:100%;display:flex;flex-direction:column;}
 .plan.compact .p-get{margin-top:auto;}
-@media(max-width:1000px){.plans{grid-template-columns:1fr 1fr;}}
-@media(max-width:560px){.plans{grid-template-columns:1fr;}}
+@media(max-width:760px){.plans{grid-template-columns:1fr;}}
+
 
 /* ===== CTA BAND ===== */
 .cta-band{text-align:left;}
@@ -233,7 +233,7 @@ footer{background:var(--dark);color:var(--inv);padding:3.5rem 0 1.6rem;}
 <section class="cream hero" style="padding-bottom:1rem;">
   <div class="wrap">
     <h1 class="page-h" style="color:var(--ink);">Pick the level.<br>We handle the rest.</h1>
-    <p class="page-sub" style="color:var(--stone);">Choose from seven production and growth tiers, from the $20 entry points through full-campaign Growth. Higher tiers add more content, social management, ARC reviews, preorder campaigns, and segmented retargeting. Tap <b>See commitment savings</b> on the campaign plans for multi-month pricing.</p>
+    <p class="page-sub" style="color:var(--stone);">Choose from six production and growth tiers, from the $20 entry point through full-campaign Growth. Higher tiers add more content, social management, ARC reviews, preorder campaigns, and segmented retargeting. Tap <b>See commitment savings</b> on the campaign plans for multi-month pricing.</p>
     <div class="guarantee-strip">
       <span class="gs-ic">&#128737;&#65039;</span>
       <span class="gs-t"><b>Performance commitment.</b> If your book sees little to no measurable movement after a full cycle, tell us. We'll review the account, identify what needs to change, and add the work needed where our delivery fell short.</span>
@@ -246,13 +246,14 @@ footer{background:var(--dark);color:var(--inv);padding:3.5rem 0 1.6rem;}
         <div class="p-price">$20</div>
         <div class="p-per">per month &middot; first 20 videos free</div>
         <ul class="p-feats">
-          <li>Short-form video creation monthly</li>
+          <li>60 premium short-form videos monthly</li>
           <li>Posted to TikTok, Shorts &amp; Reels</li>
-          <li>Genre-matched scripts, formats evolve</li>
-          <li>Click-throughs tracked</li>
+          <li>Genre-matched scripts, viral hooks &amp; trending audio</li>
+          <li>Strategic social management</li>
+          <li>Weekly performance insights &amp; click-through tracking</li>
         </ul>
         <div class="p-res">
-          <div class="p-res-label">Expected by month 3*</div>
+          <div class="p-res-label">Estimated by month 3*</div>
           <div class="p-rr"><span>Impressions</span><span class="p-rv">30k&#8211;70k</span></div>
           <div class="p-rr"><span>Video views</span><span class="p-rv">5k&#8211;15k</span></div>
           <div class="p-rr"><span>Click-throughs</span><span class="p-rv">80&#8211;220</span></div>
@@ -278,31 +279,24 @@ footer{background:var(--dark);color:var(--inv);padding:3.5rem 0 1.6rem;}
         <button class="p-unflip">&larr; Back to plan details</button>
       </div>
     </div>
-      <div class="plan compact">
-        <div class="plan-front">
-          <div class="p-name">Essentials</div>
-          <div class="p-price">$20</div>
-          <div class="p-per">per month</div>
-          <ul class="p-feats">
-            <li>60 premium short-form videos monthly</li>
-            <li>Viral hooks &amp; trending audio</li>
-            <li>Strategic social management</li>
-            <li>Weekly performance insights</li>
-          </ul>
-          <a class="p-get" href="Essentials.html">View Essentials</a>
-        </div>
-      </div>
-      <div class="plan compact">
+      <div class="plan">
         <div class="plan-front">
           <div class="p-name">Enhanced</div>
           <div class="p-price">$50</div>
           <div class="p-per">per month</div>
           <ul class="p-feats">
-            <li>Everything in Essentials</li>
+            <li>Everything in Spark</li>
             <li>Cinematic book trailer</li>
             <li>Long-form video &amp; avatar narration</li>
             <li>Richer creative asset mix</li>
           </ul>
+          <div class="p-res">
+            <div class="p-res-label">Estimated by month 3*</div>
+            <div class="p-rr"><span>Impressions</span><span class="p-rv">60k&#8211;130k</span></div>
+            <div class="p-rr"><span>Video views</span><span class="p-rv">10k&#8211;28k</span></div>
+            <div class="p-rr"><span>Click-throughs</span><span class="p-rv">160&#8211;400</span></div>
+            <div class="p-rr"><span>Sales lift</span><span class="p-rv up">+5&#8211;12%</span></div>
+          </div>
           <a class="p-get" href="Enhanced.html">View Enhanced</a>
         </div>
       </div>
@@ -320,7 +314,7 @@ footer{background:var(--dark);color:var(--inv);padding:3.5rem 0 1.6rem;}
           <li>ShelfMates / StoryPals access</li>
         </ul>
         <div class="p-res">
-          <div class="p-res-label">Expected by month 3*</div>
+          <div class="p-res-label">Estimated by month 3*</div>
           <div class="p-rr"><span>Impressions</span><span class="p-rv">90k&#8211;220k</span></div>
           <div class="p-rr"><span>Video views</span><span class="p-rv">15k&#8211;40k</span></div>
           <div class="p-rr"><span>Click-throughs</span><span class="p-rv">300&#8211;800</span></div>
@@ -357,6 +351,13 @@ footer{background:var(--dark);color:var(--inv);padding:3.5rem 0 1.6rem;}
             <li>Original theme song</li>
             <li>$50 Amazon DSP budget</li>
           </ul>
+          <div class="p-res">
+            <div class="p-res-label">Estimated by month 3*</div>
+            <div class="p-rr"><span>Impressions</span><span class="p-rv">120k&#8211;280k</span></div>
+            <div class="p-rr"><span>Video views</span><span class="p-rv">20k&#8211;55k</span></div>
+            <div class="p-rr"><span>Click-throughs</span><span class="p-rv">400&#8211;950</span></div>
+            <div class="p-rr"><span>Sales lift</span><span class="p-rv up">+10&#8211;20%</span></div>
+          </div>
           <a class="p-get" href="Starter.html">View Starter</a>
         </div>
       </div>
