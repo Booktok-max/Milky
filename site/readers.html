@@ -72,6 +72,10 @@ section.results{padding:3.5rem 6vw 6rem;}
 .book-title{font-size:0.9rem;font-weight:600;color:var(--ink);line-height:1.35;}
 .book-author{font-size:0.78rem;color:var(--muted);}
 .book-year{font-size:0.72rem;color:var(--stone);margin-top:auto;padding-top:0.4rem;}
+.book-links{display:flex;gap:0.45rem;flex-wrap:wrap;margin-top:0.55rem;padding-top:0.55rem;border-top:1px solid var(--border);}
+.book-links a{font-size:0.68rem;color:var(--copper);text-decoration:none;font-weight:600;}
+.book-links a:hover{text-decoration:underline;}
+.load-sentinel{min-height:2rem;display:flex;justify-content:center;align-items:center;color:var(--muted);font-size:0.82rem;padding:1rem;}
 
 .state-note{grid-column:1/-1;text-align:center;padding:3rem 1rem;color:var(--stone);font-size:0.92rem;background:var(--card);border:1.5px dashed var(--border);border-radius:var(--r);}
 .state-note strong{color:var(--copper);}
@@ -115,6 +119,14 @@ footer a{color:rgba(255,255,255,0.4);text-decoration:none;}
       <span class="pill" data-genre="fantasy">Fantasy</span>
       <span class="pill" data-genre="thriller">Thriller</span>
       <span class="pill" data-genre="children's">Children's — StoryPals</span>
+      <span class="pill" data-genre="mystery">Mystery</span>
+      <span class="pill" data-genre="science fiction">Science fiction</span>
+      <span class="pill" data-genre="historical fiction">Historical fiction</span>
+      <span class="pill" data-genre="horror">Horror</span>
+      <span class="pill" data-genre="literary fiction">Literary fiction</span>
+      <span class="pill" data-genre="poetry">Poetry</span>
+      <span class="pill" data-genre="biography">Biography</span>
+      <span class="pill" data-genre="graphic novels">Graphic novels</span>
     </div>
   </div>
 </header>
@@ -128,6 +140,7 @@ footer a{color:rgba(255,255,255,0.4);text-decoration:none;}
     <div class="book-grid" id="book-grid">
       <div class="state-note">Loading books…</div>
     </div>
+    <div class="load-sentinel" id="load-sentinel" aria-live="polite">Loading more shelves as you browse…</div>
   </div>
 </section>
 
@@ -157,11 +170,11 @@ function coverPlaceholderSVG() {
 }
 
 const DISCOVERY_LANES = [
-  { label: 'Free to read', query: 'fiction', params: 'ebook_access=public&has_fulltext=true', sort: 'readinglog' },
-  { label: 'Popular now', query: 'fiction', params: '', sort: 'readinglog' },
-  { label: 'Classics', query: 'classics', params: '', sort: 'old' },
-  { label: 'Rising titles', query: 'fiction', params: '', sort: 'new' },
-  { label: 'Value picks', query: 'fiction', params: 'ebook_access=public', sort: 'rating' }
+  { label: 'Free to read', query: 'fiction', params: 'ebook_access=public&has_fulltext=true', sort: 'readinglog', count: 7 },
+  { label: 'Popular now', query: 'fiction', params: '', sort: 'readinglog', count: 3 },
+  { label: 'Classics', query: 'classics', params: '', sort: 'old', count: 7 },
+  { label: 'Rising titles', query: 'fiction', params: '', sort: 'new', count: 7 },
+  { label: 'Value picks', query: 'fiction', params: 'ebook_access=public', sort: 'rating', count: 6 }
 ];
 
 function dailySeed() {
@@ -182,9 +195,9 @@ function seededShuffle(items, seed) {
 
 // TODO: once Atomic Shelf has its own author catalog and retail feeds, replace
 // these Open Library lanes with first-party availability, deal, and bestseller data.
-async function fetchBooks(query, genre) {
+async function fetchBooks(query, genre, page = 1) {
   if (query) {
-    const res = await fetch(`https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=24`);
+    const res = await fetch(`https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=30&page=${page}`);
     if (!res.ok) throw new Error('Book search failed');
     const data = await res.json();
     return (data.docs || []).map(d => ({ ...bookFromDoc(d), lane: 'Search result' }));
@@ -195,12 +208,12 @@ async function fetchBooks(query, genre) {
     query: genre ? `${lane.query} subject:${genre}` : lane.query
   }));
   const responses = await Promise.all(lanes.map(async lane => {
-    const params = new URLSearchParams({ q: lane.query, limit: '10', ...(lane.sort ? { sort: lane.sort } : {}) });
+    const params = new URLSearchParams({ q: lane.query, limit: String(lane.count * 2), page: String(page), ...(lane.sort ? { sort: lane.sort } : {}) });
     if (lane.params) new URLSearchParams(lane.params).forEach((value, key) => params.set(key, value));
     const res = await fetch(`https://openlibrary.org/search.json?${params}`);
     if (!res.ok) throw new Error('Book search failed');
     const data = await res.json();
-    return (data.docs || []).slice(0, 6).map(doc => ({ ...bookFromDoc(doc), lane: lane.label }));
+    return (data.docs || []).slice(0, lane.count).map(doc => ({ ...bookFromDoc(doc), lane: lane.label }));
   }));
 
   const seen = new Set();
@@ -209,20 +222,36 @@ async function fetchBooks(query, genre) {
     if (seen.has(key)) return false;
     seen.add(key);
     return true;
-  }), dailySeed()).slice(0, 24);
+  }), dailySeed() + page).slice(0, 30);
 }
 
 function bookFromDoc(d) {
+  const isbn = (d.isbn || [])[0] || '';
+  const openLibraryUrl = d.key ? `https://openlibrary.org${d.key}` : `https://openlibrary.org/search?q=${encodeURIComponent(d.title || '')}`;
+  const searchQuery = `${d.title || ''} ${(d.author_name || [])[0] || ''}`.trim();
   return {
     title: d.title || 'Untitled',
     author: (d.author_name || [])[0] || 'Unknown author',
     year: d.first_publish_year || '—',
     cover: d.cover_i ? `https://covers.openlibrary.org/b/id/${d.cover_i}-L.jpg` : null,
-    genre: (d.subject && d.subject[0]) || ''
+    genre: (d.subject && d.subject[0]) || '',
+    where: [
+      { label: 'Open Library', url: openLibraryUrl },
+      { label: 'Google Books', url: `https://www.google.com/search?tbm=bks&q=${encodeURIComponent(searchQuery)}` },
+      { label: 'Amazon search', url: isbn ? `https://www.amazon.com/s?k=${encodeURIComponent(isbn)}` : `https://www.amazon.com/s?k=${encodeURIComponent(searchQuery)}` }
+    ]
   };
 }
 
 let activeGenre = '';
+let activeQuery = '';
+let currentPage = 1;
+let displayedBooks = [];
+let loading = false;
+
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
+}
 
 function renderBooks(books) {
   const grid = document.getElementById('book-grid');
@@ -232,33 +261,55 @@ function renderBooks(books) {
     count.textContent = '';
     return;
   }
-  count.textContent = `${books.length} titles`;
+  count.textContent = `${books.length} titles shown`;
   grid.innerHTML = books.map(b => `
     <div class="book-card">
       <div class="book-cover">
-        ${b.genre ? `<span class="book-genre-tag">${b.genre}</span>` : ''}
-        ${b.lane ? `<span class="book-type-tag">${b.lane}</span>` : ''}
-        ${b.cover ? `<img src="${b.cover}" alt="${b.title}" loading="lazy" decoding="async">` : coverPlaceholderSVG()}
+        ${b.genre ? `<span class="book-genre-tag">${escapeHtml(b.genre)}</span>` : ''}
+        ${b.lane ? `<span class="book-type-tag">${escapeHtml(b.lane)}</span>` : ''}
+        ${b.cover ? `<img src="${b.cover}" alt="${escapeHtml(b.title)} cover" loading="lazy" decoding="async">` : coverPlaceholderSVG()}
       </div>
       <div class="book-info">
-        <div class="book-title">${b.title}</div>
-        <div class="book-author">${b.author}</div>
-        <div class="book-year">${b.year}</div>
+        <div class="book-title">${escapeHtml(b.title)}</div>
+        <div class="book-author">${escapeHtml(b.author)}</div>
+        <div class="book-year">${escapeHtml(b.year)}</div>
+        <div class="book-links" aria-label="Where to get this book">
+          ${b.where.map(link => `<a href="${link.url}" target="_blank" rel="noopener noreferrer">${link.label}</a>`).join('')}
+        </div>
       </div>
     </div>`).join('');
 }
 
-async function loadBooks(query, genre) {
+async function loadBooks(query, genre, reset = true) {
   const grid = document.getElementById('book-grid');
-  grid.innerHTML = '<div class="state-note">Loading books…</div>';
+  if (loading) return;
+  loading = true;
+  if (reset) {
+    currentPage = 1;
+    displayedBooks = [];
+    grid.innerHTML = '<div class="state-note">Loading books…</div>';
+  }
   document.getElementById('results-title').textContent = query
     ? `Results for “${query}”`
     : (genre ? `Browsing: ${genre}` : 'A different shelf every day');
   try {
-    const books = await fetchBooks(query, genre);
-    renderBooks(books);
+    const books = await fetchBooks(query, genre, currentPage);
+    const seen = new Set(displayedBooks.map(book => `${book.title}|${book.author}`));
+    displayedBooks = displayedBooks.concat(books.filter(book => {
+      const key = `${book.title}|${book.author}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    }));
+    renderBooks(displayedBooks);
+    currentPage += 1;
+    document.getElementById('load-sentinel').textContent = books.length
+      ? 'Keep scrolling for more books…'
+      : 'You have reached the end of this shelf.';
   } catch (err) {
     grid.innerHTML = `<div class="state-note">Couldn't load books right now (${err.message}). Please try again.</div>`;
+  } finally {
+    loading = false;
   }
 }
 
@@ -267,7 +318,8 @@ function runSearch() {
   document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
   document.querySelector('.pill[data-genre=""]').classList.add('active');
   activeGenre = '';
-  loadBooks(q, '');
+  activeQuery = q;
+  loadBooks(activeQuery, activeGenre);
 }
 
 document.getElementById('book-search').addEventListener('keydown', e => {
@@ -280,12 +332,18 @@ document.getElementById('genre-filters').addEventListener('click', e => {
   document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
   pill.classList.add('active');
   activeGenre = pill.dataset.genre;
+  activeQuery = '';
   document.getElementById('book-search').value = '';
-  loadBooks('', activeGenre);
+  loadBooks(activeQuery, activeGenre);
 });
 
+const loadObserver = new IntersectionObserver(entries => {
+  if (entries[0].isIntersecting) loadBooks(activeQuery, activeGenre, false);
+}, { rootMargin: '700px' });
+loadObserver.observe(document.getElementById('load-sentinel'));
+
 // Initial load
-loadBooks('', '');
+loadBooks(activeQuery, activeGenre);
 </script>
 <script src="analytics.js"></script>
 </body>
