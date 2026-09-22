@@ -675,13 +675,13 @@ footer{ background:var(--color-bg-dark); color:var(--color-text-primary-dark); p
     </div>
 
     <div class="commitment-toggle" id="commitToggle">
-      <button data-term="monthly" class="active">Monthly</button>
-      <button data-term="3_month">3 months — Save 10%</button>
-      <button data-term="6_month">6 months — Save 20%</button>
-      <button data-term="12_month">12 months — Save 25%</button>
+      <button type="button" data-term="monthly" class="active" aria-pressed="true" disabled>Monthly</button>
+      <button type="button" data-term="3_month" aria-pressed="false" disabled>3 months — Save 10%</button>
+      <button type="button" data-term="6_month" aria-pressed="false" disabled>6 months — Save 20%</button>
+      <button type="button" data-term="12_month" aria-pressed="false" disabled>12 months — Save 25%</button>
     </div>
 
-    <div class="pricing-grid" id="pricingGrid"><!-- populated by JS from PLAN_DATA --></div>
+    <div class="pricing-grid" id="pricingGrid" aria-live="polite"><p class="pricing-foot">Loading plans…</p></div>
 
     <div class="pricing-explain">Longer commitments are prepaid savings — not a cancellation trap. The system has more time to compound, and predictable planning lets us give you better economics.</div>
 
@@ -865,55 +865,72 @@ document.querySelectorAll('.faq-item').forEach(item => {
 });
 
 /* ---------- Pricing preview: single source of truth ----------
-   Mirrors commercial-truth.json (corrected 2026-09-22). If the
-   JSON changes, update this object to match — do not hand-edit
-   prices anywhere else on the page. */
-const PLAN_DATA = [
-  { id:'spark', name:'Spark', tagline:'The entry point into the system — establishes a steady content cadence and click-through data before you commit to a larger plan.', monthly:20, commitments:{ '3_month':{list:60,disc:54,round:50}, '6_month':{list:120,disc:96,round:90}, '12_month':{list:240,disc:180,round:180,best:true} }, cta:'Get started with Spark', href:'pricing.html#spark' },
-  { id:'enhanced', name:'Enhanced', tagline:'Adds a durable creative asset on top of ongoing content, without moving into full campaign management.', monthly:50, commitments:{ '3_month':{list:150,disc:135,round:130}, '6_month':{list:300,disc:240,round:240}, '12_month':{list:600,disc:450,round:450,best:true} }, cta:'View Enhanced', href:'pricing.html#enhanced' },
-  { id:'foundation', name:'Foundation', tagline:"The first tier where the listing itself is built to convert the traffic your content sends.", monthly:79, commitments:{ '3_month':{list:237,disc:213,round:210}, '6_month':{list:474,disc:379,round:370}, '12_month':{list:948,disc:711,round:710,best:true} }, cta:'Get started with Foundation', href:'pricing.html#foundation' },
-  { id:'starter', name:'Starter', tagline:'Layers a managed Amazon DSP budget and additional creative assets on top of Spark-level content.', monthly:100, commitments:{ '3_month':{list:300,disc:270,round:270}, '6_month':{list:600,disc:480,round:480}, '12_month':{list:1200,disc:900,round:900,best:true} }, cta:'View Starter', href:'pricing.html#starter' },
-  { id:'momentum', name:'Momentum', tagline:'The first full-funnel tier — content, social proof, a scheduled preorder campaign, and retargeting run as one system.', monthly:249, popular:true, commitments:{ '3_month':{list:747,disc:672,round:670}, '6_month':{list:1494,disc:1195,round:1190}, '12_month':{list:2988,disc:2241,round:2240,best:true} }, cta:'Get started with Momentum', href:'pricing.html#momentum' },
-  { id:'growth', name:'Growth', tagline:'The top production-and-campaign tier below the fully custom Surge/Orbit engagements — Momentum, scaled up.', monthly:499, commitments:{ '3_month':{list:1497,disc:1347,round:1340}, '6_month':{list:2994,disc:2395,round:2390}, '12_month':{list:5988,disc:4491,round:4490,best:true} }, cta:'Get started with Growth', href:'pricing.html#growth' }
-];
+   Plan values are loaded from commercial-truth.json. This page only
+   renders the data and links visitors to the full pricing view. */
+let planData = [];
+let selectedTerm = 'monthly';
+
+function escapeHtml(value){
+  return String(value).replace(/[&<>'"]/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));
+}
 
 const grid = document.getElementById('pricingGrid');
 function renderPricing(term){
   grid.innerHTML = '';
-  PLAN_DATA.forEach(p => {
+  planData.forEach(p => {
     const card = document.createElement('div');
-    card.className = 'price-card' + (p.popular ? ' top' : '');
+    card.className = 'price-card' + (p.most_popular ? ' top' : '');
     let priceHTML, perHTML = '', saveHTML = '';
     if (term === 'monthly') {
-      priceHTML = '$' + p.monthly;
+      priceHTML = '$' + p.monthly_price;
       perHTML = 'per month';
     } else {
       const c = p.commitments[term];
       const months = term === '3_month' ? 3 : term === '6_month' ? 6 : 12;
-      priceHTML = '$' + c.round.toLocaleString();
-      perHTML = 'for ' + months + ' months · ~$' + Math.round(c.round/months) + '/mo equivalent';
-      saveHTML = 'Save ' + (term==='3_month'?'10%':term==='6_month'?'20%':'25%') + ' vs. monthly ($' + c.list.toLocaleString() + ' list)';
+      const total = c.discounted_total_rounded_down_10;
+      priceHTML = '$' + total.toLocaleString();
+      perHTML = 'for ' + months + ' months · ~$' + Math.round(total / months) + '/mo equivalent';
+      saveHTML = 'Save ' + c.discount_percent + '% vs. monthly ($' + c.list_total.toLocaleString() + ' list)';
     }
     card.innerHTML =
-      (p.popular ? '<div class="price-badge">Most popular</div>' : '') +
-      '<div class="price-name">' + p.name + '</div>' +
-      '<div class="price-tagline">' + p.tagline + '</div>' +
+      (p.most_popular ? '<div class="price-badge">Most popular</div>' : '') +
+      '<div class="price-name">' + escapeHtml(p.name) + '</div>' +
+      '<div class="price-tagline">' + escapeHtml(p.positioning) + '</div>' +
       '<div class="price-amount">' + priceHTML + '</div>' +
       '<div class="price-per">' + perHTML + '</div>' +
       '<div class="price-save">' + saveHTML + '</div>' +
-      '<a class="btn btn-secondary-light price-cta" href="' + p.href + '">' + p.cta + '</a>';
+      '<a class="btn btn-secondary-light price-cta" href="pricing.html#' + encodeURIComponent(p.id) + '">' + escapeHtml(p.cta) + '</a>';
     grid.appendChild(card);
   });
 }
-renderPricing('monthly');
 document.querySelectorAll('#commitToggle button').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('#commitToggle button').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('#commitToggle button').forEach(b => b.setAttribute('aria-pressed', 'false'));
     btn.classList.add('active');
+    btn.setAttribute('aria-pressed', 'true');
+    selectedTerm = btn.dataset.term;
+    if (!planData.length) return;
     grid.style.opacity = 0;
-    setTimeout(() => { renderPricing(btn.dataset.term); grid.style.opacity = 1; }, reduceMotion ? 0 : 120);
+    setTimeout(() => { renderPricing(selectedTerm); grid.style.opacity = 1; }, reduceMotion ? 0 : 120);
   });
 });
+
+async function loadPricing(){
+  try{
+    const response = await fetch('commercial-truth.json', { cache: 'no-cache' });
+    if (!response.ok) throw new Error('Could not load commercial data.');
+    const commercialTruth = await response.json();
+    if (!Array.isArray(commercialTruth.plans) || !commercialTruth.plans.length) throw new Error('Commercial plan data is missing.');
+    planData = commercialTruth.plans;
+    renderPricing(selectedTerm);
+    document.querySelectorAll('#commitToggle button').forEach(button => { button.disabled = false; });
+  }catch(error){
+    grid.innerHTML = '<p class="pricing-foot">Plans are temporarily unavailable. Please <a href="mailto:nick@atomic-shelf.com">contact us</a> for current options.</p>';
+    console.error('Pricing data could not be loaded:', error);
+  }
+}
+loadPricing();
 </script>
 </body>
 </html>

@@ -302,13 +302,13 @@ footer{ background:var(--color-bg-dark); color:var(--color-text-primary-dark); p
 </div>
 
 <div class="commitment-toggle" id="commitToggle">
-<button data-term="monthly" class="active">Monthly</button>
-<button data-term="3_month">3 months — Save 10%</button>
-<button data-term="6_month">6 months — Save 20%</button>
-<button data-term="12_month">12 months — Save 25%</button>
+<button type="button" data-term="monthly" class="active" aria-pressed="true" disabled>Monthly</button>
+<button type="button" data-term="3_month" aria-pressed="false" disabled>3 months — Save 10%</button>
+<button type="button" data-term="6_month" aria-pressed="false" disabled>6 months — Save 20%</button>
+<button type="button" data-term="12_month" aria-pressed="false" disabled>12 months — Save 25%</button>
 </div>
 
-<div class="pricing-grid" id="pricingGrid"><!-- populated by JS from PLAN_DATA --></div>
+<div class="pricing-grid" id="pricingGrid" aria-live="polite"><p class="pricing-foot">Loading plans…</p></div>
 
 <div class="pricing-explain">Longer commitments are prepaid savings — not a cancellation trap. The system has more time to compound, and predictable planning lets us give you better economics. You can upgrade or downgrade at any time; current spend is applied as credit toward the new plan.</div>
 
@@ -464,11 +464,8 @@ document.querySelectorAll('.faq-item').forEach(item => {
 });
 
 /* ---------- Pricing: single source of truth ----------
-   Mirrors commercial-truth.json exactly (corrected 2026-09-22,
-   Foundation 3-month + two $1 rounding slips fixed — see that
-   file's _meta.correction_note). If the JSON changes, update
-   this object to match — do not hand-edit prices anywhere else
-   on this page.
+   Plan details are loaded from commercial-truth.json. Keep commercial
+   values there; this page only supplies presentation and interaction.
 
    NOTE ON CHECKOUT: the Pesapal backend in this repo
    (server.js / package.json) is not deployed — pricing.html's
@@ -480,39 +477,28 @@ document.querySelectorAll('.faq-item').forEach(item => {
    BACKEND_URL, PESAPAL_CONSUMER_KEY/SECRET, APP_BASE_URL and
    the one-time /api/register-ipn call are all in place per
    .env.example — nothing else on this page needs to change. */
-const PLAN_DATA = [
-  { id:'spark', name:'Spark', tagline:'The entry point into the system — establishes a steady content cadence and click-through data before you commit to a larger plan.',
-    monthly:20, feats:['60 premium short-form videos monthly','Posted to TikTok, Shorts & Reels','Genre-matched scripts, viral hooks & trending audio','Strategic social management','Weekly performance insights & click-through tracking'],
-    res:{label:'Estimated by month 3*', rows:[['Impressions','30k–70k'],['Video views','5k–15k'],['Click-throughs','80–220'],['Sales lift','+3–8%',true]]},
-    commitments:{ '3_month':{list:60,disc:54,round:50}, '6_month':{list:120,disc:96,round:90}, '12_month':{list:240,disc:180,round:180,best:true} }, cta:'Get started with Spark' },
+const METRIC_LABELS = {
+  impressions: 'Impressions', video_views: 'Video views', click_throughs: 'Click-throughs',
+  sales_lift: 'Sales lift', preorders_secured: 'Preorders secured',
+  free_promo_downloads: 'Free promo downloads', ku_page_reads_boost: 'KU page reads boost'
+};
+let planData = [];
+let selectedTerm = 'monthly';
 
-  { id:'enhanced', name:'Enhanced', tagline:'Adds a durable creative asset on top of ongoing content, without moving into full campaign management.',
-    monthly:50, feats:['Everything in Spark','Cinematic book trailer','Long-form video & avatar narration','Richer creative asset mix'],
-    res:{label:'Estimated by month 3*', rows:[['Impressions','60k–130k'],['Video views','10k–28k'],['Click-throughs','160–400'],['Sales lift','+5–12%',true]]},
-    commitments:{ '3_month':{list:150,disc:135,round:130}, '6_month':{list:300,disc:240,round:240}, '12_month':{list:600,disc:450,round:450,best:true} }, cta:'View Enhanced' },
+function escapeHtml(value){
+  return String(value).replace(/[&<>'"]/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));
+}
 
-  { id:'foundation', name:'Foundation', tagline:"The first tier where the listing itself is built to convert the traffic your content sends.",
-    monthly:79, feats:['80 short-form videos monthly','1 professional book trailer','Listing copy & A+ optimization','Preorder listing setup','ShelfMates / StoryPals access'],
-    res:{label:'Estimated by month 3*', rows:[['Impressions','90k–220k'],['Video views','15k–40k'],['Click-throughs','300–800'],['Sales lift','+8–15%',true]]},
-    commitments:{ '3_month':{list:237,disc:213,round:210}, '6_month':{list:474,disc:379,round:370}, '12_month':{list:948,disc:711,round:710,best:true} }, cta:'Get started with Foundation' },
+function resultRows(metrics){
+  return Object.entries(metrics || {})
+    .filter(([key]) => key !== 'period' && METRIC_LABELS[key])
+    .map(([key, value]) => [METRIC_LABELS[key], value, key.endsWith('_lift') || key.endsWith('_boost')]);
+}
 
-  { id:'starter', name:'Starter', tagline:'Layers a managed Amazon DSP budget and additional creative assets on top of Spark-level content.',
-    monthly:100, feats:['100+ premium short-form videos','2 cinematic book trailers','Original theme song','$50 Amazon DSP budget'],
-    res:{label:'Estimated by month 3*', rows:[['Impressions','120k–280k'],['Video views','20k–55k'],['Click-throughs','400–950'],['Sales lift','+10–20%',true]]},
-    commitments:{ '3_month':{list:300,disc:270,round:270}, '6_month':{list:600,disc:480,round:480}, '12_month':{list:1200,disc:900,round:900,best:true} }, cta:'View Starter' },
-
-  { id:'momentum', name:'Momentum', tagline:'The first full-funnel tier — content, social proof, a scheduled preorder campaign, and retargeting run as one system.',
-    monthly:249, popular:true,
-    feats:['All Foundation features','Full social media management','ARC/review campaign — 10 readers targeted','Enhanced A+ listing build','Preorder campaign — 6-week countdown','1 newsletter feature per quarter','Segmented retargeting, up to 5x daily for 30 days'],
-    res:{label:'Expected by month 3*', rows:[['Preorders secured','80–180'],['Free promo downloads','1,200–2,400'],['KU page reads boost','+40–80%',true],['Sales lift','+25–45%',true]]},
-    commitments:{ '3_month':{list:747,disc:672,round:670}, '6_month':{list:1494,disc:1195,round:1190}, '12_month':{list:2988,disc:2241,round:2240,best:true} }, cta:'Get started with Momentum' },
-
-  { id:'growth', name:'Growth', tagline:'The top production-and-campaign tier below the fully custom Surge/Orbit engagements — Momentum, scaled up.',
-    monthly:499,
-    feats:['100+ premium videos monthly','2 cinematic trailers, 1 theme song','ARC/review campaign — 25 readers targeted','Premium A+ listing build','Preorder campaign — 8-week countdown','1 newsletter feature per month','Segmented retargeting, up to 5x daily for 30 days'],
-    res:{label:'Expected by month 3*', rows:[['Preorders secured','200–420'],['Free promo downloads','2,400–4,800'],['KU page reads boost','+90–150%',true],['Sales lift','+60–110%',true]]},
-    commitments:{ '3_month':{list:1497,disc:1347,round:1340}, '6_month':{list:2994,disc:2395,round:2390}, '12_month':{list:5988,disc:4491,round:4490,best:true} }, cta:'Get started with Growth' }
-];
+function formatResultLabel(metrics){
+  const forecast = metrics.preorders_secured ? 'Expected' : 'Estimated';
+  return forecast + ' ' + (metrics.period || 'by month 3') + '*';
+}
 
 function buildMailto(planName){
   const subject = encodeURIComponent(planName + ' plan');
@@ -523,45 +509,70 @@ function buildMailto(planName){
 const grid = document.getElementById('pricingGrid');
 function renderPricing(term){
   grid.innerHTML = '';
-  PLAN_DATA.forEach(p => {
+  planData.forEach(p => {
     const card = document.createElement('div');
-    card.className = 'price-card' + (p.popular ? ' top' : '');
+    card.id = p.id;
+    card.className = 'price-card' + (p.most_popular ? ' top' : '');
     let priceHTML, perHTML = '', saveHTML = '';
     if (term === 'monthly') {
-      priceHTML = '$' + p.monthly;
-      perHTML = 'per month' + (p.id === 'spark' ? ' · first 20 videos free' : '');
+      priceHTML = '$' + p.monthly_price;
+      perHTML = 'per month' + (p.monthly_price_note ? ' · ' + p.monthly_price_note : '');
     } else {
       const c = p.commitments[term];
       const months = term === '3_month' ? 3 : term === '6_month' ? 6 : 12;
-      priceHTML = '$' + c.round.toLocaleString();
-      perHTML = 'for ' + months + ' months · ~$' + Math.round(c.round/months) + '/mo equivalent';
-      saveHTML = 'Save ' + (term==='3_month'?'10%':term==='6_month'?'20%':'25%') + ' vs. monthly ($' + c.list.toLocaleString() + ' list)';
+      const total = c.discounted_total_rounded_down_10;
+      priceHTML = '$' + total.toLocaleString();
+      perHTML = 'for ' + months + ' months · ~$' + Math.round(total / months) + '/mo equivalent';
+      saveHTML = 'Save ' + c.discount_percent + '% vs. monthly ($' + c.list_total.toLocaleString() + ' list)';
     }
-    const featsHTML = p.feats.map(f => '<li>' + f + '</li>').join('');
-    const resHTML = '<div class="price-res-label">' + p.res.label + '</div>' +
-      p.res.rows.map(r => '<div class="price-rr"><span>' + r[0] + '</span><span class="price-rv' + (r[2] ? ' up' : '') + '">' + r[1] + '</span></div>').join('');
+    const featsHTML = p.services.map(f => '<li>' + escapeHtml(f) + '</li>').join('');
+    const rows = resultRows(p.metrics);
+    const resHTML = '<div class="price-res-label">' + escapeHtml(formatResultLabel(p.metrics)) + '</div>' +
+      rows.map(r => '<div class="price-rr"><span>' + escapeHtml(r[0]) + '</span><span class="price-rv' + (r[2] ? ' up' : '') + '">' + escapeHtml(r[1]) + '</span></div>').join('');
     card.innerHTML =
-      (p.popular ? '<div class="price-badge">Most popular</div>' : '') +
-      '<div class="price-name">' + p.name + '</div>' +
-      '<div class="price-tagline">' + p.tagline + '</div>' +
+      (p.most_popular ? '<div class="price-badge">Most popular</div>' : '') +
+      '<div class="price-name">' + escapeHtml(p.name) + '</div>' +
+      '<div class="price-tagline">' + escapeHtml(p.positioning) + '</div>' +
       '<div class="price-amount">' + priceHTML + '</div>' +
       '<div class="price-per">' + perHTML + '</div>' +
       '<div class="price-save">' + saveHTML + '</div>' +
       '<ul class="price-feats">' + featsHTML + '</ul>' +
       '<div class="price-res">' + resHTML + '</div>' +
-      '<a class="btn btn-secondary-dark price-cta" href="' + buildMailto(p.name) + '">' + p.cta + '</a>';
+      '<a class="btn btn-secondary-dark price-cta" href="' + buildMailto(p.name) + '">' + escapeHtml(p.cta) + '</a>';
     grid.appendChild(card);
   });
 }
-renderPricing('monthly');
 document.querySelectorAll('#commitToggle button').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('#commitToggle button').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('#commitToggle button').forEach(b => b.setAttribute('aria-pressed', 'false'));
     btn.classList.add('active');
+    btn.setAttribute('aria-pressed', 'true');
+    selectedTerm = btn.dataset.term;
+    if (!planData.length) return;
     grid.style.opacity = 0;
-    setTimeout(() => { renderPricing(btn.dataset.term); grid.style.opacity = 1; }, reduceMotion ? 0 : 120);
+    setTimeout(() => { renderPricing(selectedTerm); grid.style.opacity = 1; }, reduceMotion ? 0 : 120);
   });
 });
+
+async function loadPricing(){
+  try{
+    const response = await fetch('commercial-truth.json', { cache: 'no-cache' });
+    if (!response.ok) throw new Error('Could not load commercial data.');
+    const commercialTruth = await response.json();
+    if (!Array.isArray(commercialTruth.plans) || !commercialTruth.plans.length) throw new Error('Commercial plan data is missing.');
+    planData = commercialTruth.plans;
+    renderPricing(selectedTerm);
+    document.querySelectorAll('#commitToggle button').forEach(button => { button.disabled = false; });
+    const requestedPlan = decodeURIComponent(window.location.hash.slice(1));
+    const requestedCard = requestedPlan && document.getElementById(requestedPlan);
+    if (requestedCard) requestedCard.scrollIntoView({ block: 'center' });
+  }catch(error){
+    grid.innerHTML = '<p class="pricing-foot">Plans are temporarily unavailable. Please <a href="mailto:nick@atomic-shelf.com">contact us</a> for current options.</p>';
+    console.error('Pricing data could not be loaded:', error);
+  }
+}
+loadPricing();
 </script>
 </body>
 </html>

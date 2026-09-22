@@ -45,27 +45,25 @@ A number that cannot be defended should not appear on the site.
 
 ### 4 — The guarantee remedy must be defined before launch
 
-The `guarantee.remedy` field is currently `TODO`. This must be agreed internally and reviewed before the guarantee copy goes live. Do not publish the guarantee section with a blank or vague remedy.
+The `guarantee.remedy` field is defined. The related commitment terms still need a manual/legal review before their final approval; retain that status in the commercial truth file until the review is complete.
 
 ### 5 — Plan names are canonical
 
-The plan names (`Spark`, `Shelf`, `Foundation`, `Momentum`) are the canonical names used everywhere. If the commercial plans change names, update here first and propagate through the site.
+The plan names (`Spark`, `Enhanced`, `Foundation`, `Starter`, `Momentum`, `Growth`) are canonical. If the commercial plans change names, update the JSON first and propagate through the site.
 
 ---
 
-## Fields that must be completed before launch
+## Approval status
 
-### Pricing (for every plan)
-- [ ] `pricing.monthly.price`
-- [ ] `pricing.3_month.price` + `equivalent_monthly`
-- [ ] `pricing.6_month.price` + `equivalent_monthly`
-- [ ] `pricing.12_month.price` + `equivalent_monthly`
+### Pricing and plans
 
-### Plans (for every plan)
-- [ ] `services` — list of service IDs included in each plan
-- [ ] `deliverables` — exact deliverables per month
-- [ ] `expected_outputs` — realistic 90-day expectations
-- [ ] `indicators` — what gets measured and reported
+- [x] All six plan prices and commitment totals
+- [x] Services, deliverables, and 90-day performance ranges
+- [x] Pricing-page claim based on 24 months of internal operating evidence
+
+These values were approved by the site owner on 2026-09-22. The recorded
+approval scope and evidence note live in `commercial-truth.json` under
+`_meta.pricing_claim_approval`.
 
 ### Services (for every service)
 - [ ] `what_we_do`
@@ -127,4 +125,5 @@ Do not begin building those components with placeholder or approximated values. 
 
 | Version | Date | Changed by | Notes |
 |---|---|---|---|
-| 1.0.0 | 2026-09-22 | — | Initial structure — all commercial values pending |
+| 1.0.0 | 2026-09-22 | — | Initial structure |
+| 1.1.0 | 2026-09-22 | Site owner | Approved six-plan pricing and published pricing-page claims; wired the homepage and pricing page to `commercial-truth.json`. |

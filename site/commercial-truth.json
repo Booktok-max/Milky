@@ -7,6 +7,12 @@
       "https://github.com/Booktok-max/Milky (pricing.html, in-repo build — currently only 4 of the 6 live plans; superseded here by live site data)"
     ],
     "captured_on": "2026-09-22",
+    "pricing_claim_approval": {
+      "approved_by": "Site owner (user confirmation)",
+      "approved_on": "2026-09-22",
+      "scope": "All six plan prices, commitments, deliverables, performance ranges, and the pricing-page 24-month results disclaimer.",
+      "evidence": "Owner-confirmed 24 months of internal operating evidence; formal evidence collection is deferred as out of scope for this build."
+    },
     "rounding_rule": "Discounted long-term commitment totals are rounded DOWN to the nearest $10 (e.g. $97 -> $90). Undiscounted list-price totals (monthly x term) are left exact.",
     "note_on_source_discrepancy": "The Milky repo's pricing.html only contains 4 plans (Spark, Foundation, Momentum, Growth) and no working payment backend URL. The live site has 6 plans (adds Enhanced and Starter). This file uses the live site as current truth per PRD Section 46.",
     "note_on_enhanced_starter_commitments": "The live site does not render a 'See commitment savings' flip-card for Enhanced or Starter, but per your instruction the same 10%/20%/25% (3/6/12-month) discount schedule used on Spark and Foundation applies to them too. Flag for whoever builds the pricing page: this UI needs to be added for these two plans, since right now nothing on-site tells a visitor these discounts exist.",
