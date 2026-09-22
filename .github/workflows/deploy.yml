@@ -20,11 +20,30 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Neocities is a public static host. Keep client work and internal tools
+      # out of its deployment payload; they remain in the repository only.
+      - name: Prepare public site
+        run: |
+          mkdir -p .neocities-deploy
+          rsync -a --delete \
+            --exclude='/ActiveClients/' \
+            --exclude='/Content-Proposal/' \
+            --exclude='/Editorials/' \
+            --exclude='/Next priority from Milky project roadmap - Claude_files/' \
+            --exclude='/Prompts/' \
+            --exclude='/Taskmaster/' \
+            --exclude='/dashboards/' \
+            --exclude='/e/' \
+            --exclude='/leads/' \
+            --exclude='/reports/' \
+            --exclude='/staging/' \
+            site/ .neocities-deploy/
+
       - name: Deploy to Neocities
         uses: bcomnes/deploy-to-neocities@v3
         with:
           api_key: ${{ secrets.NEOCITIES_API_TOKEN }}
-          dist_dir: site
+          dist_dir: .neocities-deploy
           cleanup: false
           # If you ever get a Supporter account and want larger file types
           # allowed through, flip this to true.
