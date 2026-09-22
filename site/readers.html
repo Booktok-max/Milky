@@ -4,7 +4,7 @@
   <link rel="icon" type="image/svg+xml" href="https://atomic-shelf.com/book-and-people-spring-svgrepo-com.svg">
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<meta name="description" content="Browse books from Atomic Shelf authors — discover your next read across romance, fantasy, thriller, and children's books."/>
+<meta name="description" content="Browse books across romance, fantasy, thriller, children's books, and more — then find reader-curated discoveries and ways to get each title."/>
 <title>Browse Books | Atomic‑Shelf</title>
 <link rel="canonical" href="readers.html" />
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -56,8 +56,6 @@ header p{color:var(--stone);font-size:1.02rem;max-width:56ch;margin:0 auto 2.2re
 
 .filter-row{display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap;}
 .filter-note{color:var(--stone);font-size:0.78rem;margin:0 auto;max-width:65ch;text-align:center;}
-.language-row{display:flex;gap:0.5rem;justify-content:center;flex-wrap:wrap;margin-top:0.8rem;}
-.language-row .pill{font-size:0.72rem;padding:.32rem .75rem;}
 .list-feed{padding:2rem 6vw 1rem;background:var(--ivory-2);}
 .list-feed-head{display:flex;justify-content:space-between;align-items:end;gap:1rem;flex-wrap:wrap;margin-bottom:1.2rem;}
 .list-feed h2{font-size:1.7rem;}
@@ -68,6 +66,7 @@ header p{color:var(--stone);font-size:1.02rem;max-width:56ch;margin:0 auto 2.2re
 .list-card p{color:var(--stone);font-size:.78rem;margin-bottom:.8rem;}
 .list-card a{color:var(--copper);font-size:.78rem;font-weight:600;text-decoration:none;}
 .list-card a:hover{text-decoration:underline;}
+.list-card.featured-source{border-color:var(--copper);background:var(--copper-pale);}
 
 section.results{padding:3.5rem 6vw 6rem;}
 .results-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2rem;flex-wrap:wrap;gap:1rem;}
@@ -119,9 +118,9 @@ footer a{color:rgba(255,255,255,0.4);text-decoration:none;}
 <nav>
   <a href="index.html" class="logo">Atomic<span class="logo-dash">&#8209;</span>Shelf</a>
   <ul class="nav-links">
-    <li><a href="index.html#services">Services</a></li>
     <li><a href="#browse-books" style="color:var(--copper);font-weight:600;" aria-current="page">Browse Books</a></li>
     <li><a href="#lucky">I’m feeling lucky</a></li>
+    <li><a href="services.html">Services</a></li>
   </ul>
   <a href="index.html#pricing" class="nav-cta">For Authors</a>
 </nav>
@@ -130,7 +129,7 @@ footer a{color:rgba(255,255,255,0.4);text-decoration:none;}
   <div class="header-inner">
     <div class="eyebrow"><span class="eyebrow-line"></span>Reader Discovery<span class="eyebrow-line"></span></div>
     <h1>Find your next read</h1>
-    <p>Browse titles from Atomic Shelf authors and beyond — romance, fantasy, thriller, and children's books, matched to what you already love.</p>
+    <p>Browse titles across romance, fantasy, thriller, children's books, and more — matched to what you already love.</p>
     <form class="search-bar" id="book-search-form">
       <label class="sr-only" for="book-search">Search books</label>
       <input type="search" id="book-search" placeholder="Search by title, author, or series…" autocomplete="off"/>
@@ -152,16 +151,6 @@ footer a{color:rgba(255,255,255,0.4);text-decoration:none;}
       <span class="pill" data-genre="graphic novels">Graphic novels</span>
     </div>
     <p class="filter-note">Children’s results use catalogue subject tags for juvenile fiction, picture books, and juvenile literature—not title keywords.</p>
-    <div class="language-row" id="language-filters" aria-label="Filter by language">
-      <span class="pill active" data-language="">All languages</span>
-      <span class="pill" data-language="eng">English</span>
-      <span class="pill" data-language="spa">Español</span>
-      <span class="pill" data-language="fra">Français</span>
-      <span class="pill" data-language="deu">Deutsch</span>
-      <span class="pill" data-language="ita">Italiano</span>
-      <span class="pill" data-language="por">Português</span>
-      <span class="pill" data-language="jpn">日本語</span>
-    </div>
   </div>
 </header>
 
@@ -170,7 +159,8 @@ footer a{color:rgba(255,255,255,0.4);text-decoration:none;}
     <div class="results-head">
       <div>
         <div class="eyebrow"><span class="eyebrow-line"></span>Browse Books</div>
-        <h2 id="results-title">A different shelf every day</h2>
+        <h2 id="results-title">Popular reading</h2>
+        <p class="list-feed-intro">A daily mix of discovery lanes, including a small Popular in ShelfMates lane. This is not a live last-24-hours ranking.</p>
       </div>
       <span class="results-count" id="results-count"></span>
     </div>
@@ -238,7 +228,7 @@ function handleCoverError(image) {
 
 const DISCOVERY_LANES = [
   { label: 'Free to read', query: 'fiction', params: 'ebook_access=public&has_fulltext=true', sort: 'readinglog', count: 7 },
-  { label: 'Popular now', query: 'fiction', params: '', sort: 'readinglog', count: 3 },
+  { label: 'Popular in ShelfMates', query: 'fiction', params: '', sort: 'readinglog', count: 3 },
   { label: 'Classics', query: 'classics', params: '', sort: 'old', count: 7 },
   { label: 'Rising titles', query: 'fiction', params: '', sort: 'new', count: 7 },
   { label: 'Value picks', query: 'fiction', params: 'ebook_access=public', sort: 'rating', count: 6 },
@@ -251,6 +241,8 @@ const LIST_SEARCHES = [
   { query: 'fantasy', label: 'Fantasy lists' },
   { query: 'children', label: 'Children’s lists' }
 ];
+
+const AMAZON_BOOKTOK_URL = 'https://www.amazon.com/b?ie=UTF8&node=23679109011&nodl=0&ref=ebooks_dsk_sn_best-of-book%E2%80%9458af7';
 
 const GENRE_QUERIES = {
   "children's": 'subject:"juvenile fiction"',
@@ -288,7 +280,6 @@ function seededShuffle(items, seed) {
 async function fetchBooks(query, genre, page = 1) {
   if (query) {
     const params = new URLSearchParams({ q: query, limit: '30', page: String(page) });
-    if (activeLanguage) params.set('language', activeLanguage);
     const res = await fetch(`https://openlibrary.org/search.json?${params}`);
     if (!res.ok) throw new Error('Book search failed');
     const data = await res.json();
@@ -303,7 +294,6 @@ async function fetchBooks(query, genre, page = 1) {
   }));
   const responses = await Promise.all(lanes.map(async lane => {
     const params = new URLSearchParams({ q: lane.query, limit: String(lane.count * 2), page: String(page), ...(lane.sort ? { sort: lane.sort } : {}) });
-    if (activeLanguage) params.set('language', activeLanguage);
     if (lane.params) new URLSearchParams(lane.params).forEach((value, key) => params.set(key, value));
     const res = await fetch(`https://openlibrary.org/search.json?${params}`);
     if (!res.ok) throw new Error('Book search failed');
@@ -344,7 +334,6 @@ function bookFromDoc(d) {
 
 let activeGenre = '';
 let activeQuery = '';
-let activeLanguage = '';
 let currentPage = 1;
 let displayedBooks = [];
 let loading = false;
@@ -374,7 +363,14 @@ async function loadLists() {
       return true;
     }), dailySeed()).slice(0, 12);
     if (!lists.length) throw new Error('No public lists found');
-    grid.innerHTML = lists.map(list => `
+    const sourceCard = `
+      <article class="list-card featured-source">
+        <div class="eyebrow">Amazon · Best of #BookTok</div>
+        <h3>See the current BookTok picks</h3>
+        <p>Amazon maintains the live ranking and availability for this collection.</p>
+        <a href="${AMAZON_BOOKTOK_URL}" target="_blank" rel="noopener noreferrer">Open Best of #BookTok →</a>
+      </article>`;
+    grid.innerHTML = sourceCard + lists.map(list => `
       <article class="list-card">
         <div class="eyebrow">${escapeHtml(list.category)}</div>
         <h3>${escapeHtml(list.name || 'Untitled list')}</h3>
@@ -424,7 +420,7 @@ async function loadBooks(query, genre, reset = true) {
   }
   document.getElementById('results-title').textContent = query
     ? `Results for “${query}”`
-    : (genre ? `Browsing: ${genre}` : 'A different shelf every day');
+    : (genre ? `Browsing: ${genre}` : 'Popular reading');
   try {
     const books = await fetchBooks(query, genre, currentPage);
     const seen = new Set(displayedBooks.map(book => `${book.title}|${book.author}`));
@@ -468,15 +464,6 @@ document.getElementById('genre-filters').addEventListener('click', e => {
   activeGenre = pill.dataset.genre;
   activeQuery = '';
   document.getElementById('book-search').value = '';
-  loadBooks(activeQuery, activeGenre);
-});
-
-document.getElementById('language-filters').addEventListener('click', e => {
-  const pill = e.target.closest('.pill');
-  if (!pill) return;
-  document.querySelectorAll('#language-filters .pill').forEach(item => item.classList.remove('active'));
-  pill.classList.add('active');
-  activeLanguage = pill.dataset.language;
   loadBooks(activeQuery, activeGenre);
 });
 
