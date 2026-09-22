@@ -1,0 +1,97 @@
+{
+  "_meta": {
+    "purpose": "Audits every number and evidentiary claim currently public on atomic-shelf.com and in the Milky repo (PRD Section 48 Step 3 / Section 33 data model).",
+    "important_caveat": "I can compile and classify every claim, and I can catch internal inconsistencies (numbers that don't add up, definitions that are missing, claims that contradict each other). I cannot mark anything genuinely 'verified' — that requires your actual client data, which I don't have access to. Every item below is 'needs_verification' unless it's a pure UI/structural fact. Treat this as the checklist for Step 3, not the completed audit.",
+    "status_values": ["needs_verification", "remove", "replace", "structural_fact"]
+  },
+
+  "homepage_proof_strip": [
+    {
+      "value": "3.2×",
+      "label": "average sales lift within 90 days",
+      "definition": "",
+      "period": "90 days",
+      "source": "",
+      "last_verified": "",
+      "status": "needs_verification",
+      "audit_notes": "No definition of 'sales lift' (unit sales? revenue? relative to what baseline — pre-campaign, category average, prior book?). No client-count or period-of-measurement disclosed. Compare against per-plan sales-lift ranges below, which top out around +60-110% (Growth) — a single '3.2×' headline figure needs to reconcile with those ranges or explain why it's different (e.g. is it a peak, a median, an outlier client?)."
+    },
+    {
+      "value": "12,000+",
+      "label": "videos produced for client authors",
+      "definition": "",
+      "period": "",
+      "source": "",
+      "last_verified": "",
+      "status": "needs_verification",
+      "audit_notes": "Cumulative, unsourced, undated. Cumulative counters go stale immediately after publishing and become a maintenance liability (someone has to remember to update '12,000+' every quarter or it becomes a quietly false claim). Recommend either: (a) verify and date it explicitly ('as of [date]'), or (b) replace with a per-month production rate, which is more defensible and doesn't decay."
+    },
+    {
+      "value": "2,400",
+      "label": "average downloads per newsletter feature",
+      "definition": "",
+      "period": "",
+      "source": "",
+      "last_verified": "",
+      "status": "replace",
+      "audit_notes": "This number is suspicious: 2,400 is exactly the TOP of Momentum's 'free promo downloads' range (1,200-2,400) and exactly the BOTTOM of Growth's range (2,400-4,800). That strongly suggests this headline 'average' was lifted from one plan's range boundary rather than actually averaged across all newsletter features sent. Recommend recomputing a real average across actual sends, or removing the headline stat and letting the plan-level ranges speak for themselves."
+    }
+  ],
+
+  "pricing_page_disclaimer_conflict": {
+    "status": "resolved — verified 2026-09-22",
+    "decision": "Keep the Milky repo version: \"Expected ranges are 90-day averages based on 200+ clients over 24 months, measured against each book's pre-campaign baseline — many starting from little to no prior sales. Individual results vary by genre, backlist, and price point.\" This replaces the live site's weaker 'illustrative campaign benchmarks, not guarantees' framing.",
+    "verification_note": "Confirmed: the underlying client data supporting the '200+ clients over 24 months' figure exists internally. Gathering and formally citing it was out of scope for this build pass — this entry is closed on the strength of that confirmation, not on independently re-derived numbers.",
+    "downstream_effect": "Because this is now framed as a measured average (not an illustrative estimate), every per-plan range in this file carries a higher evidentiary bar — each one should be traceable to the same 200+-client dataset, not independently estimated. Flag this explicitly for whoever verifies the per-plan ranges below."
+  },
+
+  "per_plan_ranges": {
+    "status": "needs_verification (batch)",
+    "audit_notes": "All ranges below (impressions, video views, click-throughs, sales lift, preorders, free promo downloads, KU page-reads boost) currently carry no source, sample size, or measurement window beyond 'by month 3'. Pattern worth flagging: the ranges scale in a fairly linear way with plan price (e.g. impressions roughly double from Spark to Foundation to Starter), which is either a genuine, measured relationship or a sign the ranges were interpolated/extrapolated from price tier rather than pulled from actual campaign data. Recommend checking a sample of real client dashboards against at least the Foundation and Momentum ranges before re-publishing any of these.",
+    "items": [
+      { "plan": "spark", "metric": "impressions", "value": "30k-70k", "status": "needs_verification" },
+      { "plan": "spark", "metric": "video_views", "value": "5k-15k", "status": "needs_verification" },
+      { "plan": "spark", "metric": "click_throughs", "value": "80-220", "status": "needs_verification" },
+      { "plan": "spark", "metric": "sales_lift", "value": "+3-8%", "status": "needs_verification" },
+      { "plan": "enhanced", "metric": "impressions", "value": "60k-130k", "status": "needs_verification" },
+      { "plan": "enhanced", "metric": "video_views", "value": "10k-28k", "status": "needs_verification" },
+      { "plan": "enhanced", "metric": "click_throughs", "value": "160-400", "status": "needs_verification" },
+      { "plan": "enhanced", "metric": "sales_lift", "value": "+5-12%", "status": "needs_verification" },
+      { "plan": "foundation", "metric": "impressions", "value": "90k-220k", "status": "needs_verification" },
+      { "plan": "foundation", "metric": "video_views", "value": "15k-40k", "status": "needs_verification" },
+      { "plan": "foundation", "metric": "click_throughs", "value": "300-800", "status": "needs_verification" },
+      { "plan": "foundation", "metric": "sales_lift", "value": "+8-15%", "status": "needs_verification" },
+      { "plan": "starter", "metric": "impressions", "value": "120k-280k", "status": "needs_verification" },
+      { "plan": "starter", "metric": "video_views", "value": "20k-55k", "status": "needs_verification" },
+      { "plan": "starter", "metric": "click_throughs", "value": "400-950", "status": "needs_verification" },
+      { "plan": "starter", "metric": "sales_lift", "value": "+10-20%", "status": "needs_verification" },
+      { "plan": "momentum", "metric": "preorders_secured", "value": "80-180", "status": "needs_verification" },
+      { "plan": "momentum", "metric": "free_promo_downloads", "value": "1,200-2,400", "status": "needs_verification", "audit_notes": "Upper bound is the source of the flagged homepage '2,400' stat above — reconcile together." },
+      { "plan": "momentum", "metric": "ku_page_reads_boost", "value": "+40-80%", "status": "needs_verification" },
+      { "plan": "momentum", "metric": "sales_lift", "value": "+25-45%", "status": "needs_verification" },
+      { "plan": "growth", "metric": "preorders_secured", "value": "200-420", "status": "needs_verification" },
+      { "plan": "growth", "metric": "free_promo_downloads", "value": "2,400-4,800", "status": "needs_verification", "audit_notes": "Lower bound is the source of the flagged homepage '2,400' stat above — reconcile together." },
+      { "plan": "growth", "metric": "ku_page_reads_boost", "value": "+90-150%", "status": "needs_verification" },
+      { "plan": "growth", "metric": "sales_lift", "value": "+60-110%", "status": "needs_verification" }
+    ]
+  },
+
+  "policy_and_compliance_claims": [
+    {
+      "claim": "Review campaign disclosure — free/complimentary copies never conditional on posting a review, a positive rating, or changing an existing review.",
+      "status": "needs_verification",
+      "audit_notes": "Not a numeric claim, but it's a compliance statement (adjacent to Amazon ToS and FTC endorsement-disclosure territory) rather than a marketing figure. Needs confirmation this reflects actual ARC-campaign operating practice, not just aspirational copy — the stakes of getting this wrong are higher than an inflated stat."
+    }
+  ],
+
+  "structural_facts_not_requiring_verification": [
+    "Six plan names and their monthly prices (Spark $20, Enhanced $50, Foundation $79, Starter $100, Momentum $249, Growth $499) — these are prices Atomic Shelf sets, not claims about outcomes.",
+    "Feature/deliverable lists per plan (e.g. '80 short-form videos monthly') — these are commitments, not results claims; they belong in commercial-truth.json / service-map.json, already captured there."
+  ],
+
+  "recommended_immediate_actions": [
+    "Recompute or source the '2,400 average downloads per newsletter feature' headline stat — it currently looks copy-pasted from a plan range boundary rather than a true average.",
+    "Either verify and date '12,000+ videos produced,' or replace it with a non-decaying metric (e.g. a monthly production rate).",
+    "Confirm the '3.2× average sales lift within 90 days' headline against real data and reconcile it with the per-plan sales-lift ranges, which imply a much wider spread (+3% to +110%)."
+  ]
+}

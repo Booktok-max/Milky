@@ -1,436 +1,245 @@
 {
   "_meta": {
-    "version": "1.0.0",
-    "last_updated": "2026-09-22",
-    "updated_by": "",
-    "status": "DRAFT — prices and deliverables must be confirmed before publishing",
-    "note": "This is the single source of truth for all commercial and factual content on atomic-shelf.com. No page, component, or script should hardcode values that exist in this file. All placeholder values are marked with TODO."
+    "purpose": "Single source of commercial truth for the Atomic Shelf website relaunch (PRD Section 32 / Step 1).",
+    "sourced_from": [
+      "https://atomic-shelf.com/index.html",
+      "https://atomic-shelf.com/pricing.html",
+      "https://github.com/Booktok-max/Milky (pricing.html, in-repo build — currently only 4 of the 6 live plans; superseded here by live site data)"
+    ],
+    "captured_on": "2026-09-22",
+    "rounding_rule": "Discounted long-term commitment totals are rounded DOWN to the nearest $10 (e.g. $97 -> $90). Undiscounted list-price totals (monthly x term) are left exact.",
+    "note_on_source_discrepancy": "The Milky repo's pricing.html only contains 4 plans (Spark, Foundation, Momentum, Growth) and no working payment backend URL. The live site has 6 plans (adds Enhanced and Starter). This file uses the live site as current truth per PRD Section 46.",
+    "note_on_enhanced_starter_commitments": "The live site does not render a 'See commitment savings' flip-card for Enhanced or Starter, but per your instruction the same 10%/20%/25% (3/6/12-month) discount schedule used on Spark and Foundation applies to them too. Flag for whoever builds the pricing page: this UI needs to be added for these two plans, since right now nothing on-site tells a visitor these discounts exist.",
+    "note_on_audience_positioning_outcome": "audience / positioning / outcome / deliverables below are EXTRAPOLATED, not pulled from an approved commercial sheet (none was available). They're built from generally known Amazon KDP category-ranking, review-count, and reader-list benchmarks for indie authors, scaled to each plan's price point and feature set. Treat every range here as a draft assumption that needs sign-off — not verified client data. Do not publish these verbatim without an internal review pass."
   },
 
   "plans": [
     {
       "id": "spark",
       "name": "Spark",
-      "positioning": "Start getting discovered.",
-      "audience": "Authors who have a book but need discovery — first campaigns, no existing presence.",
-      "primary_outcome": "Get your book in front of genre-relevant readers for the first time.",
-      "cta_label": "Start with Spark",
-      "cta_url": "/checkout/spark",
-      "highlighted": false,
-      "pricing": {
-        "monthly": {
-          "price": "TODO",
-          "currency": "USD",
-          "billing_note": "Billed monthly"
-        },
-        "3_month": {
-          "price": "TODO",
-          "currency": "USD",
-          "discount_percent": 10,
-          "savings_label": "Save 10%",
-          "equivalent_monthly": "TODO",
-          "billing_note": "Billed every 3 months"
-        },
-        "6_month": {
-          "price": "TODO",
-          "currency": "USD",
-          "discount_percent": 20,
-          "savings_label": "Save 20%",
-          "equivalent_monthly": "TODO",
-          "billing_note": "Billed every 6 months"
-        },
-        "12_month": {
-          "price": "TODO",
-          "currency": "USD",
-          "discount_percent": 25,
-          "savings_label": "Save 25%",
-          "equivalent_monthly": "TODO",
-          "billing_note": "Billed annually"
-        }
+      "monthly_price": 20,
+      "monthly_price_note": "first 20 videos free",
+      "commitments": {
+        "monthly": {},
+        "3_month": { "discount_percent": 10, "list_total": 60, "discounted_total_exact": 54, "discounted_total_rounded_down_10": 50 },
+        "6_month": { "discount_percent": 20, "list_total": 120, "discounted_total_exact": 96, "discounted_total_rounded_down_10": 90 },
+        "12_month": { "discount_percent": 25, "list_total": 240, "discounted_total_exact": 180, "discounted_total_rounded_down_10": 180, "best_value": true }
       },
+      "audience": "[extrapolated] Pre-launch or very early-career authors, 0-2 published titles, little to no existing platform (sub-500 email list, sub-1,000 social following), category rank typically outside Amazon top 100,000 or not yet ranking.",
+      "positioning": "[extrapolated] Low-risk entry point — proves whether consistent short-form content can move a specific book before committing budget to a full campaign.",
+      "outcome": "[extrapolated] Establishes a baseline content cadence and click-through data; not expected to independently shift category rank into a visible tier within 90 days.",
       "services": [
-        "TODO — list service IDs from the services array that are included in this plan"
+        "60 premium short-form videos monthly",
+        "Posted to TikTok, Shorts & Reels",
+        "Genre-matched scripts, viral hooks & trending audio",
+        "Strategic social management",
+        "Weekly performance insights & click-through tracking"
       ],
-      "deliverables": {
-        "videos_per_month": "TODO",
-        "arc_seats": "TODO",
-        "listing_reviews": "TODO",
-        "reporting_cadence": "TODO",
-        "other": []
-      },
-      "expected_outputs": [
-        "TODO — what a client can realistically expect to see in 90 days"
+      "deliverables": [
+        "[extrapolated] ~60 short-form video assets/month",
+        "[extrapolated] Weekly performance report (impressions, views, CTR)",
+        "[extrapolated] No listing, review, or retargeting work included at this tier"
       ],
-      "indicators": [
-        "TODO — what metrics are tracked for this plan"
-      ],
-      "minimum_commitment_months": 1
+      "metrics": { "period": "by month 3", "impressions": "30k-70k", "video_views": "5k-15k", "click_throughs": "80-220", "sales_lift": "+3-8%" },
+      "cta": "Get started with Spark"
     },
     {
-      "id": "shelf",
-      "name": "Shelf",
-      "positioning": "Build a consistent reader-facing presence.",
-      "audience": "Authors with some existing activity who need a regular, coordinated content system.",
-      "primary_outcome": "A consistent presence across discovery and social proof channels.",
-      "cta_label": "Start with Shelf",
-      "cta_url": "/checkout/shelf",
-      "highlighted": false,
-      "pricing": {
-        "monthly": {
-          "price": "TODO",
-          "currency": "USD",
-          "billing_note": "Billed monthly"
-        },
-        "3_month": {
-          "price": "TODO",
-          "currency": "USD",
-          "discount_percent": 10,
-          "savings_label": "Save 10%",
-          "equivalent_monthly": "TODO",
-          "billing_note": "Billed every 3 months"
-        },
-        "6_month": {
-          "price": "TODO",
-          "currency": "USD",
-          "discount_percent": 20,
-          "savings_label": "Save 20%",
-          "equivalent_monthly": "TODO",
-          "billing_note": "Billed every 6 months"
-        },
-        "12_month": {
-          "price": "TODO",
-          "currency": "USD",
-          "discount_percent": 25,
-          "savings_label": "Save 25%",
-          "equivalent_monthly": "TODO",
-          "billing_note": "Billed annually"
-        }
+      "id": "enhanced",
+      "name": "Enhanced",
+      "monthly_price": 50,
+      "commitments": {
+        "monthly": {},
+        "3_month": { "discount_percent": 10, "list_total": 150, "discounted_total_exact": 135, "discounted_total_rounded_down_10": 130 },
+        "6_month": { "discount_percent": 20, "list_total": 300, "discounted_total_exact": 240, "discounted_total_rounded_down_10": 240 },
+        "12_month": { "discount_percent": 25, "list_total": 600, "discounted_total_exact": 450, "discounted_total_rounded_down_10": 450, "best_value": true }
       },
+      "audience": "[extrapolated] Authors already running Spark-level content who want one flagship asset (a trailer) to reuse off-platform — in ads, a bio link, a newsletter, or a pitch to reviewers — without yet buying full campaign management. Typically 1-3 books, category rank outside top 50,000.",
+      "positioning": "[extrapolated] Content-plus-asset tier: same cadence as Spark, plus a durable creative asset that compounds across future campaigns rather than disappearing after one post cycle.",
+      "outcome": "[extrapolated] Meaningfully higher reach and CTR than Spark from richer creative alone; still not paired with listing or review work, so conversion lift stays modest.",
       "services": [
-        "TODO — list service IDs from the services array"
+        "Everything in Spark",
+        "Cinematic book trailer",
+        "Long-form video & avatar narration",
+        "Richer creative asset mix"
       ],
-      "deliverables": {
-        "videos_per_month": "TODO",
-        "arc_seats": "TODO",
-        "listing_reviews": "TODO",
-        "reporting_cadence": "TODO",
-        "other": []
-      },
-      "expected_outputs": [
-        "TODO"
+      "deliverables": [
+        "[extrapolated] Everything in Spark, plus one cinematic trailer",
+        "[extrapolated] One long-form video with avatar narration",
+        "[extrapolated] Weekly performance report"
       ],
-      "indicators": [
-        "TODO"
-      ],
-      "minimum_commitment_months": 1
+      "metrics": { "period": "by month 3", "impressions": "60k-130k", "video_views": "10k-28k", "click_throughs": "160-400", "sales_lift": "+5-12%" },
+      "cta": "View Enhanced"
     },
     {
       "id": "foundation",
       "name": "Foundation",
-      "positioning": "Build the infrastructure underneath the traffic.",
-      "audience": "Authors who have attention but need stronger conversion infrastructure — listing, reviews, reader acquisition.",
-      "primary_outcome": "A system that converts discovery into sales and readers into repeat buyers.",
-      "cta_label": "Start with Foundation",
-      "cta_url": "/checkout/foundation",
-      "highlighted": true,
-      "pricing": {
-        "monthly": {
-          "price": "TODO",
-          "currency": "USD",
-          "billing_note": "Billed monthly"
-        },
-        "3_month": {
-          "price": "TODO",
-          "currency": "USD",
-          "discount_percent": 10,
-          "savings_label": "Save 10%",
-          "equivalent_monthly": "TODO",
-          "billing_note": "Billed every 3 months"
-        },
-        "6_month": {
-          "price": "TODO",
-          "currency": "USD",
-          "discount_percent": 20,
-          "savings_label": "Save 20%",
-          "equivalent_monthly": "TODO",
-          "billing_note": "Billed every 6 months"
-        },
-        "12_month": {
-          "price": "TODO",
-          "currency": "USD",
-          "discount_percent": 25,
-          "savings_label": "Save 25%",
-          "equivalent_monthly": "TODO",
-          "billing_note": "Billed annually"
-        }
+      "monthly_price": 79,
+      "commitments": {
+        "monthly": {},
+        "3_month": { "discount_percent": 10, "list_total": 213, "discounted_total_exact": 192, "discounted_total_rounded_down_10": 190 },
+        "6_month": { "discount_percent": 20, "list_total": 474, "discounted_total_exact": 379, "discounted_total_rounded_down_10": 370 },
+        "12_month": { "discount_percent": 25, "list_total": 948, "discounted_total_exact": 711, "discounted_total_rounded_down_10": 710, "best_value": true }
       },
+      "audience": "[extrapolated] Authors with at least one published book and a live Amazon listing that's never been optimized — category rank roughly top 30,000-100,000, no reader list of their own yet, little to no review-driven social proof.",
+      "positioning": "[extrapolated] First tier where the listing itself starts converting the traffic content sends — the entry point to the reader-list ecosystem (ShelfMates/StoryPals).",
+      "outcome": "[extrapolated] Meaningful, sustained rank movement is plausible within a 90-day cycle (loosely, top-100,000 toward top-30,000-50,000 territory for a book with a workable hook), plus the start of an owned reader list.",
       "services": [
-        "TODO"
+        "80 short-form videos monthly",
+        "1 professional book trailer",
+        "Listing copy & A+ optimization",
+        "Preorder listing setup",
+        "ShelfMates / StoryPals access"
       ],
-      "deliverables": {
-        "videos_per_month": "TODO",
-        "arc_seats": "TODO",
-        "listing_reviews": "TODO",
-        "reporting_cadence": "TODO",
-        "other": []
+      "deliverables": [
+        "[extrapolated] ~80 short-form videos/month + 1 trailer",
+        "[extrapolated] Rewritten listing copy, keywords, and A+ content",
+        "[extrapolated] Preorder listing configured",
+        "[extrapolated] Reader-list enrollment via ShelfMates/StoryPals"
+      ],
+      "metrics": { "period": "by month 3", "impressions": "90k-220k", "video_views": "15k-40k", "click_throughs": "300-800", "sales_lift": "+8-15%" },
+      "cta": "Get started with Foundation"
+    },
+    {
+      "id": "starter",
+      "name": "Starter",
+      "monthly_price": 100,
+      "commitments": {
+        "monthly": {},
+        "3_month": { "discount_percent": 10, "list_total": 300, "discounted_total_exact": 270, "discounted_total_rounded_down_10": 270 },
+        "6_month": { "discount_percent": 20, "list_total": 600, "discounted_total_exact": 480, "discounted_total_rounded_down_10": 480 },
+        "12_month": { "discount_percent": 25, "list_total": 1200, "discounted_total_exact": 900, "discounted_total_rounded_down_10": 900, "best_value": true }
       },
-      "expected_outputs": [
-        "TODO"
+      "audience": "[extrapolated] Authors with an optimized-or-optimizable listing who are ready to test paid amplification for the first time — usually 1-3 books, category rank top 20,000-60,000, comfortable spending a small, fixed ad budget rather than managing ads themselves.",
+      "positioning": "[extrapolated] Heaviest creative-and-asset tier below full campaign management — 2 trailers, a theme song, and a modest Amazon DSP budget layered on top of Spark-level content.",
+      "outcome": "[extrapolated] Faster impression and CTR growth than Foundation from paid amplification, without the review/preorder/retargeting infrastructure Momentum adds — best read as a bridge tier rather than a launch-campaign tier.",
+      "services": [
+        "100+ premium short-form videos",
+        "2 cinematic book trailers",
+        "Original theme song",
+        "$50 Amazon DSP budget"
       ],
-      "indicators": [
-        "TODO"
+      "deliverables": [
+        "[extrapolated] 100+ short-form videos/month",
+        "[extrapolated] 2 cinematic trailers + 1 original theme song",
+        "[extrapolated] $50/month Amazon DSP ad spend managed on the author's behalf"
       ],
-      "minimum_commitment_months": 1
+      "metrics": { "period": "by month 3", "impressions": "120k-280k", "video_views": "20k-55k", "click_throughs": "400-950", "sales_lift": "+10-20%" },
+      "cta": "View Starter"
     },
     {
       "id": "momentum",
       "name": "Momentum",
-      "positioning": "Turn attention into a coordinated growth engine.",
-      "audience": "Authors with an established readership who are ready for a fully coordinated, multi-channel growth campaign.",
-      "primary_outcome": "A coordinated system driving consistent sales, reader acquisition, and repeat readership across channels.",
-      "cta_label": "Start with Momentum",
-      "cta_url": "/checkout/momentum",
-      "highlighted": false,
-      "pricing": {
-        "monthly": {
-          "price": "TODO",
-          "currency": "USD",
-          "billing_note": "Billed monthly"
-        },
-        "3_month": {
-          "price": "TODO",
-          "currency": "USD",
-          "discount_percent": 10,
-          "savings_label": "Save 10%",
-          "equivalent_monthly": "TODO",
-          "billing_note": "Billed every 3 months"
-        },
-        "6_month": {
-          "price": "TODO",
-          "currency": "USD",
-          "discount_percent": 20,
-          "savings_label": "Save 20%",
-          "equivalent_monthly": "TODO",
-          "billing_note": "Billed every 6 months"
-        },
-        "12_month": {
-          "price": "TODO",
-          "currency": "USD",
-          "discount_percent": 25,
-          "savings_label": "Save 25%",
-          "equivalent_monthly": "TODO",
-          "billing_note": "Billed annually"
-        }
+      "monthly_price": 249,
+      "most_popular": true,
+      "commitments": {
+        "monthly": {},
+        "3_month": {},
+        "6_month": { "discount_percent": 20, "list_total": 1494, "discounted_total_exact": 1196, "discounted_total_rounded_down_10": 1190 },
+        "12_month": { "discount_percent": 25, "list_total": 2988, "discounted_total_exact": 2241, "discounted_total_rounded_down_10": 2240, "best_value": true }
       },
+      "audience": "[extrapolated] Authors with a specific launch or relaunch coming up and at least one prior book with some sales history — typically fewer than 10 reviews on the target title, category rank top 5,000-20,000, ready for a structured 6-week preorder push.",
+      "positioning": "[extrapolated] First full-funnel tier: content, social proof (ARC reviews), a scheduled preorder campaign, and retargeting run as one coordinated system rather than separate purchases.",
+      "outcome": "[extrapolated] Realistic path to a top-1,000-5,000 category rank around launch week for a book with a workable hook and backlist support; review count roughly doubling via the 10-reader ARC campaign.",
       "services": [
-        "TODO"
+        "All Foundation features",
+        "Full social media management",
+        "ARC/review campaign — 10 readers targeted",
+        "Enhanced A+ listing build",
+        "Preorder campaign — 6-week countdown",
+        "1 newsletter feature per quarter",
+        "Segmented retargeting, up to 5x daily for 30 days"
       ],
-      "deliverables": {
-        "videos_per_month": "TODO",
-        "arc_seats": "TODO",
-        "listing_reviews": "TODO",
-        "reporting_cadence": "TODO",
-        "other": []
+      "deliverables": [
+        "[extrapolated] All Foundation deliverables",
+        "[extrapolated] Full social account management (not just posting)",
+        "[extrapolated] ARC campaign targeting 10 genre-matched readers",
+        "[extrapolated] Enhanced A+ listing build",
+        "[extrapolated] 6-week preorder countdown campaign",
+        "[extrapolated] 1 newsletter feature per quarter",
+        "[extrapolated] Segmented retargeting, up to 5x/day for 30 days"
+      ],
+      "metrics": { "period": "by month 3", "preorders_secured": "80-180", "free_promo_downloads": "1,200-2,400", "ku_page_reads_boost": "+40-80%", "sales_lift": "+25-45%" },
+      "cta": "Get started with Momentum"
+    },
+    {
+      "id": "growth",
+      "name": "Growth",
+      "monthly_price": 499,
+      "commitments": {
+        "monthly": {},
+        "3_month": {},
+        "6_month": { "discount_percent": 20, "list_total": 2994, "discounted_total_exact": 2396, "discounted_total_rounded_down_10": 2390 },
+        "12_month": { "discount_percent": 25, "list_total": 5988, "discounted_total_exact": 4491, "discounted_total_rounded_down_10": 4490, "best_value": true }
       },
-      "expected_outputs": [
-        "TODO"
+      "audience": "[extrapolated] Authors with an established backlist (3+ books) scaling an existing readership or mounting an aggressive new launch — typically already inside top 5,000-20,000 in category and pushing toward top 100-1,000, wanting monthly (not quarterly) newsletter placement and a larger review base.",
+      "positioning": "[extrapolated] Top production-and-campaign tier below the fully custom Surge/Orbit engagements — same full-funnel system as Momentum, scaled up in every dimension.",
+      "outcome": "[extrapolated] Realistic path toward top-100-1,000 category rank and bestseller-list visibility for a launch backed by a genuine backlist and reader base; review count growth roughly 2.5x the Momentum tier via the 25-reader ARC campaign.",
+      "services": [
+        "100+ premium videos monthly",
+        "2 cinematic trailers, 1 theme song",
+        "ARC/review campaign — 25 readers targeted",
+        "Premium A+ listing build",
+        "Preorder campaign — 8-week countdown",
+        "1 newsletter feature per month",
+        "Segmented retargeting, up to 5x daily for 30 days"
       ],
-      "indicators": [
-        "TODO"
+      "deliverables": [
+        "[extrapolated] 100+ short-form videos/month",
+        "[extrapolated] 2 cinematic trailers + 1 theme song",
+        "[extrapolated] ARC campaign targeting 25 genre-matched readers",
+        "[extrapolated] Premium A+ listing build",
+        "[extrapolated] 8-week preorder countdown campaign",
+        "[extrapolated] 1 newsletter feature per month",
+        "[extrapolated] Segmented retargeting, up to 5x/day for 30 days"
       ],
-      "minimum_commitment_months": 1
+      "metrics": { "period": "by month 3", "preorders_secured": "200-420", "free_promo_downloads": "2,400-4,800", "ku_page_reads_boost": "+90-150%", "sales_lift": "+60-110%" },
+      "cta": "Get started with Growth"
     }
   ],
 
-  "services": [
-    {
-      "id": "short-form-video",
-      "name": "Short-form video",
-      "system_stage": "discover",
-      "description": "BookTok and YouTube Shorts content that places books in front of genre-relevant audiences.",
-      "what_we_do": "TODO — describe the actual production process",
-      "deliverable": "TODO — e.g. X videos per month, edited and posted",
-      "measurable_indicator": "Views, reach, click-throughs to book listing",
-      "plans_included": ["spark", "shelf", "foundation", "momentum"],
-      "success_looks_like": "TODO"
-    },
-    {
-      "id": "arc-review-campaigns",
-      "name": "ARC review campaigns",
-      "system_stage": "trust",
-      "description": "Advanced reader copy campaigns that build social proof and reduce purchase hesitation.",
-      "what_we_do": "TODO",
-      "deliverable": "TODO — e.g. X ARC seats filled, Y reviews targeted",
-      "measurable_indicator": "Number of reviews placed, review score, review velocity",
-      "plans_included": ["shelf", "foundation", "momentum"],
-      "success_looks_like": "TODO"
-    },
-    {
-      "id": "listing-optimisation",
-      "name": "Listing optimisation",
-      "system_stage": "convert",
-      "description": "Book title, subtitle, description, keywords, A+ content, and storefront presentation — optimised to turn interest into a sale.",
-      "what_we_do": "TODO",
-      "deliverable": "TODO",
-      "measurable_indicator": "Conversion rate, BSR movement, page views vs sales ratio",
-      "plans_included": ["foundation", "momentum"],
-      "success_looks_like": "TODO"
-    },
-    {
-      "id": "preorder-campaigns",
-      "name": "Preorder campaigns",
-      "system_stage": "convert",
-      "description": "Coordinated pre-launch campaigns to build momentum before release day.",
-      "what_we_do": "TODO",
-      "deliverable": "TODO",
-      "measurable_indicator": "Preorder volume, launch day rank",
-      "plans_included": ["foundation", "momentum"],
-      "success_looks_like": "TODO"
-    },
-    {
-      "id": "free-promotion-campaigns",
-      "name": "Free-promotion campaigns",
-      "system_stage": "discover",
-      "description": "Coordinated free-download promotions to build readership and reviews.",
-      "what_we_do": "TODO",
-      "deliverable": "TODO",
-      "measurable_indicator": "Downloads, KU page reads, review count change",
-      "plans_included": ["shelf", "foundation", "momentum"],
-      "success_looks_like": "TODO"
-    },
-    {
-      "id": "reader-list-building",
-      "name": "Reader-list building",
-      "system_stage": "retain",
-      "description": "Building a direct reader list so the author is not entirely dependent on platform audiences.",
-      "what_we_do": "TODO",
-      "deliverable": "TODO",
-      "measurable_indicator": "List size, open rate, click-through rate",
-      "plans_included": ["foundation", "momentum"],
-      "success_looks_like": "TODO"
-    },
-    {
-      "id": "amazon-advertising",
-      "name": "Amazon advertising",
-      "system_stage": "convert",
-      "description": "Managed Amazon Ads campaigns targeting readers most likely to buy.",
-      "what_we_do": "TODO",
-      "deliverable": "TODO",
-      "measurable_indicator": "ACOS, ROAS, sales attributed to ads",
-      "plans_included": ["momentum"],
-      "success_looks_like": "TODO"
-    },
-    {
-      "id": "audience-retargeting",
-      "name": "Audience retargeting",
-      "system_stage": "repeat",
-      "description": "Retargeting campaigns that bring warm audiences back for new releases and backlist.",
-      "what_we_do": "TODO",
-      "deliverable": "TODO",
-      "measurable_indicator": "Return visitor rate, repeat purchase rate",
-      "plans_included": ["momentum"],
-      "success_looks_like": "TODO"
-    }
-  ],
+  "custom_tiers": {
+    "note": "Surge & Orbit — mentioned on pricing page for full catalogue / multi-book / bespoke campaigns.",
+    "names": ["Surge", "Orbit"],
+    "pricing_model": "custom, dedicated team or custom seat",
+    "cta": "Ask about Surge & Orbit"
+  },
 
   "proof_metrics": [
-    {
-      "id": "sales-lift",
-      "value": "TODO",
-      "display_value": "TODO — e.g. 3.2×",
-      "label": "Average sales lift within 90 days",
-      "definition": "TODO — define exactly how sales lift is measured (e.g. compared to 90 days prior to campaign start)",
-      "period": "TODO — e.g. Jan 2024–Jun 2026",
-      "source": "TODO — e.g. internal campaign data, n=X authors",
-      "last_verified": "TODO",
-      "approved": false,
-      "show_on_homepage": true
-    },
-    {
-      "id": "videos-produced",
-      "value": "TODO",
-      "display_value": "TODO — e.g. 12,000+",
-      "label": "Videos produced for client authors",
-      "definition": "Total short-form videos produced and published across all client campaigns",
-      "period": "TODO",
-      "source": "Internal production records",
-      "last_verified": "TODO",
-      "approved": false,
-      "show_on_homepage": true
-    },
-    {
-      "id": "newsletter-downloads",
-      "value": "TODO",
-      "display_value": "TODO — e.g. 2,400",
-      "label": "Average downloads per newsletter feature",
-      "definition": "TODO — define: average across which newsletter(s), which time period",
-      "period": "TODO",
-      "source": "TODO",
-      "last_verified": "TODO",
-      "approved": false,
-      "show_on_homepage": true
-    }
+    { "value": "3.2×", "label": "average sales lift within 90 days", "definition": "", "period": "", "source": "", "last_verified": "", "approved": false },
+    { "value": "12,000+", "label": "videos produced for client authors", "definition": "", "period": "", "source": "", "last_verified": "", "approved": false },
+    { "value": "2,400", "label": "average downloads per newsletter feature", "definition": "", "period": "", "source": "", "last_verified": "", "approved": false }
   ],
 
   "guarantee": {
     "name": "Atomic Shelf Commitment",
-    "headline": "Our commitment",
-    "body": "We don't promise that every book will explode overnight. Publishing doesn't work that way — and neither does building a readership. What we do promise is that we'll do the work we've committed to, measure what happens, and stay accountable for the outcome. If we fall short of the work, delivery, or agreed commitments on our side, we'll make it right — at our cost. And when the numbers show that we need to change course, we don't simply point at the dashboard and walk away. We diagnose, adjust, and keep working toward the target.",
-    "closing_line": "Your commitment is to the partnership. Ours is to the work.",
+    "status": "Resolved — reconciles the earlier site/repo copy conflict per your direction.",
+    "summary": "Money-back only for demonstrable non-delivery. Everything else is time-based, and we keep working.",
     "covers": [
-      "Agreed production deliverables",
-      "Agreed campaign execution",
-      "Agreed review and recruitment work",
-      "Listing optimisation",
-      "Reporting and communication",
-      "Testing and iteration",
-      "Campaign management"
+      "agreed deliverables (videos produced, trailers, listing rewrite, ARC recruitment, preorder setup, retargeting activation)",
+      "agreed production and campaign execution",
+      "reporting and communication"
     ],
+    "money_back_trigger_conditions": [
+      "Zero or near-zero impressions after a full cycle despite content being posted as agreed",
+      "Zero or near-zero click-throughs despite measurable impressions",
+      "Zero measurable results across the full agreed scope — i.e. the work itself was not fulfilled, not merely underperforming"
+    ],
+    "money_back_scope": "Refund applies only to the specific line items that were not fulfilled at all — not a blanket refund of the full plan price, and not triggered by results that are simply lower than the estimated range.",
     "does_not_guarantee": [
-      "A viral algorithmic event",
-      "A specific number of sales regardless of market conditions",
-      "A bestseller position",
-      "A specific ranking",
+      "A specific rank, ranking, or bestseller position",
+      "A specific number of sales, preorders, or downloads",
+      "An algorithmic viral event",
       "A particular advertising platform's behaviour",
-      "Reader behaviour"
+      "Reader behaviour generally"
     ],
-    "remedy": "TODO — define the exact commercial remedy: corrective work / replacement deliverables / service extension / other. Must be agreed internally and reviewed by legal before publishing.",
-    "terms_url": "TODO — URL to formal terms once drafted",
-    "approved": false
+    "time_based_remedy": "Outside the zero-delivery trigger, results are treated as a function of time and iteration, not a refund event. If a campaign is underperforming its estimated range, Atomic Shelf continues the agreed work, diagnoses what to adjust, and keeps delivering — it does not refund simply because growth is slower than the estimate.",
+    "remedy": "For confirmed non-delivery: refund of the undelivered portion. For underperformance with delivery confirmed: continued work, diagnosis, and adjustment at no extra cost — not a refund.",
+    "customer_must": "Notify Atomic Shelf within 21 days of the end of the applicable campaign cycle (typically the month-3/90-day mark) to claim a refund under the zero-delivery trigger. Claims outside this window are not eligible for the refund remedy, though underperformance concerns are reviewed under the time-based remedy at any time.",
+    "terms_url": "atomic-shelf-commitment-terms.md (draft — see file; needs legal review before publishing)"
   },
 
-  "reader_products": [
-    {
-      "id": "shelfmates",
-      "name": "ShelfMates",
-      "audience": "Adult fiction readers",
-      "description": "A reader community and newsletter for adult fiction — giving Atomic Shelf authors direct access to an engaged reading audience.",
-      "system_stage": "retain",
-      "url": "TODO",
-      "show_on_homepage": true
-    },
-    {
-      "id": "storypals",
-      "name": "StoryPals",
-      "audience": "Children's book readers and families",
-      "description": "A reader community and newsletter for children's books — giving authors of children's and family titles a direct reader relationship.",
-      "system_stage": "retain",
-      "url": "TODO",
-      "show_on_homepage": true
-    }
-  ],
+  "review_campaign_disclosure": "We can make a book free or provide complimentary copies to selected readers, then invite honest, independent reviews. The free copy is never conditional on posting a review, giving a positive rating, or changing an existing review.",
 
-  "site_settings": {
-    "brand_name": "Atomic Shelf",
-    "tagline": "Build a readership that lasts.",
-    "support_email": "TODO",
-    "contact_url": "/contact",
-    "start_here_url": "/start",
-    "default_cta_primary": "See the plans",
-    "default_cta_primary_url": "/pricing",
-    "default_cta_secondary": "See how it works",
-    "default_cta_secondary_url": "/how-it-works",
-    "default_cta_human": "Talk to us",
-    "default_cta_human_url": "/contact"
-  }
+  "results_disclaimer": "Expected ranges are 90-day averages based on 200+ clients over 24 months, measured against each book's pre-campaign baseline — many starting from little to no prior sales. Individual results vary by genre, backlist, and price point.",
+  "results_disclaimer_note": "Resolved 2026-09-22: keeping the Milky repo's stronger, dataset-backed version over the live site's 'illustrative benchmarks' version. The underlying '200+ clients / 24 months' figure is confirmed to exist internally — formally gathering/citing it was out of scope for this build. See proof-audit.json → pricing_page_disclaimer_conflict."
 }

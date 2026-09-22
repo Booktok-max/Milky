@@ -1,0 +1,125 @@
+{
+  "_meta": {
+    "purpose": "Maps every service to system stage, plan, purpose, deliverable, and measurable indicator (PRD Section 48, Step 2).",
+    "system_model": "Discover -> Trust -> Convert -> Retain -> Repeat (PRD Section 4)",
+    "built_from": ["commercial-truth.json (this project's Step 1 output)", "atomic-shelf.com homepage five-lever system"],
+    "note": "purpose and measurable_indicator are [extrapolated] — derived from the metrics already published per plan (impressions/CTR/sales-lift ranges) and the homepage's stated system logic, not from an internal ops sheet. Flag for sign-off before publishing verbatim, same as Step 1's audience/positioning fields."
+  },
+
+  "services": [
+    {
+      "id": "short_form_video",
+      "name": "Short-form video production",
+      "system_stage": "Discover",
+      "plans": ["spark", "enhanced", "foundation", "starter", "momentum", "growth"],
+      "purpose": "[extrapolated] Reach cold, genre-matched readers organically and generate the first trackable signal (who watched, how long, what they clicked) that every later stage depends on.",
+      "deliverable": "60-100+ videos/month depending on plan (60 Spark/Enhanced, 80 Foundation, 100+ Starter/Growth), posted to TikTok, Shorts & Reels",
+      "measurable_indicator": "[extrapolated] Impressions and video views (plan-scaled: 30k-70k impressions at Spark up to 120k-280k at Starter)"
+    },
+    {
+      "id": "book_trailer",
+      "name": "Cinematic book trailer / long-form video",
+      "system_stage": "Discover",
+      "plans": ["enhanced", "foundation", "starter", "growth"],
+      "purpose": "[extrapolated] Give the content system a durable, reusable flagship asset — something that keeps working in ads, bios, and pitches instead of disappearing after one post cycle.",
+      "deliverable": "1 trailer (Foundation), 1 trailer + long-form/avatar narration (Enhanced), 2 trailers (Starter), 2 trailers + theme song (Growth)",
+      "measurable_indicator": "[extrapolated] Lift in video views and click-throughs versus the video-only tier below it (e.g. Enhanced's 10k-28k views vs. Spark's 5k-15k)"
+    },
+    {
+      "id": "theme_song",
+      "name": "Original theme song",
+      "system_stage": "Discover",
+      "plans": ["starter", "growth"],
+      "purpose": "[extrapolated] Adds a distinct, ownable audio identity that content can reuse across every video, reinforcing recall across a high-volume posting cadence.",
+      "deliverable": "1 original theme song",
+      "measurable_indicator": "[extrapolated] Not independently tracked — rolls into the plan's overall impressions/CTR figures"
+    },
+    {
+      "id": "amazon_dsp_budget",
+      "name": "Amazon DSP ad budget",
+      "system_stage": "Discover",
+      "plans": ["starter"],
+      "purpose": "[extrapolated] Layer paid amplification on top of organic content for authors ready to test ads without managing the ad account themselves.",
+      "deliverable": "$50/month Amazon DSP spend, managed",
+      "measurable_indicator": "[extrapolated] Incremental impressions/click-throughs attributable to paid vs. organic split"
+    },
+    {
+      "id": "listing_optimization",
+      "name": "Listing copy & A+ content optimization",
+      "system_stage": "Trust",
+      "plans": ["foundation", "starter", "momentum", "growth"],
+      "purpose": "[extrapolated] Turn traffic the content sends into a credible, conversion-ready page — the listing has to earn the click before ARC reviews or retargeting can compound it.",
+      "deliverable": "Foundation: base listing copy & A+ rewrite. Momentum: 'enhanced' A+ build. Growth: 'premium' A+ build.",
+      "measurable_indicator": "[extrapolated] Click-through-to-listing conversion rate; sales lift attributable to listing changes isolated from content changes"
+    },
+    {
+      "id": "arc_review_campaign",
+      "name": "ARC / review campaign",
+      "system_stage": "Trust",
+      "plans": ["momentum", "growth"],
+      "purpose": "[extrapolated] Recruit genre-matched readers to generate honest reviews before paid/retargeted traffic arrives, so cold visitors see social proof rather than a blank listing.",
+      "deliverable": "10 readers targeted (Momentum), 25 readers targeted (Growth)",
+      "measurable_indicator": "[extrapolated] Net new reviews on the target title; review count delta pre/post campaign"
+    },
+    {
+      "id": "preorder_setup",
+      "name": "Preorder listing setup",
+      "system_stage": "Convert",
+      "plans": ["foundation"],
+      "purpose": "[extrapolated] Get the mechanical preorder infrastructure in place (listing configured, dates set) as a prerequisite for a later structured preorder push.",
+      "deliverable": "Preorder listing configured on Amazon",
+      "measurable_indicator": "[extrapolated] Binary — listing live and preorder-eligible"
+    },
+    {
+      "id": "preorder_campaign",
+      "name": "Preorder countdown campaign",
+      "system_stage": "Convert",
+      "plans": ["momentum", "growth"],
+      "purpose": "[extrapolated] Convert warmed, trust-building traffic into a committed sale ahead of launch, using a fixed countdown window to create urgency.",
+      "deliverable": "6-week countdown campaign (Momentum), 8-week countdown campaign (Growth)",
+      "measurable_indicator": "[extrapolated] Preorders secured (plan-scaled: 80-180 at Momentum, 200-420 at Growth)"
+    },
+    {
+      "id": "reader_list_building",
+      "name": "Reader list building (ShelfMates / StoryPals)",
+      "system_stage": "Retain",
+      "plans": ["foundation", "starter", "momentum", "growth"],
+      "purpose": "[extrapolated] Convert one-time viewers/buyers into an owned reader list the author keeps — not rented from a platform — giving a direct line for every future release.",
+      "deliverable": "Ongoing enrollment of new readers via ShelfMates/StoryPals",
+      "measurable_indicator": "[extrapolated] Net new reader-list signups/month; list growth rate"
+    },
+    {
+      "id": "newsletter_feature",
+      "name": "Newsletter feature placement",
+      "system_stage": "Retain",
+      "plans": ["momentum", "growth"],
+      "purpose": "[extrapolated] Use the shared reader list to drive a free-promo push that both re-engages existing readers and pulls in new ones via download volume.",
+      "deliverable": "1 feature per quarter (Momentum), 1 feature per month (Growth)",
+      "measurable_indicator": "[extrapolated] Free promo downloads per feature (plan-scaled: 1,200-2,400 at Momentum, 2,400-4,800 at Growth); KU page-reads boost"
+    },
+    {
+      "id": "social_management",
+      "name": "Full social media management",
+      "system_stage": "Retain",
+      "plans": ["momentum", "growth"],
+      "purpose": "[extrapolated] Manage the author's own social presence (not just posting content) so retained readers have an active account to follow between releases.",
+      "deliverable": "Full account management across the author's social channels",
+      "measurable_indicator": "[extrapolated] Follower growth rate; engagement rate on owned-account posts"
+    },
+    {
+      "id": "retargeting",
+      "name": "Segmented / lookalike audience retargeting",
+      "system_stage": "Repeat",
+      "plans": ["momentum", "growth"],
+      "purpose": "[extrapolated] Close the loop — show the book again to people who already engaged, moving passive awareness into a purchase, and extend reach to lookalike readers who match existing converters.",
+      "deliverable": "Segmented retargeting, up to 5x daily for 30 days (both Momentum and Growth)",
+      "measurable_indicator": "[extrapolated] Sales lift attributable to retargeted segment (plan-scaled: +25-45% at Momentum, +60-110% at Growth); KU page-reads boost"
+    }
+  ],
+
+  "unmapped_or_flagged": [
+    "Spark and Enhanced have no Trust, Convert, Retain, or Repeat stage services — they are Discover-only tiers. Confirm this is intentional messaging (\"entry point,\" not a full system) before publishing plan comparisons.",
+    "Starter has Discover (paid) services only, no Trust/Convert/Retain/Repeat — same flag as above.",
+    "custom_tiers (Surge, Orbit) from commercial-truth.json have no defined service scope yet — out of scope for this map until their commercial terms exist."
+  ]
+}

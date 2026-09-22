@@ -1,0 +1,199 @@
+{
+  "_meta": {
+    "purpose": "Unified structured data layer for the site (PRD Section 32 / Step 5). Assembles Steps 1-4 output plus the remaining objects PRD Section 32 lists: reader_products, case_studies, faqs, editorial, navigation, site_settings.",
+    "assembled_from": [
+      "commercial-truth.json — plans, commitments, proof_metrics, guarantee, custom_tiers (Step 1)",
+      "service-map.json — services (Step 2)",
+      "proof-audit.json — proof metric audit status (Step 3)",
+      "atomic-shelf-commitment-terms.md — formal guarantee terms (Step 4)"
+    ],
+    "referencing_note": "plans, services, proof_metrics, and guarantee are NOT duplicated here — this file points to them by source so there is still exactly one place each fact lives, per Section 2's non-negotiable ('no page should independently invent or hard-code commercial facts'). Everything new in this file (reader_products, case_studies, faqs, editorial, navigation, site_settings) is [extrapolated] from the PRD's own section content, since no approved copy sheet exists for these — same sign-off caveat as prior steps.",
+    "objects_status": {
+      "plans": "frozen — see commercial-truth.json",
+      "services": "frozen — see service-map.json",
+      "proof_metrics": "frozen with audit trail — see commercial-truth.json (values) + proof-audit.json (verification status)",
+      "guarantee": "frozen — see commercial-truth.json + atomic-shelf-commitment-terms.md",
+      "reader_products": "drafted this step — extrapolated",
+      "case_studies": "SCHEMA ONLY — no real client case-study data exists yet; this is Step 3's real gap surfacing again downstream. Populate before Step 9 (proof/ecosystem pages).",
+      "faqs": "drafted this step — extrapolated answers, sourced against frozen data where possible",
+      "editorial": "topic list only, from PRD Section 26 — no article content written yet",
+      "navigation": "structural — taken directly from PRD Section 22",
+      "site_settings": "drafted this step — CTA vocabulary and brand basics from PRD Sections 21/28"
+    }
+  },
+
+  "plans": { "$ref": "commercial-truth.json#/plans" },
+  "custom_tiers": { "$ref": "commercial-truth.json#/custom_tiers" },
+  "services": { "$ref": "service-map.json#/services" },
+  "proof_metrics": {
+    "values": { "$ref": "commercial-truth.json#/proof_metrics" },
+    "audit": { "$ref": "proof-audit.json" }
+  },
+  "guarantee": {
+    "terms": { "$ref": "commercial-truth.json#/guarantee" },
+    "full_document": "atomic-shelf-commitment-terms.md"
+  },
+
+  "reader_products": [
+    {
+      "id": "shelfmates",
+      "name": "ShelfMates",
+      "audience": "Adult fiction readers",
+      "core_message": "We don't just market books. We build reader relationships.",
+      "role_in_system": "[extrapolated] Retain/Repeat stage infrastructure — converts one-time video viewers or preorder buyers into an author's own reader list, then feeds retargeting and newsletter features off that list. Discovery -> reader relationship -> future releases.",
+      "included_in_plans": ["foundation", "starter", "momentum", "growth"]
+    },
+    {
+      "id": "storypals",
+      "name": "StoryPals",
+      "audience": "Children's books and families",
+      "core_message": "We don't just market books. We build reader relationships.",
+      "role_in_system": "[extrapolated] Same retain/repeat function as ShelfMates, scoped to the children's/family genre segment rather than adult fiction.",
+      "included_in_plans": ["foundation", "starter", "momentum", "growth"]
+    }
+  ],
+
+  "case_studies": {
+    "schema": {
+      "id": "",
+      "book_cover": "",
+      "author": "",
+      "genre": "",
+      "starting_situation": "",
+      "services_used": [],
+      "time_period": "",
+      "hierarchy": {
+        "output": "e.g. 40 videos produced",
+        "activity": "e.g. 150K impressions",
+        "indicator": "e.g. 2,400 clicks",
+        "business_result": "e.g. measurable sales/KU/download movement — must not imply impressions = sales (PRD Section 15)"
+      },
+      "relevant_context": "",
+      "author_quote": ""
+    },
+    "entries": [],
+    "note": "No populated entries — no real client case-study data was available for this build. This is a hard blocker for Step 9 (Results/Catalogue pages) and should be sourced from actual client campaigns, ideally the same 200+-client dataset backing the pricing disclaimer."
+  },
+
+  "faqs": {
+    "results": [
+      {
+        "q": "When should I expect results?",
+        "a": "[extrapolated] Results build over the 90-day cycle: the first 30 days establish the system and baseline metrics, days 31-60 build momentum and strengthen social proof, and days 61-90 measure against baseline and identify what's working. Meaningful, sustained movement is more realistic by month 3 than month 1 — see the 90-Day Journey section.",
+        "source": "PRD Section 16"
+      },
+      {
+        "q": "What happens during the first month?",
+        "a": "[extrapolated] We establish positioning, prepare content and creative assets, begin discovery-stage posting, and set the baseline metrics everything else gets measured against.",
+        "source": "PRD Section 16"
+      },
+      {
+        "q": "Do you guarantee sales?",
+        "a": "No. We don't guarantee a specific number of sales, a category ranking, or a bestseller position — publishing and reader behavior don't work that way. What we guarantee is that we'll do the agreed work; see the Atomic Shelf Commitment for exactly what that covers.",
+        "source": "commercial-truth.json guarantee.does_not_guarantee + atomic-shelf-commitment-terms.md"
+      },
+      {
+        "q": "What metrics do you report?",
+        "a": "[extrapolated] Depends on your plan's stage: content-only plans report impressions, video views, click-throughs, and sales lift; campaign plans (Momentum/Growth) also report preorders secured, free promo downloads, and KU page-reads boost. Full definitions are still pending — see proof-audit.json.",
+        "source": "commercial-truth.json plans[*].metrics"
+      }
+    ],
+    "plans": [
+      { "q": "What is included?", "a": "Varies by plan — see the current pricing page for the full feature list per tier.", "source": "commercial-truth.json plans" },
+      { "q": "Can I change plans?", "a": "[extrapolated — needs an actual policy decision] Not yet defined in the frozen commercial data. Flag for follow-up before publishing this FAQ.", "source": "gap" },
+      { "q": "What happens after a commitment ends?", "a": "[extrapolated — needs an actual policy decision] Not yet defined in the frozen commercial data. Flag for follow-up before publishing this FAQ.", "source": "gap" },
+      {
+        "q": "Why are longer commitments discounted?",
+        "a": "Longer commitments are prepaid savings, not a cancellation trap. The system has more time to compound, and predictable planning lets us offer better economics.",
+        "source": "PRD Section 17"
+      }
+    ],
+    "delivery": [
+      { "q": "What do I need to provide?", "a": "[extrapolated — needs an actual policy decision] Not yet defined. Flag for follow-up.", "source": "gap" },
+      { "q": "Do I need to appear on camera?", "a": "[extrapolated — needs an actual policy decision] Not yet defined. Flag for follow-up.", "source": "gap" },
+      {
+        "q": "How often is content produced?",
+        "a": "Depends on plan: 60 videos/month at Spark and Enhanced, 80 at Foundation, 100+ at Starter, Momentum, and Growth.",
+        "source": "commercial-truth.json plans[*].services"
+      },
+      { "q": "Who manages the campaigns?", "a": "[extrapolated — needs an actual policy decision, e.g. team structure] Not yet defined. Flag for follow-up.", "source": "gap" }
+    ],
+    "audience": [
+      {
+        "q": "Can you work with a brand-new author?",
+        "a": "Yes — Spark is built for pre-launch or very early-career authors with little to no existing platform.",
+        "source": "commercial-truth.json plans.spark.audience"
+      },
+      {
+        "q": "Can you work with a backlist?",
+        "a": "Yes — Growth is built for authors with an established backlist (3+ books) scaling an existing readership.",
+        "source": "commercial-truth.json plans.growth.audience"
+      },
+      { "q": "What genres do you support?", "a": "[extrapolated — needs an actual policy decision/list] Not yet defined in the frozen commercial data. Flag for follow-up.", "source": "gap" }
+    ],
+    "commitment": [
+      {
+        "q": "What happens if Atomic Shelf does not deliver?",
+        "a": "If impressions, click-throughs, or an entire agreed deliverable come back at zero despite the work being carried out as scheduled, that's a non-delivery event and you're entitled to a refund of that specific undelivered portion — you have 21 days from the end of the campaign cycle to report it.",
+        "source": "atomic-shelf-commitment-terms.md Sections 3 & 6"
+      },
+      {
+        "q": "What does the commitment/guarantee actually cover?",
+        "a": "It covers the specific work committed to under your plan — production, listing optimization, ARC campaigns, preorder setup, reporting, and communication. It does not cover a specific sales number, rank, or viral outcome.",
+        "source": "commercial-truth.json guarantee.covers + does_not_guarantee"
+      },
+      {
+        "q": "What happens if the strategy needs to change?",
+        "a": "If results are tracking below the expected range but the work was delivered, we review the account, diagnose what's driving it, adjust the approach, and keep working through the rest of the cycle — that's not a refund event, it's the time-based remedy.",
+        "source": "atomic-shelf-commitment-terms.md Section 4"
+      }
+    ]
+  },
+
+  "editorial": {
+    "note": "[extrapolated topic list — from PRD Section 26. No article copy exists yet; this is a content backlog, not published content.]",
+    "topics": [
+      "How many TikToks does a book need?",
+      "Can BookTok actually sell books?",
+      "What should happen during the first 30 days?",
+      "Should you advertise a book with zero reviews?",
+      "How early should you start a preorder campaign?",
+      "What should an author do before running Amazon Ads?",
+      "What happens if a book has no existing audience?",
+      "Does a backlist change the strategy?",
+      "What should authors measure besides views?",
+      "When should an author expect to see meaningful data?"
+    ]
+  },
+
+  "navigation": {
+    "primary": ["How It Works", "Services", "Pricing", "Results", "Readers", "Editorial", "Start Here"],
+    "secondary_footer": ["Catalogue", "FAQ", "Contact", "ShelfMates", "StoryPals", "Terms", "Privacy"],
+    "source": "PRD Section 22 — structural, not extrapolated"
+  },
+
+  "site_settings": {
+    "cta_vocabulary": {
+      "exploration": "See how it works",
+      "commercial": "See the plans",
+      "purchase": "Start with [Plan]",
+      "human": "Talk to us",
+      "proof": "See the results"
+    },
+    "brand": {
+      "name": "Atomic Shelf",
+      "primary_headline": "Build a readership that lasts.",
+      "supporting_statement": "We help independent authors find readers, turn attention into sales, and build an audience that can follow them from one book to the next.",
+      "system_model": "Discover -> Trust -> Convert -> Retain -> Repeat",
+      "contact_email": "nick@atomic-shelf.com"
+    },
+    "source": "PRD Sections 4, 21, 28 + atomic-shelf.com"
+  },
+
+  "known_gaps_before_launch": [
+    "case_studies.entries is empty — real client case-study data must be sourced before Step 9.",
+    "Several FAQ answers under plans/delivery/audience are marked 'gap' — plan-change policy, commitment-end policy, on-camera requirement, what the author needs to provide, team/ops structure, and supported genre list are all undefined in the frozen commercial data and need an actual policy decision, not extrapolation.",
+    "Editorial is a topic backlog only — zero articles written.",
+    "reader_products (ShelfMates/StoryPals) have names and audience segments but no deliverable specifics (how big is the list, how fast does it grow, what does an author actually get) — currently folded into Foundation+ plan deliverables only."
+  ]
+}
