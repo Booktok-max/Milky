@@ -10,7 +10,8 @@
     "rounding_rule": "Discounted long-term commitment totals are rounded DOWN to the nearest $10 (e.g. $97 -> $90). Undiscounted list-price totals (monthly x term) are left exact.",
     "note_on_source_discrepancy": "The Milky repo's pricing.html only contains 4 plans (Spark, Foundation, Momentum, Growth) and no working payment backend URL. The live site has 6 plans (adds Enhanced and Starter). This file uses the live site as current truth per PRD Section 46.",
     "note_on_enhanced_starter_commitments": "The live site does not render a 'See commitment savings' flip-card for Enhanced or Starter, but per your instruction the same 10%/20%/25% (3/6/12-month) discount schedule used on Spark and Foundation applies to them too. Flag for whoever builds the pricing page: this UI needs to be added for these two plans, since right now nothing on-site tells a visitor these discounts exist.",
-    "note_on_audience_positioning_outcome": "audience / positioning / outcome / deliverables below are EXTRAPOLATED, not pulled from an approved commercial sheet (none was available). They're built from generally known Amazon KDP category-ranking, review-count, and reader-list benchmarks for indie authors, scaled to each plan's price point and feature set. Treat every range here as a draft assumption that needs sign-off — not verified client data. Do not publish these verbatim without an internal review pass."
+    "note_on_audience_positioning_outcome": "audience / positioning / outcome / deliverables below are EXTRAPOLATED, not pulled from an approved commercial sheet (none was available). They're built from generally known Amazon KDP category-ranking, review-count, and reader-list benchmarks for indie authors, scaled to each plan's price point and feature set. Treat every range here as a draft assumption that needs sign-off — not verified client data. Do not publish these verbatim without an internal review pass.",
+    "note_on_momentum_growth_3_month": "Resolved 2026-09-22, per your instruction: Momentum and Growth previously only offered 6- and 12-month commitments. Added a 3-month tier to both so all six plans offer uniform commitment options, using the same 10%-off / round-down-to-nearest-$10 rule already applied everywhere else (Momentum: $747 list -> $670; Growth: $1,497 list -> $1,340). These figures were previously only a hardcoded JS literal inside design-system.html's pricing-card demo; this is now the actual source-of-truth record they should have referenced. design-system.html's demo numbers are unchanged and already match."
   },
 
   "plans": [
@@ -133,7 +134,7 @@
       "most_popular": true,
       "commitments": {
         "monthly": {},
-        "3_month": {},
+        "3_month": { "discount_percent": 10, "list_total": 747, "discounted_total_exact": 672, "discounted_total_rounded_down_10": 670 },
         "6_month": { "discount_percent": 20, "list_total": 1494, "discounted_total_exact": 1196, "discounted_total_rounded_down_10": 1190 },
         "12_month": { "discount_percent": 25, "list_total": 2988, "discounted_total_exact": 2241, "discounted_total_rounded_down_10": 2240, "best_value": true }
       },
@@ -167,7 +168,7 @@
       "monthly_price": 499,
       "commitments": {
         "monthly": {},
-        "3_month": {},
+        "3_month": { "discount_percent": 10, "list_total": 1497, "discounted_total_exact": 1347, "discounted_total_rounded_down_10": 1340 },
         "6_month": { "discount_percent": 20, "list_total": 2994, "discounted_total_exact": 2396, "discounted_total_rounded_down_10": 2390 },
         "12_month": { "discount_percent": 25, "list_total": 5988, "discounted_total_exact": 4491, "discounted_total_rounded_down_10": 4490, "best_value": true }
       },
