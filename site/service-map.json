@@ -13,16 +13,16 @@
       "system_stage": "Discover",
       "plans": ["spark", "enhanced", "foundation", "starter", "momentum", "growth"],
       "purpose": "[extrapolated] Reach cold, genre-matched readers organically and generate the first trackable signal (who watched, how long, what they clicked) that every later stage depends on.",
-      "deliverable": "60-100+ videos/month depending on plan (60 Spark/Enhanced, 80 Foundation, 100+ Starter/Growth), posted to TikTok, Shorts & Reels",
+      "deliverable": "60-100+ videos/month depending on plan (60 Spark/Enhanced, 80 Foundation/Momentum, 100+ Starter/Growth), posted to TikTok, Shorts & Reels",
       "measurable_indicator": "[extrapolated] Impressions and video views (plan-scaled: 30k-70k impressions at Spark up to 120k-280k at Starter)"
     },
     {
       "id": "book_trailer",
       "name": "Cinematic book trailer / long-form video",
       "system_stage": "Discover",
-      "plans": ["enhanced", "foundation", "starter", "growth"],
+      "plans": ["enhanced", "foundation", "starter", "momentum", "growth"],
       "purpose": "[extrapolated] Give the content system a durable, reusable flagship asset — something that keeps working in ads, bios, and pitches instead of disappearing after one post cycle.",
-      "deliverable": "1 trailer (Foundation), 1 trailer + long-form/avatar narration (Enhanced), 2 trailers (Starter), 2 trailers + theme song (Growth)",
+      "deliverable": "1 trailer (Foundation and Momentum via Foundation features), 1 trailer + long-form/avatar narration (Enhanced), 2 trailers (Starter), 2 trailers + theme song (Growth)",
       "measurable_indicator": "[extrapolated] Lift in video views and click-throughs versus the video-only tier below it (e.g. Enhanced's 10k-28k views vs. Spark's 5k-15k)"
     },
     {
@@ -47,7 +47,7 @@
       "id": "listing_optimization",
       "name": "Listing copy & A+ content optimization",
       "system_stage": "Trust",
-      "plans": ["foundation", "starter", "momentum", "growth"],
+      "plans": ["foundation", "momentum", "growth"],
       "purpose": "[extrapolated] Turn traffic the content sends into a credible, conversion-ready page — the listing has to earn the click before ARC reviews or retargeting can compound it.",
       "deliverable": "Foundation: base listing copy & A+ rewrite. Momentum: 'enhanced' A+ build. Growth: 'premium' A+ build.",
       "measurable_indicator": "[extrapolated] Click-through-to-listing conversion rate; sales lift attributable to listing changes isolated from content changes"
@@ -65,7 +65,7 @@
       "id": "preorder_setup",
       "name": "Preorder listing setup",
       "system_stage": "Convert",
-      "plans": ["foundation"],
+      "plans": ["foundation", "momentum"],
       "purpose": "[extrapolated] Get the mechanical preorder infrastructure in place (listing configured, dates set) as a prerequisite for a later structured preorder push.",
       "deliverable": "Preorder listing configured on Amazon",
       "measurable_indicator": "[extrapolated] Binary — listing live and preorder-eligible"
@@ -83,7 +83,7 @@
       "id": "reader_list_building",
       "name": "Reader list building (ShelfMates / StoryPals)",
       "system_stage": "Retain",
-      "plans": ["foundation", "starter", "momentum", "growth"],
+      "plans": ["foundation", "momentum", "growth"],
       "purpose": "[extrapolated] Convert one-time viewers/buyers into an owned reader list the author keeps — not rented from a platform — giving a direct line for every future release.",
       "deliverable": "Ongoing enrollment of new readers via ShelfMates/StoryPals",
       "measurable_indicator": "[extrapolated] Net new reader-list signups/month; list growth rate"
@@ -119,7 +119,7 @@
 
   "unmapped_or_flagged": [
     "Spark and Enhanced have no Trust, Convert, Retain, or Repeat stage services — they are Discover-only tiers. Confirm this is intentional messaging (\"entry point,\" not a full system) before publishing plan comparisons.",
-    "Starter has Discover (paid) services only, no Trust/Convert/Retain/Repeat — same flag as above.",
+    "Starter has Discover (paid) services only, no Trust/Convert/Retain/Repeat — this is intentional and must remain clear in public plan comparisons.",
     "custom_tiers (Surge, Orbit) from commercial-truth.json have no defined service scope yet — out of scope for this map until their commercial terms exist."
   ]
 }
