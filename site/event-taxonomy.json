@@ -1,0 +1,19 @@
+{
+  "_meta": {
+    "purpose": "Canonical conversion event names for the Atomic Shelf public site.",
+    "version": "1.0.0",
+    "privacy": "Events contain no names, email addresses, phone numbers, book titles, or payment details."
+  },
+  "events": {
+    "page_view": "A public page was loaded.",
+    "cta_click": "A primary or secondary conversion link was selected.",
+    "pricing_commitment_changed": "A pricing commitment option was selected.",
+    "pricing_plan_selected": "A pricing card opened the checkout flow.",
+    "start_here_goal_selected": "A Start Here goal was selected.",
+    "contact_form_submitted": "The contact form passed client validation and was submitted.",
+    "contact_form_succeeded": "The contact endpoint confirmed a contact submission.",
+    "checkout_started": "The checkout form passed client validation and began submission.",
+    "checkout_redirected": "The payment service returned a redirect URL.",
+    "checkout_fallback": "Checkout fell back to manual email because payment configuration was unavailable."
+  }
+}

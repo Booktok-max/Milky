@@ -434,6 +434,10 @@
         return;
       }
 
+      if (window.AtomicShelfAnalytics) {
+        window.AtomicShelfAnalytics.track('checkout_started', { plan: planField.value });
+      }
+
       const selectedPlan = getSelectedPlan();
       if (!selectedPlan) {
         setStatus('This plan is unavailable. Please choose another option from pricing.', 'error');
@@ -466,6 +470,9 @@
         );
 
         window.location.href = 'mailto:nick@atomic-shelf.com?subject=' + subject + '&body=' + body;
+        if (window.AtomicShelfAnalytics) {
+          window.AtomicShelfAnalytics.track('checkout_fallback', { plan: planField.value });
+        }
         setStatus('We are opening your email client so we can complete the checkout request manually.', 'success');
         return;
       }
@@ -483,6 +490,9 @@
         }
 
         setStatus('Redirecting you to the secure payment page…', 'success');
+        if (window.AtomicShelfAnalytics) {
+          window.AtomicShelfAnalytics.track('checkout_redirected', { plan: planField.value });
+        }
         window.location.href = data.redirect_url;
       } catch (error) {
         submitButton.disabled = false;
@@ -493,5 +503,6 @@
 
     loadPlanData();
   </script>
+  <script src="analytics.js"></script>
 </body>
 </html>

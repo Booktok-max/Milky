@@ -533,7 +533,7 @@ function renderPricing(term){
       '<div class="price-save">' + saveHTML + '</div>' +
       '<ul class="price-feats">' + featsHTML + '</ul>' +
       '<div class="price-res">' + resHTML + '</div>' +
-      '<a class="btn btn-secondary-dark price-cta" href="' + buildCheckoutUrl(p.id, p.name) + '">' + escapeHtml(p.cta) + '</a>';
+      '<a class="btn btn-secondary-dark price-cta" data-track="pricing_plan_selected" data-track-plan="' + escapeHtml(p.id) + '" href="' + buildCheckoutUrl(p.id, p.name) + '">' + escapeHtml(p.cta) + '</a>';
     grid.appendChild(card);
   });
 }
@@ -544,6 +544,9 @@ document.querySelectorAll('#commitToggle button').forEach(btn => {
     btn.classList.add('active');
     btn.setAttribute('aria-pressed', 'true');
     selectedTerm = btn.dataset.term;
+    if (window.AtomicShelfAnalytics) {
+      window.AtomicShelfAnalytics.track('pricing_commitment_changed', { term: selectedTerm });
+    }
     if (!planData.length) return;
     grid.style.opacity = 0;
     setTimeout(() => { renderPricing(selectedTerm); grid.style.opacity = 1; }, reduceMotion ? 0 : 120);
@@ -569,5 +572,6 @@ async function loadPricing(){
 }
 loadPricing();
 </script>
+<script src="analytics.js"></script>
 </body>
 </html>

@@ -22,11 +22,11 @@
   <main><div class="wrap">
     <header class="intro"><p class="eyebrow">Start here</p><h1>Tell us where you are right now.</h1><p class="lede">You do not need to know the perfect plan before you begin. Choose the closest starting point and we will show you the most useful next step.</p></header>
     <div class="choices" role="group" aria-label="What are you trying to accomplish?">
-      <button class="choice" type="button" data-goal="readers" aria-pressed="false"><span class="choice-number">01 — DISCOVERY</span><span class="choice-title">I want more readers.</span><span class="choice-copy">My book needs more relevant people to discover it.</span></button>
-      <button class="choice" type="button" data-goal="launch" aria-pressed="false"><span class="choice-number">02 — LAUNCH</span><span class="choice-title">I have a launch coming.</span><span class="choice-copy">I need a coordinated path to preorders and release day.</span></button>
-      <button class="choice" type="button" data-goal="managed" aria-pressed="false"><span class="choice-number">03 — SUPPORT</span><span class="choice-title">I want marketing handled.</span><span class="choice-copy">I am looking for a team to manage the work with me.</span></button>
-      <button class="choice" type="button" data-goal="backlist" aria-pressed="false"><span class="choice-number">04 — BACKLIST</span><span class="choice-title">I need help with my backlist.</span><span class="choice-copy">I want to turn several books into a repeatable reader system.</span></button>
-      <button class="choice" type="button" data-goal="unsure" aria-pressed="false"><span class="choice-number">05 — DIRECTION</span><span class="choice-title">I am not sure yet.</span><span class="choice-copy">That is enough to start. Tell us about the book and we will help you find the right path.</span></button>
+      <button class="choice" type="button" data-track="start_here_goal_selected" data-track-goal="readers" data-goal="readers" aria-pressed="false"><span class="choice-number">01 — DISCOVERY</span><span class="choice-title">I want more readers.</span><span class="choice-copy">My book needs more relevant people to discover it.</span></button>
+      <button class="choice" type="button" data-track="start_here_goal_selected" data-track-goal="launch" data-goal="launch" aria-pressed="false"><span class="choice-number">02 — LAUNCH</span><span class="choice-title">I have a launch coming.</span><span class="choice-copy">I need a coordinated path to preorders and release day.</span></button>
+      <button class="choice" type="button" data-track="start_here_goal_selected" data-track-goal="managed" data-goal="managed" aria-pressed="false"><span class="choice-number">03 — SUPPORT</span><span class="choice-title">I want marketing handled.</span><span class="choice-copy">I am looking for a team to manage the work with me.</span></button>
+      <button class="choice" type="button" data-track="start_here_goal_selected" data-track-goal="backlist" data-goal="backlist" aria-pressed="false"><span class="choice-number">04 — BACKLIST</span><span class="choice-title">I need help with my backlist.</span><span class="choice-copy">I want to turn several books into a repeatable reader system.</span></button>
+      <button class="choice" type="button" data-track="start_here_goal_selected" data-track-goal="unsure" data-goal="unsure" aria-pressed="false"><span class="choice-number">05 — DIRECTION</span><span class="choice-title">I am not sure yet.</span><span class="choice-copy">That is enough to start. Tell us about the book and we will help you find the right path.</span></button>
     </div>
     <section class="recommendation" id="recommendation" aria-live="polite" aria-labelledby="recommendationTitle">
       <div><p class="eyebrow">A useful next step</p><h2 id="recommendationTitle"></h2><p id="recommendationCopy"></p></div><div class="actions"><a class="button primary" id="primaryAction" href="contact.html">Talk to us</a><a class="button secondary" id="secondaryAction" href="services.html">Explore services</a></div>
@@ -59,5 +59,6 @@
     choices.forEach(choice => choice.addEventListener('click', () => { chooseGoal(choice.dataset.goal, true); recommendation.scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block:'nearest'}); }));
     const initialGoal = window.location.hash.slice(1); if(routes[initialGoal]) chooseGoal(initialGoal, false);
   </script>
+  <script src="analytics.js"></script>
 </body>
 </html>

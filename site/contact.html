@@ -685,6 +685,10 @@ async function handleSubmit() {
     return;
   }
 
+  if (window.AtomicShelfAnalytics) {
+    window.AtomicShelfAnalytics.track('contact_form_submitted', { inquiry_type: inquiry });
+  }
+
   // Loading
   btn.disabled = true;
   btn.classList.add('loading');
@@ -713,6 +717,9 @@ async function handleSubmit() {
     const data = await res.json();
 
     if (data.success || data.ok) {
+      if (window.AtomicShelfAnalytics) {
+        window.AtomicShelfAnalytics.track('contact_form_succeeded', { inquiry_type: inquiry });
+      }
       btn.classList.remove('loading');
       statusEl.className   = 'status-msg success-msg';
       statusEl.textContent = "Thanks — your message is with us. We'll reply to " + email + " within one business day.";
@@ -746,5 +753,6 @@ document.addEventListener('keydown', function (e) {
   }
 });
 </script>
+<script src="analytics.js"></script>
 </body>
 </html>
