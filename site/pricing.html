@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>Pricing — Atomic Shelf</title>
 <meta name="description" content="Atomic Shelf pricing for indie authors: six production and growth plans covering video, reviews, listing optimization, and reader growth." />
+<link rel="canonical" href="pricing.html" />
 <link rel="icon" type="image/svg+xml" href="https://atomic-shelf.com/book-and-people-spring-svgrepo-com.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -467,16 +468,9 @@ document.querySelectorAll('.faq-item').forEach(item => {
    Plan details are loaded from commercial-truth.json. Keep commercial
    values there; this page only supplies presentation and interaction.
 
-   NOTE ON CHECKOUT: the Pesapal backend in this repo
-   (server.js / package.json) is not deployed — pricing.html's
-   BACKEND_URL is still a placeholder and the checkout modal
-   there does not work. Rather than ship another broken
-   "Get started" button, every CTA below opens a pre-filled
-   mailto instead, same pattern already used in site/pricing.html.
-   Swap buildMailto()'s output for a real checkout call once
-   BACKEND_URL, PESAPAL_CONSUMER_KEY/SECRET, APP_BASE_URL and
-   the one-time /api/register-ipn call are all in place per
-   .env.example — nothing else on this page needs to change. */
+   Checkout is intentionally routed through a dedicated checkout page so the
+   website can keep a clean pricing surface while a real payment backend handles
+   the actual lead/transaction flow when configured. */
 const METRIC_LABELS = {
   impressions: 'Impressions', video_views: 'Video views', click_throughs: 'Click-throughs',
   sales_lift: 'Sales lift', preorders_secured: 'Preorders secured',
@@ -500,10 +494,12 @@ function formatResultLabel(metrics){
   return forecast + ' ' + (metrics.period || 'by month 3') + '*';
 }
 
-function buildMailto(planName){
-  const subject = encodeURIComponent(planName + ' plan');
-  const body = encodeURIComponent("Hi — I'd like to get started with the " + planName + " plan. Here's my book:\n\n[link to book / catalogue]\n\n");
-  return 'mailto:nick@atomic-shelf.com?subject=' + subject + '&body=' + body;
+function buildCheckoutUrl(planId, planName){
+  const params = new URLSearchParams({
+    plan: String(planId || '').trim(),
+    name: String(planName || '').trim()
+  });
+  return 'checkout.html?' + params.toString();
 }
 
 const grid = document.getElementById('pricingGrid');
@@ -538,7 +534,7 @@ function renderPricing(term){
       '<div class="price-save">' + saveHTML + '</div>' +
       '<ul class="price-feats">' + featsHTML + '</ul>' +
       '<div class="price-res">' + resHTML + '</div>' +
-      '<a class="btn btn-secondary-dark price-cta" href="' + buildMailto(p.name) + '">' + escapeHtml(p.cta) + '</a>';
+      '<a class="btn btn-secondary-dark price-cta" data-track="pricing_plan_selected" data-track-plan="' + escapeHtml(p.id) + '" href="' + buildCheckoutUrl(p.id, p.name) + '">' + escapeHtml(p.cta) + '</a>';
     grid.appendChild(card);
   });
 }
@@ -549,6 +545,9 @@ document.querySelectorAll('#commitToggle button').forEach(btn => {
     btn.classList.add('active');
     btn.setAttribute('aria-pressed', 'true');
     selectedTerm = btn.dataset.term;
+    if (window.AtomicShelfAnalytics) {
+      window.AtomicShelfAnalytics.track('pricing_commitment_changed', { term: selectedTerm });
+    }
     if (!planData.length) return;
     grid.style.opacity = 0;
     setTimeout(() => { renderPricing(selectedTerm); grid.style.opacity = 1; }, reduceMotion ? 0 : 120);
@@ -574,5 +573,6 @@ async function loadPricing(){
 }
 loadPricing();
 </script>
+<script src="analytics.js"></script>
 </body>
 </html>

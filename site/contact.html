@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta name="description" content="Get in touch with the Atomic‑Shelf team — questions about plans, your campaign, or anything else."/>
 <title>Atomic‑Shelf | Contact Us</title>
+<link rel="canonical" href="contact.html" />
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
@@ -685,6 +686,10 @@ async function handleSubmit() {
     return;
   }
 
+  if (window.AtomicShelfAnalytics) {
+    window.AtomicShelfAnalytics.track('contact_form_submitted', { inquiry_type: inquiry });
+  }
+
   // Loading
   btn.disabled = true;
   btn.classList.add('loading');
@@ -713,6 +718,9 @@ async function handleSubmit() {
     const data = await res.json();
 
     if (data.success || data.ok) {
+      if (window.AtomicShelfAnalytics) {
+        window.AtomicShelfAnalytics.track('contact_form_succeeded', { inquiry_type: inquiry });
+      }
       btn.classList.remove('loading');
       statusEl.className   = 'status-msg success-msg';
       statusEl.textContent = "Thanks — your message is with us. We'll reply to " + email + " within one business day.";
@@ -746,5 +754,6 @@ document.addEventListener('keydown', function (e) {
   }
 });
 </script>
+<script src="analytics.js"></script>
 </body>
 </html>

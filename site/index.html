@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>Atomic Shelf — Build a readership that lasts.</title>
 <meta name="description" content="Atomic Shelf helps independent authors find readers, turn attention into sales, and build an audience that follows them from one book to the next." />
+<link rel="canonical" href="index.html" />
+<meta property="og:title" content="Atomic Shelf — Build a readership that lasts." />
+<meta property="og:description" content="Find readers, turn attention into sales, and build an audience that follows you to the next book." />
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -286,7 +289,7 @@ section{ padding:var(--space-section-m) 0; }
   transition:transform var(--motion-duration-standard) var(--motion-easing-decelerate), border-color var(--motion-duration-standard) var(--motion-easing-standard);
 }
 .audience-card:hover{ transform:translateY(-2px); border-color:var(--color-accent-primary); }
-.audience-card h3{ font-size:var(--font-size-body-l); font-weight:600; font-family:var(--font-family-body); }
+.audience-card h3{ font-size:var(--font-size-body-l); font-weight:600; font-family:var(--font-family-body); color:#7A3E0B !important; }
 .audience-card p{ font-size:var(--font-size-body-s); color:var(--color-text-secondary-light); flex:1; }
 .audience-card .go{ font-size:var(--font-size-label); font-weight:600; color:var(--color-accent-primary-pressed); }
 
@@ -899,7 +902,7 @@ function renderPricing(term){
       '<div class="price-amount">' + priceHTML + '</div>' +
       '<div class="price-per">' + perHTML + '</div>' +
       '<div class="price-save">' + saveHTML + '</div>' +
-      '<a class="btn btn-secondary-light price-cta" href="pricing.html#' + encodeURIComponent(p.id) + '">' + escapeHtml(p.cta) + '</a>';
+      '<a class="btn btn-secondary-light price-cta" data-track="cta_click" data-track-destination="pricing" data-track-plan="' + escapeHtml(p.id) + '" href="pricing.html#' + encodeURIComponent(p.id) + '">' + escapeHtml(p.cta) + '</a>';
     grid.appendChild(card);
   });
 }
@@ -932,5 +935,6 @@ async function loadPricing(){
 }
 loadPricing();
 </script>
+<script src="analytics.js"></script>
 </body>
 </html>

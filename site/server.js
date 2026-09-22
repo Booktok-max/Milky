@@ -245,21 +245,38 @@ app.post('/api/ipn', (req, res) => res.redirect(307, `/api/ipn?${new URLSearchPa
 app.get('/health', (req, res) => res.json({ ok: true, env: ENV }));
 
 // ---- Serve pricing page (inject backend URL without hardcoded placeholders) --
+app.use(express.static(__dirname, { index: false }));
+
 const pricingHtmlPath = path.join(__dirname, 'pricing.html');
+const checkoutHtmlPath = path.join(__dirname, 'checkout.html');
+
+function injectBackendUrl(html) {
+  const backendUrl = APP_BASE_URL || 'http://localhost:3000';
+  const injection = `
+    <script>
+      window.__ATOMIC_SHELF_BACKEND_URL__ = ${JSON.stringify(backendUrl)};
+    </script>
+  `;
+  return html.includes('</body>') ? html.replace('</body>', `${injection}</body>`) : html + injection;
+}
+
 app.get(['/', '/pricing.html'], (req, res) => {
   try {
-    let html = fs.readFileSync(pricingHtmlPath, 'utf8');
-    const backendUrl = APP_BASE_URL || 'http://localhost:3000';
-    const injection = `
-      <script>
-        window.__ATOMIC_SHELF_BACKEND_URL__ = ${JSON.stringify(backendUrl)};
-      </script>
-    `;
-    html = html.includes('</body>') ? html.replace('</body>', `${injection}</body>`) : html + injection;
+    const html = injectBackendUrl(fs.readFileSync(pricingHtmlPath, 'utf8'));
     res.type('html').send(html);
   } catch (err) {
     console.error('Could not read pricing.html:', err.message);
     res.status(500).send('pricing.html not found — make sure it is in the same folder as server.js');
+  }
+});
+
+app.get('/checkout.html', (req, res) => {
+  try {
+    const html = injectBackendUrl(fs.readFileSync(checkoutHtmlPath, 'utf8'));
+    res.type('html').send(html);
+  } catch (err) {
+    console.error('Could not read checkout.html:', err.message);
+    res.status(500).send('checkout.html not found — make sure it is in the same folder as server.js');
   }
 });
 
