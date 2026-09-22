@@ -64,7 +64,7 @@ section.results{padding:3.5rem 6vw 6rem;}
 .book-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r-sm);overflow:hidden;box-shadow:var(--shadow-sm);transition:all 0.28s;cursor:pointer;display:flex;flex-direction:column;}
 .book-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg);border-color:rgba(200,131,42,0.25);}
 .book-cover{aspect-ratio:2/3;background:linear-gradient(135deg,var(--ivory-2),var(--ivory-3));display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
-.book-cover img{width:100%;height:100%;object-fit:cover;}
+.book-cover img{width:100%;height:100%;object-fit:cover;image-rendering:auto;}
 .book-cover svg{width:40%;height:40%;opacity:0.35;}
 .book-genre-tag{position:absolute;top:8px;left:8px;background:rgba(14,12,26,0.72);color:#fff;font-size:0.62rem;font-weight:600;padding:3px 9px;border-radius:99px;letter-spacing:0.03em;}
 .book-type-tag{position:absolute;right:8px;top:8px;background:var(--copper);color:#fff;font-size:0.6rem;font-weight:600;padding:3px 8px;border-radius:99px;letter-spacing:0.02em;}
@@ -217,7 +217,7 @@ function bookFromDoc(d) {
     title: d.title || 'Untitled',
     author: (d.author_name || [])[0] || 'Unknown author',
     year: d.first_publish_year || '—',
-    cover: d.cover_i ? `https://covers.openlibrary.org/b/id/${d.cover_i}-M.jpg` : null,
+    cover: d.cover_i ? `https://covers.openlibrary.org/b/id/${d.cover_i}-L.jpg` : null,
     genre: (d.subject && d.subject[0]) || ''
   };
 }
@@ -238,7 +238,7 @@ function renderBooks(books) {
       <div class="book-cover">
         ${b.genre ? `<span class="book-genre-tag">${b.genre}</span>` : ''}
         ${b.lane ? `<span class="book-type-tag">${b.lane}</span>` : ''}
-        ${b.cover ? `<img src="${b.cover}" alt="${b.title}">` : coverPlaceholderSVG()}
+        ${b.cover ? `<img src="${b.cover}" alt="${b.title}" loading="lazy" decoding="async">` : coverPlaceholderSVG()}
       </div>
       <div class="book-info">
         <div class="book-title">${b.title}</div>
