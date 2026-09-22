@@ -204,6 +204,30 @@
     "cta": "Ask about Surge & Orbit"
   },
 
+  "operational_policies": {
+    "plan_changes": {
+      "policy": "Upgrading or downgrading is allowed at any time. Current ad spend is taken into account and applied as available credit toward the new plan.",
+      "source": "stated by Daniel, 2026-09-22"
+    },
+    "end_of_commitment": {
+      "policy": "On commitment end, everything is handed over via secure transfer if needed — videos created, account info, and related assets. In practice most content is already accessible to the author throughout the engagement, since every content gallery is public to them via their progress-report document/link.",
+      "source": "stated by Daniel, 2026-09-22"
+    },
+    "author_involvement": {
+      "on_camera_required": false,
+      "author_provides": "A link to the book (or, for a backlist, a link to the author's catalogue), plus optionally any planned discount-deal dates so campaigns can be planned around them.",
+      "source": "stated by Daniel, 2026-09-22"
+    },
+    "campaign_management": {
+      "policy": "A dedicated outreach team manages accounts day-to-day, handles ARC/reviewer list outreach, and monitors that campaigns are running smoothly.",
+      "source": "stated by Daniel, 2026-09-22"
+    },
+    "genre_support": {
+      "policy": "All genres are supported. Bigger, higher-volume genres tend to see stronger results than smaller genres/subgenres, simply due to reader pool size.",
+      "source": "stated by Daniel, 2026-09-22"
+    }
+  },
+
   "proof_metrics": [
     { "value": "3.2×", "label": "average sales lift within 90 days", "definition": "", "period": "", "source": "", "last_verified": "", "approved": false },
     { "value": "12,000+", "label": "videos produced for client authors", "definition": "", "period": "", "source": "", "last_verified": "", "approved": false },

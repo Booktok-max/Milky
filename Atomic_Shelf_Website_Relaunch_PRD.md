@@ -1614,13 +1614,11 @@ Agree internally on exactly:
 
 Put plans, services, proof, FAQs, results, and reader products into structured data.
 
-**Status:** `site-data-model.json` assembles everything — it references `commercial-truth.json`, `service-map.json`, `proof-audit.json`, and `atomic-shelf-commitment-terms.md` for the frozen objects (plans, services, proof_metrics, guarantee) rather than duplicating them, per Section 2's single-source-of-truth rule, and adds the remaining PRD Section 32 objects: `reader_products` (ShelfMates/StoryPals), `case_studies` (schema only — no real entries), `faqs` (drafted against frozen data, several marked `gap` where no policy exists yet), `editorial` (topic backlog, no articles), `navigation` (structural, from Section 22), and `site_settings` (CTA vocabulary, brand basics).
+**Status:** `site-data-model.json` assembles everything — it references `commercial-truth.json`, `service-map.json`, `proof-audit.json`, and `atomic-shelf-commitment-terms.md` for the frozen objects (plans, services, proof_metrics, guarantee, and now `operational_policies`) rather than duplicating them, per Section 2's single-source-of-truth rule, and adds the remaining PRD Section 32 objects: `reader_products` (ShelfMates/StoryPals), `case_studies` (schema only, deferred by decision), `faqs`, `editorial` (topic backlog, no articles), `navigation` (structural, from Section 22), and `site_settings` (CTA vocabulary, brand basics).
 
-**Real gaps surfaced, not just extrapolation flags** — these need actual decisions/content, not more inference:
-- Zero case studies exist. This blocks Step 9 (Results/Catalogue pages) until real client data is sourced.
-- Plan-change policy, what-happens-after-commitment-ends, on-camera requirement, what the author must provide, campaign-management team structure, and supported-genre list are all undefined — FAQ entries for these are marked `gap` rather than guessed at.
+**Resolved this turn:** plan-change policy, end-of-commitment handover, on-camera requirement, what an author must provide, day-to-day campaign management, and genre support are all now frozen facts in `commercial-truth.json → operational_policies`, sourced from you directly, and every previously-`gap` FAQ answer now points to them. Case studies remain intentionally deferred — schema kept, no entries — not a gap, a decision.
 
-**This unlocks Step 6 — Build the design system**, which is next (only after the content model is stable, which it now is modulo the gaps above).
+**This unlocks Step 6 — Build the design system**, which is next.
 
 ### Step 6 — Build the design system
 

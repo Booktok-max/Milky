@@ -14,8 +14,8 @@
       "proof_metrics": "frozen with audit trail — see commercial-truth.json (values) + proof-audit.json (verification status)",
       "guarantee": "frozen — see commercial-truth.json + atomic-shelf-commitment-terms.md",
       "reader_products": "drafted this step — extrapolated",
-      "case_studies": "SCHEMA ONLY — no real client case-study data exists yet; this is Step 3's real gap surfacing again downstream. Populate before Step 9 (proof/ecosystem pages).",
-      "faqs": "drafted this step — extrapolated answers, sourced against frozen data where possible",
+      "case_studies": "SCHEMA ONLY, deferred by decision — kept for future population, not published or blocking this build.",
+      "faqs": "drafted this step — plans/delivery/audience answers now come directly from Daniel (2026-09-22); results/commitment answers sourced against frozen data.",
       "editorial": "topic list only, from PRD Section 26 — no article content written yet",
       "navigation": "structural — taken directly from PRD Section 22",
       "site_settings": "drafted this step — CTA vocabulary and brand basics from PRD Sections 21/28"
@@ -24,6 +24,7 @@
 
   "plans": { "$ref": "commercial-truth.json#/plans" },
   "custom_tiers": { "$ref": "commercial-truth.json#/custom_tiers" },
+  "operational_policies": { "$ref": "commercial-truth.json#/operational_policies" },
   "services": { "$ref": "service-map.json#/services" },
   "proof_metrics": {
     "values": { "$ref": "commercial-truth.json#/proof_metrics" },
@@ -72,7 +73,7 @@
       "author_quote": ""
     },
     "entries": [],
-    "note": "No populated entries — no real client case-study data was available for this build. This is a hard blocker for Step 9 (Results/Catalogue pages) and should be sourced from actual client campaigns, ideally the same 200+-client dataset backing the pricing disclaimer."
+    "note": "Deferred by decision — case studies are intentionally left empty for this build pass, not a gap to be extrapolated. Keep the schema in place for when real client case-study data becomes available; this remains a blocker for Step 9 (Results/Catalogue pages) until then."
   },
 
   "faqs": {
@@ -100,8 +101,8 @@
     ],
     "plans": [
       { "q": "What is included?", "a": "Varies by plan — see the current pricing page for the full feature list per tier.", "source": "commercial-truth.json plans" },
-      { "q": "Can I change plans?", "a": "[extrapolated — needs an actual policy decision] Not yet defined in the frozen commercial data. Flag for follow-up before publishing this FAQ.", "source": "gap" },
-      { "q": "What happens after a commitment ends?", "a": "[extrapolated — needs an actual policy decision] Not yet defined in the frozen commercial data. Flag for follow-up before publishing this FAQ.", "source": "gap" },
+      { "q": "Can I change plans?", "a": "Yes — you can upgrade or downgrade whenever you'd like. When you do, we take your current ad spend into account and apply it as available credit toward the new plan, so nothing you've already paid for is wasted.", "source": "commercial-truth.json operational_policies.plan_changes" },
+      { "q": "What happens after a commitment ends?", "a": "We hand over everything — every video created, account information, and all related assets — via a secure transfer method, so nothing gets lost. In practice, most of this is already available to you throughout the engagement: every gallery of content we make is public to you as the author, presented in your progress-report document/link.", "source": "commercial-truth.json operational_policies.end_of_commitment" },
       {
         "q": "Why are longer commitments discounted?",
         "a": "Longer commitments are prepaid savings, not a cancellation trap. The system has more time to compound, and predictable planning lets us offer better economics.",
@@ -109,14 +110,14 @@
       }
     ],
     "delivery": [
-      { "q": "What do I need to provide?", "a": "[extrapolated — needs an actual policy decision] Not yet defined. Flag for follow-up.", "source": "gap" },
-      { "q": "Do I need to appear on camera?", "a": "[extrapolated — needs an actual policy decision] Not yet defined. Flag for follow-up.", "source": "gap" },
+      { "q": "What do I need to provide?", "a": "Just a link to your book — or, if you have a backlist, a link to your catalogue. You can also share any planned discount-deal dates so we can plan campaigns around them.", "source": "commercial-truth.json operational_policies.author_involvement" },
+      { "q": "Do I need to appear on camera?", "a": "No — you never need to appear on camera.", "source": "commercial-truth.json operational_policies.author_involvement" },
       {
         "q": "How often is content produced?",
         "a": "Depends on plan: 60 videos/month at Spark and Enhanced, 80 at Foundation, 100+ at Starter, Momentum, and Growth.",
         "source": "commercial-truth.json plans[*].services"
       },
-      { "q": "Who manages the campaigns?", "a": "[extrapolated — needs an actual policy decision, e.g. team structure] Not yet defined. Flag for follow-up.", "source": "gap" }
+      { "q": "Who manages the campaigns?", "a": "A dedicated outreach team manages your account day-to-day — reaching out to ARC and reviewer lists on your behalf and making sure everything is running smoothly.", "source": "commercial-truth.json operational_policies.campaign_management" }
     ],
     "audience": [
       {
@@ -129,7 +130,7 @@
         "a": "Yes — Growth is built for authors with an established backlist (3+ books) scaling an existing readership.",
         "source": "commercial-truth.json plans.growth.audience"
       },
-      { "q": "What genres do you support?", "a": "[extrapolated — needs an actual policy decision/list] Not yet defined in the frozen commercial data. Flag for follow-up.", "source": "gap" }
+      { "q": "What genres do you support?", "a": "All genres. One honest caveat: bigger, higher-volume genres tend to see stronger results than smaller genres or subgenres, simply because there's a larger pool of readers to reach.", "source": "commercial-truth.json operational_policies.genre_support" }
     ],
     "commitment": [
       {
@@ -191,8 +192,7 @@
   },
 
   "known_gaps_before_launch": [
-    "case_studies.entries is empty — real client case-study data must be sourced before Step 9.",
-    "Several FAQ answers under plans/delivery/audience are marked 'gap' — plan-change policy, commitment-end policy, on-camera requirement, what the author needs to provide, team/ops structure, and supported genre list are all undefined in the frozen commercial data and need an actual policy decision, not extrapolation.",
+    "case_studies.entries is empty by decision — deferred, not a gap. Repopulate once real client case-study data is available; still a blocker for Step 9 (Results/Catalogue pages) whenever that happens.",
     "Editorial is a topic backlog only — zero articles written.",
     "reader_products (ShelfMates/StoryPals) have names and audience segments but no deliverable specifics (how big is the list, how fast does it grow, what does an author actually get) — currently folded into Foundation+ plan deliverables only."
   ]
