@@ -52,6 +52,7 @@ header p{color:var(--stone);font-size:1.02rem;max-width:56ch;margin:0 auto 2.2re
 .search-bar input:focus{outline:none;border-color:var(--copper);}
 .search-bar button{padding:0.9rem 1.7rem;border-radius:var(--r-xs);border:none;background:var(--copper);color:#fff;font-weight:600;font-size:0.9rem;cursor:pointer;transition:all 0.2s;}
 .search-bar button:hover{background:#b0711e;}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
 
 .filter-row{display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap;}
 
@@ -109,10 +110,11 @@ footer a{color:rgba(255,255,255,0.4);text-decoration:none;}
     <div class="eyebrow"><span class="eyebrow-line"></span>Reader Discovery<span class="eyebrow-line"></span></div>
     <h1>Find your next read</h1>
     <p>Browse titles from Atomic Shelf authors and beyond — romance, fantasy, thriller, and children's books, matched to what you already love.</p>
-    <div class="search-bar">
-      <input type="text" id="book-search" placeholder="Search by title, author, or series…"/>
-      <button onclick="runSearch()">Search</button>
-    </div>
+    <form class="search-bar" id="book-search-form">
+      <label class="sr-only" for="book-search">Search books</label>
+      <input type="search" id="book-search" placeholder="Search by title, author, or series…" autocomplete="off"/>
+      <button type="submit">Search books</button>
+    </form>
     <div class="filter-row" id="genre-filters">
       <span class="pill active" data-genre="">All</span>
       <span class="pill" data-genre="romance">Romance — ShelfMates</span>
@@ -167,6 +169,14 @@ footer a{color:rgba(255,255,255,0.4);text-decoration:none;}
 
 function coverPlaceholderSVG() {
   return `<svg viewBox="0 0 40 40"><rect x="8" y="6" width="24" height="30" fill="none" stroke="#0E0C1A" stroke-width="1" opacity="0.5"/><line x1="12" y1="14" x2="28" y2="14" stroke="#0E0C1A" stroke-width="0.7" opacity="0.4"/><line x1="12" y1="19" x2="28" y2="19" stroke="#0E0C1A" stroke-width="0.7" opacity="0.4"/><line x1="12" y1="24" x2="24" y2="24" stroke="#0E0C1A" stroke-width="0.7" opacity="0.4"/></svg>`;
+}
+
+function handleCoverError(image) {
+  const cover = image.closest('.book-cover');
+  if (!cover || image.dataset.fallbackApplied) return;
+  image.dataset.fallbackApplied = 'true';
+  image.remove();
+  cover.insertAdjacentHTML('beforeend', coverPlaceholderSVG());
 }
 
 const DISCOVERY_LANES = [
@@ -267,7 +277,7 @@ function renderBooks(books) {
       <div class="book-cover">
         ${b.genre ? `<span class="book-genre-tag">${escapeHtml(b.genre)}</span>` : ''}
         ${b.lane ? `<span class="book-type-tag">${escapeHtml(b.lane)}</span>` : ''}
-        ${b.cover ? `<img src="${b.cover}" alt="${escapeHtml(b.title)} cover" loading="lazy" decoding="async">` : coverPlaceholderSVG()}
+        ${b.cover ? `<img src="${b.cover}" alt="${escapeHtml(b.title)} cover" loading="lazy" decoding="async" onerror="handleCoverError(this)">` : coverPlaceholderSVG()}
       </div>
       <div class="book-info">
         <div class="book-title">${escapeHtml(b.title)}</div>
@@ -322,8 +332,9 @@ function runSearch() {
   loadBooks(activeQuery, activeGenre);
 }
 
-document.getElementById('book-search').addEventListener('keydown', e => {
-  if (e.key === 'Enter') runSearch();
+document.getElementById('book-search-form').addEventListener('submit', e => {
+  e.preventDefault();
+  runSearch();
 });
 
 document.getElementById('genre-filters').addEventListener('click', e => {
