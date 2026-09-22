@@ -101,6 +101,14 @@ section.results{padding:3.5rem 6vw 6rem;}
 .apps-links{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;}
 .apps-links a{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.8);padding:0.7rem 1.4rem;border-radius:99px;text-decoration:none;font-size:0.85rem;font-weight:500;transition:all 0.2s;}
 .apps-links a:hover{border-color:var(--copper-2);color:var(--copper-2);}
+.weekly-signup{max-width:620px;margin:2.4rem auto 0;padding-top:2rem;border-top:1px solid rgba(255,255,255,0.12);}
+.weekly-signup h4{color:#fff;font:1.25rem 'Playfair Display',serif;margin-bottom:.45rem;}
+.weekly-signup p{margin-bottom:1rem;}
+.weekly-form{display:flex;gap:.6rem;max-width:520px;margin:0 auto;flex-wrap:wrap;}
+.weekly-form input{flex:1;min-width:220px;padding:.75rem 1rem;border:0;border-radius:var(--r-xs);font:inherit;}
+.weekly-form button{padding:.75rem 1.2rem;border:0;border-radius:var(--r-xs);background:var(--copper-2);color:var(--ink);font-weight:700;cursor:pointer;}
+.weekly-form button:hover{background:#f0b15b;}
+.weekly-status{min-height:1.4em;margin-top:.7rem!important;color:var(--copper-2)!important;}
 
 footer{background:var(--ink);padding:2rem 6vw;display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.6rem;font-size:0.76rem;color:rgba(255,255,255,0.28);}
 footer a{color:rgba(255,255,255,0.4);text-decoration:none;}
@@ -112,8 +120,8 @@ footer a{color:rgba(255,255,255,0.4);text-decoration:none;}
   <a href="index.html" class="logo">Atomic<span class="logo-dash">&#8209;</span>Shelf</a>
   <ul class="nav-links">
     <li><a href="index.html#services">Services</a></li>
+    <li><a href="#browse-books" style="color:var(--copper);font-weight:600;" aria-current="page">Browse Books</a></li>
     <li><a href="#lucky">I’m feeling lucky</a></li>
-    <li><a href="readers.html" style="color:var(--copper);font-weight:600;" aria-current="page">Browse Books</a></li>
   </ul>
   <a href="index.html#pricing" class="nav-cta">For Authors</a>
 </nav>
@@ -157,6 +165,22 @@ footer a{color:rgba(255,255,255,0.4);text-decoration:none;}
   </div>
 </header>
 
+<section class="results" id="browse-books">
+  <div class="container">
+    <div class="results-head">
+      <div>
+        <div class="eyebrow"><span class="eyebrow-line"></span>Browse Books</div>
+        <h2 id="results-title">A different shelf every day</h2>
+      </div>
+      <span class="results-count" id="results-count"></span>
+    </div>
+    <div class="book-grid" id="book-grid">
+      <div class="state-note">Loading books…</div>
+    </div>
+    <div class="load-sentinel" id="load-sentinel" aria-live="polite">Loading more shelves as you browse…</div>
+  </div>
+</section>
+
 <section class="list-feed" id="lucky">
   <div class="container">
     <div class="list-feed-head">
@@ -172,19 +196,6 @@ footer a{color:rgba(255,255,255,0.4);text-decoration:none;}
   </div>
 </section>
 
-<section class="results">
-  <div class="container">
-    <div class="results-head">
-      <h2 id="results-title">A different shelf every day</h2>
-      <span class="results-count" id="results-count"></span>
-    </div>
-    <div class="book-grid" id="book-grid">
-      <div class="state-note">Loading books…</div>
-    </div>
-    <div class="load-sentinel" id="load-sentinel" aria-live="polite">Loading more shelves as you browse…</div>
-  </div>
-</section>
-
 <div class="apps-strip" id="reader-community">
   <div class="eyebrow">Never miss a new release</div>
   <h3>Get matched to books like these</h3>
@@ -192,6 +203,16 @@ footer a{color:rgba(255,255,255,0.4);text-decoration:none;}
   <div class="apps-links">
     <a href="shelfmates.html">📖 Explore ShelfMates (adult fiction)</a>
     <a href="storypals.html">🧸 Explore StoryPals (children's books)</a>
+  </div>
+  <div class="weekly-signup">
+    <h4>Get the weekly shelf</h4>
+    <p>One email each week with the best books featured here: a few thoughtful picks, no clutter.</p>
+    <form class="weekly-form" id="weekly-signup-form">
+      <label class="sr-only" for="weekly-email">Email address</label>
+      <input id="weekly-email" type="email" placeholder="you@example.com" autocomplete="email" required />
+      <button type="submit">Subscribe</button>
+    </form>
+    <p class="weekly-status" id="weekly-status" role="status" aria-live="polite"></p>
   </div>
 </div>
 
@@ -457,6 +478,18 @@ document.getElementById('language-filters').addEventListener('click', e => {
   pill.classList.add('active');
   activeLanguage = pill.dataset.language;
   loadBooks(activeQuery, activeGenre);
+});
+
+document.getElementById('weekly-signup-form').addEventListener('submit', e => {
+  e.preventDefault();
+  const email = document.getElementById('weekly-email');
+  const status = document.getElementById('weekly-status');
+  if (!email.checkValidity()) {
+    email.reportValidity();
+    return;
+  }
+  status.textContent = 'Thanks — weekly signup is ready. Email delivery will be connected soon.';
+  email.value = '';
 });
 
 const loadObserver = new IntersectionObserver(entries => {
