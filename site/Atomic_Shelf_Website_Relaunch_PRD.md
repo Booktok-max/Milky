@@ -1304,6 +1304,7 @@ A new visitor can understand Atomic Shelf within approximately 60 seconds.
 
 # Phase 4 — Commercial Pages
 
+**Status:** Pricing is implemented from the commercial source of truth. Services and How It Works align with the approved service map, and Start Here is a guided five-path selector that passes context into the contact form. Checkout and page-by-page QA remain.
 
 Build/rebuild:
 
