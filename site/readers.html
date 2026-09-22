@@ -55,6 +55,7 @@ header p{color:var(--stone);font-size:1.02rem;max-width:56ch;margin:0 auto 2.2re
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
 
 .filter-row{display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap;}
+.filter-note{color:var(--stone);font-size:0.78rem;margin:0 auto;max-width:65ch;text-align:center;}
 
 section.results{padding:3.5rem 6vw 6rem;}
 .results-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2rem;flex-wrap:wrap;gap:1rem;}
@@ -130,6 +131,7 @@ footer a{color:rgba(255,255,255,0.4);text-decoration:none;}
       <span class="pill" data-genre="biography">Biography</span>
       <span class="pill" data-genre="graphic novels">Graphic novels</span>
     </div>
+    <p class="filter-note">Children’s results use catalogue subject tags for juvenile fiction, picture books, and juvenile literature—not title keywords.</p>
   </div>
 </header>
 
@@ -184,8 +186,24 @@ const DISCOVERY_LANES = [
   { label: 'Popular now', query: 'fiction', params: '', sort: 'readinglog', count: 3 },
   { label: 'Classics', query: 'classics', params: '', sort: 'old', count: 7 },
   { label: 'Rising titles', query: 'fiction', params: '', sort: 'new', count: 7 },
-  { label: 'Value picks', query: 'fiction', params: 'ebook_access=public', sort: 'rating', count: 6 }
+  { label: 'Value picks', query: 'fiction', params: 'ebook_access=public', sort: 'rating', count: 6 },
+  { label: 'BookTok mentions', query: 'booktok', params: '', sort: 'readinglog', count: 3 }
 ];
+
+const GENRE_QUERIES = {
+  "children's": 'subject:"juvenile fiction"',
+  romance: 'subject:romance',
+  fantasy: 'subject:fantasy',
+  thriller: 'subject:thrillers',
+  mystery: 'subject:mystery',
+  'science fiction': 'subject:"science fiction"',
+  'historical fiction': 'subject:"historical fiction"',
+  horror: 'subject:horror',
+  'literary fiction': 'subject:"literary fiction"',
+  poetry: 'subject:poetry',
+  biography: 'subject:biography',
+  'graphic novels': 'subject:"graphic novels"'
+};
 
 function dailySeed() {
   const today = new Date().toISOString().slice(0, 10);
@@ -215,7 +233,7 @@ async function fetchBooks(query, genre, page = 1) {
 
   const lanes = DISCOVERY_LANES.map(lane => ({
     ...lane,
-    query: genre ? `${lane.query} subject:${genre}` : lane.query
+    query: genre ? `${GENRE_QUERIES[genre] || `subject:${genre}`} ${lane.query}` : lane.query
   }));
   const responses = await Promise.all(lanes.map(async lane => {
     const params = new URLSearchParams({ q: lane.query, limit: String(lane.count * 2), page: String(page), ...(lane.sort ? { sort: lane.sort } : {}) });
