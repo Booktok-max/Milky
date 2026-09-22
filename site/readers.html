@@ -67,6 +67,7 @@ section.results{padding:3.5rem 6vw 6rem;}
 .book-cover img{width:100%;height:100%;object-fit:cover;}
 .book-cover svg{width:40%;height:40%;opacity:0.35;}
 .book-genre-tag{position:absolute;top:8px;left:8px;background:rgba(14,12,26,0.72);color:#fff;font-size:0.62rem;font-weight:600;padding:3px 9px;border-radius:99px;letter-spacing:0.03em;}
+.book-type-tag{position:absolute;right:8px;top:8px;background:var(--copper);color:#fff;font-size:0.6rem;font-weight:600;padding:3px 8px;border-radius:99px;letter-spacing:0.02em;}
 .book-info{padding:0.9rem 1rem 1.1rem;flex:1;display:flex;flex-direction:column;gap:0.3rem;}
 .book-title{font-size:0.9rem;font-weight:600;color:var(--ink);line-height:1.35;}
 .book-author{font-size:0.78rem;color:var(--muted);}
@@ -121,7 +122,7 @@ footer a{color:rgba(255,255,255,0.4);text-decoration:none;}
 <section class="results">
   <div class="container">
     <div class="results-head">
-      <h2 id="results-title">Popular right now</h2>
+      <h2 id="results-title">A different shelf every day</h2>
       <span class="results-count" id="results-count"></span>
     </div>
     <div class="book-grid" id="book-grid">
@@ -155,21 +156,70 @@ function coverPlaceholderSVG() {
   return `<svg viewBox="0 0 40 40"><rect x="8" y="6" width="24" height="30" fill="none" stroke="#0E0C1A" stroke-width="1" opacity="0.5"/><line x1="12" y1="14" x2="28" y2="14" stroke="#0E0C1A" stroke-width="0.7" opacity="0.4"/><line x1="12" y1="19" x2="28" y2="19" stroke="#0E0C1A" stroke-width="0.7" opacity="0.4"/><line x1="12" y1="24" x2="24" y2="24" stroke="#0E0C1A" stroke-width="0.7" opacity="0.4"/></svg>`;
 }
 
-// TODO: once Atomic Shelf has its own author catalog API, replace the
-// body of this function with a call to that endpoint instead of Open
-// Library. Keep the same return shape: [{title, author, year, cover, genre}]
+const DISCOVERY_LANES = [
+  { label: 'Free to read', query: 'fiction', params: 'ebook_access=public&has_fulltext=true', sort: 'readinglog' },
+  { label: 'Popular now', query: 'fiction', params: '', sort: 'readinglog' },
+  { label: 'Classics', query: 'classics', params: '', sort: 'old' },
+  { label: 'Rising titles', query: 'fiction', params: '', sort: 'new' },
+  { label: 'Value picks', query: 'fiction', params: 'ebook_access=public', sort: 'rating' }
+];
+
+function dailySeed() {
+  const today = new Date().toISOString().slice(0, 10);
+  return [...today].reduce((seed, char) => ((seed * 31) + char.charCodeAt(0)) >>> 0, 7);
+}
+
+function seededShuffle(items, seed) {
+  const result = [...items];
+  let state = seed || 1;
+  for (let i = result.length - 1; i > 0; i -= 1) {
+    state = (state * 1664525 + 1013904223) >>> 0;
+    const index = state % (i + 1);
+    [result[i], result[index]] = [result[index], result[i]];
+  }
+  return result;
+}
+
+// TODO: once Atomic Shelf has its own author catalog and retail feeds, replace
+// these Open Library lanes with first-party availability, deal, and bestseller data.
 async function fetchBooks(query, genre) {
-  const q = query || genre || 'bestselling fiction';
-  const res = await fetch(`https://openlibrary.org/search.json?q=${encodeURIComponent(q)}&limit=18`);
-  if (!res.ok) throw new Error('Book search failed');
-  const data = await res.json();
-  return (data.docs || []).map(d => ({
+  if (query) {
+    const res = await fetch(`https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=24`);
+    if (!res.ok) throw new Error('Book search failed');
+    const data = await res.json();
+    return (data.docs || []).map(d => ({ ...bookFromDoc(d), lane: 'Search result' }));
+  }
+
+  const lanes = DISCOVERY_LANES.map(lane => ({
+    ...lane,
+    query: genre ? `${lane.query} subject:${genre}` : lane.query
+  }));
+  const responses = await Promise.all(lanes.map(async lane => {
+    const params = new URLSearchParams({ q: lane.query, limit: '10', ...(lane.sort ? { sort: lane.sort } : {}) });
+    if (lane.params) new URLSearchParams(lane.params).forEach((value, key) => params.set(key, value));
+    const res = await fetch(`https://openlibrary.org/search.json?${params}`);
+    if (!res.ok) throw new Error('Book search failed');
+    const data = await res.json();
+    return (data.docs || []).slice(0, 6).map(doc => ({ ...bookFromDoc(doc), lane: lane.label }));
+  }));
+
+  const seen = new Set();
+  return seededShuffle(responses.flat().filter(book => {
+    const key = `${book.title.toLowerCase()}|${book.author.toLowerCase()}`;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  }), dailySeed()).slice(0, 24);
+}
+
+function bookFromDoc(d) {
+  return {
     title: d.title || 'Untitled',
     author: (d.author_name || [])[0] || 'Unknown author',
     year: d.first_publish_year || '—',
     cover: d.cover_i ? `https://covers.openlibrary.org/b/id/${d.cover_i}-M.jpg` : null,
-    genre: genre || (d.subject && d.subject[0]) || ''
-  }));
+    genre: (d.subject && d.subject[0]) || ''
+  };
 }
 
 let activeGenre = '';
@@ -187,6 +237,7 @@ function renderBooks(books) {
     <div class="book-card">
       <div class="book-cover">
         ${b.genre ? `<span class="book-genre-tag">${b.genre}</span>` : ''}
+        ${b.lane ? `<span class="book-type-tag">${b.lane}</span>` : ''}
         ${b.cover ? `<img src="${b.cover}" alt="${b.title}">` : coverPlaceholderSVG()}
       </div>
       <div class="book-info">
@@ -202,7 +253,7 @@ async function loadBooks(query, genre) {
   grid.innerHTML = '<div class="state-note">Loading books…</div>';
   document.getElementById('results-title').textContent = query
     ? `Results for “${query}”`
-    : (genre ? `Browsing: ${genre}` : 'Popular right now');
+    : (genre ? `Browsing: ${genre}` : 'A different shelf every day');
   try {
     const books = await fetchBooks(query, genre);
     renderBooks(books);
