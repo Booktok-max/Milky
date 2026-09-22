@@ -211,11 +211,8 @@ function coverPlaceholderSVG() {
 }
 
 function handleCoverError(image) {
-  const cover = image.closest('.book-cover');
-  if (!cover || image.dataset.fallbackApplied) return;
-  image.dataset.fallbackApplied = 'true';
-  image.remove();
-  cover.insertAdjacentHTML('beforeend', coverPlaceholderSVG());
+  const card = image.closest('.book-card');
+  if (card) card.remove();
 }
 
 const DISCOVERY_LANES = [
@@ -274,7 +271,9 @@ async function fetchBooks(query, genre, page = 1) {
     const res = await fetch(`https://openlibrary.org/search.json?${params}`);
     if (!res.ok) throw new Error('Book search failed');
     const data = await res.json();
-    return (data.docs || []).map(d => ({ ...bookFromDoc(d), lane: 'Search result' }));
+    return (data.docs || [])
+      .filter(d => d.cover_i)
+      .map(d => ({ ...bookFromDoc(d), lane: 'Search result' }));
   }
 
   const lanes = DISCOVERY_LANES.map(lane => ({
@@ -288,7 +287,10 @@ async function fetchBooks(query, genre, page = 1) {
     const res = await fetch(`https://openlibrary.org/search.json?${params}`);
     if (!res.ok) throw new Error('Book search failed');
     const data = await res.json();
-    return (data.docs || []).slice(0, lane.count).map(doc => ({ ...bookFromDoc(doc), lane: lane.label }));
+    return (data.docs || [])
+      .filter(doc => doc.cover_i)
+      .slice(0, lane.count)
+      .map(doc => ({ ...bookFromDoc(doc), lane: lane.label }));
   }));
 
   const seen = new Set();
@@ -377,7 +379,7 @@ function renderBooks(books) {
       <div class="book-cover">
         ${b.genre ? `<span class="book-genre-tag">${escapeHtml(b.genre)}</span>` : ''}
         ${b.lane ? `<span class="book-type-tag">${escapeHtml(b.lane)}</span>` : ''}
-        ${b.cover ? `<img src="${b.cover}" alt="${escapeHtml(b.title)} cover" loading="lazy" decoding="async" onerror="handleCoverError(this)">` : coverPlaceholderSVG()}
+        <img src="${b.cover}" alt="${escapeHtml(b.title)} cover" loading="lazy" decoding="async" onerror="handleCoverError(this)">
       </div>
       <div class="book-info">
         <div class="book-title">${escapeHtml(b.title)}</div>
