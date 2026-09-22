@@ -178,7 +178,7 @@ footer a{color:rgba(255,255,255,0.4);text-decoration:none;}
         <div class="eyebrow"><span class="eyebrow-line"></span>I’m feeling lucky</div>
         <h2>Browse what readers have collected</h2>
       </div>
-      <p class="list-feed-intro">A separate stream of public reading lists, shuffled daily. Open one to see its full collection and curator context.</p>
+      <p class="list-feed-intro">A separate stream of public reader-curated shelves, shuffled daily. Open one to see its full collection and curator context.</p>
     </div>
     <div class="list-grid" id="list-grid">
       <div class="state-note">Loading lists…</div>
@@ -239,10 +239,12 @@ const LIST_SEARCHES = [
   { query: 'booktok', label: 'BookTok lists' },
   { query: 'romance', label: 'Romance lists' },
   { query: 'fantasy', label: 'Fantasy lists' },
-  { query: 'children', label: 'Children’s lists' }
+  { query: 'children', label: 'Children’s lists' },
+  { query: 'classics', label: 'Classics lists' },
+  { query: 'mystery', label: 'Mystery lists' },
+  { query: 'science fiction', label: 'Science-fiction lists' },
+  { query: 'poetry', label: 'Poetry lists' }
 ];
-
-const AMAZON_BOOKTOK_URL = 'https://www.amazon.com/b?ie=UTF8&node=23679109011&nodl=0&ref=ebooks_dsk_sn_best-of-book%E2%80%9458af7';
 
 const GENRE_QUERIES = {
   "children's": 'subject:"juvenile fiction"',
@@ -363,14 +365,7 @@ async function loadLists() {
       return true;
     }), dailySeed()).slice(0, 12);
     if (!lists.length) throw new Error('No public lists found');
-    const sourceCard = `
-      <article class="list-card featured-source">
-        <div class="eyebrow">Amazon · Best of #BookTok</div>
-        <h3>See the current BookTok picks</h3>
-        <p>Amazon maintains the live ranking and availability for this collection.</p>
-        <a href="${AMAZON_BOOKTOK_URL}" target="_blank" rel="noopener noreferrer">Open Best of #BookTok →</a>
-      </article>`;
-    grid.innerHTML = sourceCard + lists.map(list => `
+    grid.innerHTML = lists.map(list => `
       <article class="list-card">
         <div class="eyebrow">${escapeHtml(list.category)}</div>
         <h3>${escapeHtml(list.name || 'Untitled list')}</h3>
