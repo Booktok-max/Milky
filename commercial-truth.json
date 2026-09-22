@@ -10,10 +10,9 @@
     "rounding_rule": "Discounted long-term commitment totals are rounded DOWN to the nearest $10 (e.g. $97 -> $90). Undiscounted list-price totals (monthly x term) are left exact.",
     "note_on_source_discrepancy": "The Milky repo's pricing.html only contains 4 plans (Spark, Foundation, Momentum, Growth) and no working payment backend URL. The live site has 6 plans (adds Enhanced and Starter). This file uses the live site as current truth per PRD Section 46.",
     "note_on_enhanced_starter_commitments": "The live site does not render a 'See commitment savings' flip-card for Enhanced or Starter, but per your instruction the same 10%/20%/25% (3/6/12-month) discount schedule used on Spark and Foundation applies to them too. Flag for whoever builds the pricing page: this UI needs to be added for these two plans, since right now nothing on-site tells a visitor these discounts exist.",
-    "note_on_audience_positioning_outcome": "audience / positioning / outcome / deliverables below are EXTRAPOLATED, not pulled from an approved commercial sheet (none was available). They're built from generally known Amazon KDP category-ranking, review-count, and reader-list benchmarks for indie authors, scaled to each plan's price point and feature set. Treat every range here as a draft assumption that needs sign-off — not verified client data. Do not publish these verbatim without an internal review pass.",
-    "note_on_momentum_growth_3_month": "Resolved 2026-09-22, per your instruction: Momentum and Growth previously only offered 6- and 12-month commitments. Added a 3-month tier to both so all six plans offer uniform commitment options, using the same 10%-off / round-down-to-nearest-$10 rule already applied everywhere else (Momentum: $747 list -> $670; Growth: $1,497 list -> $1,340). These figures were previously only a hardcoded JS literal inside design-system.html's pricing-card demo; this is now the actual source-of-truth record they should have referenced. design-system.html's demo numbers are unchanged and already match."
+    "note_on_audience_positioning_outcome": "Resolved 2026-09-22, per your instruction: the earlier draft of these fields invented specific unverified numbers (category-rank ranges, review-count multipliers, download volumes) and was flagged '[extrapolated] / needs sign-off'. Replaced with general, defensible audience/positioning/outcome copy that makes no specific numeric claims. Detailed, client-verified audience and outcome data is still pending and is out of scope for the current build — swap it in here when available; nothing on the site should be rewritten to depend on it in the meantime.",
+    "note_on_momentum_growth_3_month": "Resolved 2026-09-22, per your instruction: Momentum and Growth previously only offered 6- and 12-month commitments. Added a 3-month tier to both so all six plans offer uniform commitment options, using the same 10%-off / round-down-to-nearest-$10 rule already applied everywhere else (Momentum: $747 list -> $670; Growth: $1,497 list -> $1,340). These figures were previously only a hardcoded JS literal inside design-system.html's pricing-card demo; this is now the actual source-of-truth record they should have referenced. design-system.html's demo numbers are unchanged and already match. Separately, on 2026-09-22 a math-audit pass found Foundation's 3-month figures ($213 -> $192) were a stale double-discount inherited from the old site copy (10% applied twice to $237 instead of once); corrected to $237 -> $213 -> $210 (rounded) here, consistent with this same rule."
   },
-
   "plans": [
     {
       "id": "spark",
@@ -22,13 +21,29 @@
       "monthly_price_note": "first 20 videos free",
       "commitments": {
         "monthly": {},
-        "3_month": { "discount_percent": 10, "list_total": 60, "discounted_total_exact": 54, "discounted_total_rounded_down_10": 50 },
-        "6_month": { "discount_percent": 20, "list_total": 120, "discounted_total_exact": 96, "discounted_total_rounded_down_10": 90 },
-        "12_month": { "discount_percent": 25, "list_total": 240, "discounted_total_exact": 180, "discounted_total_rounded_down_10": 180, "best_value": true }
+        "3_month": {
+          "discount_percent": 10,
+          "list_total": 60,
+          "discounted_total_exact": 54,
+          "discounted_total_rounded_down_10": 50
+        },
+        "6_month": {
+          "discount_percent": 20,
+          "list_total": 120,
+          "discounted_total_exact": 96,
+          "discounted_total_rounded_down_10": 90
+        },
+        "12_month": {
+          "discount_percent": 25,
+          "list_total": 240,
+          "discounted_total_exact": 180,
+          "discounted_total_rounded_down_10": 180,
+          "best_value": true
+        }
       },
-      "audience": "[extrapolated] Pre-launch or very early-career authors, 0-2 published titles, little to no existing platform (sub-500 email list, sub-1,000 social following), category rank typically outside Amazon top 100,000 or not yet ranking.",
-      "positioning": "[extrapolated] Low-risk entry point — proves whether consistent short-form content can move a specific book before committing budget to a full campaign.",
-      "outcome": "[extrapolated] Establishes a baseline content cadence and click-through data; not expected to independently shift category rank into a visible tier within 90 days.",
+      "audience": "Authors who want to start building a consistent short-form video presence for a specific book, without yet committing to a full marketing campaign.",
+      "positioning": "The entry point into the system — establishes a steady content cadence and click-through data before you commit to a larger plan.",
+      "outcome": "A running library of short-form video and click-through data you can use to decide whether to scale up.",
       "services": [
         "60 premium short-form videos monthly",
         "Posted to TikTok, Shorts & Reels",
@@ -41,7 +56,13 @@
         "[extrapolated] Weekly performance report (impressions, views, CTR)",
         "[extrapolated] No listing, review, or retargeting work included at this tier"
       ],
-      "metrics": { "period": "by month 3", "impressions": "30k-70k", "video_views": "5k-15k", "click_throughs": "80-220", "sales_lift": "+3-8%" },
+      "metrics": {
+        "period": "by month 3",
+        "impressions": "30k-70k",
+        "video_views": "5k-15k",
+        "click_throughs": "80-220",
+        "sales_lift": "+3-8%"
+      },
       "cta": "Get started with Spark"
     },
     {
@@ -50,13 +71,29 @@
       "monthly_price": 50,
       "commitments": {
         "monthly": {},
-        "3_month": { "discount_percent": 10, "list_total": 150, "discounted_total_exact": 135, "discounted_total_rounded_down_10": 130 },
-        "6_month": { "discount_percent": 20, "list_total": 300, "discounted_total_exact": 240, "discounted_total_rounded_down_10": 240 },
-        "12_month": { "discount_percent": 25, "list_total": 600, "discounted_total_exact": 450, "discounted_total_rounded_down_10": 450, "best_value": true }
+        "3_month": {
+          "discount_percent": 10,
+          "list_total": 150,
+          "discounted_total_exact": 135,
+          "discounted_total_rounded_down_10": 130
+        },
+        "6_month": {
+          "discount_percent": 20,
+          "list_total": 300,
+          "discounted_total_exact": 240,
+          "discounted_total_rounded_down_10": 240
+        },
+        "12_month": {
+          "discount_percent": 25,
+          "list_total": 600,
+          "discounted_total_exact": 450,
+          "discounted_total_rounded_down_10": 450,
+          "best_value": true
+        }
       },
-      "audience": "[extrapolated] Authors already running Spark-level content who want one flagship asset (a trailer) to reuse off-platform — in ads, a bio link, a newsletter, or a pitch to reviewers — without yet buying full campaign management. Typically 1-3 books, category rank outside top 50,000.",
-      "positioning": "[extrapolated] Content-plus-asset tier: same cadence as Spark, plus a durable creative asset that compounds across future campaigns rather than disappearing after one post cycle.",
-      "outcome": "[extrapolated] Meaningfully higher reach and CTR than Spark from richer creative alone; still not paired with listing or review work, so conversion lift stays modest.",
+      "audience": "Authors already running Spark-level content who want one reusable flagship asset for ads, a bio link, a newsletter, or reviewer outreach.",
+      "positioning": "Adds a durable creative asset on top of ongoing content, without moving into full campaign management.",
+      "outcome": "A cinematic trailer and a richer creative library you can reuse across future campaigns.",
       "services": [
         "Everything in Spark",
         "Cinematic book trailer",
@@ -68,7 +105,13 @@
         "[extrapolated] One long-form video with avatar narration",
         "[extrapolated] Weekly performance report"
       ],
-      "metrics": { "period": "by month 3", "impressions": "60k-130k", "video_views": "10k-28k", "click_throughs": "160-400", "sales_lift": "+5-12%" },
+      "metrics": {
+        "period": "by month 3",
+        "impressions": "60k-130k",
+        "video_views": "10k-28k",
+        "click_throughs": "160-400",
+        "sales_lift": "+5-12%"
+      },
       "cta": "View Enhanced"
     },
     {
@@ -77,13 +120,29 @@
       "monthly_price": 79,
       "commitments": {
         "monthly": {},
-        "3_month": { "discount_percent": 10, "list_total": 213, "discounted_total_exact": 192, "discounted_total_rounded_down_10": 190 },
-        "6_month": { "discount_percent": 20, "list_total": 474, "discounted_total_exact": 379, "discounted_total_rounded_down_10": 370 },
-        "12_month": { "discount_percent": 25, "list_total": 948, "discounted_total_exact": 711, "discounted_total_rounded_down_10": 710, "best_value": true }
+        "3_month": {
+          "discount_percent": 10,
+          "list_total": 237,
+          "discounted_total_exact": 213,
+          "discounted_total_rounded_down_10": 210
+        },
+        "6_month": {
+          "discount_percent": 20,
+          "list_total": 474,
+          "discounted_total_exact": 379,
+          "discounted_total_rounded_down_10": 370
+        },
+        "12_month": {
+          "discount_percent": 25,
+          "list_total": 948,
+          "discounted_total_exact": 711,
+          "discounted_total_rounded_down_10": 710,
+          "best_value": true
+        }
       },
-      "audience": "[extrapolated] Authors with at least one published book and a live Amazon listing that's never been optimized — category rank roughly top 30,000-100,000, no reader list of their own yet, little to no review-driven social proof.",
-      "positioning": "[extrapolated] First tier where the listing itself starts converting the traffic content sends — the entry point to the reader-list ecosystem (ShelfMates/StoryPals).",
-      "outcome": "[extrapolated] Meaningful, sustained rank movement is plausible within a 90-day cycle (loosely, top-100,000 toward top-30,000-50,000 territory for a book with a workable hook), plus the start of an owned reader list.",
+      "audience": "Authors with a published book and a live Amazon listing that hasn't been professionally optimized, with no reader list of their own yet.",
+      "positioning": "The first tier where the listing itself is built to convert the traffic your content sends — and where reader-list building with ShelfMates/StoryPals begins.",
+      "outcome": "An optimized listing, a configured preorder page, and the start of an owned reader list, alongside ongoing video content.",
       "services": [
         "80 short-form videos monthly",
         "1 professional book trailer",
@@ -97,7 +156,13 @@
         "[extrapolated] Preorder listing configured",
         "[extrapolated] Reader-list enrollment via ShelfMates/StoryPals"
       ],
-      "metrics": { "period": "by month 3", "impressions": "90k-220k", "video_views": "15k-40k", "click_throughs": "300-800", "sales_lift": "+8-15%" },
+      "metrics": {
+        "period": "by month 3",
+        "impressions": "90k-220k",
+        "video_views": "15k-40k",
+        "click_throughs": "300-800",
+        "sales_lift": "+8-15%"
+      },
       "cta": "Get started with Foundation"
     },
     {
@@ -106,13 +171,29 @@
       "monthly_price": 100,
       "commitments": {
         "monthly": {},
-        "3_month": { "discount_percent": 10, "list_total": 300, "discounted_total_exact": 270, "discounted_total_rounded_down_10": 270 },
-        "6_month": { "discount_percent": 20, "list_total": 600, "discounted_total_exact": 480, "discounted_total_rounded_down_10": 480 },
-        "12_month": { "discount_percent": 25, "list_total": 1200, "discounted_total_exact": 900, "discounted_total_rounded_down_10": 900, "best_value": true }
+        "3_month": {
+          "discount_percent": 10,
+          "list_total": 300,
+          "discounted_total_exact": 270,
+          "discounted_total_rounded_down_10": 270
+        },
+        "6_month": {
+          "discount_percent": 20,
+          "list_total": 600,
+          "discounted_total_exact": 480,
+          "discounted_total_rounded_down_10": 480
+        },
+        "12_month": {
+          "discount_percent": 25,
+          "list_total": 1200,
+          "discounted_total_exact": 900,
+          "discounted_total_rounded_down_10": 900,
+          "best_value": true
+        }
       },
-      "audience": "[extrapolated] Authors with an optimized-or-optimizable listing who are ready to test paid amplification for the first time — usually 1-3 books, category rank top 20,000-60,000, comfortable spending a small, fixed ad budget rather than managing ads themselves.",
-      "positioning": "[extrapolated] Heaviest creative-and-asset tier below full campaign management — 2 trailers, a theme song, and a modest Amazon DSP budget layered on top of Spark-level content.",
-      "outcome": "[extrapolated] Faster impression and CTR growth than Foundation from paid amplification, without the review/preorder/retargeting infrastructure Momentum adds — best read as a bridge tier rather than a launch-campaign tier.",
+      "audience": "Authors with an optimized (or optimizable) listing who want to add paid amplification for the first time, without managing ad campaigns themselves.",
+      "positioning": "Layers a managed Amazon DSP budget and additional creative assets on top of Spark-level content — a bridge toward full campaign management.",
+      "outcome": "Paid reach on top of organic content, plus two trailers and an original theme song, with ad spend managed on your behalf.",
       "services": [
         "100+ premium short-form videos",
         "2 cinematic book trailers",
@@ -124,7 +205,13 @@
         "[extrapolated] 2 cinematic trailers + 1 original theme song",
         "[extrapolated] $50/month Amazon DSP ad spend managed on the author's behalf"
       ],
-      "metrics": { "period": "by month 3", "impressions": "120k-280k", "video_views": "20k-55k", "click_throughs": "400-950", "sales_lift": "+10-20%" },
+      "metrics": {
+        "period": "by month 3",
+        "impressions": "120k-280k",
+        "video_views": "20k-55k",
+        "click_throughs": "400-950",
+        "sales_lift": "+10-20%"
+      },
       "cta": "View Starter"
     },
     {
@@ -134,13 +221,29 @@
       "most_popular": true,
       "commitments": {
         "monthly": {},
-        "3_month": { "discount_percent": 10, "list_total": 747, "discounted_total_exact": 672, "discounted_total_rounded_down_10": 670 },
-        "6_month": { "discount_percent": 20, "list_total": 1494, "discounted_total_exact": 1196, "discounted_total_rounded_down_10": 1190 },
-        "12_month": { "discount_percent": 25, "list_total": 2988, "discounted_total_exact": 2241, "discounted_total_rounded_down_10": 2240, "best_value": true }
+        "3_month": {
+          "discount_percent": 10,
+          "list_total": 747,
+          "discounted_total_exact": 672,
+          "discounted_total_rounded_down_10": 670
+        },
+        "6_month": {
+          "discount_percent": 20,
+          "list_total": 1494,
+          "discounted_total_exact": 1195,
+          "discounted_total_rounded_down_10": 1190
+        },
+        "12_month": {
+          "discount_percent": 25,
+          "list_total": 2988,
+          "discounted_total_exact": 2241,
+          "discounted_total_rounded_down_10": 2240,
+          "best_value": true
+        }
       },
-      "audience": "[extrapolated] Authors with a specific launch or relaunch coming up and at least one prior book with some sales history — typically fewer than 10 reviews on the target title, category rank top 5,000-20,000, ready for a structured 6-week preorder push.",
-      "positioning": "[extrapolated] First full-funnel tier: content, social proof (ARC reviews), a scheduled preorder campaign, and retargeting run as one coordinated system rather than separate purchases.",
-      "outcome": "[extrapolated] Realistic path to a top-1,000-5,000 category rank around launch week for a book with a workable hook and backlist support; review count roughly doubling via the 10-reader ARC campaign.",
+      "audience": "Authors with an upcoming launch or relaunch, ready for a structured, multi-week preorder push.",
+      "positioning": "The first full-funnel tier — content, social proof, a scheduled preorder campaign, and retargeting run as one coordinated system.",
+      "outcome": "A managed launch campaign that combines content, ARC reviews, listing work, and retargeting around a defined preorder countdown.",
       "services": [
         "All Foundation features",
         "Full social media management",
@@ -159,7 +262,13 @@
         "[extrapolated] 1 newsletter feature per quarter",
         "[extrapolated] Segmented retargeting, up to 5x/day for 30 days"
       ],
-      "metrics": { "period": "by month 3", "preorders_secured": "80-180", "free_promo_downloads": "1,200-2,400", "ku_page_reads_boost": "+40-80%", "sales_lift": "+25-45%" },
+      "metrics": {
+        "period": "by month 3",
+        "preorders_secured": "80-180",
+        "free_promo_downloads": "1,200-2,400",
+        "ku_page_reads_boost": "+40-80%",
+        "sales_lift": "+25-45%"
+      },
       "cta": "Get started with Momentum"
     },
     {
@@ -168,13 +277,29 @@
       "monthly_price": 499,
       "commitments": {
         "monthly": {},
-        "3_month": { "discount_percent": 10, "list_total": 1497, "discounted_total_exact": 1347, "discounted_total_rounded_down_10": 1340 },
-        "6_month": { "discount_percent": 20, "list_total": 2994, "discounted_total_exact": 2396, "discounted_total_rounded_down_10": 2390 },
-        "12_month": { "discount_percent": 25, "list_total": 5988, "discounted_total_exact": 4491, "discounted_total_rounded_down_10": 4490, "best_value": true }
+        "3_month": {
+          "discount_percent": 10,
+          "list_total": 1497,
+          "discounted_total_exact": 1347,
+          "discounted_total_rounded_down_10": 1340
+        },
+        "6_month": {
+          "discount_percent": 20,
+          "list_total": 2994,
+          "discounted_total_exact": 2395,
+          "discounted_total_rounded_down_10": 2390
+        },
+        "12_month": {
+          "discount_percent": 25,
+          "list_total": 5988,
+          "discounted_total_exact": 4491,
+          "discounted_total_rounded_down_10": 4490,
+          "best_value": true
+        }
       },
-      "audience": "[extrapolated] Authors with an established backlist (3+ books) scaling an existing readership or mounting an aggressive new launch — typically already inside top 5,000-20,000 in category and pushing toward top 100-1,000, wanting monthly (not quarterly) newsletter placement and a larger review base.",
-      "positioning": "[extrapolated] Top production-and-campaign tier below the fully custom Surge/Orbit engagements — same full-funnel system as Momentum, scaled up in every dimension.",
-      "outcome": "[extrapolated] Realistic path toward top-100-1,000 category rank and bestseller-list visibility for a launch backed by a genuine backlist and reader base; review count growth roughly 2.5x the Momentum tier via the 25-reader ARC campaign.",
+      "audience": "Authors with an established backlist scaling an existing readership, or mounting a larger launch, who want monthly newsletter placement and a bigger review base.",
+      "positioning": "The top production-and-campaign tier below the fully custom Surge/Orbit engagements — the same full-funnel system as Momentum, scaled up.",
+      "outcome": "A larger-scale version of the Momentum system: more content, a bigger ARC campaign, more frequent newsletter placement, and expanded retargeting.",
       "services": [
         "100+ premium videos monthly",
         "2 cinematic trailers, 1 theme song",
@@ -193,18 +318,25 @@
         "[extrapolated] 1 newsletter feature per month",
         "[extrapolated] Segmented retargeting, up to 5x/day for 30 days"
       ],
-      "metrics": { "period": "by month 3", "preorders_secured": "200-420", "free_promo_downloads": "2,400-4,800", "ku_page_reads_boost": "+90-150%", "sales_lift": "+60-110%" },
+      "metrics": {
+        "period": "by month 3",
+        "preorders_secured": "200-420",
+        "free_promo_downloads": "2,400-4,800",
+        "ku_page_reads_boost": "+90-150%",
+        "sales_lift": "+60-110%"
+      },
       "cta": "Get started with Growth"
     }
   ],
-
   "custom_tiers": {
     "note": "Surge & Orbit — mentioned on pricing page for full catalogue / multi-book / bespoke campaigns.",
-    "names": ["Surge", "Orbit"],
+    "names": [
+      "Surge",
+      "Orbit"
+    ],
     "pricing_model": "custom, dedicated team or custom seat",
     "cta": "Ask about Surge & Orbit"
   },
-
   "operational_policies": {
     "plan_changes": {
       "policy": "Upgrading or downgrading is allowed at any time. Current ad spend is taken into account and applied as available credit toward the new plan.",
@@ -228,13 +360,35 @@
       "source": "stated by Daniel, 2026-09-22"
     }
   },
-
   "proof_metrics": [
-    { "value": "3.2×", "label": "average sales lift within 90 days", "definition": "", "period": "", "source": "", "last_verified": "", "approved": false },
-    { "value": "12,000+", "label": "videos produced for client authors", "definition": "", "period": "", "source": "", "last_verified": "", "approved": false },
-    { "value": "2,400", "label": "average downloads per newsletter feature", "definition": "", "period": "", "source": "", "last_verified": "", "approved": false }
+    {
+      "value": "3.2×",
+      "label": "average sales lift within 90 days",
+      "definition": "",
+      "period": "",
+      "source": "",
+      "last_verified": "",
+      "approved": false
+    },
+    {
+      "value": "12,000+",
+      "label": "videos produced for client authors",
+      "definition": "",
+      "period": "",
+      "source": "",
+      "last_verified": "",
+      "approved": false
+    },
+    {
+      "value": "2,400",
+      "label": "average downloads per newsletter feature",
+      "definition": "",
+      "period": "",
+      "source": "",
+      "last_verified": "",
+      "approved": false
+    }
   ],
-
   "guarantee": {
     "name": "Atomic Shelf Commitment",
     "status": "Resolved — reconciles the earlier site/repo copy conflict per your direction.",
@@ -262,9 +416,7 @@
     "customer_must": "Notify Atomic Shelf within 21 days of the end of the applicable campaign cycle (typically the month-3/90-day mark) to claim a refund under the zero-delivery trigger. Claims outside this window are not eligible for the refund remedy, though underperformance concerns are reviewed under the time-based remedy at any time.",
     "terms_url": "atomic-shelf-commitment-terms.md (draft — see file; needs legal review before publishing)"
   },
-
   "review_campaign_disclosure": "We can make a book free or provide complimentary copies to selected readers, then invite honest, independent reviews. The free copy is never conditional on posting a review, giving a positive rating, or changing an existing review.",
-
   "results_disclaimer": "Expected ranges are 90-day averages based on 200+ clients over 24 months, measured against each book's pre-campaign baseline — many starting from little to no prior sales. Individual results vary by genre, backlist, and price point.",
   "results_disclaimer_note": "Resolved 2026-09-22: keeping the Milky repo's stronger, dataset-backed version over the live site's 'illustrative benchmarks' version. The underlying '200+ clients / 24 months' figure is confirmed to exist internally — formally gathering/citing it was out of scope for this build. See proof-audit.json → pricing_page_disclaimer_conflict."
 }
