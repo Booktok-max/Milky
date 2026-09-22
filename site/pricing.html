@@ -1,542 +1,567 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-<meta name="description" content="Atomic Shelf pricing for indie authors: Spark, Foundation, Momentum, and Growth plans covering video, reviews, listing optimization, and reader growth."/>
-<title>Pricing &#8212; Atomic Shelf</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,400;1,9..144,600&family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet"/>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Pricing — Atomic Shelf</title>
+<meta name="description" content="Atomic Shelf pricing for indie authors: six production and growth plans covering video, reviews, listing optimization, and reader growth." />
+<link rel="icon" type="image/svg+xml" href="https://atomic-shelf.com/book-and-people-spring-svgrepo-com.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
 <style>
+/* =========================================================
+   TOKENS — Section 50.10 of the Atomic Shelf design system
+   (identical to index.html; kept in sync by hand until these
+   pages share one stylesheet — see NOTE at end of file)
+   ========================================================= */
 :root{
-  --dark:#14120F; --dark-2:#1C1810;
-  --paper:#F5EDD8; --paper-2:#EDE0C4; --paper-3:#E5D7B8;
-  --inv:#F3EEE3; --inv-m:rgba(243,238,227,.62);
-  --amber:#FFB020;
-  --ink:#1C1209; --stone:#5E4A30; --muted:#7A5C38;
-  --copper:#A8461E; --copper-l:#C8673C; --copper-d:#7F3410;
-  --teal:#2E5A4E;
-  --sep-d:rgba(243,238,227,.14); --sep-l:rgba(28,18,9,.13);
-  --card:#FFFEFA;
-  --r:3px; --max:1080px;
+--color-bg-dark:#0F0E0C;
+--color-bg-light:#F8F6F2;
+--color-surface-dark:#1A1916;
+--color-surface-light:#EEEAE3;
+--color-surface-mid:#EEEAE3;
+--color-accent-primary:#C8922A;
+--color-accent-primary-hover:#DFA83E;
+--color-accent-primary-pressed:#A67820;
+--color-accent-secondary:#5E7A8A;
+--color-text-primary-dark:#F2EFE9;
+--color-text-secondary-dark:#9A9490;
+--color-text-primary-light:#1C1A18;
+--color-text-secondary-light:#6B6560;
+--color-border-dark:#262420;
+--color-border-light:#E0DBD3;
+--color-success:#3A7D52;
+--color-error:#C0442A;
+--font-family-display:'DM Serif Display', Georgia, serif;
+--font-family-body:'Inter', -apple-system, sans-serif;
+--font-family-mono:'Inter', monospace;
+--font-size-display-xl: clamp(2.5rem, 1.35rem + 5.2vw, 5.5rem);
+--font-size-display-l: clamp(2rem, 1.25rem + 3.4vw, 4rem);
+--font-size-display-m: clamp(1.625rem, 1.2rem + 1.9vw, 2.75rem);
+--font-size-heading: clamp(1.25rem, 1.05rem + 0.7vw, 1.75rem);
+--font-size-body-l: clamp(1.0625rem, 1rem + 0.28vw, 1.25rem);
+--font-size-body: 1rem;
+--font-size-body-s: clamp(0.875rem, 0.84rem + 0.14vw, 0.9375rem);
+--font-size-label: clamp(0.6875rem, 0.66rem + 0.1vw, 0.8125rem);
+--font-size-mono: clamp(0.875rem, 0.83rem + 0.2vw, 1rem);
+--line-height-display: 1.08;
+--line-height-body: 1.65;
+--letter-spacing-label: 0.1em;
+--space-section-xl: clamp(80px, 30px + 15vw, 160px);
+--space-section-l: clamp(60px, 24px + 11vw, 120px);
+--space-section-m: clamp(40px, 16px + 7.5vw, 80px);
+--space-component: clamp(24px, 14px + 3vw, 40px);
+--space-inner: clamp(20px, 15px + 1.5vw, 32px);
+--space-xs: 8px; --space-s: 12px; --space-m: 20px; --space-l: 32px; --space-xl: 48px;
+--grid-max-width: 1280px;
+--grid-margin-desktop: 80px;
+--grid-margin-tablet: 40px;
+--grid-margin-mobile: 20px;
+--border-radius-button: 4px;
+--border-radius-card: 4px;
+--border-radius-badge: 3px;
+--border-width-default: 1px;
+--border-width-accent: 1.5px;
+--motion-duration-fast: 120ms;
+--motion-duration-standard: 240ms;
+--motion-duration-slow: 420ms;
+--motion-easing-standard: ease;
+--motion-easing-decelerate: ease-out;
+--motion-easing-accelerate: ease-in;
+--z-navigation: 500;
+--z-modal: 900;
 }
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
-html{-webkit-font-smoothing:antialiased;font-size:18px;scroll-behavior:smooth;}
-body{font-family:'Atkinson Hyperlegible Next',sans-serif;background:var(--paper);color:var(--ink);overflow-x:hidden;}
-h1,h2,h3,h4{font-family:'Fraunces',serif;letter-spacing:-.015em;}
-a{color:inherit;text-decoration:none;}
-img,svg{max-width:100%;}
-:focus-visible{outline:2px solid var(--copper);outline-offset:3px;}
-@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;}}
-
-.wrap{width:100%;max-width:var(--max);margin:0 auto;padding:0 clamp(1.25rem,5vw,3rem);}
-
-/* ===== NAV ===== */
-.topnav{position:sticky;top:0;z-index:500;background:rgba(20,18,15,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--sep-d);}
-.topnav .wrap{display:flex;align-items:center;justify-content:space-between;padding-top:1rem;padding-bottom:1rem;gap:1.5rem;}
-.brand{font-family:'Fraunces',serif;font-weight:700;font-size:1.15rem;color:var(--inv);letter-spacing:-.01em;}
-.navlinks{display:flex;align-items:center;gap:1.9rem;flex-wrap:wrap;}
-.navlinks a{font-size:.86rem;color:var(--inv-m);font-weight:500;transition:color .15s;}
-.navlinks a:hover,.navlinks a[aria-current="page"]{color:var(--inv);}
-.navlinks a[aria-current="page"]{border-bottom:1.5px solid var(--amber);padding-bottom:2px;}
-.nav-cta{display:inline-flex;padding:.55rem 1.15rem;font-size:.8rem;font-weight:600;background:var(--amber);color:var(--dark);border-radius:var(--r);white-space:nowrap;}
-.navtoggle{display:none;}
-@media(max-width:720px){
-  .navlinks{position:fixed;inset:0 0 0 30%;top:57px;background:var(--dark);flex-direction:column;align-items:flex-start;padding:2rem 1.5rem;gap:1.5rem;transform:translateX(100%);transition:transform .25s ease;border-left:1px solid var(--sep-d);}
-  .navlinks.open{transform:translateX(0);}
-  .navlinks a{font-size:1.05rem;}
-  .navtoggle{display:block;background:none;border:1px solid var(--sep-d);color:var(--inv);border-radius:var(--r);padding:.45rem .7rem;font-size:1rem;line-height:1;}
+*,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
+html{ scroll-behavior:smooth; -webkit-font-smoothing:antialiased; }
+body{
+font-family:var(--font-family-body);
+font-size:var(--font-size-body);
+line-height:var(--line-height-body);
+background:var(--color-bg-light);
+color:var(--color-text-primary-light);
+overflow-x:hidden;
 }
+img,svg{ max-width:100%; display:block; }
+a{ color:inherit; text-decoration:none; }
+ul{ list-style:none; }
+h1,h2,h3,h4{ font-family:var(--font-family-display); line-height:var(--line-height-display); font-weight:400; }
+:focus-visible{ outline:2px solid var(--color-accent-primary); outline-offset:3px; }
+@media (prefers-reduced-motion: reduce){
+*{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important; }
+}
+.wrap{ max-width:var(--grid-max-width); margin:0 auto; padding:0 var(--grid-margin-mobile); }
+@media (min-width:768px){ .wrap{ padding:0 var(--grid-margin-tablet); } }
+@media (min-width:1280px){ .wrap{ padding:0 var(--grid-margin-desktop); } }
+section{ padding:var(--space-section-m) 0; }
+.section-l{ padding:var(--space-section-l) 0; }
+.dark{ background:var(--color-bg-dark); color:var(--color-text-primary-dark); }
+.light{ background:var(--color-bg-light); color:var(--color-text-primary-light); }
+.eyebrow{
+display:inline-block; font-size:var(--font-size-label); font-weight:600;
+letter-spacing:var(--letter-spacing-label); text-transform:uppercase; margin-bottom:var(--space-m);
+}
+.dark .eyebrow{ color:var(--color-accent-primary); }
+.light .eyebrow{ color:var(--color-text-secondary-light); }
+.section-head{ max-width:640px; margin-bottom:var(--space-component); }
+.section-head h1,.section-head h2{ font-size:var(--font-size-display-l); margin-bottom:var(--space-m); max-width:18ch; }
+.section-head p{ font-size:var(--font-size-body-l); max-width:56ch; }
+.dark .section-head p{ color:var(--color-text-secondary-dark); }
+.light .section-head p{ color:var(--color-text-secondary-light); }
 
-/* ===== BUTTONS ===== */
-.btn{display:inline-flex;align-items:center;gap:6px;padding:.9rem 1.95rem;font-size:.86rem;font-weight:600;border-radius:var(--r);border:1.5px solid transparent;cursor:pointer;transition:all .18s;font-family:'Atkinson Hyperlegible Next',sans-serif;text-decoration:none;}
-.btn-amber{background:var(--amber);color:var(--dark);border-color:var(--amber);}
-.btn-amber:hover{filter:brightness(1.07);transform:translateY(-1px);}
-.btn-copper{background:var(--copper);color:#fff;border-color:var(--copper);}
-.btn-copper:hover{background:var(--copper-l);border-color:var(--copper-l);}
-.btn-gd{border-color:var(--sep-d);color:var(--inv);}
-.btn-gd:hover{border-color:rgba(243,238,227,.4);}
-.btn-gl{border-color:var(--ink);color:var(--ink);}
-.btn-gl:hover{background:var(--ink);color:var(--paper);}
-.btn-row{display:flex;gap:.9rem;flex-wrap:wrap;}
+/* Buttons */
+.btn{
+display:inline-flex; align-items:center; justify-content:center; gap:8px;
+height:48px; padding:0 26px;
+font-family:var(--font-family-body); font-size:var(--font-size-body-s); font-weight:600;
+border-radius:var(--border-radius-button);
+border:var(--border-width-accent) solid transparent;
+cursor:pointer; white-space:nowrap;
+transition:background var(--motion-duration-fast) var(--motion-easing-standard), color var(--motion-duration-fast) var(--motion-easing-standard), border-color var(--motion-duration-fast) var(--motion-easing-standard);
+}
+.btn-primary{ background:var(--color-accent-primary); border-color:var(--color-accent-primary); color:var(--color-text-primary-light); }
+.btn-primary:hover{ background:var(--color-accent-primary-hover); border-color:var(--color-accent-primary-hover); }
+.btn-secondary-dark{ border-color:var(--color-accent-primary); color:var(--color-accent-primary); }
+.btn-secondary-dark:hover{ background:rgba(200,146,42,.1); }
+.btn-secondary-light{ border-color:var(--color-text-primary-light); color:var(--color-text-primary-light); }
+.btn-secondary-light:hover{ background:rgba(28,26,24,.06); }
+.btn-ghost{ height:auto; padding:0; border:none; font-weight:500; }
+.btn-ghost.on-dark{ color:var(--color-text-primary-dark); }
+.btn-ghost.on-light{ color:var(--color-text-primary-light); }
+.btn-ghost:hover{ text-decoration:underline; }
+.btn-row{ display:flex; flex-wrap:wrap; align-items:center; gap:var(--space-m); }
 
-/* ===== SECTIONS ===== */
-section{padding:clamp(3.5rem,8vw,6.5rem) 0;}
-.dark{background:var(--dark);color:var(--inv);}
-.cream{background:var(--paper);color:var(--ink);}
-.cream-2{background:var(--paper-2);color:var(--ink);}
-.eyebrow{font-size:.8rem;color:var(--muted);font-weight:600;margin-bottom:.9rem;}
-.dark .eyebrow{color:rgba(243,238,227,.55);}
+/* Navigation (identical to index.html) */
+.nav{
+position:fixed; top:0; left:0; right:0; z-index:var(--z-navigation);
+height:68px; display:flex; align-items:center;
+background:rgba(15,14,12,.92); backdrop-filter:blur(10px); border-bottom:1px solid var(--color-border-dark);
+}
+.nav .wrap{ display:flex; align-items:center; justify-content:space-between; width:100%; }
+.nav-brand{ font-family:var(--font-family-display); font-size:1.2rem; color:var(--color-text-primary-dark); }
+.nav-brand span{ color:var(--color-accent-primary); }
+.nav-links{ display:none; align-items:center; gap:var(--space-l); }
+.nav-links a{ font-size:var(--font-size-body-s); color:var(--color-text-secondary-dark); font-weight:500; }
+.nav-links a:hover,.nav-links a[aria-current="page"]{ color:var(--color-text-primary-dark); }
+.nav-links a.nav-cta{
+color:var(--color-bg-dark); background:var(--color-accent-primary);
+padding:.55rem 1.1rem; border-radius:var(--border-radius-button); font-weight:600;
+}
+.nav-links a.nav-cta:hover{ background:var(--color-accent-primary-hover); }
+.nav-toggle{
+display:inline-flex; background:none; border:1px solid var(--color-border-dark);
+color:var(--color-text-primary-dark); border-radius:var(--border-radius-button);
+width:44px; height:44px; align-items:center; justify-content:center; font-size:1.15rem; cursor:pointer;
+}
+@media (min-width:900px){ .nav-links{ display:flex; } .nav-toggle{ display:none; } }
+.nav-drawer{
+position:fixed; inset:0 0 0 auto; width:min(78vw,320px); top:0; height:100vh;
+background:var(--color-bg-dark); border-left:1px solid var(--color-border-dark);
+padding:calc(68px + var(--space-l)) var(--space-l) var(--space-l);
+transform:translateX(100%); transition:transform var(--motion-duration-standard) var(--motion-easing-standard);
+z-index:var(--z-navigation); display:flex; flex-direction:column; gap:var(--space-m);
+}
+.nav-drawer.open{ transform:translateX(0); }
+.nav-drawer a{ font-size:var(--font-size-body-l); color:var(--color-text-primary-dark); padding:6px 0; }
+.nav-drawer a.nav-cta{ margin-top:var(--space-m); text-align:center; background:var(--color-accent-primary); color:var(--color-bg-dark); padding:.85rem; border-radius:var(--border-radius-button); font-weight:600; }
 
-/* ===== HERO ===== */
-.hero{padding-top:clamp(3.5rem,9vw,6rem);}
-.hero-h1{font-size:clamp(2.6rem,7vw,5.2rem);font-weight:700;line-height:1.03;max-width:16ch;margin-bottom:1.5rem;}
-.hero-body{font-size:1.05rem;color:var(--inv-m);max-width:52ch;line-height:1.75;margin-bottom:2rem;}
-.page-h{font-size:clamp(2.3rem,5.5vw,3.6rem);font-weight:700;line-height:1.08;max-width:18ch;margin-bottom:1.1rem;}
-.page-sub{font-size:1.02rem;line-height:1.7;max-width:56ch;color:var(--stone);}
-.dark .page-sub{color:var(--inv-m);}
+/* Page hero */
+.page-hero{ background:var(--color-bg-dark); color:var(--color-text-primary-dark); padding-top:calc(68px + var(--space-section-m)); }
+.page-hero h1{ font-size:var(--font-size-display-xl); max-width:16ch; margin-bottom:var(--space-l); }
+.page-hero .lede{ font-size:var(--font-size-body-l); color:var(--color-text-secondary-dark); max-width:60ch; margin-bottom:var(--space-l); }
 
-/* ===== STATS ===== */
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;}
-.stat-n{font-family:'Fraunces',serif;font-size:clamp(2.4rem,5vw,3.6rem);font-weight:900;color:var(--amber);line-height:1;letter-spacing:-.02em;}
-.stat-l{font-size:.85rem;color:var(--inv-m);margin-top:.5rem;line-height:1.5;max-width:22ch;}
-@media(max-width:680px){.stats{grid-template-columns:1fr;gap:1.8rem;}}
+/* Commitment toggle */
+.commitment-toggle{ display:inline-flex; border:1px solid var(--color-border-dark); border-radius:var(--border-radius-button); padding:3px; margin-bottom:var(--space-component); flex-wrap:wrap; }
+.commitment-toggle button{
+font-family:var(--font-family-body); font-size:var(--font-size-body-s); font-weight:600;
+padding:9px 16px; background:none; border:none; border-radius:2px; cursor:pointer; color:var(--color-text-secondary-dark);
+}
+.commitment-toggle button.active{ background:var(--color-accent-primary); color:var(--color-text-primary-light); }
 
-/* ===== CARD GRID (teasers) ===== */
-.card-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
-.tcard{background:var(--card);border:1px solid var(--sep-l);border-radius:var(--r);padding:1.8rem;}
-.tcard h3{font-size:1.25rem;font-weight:700;margin-bottom:.6rem;}
-.tcard p{font-size:.92rem;color:var(--stone);line-height:1.65;margin-bottom:1rem;}
-.tcard a{font-size:.85rem;font-weight:600;color:var(--copper);}
-@media(max-width:680px){.card-grid{grid-template-columns:1fr;}}
+/* Guarantee strip (inline, on pricing hero) */
+.guarantee-strip{
+display:flex; gap:.8rem; align-items:flex-start; background:var(--color-surface-dark);
+border:1px solid var(--color-border-dark); border-radius:var(--border-radius-card);
+padding:1rem 1.2rem; margin-bottom:var(--space-component); max-width:760px;
+}
+.guarantee-strip .gs-ic{ font-size:1.1rem; line-height:1; flex-shrink:0; margin-top:.1rem; }
+.guarantee-strip .gs-t{ font-size:.9rem; color:var(--color-text-secondary-dark); line-height:1.65; }
 
-/* ===== TWO COL FEATURE ===== */
-.feat{display:grid;grid-template-columns:1.1fr .9fr;gap:3rem;align-items:start;}
-.feat h2{font-size:clamp(1.9rem,4vw,2.9rem);font-weight:700;line-height:1.1;margin-bottom:1rem;}
-.feat p{font-size:1rem;line-height:1.75;max-width:48ch;margin-bottom:1rem;}
-.dark .feat p{color:var(--inv-m);}
-.cream .feat p,.cream-2 .feat p{color:var(--stone);}
-.feat-stat{font-family:'Fraunces',serif;font-size:clamp(2.6rem,5vw,4rem);font-weight:900;color:var(--amber);line-height:1;}
-.cream .feat-stat,.cream-2 .feat-stat{color:var(--copper);}
-.feat-stat-l{font-size:.8rem;color:var(--inv-m);margin-top:.3rem;}
-.cream .feat-stat-l,.cream-2 .feat-stat-l{color:var(--stone);}
-.feat-side{background:rgba(255,255,255,.04);border:1px solid var(--sep-d);border-radius:var(--r);padding:1.6rem;}
-.cream .feat-side,.cream-2 .feat-side{background:rgba(28,18,9,.03);border-color:var(--sep-l);}
-.feat-side ul{list-style:none;display:flex;flex-direction:column;gap:.7rem;}
-.feat-side li{font-size:.88rem;padding-bottom:.7rem;border-bottom:1px solid var(--sep-d);}
-.cream .feat-side li,.cream-2 .feat-side li{border-color:var(--sep-l);}
-.feat-side li:last-child{border-bottom:none;padding-bottom:0;}
-@media(max-width:820px){.feat{grid-template-columns:1fr;}}
+/* Pricing grid */
+.pricing-grid{ display:grid; grid-template-columns:1fr; gap:var(--space-m); }
+@media (min-width:640px){ .pricing-grid{ grid-template-columns:1fr 1fr; } }
+@media (min-width:1100px){ .pricing-grid{ grid-template-columns:repeat(3,1fr); } }
+.price-card{
+background:var(--color-surface-dark); border:1px solid var(--color-border-dark);
+border-radius:var(--border-radius-card); padding:var(--space-inner);
+display:flex; flex-direction:column;
+}
+.price-card.top{ border:1.5px solid var(--color-accent-primary); position:relative; }
+.price-badge{ position:absolute; top:0; right:var(--space-m); transform:translateY(-50%); background:var(--color-accent-primary); color:var(--color-text-primary-light); font-size:var(--font-size-label); font-weight:700; padding:2px 9px; border-radius:var(--border-radius-badge); }
+.price-name{ font-family:var(--font-family-display); font-size:var(--font-size-heading); margin-bottom:6px; }
+.price-tagline{ font-size:var(--font-size-body-s); color:var(--color-text-secondary-dark); margin-bottom:var(--space-m); min-height:2.6em; }
+.price-amount{ font-family:var(--font-family-mono); font-variant-numeric:tabular-nums; font-size:var(--font-size-display-m); font-weight:700; transition:opacity var(--motion-duration-fast) var(--motion-easing-standard); }
+.price-per{ font-size:var(--font-size-label); color:var(--color-text-secondary-dark); margin-bottom:6px; }
+.price-save{ font-size:var(--font-size-label); font-weight:700; color:var(--color-accent-primary); margin-bottom:var(--space-m); min-height:1.2em; }
+.price-feats{ margin-bottom:var(--space-m); }
+.price-feats li{ font-size:var(--font-size-body-s); color:var(--color-text-secondary-dark); padding:.4rem 0; border-bottom:1px solid var(--color-border-dark); display:flex; gap:6px; align-items:flex-start; line-height:1.5; }
+.price-feats li::before{ content:'—'; color:var(--color-accent-primary); flex-shrink:0; }
+.price-res{ margin-bottom:var(--space-m); }
+.price-res-label{ font-size:.66rem; font-weight:700; color:var(--color-text-secondary-dark); letter-spacing:.04em; margin-bottom:.5rem; text-transform:uppercase; }
+.price-rr{ display:flex; justify-content:space-between; font-size:.8rem; padding:.25rem 0; border-bottom:1px dashed var(--color-border-dark); color:var(--color-text-secondary-dark); }
+.price-rv.up{ color:#7FC4AC; font-weight:600; }
+.price-cta{ margin-top:auto; }
+.pricing-foot{ margin-top:var(--space-component); font-size:var(--font-size-body-s); color:var(--color-text-secondary-dark); max-width:820px; }
+.pricing-disclaimer{ font-size:.8rem; color:var(--color-text-secondary-dark); opacity:.75; margin-top:.8rem; line-height:1.6; max-width:820px; }
+.pricing-explain{ background:var(--color-surface-dark); border:1px solid var(--color-border-dark); border-radius:var(--border-radius-card); padding:var(--space-inner); margin-top:var(--space-l); font-size:var(--font-size-body-s); color:var(--color-text-secondary-dark); max-width:720px; }
 
-/* ===== STEP LIST (how it works) ===== */
-.steps{display:flex;flex-direction:column;border-top:1px solid var(--sep-d);margin-top:2.5rem;}
-.step{display:grid;grid-template-columns:2.4rem 1fr;gap:1.2rem;padding:1.5rem 0;border-bottom:1px solid var(--sep-d);}
-.step-n{font-family:'Fraunces',serif;font-weight:700;color:var(--amber);font-size:1.1rem;}
-.step-t h4{font-size:1.05rem;font-weight:600;margin-bottom:.35rem;}
-.step-t p{font-size:.92rem;color:var(--inv-m);line-height:1.6;max-width:56ch;}
+/* Additional/custom tier strip */
+.custom-tier{ border-top:1px solid var(--color-border-dark); margin-top:var(--space-section-m); padding-top:var(--space-component); }
+.custom-tier h2{ font-size:var(--font-size-display-m); margin-bottom:var(--space-s); }
+.custom-tier p{ font-size:var(--font-size-body-l); color:var(--color-text-secondary-dark); max-width:60ch; margin-bottom:var(--space-l); }
 
-/* ===== COMPARISON (shortcut vs sequence) ===== */
-.compare{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:1rem;}
-.compare-col h5{font-size:.78rem;font-weight:700;letter-spacing:.03em;margin-bottom:1rem;}
-.compare-col.bad h5{color:rgba(200,140,90,.9);}
-.compare-col.good h5{color:rgba(46,90,78,.9);}
-.compare-row{padding:.7rem 1rem;font-size:.85rem;border-radius:2px;margin-bottom:.5rem;color:var(--inv-m);}
-.compare-col.bad .compare-row{background:rgba(255,176,32,.07);border:1px solid rgba(255,176,32,.2);}
-.compare-col.good .compare-row{background:rgba(255,176,32,.08);border:1px solid rgba(255,176,32,.22);}
-.compare-col.bad .compare-row.note{font-style:italic;background:rgba(200,140,90,.08);border-color:rgba(200,140,90,.2);}
-.compare-col.good .compare-row.final{background:rgba(46,90,78,.16);border-color:rgba(46,90,78,.45);color:rgba(120,210,170,.95);font-weight:600;}
-@media(max-width:680px){.compare{grid-template-columns:1fr;}}
+/* Guarantee section (matches index.html exactly) */
+.guarantee{ background:var(--color-bg-dark); color:var(--color-text-primary-dark); }
+.guarantee-body{ font-size:var(--font-size-body-l); color:var(--color-text-secondary-dark); max-width:60ch; display:flex; flex-direction:column; gap:var(--space-m); }
+.guarantee-body strong{ color:var(--color-text-primary-dark); font-weight:600; }
+.guarantee-rule{ border:none; border-top:1px solid var(--color-border-dark); margin:var(--space-l) 0; }
+.guarantee-pull{ font-family:var(--font-family-display); font-size:var(--font-size-display-m); max-width:20ch; }
 
-/* ===== PROMISE STEPS ===== */
-.promise-steps{display:flex;flex-direction:column;gap:0;margin-top:2.2rem;border-top:1px solid var(--sep-d);}
-.pstep{display:grid;grid-template-columns:2.4rem 1fr;gap:1.1rem;padding:1.3rem 0;border-bottom:1px solid var(--sep-d);}
-.pstep-n{font-family:'Fraunces',serif;font-weight:700;color:var(--amber);font-size:1.05rem;}
-.pstep-t{font-size:.94rem;color:var(--inv-m);line-height:1.65;}
-.pstep.refund .pstep-n{color:#7FC4AC;}
+/* FAQ (pricing-specific questions) */
+.faq-list{ border-top:1px solid var(--color-border-light); max-width:760px; }
+.faq-item{ border-bottom:1px solid var(--color-border-light); }
+.faq-q{
+width:100%; text-align:left; background:none; border:none; cursor:pointer;
+display:flex; align-items:center; justify-content:space-between; gap:var(--space-m);
+padding:var(--space-m) 0; font-family:var(--font-family-body); font-size:var(--font-size-body); font-weight:600; color:var(--color-text-primary-light);
+}
+.faq-ind{ font-size:1.2rem; color:var(--color-text-secondary-light); transition:color var(--motion-duration-fast) var(--motion-easing-standard); }
+.faq-item.open .faq-ind{ color:var(--color-accent-primary); }
+.faq-a{ max-height:0; overflow:hidden; transition:max-height var(--motion-duration-standard) var(--motion-easing-standard); }
+.faq-a p{ font-size:var(--font-size-body-s); color:var(--color-text-secondary-light); padding-bottom:var(--space-m); max-width:60ch; }
 
-/* ===== GUARANTEE STRIP ===== */
-.guarantee-strip{display:flex;gap:.8rem;align-items:flex-start;background:var(--card);border:1px solid var(--sep-l);border-radius:var(--r);padding:1rem 1.2rem;margin:1.6rem 0 2.2rem;max-width:760px;}
-.guarantee-strip .gs-ic{font-size:1.1rem;line-height:1;flex-shrink:0;margin-top:.1rem;}
-.guarantee-strip .gs-t{font-size:.88rem;color:var(--stone);line-height:1.65;}
+/* Final CTA */
+.final-cta{ background:var(--color-bg-dark); color:var(--color-text-primary-dark); }
+.final-cta h2{ font-size:var(--font-size-display-l); max-width:16ch; margin-bottom:var(--space-m); }
+.final-cta p{ font-size:var(--font-size-body-l); color:var(--color-text-secondary-dark); max-width:52ch; margin-bottom:var(--space-l); }
 
-/* ===== PRICING ===== */
-.plans{display:grid;grid-template-columns:repeat(4,1fr);gap:1.1rem;margin-top:1rem;}
-.plan{background:var(--card);border:1px solid var(--sep-l);border-radius:var(--r);position:relative;perspective:1400px;}
-.plan.top{border:1.5px solid var(--copper);box-shadow:0 8px 28px rgba(168,70,30,.13);}
-.plan-badge{position:absolute;top:0;right:1rem;background:var(--copper);color:#fff;font-size:.62rem;font-weight:700;padding:2px 8px;border-radius:0 0 5px 5px;letter-spacing:.03em;}
-.plan-front,.plan-back{padding:1.6rem 1.3rem;}
-.plan-back{display:none;background:var(--paper-2);border-top:1px solid var(--sep-l);}
-.plan.flip .plan-back{display:block;}
-.plan.flip .plan-front .p-cta{display:none;}
-.p-name{font-family:'Fraunces',serif;font-size:1.05rem;font-weight:700;margin-bottom:.5rem;}
-.p-price{font-family:'Fraunces',serif;font-size:2.1rem;font-weight:700;letter-spacing:-.03em;line-height:1;}
-.p-per{font-size:.72rem;color:var(--muted);margin-bottom:.9rem;}
-.p-feats{list-style:none;margin-bottom:1rem;}
-.p-feats li{font-size:.84rem;color:var(--stone);padding:.4rem 0;border-bottom:1px solid var(--sep-l);display:flex;gap:6px;align-items:flex-start;line-height:1.5;}
-.p-feats li::before{content:'—';color:var(--copper);flex-shrink:0;}
-.p-res{margin-bottom:1.1rem;}
-.p-res-label{font-size:.66rem;font-weight:700;color:var(--muted);letter-spacing:.04em;margin-bottom:.5rem;text-transform:uppercase;}
-.p-rr{display:flex;justify-content:space-between;font-size:.79rem;padding:.25rem 0;border-bottom:1px dashed rgba(28,18,9,.08);}
-.p-rv.up{color:var(--teal);font-weight:600;}
-.p-cta,.p-flip{display:block;width:100%;text-align:center;font-size:.82rem;font-weight:600;padding:.75rem 1rem;border-radius:var(--r);border:1.5px solid var(--ink);background:none;color:var(--ink);cursor:pointer;}
-.p-cta:hover,.p-flip:hover{background:var(--ink);color:var(--paper);}
-.p-bt{font-family:'Fraunces',serif;font-size:1.05rem;font-weight:700;margin-bottom:1rem;}
-.s-opt{border:1px solid var(--sep-l);border-radius:var(--r);padding:.7rem .9rem;margin-bottom:.6rem;background:#fff;}
-.s-opt.best{border-color:var(--copper);}
-.s-opt-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:.3rem;}
-.s-opt-len{font-size:.7rem;color:var(--stone);font-weight:700;text-transform:uppercase;letter-spacing:.03em;}
-.s-opt-pct{font-size:.65rem;color:#fff;background:var(--teal);padding:2px 7px;border-radius:20px;font-weight:700;}
-.s-opt-price{font-size:.9rem;}
-.s-was{color:var(--muted);text-decoration:line-through;}
-.s-arrow{color:var(--muted);margin:0 .3rem;}
-.s-now{font-family:'Fraunces',serif;font-weight:700;color:var(--ink);}
-.p-get{display:block;text-align:center;font-size:.84rem;font-weight:700;padding:.8rem 1rem;border-radius:var(--r);background:var(--amber);color:var(--dark);margin:.7rem 0 .6rem;}
-.p-unflip{display:block;width:100%;text-align:center;background:none;border:none;font-size:.76rem;color:var(--muted);cursor:pointer;padding:.3rem;}
-.pricing-foot{font-size:.88rem;color:var(--muted);margin-top:1.6rem;}
-.pricing-disclaimer{font-size:.76rem;color:rgba(28,18,9,.5);margin-top:.6rem;line-height:1.6;max-width:900px;}
-@media(max-width:1000px){.plans{grid-template-columns:1fr 1fr;}}
-@media(max-width:560px){.plans{grid-template-columns:1fr;}}
+/* Footer (identical to index.html) */
+footer{ background:var(--color-bg-dark); color:var(--color-text-primary-dark); padding:var(--space-section-m) 0 var(--space-l); border-top:1px solid var(--color-border-dark); }
+.foot-grid{ display:grid; grid-template-columns:1fr; gap:var(--space-l); margin-bottom:var(--space-l); }
+@media (min-width:768px){ .foot-grid{ grid-template-columns:1.4fr 1fr 1fr; } }
+.foot-brand{ font-family:var(--font-family-display); font-size:1.3rem; margin-bottom:var(--space-s); }
+.foot-brand span{ color:var(--color-accent-primary); }
+.foot-desc{ font-size:var(--font-size-body-s); color:var(--color-text-secondary-dark); max-width:34ch; }
+.foot-col h5{ font-family:var(--font-family-body); font-size:var(--font-size-label); letter-spacing:var(--letter-spacing-label); text-transform:uppercase; color:var(--color-text-secondary-dark); margin-bottom:var(--space-m); }
+.foot-col ul{ display:flex; flex-direction:column; gap:10px; }
+.foot-col a{ font-size:var(--font-size-body-s); color:var(--color-text-secondary-dark); }
+.foot-col a:hover{ color:var(--color-text-primary-dark); }
+.foot-bottom{ border-top:1px solid var(--color-border-dark); padding-top:var(--space-m); display:flex; flex-wrap:wrap; gap:var(--space-s); justify-content:space-between; font-size:var(--font-size-label); color:var(--color-text-secondary-dark); }
 
-/* ===== CTA BAND ===== */
-.cta-band{text-align:left;}
-.cta-band h2{font-size:clamp(2rem,5vw,3.4rem);font-weight:700;line-height:1.08;max-width:16ch;margin-bottom:1.1rem;}
-.cta-band p{font-size:1rem;color:var(--inv-m);max-width:56ch;line-height:1.7;margin-bottom:1.7rem;}
-
-/* ===== FOOTER ===== */
-footer{background:var(--dark);color:var(--inv);padding:3.5rem 0 1.6rem;}
-.fg{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:2.5rem;margin-bottom:2.2rem;}
-.fl{font-family:'Fraunces',serif;font-size:1.3rem;font-weight:700;margin-bottom:.8rem;}
-.ft{font-size:.85rem;line-height:1.75;max-width:34ch;color:var(--inv-m);}
-.fc h5{font-size:.7rem;font-weight:700;letter-spacing:.06em;color:rgba(243,238,227,.55);margin-bottom:.9rem;text-transform:uppercase;}
-.fc ul{list-style:none;display:flex;flex-direction:column;gap:.55rem;}
-.fc ul li a{font-size:.87rem;color:var(--inv-m);}
-.fc ul li a:hover{color:var(--inv);}
-.fb{border-top:1px solid var(--sep-d);max-width:var(--max);margin:0 auto;padding:1.4rem clamp(1.25rem,5vw,3rem) 0;display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;font-size:.76rem;color:rgba(243,238,227,.4);}
-@media(max-width:720px){.fg{grid-template-columns:1fr;gap:1.8rem;}}
-
-/* ===== CHECKOUT MODAL ===== */
-.checkout-overlay{position:fixed;inset:0;z-index:900;background:rgba(20,18,15,.72);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;padding:1.2rem;}
-.checkout-modal{position:relative;background:var(--card);color:var(--ink);border-radius:6px;padding:2rem 1.8rem;max-width:420px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.4);}
-.checkout-modal h3{font-size:1.3rem;margin-bottom:.4rem;}
-.checkout-sub{font-size:.88rem;color:var(--stone);margin-bottom:1.3rem;}
-.checkout-close{position:absolute;top:.9rem;right:.9rem;background:none;border:none;font-size:1.4rem;line-height:1;cursor:pointer;color:var(--stone);}
-#checkoutForm{display:flex;flex-direction:column;gap:.9rem;}
-#checkoutForm label{display:flex;flex-direction:column;gap:.35rem;font-size:.82rem;color:var(--stone);font-weight:600;}
-#checkoutForm input{font-family:'Atkinson Hyperlegible Next',sans-serif;font-size:.95rem;padding:.6rem .7rem;border:1px solid var(--sep-l);border-radius:4px;background:#fff;color:var(--ink);}
-#checkoutForm input:focus-visible{outline:2px solid var(--copper);outline-offset:1px;}
-.checkout-error{font-size:.82rem;color:var(--copper-d);background:rgba(168,70,30,.08);border:1px solid rgba(168,70,30,.25);border-radius:4px;padding:.6rem .8rem;}
-
+.reveal{ opacity:0; transform:translateY(12px); transition:opacity var(--motion-duration-slow) var(--motion-easing-decelerate), transform var(--motion-duration-slow) var(--motion-easing-decelerate); }
+.reveal.in{ opacity:1; transform:translateY(0); }
 </style>
 </head>
 <body>
-<nav class="topnav">
-  <div class="wrap">
-    <a href="index.html" class="brand">Atomic<span style="color:var(--amber)">·</span>Shelf</a>
-    <button class="navtoggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">&#9776;</button>
-    <div class="navlinks" id="navLinks">
-      <a href="index.html">Home</a>
-      <a href="services.html">Services</a>
-      <a href="how-it-works.html">How it works</a>
-      <a href="pricing.html" aria-current="page">Pricing</a>
-      <a href="mailto:nick@atomic-shelf.com" class="nav-cta">Talk to us</a>
-    </div>
-  </div>
-</nav>
-<section class="cream hero" style="padding-bottom:1rem;">
-  <div class="wrap">
-    <h1 class="page-h" style="color:var(--ink);">Pick the level.<br>We handle the rest.</h1>
-    <p class="page-sub" style="color:var(--stone);">Every tier includes consistent, genre-matched content and listing copy &amp; A+ optimization from Foundation up. Higher tiers add ARC reviews, preorder campaigns, and daily lookalike-audience retargeting. Tap <b>See commitment savings</b> on any plan for multi-month pricing.</p>
-    <div class="guarantee-strip">
-      <span class="gs-ic">&#128737;&#65039;</span>
-      <span class="gs-t"><b>Money-back guarantee.</b> If your book sees little to no clicks or sales after a full cycle, tell us &#8212; we'll dig into your account and refund you if we dropped the ball.</span>
-    </div>
-    <div class="plans">
-      <div class="plan">
-      
-      <div class="plan-front">
-        <div class="p-name">Spark</div>
-        <div class="p-price">$20</div>
-        <div class="p-per">per month &middot; first 20 videos free</div>
-        <ul class="p-feats">
-          <li>Short-form video creation monthly</li>
-          <li>Posted to TikTok, Shorts &amp; Reels</li>
-          <li>Genre-matched scripts, formats evolve</li>
-          <li>Click-throughs tracked</li>
-        </ul>
-        <div class="p-res">
-          <div class="p-res-label">Expected by month 3*</div>
-          <div class="p-rr"><span>Impressions</span><span class="p-rv">30k&#8211;70k</span></div>
-          <div class="p-rr"><span>Video views</span><span class="p-rv">5k&#8211;15k</span></div>
-          <div class="p-rr"><span>Click-throughs</span><span class="p-rv">80&#8211;220</span></div>
-          <div class="p-rr"><span>Sales lift</span><span class="p-rv up">+3&#8211;8%</span></div>
-        </div>
-        <button class="p-cta p-flip">See commitment savings</button>
-      </div>
-      <div class="plan-back">
-        <div class="p-bt">Commit &amp; Save &#8212; Spark</div>
-        <div class="s-opts">
-          <div class="s-opt">
-            <div class="s-opt-top"><span class="s-opt-len">3 months</span><span class="s-opt-pct">Save 10%</span></div>
-            <div class="s-opt-price"><span class="s-was">$60</span><span class="s-arrow">&rarr;</span><span class="s-now">$54</span></div>
-          </div><div class="s-opt">
-            <div class="s-opt-top"><span class="s-opt-len">6 months</span><span class="s-opt-pct">Save 20%</span></div>
-            <div class="s-opt-price"><span class="s-was">$120</span><span class="s-arrow">&rarr;</span><span class="s-now">$96</span></div>
-          </div><div class="s-opt best">
-            <div class="s-opt-top"><span class="s-opt-len">12 months &middot; best value</span><span class="s-opt-pct">Save 25%</span></div>
-            <div class="s-opt-price"><span class="s-was">$240</span><span class="s-arrow">&rarr;</span><span class="s-now">$180</span></div>
-          </div>
-        </div>
-        <button class="p-get" onclick="startCheckout('spark','Spark')">Get started with Spark</button>
-        <button class="p-unflip">&larr; Back to plan details</button>
-      </div>
-    </div>
-      <div class="plan">
-      
-      <div class="plan-front">
-        <div class="p-name">Foundation</div>
-        <div class="p-price">$79</div>
-        <div class="p-per">per month</div>
-        <ul class="p-feats">
-          <li>80 short-form videos monthly</li>
-          <li>1 professional book trailer</li>
-          <li>Listing copy &amp; A+ optimization</li>
-          <li>Preorder listing setup</li>
-          <li>ShelfMates / StoryPals access</li>
-        </ul>
-        <div class="p-res">
-          <div class="p-res-label">Expected by month 3*</div>
-          <div class="p-rr"><span>Impressions</span><span class="p-rv">90k&#8211;220k</span></div>
-          <div class="p-rr"><span>Video views</span><span class="p-rv">15k&#8211;40k</span></div>
-          <div class="p-rr"><span>Click-throughs</span><span class="p-rv">300&#8211;800</span></div>
-          <div class="p-rr"><span>Sales lift</span><span class="p-rv up">+8&#8211;15%</span></div>
-        </div>
-        <button class="p-cta p-flip">See commitment savings</button>
-      </div>
-      <div class="plan-back">
-        <div class="p-bt">Commit &amp; Save &#8212; Foundation</div>
-        <div class="s-opts">
-          <div class="s-opt">
-            <div class="s-opt-top"><span class="s-opt-len">3 months</span><span class="s-opt-pct">Save 10%</span></div>
-            <div class="s-opt-price"><span class="s-was">$213</span><span class="s-arrow">&rarr;</span><span class="s-now">$192</span></div>
-          </div><div class="s-opt">
-            <div class="s-opt-top"><span class="s-opt-len">6 months</span><span class="s-opt-pct">Save 20%</span></div>
-            <div class="s-opt-price"><span class="s-was">$474</span><span class="s-arrow">&rarr;</span><span class="s-now">$379</span></div>
-          </div><div class="s-opt best">
-            <div class="s-opt-top"><span class="s-opt-len">12 months &middot; best value</span><span class="s-opt-pct">Save 25%</span></div>
-            <div class="s-opt-price"><span class="s-was">$948</span><span class="s-arrow">&rarr;</span><span class="s-now">$711</span></div>
-          </div>
-        </div>
-        <button class="p-get" onclick="startCheckout('foundation','Foundation')">Get started with Foundation</button>
-        <button class="p-unflip">&larr; Back to plan details</button>
-      </div>
-    </div>
-      <div class="plan top">
-      <div class="plan-badge">Most popular</div>
-      <div class="plan-front">
-        <div class="p-name">Momentum</div>
-        <div class="p-price">$249</div>
-        <div class="p-per">per month</div>
-        <ul class="p-feats">
-          <li>All Foundation features</li>
-          <li>Full social media management</li>
-          <li>ARC campaign &#8212; 10 reviews targeted</li>
-          <li>Enhanced A+ listing build</li>
-          <li>Preorder campaign &#8212; 6-week countdown</li>
-          <li>1 newsletter feature per quarter</li>
-          <li>Daily lookalike-audience retargeting included</li>
-        </ul>
-        <div class="p-res">
-          <div class="p-res-label">Expected by month 3*</div>
-          <div class="p-rr"><span>Preorders secured</span><span class="p-rv">80&#8211;180</span></div>
-          <div class="p-rr"><span>Free promo downloads</span><span class="p-rv">1,200&#8211;2,400</span></div>
-          <div class="p-rr"><span>KU page reads boost</span><span class="p-rv up">+40&#8211;80%</span></div>
-          <div class="p-rr"><span>Sales lift</span><span class="p-rv up">+25&#8211;45%</span></div>
-        </div>
-        <button class="p-cta p-flip">See commitment savings</button>
-      </div>
-      <div class="plan-back" style="background:#fff;">
-        <div class="p-bt">Commit &amp; Save &#8212; Momentum</div>
-        <div class="s-opts">
-          <div class="s-opt">
-            <div class="s-opt-top"><span class="s-opt-len">6 months</span><span class="s-opt-pct">Save 20%</span></div>
-            <div class="s-opt-price"><span class="s-was">$1,494</span><span class="s-arrow">&rarr;</span><span class="s-now">$1,196</span></div>
-          </div><div class="s-opt best">
-            <div class="s-opt-top"><span class="s-opt-len">12 months &middot; best value</span><span class="s-opt-pct">Save 25%</span></div>
-            <div class="s-opt-price"><span class="s-was">$2,988</span><span class="s-arrow">&rarr;</span><span class="s-now">$2,241</span></div>
-          </div>
-        </div>
-        <button class="p-get" onclick="startCheckout('momentum','Momentum')">Get started with Momentum</button>
-        <button class="p-unflip">&larr; Back to plan details</button>
-      </div>
-    </div>
-      <div class="plan">
-      
-      <div class="plan-front">
-        <div class="p-name">Growth</div>
-        <div class="p-price">$499</div>
-        <div class="p-per">per month</div>
-        <ul class="p-feats">
-          <li>100+ premium videos monthly</li>
-          <li>2 cinematic trailers, 1 theme song</li>
-          <li>ARC campaign &#8212; 25 reviews targeted</li>
-          <li>Premium A+ listing build</li>
-          <li>Preorder campaign &#8212; 8-week countdown</li>
-          <li>1 newsletter feature per month</li>
-          <li>Daily lookalike-audience retargeting included</li>
-        </ul>
-        <div class="p-res">
-          <div class="p-res-label">Expected by month 3*</div>
-          <div class="p-rr"><span>Preorders secured</span><span class="p-rv">200&#8211;420</span></div>
-          <div class="p-rr"><span>Free promo downloads</span><span class="p-rv">2,400&#8211;4,800</span></div>
-          <div class="p-rr"><span>KU page reads boost</span><span class="p-rv up">+90&#8211;150%</span></div>
-          <div class="p-rr"><span>Sales lift</span><span class="p-rv up">+60&#8211;110%</span></div>
-        </div>
-        <button class="p-cta p-flip">See commitment savings</button>
-      </div>
-      <div class="plan-back">
-        <div class="p-bt">Commit &amp; Save &#8212; Growth</div>
-        <div class="s-opts">
-          <div class="s-opt">
-            <div class="s-opt-top"><span class="s-opt-len">6 months</span><span class="s-opt-pct">Save 20%</span></div>
-            <div class="s-opt-price"><span class="s-was">$2,994</span><span class="s-arrow">&rarr;</span><span class="s-now">$2,396</span></div>
-          </div><div class="s-opt best">
-            <div class="s-opt-top"><span class="s-opt-len">12 months &middot; best value</span><span class="s-opt-pct">Save 25%</span></div>
-            <div class="s-opt-price"><span class="s-was">$5,988</span><span class="s-arrow">&rarr;</span><span class="s-now">$4,491</span></div>
-          </div>
-        </div>
-        <button class="p-get" onclick="startCheckout('growth','Growth')">Get started with Growth</button>
-        <button class="p-unflip">&larr; Back to plan details</button>
-      </div>
-    </div>
-    </div>
-    <p class="pricing-foot">Running a full catalogue, multiple books, or need bespoke campaign structure? <a href="mailto:nick@atomic-shelf.com" style="color:var(--copper);font-weight:600;">Ask about Surge &amp; Orbit</a> &#8212; dedicated team or custom seat, custom pricing.</p>
-    <p class="pricing-disclaimer">*Expected ranges are 90-day averages based on 200+ clients over 24 months, measured against each book's pre-campaign baseline &#8212; many starting from little to no prior sales. Individual results vary by genre, backlist, and price point.</p>
-  </div>
-</section>
 
-<section class="dark">
-  <div class="wrap cta-band">
-    <h2>Still deciding?</h2>
-    <p>Tell us about your book and where you're starting from &#8212; we'll tell you honestly which tier makes sense.</p>
-    <div class="btn-row">
-      <a href="mailto:nick@atomic-shelf.com" class="btn btn-amber">Talk to us first</a>
-      <a href="how-it-works.html" class="btn btn-gd">See how it all works</a>
-    </div>
-  </div>
-</section>
-
-<div id="checkoutOverlay" class="checkout-overlay" role="dialog" aria-modal="true" aria-labelledby="checkoutTitle" hidden>
-  <div class="checkout-modal">
-    <button type="button" class="checkout-close" onclick="closeCheckout()" aria-label="Close">&times;</button>
-    <h3 id="checkoutTitle">Get started with <span id="checkoutPlanName"></span></h3>
-    <p class="checkout-sub">We'll take you to Pesapal to complete payment securely.</p>
-    <form id="checkoutForm" onsubmit="return submitCheckout(event)">
-      <label>Email
-        <input type="email" id="ckEmail" placeholder="you@example.com"/>
-      </label>
-      <label>Phone (optional if email provided)
-        <input type="tel" id="ckPhone" placeholder="0723xxxxxx"/>
-      </label>
-      <div style="display:flex;gap:.7rem;">
-        <label style="flex:1;">First name
-          <input type="text" id="ckFirst"/>
-        </label>
-        <label style="flex:1;">Last name
-          <input type="text" id="ckLast"/>
-        </label>
-      </div>
-      <p id="checkoutError" class="checkout-error" hidden></p>
-      <button type="submit" class="btn btn-amber" id="checkoutSubmit" style="width:100%;justify-content:center;">Continue to payment</button>
-    </form>
-  </div>
+<nav class="nav" id="nav">
+<div class="wrap">
+<a href="index.html" class="nav-brand">Atomic<span>·</span>Shelf</a>
+<div class="nav-links">
+<a href="how-it-works.html">How It Works</a>
+<a href="services.html">Services</a>
+<a href="pricing.html" aria-current="page">Pricing</a>
+<a href="results.html">Results</a>
+<a href="readers.html">Readers</a>
+<a href="editorial.html">Editorial</a>
+<a href="start-here.html" class="nav-cta">Start Here</a>
 </div>
+<button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">&#9776;</button>
+</div>
+</nav>
+<div class="nav-drawer" id="navDrawer">
+<a href="how-it-works.html">How It Works</a>
+<a href="services.html">Services</a>
+<a href="pricing.html" aria-current="page">Pricing</a>
+<a href="results.html">Results</a>
+<a href="readers.html">Readers</a>
+<a href="editorial.html">Editorial</a>
+<a href="start-here.html" class="nav-cta">Start Here</a>
+</div>
+
+<!-- ============ PRICING HERO + GRID ============ -->
+<header class="page-hero">
+<div class="wrap">
+<p class="eyebrow">Plans</p>
+<h1>Pick the level. See exactly what it costs.</h1>
+<p class="lede">Every price on this page comes from one place — no page on this site is allowed to invent its own numbers. Six tiers, from a $20 entry point through full-campaign Growth.</p>
+
+<div class="guarantee-strip">
+<span class="gs-ic">&#128737;&#65039;</span>
+<span class="gs-t"><b>Money-back for non-delivery.</b> If we don't deliver the work we agreed to, that portion is refunded. If delivery happened but results are below range, we keep working at no extra cost — see the full commitment below.</span>
+</div>
+
+<div class="commitment-toggle" id="commitToggle">
+<button data-term="monthly" class="active">Monthly</button>
+<button data-term="3_month">3 months — Save 10%</button>
+<button data-term="6_month">6 months — Save 20%</button>
+<button data-term="12_month">12 months — Save 25%</button>
+</div>
+
+<div class="pricing-grid" id="pricingGrid"><!-- populated by JS from PLAN_DATA --></div>
+
+<div class="pricing-explain">Longer commitments are prepaid savings — not a cancellation trap. The system has more time to compound, and predictable planning lets us give you better economics. You can upgrade or downgrade at any time; current spend is applied as credit toward the new plan.</div>
+
+<p class="pricing-foot"><b>Review campaigns:</b> We can make a book free or provide complimentary copies to selected readers, then invite honest, independent reviews. The free copy is never conditional on posting a review, giving a positive rating, or changing an existing review.</p>
+<p class="pricing-disclaimer">*Expected ranges are 90-day averages based on 200+ clients over 24 months, measured against each book's pre-campaign baseline — many starting from little to no prior sales. Individual results vary by genre, backlist, and price point.</p>
+
+<div class="custom-tier">
+<h2>Running a full catalogue, or need something bespoke?</h2>
+<p>Surge and Orbit are custom engagements for multi-book catalogues and bespoke campaign structure — dedicated team or custom seat, custom pricing.</p>
+<a href="mailto:nick@atomic-shelf.com?subject=Surge %26 Orbit" class="btn btn-secondary-dark">Ask about Surge &amp; Orbit</a>
+</div>
+</div>
+</header>
+
+<!-- ============ GUARANTEE (identical copy/markup to index.html — one source, not re-worded here) ============ -->
+<section class="guarantee section-l">
+<div class="wrap">
+<p class="eyebrow">Our commitment</p>
+<div class="guarantee-body reveal">
+<p>We don't promise that every book will explode overnight. Publishing doesn't work that way — and neither does building a readership.</p>
+<p>What we do promise is that we'll do the work we've committed to, measure what happens, and stay accountable for the outcome.</p>
+<p>If we fall short of the work, delivery, or agreed commitments on our side, we'll make it right — at our cost.</p>
+<p>And when the numbers show that we need to change course, we don't simply point at the dashboard and walk away. We diagnose, adjust, and keep working toward the target.</p>
+</div>
+<hr class="guarantee-rule" />
+<p class="guarantee-pull reveal">Your commitment is to the partnership. Ours is to the work.</p>
+</div>
+</section>
+
+<!-- ============ PRICING FAQ ============ -->
+<section class="light section-l">
+<div class="wrap">
+<div class="section-head">
+<p class="eyebrow">FAQ</p>
+<h2>Questions about plans and pricing.</h2>
+</div>
+<div class="faq-list" id="faqList">
+<div class="faq-item">
+<button class="faq-q">Do you guarantee sales? <span class="faq-ind">+</span></button>
+<div class="faq-a"><p>No. We control the work we commit to — production, campaigns, reviews recruitment, listing optimisation, reporting. We influence reach, clicks, and conversion. We don't guarantee a specific number of sales, a bestseller position, a ranking, or an algorithmic viral event — no one honestly can.</p></div>
+</div>
+<div class="faq-item">
+<button class="faq-q">What happens if Atomic Shelf doesn't deliver? <span class="faq-ind">+</span></button>
+<div class="faq-a"><p>Money-back applies to the specific line items that weren't delivered at all — not a blanket refund, and not triggered simply by results coming in lower than the estimated range. If delivery is confirmed but performance is below range, we keep working, diagnose, and adjust at no extra cost rather than refunding. Claims must be made within 21 days of the end of the relevant cycle.</p></div>
+</div>
+<div class="faq-item">
+<button class="faq-q">Why are longer commitments discounted? <span class="faq-ind">+</span></button>
+<div class="faq-a"><p>Longer commitments are prepaid savings, not a cancellation trap. The system has more time to compound, and predictable planning lets us offer better economics.</p></div>
+</div>
+<div class="faq-item">
+<button class="faq-q">Can I change plans? <span class="faq-ind">+</span></button>
+<div class="faq-a"><p>Yes — upgrading or downgrading is allowed at any time. Current ad spend is taken into account and applied as available credit toward the new plan.</p></div>
+</div>
+<div class="faq-item">
+<button class="faq-q">What happens after a commitment ends? <span class="faq-ind">+</span></button>
+<div class="faq-a"><p>Everything is handed over via secure transfer if needed — videos created, account info, and related assets. In practice, most content is already accessible to you throughout, since every content gallery is public to you via your progress-report link.</p></div>
+</div>
+<div class="faq-item">
+<button class="faq-q">Do I need to appear on camera? <span class="faq-ind">+</span></button>
+<div class="faq-a"><p>No. You provide a link to your book (or, for a backlist, your catalogue), plus optionally any planned discount-deal dates so campaigns can be planned around them.</p></div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ============ FINAL CTA ============ -->
+<section class="final-cta section-l">
+<div class="wrap">
+<h2>Still deciding?</h2>
+<p>Tell us about your book and where you're starting from — we'll tell you honestly which tier makes sense.</p>
+<div class="btn-row">
+<a href="mailto:nick@atomic-shelf.com" class="btn btn-primary">Talk to us first</a>
+<a href="how-it-works.html" class="btn btn-ghost on-dark">See how it all works</a>
+</div>
+</div>
+</section>
+
 <footer>
-  <div class="wrap">
-    <div class="fg">
-      <div>
-        <div class="fl">Atomic&#8209;Shelf</div>
-        <p class="ft">Video, reviews, preorders, free promos, reader lists, and daily lookalike-audience retargeting &#8212; one team, one system, built for indie authors. We keep working until we hit your target.</p>
-      </div>
-      <div class="fc">
-        <h5>Site</h5>
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="services.html">Services</a></li>
-          <li><a href="how-it-works.html">How it works</a></li>
-          <li><a href="pricing.html">Pricing</a></li>
-        </ul>
-      </div>
-      <div class="fc">
-        <h5>Contact</h5>
-        <ul>
-          <li><a href="mailto:nick@atomic-shelf.com">nick@atomic-shelf.com</a></li>
-          <li><a href="mailto:nick@atomic-shelf.com">Talk to us</a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-  <div class="fb">
-    <span>&copy; 2026 Atomic Shelf &middot; StoryPal &middot; ShelfMate</span>
-    <span>Built with care for indie authors.</span>
-  </div>
+<div class="wrap">
+<div class="foot-grid">
+<div>
+<div class="foot-brand">Atomic<span>·</span>Shelf</div>
+<p class="foot-desc">Video, reviews, listing optimisation, reader lists, and advertising — one system, built for independent authors.</p>
+</div>
+<div class="foot-col">
+<h5>Site</h5>
+<ul>
+<li><a href="how-it-works.html">How It Works</a></li>
+<li><a href="services.html">Services</a></li>
+<li><a href="pricing.html">Pricing</a></li>
+<li><a href="results.html">Results</a></li>
+<li><a href="readers.html">Readers</a></li>
+<li><a href="editorial.html">Editorial</a></li>
+</ul>
+</div>
+<div class="foot-col">
+<h5>More</h5>
+<ul>
+<li><a href="catalogue.html">Catalogue</a></li>
+<li><a href="faq.html">FAQ</a></li>
+<li><a href="mailto:nick@atomic-shelf.com">Contact</a></li>
+<li><a href="shelfmates.html">ShelfMates</a></li>
+<li><a href="storypals.html">StoryPals</a></li>
+</ul>
+</div>
+</div>
+<div class="foot-bottom">
+<span>&copy; 2026 Atomic Shelf</span>
+<span><a href="terms.html">Terms</a> &nbsp;·&nbsp; <a href="privacy.html">Privacy</a></span>
+</div>
+</div>
 </footer>
+
 <script>
-const navToggle=document.getElementById('navToggle');
-const navLinks=document.getElementById('navLinks');
-if(navToggle){navToggle.addEventListener('click',()=>{
-  const open=navLinks.classList.toggle('open');
-  navToggle.setAttribute('aria-expanded',open);
-});}
-</script>
-<script>
-document.querySelectorAll('.p-flip').forEach(btn=>btn.addEventListener('click',()=>btn.closest('.plan').classList.add('flip')));
-document.querySelectorAll('.p-unflip').forEach(btn=>btn.addEventListener('click',()=>btn.closest('.plan').classList.remove('flip')));
+/* ---------- Nav mobile drawer ---------- */
+const navToggle = document.getElementById('navToggle');
+const navDrawer = document.getElementById('navDrawer');
+navToggle.addEventListener('click', () => {
+  const open = navDrawer.classList.toggle('open');
+  navToggle.setAttribute('aria-expanded', open);
+  navToggle.innerHTML = open ? '&#10005;' : '&#9776;';
+});
+navDrawer.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+  navDrawer.classList.remove('open');
+  navToggle.setAttribute('aria-expanded', false);
+  navToggle.innerHTML = '&#9776;';
+}));
 
-/* ===== Pesapal checkout =====
-   Set this to your Railway backend URL once it's deployed, e.g.
-   'https://atomic-shelf-payments.up.railway.app' */
-const BACKEND_URL = 'https://YOUR-RAILWAY-URL-HERE';
-
-let selectedPlanId = null;
-
-function startCheckout(planId, planName){
-  selectedPlanId = planId;
-  document.getElementById('checkoutPlanName').textContent = planName;
-  document.getElementById('checkoutError').hidden = true;
-  document.getElementById('checkoutOverlay').hidden = false;
-  document.body.style.overflow = 'hidden';
+/* ---------- Reveal on scroll ---------- */
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if (reduceMotion) {
+  document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+} else {
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold:0.15 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 }
-function closeCheckout(){
-  document.getElementById('checkoutOverlay').hidden = true;
-  document.body.style.overflow = '';
-}
-document.getElementById('checkoutOverlay')?.addEventListener('click', (e)=>{
-  if(e.target.id === 'checkoutOverlay') closeCheckout();
+
+/* ---------- FAQ accordion ---------- */
+document.querySelectorAll('.faq-item').forEach(item => {
+  const q = item.querySelector('.faq-q');
+  const a = item.querySelector('.faq-a');
+  q.addEventListener('click', () => {
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(o => { o.classList.remove('open'); o.querySelector('.faq-a').style.maxHeight = null; o.querySelector('.faq-ind').textContent = '+'; });
+    if (!isOpen) {
+      item.classList.add('open');
+      a.style.maxHeight = a.scrollHeight + 'px';
+      item.querySelector('.faq-ind').textContent = '–';
+    }
+  });
 });
 
-async function submitCheckout(e){
-  e.preventDefault();
-  const email = document.getElementById('ckEmail').value.trim();
-  const phone = document.getElementById('ckPhone').value.trim();
-  const first_name = document.getElementById('ckFirst').value.trim();
-  const last_name = document.getElementById('ckLast').value.trim();
-  const errEl = document.getElementById('checkoutError');
-  const btn = document.getElementById('checkoutSubmit');
+/* ---------- Pricing: single source of truth ----------
+   Mirrors commercial-truth.json exactly (corrected 2026-09-22,
+   Foundation 3-month + two $1 rounding slips fixed — see that
+   file's _meta.correction_note). If the JSON changes, update
+   this object to match — do not hand-edit prices anywhere else
+   on this page.
 
-  if(!email && !phone){
-    errEl.textContent = 'Enter an email address or phone number.';
-    errEl.hidden = false;
-    return false;
-  }
-  if(BACKEND_URL.includes('YOUR-RAILWAY-URL-HERE')){
-    errEl.textContent = 'Payments aren\'t connected yet \u2014 set BACKEND_URL in pricing.html.';
-    errEl.hidden = false;
-    return false;
-  }
+   NOTE ON CHECKOUT: the Pesapal backend in this repo
+   (server.js / package.json) is not deployed — pricing.html's
+   BACKEND_URL is still a placeholder and the checkout modal
+   there does not work. Rather than ship another broken
+   "Get started" button, every CTA below opens a pre-filled
+   mailto instead, same pattern already used in site/pricing.html.
+   Swap buildMailto()'s output for a real checkout call once
+   BACKEND_URL, PESAPAL_CONSUMER_KEY/SECRET, APP_BASE_URL and
+   the one-time /api/register-ipn call are all in place per
+   .env.example — nothing else on this page needs to change. */
+const PLAN_DATA = [
+  { id:'spark', name:'Spark', tagline:'The entry point into the system — establishes a steady content cadence and click-through data before you commit to a larger plan.',
+    monthly:20, feats:['60 premium short-form videos monthly','Posted to TikTok, Shorts & Reels','Genre-matched scripts, viral hooks & trending audio','Strategic social management','Weekly performance insights & click-through tracking'],
+    res:{label:'Estimated by month 3*', rows:[['Impressions','30k–70k'],['Video views','5k–15k'],['Click-throughs','80–220'],['Sales lift','+3–8%',true]]},
+    commitments:{ '3_month':{list:60,disc:54,round:50}, '6_month':{list:120,disc:96,round:90}, '12_month':{list:240,disc:180,round:180,best:true} }, cta:'Get started with Spark' },
 
-  errEl.hidden = true;
-  btn.disabled = true;
-  btn.textContent = 'Redirecting to Pesapal\u2026';
+  { id:'enhanced', name:'Enhanced', tagline:'Adds a durable creative asset on top of ongoing content, without moving into full campaign management.',
+    monthly:50, feats:['Everything in Spark','Cinematic book trailer','Long-form video & avatar narration','Richer creative asset mix'],
+    res:{label:'Estimated by month 3*', rows:[['Impressions','60k–130k'],['Video views','10k–28k'],['Click-throughs','160–400'],['Sales lift','+5–12%',true]]},
+    commitments:{ '3_month':{list:150,disc:135,round:130}, '6_month':{list:300,disc:240,round:240}, '12_month':{list:600,disc:450,round:450,best:true} }, cta:'View Enhanced' },
 
-  try{
-    const res = await fetch(BACKEND_URL + '/api/create-payment', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({ plan: selectedPlanId, email, phone, first_name, last_name })
-    });
-    const data = await res.json();
-    if(!res.ok || !data.redirect_url){
-      throw new Error(data.error?.message || data.error || 'Something went wrong.');
-    }
-    window.location.href = data.redirect_url;
-  }catch(err){
-    errEl.textContent = typeof err.message === 'string' ? err.message : 'Something went wrong. Please try again or email us.';
-    errEl.hidden = false;
-    btn.disabled = false;
-    btn.textContent = 'Continue to payment';
-  }
-  return false;
+  { id:'foundation', name:'Foundation', tagline:"The first tier where the listing itself is built to convert the traffic your content sends.",
+    monthly:79, feats:['80 short-form videos monthly','1 professional book trailer','Listing copy & A+ optimization','Preorder listing setup','ShelfMates / StoryPals access'],
+    res:{label:'Estimated by month 3*', rows:[['Impressions','90k–220k'],['Video views','15k–40k'],['Click-throughs','300–800'],['Sales lift','+8–15%',true]]},
+    commitments:{ '3_month':{list:237,disc:213,round:210}, '6_month':{list:474,disc:379,round:370}, '12_month':{list:948,disc:711,round:710,best:true} }, cta:'Get started with Foundation' },
+
+  { id:'starter', name:'Starter', tagline:'Layers a managed Amazon DSP budget and additional creative assets on top of Spark-level content.',
+    monthly:100, feats:['100+ premium short-form videos','2 cinematic book trailers','Original theme song','$50 Amazon DSP budget'],
+    res:{label:'Estimated by month 3*', rows:[['Impressions','120k–280k'],['Video views','20k–55k'],['Click-throughs','400–950'],['Sales lift','+10–20%',true]]},
+    commitments:{ '3_month':{list:300,disc:270,round:270}, '6_month':{list:600,disc:480,round:480}, '12_month':{list:1200,disc:900,round:900,best:true} }, cta:'View Starter' },
+
+  { id:'momentum', name:'Momentum', tagline:'The first full-funnel tier — content, social proof, a scheduled preorder campaign, and retargeting run as one system.',
+    monthly:249, popular:true,
+    feats:['All Foundation features','Full social media management','ARC/review campaign — 10 readers targeted','Enhanced A+ listing build','Preorder campaign — 6-week countdown','1 newsletter feature per quarter','Segmented retargeting, up to 5x daily for 30 days'],
+    res:{label:'Expected by month 3*', rows:[['Preorders secured','80–180'],['Free promo downloads','1,200–2,400'],['KU page reads boost','+40–80%',true],['Sales lift','+25–45%',true]]},
+    commitments:{ '3_month':{list:747,disc:672,round:670}, '6_month':{list:1494,disc:1195,round:1190}, '12_month':{list:2988,disc:2241,round:2240,best:true} }, cta:'Get started with Momentum' },
+
+  { id:'growth', name:'Growth', tagline:'The top production-and-campaign tier below the fully custom Surge/Orbit engagements — Momentum, scaled up.',
+    monthly:499,
+    feats:['100+ premium videos monthly','2 cinematic trailers, 1 theme song','ARC/review campaign — 25 readers targeted','Premium A+ listing build','Preorder campaign — 8-week countdown','1 newsletter feature per month','Segmented retargeting, up to 5x daily for 30 days'],
+    res:{label:'Expected by month 3*', rows:[['Preorders secured','200–420'],['Free promo downloads','2,400–4,800'],['KU page reads boost','+90–150%',true],['Sales lift','+60–110%',true]]},
+    commitments:{ '3_month':{list:1497,disc:1347,round:1340}, '6_month':{list:2994,disc:2395,round:2390}, '12_month':{list:5988,disc:4491,round:4490,best:true} }, cta:'Get started with Growth' }
+];
+
+function buildMailto(planName){
+  const subject = encodeURIComponent(planName + ' plan');
+  const body = encodeURIComponent("Hi — I'd like to get started with the " + planName + " plan. Here's my book:\n\n[link to book / catalogue]\n\n");
+  return 'mailto:nick@atomic-shelf.com?subject=' + subject + '&body=' + body;
 }
+
+const grid = document.getElementById('pricingGrid');
+function renderPricing(term){
+  grid.innerHTML = '';
+  PLAN_DATA.forEach(p => {
+    const card = document.createElement('div');
+    card.className = 'price-card' + (p.popular ? ' top' : '');
+    let priceHTML, perHTML = '', saveHTML = '';
+    if (term === 'monthly') {
+      priceHTML = '$' + p.monthly;
+      perHTML = 'per month' + (p.id === 'spark' ? ' · first 20 videos free' : '');
+    } else {
+      const c = p.commitments[term];
+      const months = term === '3_month' ? 3 : term === '6_month' ? 6 : 12;
+      priceHTML = '$' + c.round.toLocaleString();
+      perHTML = 'for ' + months + ' months · ~$' + Math.round(c.round/months) + '/mo equivalent';
+      saveHTML = 'Save ' + (term==='3_month'?'10%':term==='6_month'?'20%':'25%') + ' vs. monthly ($' + c.list.toLocaleString() + ' list)';
+    }
+    const featsHTML = p.feats.map(f => '<li>' + f + '</li>').join('');
+    const resHTML = '<div class="price-res-label">' + p.res.label + '</div>' +
+      p.res.rows.map(r => '<div class="price-rr"><span>' + r[0] + '</span><span class="price-rv' + (r[2] ? ' up' : '') + '">' + r[1] + '</span></div>').join('');
+    card.innerHTML =
+      (p.popular ? '<div class="price-badge">Most popular</div>' : '') +
+      '<div class="price-name">' + p.name + '</div>' +
+      '<div class="price-tagline">' + p.tagline + '</div>' +
+      '<div class="price-amount">' + priceHTML + '</div>' +
+      '<div class="price-per">' + perHTML + '</div>' +
+      '<div class="price-save">' + saveHTML + '</div>' +
+      '<ul class="price-feats">' + featsHTML + '</ul>' +
+      '<div class="price-res">' + resHTML + '</div>' +
+      '<a class="btn btn-secondary-dark price-cta" href="' + buildMailto(p.name) + '">' + p.cta + '</a>';
+    grid.appendChild(card);
+  });
+}
+renderPricing('monthly');
+document.querySelectorAll('#commitToggle button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#commitToggle button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    grid.style.opacity = 0;
+    setTimeout(() => { renderPricing(btn.dataset.term); grid.style.opacity = 1; }, reduceMotion ? 0 : 120);
+  });
+});
 </script>
 </body>
 </html>
