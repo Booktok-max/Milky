@@ -66,6 +66,7 @@ header p{color:var(--stone);font-size:1.02rem;max-width:56ch;margin:0 auto 2.2re
 .list-card p{color:var(--stone);font-size:.78rem;margin-bottom:.8rem;}
 .list-card a{color:var(--copper);font-size:.78rem;font-weight:600;text-decoration:none;}
 .list-card a:hover{text-decoration:underline;}
+.list-card.featured-source{border-color:var(--copper);background:var(--copper-pale);}
 
 section.results{padding:3.5rem 6vw 6rem;}
 .results-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2rem;flex-wrap:wrap;gap:1rem;}
@@ -241,6 +242,8 @@ const LIST_SEARCHES = [
   { query: 'children', label: 'Children’s lists' }
 ];
 
+const AMAZON_BOOKTOK_URL = 'https://www.amazon.com/b?ie=UTF8&node=23679109011&nodl=0&ref=ebooks_dsk_sn_best-of-book%E2%80%9458af7';
+
 const GENRE_QUERIES = {
   "children's": 'subject:"juvenile fiction"',
   romance: 'subject:romance',
@@ -360,7 +363,14 @@ async function loadLists() {
       return true;
     }), dailySeed()).slice(0, 12);
     if (!lists.length) throw new Error('No public lists found');
-    grid.innerHTML = lists.map(list => `
+    const sourceCard = `
+      <article class="list-card featured-source">
+        <div class="eyebrow">Amazon · Best of #BookTok</div>
+        <h3>See the current BookTok picks</h3>
+        <p>Amazon maintains the live ranking and availability for this collection.</p>
+        <a href="${AMAZON_BOOKTOK_URL}" target="_blank" rel="noopener noreferrer">Open Best of #BookTok →</a>
+      </article>`;
+    grid.innerHTML = sourceCard + lists.map(list => `
       <article class="list-card">
         <div class="eyebrow">${escapeHtml(list.category)}</div>
         <h3>${escapeHtml(list.name || 'Untitled list')}</h3>
