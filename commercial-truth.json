@@ -1,0 +1,436 @@
+{
+  "_meta": {
+    "version": "1.0.0",
+    "last_updated": "2026-09-22",
+    "updated_by": "",
+    "status": "DRAFT — prices and deliverables must be confirmed before publishing",
+    "note": "This is the single source of truth for all commercial and factual content on atomic-shelf.com. No page, component, or script should hardcode values that exist in this file. All placeholder values are marked with TODO."
+  },
+
+  "plans": [
+    {
+      "id": "spark",
+      "name": "Spark",
+      "positioning": "Start getting discovered.",
+      "audience": "Authors who have a book but need discovery — first campaigns, no existing presence.",
+      "primary_outcome": "Get your book in front of genre-relevant readers for the first time.",
+      "cta_label": "Start with Spark",
+      "cta_url": "/checkout/spark",
+      "highlighted": false,
+      "pricing": {
+        "monthly": {
+          "price": "TODO",
+          "currency": "USD",
+          "billing_note": "Billed monthly"
+        },
+        "3_month": {
+          "price": "TODO",
+          "currency": "USD",
+          "discount_percent": 10,
+          "savings_label": "Save 10%",
+          "equivalent_monthly": "TODO",
+          "billing_note": "Billed every 3 months"
+        },
+        "6_month": {
+          "price": "TODO",
+          "currency": "USD",
+          "discount_percent": 20,
+          "savings_label": "Save 20%",
+          "equivalent_monthly": "TODO",
+          "billing_note": "Billed every 6 months"
+        },
+        "12_month": {
+          "price": "TODO",
+          "currency": "USD",
+          "discount_percent": 25,
+          "savings_label": "Save 25%",
+          "equivalent_monthly": "TODO",
+          "billing_note": "Billed annually"
+        }
+      },
+      "services": [
+        "TODO — list service IDs from the services array that are included in this plan"
+      ],
+      "deliverables": {
+        "videos_per_month": "TODO",
+        "arc_seats": "TODO",
+        "listing_reviews": "TODO",
+        "reporting_cadence": "TODO",
+        "other": []
+      },
+      "expected_outputs": [
+        "TODO — what a client can realistically expect to see in 90 days"
+      ],
+      "indicators": [
+        "TODO — what metrics are tracked for this plan"
+      ],
+      "minimum_commitment_months": 1
+    },
+    {
+      "id": "shelf",
+      "name": "Shelf",
+      "positioning": "Build a consistent reader-facing presence.",
+      "audience": "Authors with some existing activity who need a regular, coordinated content system.",
+      "primary_outcome": "A consistent presence across discovery and social proof channels.",
+      "cta_label": "Start with Shelf",
+      "cta_url": "/checkout/shelf",
+      "highlighted": false,
+      "pricing": {
+        "monthly": {
+          "price": "TODO",
+          "currency": "USD",
+          "billing_note": "Billed monthly"
+        },
+        "3_month": {
+          "price": "TODO",
+          "currency": "USD",
+          "discount_percent": 10,
+          "savings_label": "Save 10%",
+          "equivalent_monthly": "TODO",
+          "billing_note": "Billed every 3 months"
+        },
+        "6_month": {
+          "price": "TODO",
+          "currency": "USD",
+          "discount_percent": 20,
+          "savings_label": "Save 20%",
+          "equivalent_monthly": "TODO",
+          "billing_note": "Billed every 6 months"
+        },
+        "12_month": {
+          "price": "TODO",
+          "currency": "USD",
+          "discount_percent": 25,
+          "savings_label": "Save 25%",
+          "equivalent_monthly": "TODO",
+          "billing_note": "Billed annually"
+        }
+      },
+      "services": [
+        "TODO — list service IDs from the services array"
+      ],
+      "deliverables": {
+        "videos_per_month": "TODO",
+        "arc_seats": "TODO",
+        "listing_reviews": "TODO",
+        "reporting_cadence": "TODO",
+        "other": []
+      },
+      "expected_outputs": [
+        "TODO"
+      ],
+      "indicators": [
+        "TODO"
+      ],
+      "minimum_commitment_months": 1
+    },
+    {
+      "id": "foundation",
+      "name": "Foundation",
+      "positioning": "Build the infrastructure underneath the traffic.",
+      "audience": "Authors who have attention but need stronger conversion infrastructure — listing, reviews, reader acquisition.",
+      "primary_outcome": "A system that converts discovery into sales and readers into repeat buyers.",
+      "cta_label": "Start with Foundation",
+      "cta_url": "/checkout/foundation",
+      "highlighted": true,
+      "pricing": {
+        "monthly": {
+          "price": "TODO",
+          "currency": "USD",
+          "billing_note": "Billed monthly"
+        },
+        "3_month": {
+          "price": "TODO",
+          "currency": "USD",
+          "discount_percent": 10,
+          "savings_label": "Save 10%",
+          "equivalent_monthly": "TODO",
+          "billing_note": "Billed every 3 months"
+        },
+        "6_month": {
+          "price": "TODO",
+          "currency": "USD",
+          "discount_percent": 20,
+          "savings_label": "Save 20%",
+          "equivalent_monthly": "TODO",
+          "billing_note": "Billed every 6 months"
+        },
+        "12_month": {
+          "price": "TODO",
+          "currency": "USD",
+          "discount_percent": 25,
+          "savings_label": "Save 25%",
+          "equivalent_monthly": "TODO",
+          "billing_note": "Billed annually"
+        }
+      },
+      "services": [
+        "TODO"
+      ],
+      "deliverables": {
+        "videos_per_month": "TODO",
+        "arc_seats": "TODO",
+        "listing_reviews": "TODO",
+        "reporting_cadence": "TODO",
+        "other": []
+      },
+      "expected_outputs": [
+        "TODO"
+      ],
+      "indicators": [
+        "TODO"
+      ],
+      "minimum_commitment_months": 1
+    },
+    {
+      "id": "momentum",
+      "name": "Momentum",
+      "positioning": "Turn attention into a coordinated growth engine.",
+      "audience": "Authors with an established readership who are ready for a fully coordinated, multi-channel growth campaign.",
+      "primary_outcome": "A coordinated system driving consistent sales, reader acquisition, and repeat readership across channels.",
+      "cta_label": "Start with Momentum",
+      "cta_url": "/checkout/momentum",
+      "highlighted": false,
+      "pricing": {
+        "monthly": {
+          "price": "TODO",
+          "currency": "USD",
+          "billing_note": "Billed monthly"
+        },
+        "3_month": {
+          "price": "TODO",
+          "currency": "USD",
+          "discount_percent": 10,
+          "savings_label": "Save 10%",
+          "equivalent_monthly": "TODO",
+          "billing_note": "Billed every 3 months"
+        },
+        "6_month": {
+          "price": "TODO",
+          "currency": "USD",
+          "discount_percent": 20,
+          "savings_label": "Save 20%",
+          "equivalent_monthly": "TODO",
+          "billing_note": "Billed every 6 months"
+        },
+        "12_month": {
+          "price": "TODO",
+          "currency": "USD",
+          "discount_percent": 25,
+          "savings_label": "Save 25%",
+          "equivalent_monthly": "TODO",
+          "billing_note": "Billed annually"
+        }
+      },
+      "services": [
+        "TODO"
+      ],
+      "deliverables": {
+        "videos_per_month": "TODO",
+        "arc_seats": "TODO",
+        "listing_reviews": "TODO",
+        "reporting_cadence": "TODO",
+        "other": []
+      },
+      "expected_outputs": [
+        "TODO"
+      ],
+      "indicators": [
+        "TODO"
+      ],
+      "minimum_commitment_months": 1
+    }
+  ],
+
+  "services": [
+    {
+      "id": "short-form-video",
+      "name": "Short-form video",
+      "system_stage": "discover",
+      "description": "BookTok and YouTube Shorts content that places books in front of genre-relevant audiences.",
+      "what_we_do": "TODO — describe the actual production process",
+      "deliverable": "TODO — e.g. X videos per month, edited and posted",
+      "measurable_indicator": "Views, reach, click-throughs to book listing",
+      "plans_included": ["spark", "shelf", "foundation", "momentum"],
+      "success_looks_like": "TODO"
+    },
+    {
+      "id": "arc-review-campaigns",
+      "name": "ARC review campaigns",
+      "system_stage": "trust",
+      "description": "Advanced reader copy campaigns that build social proof and reduce purchase hesitation.",
+      "what_we_do": "TODO",
+      "deliverable": "TODO — e.g. X ARC seats filled, Y reviews targeted",
+      "measurable_indicator": "Number of reviews placed, review score, review velocity",
+      "plans_included": ["shelf", "foundation", "momentum"],
+      "success_looks_like": "TODO"
+    },
+    {
+      "id": "listing-optimisation",
+      "name": "Listing optimisation",
+      "system_stage": "convert",
+      "description": "Book title, subtitle, description, keywords, A+ content, and storefront presentation — optimised to turn interest into a sale.",
+      "what_we_do": "TODO",
+      "deliverable": "TODO",
+      "measurable_indicator": "Conversion rate, BSR movement, page views vs sales ratio",
+      "plans_included": ["foundation", "momentum"],
+      "success_looks_like": "TODO"
+    },
+    {
+      "id": "preorder-campaigns",
+      "name": "Preorder campaigns",
+      "system_stage": "convert",
+      "description": "Coordinated pre-launch campaigns to build momentum before release day.",
+      "what_we_do": "TODO",
+      "deliverable": "TODO",
+      "measurable_indicator": "Preorder volume, launch day rank",
+      "plans_included": ["foundation", "momentum"],
+      "success_looks_like": "TODO"
+    },
+    {
+      "id": "free-promotion-campaigns",
+      "name": "Free-promotion campaigns",
+      "system_stage": "discover",
+      "description": "Coordinated free-download promotions to build readership and reviews.",
+      "what_we_do": "TODO",
+      "deliverable": "TODO",
+      "measurable_indicator": "Downloads, KU page reads, review count change",
+      "plans_included": ["shelf", "foundation", "momentum"],
+      "success_looks_like": "TODO"
+    },
+    {
+      "id": "reader-list-building",
+      "name": "Reader-list building",
+      "system_stage": "retain",
+      "description": "Building a direct reader list so the author is not entirely dependent on platform audiences.",
+      "what_we_do": "TODO",
+      "deliverable": "TODO",
+      "measurable_indicator": "List size, open rate, click-through rate",
+      "plans_included": ["foundation", "momentum"],
+      "success_looks_like": "TODO"
+    },
+    {
+      "id": "amazon-advertising",
+      "name": "Amazon advertising",
+      "system_stage": "convert",
+      "description": "Managed Amazon Ads campaigns targeting readers most likely to buy.",
+      "what_we_do": "TODO",
+      "deliverable": "TODO",
+      "measurable_indicator": "ACOS, ROAS, sales attributed to ads",
+      "plans_included": ["momentum"],
+      "success_looks_like": "TODO"
+    },
+    {
+      "id": "audience-retargeting",
+      "name": "Audience retargeting",
+      "system_stage": "repeat",
+      "description": "Retargeting campaigns that bring warm audiences back for new releases and backlist.",
+      "what_we_do": "TODO",
+      "deliverable": "TODO",
+      "measurable_indicator": "Return visitor rate, repeat purchase rate",
+      "plans_included": ["momentum"],
+      "success_looks_like": "TODO"
+    }
+  ],
+
+  "proof_metrics": [
+    {
+      "id": "sales-lift",
+      "value": "TODO",
+      "display_value": "TODO — e.g. 3.2×",
+      "label": "Average sales lift within 90 days",
+      "definition": "TODO — define exactly how sales lift is measured (e.g. compared to 90 days prior to campaign start)",
+      "period": "TODO — e.g. Jan 2024–Jun 2026",
+      "source": "TODO — e.g. internal campaign data, n=X authors",
+      "last_verified": "TODO",
+      "approved": false,
+      "show_on_homepage": true
+    },
+    {
+      "id": "videos-produced",
+      "value": "TODO",
+      "display_value": "TODO — e.g. 12,000+",
+      "label": "Videos produced for client authors",
+      "definition": "Total short-form videos produced and published across all client campaigns",
+      "period": "TODO",
+      "source": "Internal production records",
+      "last_verified": "TODO",
+      "approved": false,
+      "show_on_homepage": true
+    },
+    {
+      "id": "newsletter-downloads",
+      "value": "TODO",
+      "display_value": "TODO — e.g. 2,400",
+      "label": "Average downloads per newsletter feature",
+      "definition": "TODO — define: average across which newsletter(s), which time period",
+      "period": "TODO",
+      "source": "TODO",
+      "last_verified": "TODO",
+      "approved": false,
+      "show_on_homepage": true
+    }
+  ],
+
+  "guarantee": {
+    "name": "Atomic Shelf Commitment",
+    "headline": "Our commitment",
+    "body": "We don't promise that every book will explode overnight. Publishing doesn't work that way — and neither does building a readership. What we do promise is that we'll do the work we've committed to, measure what happens, and stay accountable for the outcome. If we fall short of the work, delivery, or agreed commitments on our side, we'll make it right — at our cost. And when the numbers show that we need to change course, we don't simply point at the dashboard and walk away. We diagnose, adjust, and keep working toward the target.",
+    "closing_line": "Your commitment is to the partnership. Ours is to the work.",
+    "covers": [
+      "Agreed production deliverables",
+      "Agreed campaign execution",
+      "Agreed review and recruitment work",
+      "Listing optimisation",
+      "Reporting and communication",
+      "Testing and iteration",
+      "Campaign management"
+    ],
+    "does_not_guarantee": [
+      "A viral algorithmic event",
+      "A specific number of sales regardless of market conditions",
+      "A bestseller position",
+      "A specific ranking",
+      "A particular advertising platform's behaviour",
+      "Reader behaviour"
+    ],
+    "remedy": "TODO — define the exact commercial remedy: corrective work / replacement deliverables / service extension / other. Must be agreed internally and reviewed by legal before publishing.",
+    "terms_url": "TODO — URL to formal terms once drafted",
+    "approved": false
+  },
+
+  "reader_products": [
+    {
+      "id": "shelfmates",
+      "name": "ShelfMates",
+      "audience": "Adult fiction readers",
+      "description": "A reader community and newsletter for adult fiction — giving Atomic Shelf authors direct access to an engaged reading audience.",
+      "system_stage": "retain",
+      "url": "TODO",
+      "show_on_homepage": true
+    },
+    {
+      "id": "storypals",
+      "name": "StoryPals",
+      "audience": "Children's book readers and families",
+      "description": "A reader community and newsletter for children's books — giving authors of children's and family titles a direct reader relationship.",
+      "system_stage": "retain",
+      "url": "TODO",
+      "show_on_homepage": true
+    }
+  ],
+
+  "site_settings": {
+    "brand_name": "Atomic Shelf",
+    "tagline": "Build a readership that lasts.",
+    "support_email": "TODO",
+    "contact_url": "/contact",
+    "start_here_url": "/start",
+    "default_cta_primary": "See the plans",
+    "default_cta_primary_url": "/pricing",
+    "default_cta_secondary": "See how it works",
+    "default_cta_secondary_url": "/how-it-works",
+    "default_cta_human": "Talk to us",
+    "default_cta_human_url": "/contact"
+  }
+}
