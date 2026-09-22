@@ -473,9 +473,19 @@ document.querySelectorAll('.p-flip').forEach(btn=>btn.addEventListener('click',(
 document.querySelectorAll('.p-unflip').forEach(btn=>btn.addEventListener('click',()=>btn.closest('.plan').classList.remove('flip')));
 
 /* ===== Pesapal checkout =====
-   Set this to your Railway backend URL once it's deployed, e.g.
-   'https://atomic-shelf-payments.up.railway.app' */
-const BACKEND_URL = 'https://YOUR-RAILWAY-URL-HERE';
+   The page accepts a backend URL from the environment or from a global window
+   variable, and falls back to the current origin for local/dev setups. */
+const BACKEND_URL = (() => {
+  const candidates = [
+    window.__ATOMIC_SHELF_BACKEND_URL__,
+    document.body?.dataset?.backendUrl,
+    new URLSearchParams(window.location.search).get('backendUrl'),
+    window.location.origin,
+  ].filter(Boolean);
+
+  const value = candidates[0];
+  return value ? String(value).replace(/\/+$/, '') : '';
+})();
 
 let selectedPlanId = null;
 
@@ -508,8 +518,9 @@ async function submitCheckout(e){
     errEl.hidden = false;
     return false;
   }
-  if(BACKEND_URL.includes('YOUR-RAILWAY-URL-HERE')){
-    errEl.textContent = 'Payments aren\'t connected yet \u2014 set BACKEND_URL in pricing.html.';
+
+  if(!BACKEND_URL){
+    errEl.textContent = 'Payments aren\'t connected yet — set window.__ATOMIC_SHELF_BACKEND_URL__ or serve this page from the same origin as the payment backend.';
     errEl.hidden = false;
     return false;
   }

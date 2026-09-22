@@ -244,14 +244,18 @@ app.post('/api/ipn', (req, res) => res.redirect(307, `/api/ipn?${new URLSearchPa
 
 app.get('/health', (req, res) => res.json({ ok: true, env: ENV }));
 
-// ---- Serve pricing page (inject backend URL so no hardcoded URL in HTML) --
+// ---- Serve pricing page (inject backend URL without hardcoded placeholders) --
 const pricingHtmlPath = path.join(__dirname, 'pricing.html');
 app.get(['/', '/pricing.html'], (req, res) => {
   try {
     let html = fs.readFileSync(pricingHtmlPath, 'utf8');
-    // Replace the placeholder with the actual backend URL from env
-    const backendUrl = APP_BASE_URL || '';
-    html = html.replace("'https://YOUR-RAILWAY-URL-HERE'", `'${backendUrl}'`);
+    const backendUrl = APP_BASE_URL || 'http://localhost:3000';
+    const injection = `
+      <script>
+        window.__ATOMIC_SHELF_BACKEND_URL__ = ${JSON.stringify(backendUrl)};
+      </script>
+    `;
+    html = html.includes('</body>') ? html.replace('</body>', `${injection}</body>`) : html + injection;
     res.type('html').send(html);
   } catch (err) {
     console.error('Could not read pricing.html:', err.message);
