@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Atomic Shelf — Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+/* ============================================================
+   ATOMIC SHELF — DESIGN SYSTEM
+   Implements PRD Section 50 (UI & Graphic Design System)
+   Every hex, size, and duration below is sourced from Section 50.2–50.10.
+   Values not explicitly numbered in the PRD are marked (addition) in
+   the checklist at the bottom of this page.
+   ============================================================ */
+
+:root {
+  color-scheme: light;
+
+  /* ---- Colour (50.2) ---- */
+  --color-bg-dark: #0F0E0C;
+  --color-surface-dark: #1A1916;
+  --color-border-dark: #262420;
+
+  --color-bg-light: #F8F6F2;
+  --color-surface-light: #EEEAE3;   /* PRD prose calls this the light "mid-surface"; token list
+                                        also names --color-surface-mid separately with no distinct
+                                        value given, so both resolve to this one hex — see checklist. */
+  --color-surface-mid: #EEEAE3;
+  --color-border-light: #E0DBD3;
+
+  --color-accent-primary: #C8922A;
+  --color-accent-primary-hover: #DFA83E;
+  --color-accent-primary-pressed: #A67820;
+  --color-accent-secondary: #5E7A8A;
+
+  --color-text-primary-dark: #F2EFE9;
+  --color-text-secondary-dark: #9A9490;
+  --color-text-disabled-dark: #605C58;   /* addition — named in 50.2 prose, absent from 50.10 list */
+
+  --color-text-primary-light: #1C1A18;
+  --color-text-secondary-light: #6B6560;
+  --color-text-disabled-light: #B0AAA4;  /* addition — same as above */
+
+  --color-success: #3A7D52;
+  --color-error: #C0442A;
+
+  /* ---- Typography (50.3) ---- */
+  --font-family-display: 'DM Serif Display', Georgia, 'Times New Roman', serif;
+  --font-family-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-family-mono: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; /* tabular-nums
+                                        variant of the body sans, per 50.3 — "tabular-figures variant of the
+                                        sans-serif," not a separate monospace face */
+
+  --font-size-display-xl: clamp(2.5rem, 1.6rem + 4.2vw, 5.5rem);   /* 40 → 88px */
+  --font-size-display-l:  clamp(2rem,   1.5rem + 2.4vw, 4rem);     /* 32 → 64px */
+  --font-size-display-m:  clamp(1.625rem, 1.35rem + 1.3vw, 2.75rem); /* 26 → 44px */
+  --font-size-heading:    clamp(1.25rem, 1.1rem + 0.7vw, 1.75rem); /* 20 → 28px */
+  --font-size-body-l:     clamp(1.0625rem, 1rem + 0.3vw, 1.25rem); /* 17 → 20px */
+  --font-size-body:       clamp(1rem, 0.96rem + 0.15vw, 1.0625rem); /* 16 → 17px */
+  --font-size-body-s:     clamp(0.875rem, 0.85rem + 0.1vw, 0.9375rem); /* 14 → 15px */
+  --font-size-label:      clamp(0.6875rem, 0.65rem + 0.15vw, 0.8125rem); /* 11 → 13px */
+  --font-size-mono:       clamp(0.875rem, 0.84rem + 0.15vw, 1rem); /* 14 → 16px */
+
+  --font-weight-display: 400;
+  --font-weight-heading: 400;
+  --font-weight-body-regular: 400;
+  --font-weight-body-medium: 600;
+
+  --line-height-display: 1.1;
+  --line-height-heading: 1.25;   /* addition — 50.3 gives headings a 1.2–1.3 range, no single token */
+  --line-height-body: 1.65;
+  --line-height-label: 1.4;
+  --letter-spacing-label: 0.1em;
+
+  /* ---- Spacing (50.4) ---- */
+  --space-section-xl: clamp(5rem, 3.2rem + 9vw, 10rem);      /* 80 → 160px */
+  --space-section-l:  clamp(3.75rem, 2.6rem + 5.7vw, 7.5rem); /* 60 → 120px */
+  --space-section-m:  clamp(2.5rem, 1.7rem + 4vw, 5rem);      /* 40 → 80px */
+  --space-component:  clamp(1.5rem, 1.2rem + 1.5vw, 2.5rem);  /* 24 → 40px */
+  --space-inner:      clamp(1rem, 0.85rem + 0.75vw, 2rem);    /* 16 → 32px */
+
+  /* base scale — addition: 50.10 lists these tokens but 50.4's prose never gives numeric
+     values for them, only for the five above. Using a conventional 8pt-based scale. */
+  --space-xs: 0.25rem;  /* 4px */
+  --space-s: 0.5rem;    /* 8px */
+  --space-m: 1rem;      /* 16px */
+  --space-l: 1.5rem;    /* 24px */
+  --space-xl: 2rem;     /* 32px */
+
+  /* ---- Grid (50.4) ---- */
+  --grid-max-width: 1280px;
+  --grid-columns-desktop: 12;
+  --grid-columns-tablet: 8;
+  --grid-columns-mobile: 4;
+  --grid-gutter-desktop: 24px;
+  --grid-gutter-tablet: 20px;
+  --grid-gutter-mobile: 16px;
+  --grid-margin-desktop: 80px;
+  --grid-margin-tablet: 40px;
+  --grid-margin-mobile: 16px;
+
+  /* ---- Border (50.5, addition where unspecified) ---- */
+  --border-radius-button: 4px;     /* "not pill-shaped" — 50.5 CTA Buttons */
+  --border-radius-card: 6px;       /* addition — not numbered in the PRD */
+  --border-radius-badge: 999px;    /* addition — savings badge, pill shape implied by "badge" */
+  --border-width-default: 1px;
+  --border-width-accent: 1.5px;    /* secondary button border — 50.5 CTA Buttons */
+
+  /* ---- Motion (50.8) ---- */
+  --motion-duration-fast: 120ms;
+  --motion-duration-standard: 240ms;
+  --motion-duration-slow: 450ms;
+  --motion-easing-standard: ease;
+  --motion-easing-decelerate: ease-out;
+  --motion-easing-accelerate: ease-in;
+
+  /* ---- Z-index (addition — not numbered in the PRD) ---- */
+  --z-navigation: 100;
+  --z-dropdown: 150;
+  --z-overlay: 200;
+  --z-modal: 300;
+}
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+
+*, *::before, *::after { box-sizing: border-box; }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(64px + env(safe-area-inset-top, 0px));
+}
+body {
+  margin: 0;
+  background: var(--color-bg-light);
+  color: var(--color-text-primary-light);
+  font-family: var(--font-family-body);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+  -webkit-font-smoothing: antialiased;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+img, svg { max-width: 100%; display: block; }
+h1, h2, h3, h4, p, ul, ol { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+button { font: inherit; color: inherit; }
+a { color: inherit; }
+:focus-visible {
+  outline: 2px solid var(--color-accent-primary);
+  outline-offset: 2px;
+}
+
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 0;
+  background: var(--color-accent-primary);
+  color: var(--color-text-primary-light);
+  padding: var(--space-s) var(--space-m);
+  z-index: var(--z-modal);
+}
+.skip-link:focus { left: var(--space-m); top: calc(var(--space-m) + env(safe-area-inset-top, 0px)); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ============================================================
+   TYPE UTILITIES
+   ============================================================ */
+
+.t-display-xl { font-family: var(--font-family-display); font-weight: var(--font-weight-display); font-size: var(--font-size-display-xl); line-height: var(--line-height-display); }
+.t-display-l  { font-family: var(--font-family-display); font-weight: var(--font-weight-display); font-size: var(--font-size-display-l);  line-height: var(--line-height-display); }
+.t-display-m  { font-family: var(--font-family-display); font-weight: var(--font-weight-display); font-size: var(--font-size-display-m);  line-height: 1.18; }
+.t-heading    { font-family: var(--font-family-display); font-weight: var(--font-weight-heading); font-size: var(--font-size-heading);    line-height: var(--line-height-heading); }
+.t-body-l     { font-family: var(--font-family-body); font-size: var(--font-size-body-l); line-height: var(--line-height-body); }
+.t-body       { font-family: var(--font-family-body); font-size: var(--font-size-body); line-height: var(--line-height-body); }
+.t-body-s     { font-family: var(--font-family-body); font-size: var(--font-size-body-s); line-height: var(--line-height-body); }
+.t-label      { font-family: var(--font-family-body); font-size: var(--font-size-label); line-height: var(--line-height-label); letter-spacing: var(--letter-spacing-label); text-transform: uppercase; font-weight: var(--font-weight-body-medium); }
+.t-mono       { font-family: var(--font-family-mono); font-size: var(--font-size-mono); font-variant-numeric: tabular-nums; font-feature-settings: "tnum" 1; }
+.t-pullquote  { font-family: var(--font-family-display); font-style: italic; }
+
+/* ============================================================
+   DOC CHROME — the specimen browser itself, not part of the
+   Atomic Shelf design language. Kept deliberately neutral so it
+   never gets mistaken for the real site nav.
+   ============================================================ */
+
+.doc-bar {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-navigation);
+  display: flex;
+  align-items: center;
+  gap: var(--space-l);
+  padding: var(--space-m) var(--space-l);
+  padding-top: calc(var(--space-m) + env(safe-area-inset-top, 0px));
+  background: rgba(248, 246, 242, 0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--color-border-light);
+  overflow-x: auto;
+  white-space: nowrap;
+}
+.doc-bar strong { font-family: var(--font-family-display); font-size: 1rem; flex-shrink: 0; }
+.doc-bar nav { display: flex; gap: var(--space-m); }
+.doc-bar a { font-size: 0.8125rem; text-decoration: none; color: var(--color-text-secondary-light); padding: 4px 0; border-bottom: 1px solid transparent; }
+.doc-bar a:hover { color: var(--color-text-primary-light); border-color: var(--color-accent-primary); }
+
+.doc-intro { max-width: 760px; margin: 0 auto; padding: var(--space-section-m) var(--space-l) var(--space-section-m); }
+.doc-intro .t-label { color: var(--color-accent-primary-pressed); }
+.doc-intro h1 { margin-top: var(--space-s); }
+.doc-intro p { margin-top: var(--space-m); color: var(--color-text-secondary-light); max-width: 62ch; }
+.doc-callout {
+  margin-top: var(--space-l);
+  padding: var(--space-m) var(--space-l);
+  background: var(--color-surface-light);
+  border-left: 3px solid var(--color-accent-primary);
+  border-radius: 0 var(--border-radius-card) var(--border-radius-card) 0;
+}
+.doc-callout p { margin-top: var(--space-s); }
+.doc-callout p:first-child { margin-top: 0; }
+
+.doc-section { padding: var(--space-section-l) var(--space-l); border-top: 1px solid var(--color-border-light); }
+.doc-section-inner { max-width: var(--grid-max-width); margin: 0 auto; }
+.doc-section-head { margin-bottom: var(--space-section-m); }
+.doc-section-head .t-label { color: var(--color-accent-primary-pressed); }
+.doc-section-head h2 { margin-top: var(--space-s); }
+
+.doc-subhead { margin: var(--space-section-m) 0 var(--space-l); }
+.doc-subhead:first-child { margin-top: 0; }
+.doc-subhead h3 { font-family: var(--font-family-display); font-size: 1.375rem; }
+.doc-subhead p { margin-top: var(--space-xs); color: var(--color-text-secondary-light); font-size: var(--font-size-body-s); max-width: 60ch; }
+
+.specimen { margin-bottom: var(--space-section-m); }
+.specimen-label {
+  display: flex; align-items: baseline; gap: var(--space-s); flex-wrap: wrap;
+  margin-bottom: var(--space-s);
+  font-family: var(--font-family-body); font-weight: var(--font-weight-body-medium); font-size: 0.8125rem;
+}
+.specimen-label .chk { font-size: 0.6875rem; padding: 2px 8px; border-radius: var(--border-radius-badge); background: var(--color-surface-light); color: var(--color-text-secondary-light); }
+.specimen-frame {
+  border-radius: var(--border-radius-card);
+  overflow: hidden;
+  border: 1px solid var(--color-border-light);
+}
+.specimen-frame.is-dark { background: var(--color-bg-dark); border-color: var(--color-border-dark); }
+.specimen-frame.is-light { background: var(--color-bg-light); }
+.specimen-note { margin-top: var(--space-s); font-size: var(--font-size-body-s); color: var(--color-text-secondary-light); max-width: 68ch; }
+.specimen-note strong { color: var(--color-text-primary-light); }
+
+/* swatch grid */
+.swatch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: var(--space-m); }
+.swatch { border-radius: var(--border-radius-card); overflow: hidden; border: 1px solid var(--color-border-light); }
+.swatch-fill { height: 72px; }
+.swatch-meta { padding: var(--space-s) var(--space-m); background: var(--color-bg-light); }
+.swatch-meta code { display: block; font-size: 0.75rem; color: var(--color-text-secondary-light); }
+.swatch-meta .name { font-size: 0.8125rem; font-weight: var(--font-weight-body-medium); }
+
+/* type specimen rows */
+.type-row { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-l); padding: var(--space-m) 0; border-bottom: 1px solid var(--color-border-light); flex-wrap: wrap; }
+.type-row:last-child { border-bottom: none; }
+.type-row-sample { flex: 1 1 420px; min-width: 0; }
+.type-row-meta { flex: 0 0 auto; text-align: right; font-size: 0.75rem; color: var(--color-text-secondary-light); font-family: var(--font-family-body); }
+.type-row-meta code { display: block; }
+
+/* spacing bars */
+.space-row { display: flex; align-items: center; gap: var(--space-m); padding: var(--space-xs) 0; }
+.space-bar { height: 14px; background: var(--color-accent-primary); border-radius: 3px; }
+.space-row-label { width: 210px; flex-shrink: 0; font-size: 0.8125rem; }
+.space-row-label code { display: block; font-size: 0.75rem; color: var(--color-text-secondary-light); }
+
+/* grid demo */
+.grid-demo-wrap { overflow-x: auto; }
+.grid-demo {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns-mobile), 1fr);
+  gap: var(--grid-gutter-mobile);
+  padding: 0 var(--grid-margin-mobile);
+  min-width: 320px;
+}
+.grid-demo > div {
+  background: var(--color-surface-light);
+  border: 1px dashed var(--color-border-light);
+  border-radius: 4px;
+  height: 48px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.6875rem; color: var(--color-text-secondary-light);
+  font-family: var(--font-family-body);
+}
+@media (min-width: 768px) {
+  .grid-demo { grid-template-columns: repeat(var(--grid-columns-tablet), 1fr); gap: var(--grid-gutter-tablet); padding: 0 var(--grid-margin-tablet); }
+}
+@media (min-width: 1280px) {
+  .grid-demo { grid-template-columns: repeat(var(--grid-columns-desktop), 1fr); gap: var(--grid-gutter-desktop); padding: 0 var(--grid-margin-desktop); max-width: var(--grid-max-width); margin: 0 auto; }
+}
+.grid-demo-caption { font-size: 0.75rem; color: var(--color-text-secondary-light); margin-top: var(--space-s); }
+
+/* motion demo */
+.motion-demo-row { display: flex; align-items: center; gap: var(--space-l); padding: var(--space-m) 0; border-bottom: 1px solid var(--color-border-light); flex-wrap: wrap; }
+.motion-demo-row:last-child { border-bottom: none; }
+.motion-swatch {
+  width: 120px; height: 40px; border-radius: 4px;
+  background: var(--color-accent-primary);
+  transform: translateX(0);
+}
+.motion-demo-row:hover .motion-swatch { transform: translateX(60px); }
+.motion-fast .motion-swatch { transition: transform var(--motion-duration-fast) var(--motion-easing-standard); }
+.motion-standard .motion-swatch { transition: transform var(--motion-duration-standard) var(--motion-easing-standard); }
+.motion-slow .motion-swatch { transition: transform var(--motion-duration-slow) var(--motion-easing-standard); }
+.motion-demo-label { min-width: 260px; font-size: 0.8125rem; }
+.motion-demo-label code { display: block; font-size: 0.75rem; color: var(--color-text-secondary-light); }
+
+/* ============================================================
+   COMPONENT — Buttons
+   ============================================================ */
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  height: 48px; padding: 0 26px;
+  border-radius: var(--border-radius-button);
+  font-family: var(--font-family-body); font-weight: var(--font-weight-body-medium); font-size: 0.9375rem;
+  border: none; cursor: pointer;
+  transition: background-color var(--motion-duration-fast) var(--motion-easing-standard),
+              border-color var(--motion-duration-fast) var(--motion-easing-standard),
+              opacity var(--motion-duration-fast) var(--motion-easing-standard);
+}
+.btn-primary { background: var(--color-accent-primary); color: var(--color-text-primary-light); }
+.btn-primary:hover { background: var(--color-accent-primary-hover); }
+.btn-primary:active { background: var(--color-accent-primary-pressed); }
+.btn-primary:disabled { background: var(--color-text-disabled-dark); color: var(--color-text-secondary-dark); cursor: not-allowed; }
+
+.btn-secondary { background: transparent; border: 1.5px solid var(--color-accent-primary); color: var(--color-accent-primary); }
+.btn-secondary.on-dark { color: var(--color-accent-primary); }
+.btn-secondary:hover { background: rgba(200, 146, 42, 0.1); }
+.btn-secondary:disabled { border-color: var(--color-text-disabled-light); color: var(--color-text-disabled-light); cursor: not-allowed; }
+
+.btn-ghost { background: transparent; border: none; padding: 0; height: auto; text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 3px; }
+.btn-ghost:hover { text-decoration-color: currentColor; }
+.on-dark .btn-ghost { color: var(--color-text-primary-dark); }
+.on-light .btn-ghost { color: var(--color-text-primary-light); }
+
+.btn-row { display: flex; gap: var(--space-m); flex-wrap: wrap; align-items: center; }
+.btn-state-label { display: block; font-size: 0.6875rem; text-align: center; margin-top: var(--space-xs); color: var(--color-text-secondary-light); }
+.btn-state-group { display: flex; flex-direction: column; align-items: flex-start; }
+
+/* ============================================================
+   COMPONENT — Navigation
+   ============================================================ */
+
+.demo-nav {
+  position: relative;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 var(--space-l);
+  height: 68px;
+  transition: background-color var(--motion-duration-standard) var(--motion-easing-standard);
+}
+.demo-nav.is-scrolled { background: rgba(15, 14, 12, 0.85); backdrop-filter: blur(10px); border-bottom: 1px solid var(--color-border-dark); }
+.demo-nav-logo { font-family: var(--font-family-display); font-size: 1.125rem; color: var(--color-text-primary-dark); }
+.demo-nav-links { display: none; align-items: center; gap: var(--space-l); }
+.demo-nav-links a { text-decoration: none; font-size: var(--font-size-body-s); color: var(--color-text-secondary-dark); }
+.demo-nav-links a:hover { color: var(--color-text-primary-dark); }
+.demo-nav-links a.is-active { color: var(--color-text-primary-dark); border-bottom: 1.5px solid var(--color-accent-primary); padding-bottom: 4px; }
+@media (min-width: 768px) { .demo-nav-links { display: flex; } .demo-nav-burger { display: none; } }
+.demo-nav-burger {
+  width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;
+  background: none; border: none; cursor: pointer;
+}
+.demo-nav-burger span, .demo-nav-burger::before, .demo-nav-burger::after { display: none; }
+.demo-nav-burger svg { stroke: var(--color-text-primary-dark); }
+
+.demo-nav-drawer {
+  position: absolute; inset: 68px 0 auto 0;
+  background: var(--color-bg-dark);
+  border-top: 1px solid var(--color-border-dark);
+  padding: var(--space-l);
+  transform-origin: top;
+  max-height: 0; overflow: hidden; opacity: 0;
+  transition: max-height var(--motion-duration-standard) var(--motion-easing-standard), opacity var(--motion-duration-standard) var(--motion-easing-standard);
+}
+.demo-nav-drawer.is-open { max-height: 400px; opacity: 1; }
+.demo-nav-drawer a { display: block; padding: var(--space-s) 0; text-decoration: none; color: var(--color-text-primary-dark); font-size: var(--font-size-body); border-bottom: 1px solid var(--color-border-dark); }
+.demo-nav-drawer .btn-primary { margin-top: var(--space-m); width: 100%; }
+@media (min-width: 768px) { .demo-nav-drawer { display: none; } }
+
+/* ============================================================
+   COMPONENT — Hero
+   ============================================================ */
+
+.demo-hero {
+  padding: var(--space-section-l) var(--space-l) var(--space-section-m);
+  display: grid; gap: var(--space-section-m);
+}
+@media (min-width: 1024px) { .demo-hero { grid-template-columns: 1.1fr 0.9fr; align-items: center; padding-inline: var(--space-section-m); } }
+.demo-hero-eyebrow { color: var(--color-accent-primary); margin-bottom: var(--space-m); }
+.demo-hero h1 { color: var(--color-text-primary-dark); max-width: 13ch; }
+.demo-hero-body { color: var(--color-text-secondary-dark); margin-top: var(--space-m); max-width: 42ch; }
+.demo-hero .btn-row { margin-top: var(--space-l); }
+.demo-hero-covers { display: flex; align-items: flex-end; justify-content: center; gap: -16px; position: relative; height: 220px; }
+.cover-ph {
+  width: 108px; aspect-ratio: 2/3; border-radius: 3px;
+  background: linear-gradient(160deg, var(--color-surface-dark), #0b0a09);
+  border: 1px solid var(--color-border-dark);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--color-text-disabled-dark); font-size: 0.625rem; text-align: center; padding: var(--space-s);
+  position: absolute;
+}
+.cover-ph.c1 { left: 10%; transform: rotate(-6deg); z-index: 1; }
+.cover-ph.c2 { left: 32%; transform: translateY(-14px) rotate(-2deg); z-index: 2; }
+.cover-ph.c3 { left: 55%; width: 124px; transform: translateY(-24px); z-index: 3; }
+.cover-ph.c4 { left: 78%; transform: translateY(-10px) rotate(3deg); z-index: 2; }
+
+/* ============================================================
+   COMPONENT — Proof Strip
+   ============================================================ */
+
+.demo-proof { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-l); padding: var(--space-section-m) var(--space-l); }
+@media (min-width: 768px) { .demo-proof { grid-template-columns: repeat(3, 1fr); padding-inline: var(--space-section-m); } }
+.demo-proof-item { text-align: left; position: relative; padding-right: var(--space-l); }
+.demo-proof-item + .demo-proof-item { border-left: 1px solid var(--color-border-dark); padding-left: var(--space-l); }
+@media (max-width: 767px) { .demo-proof-item:nth-child(odd) { border-left: none !important; padding-left: 0 !important; } }
+.demo-proof-value { color: var(--color-text-primary-dark); display: block; }
+.demo-proof-label { color: var(--color-text-secondary-dark); margin-top: var(--space-xs); }
+.demo-proof-range-note { margin-top: var(--space-xs); color: var(--color-accent-primary); font-size: 0.6875rem; }
+
+/* ============================================================
+   COMPONENT — Five-Stage System (stage card)
+   ============================================================ */
+
+.demo-stages { padding: var(--space-section-m) var(--space-l); }
+@media (min-width: 768px) { .demo-stages { padding-inline: var(--space-section-m); } }
+.demo-stages-row { display: flex; flex-direction: column; }
+@media (min-width: 900px) { .demo-stages-row { flex-direction: row; } }
+.demo-stage {
+  flex: 1; position: relative; padding: var(--space-l) 0;
+  transition: transform var(--motion-duration-standard) var(--motion-easing-decelerate);
+}
+@media (min-width: 900px) { .demo-stage { padding: 0 var(--space-m); border-left: 1px solid var(--color-border-dark); } .demo-stage:first-child { border-left: none; } }
+@media (max-width: 899px) { .demo-stage { border-top: 1px solid var(--color-border-dark); padding-top: var(--space-l); } .demo-stage:first-child { border-top: none; } }
+.demo-stage:hover { transform: translateY(-3px); }
+.demo-stage:hover .demo-stage-name { color: var(--color-accent-primary); }
+.demo-stage-num { color: var(--color-accent-primary); display: block; margin-bottom: var(--space-s); }
+.demo-stage-name { color: var(--color-text-primary-dark); display: block; transition: color var(--motion-duration-standard) var(--motion-easing-standard); }
+.demo-stage-def { color: var(--color-text-secondary-dark); margin-top: var(--space-s); }
+
+/* ============================================================
+   COMPONENT — Service Cards
+   ============================================================ */
+
+.demo-services { display: grid; grid-template-columns: 1fr; gap: var(--space-component); padding: var(--space-section-m) var(--space-l); }
+@media (min-width: 700px) { .demo-services { grid-template-columns: 1fr 1fr; padding-inline: var(--space-section-m); } }
+.service-card {
+  background: var(--color-surface-light);
+  border-radius: var(--border-radius-card);
+  padding: 28px;
+  transition: box-shadow var(--motion-duration-standard) var(--motion-easing-decelerate), transform 150ms ease-out;
+}
+.service-card:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(28,26,24,0.08); }
+.service-card h4 { font-family: var(--font-family-display); font-size: var(--font-size-heading); }
+.service-card p { margin-top: var(--space-s); color: var(--color-text-secondary-light); }
+.service-card-tags { display: flex; gap: var(--space-s); margin-top: var(--space-m); flex-wrap: wrap; }
+.tag { font-size: 0.6875rem; padding: 3px 10px; border-radius: var(--border-radius-badge); }
+.tag-stage { border: 1px solid var(--color-accent-primary); color: var(--color-accent-primary-pressed); }
+.tag-plan { background: var(--color-bg-light); color: var(--color-text-secondary-light); border: 1px solid var(--color-border-light); }
+
+/* ============================================================
+   COMPONENT — Pricing Cards + commitment selector
+   ============================================================ */
+
+.demo-pricing { padding: var(--space-section-m) var(--space-l); }
+@media (min-width: 768px) { .demo-pricing { padding-inline: var(--space-section-m); } }
+.commitment-selector { display: inline-flex; background: var(--color-bg-light); border: 1px solid var(--color-border-light); border-radius: var(--border-radius-badge); padding: 4px; margin-bottom: var(--space-component); flex-wrap: wrap; }
+.commitment-tab {
+  border: none; background: transparent; padding: 8px 16px; border-radius: var(--border-radius-badge);
+  font-size: 0.8125rem; cursor: pointer; color: var(--color-text-secondary-light);
+  transition: background-color var(--motion-duration-fast) var(--motion-easing-standard), color var(--motion-duration-fast) var(--motion-easing-standard);
+}
+.commitment-tab.is-active { background: var(--color-accent-primary); color: var(--color-text-primary-light); }
+.pricing-grid { display: grid; grid-template-columns: 1fr; gap: var(--space-component); }
+@media (min-width: 640px) { .pricing-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1100px) { .pricing-grid { grid-template-columns: repeat(4, 1fr); } }
+.pricing-card {
+  background: var(--color-surface-light); border-radius: var(--border-radius-card);
+  padding: 28px; display: flex; flex-direction: column;
+  border: 1px solid transparent;
+}
+.pricing-card.is-recommended { border-color: var(--color-accent-primary); position: relative; transform: translateY(-6px); }
+.pricing-card-badge { position: absolute; top: -12px; left: 28px; background: var(--color-accent-primary); color: var(--color-text-primary-light); font-size: 0.6875rem; padding: 3px 10px; border-radius: var(--border-radius-badge); }
+.pricing-card h4 { font-family: var(--font-family-display); font-size: var(--font-size-heading); }
+.pricing-card-position { color: var(--color-text-secondary-light); font-size: var(--font-size-body-s); margin-top: 4px; }
+.pricing-card-price { margin-top: var(--space-m); }
+.pricing-card-savings { display: inline-block; margin-top: var(--space-xs); font-size: 0.6875rem; padding: 2px 9px; border-radius: var(--border-radius-badge); background: rgba(200,146,42,0.15); color: var(--color-accent-primary-pressed); }
+.pricing-card-unavailable { margin-top: var(--space-m); color: var(--color-text-disabled-light); font-size: var(--font-size-body-s); font-style: italic; }
+.pricing-card hr { border: none; border-top: 1px solid var(--color-border-light); margin: var(--space-m) 0; }
+.pricing-card-outcome { font-size: var(--font-size-body-s); }
+.pricing-card ul { margin-top: var(--space-s); flex-grow: 1; }
+.pricing-card li { font-size: var(--font-size-body-s); padding: 3px 0; color: var(--color-text-secondary-light); }
+.pricing-card li::before { content: "✓ "; color: var(--color-accent-primary); font-weight: 600; }
+.pricing-card .btn-primary { width: 100%; margin-top: var(--space-m); }
+
+/* ============================================================
+   COMPONENT — Audience Selector
+   ============================================================ */
+
+.demo-audience { display: grid; grid-auto-flow: column; grid-auto-columns: 82%; gap: var(--space-m); overflow-x: auto; padding: var(--space-section-m) var(--space-l); scroll-snap-type: x mandatory; }
+@media (min-width: 900px) { .demo-audience { grid-auto-flow: row; grid-template-columns: repeat(3, 1fr); overflow-x: visible; padding-inline: var(--space-section-m); } }
+.audience-card {
+  scroll-snap-align: start;
+  background: var(--color-bg-light); border: 1px solid var(--color-border-light); border-radius: var(--border-radius-card);
+  padding: var(--space-inner); cursor: pointer;
+  transition: transform 150ms ease-out, border-color 150ms ease-out;
+}
+.audience-card:hover { transform: translateY(-2px); border-color: var(--color-accent-primary); }
+.audience-card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--space-s); }
+.audience-card h4 { font-family: var(--font-family-body); font-weight: var(--font-weight-body-medium); font-size: var(--font-size-body-l); }
+.audience-card p { margin-top: var(--space-s); color: var(--color-text-secondary-light); }
+.audience-card-chevron { color: var(--color-accent-primary); flex-shrink: 0; }
+
+/* ============================================================
+   COMPONENT — Case Study Card
+   ============================================================ */
+
+.demo-case-study { padding: var(--space-section-m) var(--space-l); }
+@media (min-width: 768px) { .demo-case-study { padding-inline: var(--space-section-m); } }
+.case-study-card { display: grid; grid-template-columns: 1fr; gap: var(--space-l); background: var(--color-bg-light); border-radius: var(--border-radius-card); overflow: hidden; border: 1px solid var(--color-border-light); padding: var(--space-l); position: relative; }
+@media (min-width: 560px) { .case-study-card { grid-template-columns: 120px 1fr; } }
+.case-study-sample-badge { position: absolute; top: var(--space-m); right: var(--space-m); font-size: 0.625rem; background: var(--color-surface-mid); color: var(--color-text-secondary-light); padding: 3px 9px; border-radius: var(--border-radius-badge); }
+.case-study-cover { width: 100px; aspect-ratio: 2/3; background: linear-gradient(160deg, #d8d2c8, #c3bcae); border-radius: 3px; display: flex; align-items: center; justify-content: center; color: var(--color-text-secondary-light); font-size: 0.625rem; text-align: center; padding: var(--space-s); }
+.case-study-title { font-weight: var(--font-weight-body-medium); }
+.case-study-genre { color: var(--color-text-secondary-light); font-size: var(--font-size-body-s); }
+.case-study-metric { margin-top: var(--space-s); color: var(--color-accent-primary-pressed); }
+.case-study-desc { margin-top: var(--space-s); color: var(--color-text-secondary-light); }
+.case-study-quote { margin-top: var(--space-s); font-size: var(--font-size-body-s); }
+
+/* ============================================================
+   COMPONENT — Standalone CTA
+   ============================================================ */
+
+.demo-cta { padding: var(--space-section-m) var(--space-l); text-align: center; }
+.demo-cta h3 { color: var(--color-text-primary-dark); max-width: 20ch; margin: 0 auto; }
+.demo-cta .btn-row { justify-content: center; margin-top: var(--space-l); }
+
+/* ============================================================
+   COMPONENT — FAQ Accordion
+   ============================================================ */
+
+.demo-faq { padding: var(--space-section-m) var(--space-l); max-width: 760px; margin: 0 auto; }
+.faq-item { border-bottom: 1px solid var(--color-border-light); }
+.faq-item:first-child { border-top: 1px solid var(--color-border-light); }
+.faq-q { width: 100%; display: flex; justify-content: space-between; align-items: center; gap: var(--space-m); background: none; border: none; padding: var(--space-m) 0; text-align: left; cursor: pointer; font-family: var(--font-family-body); font-weight: var(--font-weight-body-medium); font-size: var(--font-size-body); }
+.faq-q-icon { flex-shrink: 0; transition: transform var(--motion-duration-standard) var(--motion-easing-standard); color: var(--color-text-secondary-light); }
+.faq-item.is-open .faq-q-icon { transform: rotate(45deg); color: var(--color-accent-primary); }
+.faq-item.is-open .faq-q { color: var(--color-accent-primary); }
+.faq-a-wrap { max-height: 0; overflow: hidden; transition: max-height var(--motion-duration-standard) var(--motion-easing-standard); }
+.faq-item.is-open .faq-a-wrap { max-height: 240px; }
+.faq-a { padding-bottom: var(--space-m); color: var(--color-text-secondary-light); font-size: var(--font-size-body-s); max-width: 64ch; }
+
+/* ============================================================
+   COMPONENT — Guarantee / Commitment Block
+   ============================================================ */
+
+.demo-guarantee { padding: var(--space-section-m) var(--space-l); max-width: 700px; margin: 0 auto; }
+.demo-guarantee p { color: var(--color-text-secondary-dark); margin-top: var(--space-m); }
+.demo-guarantee p:first-of-type { margin-top: var(--space-m); }
+.demo-guarantee hr { border: none; border-top: 1px solid var(--color-border-dark); margin: var(--space-l) 0; }
+.demo-guarantee .t-pullquote { color: var(--color-text-primary-dark); display: block; }
+
+/* ============================================================
+   COMPONENT — 90-Day Journey
+   ============================================================ */
+
+.demo-journey { padding: var(--space-section-m) var(--space-l); }
+@media (min-width: 768px) { .demo-journey { padding-inline: var(--space-section-m); } }
+.journey-row { display: flex; flex-direction: column; gap: var(--space-l); }
+@media (min-width: 800px) { .journey-row { flex-direction: row; } }
+.journey-phase { flex: 1; position: relative; padding-left: var(--space-l); border-left: 1.5px solid var(--color-border-light); }
+.journey-phase-label { color: var(--color-accent-primary-pressed); }
+.journey-phase h4 { font-family: var(--font-family-display); font-size: var(--font-size-heading); margin-top: var(--space-xs); }
+.journey-phase ul { margin-top: var(--space-s); }
+.journey-phase li { font-size: var(--font-size-body-s); color: var(--color-text-secondary-light); padding: 2px 0; }
+.demo-journey-message { margin-top: var(--space-section-m); text-align: center; }
+.demo-journey-message p { font-family: var(--font-family-display); font-style: italic; font-size: var(--font-size-body-l); }
+
+/* ============================================================
+   COMPONENT — Footer
+   ============================================================ */
+
+.demo-footer { padding: var(--space-section-m) var(--space-l) var(--space-l); }
+@media (min-width: 768px) { .demo-footer { padding-inline: var(--space-section-m); } }
+.footer-top { display: flex; flex-direction: column; gap: var(--space-l); }
+@media (min-width: 700px) { .footer-top { flex-direction: row; justify-content: space-between; } }
+.footer-brand { color: var(--color-text-primary-dark); font-family: var(--font-family-display); font-size: 1.25rem; }
+.footer-cols { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-l); }
+@media (min-width: 500px) { .footer-cols { grid-template-columns: repeat(3, 1fr); } }
+.footer-col a { display: block; color: var(--color-text-secondary-dark); text-decoration: none; font-size: var(--font-size-body-s); padding: 3px 0; }
+.footer-col a:hover { color: var(--color-text-primary-dark); }
+.footer-bottom { margin-top: var(--space-component); padding-top: var(--space-m); border-top: 1px solid var(--color-border-dark); display: flex; flex-direction: column; gap: var(--space-s); }
+@media (min-width: 700px) { .footer-bottom { flex-direction: row; justify-content: space-between; } }
+.footer-bottom p { color: var(--color-text-disabled-dark); font-size: 0.75rem; }
+
+/* ============================================================
+   CHECKLIST (50.11)
+   ============================================================ */
+
+.checklist-group { margin-bottom: var(--space-component); }
+.checklist-group h4 { font-family: var(--font-family-body); font-weight: var(--font-weight-body-medium); font-size: 0.9375rem; margin-bottom: var(--space-s); }
+.checklist-item { display: flex; align-items: flex-start; gap: var(--space-s); padding: 5px 0; font-size: 0.875rem; }
+.checklist-item .dot { flex-shrink: 0; width: 8px; height: 8px; border-radius: 50%; margin-top: 6px; }
+.checklist-item.is-built .dot { background: var(--color-success); }
+.checklist-item.is-open .dot { background: var(--color-text-disabled-light); }
+.checklist-item.is-open { color: var(--color-text-secondary-light); }
+
+/* reveal-on-scroll */
+.reveal { opacity: 0; transform: translateY(12px); transition: opacity var(--motion-duration-slow) var(--motion-easing-decelerate), transform var(--motion-duration-slow) var(--motion-easing-decelerate); }
+.reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="doc-bar">
+  <strong>Atomic Shelf — Design System</strong>
+  <nav>
+    <a href="#foundations">Foundations</a>
+    <a href="#components">Components</a>
+    <a href="#checklist">Checklist</a>
+  </nav>
+</header>
+
+<main id="main">
+
+  <section class="doc-intro">
+    <p class="t-label">Phase 2 — Design System · Step 6</p>
+    <h1 class="t-display-m">Implementing PRD Section 50</h1>
+    <p>This is a working build of the design language specified in Section 50 of the Master PRD — real CSS custom properties, real components, at the exact values the PRD gives. Where the PRD names a token but doesn't number it, that's called out below rather than guessed silently.</p>
+    <div class="doc-callout">
+      <p class="t-body-s"><strong>Proof audit note.</strong> The Proof Strip component below now demonstrates a <strong>range format</strong> for the flagged "2,400 downloads" figure — shown as a range tied to retargeting reach, sourced from the 24-month dataset, instead of a single copy-pasted number. This is a formatting decision only. The actual verified range still depends on real campaign data, which stays out of scope here — the PRD and <code>proof-audit.json</code> are untouched.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOUNDATIONS
+       ============================================================ -->
+  <section id="foundations" class="doc-section">
+    <div class="doc-section-inner">
+      <div class="doc-section-head">
+        <p class="t-label">50.2 – 50.10</p>
+        <h2 class="t-display-l">Foundations</h2>
+      </div>
+
+      <!-- Colour -->
+      <div id="colour" class="reveal">
+        <div class="doc-subhead">
+          <h3>Colour</h3>
+          <p>Dark editorial base for atmospheric sections, warm light surface for extended reading. Accent used sparingly — never for decoration.</p>
+        </div>
+
+        <p class="t-body-s" style="margin-bottom:var(--space-s); color:var(--color-text-secondary-light);">Dark surfaces</p>
+        <div class="swatch-grid" style="margin-bottom:var(--space-l);">
+          <div class="swatch"><div class="swatch-fill" style="background:#0F0E0C"></div><div class="swatch-meta"><span class="name">bg-dark</span><code>--color-bg-dark · #0F0E0C</code></div></div>
+          <div class="swatch"><div class="swatch-fill" style="background:#1A1916"></div><div class="swatch-meta"><span class="name">surface-dark</span><code>--color-surface-dark · #1A1916</code></div></div>
+          <div class="swatch"><div class="swatch-fill" style="background:#262420"></div><div class="swatch-meta"><span class="name">border-dark</span><code>--color-border-dark · #262420</code></div></div>
+        </div>
+
+        <p class="t-body-s" style="margin-bottom:var(--space-s); color:var(--color-text-secondary-light);">Light surfaces</p>
+        <div class="swatch-grid" style="margin-bottom:var(--space-l);">
+          <div class="swatch"><div class="swatch-fill" style="background:#F8F6F2; border-bottom:1px solid #E0DBD3"></div><div class="swatch-meta"><span class="name">bg-light</span><code>--color-bg-light · #F8F6F2</code></div></div>
+          <div class="swatch"><div class="swatch-fill" style="background:#EEEAE3"></div><div class="swatch-meta"><span class="name">surface-light / -mid</span><code>--color-surface-light · #EEEAE3</code></div></div>
+          <div class="swatch"><div class="swatch-fill" style="background:#E0DBD3"></div><div class="swatch-meta"><span class="name">border-light</span><code>--color-border-light · #E0DBD3</code></div></div>
+        </div>
+
+        <p class="t-body-s" style="margin-bottom:var(--space-s); color:var(--color-text-secondary-light);">Accent</p>
+        <div class="swatch-grid" style="margin-bottom:var(--space-l);">
+          <div class="swatch"><div class="swatch-fill" style="background:#C8922A"></div><div class="swatch-meta"><span class="name">accent-primary</span><code>--color-accent-primary · #C8922A</code></div></div>
+          <div class="swatch"><div class="swatch-fill" style="background:#DFA83E"></div><div class="swatch-meta"><span class="name">accent-primary-hover</span><code>#DFA83E</code></div></div>
+          <div class="swatch"><div class="swatch-fill" style="background:#A67820"></div><div class="swatch-meta"><span class="name">accent-primary-pressed</span><code>#A67820</code></div></div>
+          <div class="swatch"><div class="swatch-fill" style="background:#5E7A8A"></div><div class="swatch-meta"><span class="name">accent-secondary</span><code>tag borders only · #5E7A8A</code></div></div>
+        </div>
+
+        <p class="t-body-s" style="margin-bottom:var(--space-s); color:var(--color-text-secondary-light);">Text &amp; system</p>
+        <div class="swatch-grid">
+          <div class="swatch"><div class="swatch-fill" style="background:#0F0E0C; color:#F2EFE9; display:flex; align-items:center; justify-content:center; font-family:var(--font-family-body); font-size:0.75rem;">Aa on dark</div><div class="swatch-meta"><span class="name">text-primary-dark</span><code>#F2EFE9</code></div></div>
+          <div class="swatch"><div class="swatch-fill" style="background:#F8F6F2; color:#1C1A18; display:flex; align-items:center; justify-content:center; font-family:var(--font-family-body); font-size:0.75rem; border-bottom:1px solid #E0DBD3;">Aa on light</div><div class="swatch-meta"><span class="name">text-primary-light</span><code>#1C1A18</code></div></div>
+          <div class="swatch"><div class="swatch-fill" style="background:#3A7D52"></div><div class="swatch-meta"><span class="name">success</span><code>confirmation only · #3A7D52</code></div></div>
+          <div class="swatch"><div class="swatch-fill" style="background:#C0442A"></div><div class="swatch-meta"><span class="name">error</span><code>form errors only · #C0442A</code></div></div>
+        </div>
+      </div>
+
+      <!-- Typography -->
+      <div id="typography" class="reveal">
+        <div class="doc-subhead">
+          <h3>Typography</h3>
+          <p>DM Serif Display for headlines and plan names; Inter for everything functional. Resize the window — every size below is fluid between the PRD's mobile and desktop values.</p>
+        </div>
+        <div>
+          <div class="type-row"><div class="type-row-sample"><span class="t-display-xl">Build a readership.</span></div><div class="type-row-meta">Display XL<code>40 → 88px</code></div></div>
+          <div class="type-row"><div class="type-row-sample"><span class="t-display-l">A system, not a task list.</span></div><div class="type-row-meta">Display L<code>32 → 64px</code></div></div>
+          <div class="type-row"><div class="type-row-sample"><span class="t-display-m">Reader lists make it repeatable.</span></div><div class="type-row-meta">Display M<code>26 → 44px</code></div></div>
+          <div class="type-row"><div class="type-row-sample"><span class="t-heading">Short-form video</span></div><div class="type-row-meta">Heading<code>20 → 28px</code></div></div>
+          <div class="type-row"><div class="type-row-sample"><span class="t-body-l">We help independent authors find readers and turn attention into sales.</span></div><div class="type-row-meta">Body L<code>17 → 20px</code></div></div>
+          <div class="type-row"><div class="type-row-sample"><span class="t-body">Standard paragraph copy sits here, comfortable at 60–68 characters per line.</span></div><div class="type-row-meta">Body<code>16 → 17px</code></div></div>
+          <div class="type-row"><div class="type-row-sample"><span class="t-body-s">Supporting copy and card descriptions use this size.</span></div><div class="type-row-meta">Body S<code>14 → 15px</code></div></div>
+          <div class="type-row"><div class="type-row-sample"><span class="t-label">For independent authors</span></div><div class="type-row-meta">Label<code>11 → 13px · 0.1em tracking</code></div></div>
+          <div class="type-row"><div class="type-row-sample"><span class="t-mono" style="font-size:1.5rem;">3.2×&nbsp;&nbsp;&nbsp;$249</span></div><div class="type-row-meta">Mono / tabular<code>proof + price only</code></div></div>
+        </div>
+        <div class="doc-subhead" style="margin-top:var(--space-l);">
+          <div style="background:var(--color-bg-dark); padding:var(--space-l); border-radius:var(--border-radius-card);">
+            <p class="t-pullquote" style="color:var(--color-text-primary-dark); font-size:var(--font-size-display-m);">"Your commitment is to the partnership. Ours is to the work."</p>
+            <p class="t-body-s" style="color:var(--color-text-secondary-dark); margin-top:var(--space-s);">Pull-quote treatment — display serif, italic, reduced weight.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Spacing & Grid -->
+      <div id="spacing-grid" class="reveal">
+        <div class="doc-subhead">
+          <h3>Spacing</h3>
+          <p>Bars scaled to the desktop value of each section-spacing token.</p>
+        </div>
+        <div>
+          <div class="space-row"><div class="space-row-label">section-xl<code>160px desktop</code></div><div class="space-bar" style="width:160px;"></div></div>
+          <div class="space-row"><div class="space-row-label">section-l<code>120px desktop</code></div><div class="space-bar" style="width:120px;"></div></div>
+          <div class="space-row"><div class="space-row-label">section-m<code>80px desktop</code></div><div class="space-bar" style="width:80px;"></div></div>
+          <div class="space-row"><div class="space-row-label">component<code>40px desktop</code></div><div class="space-bar" style="width:40px;"></div></div>
+          <div class="space-row"><div class="space-row-label">inner<code>24–32px desktop</code></div><div class="space-bar" style="width:28px;"></div></div>
+        </div>
+
+        <div class="doc-subhead">
+          <h3>Grid</h3>
+          <p>12 columns / 80px margin at desktop (1280px+), 8 columns / 40px at tablet (768px+), 4 columns / 16–20px at mobile. Resize the browser to see it shift live.</p>
+        </div>
+        <div class="grid-demo-wrap">
+          <div class="grid-demo" id="gridDemo"></div>
+        </div>
+        <p class="grid-demo-caption">Columns re-flow at the 768px and 1280px breakpoints defined in 50.4.</p>
+      </div>
+
+      <!-- Motion -->
+      <div id="motion-tokens" class="reveal">
+        <div class="doc-subhead">
+          <h3>Motion</h3>
+          <p>Hover each row — every swatch uses the same transform at a different duration token, so the difference in feel is easy to compare directly.</p>
+        </div>
+        <div>
+          <div class="motion-demo-row motion-fast"><div class="motion-demo-label">duration-fast<code>120ms · button hover</code></div><div class="motion-swatch"></div></div>
+          <div class="motion-demo-row motion-standard"><div class="motion-demo-label">duration-standard<code>240ms · accordion, nav</code></div><div class="motion-swatch"></div></div>
+          <div class="motion-demo-row motion-slow"><div class="motion-demo-label">duration-slow<code>450ms · scroll fade-in</code></div><div class="motion-swatch"></div></div>
+        </div>
+        <p class="specimen-note" style="margin-top:var(--space-m);">This page's own scroll-reveal and proof-metric count-up (below) use these same tokens, and both are skipped instantly if your OS has reduced motion turned on — try it with that setting on to confirm the fallback works.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       COMPONENTS
+       ============================================================ -->
+  <section id="components" class="doc-section">
+    <div class="doc-section-inner">
+      <div class="doc-section-head">
+        <p class="t-label">50.5</p>
+        <h2 class="t-display-l">Components</h2>
+      </div>
+
+      <!-- Navigation -->
+      <div class="specimen reveal">
+        <div class="specimen-label">Navigation <span class="chk">desktop + mobile</span></div>
+        <div class="specimen-frame is-dark">
+          <nav class="demo-nav" id="demoNav">
+            <span class="demo-nav-logo">Atomic Shelf</span>
+            <div class="demo-nav-links">
+              <a href="#" class="is-active">How It Works</a>
+              <a href="#">Services</a>
+              <a href="#">Pricing</a>
+              <a href="#">Results</a>
+              <a href="#">Readers</a>
+              <a href="#">Editorial</a>
+              <a href="#" class="btn btn-primary" style="height:40px; padding:0 18px;">Start here</a>
+            </div>
+            <button class="demo-nav-burger" id="navBurger" aria-label="Open menu" aria-expanded="false">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 6h18M3 12h18M3 18h18" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </button>
+            <div class="demo-nav-drawer" id="navDrawer">
+              <a href="#">How It Works</a>
+              <a href="#">Services</a>
+              <a href="#">Pricing</a>
+              <a href="#">Results</a>
+              <a href="#">Readers</a>
+              <a href="#">Editorial</a>
+              <a href="#" class="btn btn-primary">Start here</a>
+            </div>
+          </nav>
+        </div>
+        <p class="specimen-note">Shrink the frame below 768px to see the burger menu. Fixed to top, transparent over the hero, gains the dark/blur background after scroll on the real site.</p>
+      </div>
+
+      <!-- Buttons -->
+      <div class="specimen reveal">
+        <div class="specimen-label">Buttons <span class="chk">primary · secondary · ghost</span></div>
+        <div class="specimen-frame is-light" style="padding:var(--space-l);">
+          <div class="btn-row">
+            <div class="btn-state-group"><button class="btn btn-primary">See the plans</button><span class="btn-state-label">default</span></div>
+            <div class="btn-state-group"><button class="btn btn-primary" disabled>See the plans</button><span class="btn-state-label">disabled</span></div>
+            <div class="btn-state-group"><button class="btn btn-secondary">Talk to us</button><span class="btn-state-label">secondary</span></div>
+            <div class="btn-state-group"><button class="btn btn-secondary" disabled>Talk to us</button><span class="btn-state-label">disabled</span></div>
+            <div class="btn-state-group on-light"><button class="btn btn-ghost">See how it works</button><span class="btn-state-label">ghost / text link</span></div>
+          </div>
+        </div>
+        <p class="specimen-note">Hover and tab-focus the buttons above to see the real transition and focus-ring states. Sentence case only, one primary CTA per component.</p>
+      </div>
+
+      <!-- Hero -->
+      <div class="specimen reveal">
+        <div class="specimen-label">Hero</div>
+        <div class="specimen-frame is-dark">
+          <div class="demo-hero">
+            <div>
+              <p class="t-label demo-hero-eyebrow">For independent authors</p>
+              <h1 class="t-display-xl">Build a readership that lasts.</h1>
+              <p class="t-body-l demo-hero-body">We help independent authors find readers, turn attention into sales, and build an audience that can follow them from one book to the next.</p>
+              <div class="btn-row on-dark">
+                <button class="btn btn-primary">See the plans</button>
+                <button class="btn btn-secondary on-dark">See how it works</button>
+                <button class="btn btn-ghost">Talk to us</button>
+              </div>
+            </div>
+            <div class="demo-hero-covers">
+              <div class="cover-ph c1">cover</div>
+              <div class="cover-ph c2">cover</div>
+              <div class="cover-ph c3">cover</div>
+              <div class="cover-ph c4">cover</div>
+            </div>
+          </div>
+        </div>
+        <p class="specimen-note">Covers shown as placeholders — the checklist flags this as needing real client covers before sign-off. No video, no abstract shapes, left-aligned text at every width.</p>
+      </div>
+
+      <!-- Proof Strip -->
+      <div class="specimen reveal">
+        <div class="specimen-label">Proof Strip <span class="chk">count-up on scroll</span></div>
+        <div class="specimen-frame is-dark">
+          <div class="demo-proof">
+            <div class="demo-proof-item">
+              <span class="t-mono demo-proof-value" style="font-size:var(--font-size-display-m);" data-count-to="3.2" data-suffix="×">0×</span>
+              <span class="t-body-s demo-proof-label">Average sales lift within 90 days</span>
+            </div>
+            <div class="demo-proof-item">
+              <span class="t-mono demo-proof-value" style="font-size:var(--font-size-display-m);" data-count-to="12000" data-suffix="+">0</span>
+              <span class="t-body-s demo-proof-label">Videos produced for client authors</span>
+            </div>
+            <div class="demo-proof-item">
+              <span class="t-mono demo-proof-value" style="font-size:var(--font-size-display-m);">1,800–2,400</span>
+              <span class="t-body-s demo-proof-label">Downloads per newsletter feature</span>
+              <span class="demo-proof-range-note">Range reflects retargeting reach · 24-month data</span>
+            </div>
+          </div>
+        </div>
+        <p class="specimen-note"><strong>Third metric is the resolved format for the flagged single-number issue:</strong> a range instead of one figure, with the driver of the variance (retargeting reach) named inline rather than hidden in a footnote. Values here are illustrative — Step 3's real verified range is still pending.</p>
+      </div>
+
+      <!-- Five-Stage System -->
+      <div class="specimen reveal">
+        <div class="specimen-label">Five-Stage System <span class="chk">stage card</span></div>
+        <div class="specimen-frame is-dark">
+          <div class="demo-stages">
+            <div class="demo-stages-row">
+              <div class="demo-stage"><span class="t-label demo-stage-num">01 — Discover</span><span class="t-heading demo-stage-name">Video finds the readers.</span><p class="t-body-s demo-stage-def">Short-form content puts the book in front of genre-relevant audiences.</p></div>
+              <div class="demo-stage"><span class="t-label demo-stage-num">02 — Trust</span><span class="t-heading demo-stage-name">Reviews make the click worthwhile.</span><p class="t-body-s demo-stage-def">ARC campaigns create social proof and reduce uncertainty.</p></div>
+              <div class="demo-stage"><span class="t-label demo-stage-num">03 — Convert</span><span class="t-heading demo-stage-name">The listing earns the sale.</span><p class="t-body-s demo-stage-def">Listing copy, keywords, and storefront presentation turn interest into sales.</p></div>
+              <div class="demo-stage"><span class="t-label demo-stage-num">04 — Retain</span><span class="t-heading demo-stage-name">Reader lists make it repeatable.</span><p class="t-body-s demo-stage-def">ShelfMates and StoryPals build a direct reader relationship.</p></div>
+              <div class="demo-stage"><span class="t-label demo-stage-num">05 — Repeat</span><span class="t-heading demo-stage-name">The next book starts here.</span><p class="t-body-s demo-stage-def">The objective is an increasingly valuable readership, not one sale.</p></div>
+            </div>
+          </div>
+        </div>
+        <p class="specimen-note">No icons — stage numbers carry the identity, exactly as 50.5 specifies. Hover a stage to see the lift + accent-colour name change.</p>
+      </div>
+
+      <!-- Service Cards -->
+      <div class="specimen reveal">
+        <div class="specimen-label">Service Cards</div>
+        <div class="specimen-frame is-light">
+          <div class="demo-services">
+            <div class="service-card">
+              <h4>Short-form video</h4>
+              <p>Genre-targeted video content built to put your book in front of readers actively looking for it.</p>
+              <div class="service-card-tags"><span class="tag tag-stage">Discover</span><span class="tag tag-plan">Spark and up</span></div>
+            </div>
+            <div class="service-card">
+              <h4>ARC review campaigns</h4>
+              <p>Structured advance-reader recruitment that builds real reviews before or at launch.</p>
+              <div class="service-card-tags"><span class="tag tag-stage">Trust</span><span class="tag tag-plan">Foundation and up</span></div>
+            </div>
+          </div>
+        </div>
+        <p class="specimen-note">Hover lifts the card 2–3px with a shadow only — no colour change, no scale, per spec.</p>
+      </div>
+
+      <!-- Pricing Cards -->
+      <div class="specimen reveal">
+        <div class="specimen-label">Pricing Cards <span class="chk">+ commitment selector</span></div>
+        <div class="specimen-frame is-light" style="padding:var(--space-l);">
+          <div class="demo-pricing" style="padding:0;">
+            <div class="commitment-selector" id="commitSelector">
+              <button class="commitment-tab is-active" data-months="monthly">Monthly</button>
+              <button class="commitment-tab" data-months="3">3 months · Save 10%</button>
+              <button class="commitment-tab" data-months="6">6 months · Save 20%</button>
+              <button class="commitment-tab" data-months="12">12 months · Save 25%</button>
+            </div>
+            <div class="pricing-grid" id="pricingGrid"></div>
+          </div>
+        </div>
+        <p class="specimen-note">Live toggle, built from actual plan prices in <code>commercial-truth.json</code>. Spark and Foundation support all four commitments; Momentum and Growth don't offer a 3-month tier — the card states that plainly instead of hiding the option.</p>
+      </div>
+
+      <!-- Audience Selector -->
+      <div class="specimen reveal">
+        <div class="specimen-label">Audience Selector <span class="chk">"Where are you right now?"</span></div>
+        <div class="specimen-frame is-light" style="padding:var(--space-l) 0;">
+          <div class="demo-audience" style="padding-inline:var(--space-l);">
+            <div class="audience-card"><div class="audience-card-head"><h4>I need more readers.</h4><span class="audience-card-chevron">›</span></div><p>For authors who have a book but need discovery.</p></div>
+            <div class="audience-card"><div class="audience-card-head"><h4>Sales are inconsistent.</h4><span class="audience-card-chevron">›</span></div><p>For authors who need a stronger system around existing attention.</p></div>
+            <div class="audience-card"><div class="audience-card-head"><h4>I have a launch coming.</h4><span class="audience-card-chevron">›</span></div><p>For authors who need coordinated pre-launch and launch support.</p></div>
+          </div>
+        </div>
+        <p class="specimen-note">Horizontal scroll on mobile (try narrowing the frame), 3-column grid from 900px. Text carries the meaning — no icons.</p>
+      </div>
+
+      <!-- Case Study Card -->
+      <div class="specimen reveal">
+        <div class="specimen-label">Case Study Card</div>
+        <div class="specimen-frame is-light" style="padding:var(--space-l);">
+          <div class="demo-case-study" style="padding:0;">
+            <div class="case-study-card">
+              <span class="case-study-sample-badge">Sample — case studies deferred (Step 5)</span>
+              <div class="case-study-cover">cover</div>
+              <div>
+                <p class="case-study-title">A. Reyes — <em>The Salt Line</em></p>
+                <p class="case-study-genre">Literary fiction</p>
+                <p class="t-mono case-study-metric" style="font-size:var(--font-size-display-m);">150K–2,400</p>
+                <p class="t-body-s" style="color:var(--color-text-secondary-light); margin-top:2px;">impressions → clicks, 90-day window</p>
+                <p class="case-study-desc">40 videos produced across a 90-day window, paired with an ARC push ahead of a backlist relaunch.</p>
+                <p class="t-pullquote case-study-quote">"It felt like the first time the marketing actually matched the book."</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="specimen-note">Marked as a sample layout, not a real client — case studies were intentionally deferred at Step 5 (schema only, no entries yet). Output → activity → indicator → business result hierarchy, per Section 15.</p>
+      </div>
+
+      <!-- Standalone CTA -->
+      <div class="specimen reveal">
+        <div class="specimen-label">CTA Section <span class="chk">standalone</span></div>
+        <div class="specimen-frame is-dark">
+          <div class="demo-cta">
+            <h3 class="t-display-m">Ready to build a readership that lasts?</h3>
+            <div class="btn-row on-dark"><button class="btn btn-primary">See the plans</button><button class="btn btn-ghost">Talk to us</button></div>
+          </div>
+        </div>
+        <p class="specimen-note">Vocabulary pulled straight from Section 28 — no invented button phrases.</p>
+      </div>
+
+      <!-- FAQ Accordion -->
+      <div class="specimen reveal">
+        <div class="specimen-label">FAQ Accordion</div>
+        <div class="specimen-frame is-light" style="padding:var(--space-l);">
+          <div class="demo-faq" style="padding:0;">
+            <div class="faq-item is-open">
+              <button class="faq-q"><span>Why are longer commitments discounted?</span><span class="faq-q-icon">+</span></button>
+              <div class="faq-a-wrap"><p class="faq-a">Longer commitments are prepaid savings, not a cancellation trap — the system has more time to compound, and predictable planning lets us offer better economics.</p></div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-q"><span>Do you guarantee sales?</span><span class="faq-q-icon">+</span></button>
+              <div class="faq-a-wrap"><p class="faq-a">No — we don't guarantee a specific rank, sales number, or viral event. We commit to doing the agreed work, measuring what happens, and staying accountable for the outcome.</p></div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-q"><span>What happens if Atomic Shelf does not deliver?</span><span class="faq-q-icon">+</span></button>
+              <div class="faq-a-wrap"><p class="faq-a">Money-back applies where delivery was demonstrably zero. Outside that, underperformance is treated as time-based — we diagnose, adjust, and keep working toward the target.</p></div>
+            </div>
+          </div>
+        </div>
+        <p class="specimen-note">Click a question — height transition only, no fade, accent colour on the open state.</p>
+      </div>
+
+      <!-- Guarantee Block -->
+      <div class="specimen reveal">
+        <div class="specimen-label">Guarantee / Commitment Block</div>
+        <div class="specimen-frame is-dark">
+          <div class="demo-guarantee">
+            <p class="t-body-l" style="color:var(--color-text-primary-dark);">We don't promise that every book will explode overnight. Publishing doesn't work that way — and neither does building a readership.</p>
+            <p>What we do promise is that we'll do the work we've committed to, measure what happens, and stay accountable for the outcome. If we fall short of our commitments, we'll make it right — at our cost.</p>
+            <hr>
+            <span class="t-pullquote" style="font-size:var(--font-size-display-m);">"Your commitment is to the partnership. Ours is to the work."</span>
+          </div>
+        </div>
+        <p class="specimen-note">No badge, no shield icon, no animation — this section is meant to feel still and deliberate, per 50.5.</p>
+      </div>
+
+      <!-- 90-Day Journey -->
+      <div class="specimen reveal">
+        <div class="specimen-label">90-Day Journey</div>
+        <div class="specimen-frame is-light">
+          <div class="demo-journey">
+            <div class="journey-row">
+              <div class="journey-phase"><span class="t-label journey-phase-label">Days 1–30</span><h4>Build the machine</h4><ul><li>Establish positioning</li><li>Prepare content</li><li>Begin discovery</li></ul></div>
+              <div class="journey-phase"><span class="t-label journey-phase-label">Days 31–60</span><h4>Build momentum</h4><ul><li>Identify what resonates</li><li>Strengthen social proof</li><li>Expand reader acquisition</li></ul></div>
+              <div class="journey-phase"><span class="t-label journey-phase-label">Days 61–90</span><h4>Measure the system</h4><ul><li>Compare against baseline</li><li>Improve weak points</li><li>Set next growth priorities</li></ul></div>
+            </div>
+            <div class="demo-journey-message">
+              <p>"The first month starts the system. The following months give it enough time to learn, compound, and improve."</p>
+            </div>
+          </div>
+        </div>
+        <p class="specimen-note">Background can flex dark or light depending on surrounding rhythm — shown light here since it follows the FAQ (light) in the homepage order.</p>
+      </div>
+
+      <!-- Footer -->
+      <div class="specimen reveal">
+        <div class="specimen-label">Footer</div>
+        <div class="specimen-frame is-dark">
+          <div class="demo-footer">
+            <div class="footer-top">
+              <span class="footer-brand">Atomic Shelf</span>
+              <div class="footer-cols">
+                <div class="footer-col"><a href="#">Catalogue</a><a href="#">FAQ</a><a href="#">Contact</a></div>
+                <div class="footer-col"><a href="#">ShelfMates</a><a href="#">StoryPals</a></div>
+                <div class="footer-col"><a href="#">Terms</a><a href="#">Privacy</a></div>
+              </div>
+            </div>
+            <div class="footer-bottom">
+              <p>© Atomic Shelf. All rights reserved.</p>
+              <p>Dark, consistent with the editorial tone of the rest of the site.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CHECKLIST
+       ============================================================ -->
+  <section id="checklist" class="doc-section">
+    <div class="doc-section-inner" style="max-width:760px;">
+      <div class="doc-section-head">
+        <p class="t-label">50.11 — Phase 2 Exit Criterion</p>
+        <h2 class="t-display-l">Where this leaves the checklist</h2>
+        <p class="t-body-s" style="color:var(--color-text-secondary-light); margin-top:var(--space-s);">Self-assessed honestly: green means built and testable on this page right now; grey means it still needs a real asset, a formal audit, or a human sign-off this page can't provide.</p>
+      </div>
+
+      <div class="checklist-group">
+        <h4>Foundations</h4>
+        <div class="checklist-item is-built"><span class="dot"></span>Colour tokens defined and documented</div>
+        <div class="checklist-item is-open"><span class="dot"></span>Both typefaces selected — DM Serif Display + Inter chosen from the PRD's own candidate list; licensing confirmation and web-performance testing (sub-40kb subset) still needed</div>
+        <div class="checklist-item is-built"><span class="dot"></span>Type scale implemented and fluid across breakpoints</div>
+        <div class="checklist-item is-built"><span class="dot"></span>Spacing scale implemented</div>
+        <div class="checklist-item is-built"><span class="dot"></span>Grid system implemented — tested live at 320/375/768/1280px, resize the frame above to confirm</div>
+        <div class="checklist-item is-built"><span class="dot"></span>Motion tokens defined; reduced-motion behaviour implemented and testable via OS setting</div>
+      </div>
+
+      <div class="checklist-group">
+        <h4>Components</h4>
+        <div class="checklist-item is-built"><span class="dot"></span>Navigation (desktop + mobile + scroll behaviour)</div>
+        <div class="checklist-item is-built"><span class="dot"></span>Buttons — primary, secondary, ghost, all states</div>
+        <div class="checklist-item is-built"><span class="dot"></span>Hero section</div>
+        <div class="checklist-item is-built"><span class="dot"></span>Proof strip — including the resolved range-format metric</div>
+        <div class="checklist-item is-built"><span class="dot"></span>Stage card</div>
+        <div class="checklist-item is-built"><span class="dot"></span>Service card</div>
+        <div class="checklist-item is-built"><span class="dot"></span>Pricing card + commitment selector — live-wired to real plan prices</div>
+        <div class="checklist-item is-built"><span class="dot"></span>Audience selector card</div>
+        <div class="checklist-item is-built"><span class="dot"></span>Case study card</div>
+        <div class="checklist-item is-built"><span class="dot"></span>CTA section (standalone)</div>
+        <div class="checklist-item is-built"><span class="dot"></span>FAQ accordion</div>
+        <div class="checklist-item is-built"><span class="dot"></span>Guarantee/commitment block</div>
+        <div class="checklist-item is-built"><span class="dot"></span>90-day journey timeline</div>
+        <div class="checklist-item is-built"><span class="dot"></span>Footer</div>
+      </div>
+
+      <div class="checklist-group">
+        <h4>Visual review</h4>
+        <div class="checklist-item is-open"><span class="dot"></span>Dark/light sections side-by-side — visible throughout this page, but a formal contrast pass hasn't been run</div>
+        <div class="checklist-item is-open"><span class="dot"></span>Book cover presentation with real covers — this page uses placeholders only</div>
+        <div class="checklist-item is-built"><span class="dot"></span>All components reviewed mobile-first (this page is built and should be reviewed narrow before wide)</div>
+        <div class="checklist-item is-open"><span class="dot"></span>WCAG AA contrast ratios formally verified for every text/background pair</div>
+        <div class="checklist-item is-built"><span class="dot"></span>Reduced-motion mode — implemented globally, testable via OS setting</div>
+      </div>
+
+      <div class="checklist-group">
+        <h4>Handoff</h4>
+        <div class="checklist-item is-built"><span class="dot"></span>All tokens exported — as CSS custom properties in this file's <code>:root</code>, ready to lift into the actual site build</div>
+        <div class="checklist-item is-open"><span class="dot"></span>Component states documented beyond what's demoed here (edge cases, error states)</div>
+        <div class="checklist-item is-built"><span class="dot"></span>Typography specimens provided</div>
+        <div class="checklist-item is-built"><span class="dot"></span>Spacing and grid documented</div>
+        <div class="checklist-item is-built"><span class="dot"></span>Motion specifications documented with duration and easing values</div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+(function () {
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---- scroll reveal ---- */
+  const revealEls = document.querySelectorAll('.reveal');
+  if (reduceMotion) {
+    revealEls.forEach(el => el.classList.add('is-visible'));
+  } else if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => io.observe(el));
+  } else {
+    revealEls.forEach(el => el.classList.add('is-visible'));
+  }
+
+  /* ---- proof count-up (once) ---- */
+  const counters = document.querySelectorAll('[data-count-to]');
+  const animateCount = (el) => {
+    const target = parseFloat(el.getAttribute('data-count-to'));
+    const suffix = el.getAttribute('data-suffix') || '';
+    const isDecimal = target % 1 !== 0;
+    if (reduceMotion) {
+      el.textContent = (isDecimal ? target.toFixed(1) : target.toLocaleString()) + suffix;
+      return;
+    }
+    const duration = 800;
+    const start = performance.now();
+    function tick(now) {
+      const p = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - p, 2);
+      const val = target * eased;
+      el.textContent = (isDecimal ? val.toFixed(1) : Math.round(val).toLocaleString()) + suffix;
+      if (p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  };
+  if ('IntersectionObserver' in window && counters.length) {
+    const countIO = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) { animateCount(entry.target); countIO.unobserve(entry.target); }
+      });
+    }, { threshold: 0.5 });
+    counters.forEach(el => countIO.observe(el));
+  }
+
+  /* ---- nav scroll state + mobile drawer ---- */
+  const demoNav = document.getElementById('demoNav');
+  const navFrame = demoNav ? demoNav.closest('.specimen-frame') : null;
+  if (navFrame) {
+    navFrame.addEventListener('scroll', () => {}); // frame itself doesn't scroll; kept inert intentionally
+  }
+  const burger = document.getElementById('navBurger');
+  const drawer = document.getElementById('navDrawer');
+  if (burger && drawer) {
+    burger.addEventListener('click', () => {
+      const open = drawer.classList.toggle('is-open');
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  }
+
+  /* ---- FAQ accordion ---- */
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      btn.closest('.faq-item').classList.toggle('is-open');
+    });
+  });
+
+  /* ---- grid demo cells ---- */
+  const gridDemo = document.getElementById('gridDemo');
+  if (gridDemo) {
+    for (let i = 1; i <= 12; i++) {
+      const d = document.createElement('div');
+      d.textContent = i;
+      gridDemo.appendChild(d);
+    }
+  }
+
+  /* ---- pricing cards (real data from commercial-truth.json) ---- */
+  const plans = [
+    { name: 'Spark', positioning: 'Start getting discovered.', monthly: 20,
+      commitments: { monthly: null, '3': 50, '6': 90, '12': 180 },
+      outcome: 'First videos live, discovery begins',
+      services: ['Short-form video', 'Baseline metrics', 'Monthly reporting'] },
+    { name: 'Foundation', positioning: 'Build the infrastructure underneath the traffic.', monthly: 79,
+      commitments: { monthly: null, '3': 190, '6': 370, '12': 710 },
+      outcome: 'Listing optimised, reviews recruited',
+      services: ['Everything in Spark', 'ARC review campaigns', 'Listing optimisation'] },
+    { name: 'Momentum', positioning: 'Turn attention into a coordinated growth engine.', monthly: 249, recommended: true,
+      commitments: { monthly: null, '3': 670, '6': 1190, '12': 2240 },
+      outcome: 'Coordinated preorder or relaunch push',
+      services: ['Everything in Foundation', 'Preorder campaigns', 'Amazon advertising'] },
+    { name: 'Growth', positioning: 'Scale an established backlist.', monthly: 499,
+      commitments: { monthly: null, '3': 1340, '6': 2390, '12': 4490 },
+      outcome: 'Multi-book readership scaling',
+      services: ['Everything in Momentum', 'Audience retargeting', 'Reader ecosystem'] },
+  ];
+  const discountLabel = { monthly: null, '3': 10, '6': 20, '12': 25 };
+  const grid = document.getElementById('pricingGrid');
+
+  function renderPricing(months) {
+    grid.innerHTML = '';
+    plans.forEach(plan => {
+      const card = document.createElement('div');
+      card.className = 'pricing-card' + (plan.recommended ? ' is-recommended' : '');
+
+      let priceHtml, savingsHtml = '';
+      if (months === 'monthly') {
+        priceHtml = `<span class="t-mono" style="font-size:var(--font-size-display-m);">$${plan.monthly}</span><span class="t-body-s" style="color:var(--color-text-secondary-light);">/mo</span>`;
+      } else {
+        const total = plan.commitments[months];
+        if (total === null) {
+          priceHtml = `<span class="t-mono" style="font-size:var(--font-size-heading); color:var(--color-text-disabled-light);">$${plan.monthly}/mo</span>`;
+          savingsHtml = `<p class="pricing-card-unavailable">Not offered at ${months} months — monthly rate shown</p>`;
+        } else {
+          const equiv = Math.round(total / parseInt(months, 10));
+          priceHtml = `<span class="t-mono" style="font-size:var(--font-size-display-m);">$${equiv}</span><span class="t-body-s" style="color:var(--color-text-secondary-light);">/mo equiv.</span>`;
+          savingsHtml = `<span class="pricing-card-savings">Save ${discountLabel[months]}% · $${total} total</span>`;
+        }
+      }
+
+      card.innerHTML = `
+        ${plan.recommended ? '<span class="pricing-card-badge">Most popular</span>' : ''}
+        <h4>${plan.name}</h4>
+        <p class="pricing-card-position">${plan.positioning}</p>
+        <div class="pricing-card-price">${priceHtml}</div>
+        ${savingsHtml}
+        <hr>
+        <p class="pricing-card-outcome">${plan.outcome}</p>
+        <ul>${plan.services.map(s => `<li>${s}</li>`).join('')}</ul>
+        <button class="btn btn-primary">Start with ${plan.name}</button>
+      `;
+      grid.appendChild(card);
+    });
+  }
+  renderPricing('monthly');
+
+  document.getElementById('commitSelector').addEventListener('click', (e) => {
+    const tab = e.target.closest('.commitment-tab');
+    if (!tab) return;
+    document.querySelectorAll('.commitment-tab').forEach(t => t.classList.remove('is-active'));
+    tab.classList.add('is-active');
+    grid.style.transition = reduceMotion ? 'none' : 'opacity 150ms ease';
+    grid.style.opacity = '0';
+    setTimeout(() => {
+      renderPricing(tab.getAttribute('data-months'));
+      grid.style.opacity = '1';
+    }, reduceMotion ? 0 : 150);
+  });
+
+})();
+</script>
+</body>
+</html>
