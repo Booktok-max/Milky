@@ -171,6 +171,7 @@ footer a{color:rgba(255,255,255,0.4);text-decoration:none;}
       <div>
         <div class="eyebrow"><span class="eyebrow-line"></span>Browse Books</div>
         <h2 id="results-title">A different shelf every day</h2>
+        <p class="list-feed-intro">A daily mix of discovery lanes, including a few titles with strong reading-log activity. This is not a live last-24-hours ranking.</p>
       </div>
       <span class="results-count" id="results-count"></span>
     </div>
@@ -238,7 +239,7 @@ function handleCoverError(image) {
 
 const DISCOVERY_LANES = [
   { label: 'Free to read', query: 'fiction', params: 'ebook_access=public&has_fulltext=true', sort: 'readinglog', count: 7 },
-  { label: 'Popular now', query: 'fiction', params: '', sort: 'readinglog', count: 3 },
+  { label: 'Popular reading', query: 'fiction', params: '', sort: 'readinglog', count: 3 },
   { label: 'Classics', query: 'classics', params: '', sort: 'old', count: 7 },
   { label: 'Rising titles', query: 'fiction', params: '', sort: 'new', count: 7 },
   { label: 'Value picks', query: 'fiction', params: 'ebook_access=public', sort: 'rating', count: 6 },
