@@ -53,5 +53,14 @@
     if (form) send(form.dataset.trackSubmit, { form: form.id || 'unnamed' });
   });
 
+  document.addEventListener('click', event => {
+    const link = event.target.closest('a[href]');
+    if (!link || link.dataset.track || link.href.startsWith('mailto:')) return;
+    const isConversionLink = /pricing|checkout|contact|start-here|catalogue|shelfmates|storypals/.test(link.getAttribute('href') || '');
+    if (isConversionLink) {
+      send('cta_click', { destination: link.getAttribute('href'), label: (link.textContent || '').trim().slice(0, 80) });
+    }
+  });
+
   send('page_view', { title: document.title });
 })();

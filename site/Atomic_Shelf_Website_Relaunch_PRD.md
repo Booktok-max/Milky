@@ -1342,18 +1342,18 @@ The site demonstrates both current capability and long-term reader ecosystem.
 
 # Phase 6 — Conversion Engineering
 
-**Status:** Core event taxonomy and conversion hooks are implemented. Analytics endpoint configuration and broader CTA coverage remain before this phase can close.
+**Status:** Core event taxonomy, site-wide conversion hooks, and canonical metadata are implemented. Analytics endpoint configuration and deployment verification remain before this phase can close.
 
 Implement:
 
-- [~] CTA tracking
+- [x] CTA tracking
 - [x] pricing interaction tracking
 - [x] contact conversion tracking
 - [x] checkout tracking
 - [x] Start Here routing
 - [~] analytics
 - [x] event taxonomy
-- [ ] SEO metadata
+- [~] SEO metadata
 
 ### Exit criterion
 
