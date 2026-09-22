@@ -1,7 +1,7 @@
 # Atomic Shelf Website Relaunch — Master PRD
 
-**Status:** Ready for implementation  
-**Version:** 1.0  
+**Status:** Implementation underway — public/commercial baseline complete; release gates remain
+**Version:** 1.1
 **Date:** 2026-09-22  
 **Product:** Atomic Shelf marketing website  
 **Primary goal:** Relaunch the site as a clear, memorable, conversion-focused system that explains Atomic Shelf, builds trust, makes pricing easy to understand, and gives authors a natural path to becoming customers.
@@ -21,6 +21,23 @@ The site should explain that Atomic Shelf connects discovery, trust, conversion,
 The visitor should be able to move naturally through:
 
 **Understand → Believe → Identify → Compare → Trust → Buy**
+
+### Implementation status — 2026-09-22
+
+The following baseline work is complete:
+
+- `commercial-truth.json` is the live plan/pricing source for both the homepage preview and the full pricing page.
+- The six canonical plans, commitment prices, services, deliverables, performance ranges, and pricing-page 24-month evidence claim are approved by the site owner and recorded in that source.
+- A public Editorial page exists; Start Here is a guided five-path selector, and public navigation aliases cover Catalogue, ShelfMates, and StoryPals.
+- The deployment workflow builds a public-only payload and excludes identified client-work and internal-tool directories.
+- The tracked Brevo environment file has been removed from version control and environment files are ignored going forward.
+
+Remaining release gates:
+
+- Rotate the previously exposed Brevo credential.
+- Inventory and explicitly remove any private files already present on the public host; deployment cleanup remains deliberately disabled.
+- Complete the planned manual/legal review of the commitment terms.
+- Complete proof-metric records, case studies, analytics, checkout, SEO/accessibility/performance, and cross-device QA.
 
 The website should educate enough to make the purchase feel informed, but it should remain a sales system. Every major page must answer a practical buyer question and lead naturally to the next decision.
 
@@ -226,20 +243,11 @@ Recommended copy:
 
 ### Commercial implementation ✅ Defined (2026-09-22)
 
-**Resolved:** Money-back applies only where delivery was demonstrably zero — zero/near-zero impressions despite content posted as agreed, zero/near-zero click-throughs despite measurable impressions, or zero measurable results across the agreed scope. Refund is scoped to the specific undelivered line items, not the full plan price. Outside that trigger, underperformance relative to the estimated ranges is treated as time-based: Atomic Shelf keeps working, diagnoses, and adjusts — it does not refund for results that are simply slower than the estimate. This is encoded in `commercial-truth.json` → `guarantee`, and it supersedes both the live site's "little to no measurable movement... we'll review the account" copy and the Milky repo's flat "refund you if we dropped the ball" copy — both should be rewritten to match this definition before launch.
+**Implemented, pending manual/legal review:** Money-back applies only where delivery was demonstrably zero — zero/near-zero impressions despite content posted as agreed, zero/near-zero click-throughs despite measurable impressions, or zero measurable results across the agreed scope. Refund is scoped to the specific undelivered line items, not the full plan price. Outside that trigger, underperformance relative to the estimated ranges is treated as time-based: Atomic Shelf keeps working, diagnoses, and adjusts — it does not refund for results that are simply slower than the estimate. This is encoded in `commercial-truth.json` → `guarantee`, and the public pricing page matches it.
 
-The exact remedy must be defined before launch.
+The remedy is defined in the source data. Its commitment terms draft remains a manual/legal review gate before final approval.
 
-Possible remedies include:
-
-- corrective work
-- replacement deliverables
-- additional service time
-- campaign correction
-- service extension
-- other clearly defined remedies
-
-Do not publish vague legal promises without defining the actual commercial terms.
+Do not broaden or reword the published commitment without updating the source data and completing the manual/legal review.
 
 ---
 
@@ -591,19 +599,27 @@ Suggested positioning language:
 
 > Start getting discovered.
 
-### Shelf
+### Enhanced
 
-> Build a consistent reader-facing presence.
+> Add a durable creative asset to ongoing content.
 
 ### Foundation
 
 > Build the infrastructure underneath the traffic.
 
+### Starter
+
+> Add paid amplification and additional creative assets.
+
 ### Momentum
 
 > Turn attention into a coordinated growth engine.
 
-These descriptions should be revised if the final commercial plans use different names.
+### Growth
+
+> Scale the full-funnel system for larger launches and backlists.
+
+The canonical plan records, including exact positioning, live in `commercial-truth.json`.
 
 ---
 
@@ -633,9 +649,15 @@ Optional:
 
 # 21. Start Here Flow
 
-Create a persistent CTA:
+Maintain a persistent CTA:
 
 > Start here
+
+### Current implementation
+
+`start-here.html` is a public five-path selector for discovery, launch, managed marketing, backlist, or uncertainty. It routes visitors to relevant plan/service pages or passes their stated goal into the contact form.
+
+### Guided-routing choices
 
 The visitor chooses:
 
@@ -992,7 +1014,7 @@ site_settings
 }
 ```
 
-The exact prices and deliverables must be inserted from the approved commercial sheet.
+**Current implementation:** `commercial-truth.json` is the source record. The homepage preview and pricing page fetch its `plans` array at runtime; plan values must not be duplicated in page scripts.
 
 ---
 
@@ -1041,7 +1063,7 @@ The guarantee/commitment should be centrally defined.
 }
 ```
 
-The `remedy` must be completed before publishing.
+**Current implementation:** the remedy is defined in `commercial-truth.json → guarantee`. The related commitment terms are awaiting the owner's manual/legal review before final approval.
 
 ---
 
@@ -1086,6 +1108,8 @@ Recommended separation:
 ### Content
 
 Plans, services, results, FAQs, editorial, reader products.
+
+**Current implementation:** `commercial-truth.json` supplies the live commercial plan data; `service-map.json`, `proof-audit.json`, `site-data-model.json`, and `atomic-shelf-commitment-terms.md` hold the supporting structured records. The deployment workflow assembles a public-only static payload before publishing.
 
 ### Presentation
 
@@ -1208,24 +1232,26 @@ Do not sacrifice page speed for visual effects.
 
 ### Deliverables
 
-- [ ] Final positioning
-- [ ] Final navigation
-- [ ] Final page list
-- [ ] Final plan data
-- [ ] Final service list
-- [ ] Final guarantee
-- [ ] Proof-metric audit
-- [ ] Case-study structure
-- [ ] CTA vocabulary
-- [ ] Content governance rules
+- [x] Final positioning
+- [x] Final public navigation and working public destinations
+- [x] Final page list — core pages and the guided Start Here page are in place
+- [x] Final plan data
+- [x] Final service list
+- [~] Final guarantee — terms defined; manual/legal review remains
+- [~] Proof-metric audit — pricing ranges and 24-month claim approved by the owner; proof-strip records remain incomplete
+- [x] Case-study structure
+- [x] CTA vocabulary
+- [x] Content governance rules
 
 ### Exit criterion
 
-There is one approved source of truth for the site's commercial and factual content.
+Commercial plan data has one approved source of truth. The remaining exit work is to finish proof-metric records and manually approve the commitment terms.
 
 ---
 
 # Phase 2 — Design System
+
+**Status:** Substantially implemented in the public homepage, pricing page, and Editorial page. A shared component/token layer and formal responsive/accessibility review remain before this phase can close.
 
 ### Deliverables
 
@@ -1249,6 +1275,8 @@ New pages can be assembled from the same visual system.
 ---
 
 # Phase 3 — Homepage
+
+**Status:** Existing homepage architecture is in place, and its pricing preview now reads the commercial source of truth. Complete visual, responsive, proof, and conversion QA remains.
 
 Build:
 
@@ -1274,12 +1302,14 @@ A new visitor can understand Atomic Shelf within approximately 60 seconds.
 
 # Phase 4 — Commercial Pages
 
+**Status:** Pricing is implemented from the commercial source of truth. Start Here is a guided five-path selector that passes context into the contact form. Checkout and page-by-page QA remain.
+
 Build/rebuild:
 
-- [ ] Pricing
+- [x] Pricing — six plans and commitment selector loaded from `commercial-truth.json`
 - [ ] Services
 - [ ] How It Works
-- [ ] Start Here
+- [x] Start Here — guided five-path routing and contact context implemented
 - [ ] Contact
 - [ ] FAQ
 
@@ -1291,6 +1321,8 @@ A visitor can move from understanding to purchasing without encountering contrad
 
 # Phase 5 — Proof & Ecosystem
 
+**Status:** A public Editorial page and public aliases for Catalogue, ShelfMates, and StoryPals are implemented. Case studies, reader-product journeys, and proof-page verification remain.
+
 Build:
 
 - [ ] Results
@@ -1298,7 +1330,7 @@ Build:
 - [ ] Readers
 - [ ] ShelfMates
 - [ ] StoryPals
-- [ ] Editorial
+- [x] Editorial
 
 ### Exit criterion
 
@@ -1326,6 +1358,8 @@ Major conversion actions are measurable.
 ---
 
 # Phase 7 — QA & Relaunch
+
+**Status:** Not started as a formal release phase. Static commercial-data, script-compilation, and main-navigation checks have passed; full production QA is still required.
 
 ## Content QA
 
@@ -1509,18 +1543,20 @@ Do not:
 
 The Atomic Shelf relaunch is complete when:
 
+- **Legend:** `[x]` complete; `[~]` implemented but still needs review or follow-on work; `[ ]` not complete.
+
 - [ ] Positioning is approved.
 - [ ] Homepage architecture is implemented.
-- [ ] Navigation is stable.
-- [ ] Pricing has one source of truth.
-- [ ] All plan prices match everywhere.
-- [ ] Long-term savings are clear.
-- [ ] Guarantee language is approved and commercially defined.
+- [~] Navigation is stable — core public destinations work; full-site link QA remains.
+- [x] Pricing has one source of truth.
+- [~] All plan prices match everywhere — homepage and primary pricing page match; legacy-page audit remains.
+- [x] Long-term savings are clear.
+- [~] Guarantee language is commercially defined; manual/legal approval remains.
 - [ ] Five-stage system is implemented.
 - [ ] Services are mapped to the system.
 - [ ] Results have a consistent structure.
-- [ ] Reader ecosystem is integrated.
-- [ ] Start Here flow works.
+- [~] Reader ecosystem is integrated — public aliases exist; product journeys remain.
+- [x] Start Here flow works.
 - [ ] CTA vocabulary is standardized.
 - [ ] Analytics tracks major conversion actions.
 - [ ] SEO foundations are complete.
@@ -1555,12 +1591,9 @@ Create the definitive table containing:
 - expected outputs
 - CTA
 
-**Status:** Complete. `commercial-truth.json` now holds all six live plans (Spark, Enhanced, Foundation, Starter, Momentum, Growth) pulled from atomic-shelf.com, with discounted long-term commitment prices rounded down to the nearest $10 per the approved rounding rule. The 10%/20%/25% commitment schedule now applies to all six plans (Enhanced and Starter included), though the live site currently has no UI exposing this for those two — flagged for Step 6/7 (design/build). `audience`, `positioning`, `outcome`, and `deliverables` are filled with extrapolated ranges (Amazon KDP category-rank and review-count benchmarks scaled to each plan) since no approved commercial sheet was available — every one of these is marked `[extrapolated]` in the JSON and needs a sign-off pass, not a straight publish. Two remaining flags:
-- The Milky repo's `pricing.html` (4 plans) vs. the live site (6 plans) plan-count mismatch is resolved by treating the live site as truth.
-- Proof metrics (3.2×, 12,000+, 2,400) are captured but unverified — `approved: false` until Step 3.
-- Guarantee copy conflict is now resolved — see Section 7 update below.
+**Status:** Complete and live-wired. `commercial-truth.json` holds the six canonical plans (Spark, Enhanced, Foundation, Starter, Momentum, Growth), commitment totals, services, deliverables, positioning, and performance ranges. The homepage preview and full pricing page fetch this file at runtime; they no longer duplicate plan data. The site owner approved these commercial fields and the 24-month pricing-page evidence claim on 2026-09-22, with the approval record stored at `_meta.pricing_claim_approval`. The separate proof-strip metrics (3.2×, 12,000+, 2,400) remain unverified and are not covered by that approval.
 
-**This unlocks Step 2 — Freeze the service map**, which is next.
+**Step 2 is complete below.**
 
 ### Step 2 — Freeze the service map ✅ Done (2026-09-22)
 
@@ -1574,7 +1607,7 @@ Map every service to:
 
 **Status:** Complete. `service-map.json` maps all 12 services across the six plans to the Discover → Trust → Convert → Retain → Repeat system. `purpose` and `measurable_indicator` are `[extrapolated]` from the metrics already in `commercial-truth.json` and the homepage's stated system logic — same sign-off caveat as Step 1's audience/positioning fields. One thing worth deciding before Step 3: **Spark, Enhanced, and Starter only populate the Discover stage** — they have no Trust/Convert/Retain/Repeat services at all, so on the site they should read as entry/content-only tiers rather than "the system," or the plan lineup needs services added to those tiers.
 
-**This unlocks Step 3 — Freeze the proof**, which is next.
+**Step 3 remains partially open, as described below.**
 
 ### Step 3 — Freeze the proof 🟡 Audit compiled, verification pending (2026-09-22)
 
@@ -1587,13 +1620,9 @@ Mark each:
 - remove
 - replace
 
-**Status:** Audit compiled in `proof-audit.json`, but not "done" the way Steps 1-2 are — verification requires actual client data I don't have access to, so every figure is classified `needs_verification` rather than `verified`. Two things need your decision before this can close out:
-1. **Priority conflict:** the live site's pricing disclaimer ("illustrative campaign benchmarks, not guarantees") and the Milky repo's disclaimer ("90-day averages based on 200+ clients over 24 months") make fundamentally different evidentiary claims. Which one is true decides how every per-plan range should be labeled.
-2. **Suspicious figure:** the homepage's "2,400 average downloads per newsletter feature" is exactly the Momentum range's upper bound / Growth range's lower bound — looks copy-pasted from a plan boundary rather than a real average. Flagged as `replace`.
+**Status:** Partial. The site owner approved the pricing-page performance ranges and the "90-day averages based on 200+ clients over 24 months" disclaimer for publication on 2026-09-22. This closes the prior pricing-disclaimer decision, but it does not approve the separate proof-strip figures. Those records remain `approved: false` in `commercial-truth.json` pending their definition, source, period, and verification date. The suspicious "2,400 average downloads per newsletter feature" remains a replace-or-verify item.
 
-**This is the blocker before Step 4 can fully close** (the guarantee's `does_not_guarantee` language depends on which claims survive this audit) — but Step 4's core commercial terms are already defined from your last message, so I've gone ahead and marked that below too.
-
-### Step 4 — Finalize the guarantee ✅ Substantially done (2026-09-22)
+### Step 4 — Finalize the guarantee 🟡 Terms defined; manual/legal review pending (2026-09-22)
 
 Agree internally on exactly:
 
@@ -1604,11 +1633,11 @@ Agree internally on exactly:
 - what the customer must do
 - what the formal terms say
 
-**Status:** Done. `atomic-shelf-commitment-terms.md` is the formal terms draft — covers what's promised, the refund trigger conditions, refund scope, what's not guaranteed, the underperformance/time-based process, and the customer's obligation (notify within 21 days of the end of the applicable campaign cycle to claim a refund). `commercial-truth.json` → `guarantee` now links to it via `terms_url` and carries the 21-day requirement in `customer_must`. Flagged as needing a legal review pass before publishing — this is commercial logic in plain language, not lawyer-checked copy. One open question left in the terms file itself: whether Surge/Orbit custom engagements use this same policy or their own.
+**Status:** The published commitment copy and `atomic-shelf-commitment-terms.md` draft define the refund trigger, scope, exclusions, time-based remedy, and 21-day notice requirement. `commercial-truth.json` → `guarantee` is the source record. The remaining release gate is the owner's planned manual/legal review, including whether Surge/Orbit custom engagements follow this policy or their own.
 
-**Also resolved:** the pricing-disclaimer conflict from Step 3 — keeping the Milky repo's "90-day averages based on 200+ clients over 24 months" framing over the live site's weaker "illustrative benchmarks" version. `commercial-truth.json` → `results_disclaimer` and `proof-audit.json` are both updated. The underlying 200+/24-month figure itself still needs verification against real records before publishing — choosing the stronger claim doesn't make it true yet.
+**Also resolved:** the pricing-disclaimer conflict from Step 3 — the owner approved the Milky repo's "90-day averages based on 200+ clients over 24 months" framing for publication. `commercial-truth.json` records this approval and the scope of the underlying internal evidence. Formal evidence collection remains deferred from this build.
 
-**Next up is Step 5 — Build the data model**, which assembles `commercial-truth.json`, `service-map.json`, `proof-audit.json`, and `atomic-shelf-commitment-terms.md` plus FAQs, results, and reader products into one structured layer.
+**Step 5 is complete below.**
 
 ### Step 5 — Build the data model ✅ Done (2026-09-22)
 
@@ -1618,27 +1647,27 @@ Put plans, services, proof, FAQs, results, and reader products into structured d
 
 **Resolved this turn:** plan-change policy, end-of-commitment handover, on-camera requirement, what an author must provide, day-to-day campaign management, and genre support are all now frozen facts in `commercial-truth.json → operational_policies`, sourced from you directly, and every previously-`gap` FAQ answer now points to them. Case studies remain intentionally deferred — schema kept, no entries — not a gap, a decision.
 
-**This unlocks Step 6 — Build the design system**, which is next.
+**Steps 6–10 are updated below with their current implementation status.**
 
-### Step 6 — Build the design system
+### Step 6 — Build the design system 🟡 Core implementation complete; formal review pending
 
-Only after the content model is stable.
+The public homepage, pricing page, and Editorial page use the documented dark/light editorial visual direction, responsive layouts, reduced-motion handling, navigation, pricing cards, CTA patterns, and FAQ treatment. Before this step can close, consolidate/reuse the component and token layer where practical, then complete mobile, contrast, and accessibility review.
 
-### Step 7 — Build the homepage
+### Step 7 — Build the homepage 🟡 Implemented; release QA pending
 
-Use the approved architecture in this document.
+The homepage is implemented and its pricing preview now fetches `commercial-truth.json`. Complete proof-metric review, case-study content, analytics, and responsive/visual QA before calling the page launch-ready.
 
-### Step 8 — Build the commercial pages
+### Step 8 — Build the commercial pages 🟡 Pricing complete; remaining flow work pending
 
-Pricing → Services → How It Works → Start Here → FAQ → Contact.
+Pricing is live-wired to the commercial source of truth, and Start Here is a guided five-path selector that passes context into the contact form. Services, How It Works, FAQ, and Contact remain to be audited as a unified conversion flow; checkout is not yet implemented.
 
-### Step 9 — Build proof/ecosystem pages
+### Step 9 — Build proof/ecosystem pages 🟡 Editorial and public aliases complete; content expansion pending
 
-Results → Catalogue → Readers → ShelfMates → StoryPals → Editorial.
+The public Editorial page is built. Catalogue, ShelfMates, and StoryPals have stable public aliases, and the reader community target is in place. Case studies, results evidence, and individual reader-product journeys remain.
 
-### Step 10 — QA and launch
+### Step 10 — QA and launch ⏳ Not started
 
-Run the acceptance checklist before publishing.
+Run the acceptance checklist before publishing. The required release gates are credential rotation, public-host private-file cleanup, manual/legal guarantee review, and full content, UX, technical, SEO, accessibility, and analytics QA.
 
 ---
 
@@ -2374,4 +2403,3 @@ Before any page build begins, the following must be complete and approved:
 - [ ] Typography specimens provided
 - [ ] Spacing and grid documented
 - [ ] Motion specifications documented with duration and easing values
-

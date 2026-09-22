@@ -617,9 +617,32 @@ function getInquiryType() {
   return checked ? checked.value : 'General Enquiry';
 }
 
-// ─── CHAR COUNT ───────────────────────────────────────────────────────────────
 const messageEl  = document.getElementById('message');
 const charCountEl = document.getElementById('charCount');
+
+// ─── START HERE CONTEXT ───────────────────────────────────────────────────────
+// The public Start Here flow passes a goal so the conversation begins with the
+// author's stated need instead of a blank general enquiry.
+const startHereGoals = {
+  readers: 'I want more readers for my book.',
+  launch: 'I have a launch coming and want to discuss a coordinated plan.',
+  managed: 'I am looking for help managing marketing for my book.',
+  backlist: 'I want help building a reader system around my backlist.',
+  unsure: 'I would like help choosing the right next step for my book.'
+};
+const startHereGoal = new URLSearchParams(window.location.search).get('goal');
+if (startHereGoals[startHereGoal]) {
+  const plansOption = [...optionEls].find(option => option.dataset.value === 'Plans & Pricing');
+  if (plansOption) {
+    optionEls.forEach(option => option.classList.remove('selected'));
+    plansOption.classList.add('selected');
+    plansOption.querySelector('input[type="radio"]').checked = true;
+  }
+  messageEl.value = startHereGoals[startHereGoal] + '\n\nBook link or catalogue: ';
+  charCountEl.textContent = messageEl.value.length + ' / 2000';
+}
+
+// ─── CHAR COUNT ───────────────────────────────────────────────────────────────
 messageEl.addEventListener('input', () => {
   const len  = messageEl.value.length;
   const max  = parseInt(messageEl.getAttribute('maxlength')) || 2000;

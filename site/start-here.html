@@ -2,12 +2,62 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta http-equiv="refresh" content="0; url=contact.html" />
-  <link rel="canonical" href="contact.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="description" content="Find the most useful next step for your book with Atomic Shelf." />
   <title>Start Here — Atomic Shelf</title>
+  <link rel="icon" type="image/svg+xml" href="atomic-shelf.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:ital,wght@0,400;0,500;0,600;0,700&display=swap" rel="stylesheet" />
+  <style>
+    :root{--ink:#0f0e0c;--paper:#f8f6f2;--gold:#c8922a;--gold-light:#dfa83e;--light:#f2efe9;--muted-dark:#9a9490;--muted:#6b6560;--line-dark:#262420;--line:#e0dbd3;--display:'DM Serif Display',Georgia,serif;--body:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;--max:1120px}
+    *{box-sizing:border-box;margin:0} html{scroll-behavior:smooth} body{background:var(--paper);color:#1c1a18;font-family:var(--body);font-size:16px;line-height:1.6} a{color:inherit;text-decoration:none} button{font:inherit} :focus-visible{outline:2px solid var(--gold);outline-offset:3px}.wrap{width:min(calc(100% - 40px),var(--max));margin:auto}.nav{height:68px;background:rgba(15,14,12,.95);border-bottom:1px solid var(--line-dark);display:flex;align-items:center}.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{font:1.25rem var(--display);color:var(--light)}.brand span{color:var(--gold)}.back{color:var(--muted-dark);font-size:.86rem;font-weight:600}.back:hover{color:var(--light)}
+    main{padding:clamp(64px,10vw,120px) 0}.eyebrow{color:#80601e;font-size:.74rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:18px}.intro{max-width:700px;margin-bottom:clamp(38px,7vw,72px)}h1{font:clamp(3rem,7vw,5.7rem)/.98 var(--display);letter-spacing:-.03em;max-width:11ch;margin-bottom:22px}.lede{font-size:clamp(1.05rem,2vw,1.2rem);color:var(--muted);max-width:55ch}.choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.choice{appearance:none;width:100%;min-height:176px;border:1px solid var(--line);border-radius:4px;background:#fff;text-align:left;padding:24px;cursor:pointer;transition:border-color 120ms ease,transform 150ms ease,box-shadow 150ms ease}.choice:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(28,26,24,.08);border-color:#a67820}.choice[aria-pressed=true]{border:2px solid var(--gold);padding:23px;background:#fffdf8}.choice-number{display:block;color:#80601e;font-size:.72rem;font-weight:700;letter-spacing:.1em;margin-bottom:27px}.choice-title{display:block;font:1.55rem/1.1 var(--display);margin-bottom:9px}.choice-copy{display:block;color:var(--muted);font-size:.9rem;line-height:1.55}.choice:last-child{grid-column:1/-1;min-height:118px;display:grid;grid-template-columns:minmax(0,.75fr) minmax(0,1.25fr);align-items:center;gap:18px}.choice:last-child .choice-number{margin:0}.choice:last-child .choice-title{margin:0}
+    .recommendation{display:none;margin-top:clamp(30px,5vw,54px);background:var(--ink);color:var(--light);padding:clamp(28px,5vw,48px);border-radius:4px}.recommendation.visible{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:28px}.recommendation .eyebrow{color:var(--gold)}.recommendation h2{font:clamp(2rem,4vw,3.25rem)/1.03 var(--display);letter-spacing:-.02em;max-width:18ch;margin-bottom:14px}.recommendation p{color:var(--muted-dark);max-width:58ch}.actions{display:flex;flex-wrap:wrap;gap:12px}.button{min-height:48px;padding:0 20px;border:1px solid var(--gold);border-radius:4px;display:inline-flex;align-items:center;justify-content:center;font-size:.9rem;font-weight:700;white-space:nowrap}.primary{background:var(--gold);color:var(--ink)}.primary:hover{background:var(--gold-light);border-color:var(--gold-light)}.secondary{color:var(--gold)}.secondary:hover{background:rgba(200,146,42,.1)}.note{margin-top:18px;color:var(--muted);font-size:.84rem}.note a{color:#80601e;font-weight:700;text-decoration:underline}
+    @media(max-width:680px){.choices{grid-template-columns:1fr}.choice:last-child{grid-column:auto;display:block;min-height:176px}.choice:last-child .choice-number{margin-bottom:27px}.choice:last-child .choice-title{margin-bottom:9px}.recommendation.visible{grid-template-columns:1fr;align-items:start}.actions{width:100%}.actions .button{flex:1}.nav .back{font-size:.8rem}}
+  </style>
 </head>
 <body>
-  <p>Taking you to <a href="contact.html">Atomic Shelf contact</a>…</p>
+  <nav class="nav" aria-label="Primary navigation"><div class="wrap"><a class="brand" href="index.html">Atomic<span>·</span>Shelf</a><a class="back" href="index.html">Back to home</a></div></nav>
+  <main><div class="wrap">
+    <header class="intro"><p class="eyebrow">Start here</p><h1>Tell us where you are right now.</h1><p class="lede">You do not need to know the perfect plan before you begin. Choose the closest starting point and we will show you the most useful next step.</p></header>
+    <div class="choices" role="group" aria-label="What are you trying to accomplish?">
+      <button class="choice" type="button" data-goal="readers" aria-pressed="false"><span class="choice-number">01 — DISCOVERY</span><span class="choice-title">I want more readers.</span><span class="choice-copy">My book needs more relevant people to discover it.</span></button>
+      <button class="choice" type="button" data-goal="launch" aria-pressed="false"><span class="choice-number">02 — LAUNCH</span><span class="choice-title">I have a launch coming.</span><span class="choice-copy">I need a coordinated path to preorders and release day.</span></button>
+      <button class="choice" type="button" data-goal="managed" aria-pressed="false"><span class="choice-number">03 — SUPPORT</span><span class="choice-title">I want marketing handled.</span><span class="choice-copy">I am looking for a team to manage the work with me.</span></button>
+      <button class="choice" type="button" data-goal="backlist" aria-pressed="false"><span class="choice-number">04 — BACKLIST</span><span class="choice-title">I need help with my backlist.</span><span class="choice-copy">I want to turn several books into a repeatable reader system.</span></button>
+      <button class="choice" type="button" data-goal="unsure" aria-pressed="false"><span class="choice-number">05 — DIRECTION</span><span class="choice-title">I am not sure yet.</span><span class="choice-copy">That is enough to start. Tell us about the book and we will help you find the right path.</span></button>
+    </div>
+    <section class="recommendation" id="recommendation" aria-live="polite" aria-labelledby="recommendationTitle">
+      <div><p class="eyebrow">A useful next step</p><h2 id="recommendationTitle"></h2><p id="recommendationCopy"></p></div><div class="actions"><a class="button primary" id="primaryAction" href="contact.html">Talk to us</a><a class="button secondary" id="secondaryAction" href="services.html">Explore services</a></div>
+    </section>
+    <p class="note">Prefer to talk it through? <a href="contact.html?goal=unsure">Send us a note</a> and we will help you choose.</p>
+  </div></main>
+  <script>
+    const choices = document.querySelectorAll('.choice');
+    const recommendation = document.getElementById('recommendation');
+    const title = document.getElementById('recommendationTitle');
+    const copy = document.getElementById('recommendationCopy');
+    const primary = document.getElementById('primaryAction');
+    const secondary = document.getElementById('secondaryAction');
+    const routes = {
+      readers:{title:'Start with consistent discovery.',copy:'Spark is the entry point for building a steady short-form content cadence and learning what earns attention for your book.',primary:'See Spark',primaryHref:'pricing.html#spark',secondary:'Tell us about your book',secondaryHref:'contact.html?goal=readers'},
+      launch:{title:'Build a coordinated launch path.',copy:'Momentum brings content, social proof, listing work, a preorder campaign, and retargeting into one system.',primary:'Explore Momentum',primaryHref:'pricing.html#momentum',secondary:'Talk through your launch',secondaryHref:'contact.html?goal=launch'},
+      managed:{title:'Choose the level of support that fits.',copy:'If you want a team to coordinate marketing, Momentum and Growth are the full-funnel starting points. We can help you decide which is proportionate to your book and goals.',primary:'Compare plans',primaryHref:'pricing.html',secondary:'Talk to the team',secondaryHref:'contact.html?goal=managed'},
+      backlist:{title:'Turn a catalogue into a reader system.',copy:'Growth is built for authors scaling an established backlist or a larger launch, with more content, a bigger review campaign, and recurring reader touchpoints.',primary:'Explore Growth',primaryHref:'pricing.html#growth',secondary:'Discuss your catalogue',secondaryHref:'contact.html?goal=backlist'},
+      unsure:{title:'Start with the book, not a package.',copy:'Send us your book link or catalogue and tell us what you are working toward. We will help you identify a sensible next step.',primary:'Talk to Atomic Shelf',primaryHref:'contact.html?goal=unsure',secondary:'See how it works',secondaryHref:'how-it-works.html'}
+    };
+    function chooseGoal(goal, updateHash){
+      const route = routes[goal]; if(!route) return;
+      choices.forEach(choice => choice.setAttribute('aria-pressed', String(choice.dataset.goal === goal)));
+      title.textContent = route.title; copy.textContent = route.copy;
+      primary.textContent = route.primary; primary.href = route.primaryHref;
+      secondary.textContent = route.secondary; secondary.href = route.secondaryHref;
+      recommendation.classList.add('visible');
+      if(updateHash) history.replaceState(null, '', '#' + goal);
+    }
+    choices.forEach(choice => choice.addEventListener('click', () => { chooseGoal(choice.dataset.goal, true); recommendation.scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block:'nearest'}); }));
+    const initialGoal = window.location.hash.slice(1); if(routes[initialGoal]) chooseGoal(initialGoal, false);
+  </script>
 </body>
 </html>
