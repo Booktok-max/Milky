@@ -29,6 +29,7 @@ The following baseline work is complete:
 - `commercial-truth.json` is the live plan/pricing source for both the homepage preview and the full pricing page.
 - The six canonical plans, commitment prices, services, deliverables, performance ranges, and pricing-page 24-month evidence claim are approved by the site owner and recorded in that source.
 - The service map and public Services page now match the approved plan inclusions, service stages, and plan-specific content volumes.
+- The How It Works page now aligns the five-stage system with those approved service stages and plan inclusions.
 - A public Editorial page exists; Start Here is a guided five-path selector, and public navigation aliases cover Catalogue, ShelfMates, and StoryPals.
 - The deployment workflow builds a public-only payload and excludes identified client-work and internal-tool directories.
 - The tracked Brevo environment file has been removed from version control and environment files are ignored going forward.
@@ -1303,13 +1304,12 @@ A new visitor can understand Atomic Shelf within approximately 60 seconds.
 
 # Phase 4 — Commercial Pages
 
-**Status:** Pricing is implemented from the commercial source of truth. The Services page is aligned with the approved service map, and Start Here is a guided five-path selector that passes context into the contact form. Checkout and page-by-page QA remain.
 
 Build/rebuild:
 
 - [x] Pricing — six plans and commitment selector loaded from `commercial-truth.json`
 - [x] Services — plan inclusions, system stages, and content volumes aligned to the approved map
-- [ ] How It Works
+- [x] How It Works — five-stage and 90-day journey aligned to approved service inclusions
 - [x] Start Here — guided five-path routing and contact context implemented
 - [ ] Contact
 - [ ] FAQ
@@ -1660,7 +1660,7 @@ The homepage is implemented and its pricing preview now fetches `commercial-trut
 
 ### Step 8 — Build the commercial pages 🟡 Pricing complete; remaining flow work pending
 
-Pricing is live-wired to the commercial source of truth, the Services page matches the approved service map, and Start Here is a guided five-path selector that passes context into the contact form. How It Works, FAQ, and Contact remain to be audited as a unified conversion flow; checkout is not yet implemented.
+Pricing is live-wired to the commercial source of truth; Services and How It Works match the approved service map; and Start Here is a guided five-path selector that passes context into the contact form. FAQ and Contact remain to be audited as a unified conversion flow; checkout is not yet implemented.
 
 ### Step 9 — Build proof/ecosystem pages 🟡 Editorial and public aliases complete; content expansion pending
 
