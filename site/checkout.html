@@ -501,7 +501,14 @@
       } catch (error) {
         submitButton.disabled = false;
         submitButton.textContent = 'Continue to secure payment';
-        setStatus('We could not connect to the payment service. Please try again, or email nick@atomic-shelf.com for help.', 'error');
+        const message = error?.message || '';
+        const isPlanConfigurationError = /unknown plan|billing term|not fully configured|pricing/i.test(message);
+        setStatus(
+          isPlanConfigurationError
+            ? 'This payment option is temporarily unavailable while payment settings are updated. Please email nick@atomic-shelf.com for help.'
+            : 'We could not connect to the payment service. Please try again, or email nick@atomic-shelf.com for help.',
+          'error'
+        );
       }
     });
 
