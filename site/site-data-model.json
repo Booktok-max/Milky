@@ -2,17 +2,17 @@
   "_meta": {
     "purpose": "Unified structured data layer for the site (PRD Section 32 / Step 5). Assembles Steps 1-4 output plus the remaining objects PRD Section 32 lists: reader_products, case_studies, faqs, editorial, navigation, site_settings.",
     "assembled_from": [
-      "commercial-truth.json — plans, commitments, proof_metrics, guarantee, custom_tiers (Step 1)",
+      "pricing-data.json — plans, commitments, proof_metrics, guarantee, custom_tiers (Step 1)",
       "service-map.json — services (Step 2)",
       "proof-audit.json — proof metric audit status (Step 3)",
       "atomic-shelf-commitment-terms.md — formal guarantee terms (Step 4)"
     ],
     "referencing_note": "plans, services, proof_metrics, and guarantee are NOT duplicated here — this file points to them by source so there is still exactly one place each fact lives, per Section 2's non-negotiable ('no page should independently invent or hard-code commercial facts'). Everything new in this file (reader_products, case_studies, faqs, editorial, navigation, site_settings) is [extrapolated] from the PRD's own section content, since no approved copy sheet exists for these — same sign-off caveat as prior steps.",
     "objects_status": {
-      "plans": "frozen — see commercial-truth.json",
+      "plans": "frozen — see pricing-data.json",
       "services": "frozen — see service-map.json",
-      "proof_metrics": "frozen with audit trail — see commercial-truth.json (values) + proof-audit.json (verification status)",
-      "guarantee": "frozen — see commercial-truth.json + atomic-shelf-commitment-terms.md",
+      "proof_metrics": "frozen with audit trail — see pricing-data.json (values) + proof-audit.json (verification status)",
+      "guarantee": "frozen — see pricing-data.json + atomic-shelf-commitment-terms.md",
       "reader_products": "drafted this step — extrapolated",
       "case_studies": "SCHEMA ONLY, deferred by decision — kept for future population, not published or blocking this build.",
       "faqs": "drafted this step — plans/delivery/audience answers now come directly from Daniel (2026-09-22); results/commitment answers sourced against frozen data.",
@@ -22,16 +22,16 @@
     }
   },
 
-  "plans": { "$ref": "commercial-truth.json#/plans" },
-  "custom_tiers": { "$ref": "commercial-truth.json#/custom_tiers" },
-  "operational_policies": { "$ref": "commercial-truth.json#/operational_policies" },
+  "plans": { "$ref": "pricing-data.json#/plans" },
+  "custom_tiers": { "$ref": "pricing-data.json#/custom_tiers" },
+  "operational_policies": { "$ref": "pricing-data.json#/operational_policies" },
   "services": { "$ref": "service-map.json#/services" },
   "proof_metrics": {
-    "values": { "$ref": "commercial-truth.json#/proof_metrics" },
+    "values": { "$ref": "pricing-data.json#/proof_metrics" },
     "audit": { "$ref": "proof-audit.json" }
   },
   "guarantee": {
-    "terms": { "$ref": "commercial-truth.json#/guarantee" },
+    "terms": { "$ref": "pricing-data.json#/guarantee" },
     "full_document": "atomic-shelf-commitment-terms.md"
   },
 
@@ -91,18 +91,18 @@
       {
         "q": "Do you guarantee sales?",
         "a": "<b>Short answer:</b> No.<br><br><b>Long answer:</b> Although it is possible to estimate expected downloads or sales for lower-priced books, those outcomes cannot be guaranteed because they depend on reader behaviour, market conditions, and platform performance. We control the work we commit to — production, campaigns, reviews recruitment, listing optimisation, reporting. We influence reach, clicks, and conversion. We don't guarantee a specific number of sales, a bestseller position, a ranking, or an algorithmic viral event — no one honestly can.",
-        "source": "commercial-truth.json guarantee.does_not_guarantee + atomic-shelf-commitment-terms.md"
+        "source": "pricing-data.json guarantee.does_not_guarantee + atomic-shelf-commitment-terms.md"
       },
       {
         "q": "What metrics do you report?",
         "a": "[extrapolated] Depends on your plan's stage: content-only plans report impressions, video views, click-throughs, and sales lift; campaign plans (Momentum/Growth) also report preorders secured, free promo downloads, and KU page-reads boost. Full definitions are still pending — see proof-audit.json.",
-        "source": "commercial-truth.json plans[*].metrics"
+        "source": "pricing-data.json plans[*].metrics"
       }
     ],
     "plans": [
-      { "q": "What is included?", "a": "Varies by plan — see the current pricing page for the full feature list per tier.", "source": "commercial-truth.json plans" },
-      { "q": "Can I change plans?", "a": "Yes — you can upgrade, downgrade, or pause whenever you'd like. When you change plans, we take your current ad spend into account and apply it as available credit toward the new plan, so nothing you've already paid for is wasted.", "source": "commercial-truth.json operational_policies.plan_changes" },
-      { "q": "What happens after a commitment ends?", "a": "We hand over everything — every video created, account information, and all related assets — via a secure transfer method, so nothing gets lost. In practice, most of this is already available to you throughout the engagement: every gallery of content we make is public to you as the author, presented in your progress-report document/link.", "source": "commercial-truth.json operational_policies.end_of_commitment" },
+      { "q": "What is included?", "a": "Varies by plan — see the current pricing page for the full feature list per tier.", "source": "pricing-data.json plans" },
+      { "q": "Can I change plans?", "a": "Yes — you can upgrade, downgrade, or pause whenever you'd like. When you change plans, we take your current ad spend into account and apply it as available credit toward the new plan, so nothing you've already paid for is wasted.", "source": "pricing-data.json operational_policies.plan_changes" },
+      { "q": "What happens after a commitment ends?", "a": "We hand over everything — every video created, account information, and all related assets — via a secure transfer method, so nothing gets lost. In practice, most of this is already available to you throughout the engagement: every gallery of content we make is public to you as the author, presented in your progress-report document/link.", "source": "pricing-data.json operational_policies.end_of_commitment" },
       {
         "q": "Why are longer commitments discounted?",
         "a": "Longer commitments are prepaid savings. We have more time to compound the work, and predictable planning lets us offer better economics.",
@@ -110,27 +110,27 @@
       }
     ],
     "delivery": [
-      { "q": "What do I need to provide?", "a": "Just a link to your book — or, if you have a backlist, a link to your catalogue. You can also share any planned discount-deal dates so we can plan campaigns around them.", "source": "commercial-truth.json operational_policies.author_involvement" },
-      { "q": "Do I need to appear on camera?", "a": "No — you never need to appear on camera.", "source": "commercial-truth.json operational_policies.author_involvement" },
+      { "q": "What do I need to provide?", "a": "Just a link to your book — or, if you have a backlist, a link to your catalogue. You can also share any planned discount-deal dates so we can plan campaigns around them.", "source": "pricing-data.json operational_policies.author_involvement" },
+      { "q": "Do I need to appear on camera?", "a": "No — you never need to appear on camera.", "source": "pricing-data.json operational_policies.author_involvement" },
       {
         "q": "How often is content produced?",
         "a": "Depends on plan: 60 videos/month at Spark and Enhanced, 80 at Foundation, 100+ at Starter, Momentum, and Growth.",
-        "source": "commercial-truth.json plans[*].services"
+        "source": "pricing-data.json plans[*].services"
       },
-      { "q": "Who manages the campaigns?", "a": "A dedicated outreach team manages your account day-to-day — reaching out to ARC and reviewer lists on your behalf and making sure everything is running smoothly.", "source": "commercial-truth.json operational_policies.campaign_management" }
+      { "q": "Who manages the campaigns?", "a": "A dedicated outreach team manages your account day-to-day — reaching out to ARC and reviewer lists on your behalf and making sure everything is running smoothly.", "source": "pricing-data.json operational_policies.campaign_management" }
     ],
     "audience": [
       {
         "q": "Can you work with a brand-new author?",
         "a": "Yes — Spark is built for pre-launch or very early-career authors with little to no existing platform.",
-        "source": "commercial-truth.json plans.spark.audience"
+        "source": "pricing-data.json plans.spark.audience"
       },
       {
         "q": "Can you work with a backlist?",
         "a": "Yes — Growth is built for authors with an established backlist (3+ books) scaling an existing readership.",
-        "source": "commercial-truth.json plans.growth.audience"
+        "source": "pricing-data.json plans.growth.audience"
       },
-      { "q": "What genres do you support?", "a": "All genres. One honest caveat: bigger, higher-volume genres tend to see stronger results than smaller genres, simply because there's a larger pool of readers to reach.", "source": "commercial-truth.json operational_policies.genre_support" }
+      { "q": "What genres do you support?", "a": "All genres. One honest caveat: bigger, higher-volume genres tend to see stronger results than smaller genres, simply because there's a larger pool of readers to reach.", "source": "pricing-data.json operational_policies.genre_support" }
     ],
     "commitment": [
       {
@@ -141,7 +141,7 @@
       {
         "q": "What does the commitment/guarantee actually cover?",
         "a": "It covers the specific work committed to under your plan — production, listing optimization, ARC campaigns, preorder setup, reporting, and communication. It does not cover a specific sales number, rank, or viral outcome.",
-        "source": "commercial-truth.json guarantee.covers + does_not_guarantee"
+        "source": "pricing-data.json guarantee.covers + does_not_guarantee"
       },
       {
         "q": "What happens if the strategy needs to change?",
