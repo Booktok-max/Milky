@@ -599,6 +599,29 @@ app.get('/api/newsletter/daily', async (req, res) => {
   }
 });
 
+app.get('/api/readers/open-library', async (req, res) => {
+  const resource = String(req.query.path || '').replace(/^\/+/, '');
+  const isSearchResource = resource === 'search.json' || resource === 'search/lists.json';
+  const isListEditionsResource = /^people\/[^/]+\/lists\/[^/]+(?:\/[^/]+)?\/editions\.json$/.test(resource);
+  if (!isSearchResource && !isListEditionsResource) {
+    return res.status(400).json({ error: 'Unsupported Open Library resource.' });
+  }
+  const params = { ...req.query };
+  delete params.path;
+  try {
+    const response = await axios.get(`https://openlibrary.org/${resource}`, {
+      params,
+      headers: { 'User-Agent': 'AtomicShelfReaders/1.0 (https://atomic-shelf.com)' },
+      timeout: 10000,
+    });
+    res.set('Cache-Control', 'public, max-age=300, stale-while-revalidate=900');
+    res.json(response.data);
+  } catch (error) {
+    console.error('Open Library reader proxy error:', resource, error.response?.data || error.message);
+    res.status(502).json({ error: 'The Open Library catalogue is temporarily unavailable.' });
+  }
+});
+
 app.get('/api/readers/tiktok', async (req, res) => {
   try {
     res.set('Cache-Control', 'public, max-age=300, stale-while-revalidate=900');
