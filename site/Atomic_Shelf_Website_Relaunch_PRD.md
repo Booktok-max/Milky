@@ -1,8 +1,8 @@
 # Atomic Shelf Website Relaunch — Master PRD
 
-**Status:** Implementation underway — public/commercial baseline complete; public provenance cleanup implemented; release gates remain
-**Version:** 1.1
-**Date:** 2026-09-22  
+**Status:** Implementation underway — commercial baseline implemented; client-facing provenance cleanup in progress/verified on core sales pages; release gates remain
+**Version:** 1.2
+**Date:** 2026-09-23  
 **Product:** Atomic Shelf marketing website  
 **Primary goal:** Relaunch the site as a clear, memorable, conversion-focused system that explains Atomic Shelf, builds trust, makes pricing easy to understand, and gives authors a natural path to becoming customers.
 
@@ -26,8 +26,8 @@ The visitor should be able to move naturally through:
 
 The following baseline work is complete:
 
-- `pricing-data.json` is the live plan/pricing source for both the homepage preview and the full pricing page.
-- The six canonical plans, commitment prices, services, deliverables, performance ranges, and pricing-page 24-month evidence claim are approved by the site owner and recorded in that source.
+- `pricing-data.json` is the browser-facing pricing dataset used by the homepage preview and the full pricing page.
+- The six plan records include commitment prices, services, deliverables, positioning, and performance ranges.
 - The service map and public Services page now match the approved plan inclusions, service stages, and plan-specific content volumes.
 - The How It Works page now aligns the five-stage system with those approved service stages and plan inclusions.
 - A public Editorial page exists; Start Here is a guided five-path selector, and public navigation aliases cover Catalogue, ShelfMates, and StoryPals.
@@ -47,20 +47,17 @@ The website should educate enough to make the purchase feel informed, but it sho
 
 Internal planning and evidence language must never leak into client-facing pages or browser-visible commercial copy.
 
-**Public-copy rule:** Do not display or expose phrases such as **source of truth**, **single source**, **commercial-truth**, ****, **SOURCING NOTE**, **PRD Section**, **sign-off**, **approved by**, or similar internal provenance/audit annotations in rendered customer content, public page comments, or public runtime data.
+**Public-copy rule:** client-facing pages must not expose internal provenance, audit, approval, planning, or implementation annotations. This includes terms such as **source of truth**, **single source**, **commercial-truth**, internal **[extrapolated]** evidence labels, **SOURCING NOTE**, **PRD Section**, **sign-off**, **approved by**, and similar working-language markers.
 
-The public pricing runtime now uses pricing-data.json, which contains presentation-ready plan data only. Internal approval state, evidence notes, audit commentary, provenance records, margin notes, and other working annotations remain outside the public payload.
+The browser-facing pricing dataset is `pricing-data.json`. It contains presentation-ready plan information; internal approval state, evidence notes, audit commentary, provenance records, and working annotations remain outside customer-facing content.
 
 Implemented on 2026-09-23:
-- pricing-data.json created as the clean browser-facing pricing dataset.
-- pricing.html and index.html now load pricing-data.json.
-- labels were removed from rendered plan copy.
-- results.html no longer describes the pricing dataset as a source of truth.
+- `pricing.html` and `index.html` use `pricing-data.json`.
+- `results.html` no longer describes pricing data using internal provenance language.
 - Internal sourcing notes were removed from the public Services and How It Works pages.
-- pricing-data.json is retired from the public runtime path.
+- Core sales pages were scrubbed of the identified provenance terminology.
 
-**Acceptance test:** a production/public-content search must return zero matches for the prohibited provenance terms above in client-facing HTML and runtime data.
-
+**Acceptance test:** a production/public-content search must return zero matches for the prohibited provenance terms in client-facing HTML, visible text, browser-loaded JSON, and runtime labels.
 
 ### Core positioning
 
@@ -92,7 +89,9 @@ Therefore:
 
 ### Non-negotiable
 
-There must be **one source of truth** for:
+Commercial facts must be maintained from a controlled internal data layer so public pages remain consistent. Internal provenance terminology must never appear in client-facing copy.
+
+That controlled layer must cover:
 
 - plans
 - prices
@@ -573,7 +572,7 @@ Display:
 - 6 months — Save 20%
 - 12 months — Save 25%
 
-The exact current prices must come from the single pricing data source.
+The exact current prices must come from the controlled pricing dataset.
 
 ### Explain the discount
 
@@ -640,7 +639,7 @@ Suggested positioning language:
 
 > Scale the full-funnel system for larger launches and backlists.
 
-The canonical plan records, including exact positioning, live in `pricing-data.json`.
+The current plan records, including exact positioning, live in `pricing-data.json`.
 
 ---
 
