@@ -1,6 +1,6 @@
 # Atomic Shelf Website Relaunch — Master PRD
 
-**Status:** Implementation underway — commercial baseline, pricing/content pass, provenance cleanup, reader discovery foundation, and communications architecture defined; payment, contact, newsletter, outreach integrations and release gates remain
+**Status:** Implementation underway — commercial baseline, pricing/content pass, provenance cleanup, reader discovery foundation, Research & Scholarly lane, and communications architecture defined; payment, contact, newsletter, outreach integrations and release gates remain
 **Version:** 1.5
 **Date:** 2026-09-23  
 **Product:** Atomic Shelf marketing website  
@@ -1830,24 +1830,47 @@ Use it for:
 
 Do not use Crossref as the primary general-fiction recommendation source.
 
-## 39.5 OpenAlex enrichment
+## 39.5 OpenAlex enrichment — NOW ENABLED
 
-OpenAlex should be an optional enrichment provider for scholarly books and chapters.
+OpenAlex is now a live, separate **Research & Scholarly** lane on the Readers page.
 
-OpenAlex currently represents books and book chapters alongside articles, datasets, dissertations and other scholarly works, and connects works with authors, topics, institutions, funders, citations and open-access information. citeturn0search1
+OpenAlex represents books and book chapters alongside other scholarly works and connects works with authors, topics, institutions, citations and open-access information. citeturn0search1
 
-Potential Readers uses:
+### Implemented
+
+- Server endpoint: `GET /api/readers/scholarly?q=&page=`.
+- OpenAlex is queried server-side; the browser does not call OpenAlex directly.
+- The integration filters to `book` and `book-chapter` work types.
+- Results are normalized into a scholarly-specific reader shape containing title, authors, institutions, topics, publication year, DOI, OpenAlex URL, open-access status, and citation count where supplied.
+- Responses are cached server-side for 30 minutes with bounded query/page cache size.
+- An optional `OPENALEX_API_KEY` can be supplied server-side; the public lane does not require a key for baseline operation.
+- An optional `OPENALEX_MAILTO` can identify the application for OpenAlex requests.
+- The Readers page has a dedicated **Research & Scholarly** section and its own search field.
+- The lane is loaded independently and failure does not blank the consumer-book shelves.
+- Citation counts are displayed explicitly as **citations**, never as views, popularity, reader demand, or a consumer ranking.
+- Scholarly works are not merged into the ordinary consumer-book popularity shelves merely because they have high citation counts.
+
+### Product boundary
+
+OpenAlex is a **scholarly discovery/enrichment signal**, not a consumer popularity engine.
+
+The UI must keep these concepts separate:
+
+- consumer discovery → reader-oriented catalogue/discovery signals;
+- BookTok → social discovery/engagement signals;
+- Research & Scholarly → scholarly metadata, topics, institutions, open-access context and citations.
+
+Potential future uses:
 
 - research/nonfiction discovery;
 - topic pages;
 - author research profiles;
 - scholarly reading lists;
 - open-access context;
-- citation/context signals.
+- citation/context signals;
+- institution or research-area exploration.
 
-OpenAlex supports search, filtering, sorting, grouping and pagination. Basic API use is available without a key, while a free API key increases the daily budget. citeturn0search4turn0search7
-
-Keep OpenAlex signals visually separate from ordinary reader popularity signals. Citation counts are not equivalent to reader popularity.
+Citation counts may be shown as scholarly context, but must never be translated into claims such as “most popular with readers”, “trending”, “best-selling”, or equivalent consumer conclusions.
 
 ## 39.6 LibraryThing
 
@@ -2206,9 +2229,12 @@ The server owns:
 ## Phase D — Add scholarly enrichment
 
 - [ ] Add Crossref adapter.
-- [ ] Add OpenAlex adapter.
-- [ ] Add scholarly/nonfiction lane.
-- [ ] Keep scholarly signals distinct from reader-popularity signals.
+- [x] Add OpenAlex adapter.
+- [x] Add Research & Scholarly lane.
+- [x] Keep scholarly signals distinct from reader-popularity signals.
+- [ ] Add richer scholarly topic/institution navigation.
+- [ ] Add Crossref enrichment and DOI verification.
+
 
 ## Phase E — Reader intelligence
 
@@ -2243,3 +2269,4 @@ The Readers dashboard is considered enriched when:
 13. Recommendations are explainable rather than an unexplained ranking.
 14. Open Library remains a discovery provider, not an uncontrolled high-volume backend.
 15. Adding or removing a provider does not require rewriting the Readers UI.
+16. The Research & Scholarly lane keeps scholarly citation/context signals separate from consumer-book popularity and BookTok engagement.
