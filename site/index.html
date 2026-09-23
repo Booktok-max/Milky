@@ -882,6 +882,10 @@ function escapeHtml(value){
 }
 
 const grid = document.getElementById('pricingGrid');
+function buildPricingUrl(planId, term){
+  const params = new URLSearchParams({ term: String(term || 'monthly').trim() });
+  return 'pricing.html?' + params.toString() + '#' + encodeURIComponent(planId);
+}
 function renderPricing(term){
   grid.innerHTML = '';
   planData.forEach(p => {
@@ -906,7 +910,7 @@ function renderPricing(term){
       '<div class="price-amount">' + priceHTML + '</div>' +
       '<div class="price-per">' + perHTML + '</div>' +
       '<div class="price-save">' + saveHTML + '</div>' +
-      '<a class="btn btn-secondary-light price-cta" data-track="cta_click" data-track-destination="pricing" data-track-plan="' + escapeHtml(p.id) + '" href="pricing.html#' + encodeURIComponent(p.id) + '">' + escapeHtml(p.cta) + '</a>';
+      '<a class="btn btn-secondary-light price-cta" data-track="cta_click" data-track-destination="pricing" data-track-plan="' + escapeHtml(p.id) + '" href="' + buildPricingUrl(p.id, term) + '">' + escapeHtml(p.cta) + '</a>';
     grid.appendChild(card);
   });
 }
@@ -930,6 +934,15 @@ async function loadPricing(){
     const pricingData = await response.json();
     if (!Array.isArray(pricingData.plans) || !pricingData.plans.length) throw new Error('Commercial plan data is missing.');
     planData = pricingData.plans;
+    const requestedTerm = new URLSearchParams(window.location.search).get('term');
+    if (['monthly', '3_month', '6_month', '12_month'].includes(requestedTerm)) {
+      selectedTerm = requestedTerm;
+      document.querySelectorAll('#commitToggle button').forEach(button => {
+        const active = button.dataset.term === selectedTerm;
+        button.classList.toggle('active', active);
+        button.setAttribute('aria-pressed', String(active));
+      });
+    }
     renderPricing(selectedTerm);
     document.querySelectorAll('#commitToggle button').forEach(button => { button.disabled = false; });
   }catch(error){

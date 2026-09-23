@@ -561,6 +561,15 @@ async function loadPricing(){
     const pricingData = await response.json();
     if (!Array.isArray(pricingData.plans) || !pricingData.plans.length) throw new Error('Commercial plan data is missing.');
     planData = pricingData.plans;
+    const requestedTerm = new URLSearchParams(window.location.search).get('term');
+    if (['monthly', '3_month', '6_month', '12_month'].includes(requestedTerm)) {
+      selectedTerm = requestedTerm;
+      document.querySelectorAll('#commitToggle button').forEach(button => {
+        const active = button.dataset.term === selectedTerm;
+        button.classList.toggle('active', active);
+        button.setAttribute('aria-pressed', String(active));
+      });
+    }
     renderPricing(selectedTerm);
     document.querySelectorAll('#commitToggle button').forEach(button => { button.disabled = false; });
     const requestedPlan = decodeURIComponent(window.location.hash.slice(1));
