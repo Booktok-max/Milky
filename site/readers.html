@@ -120,6 +120,7 @@ footer a{color:rgba(255,255,255,0.4);text-decoration:none;}
   <ul class="nav-links">
     <li><a href="#browse-books" style="color:var(--copper);font-weight:600;" aria-current="page">Browse Books</a></li>
     <li><a href="#lucky">I’m feeling lucky</a></li>
+    <li><a href="#browse-books" id="publication-tab">New releases → timeless classics</a></li>
     <li><a href="#other-languages">Other languages</a></li>
   </ul>
   <a href="index.html#pricing" class="nav-cta">For Authors</a>
@@ -149,7 +150,6 @@ footer a{color:rgba(255,255,255,0.4);text-decoration:none;}
       <span class="pill" data-genre="poetry">Poetry</span>
       <span class="pill" data-genre="biography">Biography</span>
       <span class="pill" data-genre="graphic novels">Graphic novels</span>
-      <span class="pill" data-sort="publication">New releases → timeless classics</span>
     </div>
     <p class="filter-note">Children’s results use catalogue subject tags for juvenile fiction, picture books, and juvenile literature—not title keywords.</p>
   </div>
@@ -574,6 +574,21 @@ document.getElementById('genre-filters').addEventListener('click', e => {
   document.getElementById('book-search').value = '';
   setReaderGreeting(activeGenre);
   loadBooks(activeQuery, activeGenre, true, activeSort === 'publication');
+});
+
+document.getElementById('publication-tab').addEventListener('click', e => {
+  e.preventDefault();
+  document.querySelectorAll('.nav-links a').forEach(link => link.removeAttribute('aria-current'));
+  e.currentTarget.setAttribute('aria-current', 'page');
+  document.querySelectorAll('.pill').forEach(pill => pill.classList.remove('active'));
+  document.querySelector('.pill[data-genre=""]').classList.add('active');
+  activeGenre = '';
+  activeQuery = '';
+  activeSort = 'publication';
+  document.getElementById('book-search').value = '';
+  setReaderGreeting();
+  loadBooks(activeQuery, activeGenre, true, true);
+  document.getElementById('browse-books').scrollIntoView({ behavior: 'smooth' });
 });
 
 let languageLoaded = false;
