@@ -128,7 +128,7 @@ footer a{color:rgba(255,255,255,0.4);text-decoration:none;}
 <header>
   <div class="header-inner">
     <div class="eyebrow"><span class="eyebrow-line"></span>Reader Discovery<span class="eyebrow-line"></span></div>
-    <h1>Find your next read</h1>
+    <h1 id="reader-greeting">Find your next read</h1>
     <p>Browse titles across romance, fantasy, thriller, children's books, and more — matched to what you already love.</p>
     <form class="search-bar" id="book-search-form">
       <label class="sr-only" for="book-search">Search books</label>
@@ -288,6 +288,27 @@ const GENRE_QUERIES = {
 function dailySeed() {
   const today = new Date().toISOString().slice(0, 10);
   return [...today].reduce((seed, char) => ((seed * 31) + char.charCodeAt(0)) >>> 0, 7);
+}
+
+function setReaderGreeting(genre = '', query = '') {
+  const heading = document.getElementById('reader-greeting');
+  if (query) {
+    heading.textContent = `Looking for something like “${query}”? Start with these reader-matched finds.`;
+    return;
+  }
+  if (genre) {
+    const label = genre === "children's" ? "children's books" : genre;
+    heading.textContent = `In the mood for ${label}? These picks are matched to that reading lane.`;
+    return;
+  }
+  const greetings = [
+    'Are you a reader? We bet you have not found these genre-matched hidden gems.',
+    'Looking for your next obsession? Start with today’s reader-matched picks.',
+    'In the mood for something new? Explore today’s mix across popular reading lanes.',
+    'Your next great read may be hiding in today’s genre-matched selection.',
+    'Fresh shelves, thoughtful picks, and books for every reading mood.'
+  ];
+  heading.textContent = greetings[dailySeed() % greetings.length];
 }
 
 function seededShuffle(items, seed) {
@@ -482,6 +503,7 @@ function runSearch() {
   document.querySelector('.pill[data-genre=""]').classList.add('active');
   activeGenre = '';
   activeQuery = q;
+  setReaderGreeting('', q);
   loadBooks(activeQuery, activeGenre);
 }
 
@@ -498,6 +520,7 @@ document.getElementById('genre-filters').addEventListener('click', e => {
   activeGenre = pill.dataset.genre;
   activeQuery = '';
   document.getElementById('book-search').value = '';
+  setReaderGreeting(activeGenre);
   loadBooks(activeQuery, activeGenre);
 });
 
@@ -577,6 +600,7 @@ const loadObserver = new IntersectionObserver(entries => {
 loadObserver.observe(document.getElementById('load-sentinel'));
 
 // Prioritise the main book shelf; secondary feeds wait until the browser is idle.
+setReaderGreeting();
 loadBooks(activeQuery, activeGenre).then(() => {
   const schedule = window.requestIdleCallback || (callback => setTimeout(callback, 800));
   schedule(() => loadLists());
