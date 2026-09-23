@@ -110,6 +110,11 @@ footer a:hover{color:var(--copper-l);}
 
     <h2 style="font-size:1.7rem;margin-bottom:0.4rem;">By plan, by month 3</h2>
     <p style="color:var(--stone);font-size:0.92rem;max-width:60ch;">The ranges below use the same plan details as the <a href="pricing.html" class="xlink">pricing page</a>, so plan names and expected outputs stay aligned.</p>
+      <div class="metric-card"><div class="metric-num">6<span class="s"> plans</span></div><div class="metric-label">clear plan ranges shown alongside pricing</div></div>
+    </div>
+
+    <h2 style="font-size:1.7rem;margin-bottom:0.4rem;">By plan, by month 3</h2>
+    <p style="color:var(--stone);font-size:0.92rem;max-width:60ch;">The ranges below are presented alongside the plans so expected outputs are easy to compare.</p>
 
     <div class="results-table-wrap">
       <table class="results-table">
@@ -120,6 +125,7 @@ footer a:hover{color:var(--copper-l);}
 
     <div class="note-block">
       <strong>How to read this:</strong> these are expected ranges for planning, measured against a book's pre-campaign baseline over the standard window. They are not promises of sales, reviews, rankings, or coverage. Genre, backlist, price point, audience, and campaign readiness all affect the outcome.
+      <strong>How to read this:</strong> these are expected ranges for planning, measured against a book's pre-campaign baseline over the standard 90-day planning window. They are not promises of sales, reviews, rankings, or coverage. Genre, backlist, price point, audience, and campaign readiness all affect the outcome.
     </div>
 
     <div style="margin-top:2.5rem;display:flex;gap:1rem;flex-wrap:wrap;">
@@ -179,7 +185,7 @@ async function loadResultRanges() {
   const head = document.getElementById('resultsHead');
   const body = document.getElementById('resultsBody');
   try {
-    const response = await fetch('commercial-truth.json', { cache: 'no-cache' });
+    const response = await fetch('pricing-data.json', { cache: 'no-cache' });
     if (!response.ok) throw new Error('Commercial data could not be loaded.');
     const data = await response.json();
     const plans = (data.plans || []).filter(plan => plan.metrics && Object.keys(plan.metrics).length);

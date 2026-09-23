@@ -321,7 +321,7 @@ footer{ background:var(--color-bg-dark); color:var(--color-text-primary-dark); p
 </div>
 </header>
 
-<!-- ============ GUARANTEE (identical copy/markup to index.html — one source, not re-worded here) ============ -->
+<!-- ============ GUARANTEE ============ -->
 <section class="guarantee section-l">
 <div class="wrap">
 <p class="eyebrow">Our commitment</p>
@@ -461,9 +461,9 @@ document.querySelectorAll('.faq-item').forEach(item => {
   });
 });
 
-/* ---------- Pricing: single source of truth ----------
-   Plan details are loaded from commercial-truth.json. Keep commercial
-   values there; this page only supplies presentation and interaction.
+/* ---------- Pricing data ----------
+   Plan details are loaded from the public pricing data file; this page only
+   supplies presentation and interaction.
 
    Checkout is intentionally routed through a dedicated checkout page so the
    website can keep a clean pricing surface while a real payment backend handles
@@ -553,7 +553,7 @@ document.querySelectorAll('#commitToggle button').forEach(btn => {
 
 async function loadPricing(){
   try{
-    const response = await fetch('commercial-truth.json', { cache: 'no-cache' });
+    const response = await fetch('pricing-data.json', { cache: 'no-cache' });
     if (!response.ok) throw new Error('Could not load commercial data.');
     const commercialTruth = await response.json();
     if (!Array.isArray(commercialTruth.plans) || !commercialTruth.plans.length) throw new Error('Commercial plan data is missing.');

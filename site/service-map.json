@@ -2,7 +2,7 @@
   "_meta": {
     "purpose": "Maps every service to system stage, plan, purpose, deliverable, and measurable indicator (PRD Section 48, Step 2).",
     "system_model": "Discover -> Trust -> Convert -> Retain -> Repeat (PRD Section 4)",
-    "built_from": ["commercial-truth.json (this project's Step 1 output)", "atomic-shelf.com homepage five-lever system"],
+    "built_from": ["pricing-data.json (this project's Step 1 output)", "atomic-shelf.com homepage five-lever system"],
     "note": "purpose and measurable_indicator are [extrapolated] — derived from the metrics already published per plan (impressions/CTR/sales-lift ranges) and the homepage's stated system logic, not from an internal ops sheet. Flag for sign-off before publishing verbatim, same as Step 1's audience/positioning fields."
   },
 
@@ -120,6 +120,6 @@
   "unmapped_or_flagged": [
     "Spark and Enhanced have no Trust, Convert, Retain, or Repeat stage services — they are Discover-only tiers. Confirm this is intentional messaging (\"entry point,\" not a full system) before publishing plan comparisons.",
     "Starter has Discover (paid) services only, no Trust/Convert/Retain/Repeat — this is intentional and must remain clear in public plan comparisons.",
-    "custom_tiers (Surge, Orbit) from commercial-truth.json have no defined service scope yet — out of scope for this map until their commercial terms exist."
+    "custom_tiers (Surge, Orbit) from pricing-data.json have no defined service scope yet — out of scope for this map until their commercial terms exist."
   ]
 }
