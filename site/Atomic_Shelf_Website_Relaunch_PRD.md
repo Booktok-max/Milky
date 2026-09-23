@@ -1584,7 +1584,7 @@ The previously exposed Brevo credential must be rotated before production commun
 
 ## Phase 2 — PesaPal production checkout
 
-- [ ] Reconcile backend plan mapping with all six current plans.
+- [x] Reconcile backend plan mapping with all six current plans.
 - [ ] Implement authoritative server-side pricing validation.
 - [ ] Implement transaction persistence.
 - [ ] Make callback/IPN processing idempotent.

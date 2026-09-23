@@ -446,11 +446,13 @@ if (!APP_BASE_URL) {
   console.warn('WARNING: APP_BASE_URL not set — callback/IPN URLs will be wrong.');
 }
 
-// ---- Known plans (server-side source of truth for pricing) ------------
+// ---- Current monthly plans (server-side payment validation) ------------
 // Never trust an amount sent from the browser — look it up here instead.
 const PLANS = {
   spark: { name: 'Spark', amount: 20 },
+  enhanced: { name: 'Enhanced', amount: 50 },
   foundation: { name: 'Foundation', amount: 79 },
+  starter: { name: 'Starter', amount: 100 },
   momentum: { name: 'Momentum', amount: 249 },
   growth: { name: 'Growth', amount: 499 },
 };
