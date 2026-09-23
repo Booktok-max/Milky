@@ -128,7 +128,7 @@ footer a{color:rgba(255,255,255,0.4);text-decoration:none;}
 <header>
   <div class="header-inner">
     <div class="eyebrow"><span class="eyebrow-line"></span>Reader Discovery<span class="eyebrow-line"></span></div>
-    <h1>Find your next read</h1>
+    <h1 id="reader-greeting">Find your next read</h1>
     <p>Browse titles across romance, fantasy, thriller, children's books, and more — matched to what you already love.</p>
     <form class="search-bar" id="book-search-form">
       <label class="sr-only" for="book-search">Search books</label>
@@ -288,6 +288,18 @@ const GENRE_QUERIES = {
 function dailySeed() {
   const today = new Date().toISOString().slice(0, 10);
   return [...today].reduce((seed, char) => ((seed * 31) + char.charCodeAt(0)) >>> 0, 7);
+}
+
+function setDailyReaderGreeting() {
+  const greetings = [
+    'Are you a reader? We bet you have not found these hidden gems.',
+    'Looking for your next obsession? These reads may be the ones.',
+    'In the mood for something new? Start with today’s book finds.',
+    'Your next great read may be hiding in today’s selection.',
+    'Fresh shelves, curious minds, and a few books worth getting lost in.'
+  ];
+  document.getElementById('reader-greeting').textContent =
+    greetings[dailySeed() % greetings.length];
 }
 
 function seededShuffle(items, seed) {
@@ -577,6 +589,7 @@ const loadObserver = new IntersectionObserver(entries => {
 loadObserver.observe(document.getElementById('load-sentinel'));
 
 // Prioritise the main book shelf; secondary feeds wait until the browser is idle.
+setDailyReaderGreeting();
 loadBooks(activeQuery, activeGenre).then(() => {
   const schedule = window.requestIdleCallback || (callback => setTimeout(callback, 800));
   schedule(() => loadLists());
