@@ -283,7 +283,7 @@ const GENRE_QUERIES = {
   'literary fiction': 'subject:"literary fiction"',
   poetry: 'subject:poetry',
   biography: 'subject:biography',
-  'graphic novels': 'subject:"graphic novels"'
+  'graphic novels': 'subject:"graphic novels" OR subject:"graphic works" OR subject:"comic books, strips, etc."'
 };
 
 function dailySeed() {
@@ -336,6 +336,16 @@ function publicationYearLabel(year) {
   return year;
 }
 
+function isGraphicNovel(doc) {
+  const subjects = (doc.subject || []).map(subject => String(subject).toLowerCase());
+  return subjects.some(subject =>
+    subject.includes('graphic novel') ||
+    subject.includes('graphic work') ||
+    subject.includes('comic book') ||
+    subject.includes('comics, strips')
+  );
+}
+
 function seededShuffle(items, seed) {
   const result = [...items];
   let state = seed || 1;
@@ -357,7 +367,7 @@ async function fetchBooks(query, genre, page = 1, sortByPublication = false) {
     if (!res.ok) throw new Error('Book search failed');
     const data = await res.json();
     return (data.docs || [])
-      .filter(d => d.cover_i && publicationYearLabel(d.first_publish_year) !== null)
+      .filter(d => d.cover_i && publicationYearLabel(d.first_publish_year) !== null && (genre !== 'graphic novels' || isGraphicNovel(d)))
       .map(d => ({ ...bookFromDoc(d), lane: 'Search result' }))
       .sort((a, b) => (Number(b.publicationYear) || 0) - (Number(a.publicationYear) || 0));
   }
@@ -373,7 +383,7 @@ async function fetchBooks(query, genre, page = 1, sortByPublication = false) {
     if (!res.ok) throw new Error('Publication shelf unavailable');
     const data = await res.json();
     return (data.docs || [])
-      .filter(doc => doc.cover_i && publicationYearLabel(doc.first_publish_year) !== null)
+      .filter(doc => doc.cover_i && publicationYearLabel(doc.first_publish_year) !== null && (genre !== 'graphic novels' || isGraphicNovel(doc)))
       .map(doc => ({ ...bookFromDoc(doc), lane: 'New releases → timeless classics' }))
       .sort((a, b) => (Number(b.publicationYear) || 0) - (Number(a.publicationYear) || 0));
   }
