@@ -320,6 +320,7 @@
 
           <input id="planField" name="plan" type="hidden" value="spark" />
 
+          <p class="payment-guidance"><strong>Payment method:</strong> On the next page, choose <strong>Card</strong> for the fastest checkout. M-Pesa remains available as an alternative.</p>
           <button class="primary-btn" id="submitButton" type="submit">Continue to secure payment</button>
           <a href="pricing.html" class="secondary-btn" role="button">Choose another plan</a>
 
@@ -344,7 +345,9 @@
     const submitButton = document.getElementById('submitButton');
 
     const DEFAULT_PLAN = 'spark';
+    const DEFAULT_TERM = 'monthly';
     let planData = {};
+    let selectedTerm = DEFAULT_TERM;
 
     function setStatus(message, type) {
       statusEl.textContent = message;
@@ -368,6 +371,17 @@
       return planData[planField.value] || planData[DEFAULT_PLAN] || null;
     }
 
+    function getTermLabel(term) {
+      return term === '3_month' ? '3 months' :
+        term === '6_month' ? '6 months' :
+        term === '12_month' ? '12 months' : 'Monthly';
+    }
+
+    function getSelectedAmount(plan) {
+      if (selectedTerm === 'monthly') return Number(plan.monthly_price ?? 0);
+      return Number(plan.commitments?.[selectedTerm]?.discounted_total_rounded_down_10 ?? 0);
+    }
+
     async function loadPlanData() {
       try {
         const response = await fetch('pricing-data.json', { cache: 'no-cache' });
@@ -387,7 +401,11 @@
         };
       }
 
-      const requestedPlan = new URLSearchParams(window.location.search).get('plan') || DEFAULT_PLAN;
+      const params = new URLSearchParams(window.location.search);
+      const requestedPlan = params.get('plan') || DEFAULT_PLAN;
+      const requestedTerm = params.get('term') || DEFAULT_TERM;
+      selectedTerm = ['monthly', '3_month', '6_month', '12_month'].includes(requestedTerm)
+        ? requestedTerm : DEFAULT_TERM;
       const matchedPlan = planData[requestedPlan] ? requestedPlan : DEFAULT_PLAN;
       planField.value = matchedPlan;
       applyPlanView();
@@ -397,11 +415,11 @@
       const plan = getSelectedPlan();
       if (!plan) return;
 
-      const price = Number(plan.monthly_price ?? 0);
+      const price = getSelectedAmount(plan);
       document.getElementById('planName').textContent = plan.name || 'Spark';
       document.getElementById('planSummary').textContent = plan.positioning || 'A practical starting point for building your readership.';
       document.getElementById('summaryPlan').textContent = plan.name || 'Spark';
-      document.getElementById('summaryBilling').textContent = 'Monthly';
+      document.getElementById('summaryBilling').textContent = getTermLabel(selectedTerm);
       document.getElementById('summaryAmount').textContent = formatMoney(price);
       document.getElementById('planPrice').textContent = formatMoney(price);
     }
@@ -450,6 +468,7 @@
 
       const payload = {
         plan: planField.value,
+        term: selectedTerm,
         first_name: document.getElementById('first_name').value.trim(),
         last_name: document.getElementById('last_name').value.trim(),
         email: document.getElementById('email').value.trim(),
