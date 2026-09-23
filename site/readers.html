@@ -469,7 +469,7 @@ async function fetchBooks(query, genre, page = 1, sortByPublication = false) {
   if (!books.length) {
     return seededShuffle(FALLBACK_BOOKS.map(doc => {
       const book = bookFromDoc(doc);
-      book.lane = 'Backup shelf';
+      book.lane = 'Popular reading';
       return book;
     }), dailySeed() + page);
   }
