@@ -871,8 +871,8 @@ document.querySelectorAll('.faq-item').forEach(item => {
   });
 });
 
-/* ---------- Pricing preview: single source of truth ----------
-   Plan values are loaded from commercial-truth.json. This page only
+/* ---------- Pricing preview ----------
+   Plan values are loaded from the public pricing data file. This page only
    renders the data and links visitors to the full pricing view. */
 let planData = [];
 let selectedTerm = 'monthly';
@@ -925,7 +925,7 @@ document.querySelectorAll('#commitToggle button').forEach(btn => {
 
 async function loadPricing(){
   try{
-    const response = await fetch('commercial-truth.json', { cache: 'no-cache' });
+    const response = await fetch('pricing-data.json', { cache: 'no-cache' });
     if (!response.ok) throw new Error('Could not load commercial data.');
     const commercialTruth = await response.json();
     if (!Array.isArray(commercialTruth.plans) || !commercialTruth.plans.length) throw new Error('Commercial plan data is missing.');
