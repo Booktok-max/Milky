@@ -538,31 +538,6 @@ document.querySelectorAll('.faq-item').forEach(item => {
 </script>
 
 <!--
-  SOURCING NOTE for whoever reviews this page (PRD Section 48, Step 8):
-  Every "What it is / Why it matters / What we do / What success looks
-  like / Who needs it" field above is built directly from service-map.json
-  and commercial-truth.json (plans[*].metrics). service-map.json marks
-  its purpose/measurable_indicator fields [extrapolated] -- same
-  sign-off caveat applies here; this page doesn't repeat "[extrapolated]"
-  inline for every stat since index.html and pricing.html don't either,
-  but nothing below is verified client data.
-
-  ONE GAP FLAGGED: "Free-promotion campaigns" (PRD Section 13's own
-  category) has no standalone entry in service-map.json -- the only
-  underlying data is the newsletter_feature service's free_promo_downloads
-  metric. This page presents it as bundled with the newsletter feature
-  rather than inventing a separate deliverable. Worth deciding whether
-  free-promo should become its own service-map.json entry, or whether
-  this bundled framing is the intended final copy.
-
-  "Audience retargeting" is tagged Convert here (matching index.html's
-  homepage service-card tag and the five-stage system's Convert
-  definition -- "the listing earns the sale" / closing the loop),
-  even though service-map.json's own system_stage field for
-  "retargeting" says Repeat. Flagging the mismatch rather than
-  silently picking one; kept consistent with what's already live on
-  the homepage.
--->
 <script src="analytics.js"></script>
 </body>
 </html>
