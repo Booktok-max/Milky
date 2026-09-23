@@ -50,6 +50,16 @@ function seededShuffle(items, seed) {
   return result;
 }
 
+function escapeNewsletterHtml(value) {
+  return String(value).replace(/[&<>"']/g, character => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;',
+  }[character]));
+}
+
 function newsletterBookFromDoc(doc, lane, language = null) {
   const title = doc.title || 'Untitled';
   const author = (doc.author_name || [])[0] || 'Unknown author';
@@ -150,6 +160,35 @@ async function buildDailyNewsletter() {
     books
   };
   return dailyNewsletterCache;
+}
+
+function renderNewsletterPreview(newsletter) {
+  const books = newsletter.books.map(book => `
+    <article style="margin:0 0 28px;padding:0 0 24px;border-bottom:1px solid #ded8cc">
+      <img src="${escapeNewsletterHtml(book.cover)}" alt="${escapeNewsletterHtml(book.title)} cover" width="160" style="display:block;width:160px;height:auto;margin:0 0 12px">
+      <p style="margin:0 0 6px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#756d61">${escapeNewsletterHtml(book.lane)}${book.language ? ` · ${escapeNewsletterHtml(book.language)}` : ''}</p>
+      <h2 style="margin:0 0 4px;font-size:22px;line-height:1.2"><a href="${escapeNewsletterHtml(book.url)}" style="color:#211d18">${escapeNewsletterHtml(book.title)}</a></h2>
+      <p style="margin:0;color:#514a40">${escapeNewsletterHtml(book.author)}${book.year ? ` · ${escapeNewsletterHtml(book.year)}` : ''}</p>
+    </article>`).join('');
+  const text = [
+    newsletter.subject,
+    '',
+    ...newsletter.books.map(book => [
+      `${book.title} by ${book.author}`,
+      `${book.lane}${book.language ? ` · ${book.language}` : ''}`,
+      book.url,
+    ].join('\n')),
+  ].join('\n');
+  const html = `<!doctype html><html><body style="margin:0;background:#f5f1e8;color:#211d18;font-family:Arial,sans-serif">
+    <main style="max-width:640px;margin:0 auto;padding:40px 24px;background:#fffdf8">
+      <p style="margin:0 0 8px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#756d61">Atomic Shelf · ${escapeNewsletterHtml(newsletter.date)}</p>
+      <h1 style="margin:0 0 12px;font-size:34px;line-height:1.1">${escapeNewsletterHtml(newsletter.subject)}</h1>
+      <p style="margin:0 0 32px;color:#514a40">A daily mix of reader-matched books, curated from today's discovery shelves.</p>
+      ${books}
+      <p style="font-size:12px;color:#756d61">Book covers and catalogue links are provided by Open Library.</p>
+    </main>
+  </body></html>`;
+  return { html, text };
 }
 
 // ---- Config -----------------------------------------------------------
@@ -393,6 +432,21 @@ app.get('/api/newsletter/daily', async (req, res) => {
   } catch (error) {
     console.error('daily newsletter generation error:', error.message);
     res.status(502).json({ error: 'The daily reader shelf is temporarily unavailable.' });
+  }
+});
+
+app.get('/api/newsletter/preview', async (req, res) => {
+  const suppliedKey = req.get('x-preview-key') || req.query.key;
+  const suppliedBearer = req.get('authorization')?.replace(/^Bearer\s+/i, '');
+  if (!SETUP_KEY || (suppliedKey !== SETUP_KEY && suppliedBearer !== SETUP_KEY)) {
+    return res.status(403).json({ error: 'Invalid or missing preview key.' });
+  }
+  try {
+    const newsletter = await buildDailyNewsletter();
+    res.json({ ...newsletter, ...renderNewsletterPreview(newsletter) });
+  } catch (error) {
+    console.error('newsletter preview generation error:', error.message);
+    res.status(502).json({ error: 'The newsletter preview is temporarily unavailable.' });
   }
 });
 

@@ -54,13 +54,13 @@ The Readers page should become the source for a daily email shelf containing the
 - `/api/newsletter/subscribe` accepts and stores a normalized subscriber address outside the public asset boundary.
 - `/api/newsletter/daily` generates a dated shelf from covered Open Library titles and returns each book's title, author, cover, and catalogue link.
 - The daily shelf has a generated subject line and a server-side daily cache to avoid rebuilding the same shelf on every request.
+- `/api/newsletter/preview` provides a protected editorial preview with responsive HTML and plain-text versions before delivery is enabled.
 
 **Pending work:**
 
 - Replace the temporary local subscriber store with a production email provider and rotate any previously exposed provider credentials.
 - Add consent language, unsubscribe handling, suppression/bounce handling, and a clear privacy/data-retention policy.
 - Make the newsletter selection use the same daily seed and discovery rules as the Readers page, including genre context and the Other languages shelf where appropriate.
-- Add a safe editorial preview endpoint or admin-only preview page before a newsletter is sent.
 - Build a responsive HTML email template with accessible text alternatives, tracked book links, source attribution, and a plain-text version.
 - Add a scheduled daily send job with idempotency, retry limits, rate limits, and delivery monitoring.
 - Add tests for duplicate subscriptions, invalid addresses, provider failures, empty shelves, coverless records, and repeated requests on the same day.
