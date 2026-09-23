@@ -501,18 +501,30 @@ document.getElementById('genre-filters').addEventListener('click', e => {
   loadBooks(activeQuery, activeGenre);
 });
 
+let languageLoaded = false;
+let languageLoading = false;
+
+async function loadLanguageShelf(language = 'spa') {
+  if (languageLoading) return;
+  languageLoading = true;
+  const grid = document.getElementById('language-grid');
+  grid.innerHTML = '<div class="state-note">Loading books…</div>';
+  try {
+    renderLanguageBooks(await fetchLanguageBooks(language));
+    languageLoaded = true;
+  } catch (error) {
+    grid.innerHTML = '<div class="state-note">This language shelf is unavailable right now. Please try another language.</div>';
+  } finally {
+    languageLoading = false;
+  }
+}
+
 document.getElementById('language-filters').addEventListener('click', async e => {
   const pill = e.target.closest('.pill');
   if (!pill) return;
   document.querySelectorAll('#language-filters .pill').forEach(item => item.classList.remove('active'));
   pill.classList.add('active');
-  const grid = document.getElementById('language-grid');
-  grid.innerHTML = '<div class="state-note">Loading books…</div>';
-  try {
-    renderLanguageBooks(await fetchLanguageBooks(pill.dataset.language));
-  } catch (error) {
-    grid.innerHTML = `<div class="state-note">This language shelf is unavailable right now. Please try another language.</div>`;
-  }
+  await loadLanguageShelf(pill.dataset.language);
 });
 
 function renderLanguageBooks(books) {
@@ -551,18 +563,24 @@ document.getElementById('weekly-signup-form').addEventListener('submit', e => {
   email.value = '';
 });
 
-fetchLanguageBooks('spa').then(renderLanguageBooks).catch(() => {
-  document.getElementById('language-grid').innerHTML = '<div class="state-note">This language shelf is unavailable right now. Please try another language.</div>';
-});
+const languageObserver = new IntersectionObserver(entries => {
+  if (entries[0].isIntersecting && !languageLoaded) {
+    languageObserver.disconnect();
+    loadLanguageShelf();
+  }
+}, { rootMargin: '300px' });
+languageObserver.observe(document.getElementById('other-languages'));
 
 const loadObserver = new IntersectionObserver(entries => {
   if (entries[0].isIntersecting) loadBooks(activeQuery, activeGenre, false);
 }, { rootMargin: '700px' });
 loadObserver.observe(document.getElementById('load-sentinel'));
 
-// Initial load
-loadLists();
-loadBooks(activeQuery, activeGenre);
+// Prioritise the main book shelf; secondary feeds wait until the browser is idle.
+loadBooks(activeQuery, activeGenre).then(() => {
+  const schedule = window.requestIdleCallback || (callback => setTimeout(callback, 800));
+  schedule(() => loadLists());
+});
 </script>
 <script src="analytics.js"></script>
 </body>
