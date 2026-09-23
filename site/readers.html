@@ -129,7 +129,7 @@ footer a{color:rgba(255,255,255,0.4);text-decoration:none;}
   <div class="header-inner">
     <div class="eyebrow"><span class="eyebrow-line"></span>Reader Discovery<span class="eyebrow-line"></span></div>
     <h1 id="reader-greeting">Find your next read</h1>
-    <p>Browse titles across romance, fantasy, thriller, children's books, and more — matched to what you already love.</p>
+    <p id="reader-date-range">Browse today's selection across romance, fantasy, thriller, children's books, and more.</p>
     <form class="search-bar" id="book-search-form">
       <label class="sr-only" for="book-search">Search books</label>
       <input type="search" id="book-search" placeholder="Search by title, author, or series…" autocomplete="off"/>
@@ -149,6 +149,7 @@ footer a{color:rgba(255,255,255,0.4);text-decoration:none;}
       <span class="pill" data-genre="poetry">Poetry</span>
       <span class="pill" data-genre="biography">Biography</span>
       <span class="pill" data-genre="graphic novels">Graphic novels</span>
+      <span class="pill" data-sort="publication">New releases → timeless classics</span>
     </div>
     <p class="filter-note">Children’s results use catalogue subject tags for juvenile fiction, picture books, and juvenile literature—not title keywords.</p>
   </div>
@@ -311,6 +312,20 @@ function setReaderGreeting(genre = '', query = '') {
   heading.textContent = greetings[dailySeed() % greetings.length];
 }
 
+function updateReaderDateRange(books) {
+  const intro = document.getElementById('reader-date-range');
+  const years = books
+    .map(book => Number(book.year))
+    .filter(year => Number.isInteger(year) && year > 0 && year <= new Date().getFullYear());
+  if (!years.length) {
+    intro.textContent = "Browse today's selection across romance, fantasy, thriller, children's books, and more.";
+    return;
+  }
+  const firstYear = Math.min(...years);
+  const currentYear = new Date().getFullYear();
+  intro.textContent = `Today's selection: books from ${firstYear} to ${currentYear}, matched to what you already love.`;
+}
+
 function seededShuffle(items, seed) {
   const result = [...items];
   let state = seed || 1;
@@ -324,15 +339,33 @@ function seededShuffle(items, seed) {
 
 // TODO: once Atomic Shelf has its own author catalog and retail feeds, replace
 // these Open Library lanes with first-party availability, deal, and bestseller data.
-async function fetchBooks(query, genre, page = 1) {
+async function fetchBooks(query, genre, page = 1, sortByPublication = false) {
   if (query) {
     const params = new URLSearchParams({ q: query, limit: '30', page: String(page) });
+    if (sortByPublication) params.set('sort', 'new');
     const res = await fetch(`https://openlibrary.org/search.json?${params}`);
     if (!res.ok) throw new Error('Book search failed');
     const data = await res.json();
     return (data.docs || [])
       .filter(d => d.cover_i)
-      .map(d => ({ ...bookFromDoc(d), lane: 'Search result' }));
+      .map(d => ({ ...bookFromDoc(d), lane: 'Search result' }))
+      .sort((a, b) => (Number(b.year) || 0) - (Number(a.year) || 0));
+  }
+
+  if (sortByPublication) {
+    const params = new URLSearchParams({
+      q: genre ? (GENRE_QUERIES[genre] || `subject:${genre}`) : 'fiction',
+      limit: '30',
+      page: String(page),
+      sort: 'new'
+    });
+    const res = await fetch(`https://openlibrary.org/search.json?${params}`);
+    if (!res.ok) throw new Error('Publication shelf unavailable');
+    const data = await res.json();
+    return (data.docs || [])
+      .filter(doc => doc.cover_i)
+      .map(doc => ({ ...bookFromDoc(doc), lane: 'New releases → timeless classics' }))
+      .sort((a, b) => (Number(b.year) || 0) - (Number(a.year) || 0));
   }
 
   async function fetchLanguageBooks(language) {
@@ -396,6 +429,7 @@ function bookFromDoc(d) {
 
 let activeGenre = '';
 let activeQuery = '';
+let activeSort = '';
 let currentPage = 1;
 let displayedBooks = [];
 let loading = false;
@@ -464,7 +498,7 @@ function renderBooks(books) {
     </div>`).join('');
 }
 
-async function loadBooks(query, genre, reset = true) {
+async function loadBooks(query, genre, reset = true, sortByPublication = activeSort === 'publication') {
   const grid = document.getElementById('book-grid');
   if (loading) return;
   loading = true;
@@ -475,9 +509,9 @@ async function loadBooks(query, genre, reset = true) {
   }
   document.getElementById('results-title').textContent = query
     ? `Results for “${query}”`
-    : (genre ? `Browsing: ${genre}` : 'Popular reading');
+    : (genre ? `Browsing: ${genre}` : (sortByPublication ? 'New releases → timeless classics' : 'Popular reading'));
   try {
-    const books = await fetchBooks(query, genre, currentPage);
+    const books = await fetchBooks(query, genre, currentPage, sortByPublication);
     const seen = new Set(displayedBooks.map(book => `${book.title}|${book.author}`));
     displayedBooks = displayedBooks.concat(books.filter(book => {
       const key = `${book.title}|${book.author}`;
@@ -485,6 +519,7 @@ async function loadBooks(query, genre, reset = true) {
       seen.add(key);
       return true;
     }));
+    updateReaderDateRange(displayedBooks);
     renderBooks(displayedBooks);
     currentPage += 1;
     document.getElementById('load-sentinel').textContent = books.length
@@ -503,6 +538,7 @@ function runSearch() {
   document.querySelector('.pill[data-genre=""]').classList.add('active');
   activeGenre = '';
   activeQuery = q;
+  activeSort = '';
   setReaderGreeting('', q);
   loadBooks(activeQuery, activeGenre);
 }
@@ -519,9 +555,10 @@ document.getElementById('genre-filters').addEventListener('click', e => {
   pill.classList.add('active');
   activeGenre = pill.dataset.genre;
   activeQuery = '';
+  activeSort = pill.dataset.sort || '';
   document.getElementById('book-search').value = '';
   setReaderGreeting(activeGenre);
-  loadBooks(activeQuery, activeGenre);
+  loadBooks(activeQuery, activeGenre, true, activeSort === 'publication');
 });
 
 let languageLoaded = false;
@@ -606,7 +643,7 @@ const languageObserver = new IntersectionObserver(entries => {
 languageObserver.observe(document.getElementById('other-languages'));
 
 const loadObserver = new IntersectionObserver(entries => {
-  if (entries[0].isIntersecting) loadBooks(activeQuery, activeGenre, false);
+  if (entries[0].isIntersecting) loadBooks(activeQuery, activeGenre, false, activeSort === 'publication');
 }, { rootMargin: '700px' });
 loadObserver.observe(document.getElementById('load-sentinel'));
 
