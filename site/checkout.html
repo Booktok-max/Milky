@@ -278,7 +278,7 @@
         <div class="plan-card">
           <div>
             <strong id="planName">Spark</strong>
-            <small id="planSummary">The entry point into the system.</small>
+            <small id="planSummary">A practical starting point for building your readership.</small>
           </div>
           <div class="price-tag" id="planPrice">$20</div>
         </div>
@@ -378,7 +378,7 @@
         planData[DEFAULT_PLAN] = {
           id: DEFAULT_PLAN,
           name: 'Spark',
-          positioning: 'The entry point into the system.',
+          positioning: 'A practical starting point for building your readership.',
           monthly_price: 20,
           cta: 'Get started with Spark'
         };
@@ -396,7 +396,7 @@
 
       const price = Number(plan.monthly_price ?? 0);
       document.getElementById('planName').textContent = plan.name || 'Spark';
-      document.getElementById('planSummary').textContent = plan.positioning || 'The entry point into the system.';
+      document.getElementById('planSummary').textContent = plan.positioning || 'A practical starting point for building your readership.';
       document.getElementById('summaryPlan').textContent = plan.name || 'Spark';
       document.getElementById('summaryBilling').textContent = 'Monthly';
       document.getElementById('summaryAmount').textContent = formatMoney(price);
