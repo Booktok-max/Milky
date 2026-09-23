@@ -408,6 +408,11 @@ const FALLBACK_BOOKS = [
   { title: 'The Odyssey', author_name: ['Homer'], first_publish_year: -800, cover_i: 8235587, key: '/works/OL45804W', subject: ['Classics', 'Epic poetry'] }
 ];
 
+const FALLBACK_LISTS = [
+  { name: 'Popular reading', category: 'Atomic Shelf picks', books: FALLBACK_BOOKS.slice(0, 3) },
+  { name: 'Classics to revisit', category: 'Classics lists', books: FALLBACK_BOOKS.slice(3, 6) }
+];
+
 function dailySeed() {
   const today = new Date().toISOString().slice(0, 10);
   return [...today].reduce((seed, char) => ((seed * 31) + char.charCodeAt(0)) >>> 0, 7);
@@ -622,6 +627,38 @@ function openLibraryUrl(path, params = {}) {
   return readersApiUrl('/api/readers/open-library', { path, ...params });
 }
 
+function fallbackListData() {
+  return FALLBACK_LISTS.map(list => ({
+    ...list,
+    url: `https://openlibrary.org/search?q=${encodeURIComponent(list.name)}`,
+    covers: list.books.map(book => `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`),
+    seed_count: list.books.length,
+    edition_count: list.books.length
+  }));
+}
+
+function renderLists(lists) {
+  const grid = document.getElementById('list-grid');
+  grid.innerHTML = lists.map(list => `
+    <article class="list-card">
+      ${list.covers.length
+        ? `<div class="list-covers">${list.covers.map(cover => `<img src="${cover}" alt="" loading="lazy" decoding="async" onerror="this.replaceWith(fallbackListCover())">`).join('')}</div>`
+        : '<div class="list-covers placeholder">Representative covers unavailable</div>'}
+      <div class="eyebrow">${escapeHtml(list.category)}</div>
+      <h3>${escapeHtml(list.name || 'Untitled list')}</h3>
+      <p>${Number(list.seed_count || 0)} books · ${Number(list.edition_count || 0)} editions</p>
+      <a href="${list.url}" target="_blank" rel="noopener noreferrer">Open this list →</a>
+    </article>`).join('');
+}
+
+function fallbackListCover() {
+  const placeholder = document.createElement('span');
+  placeholder.className = 'list-cover-placeholder';
+  placeholder.setAttribute('aria-label', 'Book cover unavailable');
+  placeholder.textContent = 'Cover unavailable';
+  return placeholder;
+}
+
 async function loadLists() {
   const grid = document.getElementById('list-grid');
   try {
@@ -678,18 +715,9 @@ async function loadLists() {
       return true;
     }), dailySeed()).slice(0, 12);
     if (!lists.length) throw new Error('No public lists found');
-    grid.innerHTML = lists.map(list => `
-      <article class="list-card">
-        ${list.covers.length
-          ? `<div class="list-covers">${list.covers.map(cover => `<img src="${cover}" alt="" loading="lazy" decoding="async" onerror="this.remove()">`).join('')}</div>`
-          : '<div class="list-covers placeholder">Representative covers unavailable</div>'}
-        <div class="eyebrow">${escapeHtml(list.category)}</div>
-        <h3>${escapeHtml(list.name || 'Untitled list')}</h3>
-        <p>${Number(list.seed_count || 0)} books · ${Number(list.edition_count || 0)} editions</p>
-        <a href="${list.url}" target="_blank" rel="noopener noreferrer">Open this list →</a>
-      </article>`).join('');
+    renderLists(lists);
   } catch (err) {
-    grid.innerHTML = `<div class="state-note">Lists are unavailable right now. You can still browse the catalogue below.</div>`;
+    renderLists(fallbackListData());
   }
 }
 
