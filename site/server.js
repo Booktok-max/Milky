@@ -9,6 +9,52 @@ const app = express();
 app.use(express.json());
 app.use(cors({ origin: process.env.ALLOWED_ORIGIN || '*' }));
 
+const NEWSLETTER_DATA_DIR = path.join(__dirname, 'private-data');
+const NEWSLETTER_SUBSCRIBERS_PATH = path.join(NEWSLETTER_DATA_DIR, 'newsletter-subscribers.json');
+let dailyNewsletterCache = null;
+
+function readNewsletterSubscribers() {
+  try {
+    return JSON.parse(fs.readFileSync(NEWSLETTER_SUBSCRIBERS_PATH, 'utf8'));
+  } catch (error) {
+    if (error.code === 'ENOENT') return [];
+    throw error;
+  }
+}
+
+function saveNewsletterSubscriber(email) {
+  fs.mkdirSync(NEWSLETTER_DATA_DIR, { recursive: true });
+  const subscribers = readNewsletterSubscribers();
+  if (!subscribers.some(item => item.email === email)) {
+    subscribers.push({ email, subscribed_at: new Date().toISOString() });
+    fs.writeFileSync(NEWSLETTER_SUBSCRIBERS_PATH, JSON.stringify(subscribers, null, 2));
+  }
+}
+
+async function buildDailyNewsletter() {
+  const date = new Date().toISOString().slice(0, 10);
+  if (dailyNewsletterCache?.date === date) return dailyNewsletterCache;
+  const response = await axios.get('https://openlibrary.org/search.json', {
+    params: { q: 'fiction', sort: 'readinglog', limit: 12 }
+  });
+  const books = (response.data.docs || [])
+    .filter(book => book.cover_i)
+    .slice(0, 8)
+    .map(book => ({
+      title: book.title || 'Untitled',
+      author: (book.author_name || [])[0] || 'Unknown author',
+      year: book.first_publish_year || null,
+      cover: `https://covers.openlibrary.org/b/id/${book.cover_i}-L.jpg`,
+      url: book.key ? `https://openlibrary.org${book.key}` : null
+    }));
+  dailyNewsletterCache = {
+    date,
+    subject: `Today's reader shelf: ${books.slice(0, 3).map(book => book.title).join(', ')}`,
+    books
+  };
+  return dailyNewsletterCache;
+}
+
 // ---- Config -----------------------------------------------------------
 const ENV = (process.env.PESAPAL_ENV || 'sandbox').toLowerCase(); // 'sandbox' | 'production'
 const PESAPAL_BASE = ENV === 'production'
@@ -244,6 +290,29 @@ app.post('/api/ipn', (req, res) => res.redirect(307, `/api/ipn?${new URLSearchPa
 
 app.get('/health', (req, res) => res.json({ ok: true, env: ENV }));
 
+app.get('/api/newsletter/daily', async (req, res) => {
+  try {
+    res.json(await buildDailyNewsletter());
+  } catch (error) {
+    console.error('daily newsletter generation error:', error.message);
+    res.status(502).json({ error: 'The daily reader shelf is temporarily unavailable.' });
+  }
+});
+
+app.post('/api/newsletter/subscribe', (req, res) => {
+  const email = String(req.body?.email || '').trim().toLowerCase();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return res.status(400).json({ error: 'Enter a valid email address.' });
+  }
+  try {
+    saveNewsletterSubscriber(email);
+    res.status(201).json({ message: 'You are on the daily reader shelf list.' });
+  } catch (error) {
+    console.error('newsletter subscription error:', error.message);
+    res.status(500).json({ error: 'We could not save your subscription.' });
+  }
+});
+
 // ---- Public asset boundary ---------------------------------------------
 // Keep internal records and operational tools outside the browser's reach.
 // Public pages may still load explicitly approved assets such as pricing-data.json.
@@ -257,6 +326,7 @@ const BLOCKED_PUBLIC_PREFIXES = [
   '/reports/',
   '/staging/',
   '/Taskmaster/',
+  '/private-data/',
   '/Next%20priority%20from%20Milky%20project%20roadmap%20-%20Claude_files/',
   '/Next priority from Milky project roadmap - Claude_files/',
 ];
