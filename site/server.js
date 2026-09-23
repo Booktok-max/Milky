@@ -14,6 +14,7 @@ const NEWSLETTER_SUBSCRIBERS_PATH = path.join(NEWSLETTER_DATA_DIR, 'newsletter-s
 let dailyNewsletterCache = null;
 let tiktokAccessTokenCache = null;
 let tiktokTrendCache = null;
+let openAlexCache = new Map();
 
 const TIKTOK_API_BASE = 'https://open.tiktokapis.com/v2';
 const TIKTOK_FIELDS = [
@@ -619,6 +620,104 @@ app.get('/api/readers/open-library', async (req, res) => {
   } catch (error) {
     console.error('Open Library reader proxy error:', resource, error.response?.data || error.message);
     res.status(502).json({ error: 'The Open Library catalogue is temporarily unavailable.' });
+  }
+});
+
+
+function normalizeOpenAlexWork(work) {
+  const authors = (work.authorships || []).map(authorship => ({
+    name: authorship.author?.display_name || 'Unknown author',
+    id: authorship.author?.id || null,
+    institutions: (authorship.institutions || []).map(institution => institution.display_name).filter(Boolean).slice(0, 3),
+  })).filter(author => author.name);
+
+  const topics = (work.topics || []).map(topic => topic.display_name).filter(Boolean).slice(0, 5);
+  const primaryLocation = work.primary_location || {};
+  const bestOaLocation = work.best_oa_location || {};
+  const source = primaryLocation.source || {};
+
+  return {
+    id: String(work.id || ''),
+    source: 'OpenAlex',
+    lane: 'Research & Scholarly',
+    type: work.type || null,
+    title: work.display_name || 'Untitled scholarly work',
+    authors,
+    publicationYear: work.publication_year || null,
+    publicationDate: work.publication_date || null,
+    topics,
+    institutionNames: [...new Set(authors.flatMap(author => author.institutions))].slice(0, 6),
+    citations: Number(work.cited_by_count) || 0,
+    openAccess: Boolean(work.open_access?.is_oa),
+    accessStatus: work.open_access?.oa_status || null,
+    accessUrl: bestOaLocation.landing_page_url || bestOaLocation.pdf_url || primaryLocation.landing_page_url || null,
+    doi: work.doi || null,
+    sourceName: source.display_name || null,
+    sourceType: source.type || null,
+    url: work.id || 'https://openalex.org/',
+  };
+}
+
+async function fetchOpenAlexScholarly(query, page = 1) {
+  const normalizedQuery = String(query || '').trim();
+  const cacheKey = `${normalizedQuery.toLowerCase()}|${page}`;
+  const cached = openAlexCache.get(cacheKey);
+  if (cached && cached.expiresAt > Date.now()) return cached.payload;
+
+  const params = {
+    filter: 'type:book|book-chapter',
+    per_page: '12',
+    page: String(Math.max(1, Math.min(Number(page) || 1, 5))),
+  };
+  if (normalizedQuery) params.search = normalizedQuery;
+  if (process.env.OPENALEX_API_KEY) params.api_key = process.env.OPENALEX_API_KEY;
+  if (process.env.OPENALEX_MAILTO) params.mailto = process.env.OPENALEX_MAILTO;
+
+  const response = await axios.get('https://api.openalex.org/works', {
+    params,
+    headers: {
+      'User-Agent': 'AtomicShelfReaders/1.0 (https://atomic-shelf.com)',
+      Accept: 'application/json',
+    },
+    timeout: 10000,
+  });
+
+  const payload = {
+    source: 'OpenAlex',
+    lane: 'Research & Scholarly',
+    query: normalizedQuery || null,
+    page: Number(page) || 1,
+    items: (response.data?.results || []).map(normalizeOpenAlexWork),
+    meta: {
+      count: Number(response.data?.meta?.count) || 0,
+      nextPage: response.data?.meta?.next_cursor ? null : null,
+    },
+    updatedAt: new Date().toISOString(),
+  };
+
+  openAlexCache.set(cacheKey, { payload, expiresAt: Date.now() + 30 * 60 * 1000 });
+  if (openAlexCache.size > 40) {
+    const oldestKey = openAlexCache.keys().next().value;
+    if (oldestKey) openAlexCache.delete(oldestKey);
+  }
+  return payload;
+}
+
+
+app.get('/api/readers/scholarly', async (req, res) => {
+  try {
+    const query = String(req.query.q || 'research').trim().slice(0, 160);
+    const page = Math.max(1, Math.min(Number(req.query.page) || 1, 5));
+    res.set('Cache-Control', 'public, max-age=900, stale-while-revalidate=1800');
+    res.json(await fetchOpenAlexScholarly(query, page));
+  } catch (error) {
+    console.error('OpenAlex scholarly search error:', error.response?.data || error.message);
+    res.status(502).json({
+      source: 'OpenAlex',
+      lane: 'Research & Scholarly',
+      items: [],
+      error: 'The scholarly catalogue is temporarily unavailable.',
+    });
   }
 });
 
