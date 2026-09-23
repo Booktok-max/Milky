@@ -323,7 +323,8 @@ function updateReaderDateRange(books) {
   }
   const firstYear = Math.min(...years);
   const currentYear = new Date().getFullYear();
-  intro.textContent = `Today's selection: books from ${firstYear} to ${currentYear}, matched to what you already love.`;
+  const firstYearLabel = firstYear < 1500 ? `${firstYear} A.D.` : firstYear;
+  intro.textContent = `Today's selection: books from ${firstYearLabel} to ${currentYear}, matched to what you already love.`;
 }
 
 function seededShuffle(items, seed) {
