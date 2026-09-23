@@ -1,7 +1,7 @@
 # Atomic Shelf Website Relaunch — Master PRD
 
 **Status:** Implementation underway — commercial baseline and current pricing/content pass implemented; client-facing provenance cleanup completed on the core sales surfaces; release gates remain
-**Version:** 1.3
+**Version:** 1.4
 **Date:** 2026-09-23  
 **Product:** Atomic Shelf marketing website  
 **Primary goal:** Relaunch the site as a clear, memorable, conversion-focused system that explains Atomic Shelf, builds trust, makes pricing easy to understand, and gives authors a natural path to becoming customers.
@@ -90,6 +90,42 @@ The Readers page now includes a **Trending on TikTok** lane backed by a server-s
 - Optional: `TIKTOK_REGION_CODE` as a comma-separated list such as `US,GB`
 
 TikTok Research API approval is required before live results can appear. The UI must describe these as public Research API matches for the selected query and date window, not as a universal or editorially verified “best of BookTok” ranking. Client credentials must remain server-side.
+### Reader discovery and navigation updates — 2026-09-23
+
+The Readers experience has received additional implementation changes that must now be treated as part of the current product specification.
+
+**Implemented:**
+- Added a dedicated **New releases → timeless classics** navigation item that switches the reader view into publication sorting.
+- Publication-year handling now rejects implausible future dates, supports preorder labelling for the following year, and preserves historical labels such as “Before YYYY”.
+- Reader search, publication shelves, language shelves, and general discovery now use timeout-protected Open Library requests and tolerate partial lane failures instead of failing the entire page.
+- Open Library language queries were corrected to use the catalogue's fre and ger language codes.
+- Reader-curated Open Library lists now have stronger URL handling and can display associated book covers where available.
+- Added **Trending on TikTok** as a dedicated discovery lane using the server-side Research API integration described above.
+- Reader-facing copy was clarified so the page distinguishes discovery features from endorsements and makes the reader journey clearer.
+- Editorial copy was revised to clearly distinguish editorial guidance from manuscript editing, review coverage, and listing optimisation.
+- Pricing/result CTA language was refined across the relevant sales surfaces, including the transition into the commitment/guarantee explanation.
+- Public plan language now reflects the six-plan structure without the former separate Essentials presentation.
+
+**Required reader acceptance criteria:**
+- Publication navigation must work without leaving the Readers page.
+- Invalid/implausible future publication dates must not appear as ordinary publication years.
+- A failed discovery lane must not blank unrelated working lanes.
+- TikTok content must retain source attribution, date-window context, and non-endorsement language.
+- Reader list covers must remain optional and must never block the list itself from rendering.
+- Search and discovery requests must have bounded timeouts.
+
+### Pricing UX additions — 2026-09-23
+
+The current commercial implementation establishes the six standard plans as Spark, Enhanced, Foundation, Starter, Momentum, and Growth, with Surge and Orbit remaining custom engagements.
+
+The pricing UX requirement is now:
+- Present the six standard plans in a **2-column × 3-row layout** on the primary desktop pricing surface so each card has adequate text space.
+- Keep mobile responsive behavior, but do not revert the primary desktop presentation to a dense three-column card grid.
+- Pricing cards must remain driven by pricing-data.json.
+- Where a plan or book-cover visual is enlarged, use a compact **hover magnifier/zoom interaction** that behaves like a retail book-cover inspection tool; it should not replace the normal image with an oversized standalone image.
+- The magnifier is a release requirement if the relevant image is currently difficult to read.
+
+These are UX requirements and do not change the underlying commercial dataset.
 ### Work completed since the previous PRD revision — 2026-09-23
 
 The following changes were made after the previous PRD revision and are now part of the implementation history:
@@ -99,7 +135,7 @@ The following changes were made after the previous PRD revision and are now part
    - Expanded Momentum term-specific commitments and forecast ranges.
    - Kept the six standard plans in the browser-facing pricing dataset, with Surge and Orbit represented as custom engagements.
    - Refined pricing-page language, comparison content, commitment explanations, result expectations, and calls to action.
-   - Kept pricing presentation responsive: one column on small screens, two columns at intermediate widths, and three columns on wide screens in the current implementation. Any future fixed 2×3 presentation requirement should be treated as a UX change, not as a pricing-data change.
+   - The approved desktop pricing direction is now a 2-column × 3-row layout for the six standard plans, with mobile remaining responsive. The underlying pricing data is unchanged.
 
 2. **Public-copy consistency**
    - Refined campaign/reporting language on public pages.
@@ -1024,7 +1060,11 @@ This section records what is implemented now versus what remains before the rela
 - [ ] Complete SEO, accessibility, performance, and cross-device QA.
 - [ ] Perform a production crawl/search for prohibited internal provenance terminology across all public HTML, browser-loaded JSON, and runtime-generated labels.
 - [ ] Reconcile any remaining public pages that have not yet been included in the core sales-page cleanup.
-- [ ] Confirm the final pricing-card layout against the latest approved UX requirement before release.
+- [ ] Complete Readers regression QA for publication sorting, date filtering, language shelves, curated-list covers, partial API failures, and TikTok fallback/attribution.
+- [ ] Verify Editorial, Results, Pricing, and CTA copy remains consistent with the current commercial model after the latest copy refresh.
+- [ ] Implement and verify the approved 2-column × 3-row desktop pricing layout for the six standard plans.
+- [ ] Implement and verify the required hover magnifier/zoom interaction for the affected book-cover/image surface.
+- [ ] Confirm the six-plan public presentation contains no separate legacy Essentials card.
 
 ### Change-control rule
 
