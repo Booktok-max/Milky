@@ -310,7 +310,7 @@ footer{ background:var(--color-bg-dark); color:var(--color-text-primary-dark); p
 
 <div class="pricing-grid" id="pricingGrid" aria-live="polite"><p class="pricing-foot">Loading plans…</p></div>
 
-<p class="pricing-foot"><b>Review campaigns:</b> Planning a free book giveaway? You can provide complimentary copies to selected readers, then invite honest, independent reviews. The free copy is never conditional on posting a review, giving a positive rating, or changing an existing review.</p>
+<p class="pricing-foot"><b>Planning a free book giveaway? Tell us — preferably in advance.</b> Share your next free-book dates and we'll feature you. You can provide complimentary copies to selected readers, then invite honest, independent reviews. The free copy is never conditional on posting a review, giving a positive rating, or changing an existing review.</p>
 <p class="pricing-disclaimer">*Expected ranges are 90-day averages based on 200+ clients over 24 months, measured against each book's pre-campaign baseline — many starting from little to no prior sales. Individual results vary by genre, backlist, and price point.</p>
 
 <div class="custom-tier">
@@ -518,9 +518,11 @@ function renderPricing(term){
       perHTML = 'for ' + months + ' months · ~$' + Math.round(total / months) + '/mo equivalent';
       saveHTML = 'Save ' + c.discount_percent + '% vs. monthly ($' + c.list_total.toLocaleString() + ' list)';
     }
-    const featsHTML = p.services.map(f => '<li>' + escapeHtml(f) + '</li>').join('');
-    const rows = resultRows(p.metrics);
-    const resHTML = '<div class="price-res-label">' + escapeHtml(formatResultLabel(p.metrics)) + '</div>' +
+    const services = (p.services_by_term && p.services_by_term[term]) || p.services || [];
+    const metrics = (p.metrics_by_term && p.metrics_by_term[term]) || p.metrics;
+    const featsHTML = services.map(f => '<li>' + escapeHtml(f) + '</li>').join('');
+    const rows = resultRows(metrics);
+    const resHTML = '<div class="price-res-label">' + escapeHtml(formatResultLabel(metrics)) + '</div>' +
       rows.map(r => '<div class="price-rr"><span>' + escapeHtml(r[0]) + '</span><span class="price-rv' + (r[2] ? ' up' : '') + '">' + escapeHtml(r[1]) + '</span></div>').join('');
     card.innerHTML =
       (p.most_popular ? '<div class="price-badge">Most popular</div>' : '') +
