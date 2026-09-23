@@ -112,6 +112,13 @@ section.results{padding:3.5rem 6vw 6rem;}
 .weekly-form button{padding:.75rem 1.2rem;border:0;border-radius:var(--r-xs);background:var(--copper-2);color:var(--ink);font-weight:700;cursor:pointer;}
 .weekly-form button:hover{background:#f0b15b;}
 .weekly-status{min-height:1.4em;margin-top:.7rem!important;color:var(--copper-2)!important;}
+.tiktok-meta{font-size:.78rem;color:var(--muted);margin-top:.8rem;}
+.tiktok-card{border:1px solid var(--line);background:var(--paper);padding:1.2rem;display:flex;flex-direction:column;gap:.65rem;}
+.tiktok-card h3{font:1.2rem 'Playfair Display',serif;margin:0;line-height:1.2;}
+.tiktok-card p{margin:0;color:var(--muted);font-size:.88rem;line-height:1.5;}
+.tiktok-card .tiktok-description{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;min-height:3.9em;}
+.tiktok-metrics{display:flex;gap:.75rem;flex-wrap:wrap;font-size:.76rem;color:var(--muted);}
+.tiktok-card a{color:var(--ink);font-size:.84rem;font-weight:600;}
 
 footer{background:var(--ink);padding:2rem 6vw;display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.6rem;font-size:0.76rem;color:rgba(255,255,255,0.28);}
 footer a{color:rgba(255,255,255,0.4);text-decoration:none;}
@@ -125,6 +132,7 @@ footer a{color:rgba(255,255,255,0.4);text-decoration:none;}
     <li><a href="#browse-books" style="color:var(--copper);font-weight:600;" aria-current="page">Browse Books</a></li>
     <li><a href="#lucky">I’m feeling lucky</a></li>
     <li><a href="#browse-books" id="publication-tab">New releases → timeless classics</a></li>
+    <li><a href="#tiktok-trends">Trending on TikTok</a></li>
     <li><a href="#other-languages">Other languages</a></li>
   </ul>
   <a href="index.html#pricing" class="nav-cta">For Authors</a>
@@ -176,6 +184,22 @@ footer a{color:rgba(255,255,255,0.4);text-decoration:none;}
   </div>
 </section>
 
+<section class="list-feed" id="tiktok-trends">
+  <div class="container">
+    <div class="list-feed-head">
+      <div>
+        <div class="eyebrow"><span class="eyebrow-line"></span>Trending on TikTok</div>
+        <h2>BookTok conversations gaining attention</h2>
+      </div>
+      <p class="list-feed-intro">Public TikTok videos matched to BookTok hashtags over the last 30 days, ranked by a blend of engagement and recency. This is a discovery signal, not an editorial endorsement.</p>
+    </div>
+    <div class="book-grid" id="tiktok-grid">
+      <div class="state-note">Loading TikTok trends…</div>
+    </div>
+    <p class="tiktok-meta" id="tiktok-updated">Source: TikTok Research API · Results appear when Research API access is enabled.</p>
+  </div>
+</section>
+
 <section class="list-feed" id="lucky">
   <div class="container">
     <div class="list-feed-head">
@@ -202,8 +226,8 @@ footer a{color:rgba(255,255,255,0.4);text-decoration:none;}
     </div>
     <div class="filter-row language-filters" id="language-filters">
       <span class="pill active" data-language="spa">Spanish</span>
-      <span class="pill" data-language="fra">French</span>
-      <span class="pill" data-language="deu">German</span>
+      <span class="pill" data-language="fre">French</span>
+      <span class="pill" data-language="ger">German</span>
       <span class="pill" data-language="ita">Italian</span>
       <span class="pill" data-language="por">Portuguese</span>
       <span class="pill" data-language="jpn">Japanese</span>
@@ -367,7 +391,7 @@ async function fetchBooks(query, genre, page = 1, sortByPublication = false) {
   if (query) {
     const params = new URLSearchParams({ q: query, limit: '30', page: String(page) });
     if (sortByPublication) params.set('sort', 'new');
-    const res = await fetch(`https://openlibrary.org/search.json?${params}`);
+    const res = await fetchWithTimeout(`https://openlibrary.org/search.json?${params}`);
     if (!res.ok) throw new Error('Book search failed');
     const data = await res.json();
     return (data.docs || [])
@@ -383,7 +407,7 @@ async function fetchBooks(query, genre, page = 1, sortByPublication = false) {
       page: String(page),
       sort: 'new'
     });
-    const res = await fetch(`https://openlibrary.org/search.json?${params}`);
+    const res = await fetchWithTimeout(`https://openlibrary.org/search.json?${params}`);
     if (!res.ok) throw new Error('Publication shelf unavailable');
     const data = await res.json();
     return (data.docs || [])
@@ -394,11 +418,11 @@ async function fetchBooks(query, genre, page = 1, sortByPublication = false) {
 
   async function fetchLanguageBooks(language) {
     const params = new URLSearchParams({
-      language,
+      q: `language:${language}`,
       limit: '30',
       sort: 'readinglog_count desc'
     });
-    const res = await fetch(`https://openlibrary.org/search.json?${params}`);
+    const res = await fetchWithTimeout(`https://openlibrary.org/search.json?${params}`);
     if (!res.ok) throw new Error('Language shelf unavailable');
     const data = await res.json();
     return seededShuffle((data.docs || [])
@@ -411,26 +435,30 @@ async function fetchBooks(query, genre, page = 1, sortByPublication = false) {
     ...lane,
     query: genre ? `${GENRE_QUERIES[genre] || `subject:${genre}`} ${lane.query}` : lane.query
   }));
-  const responses = await Promise.all(lanes.map(async lane => {
-    const params = new URLSearchParams({ q: lane.query, limit: String(lane.count * 2), page: String(page), ...(lane.sort ? { sort: lane.sort } : {}) });
-    if (lane.params) new URLSearchParams(lane.params).forEach((value, key) => params.set(key, value));
-    const res = await fetch(`https://openlibrary.org/search.json?${params}`);
-    if (!res.ok) throw new Error('Book search failed');
-    const data = await res.json();
-    return (data.docs || [])
-      .filter(doc => doc.cover_i && publicationYearLabel(doc.first_publish_year) !== null)
-      .slice(0, lane.count)
-      .map(doc => {
-        const book = bookFromDoc(doc);
-        if (lane.label === 'Free to read on Open Library') {
-          book.where[0].label = 'Read free on Open Library';
-        }
-        return { ...book, lane: lane.label };
-      });
-  }));
+  const responses = await Promise.allSettled(lanes.map(async lane => {
+      const params = new URLSearchParams({ q: lane.query, limit: String(lane.count * 2), page: String(page), ...(lane.sort ? { sort: lane.sort } : {}) });
+      if (lane.params) new URLSearchParams(lane.params).forEach((value, key) => params.set(key, value));
+      const res = await fetchWithTimeout(`https://openlibrary.org/search.json?${params}`);
+      if (!res.ok) throw new Error(`Book search failed for ${lane.label}`);
+      const data = await res.json();
+      return (data.docs || [])
+        .filter(doc => doc.cover_i && publicationYearLabel(doc.first_publish_year) !== null)
+        .slice(0, lane.count)
+        .map(doc => {
+          const book = bookFromDoc(doc);
+          if (lane.label === 'Free to read on Open Library') {
+            book.where[0].label = 'Read free on Open Library';
+          }
+          return { ...book, lane: lane.label };
+        });
+    }));
 
   const seen = new Set();
-  return seededShuffle(responses.flat().filter(book => {
+  const books = responses
+    .filter(response => response.status === 'fulfilled')
+    .flatMap(response => response.value);
+  if (!books.length) throw new Error('Book discovery is unavailable');
+  return seededShuffle(books.filter(book => {
     const key = `${book.title.toLowerCase()}|${book.author.toLowerCase()}`;
     if (seen.has(key)) return false;
     seen.add(key);
@@ -469,6 +497,16 @@ function escapeHtml(value) {
   return String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
 }
 
+async function fetchWithTimeout(url, options = {}, timeout = 8000) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeout);
+  try {
+    return await fetch(url, { ...options, signal: controller.signal });
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 async function loadLists() {
   const grid = document.getElementById('list-grid');
   try {
@@ -477,17 +515,27 @@ async function loadLists() {
       if (!candidate) return `https://openlibrary.org/search/lists?q=${encodeURIComponent(list.name || '')}`;
       return candidate.startsWith('http') ? candidate : `https://openlibrary.org${candidate.startsWith('/') ? '' : '/'}${candidate}`;
     }
+    function listPath(list) {
+      const candidate = list.full_url || list.url;
+      if (!candidate) return null;
+      try {
+        return new URL(candidate, 'https://openlibrary.org').pathname;
+      } catch {
+        return null;
+      }
+    }
     const responses = await Promise.all(LIST_SEARCHES.map(async search => {
-      const res = await fetch(`https://openlibrary.org/search/lists.json?q=${encodeURIComponent(search.query)}&limit=8`);
-      if (!res.ok) throw new Error('List search failed');
-      const data = await res.json();
-      return Promise.all((data.docs || []).slice(0, 3).map(async list => {
+      try {
+        const res = await fetchWithTimeout(`https://openlibrary.org/search/lists.json?q=${encodeURIComponent(search.query)}&limit=8`);
+        if (!res.ok) return [];
+        const data = await res.json();
+        return Promise.all((data.docs || []).slice(0, 3).map(async list => {
         const url = listUrl(list);
-        const listPath = list.url && list.url.startsWith('/') ? list.url : null;
+        const path = listPath(list);
         let covers = [];
-        if (listPath) {
+        if (path) {
           try {
-            const editions = await fetch(`https://openlibrary.org${listPath}/editions.json?limit=4`);
+            const editions = await fetchWithTimeout(`https://openlibrary.org${path.replace(/\/$/, '')}/editions.json?limit=4`);
             if (editions.ok) {
               const editionData = await editions.json();
               covers = (editionData.entries || [])
@@ -501,7 +549,11 @@ async function loadLists() {
           }
         }
         return { ...list, category: search.label, url, covers };
-      }));
+        }));
+      } catch (error) {
+        console.warn(`List search unavailable (${search.query}):`, error.message);
+        return [];
+      }
     }));
     const seen = new Set();
     const lists = seededShuffle(responses.flat().filter(list => {
@@ -681,6 +733,44 @@ function renderLanguageBooks(books) {
     </div>`).join('');
 }
 
+function formatMetric(value) {
+  const number = Number(value) || 0;
+  return number >= 1000000 ? `${(number / 1000000).toFixed(1).replace(/\.0$/, '')}M`
+    : number >= 1000 ? `${(number / 1000).toFixed(1).replace(/\.0$/, '')}K`
+      : String(number);
+}
+
+async function loadTikTokTrends() {
+  const grid = document.getElementById('tiktok-grid');
+  const updated = document.getElementById('tiktok-updated');
+  try {
+    const response = await fetch('/api/readers/tiktok');
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || 'TikTok trends are unavailable.');
+    if (!data.items?.length) {
+      grid.innerHTML = `<div class="state-note">${escapeHtml(data.message || 'No TikTok trends are available right now. Browse the Open Library shelves instead.')}</div>`;
+      return;
+    }
+    grid.innerHTML = data.items.map(item => `
+      <article class="tiktok-card">
+        <div class="eyebrow">Source: TikTok</div>
+        <h3>${escapeHtml(item.creator)}</h3>
+        <p class="tiktok-description">${escapeHtml(item.description || 'BookTok video')}</p>
+        <div class="tiktok-metrics" aria-label="TikTok engagement">
+          <span>${formatMetric(item.metrics.views)} views</span>
+          <span>${formatMetric(item.metrics.likes)} likes</span>
+          <span>${formatMetric(item.metrics.comments)} comments</span>
+          <span>${formatMetric(item.metrics.shares)} shares</span>
+        </div>
+        <a href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer">Watch on TikTok →</a>
+      </article>`).join('');
+    updated.textContent = `Source: TikTok Research API · Last updated ${data.updatedAt ? new Date(data.updatedAt).toLocaleString() : 'recently'}.`;
+  } catch (error) {
+    grid.innerHTML = '<div class="state-note">TikTok trends are temporarily unavailable. Browse the Open Library shelves instead.</div>';
+    updated.textContent = 'Source: TikTok Research API · Temporarily unavailable.';
+  }
+}
+
 document.getElementById('weekly-signup-form').addEventListener('submit', e => {
   e.preventDefault();
   const email = document.getElementById('weekly-email');
@@ -712,6 +802,14 @@ const languageObserver = new IntersectionObserver(entries => {
 }, { rootMargin: '300px' });
 languageObserver.observe(document.getElementById('other-languages'));
 
+const tiktokObserver = new IntersectionObserver(entries => {
+  if (entries[0].isIntersecting) {
+    tiktokObserver.disconnect();
+    loadTikTokTrends();
+  }
+}, { rootMargin: '300px' });
+tiktokObserver.observe(document.getElementById('tiktok-trends'));
+
 const loadObserver = new IntersectionObserver(entries => {
   if (entries[0].isIntersecting) loadBooks(activeQuery, activeGenre, false, activeSort === 'publication');
 }, { rootMargin: '700px' });
@@ -719,10 +817,9 @@ loadObserver.observe(document.getElementById('load-sentinel'));
 
 // Prioritise the main book shelf; secondary feeds wait until the browser is idle.
 setReaderGreeting();
-loadBooks(activeQuery, activeGenre).then(() => {
-  const schedule = window.requestIdleCallback || (callback => setTimeout(callback, 800));
-  schedule(() => loadLists());
-});
+loadBooks(activeQuery, activeGenre);
+const schedule = window.requestIdleCallback || (callback => setTimeout(callback, 800));
+schedule(() => loadLists());
 </script>
 <script src="analytics.js"></script>
 </body>

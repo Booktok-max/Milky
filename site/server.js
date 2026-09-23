@@ -12,6 +12,21 @@ app.use(cors({ origin: process.env.ALLOWED_ORIGIN || '*' }));
 const NEWSLETTER_DATA_DIR = path.join(__dirname, 'private-data');
 const NEWSLETTER_SUBSCRIBERS_PATH = path.join(NEWSLETTER_DATA_DIR, 'newsletter-subscribers.json');
 let dailyNewsletterCache = null;
+let tiktokAccessTokenCache = null;
+let tiktokTrendCache = null;
+
+const TIKTOK_API_BASE = 'https://open.tiktokapis.com/v2';
+const TIKTOK_FIELDS = [
+  'id',
+  'create_time',
+  'username',
+  'video_description',
+  'like_count',
+  'comment_count',
+  'share_count',
+  'view_count',
+].join(',');
+const TIKTOK_HASHTAGS = ['booktok', 'bookrecommendations', 'bookish'];
 
 const NEWSLETTER_DISCOVERY_LANES = [
   { label: 'Free to read on Open Library', query: 'fiction', params: { ebook_access: 'public', has_fulltext: 'true' }, sort: 'readinglog', count: 2 },
@@ -132,6 +147,150 @@ function saveNewsletterSubscriber(email) {
     subscribers.push({ email, subscribed_at: new Date().toISOString() });
     fs.writeFileSync(NEWSLETTER_SUBSCRIBERS_PATH, JSON.stringify(subscribers, null, 2));
   }
+}
+
+function tiktokIsConfigured() {
+    return Boolean(process.env.TIKTOK_CLIENT_KEY && process.env.TIKTOK_CLIENT_SECRET);
+  }
+
+  function tiktokDateString(date) {
+    return date.toISOString().slice(0, 10).replace(/-/g, '');
+  }
+
+  function tiktokVideoUrl(video) {
+    return video.username
+      ? `https://www.tiktok.com/@${encodeURIComponent(video.username)}/video/${encodeURIComponent(video.id)}`
+      : `https://www.tiktok.com/`;
+  }
+
+  function tiktokScore(video, now = Date.now()) {
+    const views = Math.max(Number(video.view_count) || 0, 0);
+    const likes = Math.max(Number(video.like_count) || 0, 0);
+    const comments = Math.max(Number(video.comment_count) || 0, 0);
+    const shares = Math.max(Number(video.share_count) || 0, 0);
+    const created = Number(video.create_time) > 0 ? Number(video.create_time) * 1000 : now;
+    const ageDays = Math.max(0, (now - created) / 86400000);
+    const recency = Math.max(0.2, 1 - (ageDays / 30));
+    const engagement = likes + (comments * 3) + (shares * 4);
+    return Math.round(((Math.log10(views + 1) + Math.log10(engagement + 1)) * recency) * 100) / 100;
+  }
+
+  function normalizeTikTokVideo(video) {
+    const createdAt = Number(video.create_time) > 0
+      ? new Date(Number(video.create_time) * 1000).toISOString()
+      : null;
+    return {
+      id: String(video.id || ''),
+      source: 'TikTok Research API',
+      creator: video.username ? `@${video.username}` : 'TikTok creator',
+      description: String(video.video_description || '').trim(),
+      createdAt,
+      url: tiktokVideoUrl(video),
+      metrics: {
+        views: Number(video.view_count) || 0,
+        likes: Number(video.like_count) || 0,
+        comments: Number(video.comment_count) || 0,
+        shares: Number(video.share_count) || 0,
+      },
+      score: tiktokScore(video),
+    };
+  }
+
+  async function getTikTokAccessToken() {
+    if (tiktokAccessTokenCache && tiktokAccessTokenCache.expiresAt > Date.now()) {
+      return tiktokAccessTokenCache.token;
+    }
+    const response = await axios.post(`${TIKTOK_API_BASE}/oauth/token/`, new URLSearchParams({
+      client_key: process.env.TIKTOK_CLIENT_KEY,
+      client_secret: process.env.TIKTOK_CLIENT_SECRET,
+      grant_type: 'client_credentials',
+    }).toString(), {
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      timeout: 10000,
+    });
+    const token = response.data?.access_token;
+    if (!token) throw new Error('TikTok did not return an access token');
+    const expiresIn = Number(response.data.expires_in) || 7200;
+    tiktokAccessTokenCache = { token, expiresAt: Date.now() + Math.max(60, expiresIn - 60) * 1000 };
+    return token;
+  }
+
+  async function fetchTikTokTrends() {
+    if (!tiktokIsConfigured()) {
+      return {
+        configured: false,
+        source: 'TikTok Research API',
+        updatedAt: null,
+        items: [],
+        message: 'TikTok Research API access is not configured yet.',
+      };
+    }
+    const now = new Date();
+    const start = new Date(now.getTime() - 30 * 86400000);
+    const conditions = [{
+      or: TIKTOK_HASHTAGS.map(hashtag => ({
+        operation: 'EQ',
+        field_name: 'hashtag_name',
+        field_values: [hashtag],
+      })),
+    }];
+    if (process.env.TIKTOK_REGION_CODE) {
+      conditions.push({
+        operation: 'IN',
+        field_name: 'region_code',
+        field_values: process.env.TIKTOK_REGION_CODE.split(',').map(value => value.trim().toUpperCase()).filter(Boolean),
+      });
+    }
+    const accessToken = await getTikTokAccessToken();
+    let cursor;
+    let searchId;
+    const videos = [];
+    for (let page = 0; page < 2; page += 1) {
+      const body = {
+        query: { and: conditions },
+        max_count: 100,
+        start_date: tiktokDateString(start),
+        end_date: tiktokDateString(now),
+        is_random: false,
+      };
+      if (cursor !== undefined) body.cursor = cursor;
+      if (searchId) body.search_id = searchId;
+      const response = await axios.post(`${TIKTOK_API_BASE}/research/video/query/`, body, {
+        params: { fields: TIKTOK_FIELDS },
+        headers: { Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
+        timeout: 15000,
+      });
+      const data = response.data?.data || {};
+      videos.push(...(data.videos || []));
+      if (!data.has_more || data.cursor === undefined) break;
+      cursor = data.cursor;
+      searchId = data.search_id;
+    }
+    const seenVideoIds = new Set();
+    const items = videos
+      .filter(video => {
+        if (!video.id || seenVideoIds.has(String(video.id))) return false;
+        seenVideoIds.add(String(video.id));
+        return true;
+      })
+      .map(normalizeTikTokVideo)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 18);
+    return {
+      configured: true,
+      source: 'TikTok Research API',
+      window: { start: tiktokDateString(start), end: tiktokDateString(now) },
+      updatedAt: new Date().toISOString(),
+      items,
+      message: items.length ? null : 'No public BookTok videos matched the current 30-day query.',
+    };
+  }
+
+  async function buildTikTokTrends() {
+    if (tiktokTrendCache && tiktokTrendCache.expiresAt > Date.now()) return tiktokTrendCache.payload;
+    const payload = await fetchTikTokTrends();
+    tiktokTrendCache = { payload, expiresAt: Date.now() + 15 * 60 * 1000 };
+    return payload;
 }
 
 async function buildDailyNewsletter() {
@@ -437,6 +596,21 @@ app.get('/api/newsletter/daily', async (req, res) => {
   } catch (error) {
     console.error('daily newsletter generation error:', error.message);
     res.status(502).json({ error: 'The daily reader shelf is temporarily unavailable.' });
+  }
+});
+
+app.get('/api/readers/tiktok', async (req, res) => {
+  try {
+    res.set('Cache-Control', 'public, max-age=300, stale-while-revalidate=900');
+    res.json(await buildTikTokTrends());
+  } catch (error) {
+    console.error('TikTok trend generation error:', error.response?.data || error.message);
+    res.status(502).json({
+      configured: tiktokIsConfigured(),
+      source: 'TikTok Research API',
+      items: [],
+      error: 'TikTok trends are temporarily unavailable.',
+    });
   }
 });
 

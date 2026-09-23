@@ -70,6 +70,26 @@ The Readers page should become the source for a daily email shelf containing the
 - Add tests for duplicate subscriptions, invalid addresses, provider failures, empty shelves, coverless records, and repeated requests on the same day.
 - Define newsletter analytics separately from site analytics: sends, deliveries, opens, clicks, unsubscribes, bounces, and book-level click-through.
 - Document the final provider setup, sender identity, time zone, data retention, and legal approval before enabling automatic sends.
+
+### TikTok BookTok discovery workstream — 2026-09-23
+
+The Readers page now includes a **Trending on TikTok** lane backed by a server-side TikTok Research API integration.
+
+**Implemented foundation:**
+
+- `/api/readers/tiktok` obtains and caches a TikTok client access token without exposing credentials to the browser.
+- The endpoint queries public videos matching BookTok-related hashtags over the previous 30 days, optionally restricted by `TIKTOK_REGION_CODE`.
+- Results are cached in memory for 15 minutes, paginated across at most two API pages, normalized, deduplicated by TikTok video ID, and ranked using recency plus views, likes, comments, and shares.
+- Readers displays source attribution, engagement metrics, a last-updated timestamp, and direct TikTok links.
+- Missing credentials or an empty result set produces a clear fallback state and does not interrupt Open Library discovery.
+
+**Required environment variables:**
+
+- `TIKTOK_CLIENT_KEY`
+- `TIKTOK_CLIENT_SECRET`
+- Optional: `TIKTOK_REGION_CODE` as a comma-separated list such as `US,GB`
+
+TikTok Research API approval is required before live results can appear. The UI must describe these as public Research API matches for the selected query and date window, not as a universal or editorially verified “best of BookTok” ranking. Client credentials must remain server-side.
 ### Work completed since the previous PRD revision — 2026-09-23
 
 The following changes were made after the previous PRD revision and are now part of the implementation history:
