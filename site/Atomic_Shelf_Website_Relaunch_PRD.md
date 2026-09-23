@@ -738,7 +738,7 @@ Position them as part of the long-term reader strategy.
 
 ### Core message
 
-> We don't just market books. We build reader relationships.
+> We go beyond marketing books — we aim to build lasting reader relationships.
 
 ### ShelfMates
 
@@ -1514,7 +1514,7 @@ Potential recurring brand language:
 
 > **Your book doesn't need more noise. It needs more of the right readers.**
 
-> **We don't just market books. We build reader relationships.**
+> **We go beyond marketing books — we aim to build lasting reader relationships.**
 
 > **Your commitment is to the partnership. Ours is to the work.**
 

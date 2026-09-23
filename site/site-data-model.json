@@ -40,7 +40,7 @@
       "id": "shelfmates",
       "name": "ShelfMates",
       "audience": "Adult fiction readers",
-      "core_message": "We don't just market books. We build reader relationships.",
+      "core_message": "We go beyond marketing books — we aim to build lasting reader relationships.",
       "role_in_system": "[extrapolated] Retain/Repeat stage infrastructure — converts one-time video viewers or preorder buyers into an author's own reader list, then feeds retargeting and newsletter features off that list. Discovery -> reader relationship -> future releases.",
       "included_in_plans": ["foundation", "starter", "momentum", "growth"]
     },
@@ -48,7 +48,7 @@
       "id": "storypals",
       "name": "StoryPals",
       "audience": "Children's books and families",
-      "core_message": "We don't just market books. We build reader relationships.",
+      "core_message": "We go beyond marketing books — we aim to build lasting reader relationships.",
       "role_in_system": "[extrapolated] Same retain/repeat function as ShelfMates, scoped to the children's/family genre segment rather than adult fiction.",
       "included_in_plans": ["foundation", "starter", "momentum", "growth"]
     }
