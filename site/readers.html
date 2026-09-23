@@ -61,7 +61,11 @@ header p{color:var(--stone);font-size:1.02rem;max-width:56ch;margin:0 auto 2.2re
 .list-feed h2{font-size:1.7rem;}
 .list-feed-intro{color:var(--stone);font-size:0.88rem;max-width:54ch;}
 .list-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;}
-.list-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r-sm);padding:1.1rem;box-shadow:var(--shadow-sm);}
+.list-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r-sm);padding:1.1rem;box-shadow:var(--shadow-sm);overflow:hidden;}
+.list-covers{display:grid;grid-template-columns:repeat(4,1fr);height:132px;margin:-1.1rem -1.1rem 1rem;background:var(--ivory-2);overflow:hidden;}
+.list-covers img{width:100%;height:100%;object-fit:cover;border-right:2px solid var(--card);}
+.list-covers img:last-child{border-right:0;}
+.list-covers.placeholder{display:flex;align-items:center;justify-content:center;color:var(--stone);font-size:.72rem;text-align:center;padding:1rem;}
 .list-card h3{font-size:1.05rem;margin-bottom:.45rem;}
 .list-card p{color:var(--stone);font-size:.78rem;margin-bottom:.8rem;}
 .list-card a{color:var(--copper);font-size:.78rem;font-weight:600;text-decoration:none;}
@@ -477,10 +481,26 @@ async function loadLists() {
       const res = await fetch(`https://openlibrary.org/search/lists.json?q=${encodeURIComponent(search.query)}&limit=8`);
       if (!res.ok) throw new Error('List search failed');
       const data = await res.json();
-      return (data.docs || []).slice(0, 3).map(list => ({
-        ...list,
-        category: search.label,
-        url: listUrl(list)
+      return Promise.all((data.docs || []).slice(0, 3).map(async list => {
+        const url = listUrl(list);
+        const listPath = list.url && list.url.startsWith('/') ? list.url : null;
+        let covers = [];
+        if (listPath) {
+          try {
+            const editions = await fetch(`https://openlibrary.org${listPath}/editions.json?limit=4`);
+            if (editions.ok) {
+              const editionData = await editions.json();
+              covers = (editionData.entries || [])
+                .flatMap(edition => edition.covers || [])
+                .filter(Boolean)
+                .slice(0, 4)
+                .map(coverId => `https://covers.openlibrary.org/b/id/${coverId}-M.jpg`);
+            }
+          } catch (error) {
+            console.warn('List covers unavailable:', error.message);
+          }
+        }
+        return { ...list, category: search.label, url, covers };
       }));
     }));
     const seen = new Set();
@@ -493,6 +513,9 @@ async function loadLists() {
     if (!lists.length) throw new Error('No public lists found');
     grid.innerHTML = lists.map(list => `
       <article class="list-card">
+        ${list.covers.length
+          ? `<div class="list-covers">${list.covers.map(cover => `<img src="${cover}" alt="" loading="lazy" decoding="async" onerror="this.remove()">`).join('')}</div>`
+          : '<div class="list-covers placeholder">Representative covers unavailable</div>'}
         <div class="eyebrow">${escapeHtml(list.category)}</div>
         <h3>${escapeHtml(list.name || 'Untitled list')}</h3>
         <p>${Number(list.seed_count || 0)} books · ${Number(list.edition_count || 0)} editions</p>
