@@ -14,9 +14,11 @@ const NEWSLETTER_SUBSCRIBERS_PATH = path.join(NEWSLETTER_DATA_DIR, 'newsletter-s
 let dailyNewsletterCache = null;
 let tiktokAccessTokenCache = null;
 let tiktokTrendCache = null;
+let nytBooksCache = null;
 let openAlexCache = new Map();
 
 const TIKTOK_API_BASE = 'https://open.tiktokapis.com/v2';
+const NYT_BOOKS_API_BASE = 'https://api.nytimes.com/svc/books/v3';
 const TIKTOK_FIELDS = [
   'id',
   'create_time',
@@ -292,6 +294,74 @@ function tiktokIsConfigured() {
     const payload = await fetchTikTokTrends();
     tiktokTrendCache = { payload, expiresAt: Date.now() + 15 * 60 * 1000 };
     return payload;
+}
+
+function nytIsConfigured() {
+  return Boolean(process.env.NYT_BOOKS_API_KEY);
+}
+
+function nytListName() {
+  return String(process.env.NYT_BOOKS_LIST || 'hardcover-fiction').trim() || 'hardcover-fiction';
+}
+
+function normalizeNytBook(book) {
+  const title = String(book.title || 'Untitled');
+  const author = String(book.author || 'Unknown author');
+  const searchQuery = `${title} ${author}`.trim();
+  return {
+    rank: Number(book.rank) || null,
+    title,
+    author,
+    description: String(book.description || '').trim(),
+    publisher: String(book.publisher || '').trim(),
+    publicationYear: null,
+    cover: book.book_image || null,
+    source: 'The New York Times Books API',
+    listName: nytListName(),
+    weeksOnList: Number(book.weeks_on_list) || 0,
+    catalogueUrl: `https://www.google.com/search?tbm=bks&q=${encodeURIComponent(searchQuery)}`,
+    amazonUrl: book.amazon_product_url || `https://www.amazon.com/s?k=${encodeURIComponent(searchQuery)}`,
+  };
+}
+
+async function fetchNytBooks() {
+  if (!nytIsConfigured()) {
+    return {
+      configured: false,
+      source: 'The New York Times Books API',
+      list: nytListName(),
+      publishedDate: null,
+      updatedAt: null,
+      items: [],
+      message: 'NYT Books API access is not configured yet.',
+    };
+  }
+  const date = new Date().toISOString().slice(0, 10);
+  const response = await axios.get(`${NYT_BOOKS_API_BASE}/lists/${date}/${encodeURIComponent(nytListName())}.json`, {
+    params: { 'api-key': process.env.NYT_BOOKS_API_KEY },
+    timeout: 10000,
+  });
+  const results = Array.isArray(response.data?.results?.books) ? response.data.results.books : [];
+  const items = results
+    .filter(book => book && book.title && book.author)
+    .slice(0, 15)
+    .map(normalizeNytBook);
+  return {
+    configured: true,
+    source: 'The New York Times Books API',
+    list: nytListName(),
+    publishedDate: response.data?.results?.published_date || date,
+    updatedAt: new Date().toISOString(),
+    items,
+    message: items.length ? null : 'No books were returned for this NYT list today.',
+  };
+}
+
+async function buildNytBooks() {
+  if (nytBooksCache && nytBooksCache.expiresAt > Date.now()) return nytBooksCache.payload;
+  const payload = await fetchNytBooks();
+  nytBooksCache = { payload, expiresAt: Date.now() + 60 * 60 * 1000 };
+  return payload;
 }
 
 async function buildDailyNewsletter() {
@@ -732,6 +802,22 @@ app.get('/api/readers/tiktok', async (req, res) => {
       source: 'TikTok Research API',
       items: [],
       error: 'TikTok trends are temporarily unavailable.',
+    });
+  }
+});
+
+app.get('/api/readers/nyt', async (req, res) => {
+  try {
+    res.set('Cache-Control', 'public, max-age=900, stale-while-revalidate=3600');
+    res.json(await buildNytBooks());
+  } catch (error) {
+    console.error('NYT Books reader API error:', error.response?.data || error.message);
+    res.status(502).json({
+      configured: nytIsConfigured(),
+      source: 'The New York Times Books API',
+      list: nytListName(),
+      items: [],
+      error: 'The NYT bestseller feed is temporarily unavailable.',
     });
   }
 });
