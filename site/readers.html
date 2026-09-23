@@ -442,6 +442,11 @@ function escapeHtml(value) {
 async function loadLists() {
   const grid = document.getElementById('list-grid');
   try {
+    function listUrl(list) {
+      const candidate = list.full_url || list.url;
+      if (!candidate) return `https://openlibrary.org/search/lists?q=${encodeURIComponent(list.name || '')}`;
+      return candidate.startsWith('http') ? candidate : `https://openlibrary.org${candidate.startsWith('/') ? '' : '/'}${candidate}`;
+    }
     const responses = await Promise.all(LIST_SEARCHES.map(async search => {
       const res = await fetch(`https://openlibrary.org/search/lists.json?q=${encodeURIComponent(search.query)}&limit=8`);
       if (!res.ok) throw new Error('List search failed');
@@ -449,7 +454,7 @@ async function loadLists() {
       return (data.docs || []).slice(0, 3).map(list => ({
         ...list,
         category: search.label,
-        url: list.full_url || `https://openlibrary.org${list.url}`
+        url: listUrl(list)
       }));
     }));
     const seen = new Set();
