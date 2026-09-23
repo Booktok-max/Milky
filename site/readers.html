@@ -141,6 +141,7 @@ section.results{padding:3.5rem 6vw 6rem;}
 .nyt-card h3{font-size:1.05rem;}
 .nyt-card p{color:var(--stone);font-size:.78rem;line-height:1.5;}
 .nyt-card .book-links{margin-top:auto;}
+.provider-feed[hidden]{display:none;}
 
 footer{background:var(--ink);padding:2rem 6vw;display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.6rem;font-size:0.76rem;color:rgba(255,255,255,0.28);}
 footer a{color:rgba(255,255,255,0.4);text-decoration:none;}
@@ -154,9 +155,9 @@ footer a{color:rgba(255,255,255,0.4);text-decoration:none;}
     <li><a href="#browse-books" style="color:var(--copper);font-weight:600;" aria-current="page">Browse Books</a></li>
     <li><a href="#lucky">I’m feeling lucky</a></li>
     <li><a href="#browse-books" id="publication-tab">New releases → timeless classics</a></li>
-    <li><a href="#tiktok-trends">Trending on TikTok</a></li>
-    <li><a href="#nyt-bestsellers">NYT Best Sellers</a></li>
-    <li><a href="#research-scholarly">Research &amp; Scholarly</a></li>
+    <li data-provider-nav="tiktok-trends" hidden><a href="#tiktok-trends">Trending on TikTok</a></li>
+    <li data-provider-nav="nyt-bestsellers" hidden><a href="#nyt-bestsellers">NYT Best Sellers</a></li>
+    <li data-provider-nav="research-scholarly" hidden><a href="#research-scholarly">Research &amp; Scholarly</a></li>
     <li><a href="#other-languages">Other languages</a></li>
   </ul>
   <a href="index.html#pricing" class="nav-cta">Add my own book</a>
@@ -209,7 +210,7 @@ footer a{color:rgba(255,255,255,0.4);text-decoration:none;}
 </section>
 
 
-<section class="list-feed" id="research-scholarly">
+<section class="list-feed provider-feed" id="research-scholarly" hidden>
   <div class="container">
     <div class="list-feed-head">
       <div>
@@ -230,7 +231,7 @@ footer a{color:rgba(255,255,255,0.4);text-decoration:none;}
   </div>
 </section>
 
-<section class="list-feed" id="tiktok-trends">
+<section class="list-feed provider-feed" id="tiktok-trends" hidden>
   <div class="container">
     <div class="list-feed-head">
       <div>
@@ -246,7 +247,7 @@ footer a{color:rgba(255,255,255,0.4);text-decoration:none;}
   </div>
 </section>
 
-<section class="list-feed" id="nyt-bestsellers">
+<section class="list-feed provider-feed" id="nyt-bestsellers" hidden>
   <div class="container">
     <div class="list-feed-head">
       <div>
@@ -866,16 +867,20 @@ function formatMetric(value) {
 async function loadScholarly(query = 'research') {
   const grid = document.getElementById('scholarly-grid');
   const updated = document.getElementById('scholarly-updated');
+  const section = document.getElementById('research-scholarly');
+  const nav = document.querySelector('[data-provider-nav="research-scholarly"]');
   grid.innerHTML = '<div class="state-note">Loading scholarly works…</div>';
   try {
     const response = await fetch(`/api/readers/scholarly?q=${encodeURIComponent(query)}`);
     const data = await response.json();
     if (!response.ok) throw new Error(data.error || 'Scholarly works are unavailable.');
     if (!data.items?.length) {
-      grid.innerHTML = '<div class="state-note">No scholarly books or chapters matched that search. Try another topic or author.</div>';
-      updated.textContent = 'Source: OpenAlex · No matching scholarly works were returned.';
+      section.hidden = true;
+      nav.hidden = true;
       return;
     }
+    section.hidden = false;
+    nav.hidden = false;
     grid.innerHTML = data.items.map(item => `
       <article class="scholarly-card">
         <div class="scholarly-type">${escapeHtml(item.type === 'book-chapter' ? 'Book chapter' : 'Book')}</div>
@@ -892,22 +897,27 @@ async function loadScholarly(query = 'research') {
       </article>`).join('');
     updated.textContent = `Source: OpenAlex · ${data.items.length} scholarly works shown. Citation counts describe scholarly citation activity, not reader popularity.`;
   } catch (error) {
-    grid.innerHTML = '<div class="state-note">The scholarly catalogue is temporarily unavailable. The main reader shelves are still available.</div>';
-    updated.textContent = 'Source: OpenAlex · Temporarily unavailable.';
+    section.hidden = true;
+    nav.hidden = true;
   }
 }
 
 async function loadTikTokTrends() {
   const grid = document.getElementById('tiktok-grid');
   const updated = document.getElementById('tiktok-updated');
+  const section = document.getElementById('tiktok-trends');
+  const nav = document.querySelector('[data-provider-nav="tiktok-trends"]');
   try {
     const response = await fetch('/api/readers/tiktok');
     const data = await response.json();
     if (!response.ok) throw new Error(data.error || 'TikTok trends are unavailable.');
     if (!data.items?.length) {
-      grid.innerHTML = `<div class="state-note">${escapeHtml(data.message || 'No TikTok trends are available right now. Browse the Open Library shelves instead.')}</div>`;
+      section.hidden = true;
+      nav.hidden = true;
       return;
     }
+    section.hidden = false;
+    nav.hidden = false;
     grid.innerHTML = data.items.map(item => `
       <article class="tiktok-card">
         <div class="eyebrow">Source: TikTok</div>
@@ -923,22 +933,27 @@ async function loadTikTokTrends() {
       </article>`).join('');
     updated.textContent = `Source: TikTok Research API · Last updated ${data.updatedAt ? new Date(data.updatedAt).toLocaleString() : 'recently'}.`;
   } catch (error) {
-    grid.innerHTML = '<div class="state-note">TikTok trends are temporarily unavailable. Browse the Open Library shelves instead.</div>';
-    updated.textContent = 'Source: TikTok Research API · Temporarily unavailable.';
+    section.hidden = true;
+    nav.hidden = true;
   }
 }
 
 async function loadNytBooks() {
   const grid = document.getElementById('nyt-grid');
   const updated = document.getElementById('nyt-updated');
+  const section = document.getElementById('nyt-bestsellers');
+  const nav = document.querySelector('[data-provider-nav="nyt-bestsellers"]');
   try {
     const response = await fetch('/api/readers/nyt');
     const data = await response.json();
     if (!response.ok) throw new Error(data.error || 'NYT bestsellers are unavailable.');
     if (!data.items?.length) {
-      grid.innerHTML = `<div class="state-note">${escapeHtml(data.message || 'NYT bestsellers are not available right now.')}</div>`;
+      section.hidden = true;
+      nav.hidden = true;
       return;
     }
+    section.hidden = false;
+    nav.hidden = false;
     grid.innerHTML = data.items.map(item => `
       <article class="nyt-card">
         <div class="eyebrow">Rank ${Number(item.rank) || '—'} · ${escapeHtml(item.listName || 'NYT list')}</div>
@@ -953,8 +968,8 @@ async function loadNytBooks() {
       </article>`).join('');
     updated.textContent = `Source: The New York Times Books API · ${escapeHtml(data.list || 'bestseller list')} · Published ${escapeHtml(data.publishedDate || 'recently')}.`;
   } catch (error) {
-    grid.innerHTML = '<div class="state-note">NYT bestsellers are temporarily unavailable. Browse the main catalogue instead.</div>';
-    updated.textContent = 'Source: The New York Times Books API · Temporarily unavailable.';
+    section.hidden = true;
+    nav.hidden = true;
   }
 }
 
@@ -990,35 +1005,11 @@ const languageObserver = new IntersectionObserver(entries => {
 languageObserver.observe(document.getElementById('other-languages'));
 
 
-const scholarlyObserver = new IntersectionObserver(entries => {
-  if (entries[0].isIntersecting) {
-    scholarlyObserver.disconnect();
-    loadScholarly();
-  }
-}, { rootMargin: '500px' });
-scholarlyObserver.observe(document.getElementById('research-scholarly'));
-
 document.getElementById('scholarly-search-form').addEventListener('submit', e => {
   e.preventDefault();
   const query = document.getElementById('scholarly-search-input').value.trim() || 'research';
   loadScholarly(query);
 });
-
-const tiktokObserver = new IntersectionObserver(entries => {
-  if (entries[0].isIntersecting) {
-    tiktokObserver.disconnect();
-    loadTikTokTrends();
-  }
-}, { rootMargin: '300px' });
-tiktokObserver.observe(document.getElementById('tiktok-trends'));
-
-const nytObserver = new IntersectionObserver(entries => {
-  if (entries[0].isIntersecting) {
-    nytObserver.disconnect();
-    loadNytBooks();
-  }
-}, { rootMargin: '300px' });
-nytObserver.observe(document.getElementById('nyt-bestsellers'));
 
 const loadObserver = new IntersectionObserver(entries => {
   if (entries[0].isIntersecting) loadBooks(activeQuery, activeGenre, false, activeSort === 'publication');
@@ -1030,6 +1021,9 @@ setReaderGreeting();
 loadBooks(activeQuery, activeGenre);
 const schedule = window.requestIdleCallback || (callback => setTimeout(callback, 800));
 schedule(() => loadLists());
+schedule(() => loadScholarly());
+schedule(() => loadTikTokTrends());
+schedule(() => loadNytBooks());
 </script>
 <script src="analytics.js"></script>
 </body>
