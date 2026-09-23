@@ -94,8 +94,10 @@ section.results{padding:3.5rem 6vw 6rem;}
 .book-links{display:flex;gap:0.45rem;flex-wrap:wrap;margin-top:0.55rem;padding-top:0.55rem;border-top:1px solid var(--border);}
 .book-links a{font-size:0.68rem;color:var(--copper);text-decoration:none;font-weight:600;}
 .book-links a:hover{text-decoration:underline;}
-.shelfmates-love-link{display:inline-flex;align-items:center;justify-content:center;width:100%;margin-top:0.55rem;padding:0.55rem 0.7rem;border:1px solid var(--copper);border-radius:var(--r-xs);background:var(--copper-pale);color:var(--ink);font-size:0.7rem;font-weight:600;text-decoration:none;}
-.shelfmates-love-link:hover{background:var(--copper);color:#fff;text-decoration:none;}
+.shelfmates-love-link{display:inline-flex;align-items:center;justify-content:center;gap:0.35rem;width:100%;margin-top:0.55rem;padding:0.55rem 0.7rem;border:1px solid var(--copper);border-radius:99px;background:linear-gradient(135deg,#fff7ef,var(--copper-pale));color:var(--ink);font-size:0.7rem;font-weight:600;text-decoration:none;box-shadow:0 3px 10px rgba(200,131,42,0.12);transition:transform 0.2s,box-shadow 0.2s,background 0.2s;}
+.shelfmates-love-link:hover{background:linear-gradient(135deg,#ffe7e8,#f7c7ca);box-shadow:0 5px 16px rgba(196,96,106,0.2);transform:translateY(-2px);text-decoration:none;}
+.shelfmates-love-heart{font-size:1rem;line-height:1;transition:transform 0.2s;}
+.shelfmates-love-link:hover .shelfmates-love-heart{transform:scale(1.2) rotate(-8deg);}
 .load-sentinel{min-height:2rem;display:flex;justify-content:center;align-items:center;color:var(--muted);font-size:0.82rem;padding:1rem;}
 
 .state-note{grid-column:1/-1;text-align:center;padding:3rem 1rem;color:var(--stone);font-size:0.92rem;background:var(--card);border:1.5px dashed var(--border);border-radius:var(--r);}
@@ -645,7 +647,7 @@ function renderBooks(books) {
         <div class="book-title">${escapeHtml(b.title)}</div>
         <div class="book-author">${escapeHtml(b.author)}</div>
         <div class="book-year">${escapeHtml(b.year)}</div>
-        <a class="shelfmates-love-link" href="${escapeHtml(shelfmatesLoveUrl(b))}" target="_blank" rel="noopener noreferrer">Save to Shelfmates’ Love</a>
+        <a class="shelfmates-love-link" href="${escapeHtml(shelfmatesLoveUrl(b))}" target="_blank" rel="noopener noreferrer"><span class="shelfmates-love-heart" aria-hidden="true">💗</span> Save to Shelfmates’ Love <span aria-hidden="true">→</span></a>
         <div class="book-links" aria-label="Where to get this book">
           ${b.where.map(link => `<a href="${link.url}" target="_blank" rel="noopener noreferrer">${link.label}</a>`).join('')}
         </div>
@@ -789,7 +791,7 @@ function renderLanguageBooks(books) {
         <div class="book-title">${escapeHtml(b.title)}</div>
         <div class="book-author">${escapeHtml(b.author)}</div>
         <div class="book-year">${escapeHtml(b.year)}</div>
-        <a class="shelfmates-love-link" href="${escapeHtml(shelfmatesLoveUrl(b))}" target="_blank" rel="noopener noreferrer">Save to Shelfmates’ Love</a>
+        <a class="shelfmates-love-link" href="${escapeHtml(shelfmatesLoveUrl(b))}" target="_blank" rel="noopener noreferrer"><span class="shelfmates-love-heart" aria-hidden="true">💗</span> Save to Shelfmates’ Love <span aria-hidden="true">→</span></a>
         <div class="book-links" aria-label="Where to get this book">
           ${b.where.map(link => `<a href="${link.url}" target="_blank" rel="noopener noreferrer">${link.label}</a>`).join('')}
         </div>
