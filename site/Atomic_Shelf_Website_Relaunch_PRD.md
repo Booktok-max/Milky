@@ -10,7 +10,7 @@
 
 ## 1. Executive Summary
 
-Atomic Shelf should be presented as a **long-term readership growth partner for independent authors**, not simply as a collection of marketing services.
+Atomic Shelf should be presented as a **long-term readership growth partner for independent authors and publishers**, not simply as a collection of marketing services.
 
 The website must make one idea immediately understandable:
 
@@ -249,7 +249,7 @@ Implemented on 2026-09-23:
 
 ### Core positioning
 
-> **We help independent authors find readers, turn attention into sales, and build an audience that can follow them from one book to the next.**
+> **We help independent authors and publishers find readers, turn attention into sales, and build an audience that can follow each book from one release to the next.**
 
 ### Core mental model
 
@@ -334,7 +334,7 @@ This should remain the central brand promise unless later testing demonstrates a
 
 ## Supporting statement
 
-> We help independent authors find readers, turn attention into sales, and build an audience that can follow them from one book to the next.
+> We help independent authors and publishers find readers, turn attention into sales, and build an audience that can follow each book from one release to the next.
 
 ## Supporting philosophy
 
@@ -356,7 +356,7 @@ It is selling a connected growth system.
 
 Atomic Shelf should consistently be described as:
 
-> A books-only growth partner for independent authors.
+> A books-only growth partner for independent authors and publishers.
 
 The site should emphasize:
 
@@ -489,7 +489,7 @@ Recommended order:
 
 **Eyebrow:**
 
-> For independent authors
+> For independent authors and publishers
 
 **Headline:**
 
@@ -497,7 +497,7 @@ Recommended order:
 
 **Body:**
 
-> We help independent authors find readers, turn attention into sales, and build an audience that can follow them from one book to the next.
+> We help independent authors and publishers find readers, turn attention into sales, and build an audience that can follow each book from one release to the next.
 
 ### Primary CTA
 
