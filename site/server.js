@@ -447,15 +447,40 @@ if (!APP_BASE_URL) {
 }
 
 // ---- Current plans (server-side payment validation) --------------------
-// Never trust an amount sent from the browser — look it up here instead.
-const PLANS = {
-  spark: { name: 'Spark', amounts: { monthly: 20, '3_month': 50, '6_month': 90, '12_month': 180 } },
-  enhanced: { name: 'Enhanced', amounts: { monthly: 50, '3_month': 130, '6_month': 240, '12_month': 450 } },
-  foundation: { name: 'Foundation', amounts: { monthly: 79, '3_month': 190, '6_month': 370, '12_month': 710 } },
-  starter: { name: 'Starter', amounts: { monthly: 100, '3_month': 270, '6_month': 480, '12_month': 900 } },
-  momentum: { name: 'Momentum', amounts: { monthly: 249, '3_month': 670, '6_month': 1190, '12_month': 2240 } },
-  growth: { name: 'Growth', amounts: { monthly: 499, '3_month': 1340, '6_month': 2390, '12_month': 4490 } },
-};
+// Never trust an amount sent from the browser. Derive it from the same
+// controlled dataset used by the public pricing page.
+const PRICING_DATA_PATH = path.join(__dirname, 'pricing-data.json');
+const BILLING_TERMS = ['monthly', '3_month', '6_month', '12_month'];
+
+function loadPaymentPlans() {
+  let pricingData;
+  try {
+    pricingData = JSON.parse(fs.readFileSync(PRICING_DATA_PATH, 'utf8'));
+  } catch (error) {
+    throw new Error(`Unable to load payment pricing data: ${error.message}`);
+  }
+
+  if (!Array.isArray(pricingData.plans) || !pricingData.plans.length) {
+    throw new Error('Payment pricing data must contain at least one plan.');
+  }
+
+  return Object.fromEntries(pricingData.plans.map(plan => {
+    if (!plan.id || !plan.name || !Number.isFinite(Number(plan.monthly_price))) {
+      throw new Error(`Invalid payment pricing record for plan "${plan.id || 'unknown'}".`);
+    }
+    const amounts = { monthly: Number(plan.monthly_price) };
+    for (const term of BILLING_TERMS.slice(1)) {
+      const total = plan.commitments?.[term]?.discounted_total_rounded_down_10;
+      if (!Number.isFinite(Number(total))) {
+        throw new Error(`Missing ${term} payment total for plan "${plan.id}".`);
+      }
+      amounts[term] = Number(total);
+    }
+    return [String(plan.id).toLowerCase(), { name: plan.name, amounts }];
+  }));
+}
+
+const PLANS = loadPaymentPlans();
 
 // ---- Token cache (Pesapal tokens last ~5 minutes) ----------------------
 let cachedToken = null;
