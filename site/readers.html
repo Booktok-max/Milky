@@ -82,6 +82,8 @@ section.results{padding:3.5rem 6vw 6rem;}
 .book-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg);border-color:rgba(200,131,42,0.25);}
 .book-cover{aspect-ratio:2/3;background:linear-gradient(135deg,var(--ivory-2),var(--ivory-3));display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
 .book-cover img{width:100%;height:100%;object-fit:cover;image-rendering:auto;}
+.book-cover-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:var(--stone);}
+.book-cover-placeholder svg{width:40%;height:40%;opacity:0.55;}
 .book-cover svg{width:40%;height:40%;opacity:0.35;}
 .book-genre-tag{position:absolute;top:8px;left:8px;background:rgba(14,12,26,0.72);color:#fff;font-size:0.62rem;font-weight:600;padding:3px 9px;border-radius:99px;letter-spacing:0.03em;}
 .book-type-tag{position:absolute;right:8px;top:8px;background:var(--copper);color:#fff;font-size:0.6rem;font-weight:600;padding:3px 8px;border-radius:99px;letter-spacing:0.02em;}
@@ -92,6 +94,8 @@ section.results{padding:3.5rem 6vw 6rem;}
 .book-links{display:flex;gap:0.45rem;flex-wrap:wrap;margin-top:0.55rem;padding-top:0.55rem;border-top:1px solid var(--border);}
 .book-links a{font-size:0.68rem;color:var(--copper);text-decoration:none;font-weight:600;}
 .book-links a:hover{text-decoration:underline;}
+.shelfmates-love-link{display:inline-flex;align-items:center;justify-content:center;width:100%;margin-top:0.55rem;padding:0.55rem 0.7rem;border:1px solid var(--copper);border-radius:var(--r-xs);background:var(--copper-pale);color:var(--ink);font-size:0.7rem;font-weight:600;text-decoration:none;}
+.shelfmates-love-link:hover{background:var(--copper);color:#fff;text-decoration:none;}
 .load-sentinel{min-height:2rem;display:flex;justify-content:center;align-items:center;color:var(--muted);font-size:0.82rem;padding:1rem;}
 
 .state-note{grid-column:1/-1;text-align:center;padding:3rem 1rem;color:var(--stone);font-size:0.92rem;background:var(--card);border:1.5px dashed var(--border);border-radius:var(--r);}
@@ -275,8 +279,20 @@ function coverPlaceholderSVG() {
 }
 
 function handleCoverError(image) {
-  const card = image.closest('.book-card');
-  if (card) card.remove();
+  image.replaceWith(fallbackBookCover());
+}
+
+function fallbackBookCover() {
+  const wrapper = document.createElement('div');
+  wrapper.className = 'book-cover-placeholder';
+  wrapper.setAttribute('aria-label', 'Book cover unavailable');
+  wrapper.innerHTML = '<svg viewBox="0 0 40 40" aria-hidden="true"><rect x="8" y="6" width="24" height="30" fill="none" stroke="currentColor" stroke-width="1" opacity="0.5"/><line x1="12" y1="14" x2="28" y2="14" stroke="currentColor" stroke-width="0.7" opacity="0.4"/><line x1="12" y1="19" x2="28" y2="19" stroke="currentColor" stroke-width="0.7" opacity="0.4"/><line x1="12" y1="24" x2="24" y2="24" stroke="currentColor" stroke-width="0.7" opacity="0.4"/></svg>';
+  return wrapper;
+}
+
+function openBookCard(card) {
+  const url = card.dataset.catalogueUrl;
+  if (url) window.open(url, '_blank', 'noopener,noreferrer');
 }
 
 const DISCOVERY_LANES = [
@@ -501,6 +517,17 @@ function bookFromDoc(d) {
   };
 }
 
+function shelfmatesLoveUrl(book) {
+  const url = new URL('https://storypal.atomic-shelf.com/');
+  url.searchParams.set('action', 'save_to_shelfmates_love');
+  url.searchParams.set('source', 'atomic_shelf_readers');
+  url.searchParams.set('book_title', book.title);
+  url.searchParams.set('author', book.author);
+  if (book.publicationYear) url.searchParams.set('publication_year', book.publicationYear);
+  if (book.where[0]?.url) url.searchParams.set('open_library_url', book.where[0].url);
+  return url.toString();
+}
+
 let activeGenre = '';
 let activeQuery = '';
 let activeSort = '';
@@ -608,7 +635,7 @@ function renderBooks(books) {
   }
   count.textContent = `${books.length} titles shown`;
   grid.innerHTML = books.map(b => `
-    <div class="book-card">
+    <div class="book-card" data-catalogue-url="${escapeHtml(b.where[0].url)}" role="link" tabindex="0" aria-label="Open ${escapeHtml(b.title)} in the Open Library catalogue">
       <div class="book-cover">
         ${b.genre ? `<span class="book-genre-tag">${escapeHtml(b.genre)}</span>` : ''}
         ${b.lane ? `<span class="book-type-tag">${escapeHtml(b.lane)}</span>` : ''}
@@ -618,12 +645,28 @@ function renderBooks(books) {
         <div class="book-title">${escapeHtml(b.title)}</div>
         <div class="book-author">${escapeHtml(b.author)}</div>
         <div class="book-year">${escapeHtml(b.year)}</div>
+        <a class="shelfmates-love-link" href="${escapeHtml(shelfmatesLoveUrl(b))}" target="_blank" rel="noopener noreferrer">Save to Shelfmates’ Love</a>
         <div class="book-links" aria-label="Where to get this book">
           ${b.where.map(link => `<a href="${link.url}" target="_blank" rel="noopener noreferrer">${link.label}</a>`).join('')}
         </div>
       </div>
     </div>`).join('');
 }
+
+document.getElementById('book-grid').addEventListener('click', event => {
+  if (event.target.closest('a')) return;
+  const card = event.target.closest('.book-card[data-catalogue-url]');
+  if (card) openBookCard(card);
+});
+
+document.getElementById('book-grid').addEventListener('keydown', event => {
+  if (event.key !== 'Enter' && event.key !== ' ') return;
+  if (event.target.closest('a')) return;
+  const card = event.target.closest('.book-card[data-catalogue-url]');
+  if (!card) return;
+  event.preventDefault();
+  openBookCard(card);
+});
 
 async function loadBooks(query, genre, reset = true, sortByPublication = activeSort === 'publication') {
   const grid = document.getElementById('book-grid');
@@ -736,7 +779,7 @@ function renderLanguageBooks(books) {
     return;
   }
   grid.innerHTML = books.map(b => `
-    <div class="book-card">
+    <div class="book-card" data-catalogue-url="${escapeHtml(b.where[0].url)}" role="link" tabindex="0" aria-label="Open ${escapeHtml(b.title)} in the Open Library catalogue">
       <div class="book-cover">
         ${b.genre ? `<span class="book-genre-tag">${escapeHtml(b.genre)}</span>` : ''}
         <span class="book-type-tag">Other languages</span>
@@ -746,6 +789,7 @@ function renderLanguageBooks(books) {
         <div class="book-title">${escapeHtml(b.title)}</div>
         <div class="book-author">${escapeHtml(b.author)}</div>
         <div class="book-year">${escapeHtml(b.year)}</div>
+        <a class="shelfmates-love-link" href="${escapeHtml(shelfmatesLoveUrl(b))}" target="_blank" rel="noopener noreferrer">Save to Shelfmates’ Love</a>
         <div class="book-links" aria-label="Where to get this book">
           ${b.where.map(link => `<a href="${link.url}" target="_blank" rel="noopener noreferrer">${link.label}</a>`).join('')}
         </div>

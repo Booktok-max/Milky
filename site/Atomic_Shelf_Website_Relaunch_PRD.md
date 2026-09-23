@@ -136,6 +136,30 @@ Readers currently depends on Open Library for live catalogue discovery, search, 
 - Every result identifies its catalogue source where provider data is mixed.
 - No provider credential is shipped to the browser.
 - The page does not claim that a provider's results are globally complete, live-ranked, or editorially endorsed unless the provider data and wording support that claim.
+
+### Shelfmates' Love save handoff — 2026-09-23
+
+Each Readers book card should offer a **Save to Shelfmates’ Love** action. The current website implementation provides a stable handoff to `https://storypal.atomic-shelf.com/` with the selected book's title, author, publication year where available, Open Library catalogue URL, source identifier, and the requested `save_to_shelfmates_love` action.
+
+The Storypal follow-on integration must:
+
+- Send a reader from the handoff into account creation or sign-in before saving.
+- Preserve the selected book while the account flow completes.
+- Search Storypal's directory for an existing matching work before creating a duplicate.
+- Save the matched or newly created work to the reader's **Shelfmates’ Love** shelf.
+- Return the reader to the saved work or shelf with a clear success state; show an actionable error if the save cannot be completed.
+- Treat title and author as search hints, not a unique identity. Prefer Open Library work/edition identifiers and future first-party identifiers when available.
+- Record the originating surface as Readers for product analytics without exposing private account data to the public site.
+
+**Handoff contract:** `action=save_to_shelfmates_love`, `source=atomic_shelf_readers`, `book_title`, `author`, optional `publication_year`, and optional `open_library_url`. Storypal owns account creation, authentication, directory matching, shelf persistence, consent, and duplicate handling. The public Readers page must not create or transmit account credentials.
+
+**Acceptance criteria:**
+
+- Every catalogue and fallback book card exposes the save action.
+- The handoff opens Storypal in a new tab and retains the selected book context.
+- Storypal can route a new reader through account creation and an existing reader through sign-in without losing the book.
+- A matching directory record is reused where possible; duplicate records are not created from repeated handoffs.
+- A successful save is visible in Shelfmates’ Love, and failures are explicit and recoverable.
 ### Reader discovery and navigation updates — 2026-09-23
 
 The Readers experience has received additional implementation changes that must now be treated as part of the current product specification.
