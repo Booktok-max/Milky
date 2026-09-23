@@ -139,7 +139,7 @@ Readers currently depends on Open Library for live catalogue discovery, search, 
 
 ### Shelfmates' Love save handoff — 2026-09-23
 
-Each Readers book card should offer a warm, visually distinctive **💗 Save to Shelfmates’ Love →** action. The current website implementation provides a stable handoff to `https://storypal.atomic-shelf.com/` so a reader can sign up or sign in, with the selected book's title, author, publication year where available, Open Library catalogue URL, source identifier, and the requested `save_to_shelfmates_love` action.
+Each Readers book card should offer a warm, visually distinctive **💗 Save to Shelfmates →** action. The heart is the visual cue; the button does not need to spell out “Love.” The current website implementation provides a stable handoff to `https://storypal.atomic-shelf.com/` so a reader can sign up or sign in, with the selected book's title, author, publication year where available, Open Library catalogue URL, source identifier, and the requested `save_to_shelfmates_love` action.
 
 The Storypal follow-on integration must:
 
