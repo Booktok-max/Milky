@@ -507,7 +507,7 @@ Do not imply that impressions equal sales.
 
 This section explains why long-term commitments exist.
 
-## Days 1–30 — Build the machine
+## Days 1–30 — Build the foundation
 
 - establish positioning
 - prepare content
@@ -558,7 +558,7 @@ The exact current prices must come from the single pricing data source.
 
 ### Explain the discount
 
-> Longer commitments are prepaid savings — not a cancellation trap. The reason we offer the discount is simple: the system has more time to compound, and predictable planning lets us give you better economics.
+> Longer commitments are prepaid savings. The reason we offer the discount is simple: the system has more time to compound, and predictable planning lets us give you better economics.
 
 Do not bury this explanation.
 
@@ -1512,7 +1512,7 @@ Potential recurring brand language:
 
 > **One system. Every stage supports the next.**
 
-> **Your book doesn't need more noise. It needs more of the right readers.**
+> **Your book deserves meaningful attention from the right readers.**
 
 > **We go beyond marketing books — we aim to build lasting reader relationships.**
 

@@ -90,7 +90,7 @@
       },
       {
         "q": "Do you guarantee sales?",
-        "a": "<b>Short answer:</b> No.<br><br><b>Long answer:</b> Although it is possible to estimate expected free-book downloads or 99¢ deal sales, those outcomes cannot be guaranteed because they depend on reader behaviour, market conditions, and platform performance. We control the work we commit to — production, campaigns, reviews recruitment, listing optimisation, reporting. We influence reach, clicks, and conversion. We don't guarantee a specific number of sales, a bestseller position, a ranking, or an algorithmic viral event — no one honestly can.",
+        "a": "<b>Short answer:</b> No.<br><br><b>Long answer:</b> Although it is possible to estimate expected downloads or sales for lower-priced books, those outcomes cannot be guaranteed because they depend on reader behaviour, market conditions, and platform performance. We control the work we commit to — production, campaigns, reviews recruitment, listing optimisation, reporting. We influence reach, clicks, and conversion. We don't guarantee a specific number of sales, a bestseller position, a ranking, or an algorithmic viral event — no one honestly can.",
         "source": "commercial-truth.json guarantee.does_not_guarantee + atomic-shelf-commitment-terms.md"
       },
       {
@@ -101,11 +101,11 @@
     ],
     "plans": [
       { "q": "What is included?", "a": "Varies by plan — see the current pricing page for the full feature list per tier.", "source": "commercial-truth.json plans" },
-      { "q": "Can I change plans?", "a": "Yes — you can upgrade or downgrade whenever you'd like. When you do, we take your current ad spend into account and apply it as available credit toward the new plan, so nothing you've already paid for is wasted.", "source": "commercial-truth.json operational_policies.plan_changes" },
+      { "q": "Can I change plans?", "a": "Yes — you can upgrade, downgrade, or pause whenever you'd like. When you change plans, we take your current ad spend into account and apply it as available credit toward the new plan, so nothing you've already paid for is wasted.", "source": "commercial-truth.json operational_policies.plan_changes" },
       { "q": "What happens after a commitment ends?", "a": "We hand over everything — every video created, account information, and all related assets — via a secure transfer method, so nothing gets lost. In practice, most of this is already available to you throughout the engagement: every gallery of content we make is public to you as the author, presented in your progress-report document/link.", "source": "commercial-truth.json operational_policies.end_of_commitment" },
       {
         "q": "Why are longer commitments discounted?",
-        "a": "Longer commitments are prepaid savings, not a cancellation trap. We have more time to compound the work, and predictable planning lets us offer better economics.",
+        "a": "Longer commitments are prepaid savings. We have more time to compound the work, and predictable planning lets us offer better economics.",
         "source": "PRD Section 17"
       }
     ],
@@ -130,7 +130,7 @@
         "a": "Yes — Growth is built for authors with an established backlist (3+ books) scaling an existing readership.",
         "source": "commercial-truth.json plans.growth.audience"
       },
-      { "q": "What genres do you support?", "a": "All genres. One honest caveat: bigger, higher-volume genres tend to see stronger results than smaller genres or subgenres, simply because there's a larger pool of readers to reach.", "source": "commercial-truth.json operational_policies.genre_support" }
+      { "q": "What genres do you support?", "a": "All genres. One honest caveat: bigger, higher-volume genres tend to see stronger results than smaller genres, simply because there's a larger pool of readers to reach.", "source": "commercial-truth.json operational_policies.genre_support" }
     ],
     "commitment": [
       {
