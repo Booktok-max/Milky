@@ -14,7 +14,7 @@ const NEWSLETTER_SUBSCRIBERS_PATH = path.join(NEWSLETTER_DATA_DIR, 'newsletter-s
 let dailyNewsletterCache = null;
 
 const NEWSLETTER_DISCOVERY_LANES = [
-  { label: 'Free to read', query: 'fiction', params: { ebook_access: 'public', has_fulltext: 'true' }, sort: 'readinglog', count: 2 },
+  { label: 'Free to read on Open Library', query: 'fiction', params: { ebook_access: 'public', has_fulltext: 'true' }, sort: 'readinglog', count: 2 },
   { label: 'Popular in ShelfMates', query: 'fiction', sort: 'readinglog', count: 1 },
   { label: 'Classics', query: 'classics', sort: 'old', count: 2 },
   { label: 'Rising titles', query: 'fiction', sort: 'new', count: 2 },

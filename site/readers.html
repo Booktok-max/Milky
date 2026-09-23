@@ -161,7 +161,7 @@ footer a{color:rgba(255,255,255,0.4);text-decoration:none;}
       <div>
         <div class="eyebrow"><span class="eyebrow-line"></span>Browse Books</div>
         <h2 id="results-title">Popular reading</h2>
-        <p class="list-feed-intro">A daily mix of discovery lanes, including a small Popular in ShelfMates lane. This is not a live last-24-hours ranking.</p>
+        <p class="list-feed-intro">A daily mix of discovery lanes, including free-to-read books on Open Library. Use the catalogue to read where available, or Amazon search to compare editions and availability. This is not a live last-24-hours ranking.</p>
       </div>
       <span class="results-count" id="results-count"></span>
     </div>
@@ -252,7 +252,7 @@ function handleCoverError(image) {
 }
 
 const DISCOVERY_LANES = [
-  { label: 'Free to read', query: 'fiction', params: 'ebook_access=public&has_fulltext=true', sort: 'readinglog', count: 7 },
+  { label: 'Free to read on Open Library', query: 'fiction', params: 'ebook_access=public&has_fulltext=true', sort: 'readinglog', count: 7 },
   { label: 'Popular in ShelfMates', query: 'fiction', params: '', sort: 'readinglog', count: 3 },
   { label: 'Classics', query: 'classics', params: '', sort: 'old', count: 7 },
   { label: 'Rising titles', query: 'fiction', params: '', sort: 'new', count: 7 },
@@ -397,7 +397,13 @@ async function fetchBooks(query, genre, page = 1, sortByPublication = false) {
     return (data.docs || [])
       .filter(doc => doc.cover_i)
       .slice(0, lane.count)
-      .map(doc => ({ ...bookFromDoc(doc), lane: lane.label }));
+      .map(doc => {
+        const book = bookFromDoc(doc);
+        if (lane.label === 'Free to read on Open Library') {
+          book.where[0].label = 'Read free on Open Library';
+        }
+        return { ...book, lane: lane.label };
+      });
   }));
 
   const seen = new Set();
