@@ -10,7 +10,7 @@ No page, component, or script should hardcode any value that exists in these fil
 
 | File | Contains |
 |---|---|
-| `commercial-truth.json` | Plans, pricing, services, proof metrics, guarantee, reader products, site settings |
+| `pricing-data.json` | Plans, pricing, services, proof metrics, guarantee, reader products, site settings |
 
 ---
 
@@ -62,7 +62,7 @@ The plan names (`Spark`, `Enhanced`, `Foundation`, `Starter`, `Momentum`, `Growt
 - [x] Pricing-page claim based on 24 months of internal operating evidence
 
 These values were approved by the site owner on 2026-09-22. The recorded
-approval scope and evidence note live in `commercial-truth.json` under
+approval scope and evidence note live in `pricing-data.json` under
 `_meta.pricing_claim_approval`.
 
 ### Services (for every service)
@@ -126,4 +126,4 @@ Do not begin building those components with placeholder or approximated values. 
 | Version | Date | Changed by | Notes |
 |---|---|---|---|
 | 1.0.0 | 2026-09-22 | — | Initial structure |
-| 1.1.0 | 2026-09-22 | Site owner | Approved six-plan pricing and published pricing-page claims; wired the homepage and pricing page to `commercial-truth.json`. |
+| 1.1.0 | 2026-09-22 | Site owner | Approved six-plan pricing and published pricing-page claims; wired the homepage and pricing page to `pricing-data.json`. |
