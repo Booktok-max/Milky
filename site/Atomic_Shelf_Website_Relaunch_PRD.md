@@ -137,6 +137,8 @@ Readers currently depends on Open Library for live catalogue discovery, search, 
 - No provider credential is shipped to the browser.
 - The page does not claim that a provider's results are globally complete, live-ranked, or editorially endorsed unless the provider data and wording support that claim.
 
+**NYT provider wiring started:** the server now exposes `GET /api/readers/nyt`, reads `NYT_BOOKS_API_KEY` and `NYT_BOOKS_LIST` server-side, caches successful payloads for one hour, normalizes list entries, and returns a bounded unavailable state when credentials or the upstream service are unavailable. Readers renders the feed as a separately labeled **NYT Best Sellers** lane with list name, rank, publication date, and source attribution. The key remains server-only; live results require a valid NYT developer key and an allowed list.
+
 ### Shelfmates' Love save handoff — 2026-09-23
 
 Each Readers book card should offer a warm, visually distinctive **💗 Save to Shelfmates →** action. The heart is the visual cue; the button does not need to spell out “Love.” The current website implementation provides a stable handoff to `https://storypal.atomic-shelf.com/` so a reader can sign up or sign in, with the selected book's title, author, publication year where available, Open Library catalogue URL, source identifier, and the requested `save_to_shelfmates_love` action.

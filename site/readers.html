@@ -125,6 +125,10 @@ section.results{padding:3.5rem 6vw 6rem;}
 .tiktok-card .tiktok-description{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;min-height:3.9em;}
 .tiktok-metrics{display:flex;gap:.75rem;flex-wrap:wrap;font-size:.76rem;color:var(--muted);}
 .tiktok-card a{color:var(--ink);font-size:.84rem;font-weight:600;}
+.nyt-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r-sm);padding:1.1rem;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:.5rem;}
+.nyt-card h3{font-size:1.05rem;}
+.nyt-card p{color:var(--stone);font-size:.78rem;line-height:1.5;}
+.nyt-card .book-links{margin-top:auto;}
 
 footer{background:var(--ink);padding:2rem 6vw;display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.6rem;font-size:0.76rem;color:rgba(255,255,255,0.28);}
 footer a{color:rgba(255,255,255,0.4);text-decoration:none;}
@@ -139,6 +143,7 @@ footer a{color:rgba(255,255,255,0.4);text-decoration:none;}
     <li><a href="#lucky">I’m feeling lucky</a></li>
     <li><a href="#browse-books" id="publication-tab">New releases → timeless classics</a></li>
     <li><a href="#tiktok-trends">Trending on TikTok</a></li>
+    <li><a href="#nyt-bestsellers">NYT Best Sellers</a></li>
     <li><a href="#other-languages">Other languages</a></li>
   </ul>
   <a href="index.html#pricing" class="nav-cta">Add my own book</a>
@@ -203,6 +208,22 @@ footer a{color:rgba(255,255,255,0.4);text-decoration:none;}
       <div class="state-note">Loading TikTok trends…</div>
     </div>
     <p class="tiktok-meta" id="tiktok-updated">Source: TikTok Research API · Results appear when Research API access is enabled.</p>
+  </div>
+</section>
+
+<section class="list-feed" id="nyt-bestsellers">
+  <div class="container">
+    <div class="list-feed-head">
+      <div>
+        <div class="eyebrow"><span class="eyebrow-line"></span>NYT Best Sellers</div>
+        <h2>Books appearing on a published bestseller list</h2>
+      </div>
+      <p class="list-feed-intro">A separately labeled New York Times Books API feed. List rank is a reported signal, not an Atomic Shelf endorsement or a complete catalogue.</p>
+    </div>
+    <div class="book-grid" id="nyt-grid">
+      <div class="state-note">Loading NYT bestsellers…</div>
+    </div>
+    <p class="tiktok-meta" id="nyt-updated">Source: The New York Times Books API · Results appear when API access is enabled.</p>
   </div>
 </section>
 
@@ -837,6 +858,36 @@ async function loadTikTokTrends() {
   }
 }
 
+async function loadNytBooks() {
+  const grid = document.getElementById('nyt-grid');
+  const updated = document.getElementById('nyt-updated');
+  try {
+    const response = await fetch('/api/readers/nyt');
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || 'NYT bestsellers are unavailable.');
+    if (!data.items?.length) {
+      grid.innerHTML = `<div class="state-note">${escapeHtml(data.message || 'NYT bestsellers are not available right now.')}</div>`;
+      return;
+    }
+    grid.innerHTML = data.items.map(item => `
+      <article class="nyt-card">
+        <div class="eyebrow">Rank ${Number(item.rank) || '—'} · ${escapeHtml(item.listName || 'NYT list')}</div>
+        <h3>${escapeHtml(item.title)}</h3>
+        <p>${escapeHtml(item.author)}</p>
+        ${item.description ? `<p>${escapeHtml(item.description)}</p>` : ''}
+        <p>${Number(item.weeksOnList) ? `${Number(item.weeksOnList)} weeks on list` : 'Current list entry'}</p>
+        <div class="book-links" aria-label="Where to find this book">
+          <a href="${escapeHtml(item.catalogueUrl)}" target="_blank" rel="noopener noreferrer">Find editions</a>
+          <a href="${escapeHtml(item.amazonUrl)}" target="_blank" rel="noopener noreferrer">Amazon</a>
+        </div>
+      </article>`).join('');
+    updated.textContent = `Source: The New York Times Books API · ${escapeHtml(data.list || 'bestseller list')} · Published ${escapeHtml(data.publishedDate || 'recently')}.`;
+  } catch (error) {
+    grid.innerHTML = '<div class="state-note">NYT bestsellers are temporarily unavailable. Browse the main catalogue instead.</div>';
+    updated.textContent = 'Source: The New York Times Books API · Temporarily unavailable.';
+  }
+}
+
 document.getElementById('weekly-signup-form').addEventListener('submit', e => {
   e.preventDefault();
   const email = document.getElementById('weekly-email');
@@ -875,6 +926,14 @@ const tiktokObserver = new IntersectionObserver(entries => {
   }
 }, { rootMargin: '300px' });
 tiktokObserver.observe(document.getElementById('tiktok-trends'));
+
+const nytObserver = new IntersectionObserver(entries => {
+  if (entries[0].isIntersecting) {
+    nytObserver.disconnect();
+    loadNytBooks();
+  }
+}, { rootMargin: '300px' });
+nytObserver.observe(document.getElementById('nyt-bestsellers'));
 
 const loadObserver = new IntersectionObserver(entries => {
   if (entries[0].isIntersecting) loadBooks(activeQuery, activeGenre, false, activeSort === 'publication');
