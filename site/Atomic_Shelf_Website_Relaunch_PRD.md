@@ -611,7 +611,7 @@ Huge lists of tiny features.
 
 # 19. Plan Positioning
 
-Use the current approved pricing/tier structure as the source of truth.
+Use the current controlled pricing dataset for exact plan and tier details.
 
 Suggested positioning language:
 
