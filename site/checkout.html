@@ -334,7 +334,10 @@
   </main>
 
   <script>
-    const backendUrl = window.__ATOMIC_SHELF_BACKEND_URL__ || '';
+    const backendUrl = (
+      window.__ATOMIC_SHELF_BACKEND_URL__ ||
+      'https://milky-production-c748.up.railway.app'
+    ).replace(/\/+$/, '');
     const planField = document.getElementById('planField');
     const form = document.getElementById('checkoutForm');
     const statusEl = document.getElementById('status');
@@ -459,25 +462,6 @@
       submitButton.textContent = 'Preparing payment…';
       setStatus('Preparing a secure payment link for your selected plan…', 'info');
 
-      if (!backendUrl) {
-        const subject = encodeURIComponent(selectedPlan.name + ' plan');
-        const body = encodeURIComponent(
-          'Hi — I would like to start with the ' + selectedPlan.name + ' plan.\n\n' +
-          'First name: ' + payload.first_name + '\n' +
-          'Last name: ' + payload.last_name + '\n' +
-          'Email: ' + payload.email + '\n' +
-          'Phone: ' + (payload.phone || 'n/a') + '\n' +
-          'Book / catalogue: ' + (payload.book_title || 'n/a') + '\n'
-        );
-
-        window.location.href = 'mailto:nick@atomic-shelf.com?subject=' + subject + '&body=' + body;
-        if (window.AtomicShelfAnalytics) {
-          window.AtomicShelfAnalytics.track('checkout_fallback', { plan: planField.value });
-        }
-        setStatus('We are opening your email client so we can complete the checkout request manually.', 'success');
-        return;
-      }
-
       try {
         const response = await fetch(backendUrl + '/api/create-payment', {
           method: 'POST',
@@ -498,7 +482,7 @@
       } catch (error) {
         submitButton.disabled = false;
         submitButton.textContent = 'Continue to secure payment';
-        setStatus('The payment service is not yet configured. Please email us directly at nick@atomic-shelf.com and we will complete checkout manually.', 'error');
+        setStatus('We could not connect to the payment service. Please try again, or email nick@atomic-shelf.com for help.', 'error');
       }
     });
 
