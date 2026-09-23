@@ -367,7 +367,7 @@
 
     async function loadPlanData() {
       try {
-        const response = await fetch('commercial-truth.json', { cache: 'no-cache' });
+        const response = await fetch('pricing-data.json', { cache: 'no-cache' });
         if (!response.ok) throw new Error('Plan data unavailable.');
         const data = await response.json();
         const plans = Array.isArray(data.plans) ? data.plans : [];
