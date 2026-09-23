@@ -1,7 +1,7 @@
 # Atomic Shelf Website Relaunch — Master PRD
 
-**Status:** Implementation underway — commercial baseline and current pricing/content pass implemented; client-facing provenance cleanup completed on the core sales surfaces; release gates remain
-**Version:** 1.3
+**Status:** Implementation underway — commercial baseline, pricing/content pass, provenance cleanup, reader discovery foundation, and communications architecture defined; payment, contact, newsletter, outreach integrations and release gates remain
+**Version:** 1.5
 **Date:** 2026-09-23  
 **Product:** Atomic Shelf marketing website  
 **Primary goal:** Relaunch the site as a clear, memorable, conversion-focused system that explains Atomic Shelf, builds trust, makes pricing easy to understand, and gives authors a natural path to becoming customers.
@@ -136,6 +136,42 @@ Readers currently depends on Open Library for live catalogue discovery, search, 
 - Every result identifies its catalogue source where provider data is mixed.
 - No provider credential is shipped to the browser.
 - The page does not claim that a provider's results are globally complete, live-ranked, or editorially endorsed unless the provider data and wording support that claim.
+### Reader discovery and navigation updates — 2026-09-23
+
+The Readers experience has received additional implementation changes that must now be treated as part of the current product specification.
+
+**Implemented:**
+- Added a dedicated **New releases → timeless classics** navigation item that switches the reader view into publication sorting.
+- Publication-year handling now rejects implausible future dates, supports preorder labelling for the following year, and preserves historical labels such as “Before YYYY”.
+- Reader search, publication shelves, language shelves, and general discovery now use timeout-protected Open Library requests and tolerate partial lane failures instead of failing the entire page.
+- Open Library language queries were corrected to use the catalogue's fre and ger language codes.
+- Reader-curated Open Library lists now have stronger URL handling and can display associated book covers where available.
+- Added **Trending on TikTok** as a dedicated discovery lane using the server-side Research API integration described above.
+- Reader-facing copy was clarified so the page distinguishes discovery features from endorsements and makes the reader journey clearer.
+- Editorial copy was revised to clearly distinguish editorial guidance from manuscript editing, review coverage, and listing optimisation.
+- Pricing/result CTA language was refined across the relevant sales surfaces, including the transition into the commitment/guarantee explanation.
+- Public plan language now reflects the six-plan structure without the former separate Essentials presentation.
+
+**Required reader acceptance criteria:**
+- Publication navigation must work without leaving the Readers page.
+- Invalid/implausible future publication dates must not appear as ordinary publication years.
+- A failed discovery lane must not blank unrelated working lanes.
+- TikTok content must retain source attribution, date-window context, and non-endorsement language.
+- Reader list covers must remain optional and must never block the list itself from rendering.
+- Search and discovery requests must have bounded timeouts.
+
+### Pricing UX additions — 2026-09-23
+
+The current commercial implementation establishes the six standard plans as Spark, Enhanced, Foundation, Starter, Momentum, and Growth, with Surge and Orbit remaining custom engagements.
+
+The pricing UX requirement is now:
+- Present the six standard plans in a **2-column × 3-row layout** on the primary desktop pricing surface so each card has adequate text space.
+- Keep mobile responsive behavior, but do not revert the primary desktop presentation to a dense three-column card grid.
+- Pricing cards must remain driven by pricing-data.json.
+- Where a plan or book-cover visual is enlarged, use a compact **hover magnifier/zoom interaction** that behaves like a retail book-cover inspection tool; it should not replace the normal image with an oversized standalone image.
+- The magnifier is a release requirement if the relevant image is currently difficult to read.
+
+These are UX requirements and do not change the underlying commercial dataset.
 ### Work completed since the previous PRD revision — 2026-09-23
 
 The following changes were made after the previous PRD revision and are now part of the implementation history:
@@ -145,7 +181,7 @@ The following changes were made after the previous PRD revision and are now part
    - Expanded Momentum term-specific commitments and forecast ranges.
    - Kept the six standard plans in the browser-facing pricing dataset, with Surge and Orbit represented as custom engagements.
    - Refined pricing-page language, comparison content, commitment explanations, result expectations, and calls to action.
-   - Kept pricing presentation responsive: one column on small screens, two columns at intermediate widths, and three columns on wide screens in the current implementation. Any future fixed 2×3 presentation requirement should be treated as a UX change, not as a pricing-data change.
+   - The approved desktop pricing direction is now a 2-column × 3-row layout for the six standard plans, with mobile remaining responsive. The underlying pricing data is unchanged.
 
 2. **Public-copy consistency**
    - Refined campaign/reporting language on public pages.
@@ -1070,10 +1106,576 @@ This section records what is implemented now versus what remains before the rela
 - [ ] Complete SEO, accessibility, performance, and cross-device QA.
 - [ ] Perform a production crawl/search for prohibited internal provenance terminology across all public HTML, browser-loaded JSON, and runtime-generated labels.
 - [ ] Reconcile any remaining public pages that have not yet been included in the core sales-page cleanup.
-- [ ] Confirm the final pricing-card layout against the latest approved UX requirement before release.
+- [ ] Complete Readers regression QA for publication sorting, date filtering, language shelves, curated-list covers, partial API failures, and TikTok fallback/attribution.
+- [ ] Verify Editorial, Results, Pricing, and CTA copy remains consistent with the current commercial model after the latest copy refresh.
+- [ ] Implement and verify the approved 2-column × 3-row desktop pricing layout for the six standard plans.
+- [ ] Implement and verify the required hover magnifier/zoom interaction for the affected book-cover/image surface.
+- [ ] Confirm the six-plan public presentation contains no separate legacy Essentials card.
 
 ### Change-control rule
 
 When a commercial fact changes, update the controlled pricing dataset first, then update dependent presentation/copy, then run a public consistency and provenance scan. Do not manually maintain conflicting prices, commitments, deliverables, or result ranges in individual pages.
 
 ---
+
+
+---
+
+# 32. Communications, Outreach & Mail Architecture — 2026-09-23
+
+Atomic Shelf shall deliberately separate **mailbox infrastructure**, **customer communications**, and **outbound author outreach**.
+
+No single email provider should be treated as the universal communications system.
+
+## 32.1 Provider responsibilities
+
+| Function | System | Responsibility |
+|---|---|---|
+| Business mailbox | Existing Private Email | Human inbox for `nick@atomic-shelf.com` and ordinary business correspondence |
+| Payments | PesaPal | Checkout, payment initiation, payment status, callbacks/IPN |
+| Website contact | Brevo | "Talk to us" submissions, acknowledgements, internal notifications |
+| Newsletter | Brevo | Reader newsletter subscriptions and daily newsletter delivery |
+| Customer transactional email | Brevo | Payment/customer lifecycle notifications |
+| Author prospecting | GMass | Personalized outbound campaigns, mail merge, follow-ups and outreach reporting |
+| Outreach lists | Milky + optional Google Sheets | Prospect preparation and campaign operations |
+| Application records | Milky backend/database | Canonical contacts, leads, customers, payments, campaigns and communication events |
+
+### Mailbox decision
+
+The existing `nick@atomic-shelf.com` mailbox remains on **Private Email**.
+
+**Spacemail is not part of the Atomic Shelf architecture and must not be introduced as a dependency.**
+
+Mailbox hosting must remain independent from application communications. A future mailbox migration, if ever required, must not require a rewrite of Milky's Brevo, GMass or PesaPal integrations.
+
+## 32.2 Brevo — website and customer communications
+
+Brevo is the application-facing email layer for communications initiated by the Atomic Shelf website or customer lifecycle.
+
+Required functionality:
+
+### Contact form
+
+`POST /api/contact`
+
+Flow:
+
+`Website → Milky API → persist inquiry → Brevo notification/acknowledgement`
+
+Requirements:
+
+- validate name, email and message;
+- persist the inquiry before or independently of provider delivery where practical;
+- notify the Atomic Shelf team;
+- acknowledge the sender;
+- prevent obvious duplicate submissions;
+- never expose Brevo credentials in browser code.
+
+### Newsletter
+
+`POST /api/newsletter/subscribe`
+
+Flow:
+
+`Readers page → Milky API → normalize/validate → persist/update → Brevo`
+
+Requirements:
+
+- consent capture;
+- duplicate-safe subscription;
+- unsubscribe support;
+- suppression handling;
+- bounce handling;
+- privacy/data-retention policy;
+- provider failure handling;
+- no permanent dependence on the current temporary JSON subscriber store.
+
+### Daily reader newsletter
+
+The daily reader newsletter must use the same discovery logic and daily shelf as the Readers page where appropriate.
+
+Required pipeline:
+
+`Reader discovery → daily shelf → responsive email → Brevo send → delivery/events → Milky analytics`
+
+Required data:
+
+- title;
+- author;
+- cover where available;
+- genre/context where available;
+- catalogue/book link;
+- date;
+- source attribution;
+- tracked click URL.
+
+Required operational controls:
+
+- daily idempotency;
+- retry limits;
+- rate limits;
+- delivery monitoring;
+- unsubscribe/suppression;
+- empty-shelf handling;
+- provider failure handling;
+- plain-text alternative.
+
+## 32.3 GMass — author outreach layer
+
+GMass is a separate outbound prospecting system.
+
+It is not the replacement for the Atomic Shelf business mailbox and is not the default provider for the public website.
+
+Required functionality:
+
+### Campaign preparation
+
+Milky should prepare campaign-ready prospects containing, where applicable:
+
+- first name;
+- author name;
+- email;
+- book title;
+- genre;
+- campaign;
+- personalization fields;
+- source;
+- internal prospect ID.
+
+### Personalized outreach
+
+GMass should support approved outreach campaigns using personalized fields and controlled message templates.
+
+Campaigns must be associated with a Milky campaign ID.
+
+### Follow-ups
+
+The architecture should support:
+
+- initial outreach;
+- scheduled follow-up;
+- campaign-specific follow-up;
+- reply detection;
+- suppression after unsubscribe/rejection;
+- campaign completion.
+
+### Reporting
+
+Capture available GMass events such as:
+
+- sent;
+- delivered;
+- opened;
+- clicked;
+- replied;
+- bounced;
+- unsubscribed;
+- failed.
+
+These events should be associated with the relevant Milky prospect and campaign.
+
+### Webhooks
+
+Where enabled, GMass webhooks should feed relevant campaign events back into Milky.
+
+Flow:
+
+`GMass → webhook → Milky → contact/campaign/event record`
+
+Webhook handling must be:
+
+- authenticated where supported;
+- idempotent;
+- retry-safe;
+- tolerant of unknown event types;
+- isolated from the public website.
+
+### Google Sheets
+
+Google Sheets may be used as an operational source/list for GMass campaigns.
+
+It is **not** the canonical Atomic Shelf database.
+
+Milky should remain capable of generating or exporting campaign-ready lists without making Sheets a permanent system dependency.
+
+## 32.4 Unified contact model
+
+Milky shall maintain its own contact/prospect identity.
+
+Minimum fields:
+
+- `id`
+- `firstName`
+- `lastName`
+- `email`
+- `phone` where supplied
+- `contactType`
+  - `prospect`
+  - `lead`
+  - `customer`
+  - `subscriber`
+- `source`
+- `status`
+- `brevoContactId` where applicable
+- `gmassContactReference` where applicable
+- `suppressed`
+- `createdAt`
+- `updatedAt`
+
+Provider identifiers are integration references, not the primary application identity.
+
+## 32.5 Unified campaign model
+
+Minimum fields:
+
+- `id`
+- `name`
+- `type`
+  - `outreach`
+  - `newsletter`
+  - `transactional`
+- `provider`
+  - `gmass`
+  - `brevo`
+- `providerCampaignId`
+- `status`
+- `createdAt`
+- `scheduledAt`
+- `completedAt`
+
+## 32.6 Communication event model
+
+Milky should maintain relevant provider events.
+
+Minimum fields:
+
+- `id`
+- `contactId`
+- `campaignId`
+- `provider`
+- `providerEventId` where available
+- `eventType`
+- `eventTimestamp`
+- `metadata`
+- `createdAt`
+
+Supported event types include, where supplied:
+
+- `sent`
+- `delivered`
+- `opened`
+- `clicked`
+- `replied`
+- `bounced`
+- `unsubscribed`
+- `failed`
+
+## 32.7 Suppression and consent
+
+Milky must maintain an application-level suppression state.
+
+A suppressed contact must not be reintroduced into future automated outreach or newsletter campaigns.
+
+Newsletter consent and outreach eligibility must remain distinct concepts.
+
+Public newsletter subscribers must not automatically become GMass outreach prospects.
+
+## 32.8 Provider independence
+
+The application must not hard-code business logic around a particular email provider.
+
+Provider integrations should sit behind server-side service functions/interfaces such as:
+
+- `sendCustomerEmail()`
+- `subscribeNewsletter()`
+- `sendInternalNotification()`
+- `createOutreachCampaign()`
+- `processCommunicationEvent()`
+
+This allows a provider to be replaced without rewriting page-level business logic.
+
+---
+
+# 33. Payments & Checkout — Implementation Specification
+
+PesaPal is the payment processor for paid plans.
+
+## 33.1 Current public plan model
+
+The public commercial model contains:
+
+1. Spark
+2. Enhanced
+3. Foundation
+4. Starter
+5. Momentum
+6. Growth
+
+Surge and Orbit remain custom engagements.
+
+The backend payment configuration must match the current six-plan model. The previous four-plan payment mapping is obsolete and must not remain as the production pricing authority.
+
+## 33.2 Payment flow
+
+`Pricing → Checkout → /api/create-payment → PesaPal → callback/IPN → Milky transaction → customer notification`
+
+The browser may select a plan, but the server must determine the authoritative amount.
+
+Never trust a browser-supplied price.
+
+## 33.3 Checkout requirements
+
+Checkout must:
+
+- load current plan presentation data;
+- validate selected plan;
+- validate customer name;
+- validate email;
+- identify commitment/term where applicable;
+- request payment creation from the server;
+- redirect to PesaPal;
+- preserve a merchant reference;
+- provide a recoverable pending-payment state;
+- provide clear success, failure and cancellation states.
+
+## 33.4 Transaction record
+
+Minimum transaction fields:
+
+- `id`
+- `merchantReference`
+- `pesapalOrderTrackingId`
+- `plan`
+- `commitment`
+- `customerName`
+- `customerEmail`
+- `amount`
+- `currency`
+- `status`
+- `createdAt`
+- `updatedAt`
+
+Recommended statuses:
+
+- `pending`
+- `completed`
+- `failed`
+- `cancelled`
+- `unable_to_confirm`
+
+## 33.5 PesaPal endpoints
+
+The existing implementation foundation includes:
+
+- `POST /api/register-ipn`
+- `POST /api/create-payment`
+- `GET /api/status?orderTrackingId=...`
+- `GET /api/callback`
+- `GET /api/cancelled`
+- `POST /api/ipn`
+- `GET /health`
+
+The final implementation must ensure the IPN/callback updates the transaction state idempotently.
+
+Payment confirmation must be based on PesaPal payment status, not on the browser redirect alone.
+
+## 33.6 Payment/customer communication separation
+
+A payment being completed is a **business event**.
+
+Sending an email is a **communication event**.
+
+The system must record the payment even if Brevo is temporarily unavailable.
+
+Likewise, an email failure must never change a completed payment back to pending.
+
+---
+
+# 34. "Talk to us" Architecture
+
+All public "Talk to us" CTAs should converge on one contact workflow.
+
+Required flow:
+
+`CTA → contact form → /api/contact → validation → persist → Brevo notification/acknowledgement`
+
+Supported entry contexts should include:
+
+- general enquiry;
+- custom plan;
+- Surge;
+- Orbit;
+- unsure which plan;
+- launch question;
+- backlist question;
+- service question.
+
+The contact submission should retain the originating context where available.
+
+The user should not be forced to understand the pricing structure before being able to speak to Atomic Shelf.
+
+---
+
+# 35. Integration Security
+
+All provider secrets are server-side only.
+
+Required environment variables include, as applicable:
+
+- `PESAPAL_CONSUMER_KEY`
+- `PESAPAL_CONSUMER_SECRET`
+- `PESAPAL_NOTIFICATION_ID`
+- `BREVO_API_KEY`
+- `GMASS_API_KEY`
+
+Requirements:
+
+- no credentials in browser JavaScript;
+- no credentials in `pricing-data.json`;
+- no credentials committed to Git;
+- no credentials in public API responses;
+- deployment secrets stored in the hosting environment;
+- credentials must be rotatable;
+- provider failure messages must not expose secrets or sensitive configuration.
+
+The previously exposed Brevo credential must be rotated before production communications are enabled.
+
+---
+
+# 36. Updated Build Phases
+
+## Phase 1 — Commercial and public-surface alignment
+
+- [x] Six-plan public model established.
+- [x] Pricing data connected to public pricing surfaces.
+- [x] Public provenance cleanup applied to core sales surfaces.
+- [ ] Verify every public page against current pricing data.
+- [ ] Complete 2-column × 3-row desktop pricing layout.
+- [ ] Complete hover magnifier/zoom interaction.
+- [ ] Remove/verify absence of legacy Essentials presentation.
+
+## Phase 2 — PesaPal production checkout
+
+- [ ] Reconcile backend plan mapping with all six current plans.
+- [ ] Implement authoritative server-side pricing validation.
+- [ ] Implement transaction persistence.
+- [ ] Make callback/IPN processing idempotent.
+- [ ] Implement payment success/pending/failure/cancellation states.
+- [ ] Connect successful payment events to customer notification.
+- [ ] Test the full flow in PesaPal sandbox.
+- [ ] Complete production credential/configuration review.
+
+## Phase 3 — Website communications
+
+- [ ] Implement `/api/contact`.
+- [ ] Connect "Talk to us" CTAs.
+- [ ] Persist contact enquiries.
+- [ ] Connect Brevo notification/acknowledgement.
+- [ ] Implement `/api/newsletter/subscribe`.
+- [ ] Move newsletter subscribers from temporary local storage to Brevo.
+- [ ] Add consent, unsubscribe and suppression handling.
+- [ ] Rotate previously exposed Brevo credentials.
+- [ ] Verify sender/domain configuration.
+
+## Phase 4 — Daily reader newsletter
+
+- [ ] Finalize daily shelf generation.
+- [ ] Finalize responsive HTML and plain-text templates.
+- [ ] Add tracked book links.
+- [ ] Add daily idempotency.
+- [ ] Add scheduled send.
+- [ ] Add delivery/bounce/unsubscribe monitoring.
+- [ ] Add newsletter analytics.
+- [ ] Complete legal/privacy review.
+- [ ] Run controlled test sends before automatic delivery.
+
+## Phase 5 — GMass outreach
+
+- [ ] Configure GMass credentials securely.
+- [ ] Define Milky prospect/campaign/event records.
+- [ ] Build campaign preparation/export workflow.
+- [ ] Add personalization fields.
+- [ ] Implement campaign creation/scheduling integration where approved.
+- [ ] Configure follow-up workflow.
+- [ ] Configure relevant GMass webhooks.
+- [ ] Store campaign events in Milky.
+- [ ] Implement application-level suppression.
+- [ ] Add outreach reporting.
+
+## Phase 6 — Unified reporting and operations
+
+- [ ] Create a unified communication-event view.
+- [ ] Connect payment events to customer lifecycle.
+- [ ] Connect contact enquiries to lead records.
+- [ ] Connect GMass outreach events to prospects.
+- [ ] Distinguish newsletter metrics from outreach metrics.
+- [ ] Add provider health/error monitoring.
+- [ ] Add retry and idempotency controls.
+- [ ] Document operational ownership and failure recovery.
+
+## Phase 7 — Release QA
+
+- [ ] Full public-content provenance scan.
+- [ ] Pricing consistency scan.
+- [ ] Payment sandbox test.
+- [ ] Contact-form test.
+- [ ] Newsletter subscription test.
+- [ ] Newsletter provider failure test.
+- [ ] GMass campaign/test-recipient workflow test.
+- [ ] Webhook/idempotency test.
+- [ ] Mobile QA at 320/375/390/430px.
+- [ ] Accessibility QA.
+- [ ] SEO/performance QA.
+- [ ] Production crawl.
+- [ ] Final legal/privacy review.
+- [ ] Final production deployment check.
+
+---
+
+# 37. Updated Definition of Done
+
+Milky is release-ready only when:
+
+1. The six public plans and their current prices/terms are consistent across every public surface.
+2. No legacy Essentials presentation remains.
+3. Desktop pricing uses the approved 2-column × 3-row layout.
+4. The required image hover magnifier works on the affected surface.
+5. PesaPal can create, confirm and persist a payment safely.
+6. Payment state is independent of email-delivery state.
+7. "Talk to us" works from every relevant CTA.
+8. Website contact submissions are persisted and routed through Brevo.
+9. Newsletter subscriptions are consent-aware and routed through Brevo.
+10. The daily reader newsletter can be generated, previewed, tested and safely scheduled.
+11. GMass can be used as the dedicated author-outreach layer without becoming the website's primary customer-email dependency.
+12. Outreach events can be associated with Milky contacts and campaigns.
+13. Suppression/unsubscribe states are respected across relevant automated communications.
+14. Private Email remains the human mailbox layer for `nick@atomic-shelf.com`.
+15. Spacemail is not included as a dependency or integration.
+16. Provider credentials are server-side and rotated where previously exposed.
+17. Public pages contain no internal provenance/source-of-truth language.
+18. The complete site passes mobile, accessibility, SEO, performance and production QA.
+
+---
+
+# 38. Change-Control Rules for Integrations
+
+When changing a provider:
+
+1. Preserve the Milky contact/customer/campaign/event models.
+2. Replace only the provider adapter/integration layer where possible.
+3. Do not move application identity into the provider.
+4. Do not make provider-specific IDs the primary business identifiers.
+5. Re-test webhooks and idempotency.
+6. Re-test suppression and consent.
+7. Re-test failure/retry behavior.
+8. Update this PRD and environment-variable documentation.
+
+When changing a commercial plan:
+
+1. Update the controlled pricing dataset.
+2. Update server-side payment validation.
+3. Update dependent checkout presentation.
+4. Update relevant public copy.
+5. Run the pricing consistency scan.
+6. Run payment sandbox tests.
+7. Update this PRD's implementation ledger.
