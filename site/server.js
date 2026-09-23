@@ -12,6 +12,7 @@ app.use(cors({ origin: process.env.ALLOWED_ORIGIN || '*' }));
 const NEWSLETTER_DATA_DIR = path.join(__dirname, 'private-data');
 const NEWSLETTER_SUBSCRIBERS_PATH = path.join(NEWSLETTER_DATA_DIR, 'newsletter-subscribers.json');
 const TRANSACTIONS_PATH = path.join(NEWSLETTER_DATA_DIR, 'transactions.json');
+const COMMUNICATION_EVENTS_PATH = path.join(NEWSLETTER_DATA_DIR, 'communication-events.json');
 let dailyNewsletterCache = null;
 let tiktokAccessTokenCache = null;
 let tiktokTrendCache = null;
@@ -31,6 +32,7 @@ const TIKTOK_FIELDS = [
   'view_count',
 ].join(',');
 const TIKTOK_HASHTAGS = ['booktok', 'bookrecommendations', 'bookish'];
+const BREVO_API_BASE = 'https://api.brevo.com/v3';
 
 const NEWSLETTER_DISCOVERY_LANES = [
   { label: 'Free to read on Open Library', query: 'fiction', params: { ebook_access: 'public', has_fulltext: 'true' }, sort: 'readinglog', count: 2 },
@@ -151,49 +153,50 @@ function saveNewsletterSubscriber(email) {
     subscribers.push({ email, subscribed_at: new Date().toISOString() });
     fs.writeFileSync(NEWSLETTER_SUBSCRIBERS_PATH, JSON.stringify(subscribers, null, 2));
   }
+}
 
-  function readTransactions() {
+function readTransactions() {
     try {
       return JSON.parse(fs.readFileSync(TRANSACTIONS_PATH, 'utf8'));
     } catch (error) {
       if (error.code === 'ENOENT') return [];
       throw error;
     }
-  }
+}
 
-  function writeTransactions(transactions) {
+function writeTransactions(transactions) {
     fs.mkdirSync(NEWSLETTER_DATA_DIR, { recursive: true });
     const temporaryPath = `${TRANSACTIONS_PATH}.tmp`;
     fs.writeFileSync(temporaryPath, JSON.stringify(transactions, null, 2));
     fs.renameSync(temporaryPath, TRANSACTIONS_PATH);
-  }
+}
 
-  function saveTransaction(transaction) {
+function saveTransaction(transaction) {
     const transactions = readTransactions();
     const index = transactions.findIndex(item => item.id === transaction.id);
     if (index === -1) transactions.push(transaction);
     else transactions[index] = transaction;
     writeTransactions(transactions);
     return transaction;
-  }
+}
 
-  function findTransaction({ orderTrackingId, merchantReference }) {
+function findTransaction({ orderTrackingId, merchantReference }) {
     return readTransactions().find(transaction =>
       (orderTrackingId && transaction.pesapalOrderTrackingId === orderTrackingId) ||
       (merchantReference && transaction.merchantReference === merchantReference)
     );
-  }
+}
 
-  function paymentStatusFromPesapal(status) {
+function paymentStatusFromPesapal(status) {
     const description = String(status?.payment_status_description || '').toLowerCase();
     const code = String(status?.status_code || '').toLowerCase();
     if (description === 'completed' || code === '1' || code === 'completed') return 'completed';
     if (description.includes('cancel')) return 'cancelled';
     if (description.includes('fail') || description.includes('reject') || code === 'failed') return 'failed';
     return 'pending';
-  }
+}
 
-  function updateTransactionStatus(transaction, status, source) {
+function updateTransactionStatus(transaction, status, source) {
     if (!transaction) return null;
     const nextStatus = paymentStatusFromPesapal(status);
     if (transaction.status === 'completed' && nextStatus !== 'completed') return transaction;
@@ -205,7 +208,67 @@ function saveNewsletterSubscriber(email) {
       updatedAt: new Date().toISOString(),
     };
     return saveTransaction(updated);
-  }
+}
+
+function readCommunicationEvents() {
+    try {
+      return JSON.parse(fs.readFileSync(COMMUNICATION_EVENTS_PATH, 'utf8'));
+    } catch (error) {
+      if (error.code === 'ENOENT') return [];
+      throw error;
+    }
+}
+
+function saveCommunicationEvent(event) {
+    fs.mkdirSync(NEWSLETTER_DATA_DIR, { recursive: true });
+    const events = readCommunicationEvents();
+    events.push(event);
+    fs.writeFileSync(COMMUNICATION_EVENTS_PATH, JSON.stringify(events, null, 2));
+}
+
+async function sendCustomerEmail(transaction) {
+    if (!transaction?.customerEmail || transaction.notificationSentAt) return transaction;
+    const event = {
+      id: `payment-confirmation-${transaction.id}`,
+      type: 'transactional',
+      event: 'payment_completed',
+      provider: 'brevo',
+      recipient: transaction.customerEmail,
+      transactionId: transaction.id,
+      status: 'pending',
+      createdAt: new Date().toISOString(),
+    };
+
+    if (!process.env.BREVO_API_KEY || !process.env.BREVO_SENDER_EMAIL) {
+      saveCommunicationEvent({ ...event, status: 'skipped', reason: 'Brevo is not configured.' });
+      return transaction;
+    }
+
+    try {
+      await axios.post(`${BREVO_API_BASE}/smtp/email`, {
+        sender: { email: process.env.BREVO_SENDER_EMAIL, name: process.env.BREVO_SENDER_NAME || 'Atomic Shelf' },
+        to: [{ email: transaction.customerEmail, name: transaction.customerName || undefined }],
+        subject: 'Your Atomic Shelf payment is confirmed',
+        textContent: `Your ${transaction.plan} plan payment of ${transaction.currency} ${transaction.amount} is confirmed. Reference: ${transaction.merchantReference}.`,
+      }, {
+        headers: {
+          accept: 'application/json',
+          'api-key': process.env.BREVO_API_KEY,
+          'content-type': 'application/json',
+        },
+        timeout: 10000,
+      });
+      saveCommunicationEvent({ ...event, status: 'sent', sentAt: new Date().toISOString() });
+      return saveTransaction({ ...transaction, notificationSentAt: new Date().toISOString() });
+    } catch (error) {
+      console.error('customer payment notification error:', error.response?.data || error.message);
+      saveCommunicationEvent({
+        ...event,
+        status: 'failed',
+        error: error.response?.data || error.message,
+      });
+      return transaction;
+    }
 }
 
 function tiktokIsConfigured() {
@@ -725,6 +788,7 @@ app.get('/api/callback', async (req, res) => {
       const desc = status.payment_status_description || status.status_code;
       transaction = updateTransactionStatus(transaction, status, 'callback') || transaction;
       paymentState = transaction?.status || paymentStatusFromPesapal(status);
+      if (paymentState === 'completed') transaction = await sendCustomerEmail(transaction);
       statusDescription = desc || 'Payment status received.';
     }
   } catch (err) {
@@ -826,11 +890,12 @@ app.get('/api/ipn', async (req, res) => {
     if (OrderTrackingId) {
       const status = await fetchStatus(OrderTrackingId);
       console.log('IPN status:', OrderMerchantReference, status.payment_status_description);
-      updateTransactionStatus(
+      const transaction = updateTransactionStatus(
         findTransaction({ orderTrackingId: OrderTrackingId, merchantReference: OrderMerchantReference }),
         status,
         'ipn'
       );
+      if (transaction?.status === 'completed') await sendCustomerEmail(transaction);
     }
   } catch (err) {
     console.error('IPN status check error:', err.response?.data || err.message);
