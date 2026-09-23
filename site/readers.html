@@ -327,6 +327,15 @@ function updateReaderDateRange(books) {
   intro.textContent = `Today's selection: books from ${firstYearLabel} to ${currentYear}, matched to what you already love.`;
 }
 
+function publicationYearLabel(year) {
+  const currentYear = new Date().getFullYear();
+  if (!Number.isInteger(year) || year <= 0) return '—';
+  if (year > currentYear + 1) return null;
+  if (year > currentYear) return `Preorder · ${year}`;
+  if (year < 1500) return `Before ${year}`;
+  return year;
+}
+
 function seededShuffle(items, seed) {
   const result = [...items];
   let state = seed || 1;
@@ -348,9 +357,9 @@ async function fetchBooks(query, genre, page = 1, sortByPublication = false) {
     if (!res.ok) throw new Error('Book search failed');
     const data = await res.json();
     return (data.docs || [])
-      .filter(d => d.cover_i)
+      .filter(d => d.cover_i && publicationYearLabel(d.first_publish_year) !== null)
       .map(d => ({ ...bookFromDoc(d), lane: 'Search result' }))
-      .sort((a, b) => (Number(b.year) || 0) - (Number(a.year) || 0));
+      .sort((a, b) => (Number(b.publicationYear) || 0) - (Number(a.publicationYear) || 0));
   }
 
   if (sortByPublication) {
@@ -364,9 +373,9 @@ async function fetchBooks(query, genre, page = 1, sortByPublication = false) {
     if (!res.ok) throw new Error('Publication shelf unavailable');
     const data = await res.json();
     return (data.docs || [])
-      .filter(doc => doc.cover_i)
+      .filter(doc => doc.cover_i && publicationYearLabel(doc.first_publish_year) !== null)
       .map(doc => ({ ...bookFromDoc(doc), lane: 'New releases → timeless classics' }))
-      .sort((a, b) => (Number(b.year) || 0) - (Number(a.year) || 0));
+      .sort((a, b) => (Number(b.publicationYear) || 0) - (Number(a.publicationYear) || 0));
   }
 
   async function fetchLanguageBooks(language) {
@@ -379,7 +388,7 @@ async function fetchBooks(query, genre, page = 1, sortByPublication = false) {
     if (!res.ok) throw new Error('Language shelf unavailable');
     const data = await res.json();
     return seededShuffle((data.docs || [])
-      .filter(doc => doc.cover_i)
+      .filter(doc => doc.cover_i && publicationYearLabel(doc.first_publish_year) !== null)
       .slice(0, 18)
       .map(doc => ({ ...bookFromDoc(doc), lane: 'Other languages' })), dailySeed());
   }
@@ -395,7 +404,7 @@ async function fetchBooks(query, genre, page = 1, sortByPublication = false) {
     if (!res.ok) throw new Error('Book search failed');
     const data = await res.json();
     return (data.docs || [])
-      .filter(doc => doc.cover_i)
+      .filter(doc => doc.cover_i && publicationYearLabel(doc.first_publish_year) !== null)
       .slice(0, lane.count)
       .map(doc => {
         const book = bookFromDoc(doc);
@@ -422,10 +431,8 @@ function bookFromDoc(d) {
   return {
     title: d.title || 'Untitled',
     author: (d.author_name || [])[0] || 'Unknown author',
-    publicationYear: d.first_publish_year || null,
-    year: d.first_publish_year
-      ? (d.first_publish_year < 1500 ? `Before ${d.first_publish_year}` : d.first_publish_year)
-      : '—',
+    publicationYear: publicationYearLabel(d.first_publish_year) === null ? null : (d.first_publish_year || null),
+    year: publicationYearLabel(d.first_publish_year),
     cover: d.cover_i ? `https://covers.openlibrary.org/b/id/${d.cover_i}-L.jpg` : null,
     genre: (d.subject && d.subject[0]) || '',
     where: [

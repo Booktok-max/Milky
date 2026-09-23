@@ -60,6 +60,11 @@ function escapeNewsletterHtml(value) {
   }[character]));
 }
 
+function validNewsletterPublicationYear(year) {
+  const currentYear = new Date().getFullYear();
+  return Number.isInteger(year) && year > 0 && year <= currentYear + 1;
+}
+
 function newsletterBookFromDoc(doc, lane, language = null) {
   const title = doc.title || 'Untitled';
   const author = (doc.author_name || [])[0] || 'Unknown author';
@@ -70,7 +75,7 @@ function newsletterBookFromDoc(doc, lane, language = null) {
   return {
     title,
     author,
-    year: doc.first_publish_year || null,
+    year: validNewsletterPublicationYear(doc.first_publish_year) ? doc.first_publish_year : null,
     cover: `https://covers.openlibrary.org/b/id/${doc.cover_i}-L.jpg`,
     url: catalogueUrl,
     lane,
@@ -95,7 +100,7 @@ async function fetchNewsletterLane(lane, seed) {
     headers: { 'User-Agent': 'AtomicShelfReaderNewsletter/1.0 (https://atomic-shelf.com)' },
   });
   return seededShuffle((response.data.docs || [])
-    .filter(doc => doc.cover_i)
+    .filter(doc => doc.cover_i && validNewsletterPublicationYear(doc.first_publish_year))
     .slice(0, lane.count * 2)
     .map(doc => newsletterBookFromDoc(doc, lane.label)), seed);
 }
@@ -106,7 +111,7 @@ async function fetchNewsletterLanguageLane(lane, seed) {
     headers: { 'User-Agent': 'AtomicShelfReaderNewsletter/1.0 (https://atomic-shelf.com)' },
   });
   return seededShuffle((response.data.docs || [])
-    .filter(doc => doc.cover_i)
+    .filter(doc => doc.cover_i && validNewsletterPublicationYear(doc.first_publish_year))
     .slice(0, 2)
     .map(doc => newsletterBookFromDoc(doc, 'Other languages', lane.label)), seed);
 }
