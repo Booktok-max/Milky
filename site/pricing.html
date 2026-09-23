@@ -518,9 +518,11 @@ function renderPricing(term){
       perHTML = 'for ' + months + ' months · ~$' + Math.round(total / months) + '/mo equivalent';
       saveHTML = 'Save ' + c.discount_percent + '% vs. monthly ($' + c.list_total.toLocaleString() + ' list)';
     }
-    const featsHTML = p.services.map(f => '<li>' + escapeHtml(f) + '</li>').join('');
-    const rows = resultRows(p.metrics);
-    const resHTML = '<div class="price-res-label">' + escapeHtml(formatResultLabel(p.metrics)) + '</div>' +
+    const services = (p.services_by_term && p.services_by_term[term]) || p.services || [];
+    const metrics = (p.metrics_by_term && p.metrics_by_term[term]) || p.metrics;
+    const featsHTML = services.map(f => '<li>' + escapeHtml(f) + '</li>').join('');
+    const rows = resultRows(metrics);
+    const resHTML = '<div class="price-res-label">' + escapeHtml(formatResultLabel(metrics)) + '</div>' +
       rows.map(r => '<div class="price-rr"><span>' + escapeHtml(r[0]) + '</span><span class="price-rv' + (r[2] ? ' up' : '') + '">' + escapeHtml(r[1]) + '</span></div>').join('');
     card.innerHTML =
       (p.most_popular ? '<div class="price-badge">Most popular</div>' : '') +
