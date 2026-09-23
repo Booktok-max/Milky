@@ -555,9 +555,9 @@ async function loadPricing(){
   try{
     const response = await fetch('pricing-data.json', { cache: 'no-cache' });
     if (!response.ok) throw new Error('Could not load commercial data.');
-    const commercialTruth = await response.json();
-    if (!Array.isArray(commercialTruth.plans) || !commercialTruth.plans.length) throw new Error('Commercial plan data is missing.');
-    planData = commercialTruth.plans;
+    const pricingData = await response.json();
+    if (!Array.isArray(pricingData.plans) || !pricingData.plans.length) throw new Error('Commercial plan data is missing.');
+    planData = pricingData.plans;
     renderPricing(selectedTerm);
     document.querySelectorAll('#commitToggle button').forEach(button => { button.disabled = false; });
     const requestedPlan = decodeURIComponent(window.location.hash.slice(1));
