@@ -244,6 +244,53 @@ app.post('/api/ipn', (req, res) => res.redirect(307, `/api/ipn?${new URLSearchPa
 
 app.get('/health', (req, res) => res.json({ ok: true, env: ENV }));
 
+// ---- Public asset boundary ---------------------------------------------
+// Keep internal records and operational tools outside the browser's reach.
+// Public pages may still load explicitly approved assets such as pricing-data.json.
+const BLOCKED_PUBLIC_PREFIXES = [
+  '/ActiveClients/',
+  '/Campaigns/',
+  '/Content-Proposal/',
+  '/dashboards/',
+  '/Editorials/',
+  '/leads/',
+  '/reports/',
+  '/staging/',
+  '/Taskmaster/',
+  '/Next%20priority%20from%20Milky%20project%20roadmap%20-%20Claude_files/',
+  '/Next priority from Milky project roadmap - Claude_files/',
+];
+const BLOCKED_PUBLIC_FILES = new Set([
+  '/commercial-truth.json',
+  '/proof-audit.json',
+  '/service-map.json',
+  '/site-data-model.json',
+  '/atomic-shelf-commitment-terms.md',
+  '/Atomic_Shelf_Website_Relaunch_PRD.md',
+  '/README.md',
+  '/server.js',
+  '/package.json',
+  '/.env',
+]);
+const BLOCKED_PUBLIC_DOCUMENTS = new Set([
+  '/Next priority from Milky project roadmap - Claude.html',
+]);
+
+app.use((req, res, next) => {
+  let pathname;
+  try {
+    pathname = decodeURIComponent(req.path);
+  } catch {
+    return res.status(400).send('Invalid URL');
+  }
+  const normalizedPath = pathname.replace(/\/+/g, '/');
+  const isBlockedPrefix = BLOCKED_PUBLIC_PREFIXES.some(prefix => normalizedPath.startsWith(prefix));
+  if (isBlockedPrefix || BLOCKED_PUBLIC_FILES.has(normalizedPath) || BLOCKED_PUBLIC_DOCUMENTS.has(normalizedPath)) {
+    return res.status(404).send('Not found');
+  }
+  next();
+});
+
 // ---- Serve pricing page (inject backend URL without hardcoded placeholders) --
 app.use(express.static(__dirname, { index: false }));
 
