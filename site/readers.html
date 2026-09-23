@@ -582,8 +582,19 @@ document.getElementById('weekly-signup-form').addEventListener('submit', e => {
     email.reportValidity();
     return;
   }
-  status.textContent = 'Thanks — weekly signup is ready. Email delivery will be connected soon.';
-  email.value = '';
+  status.textContent = 'Saving your subscription…';
+  fetch('/api/newsletter/subscribe', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email: email.value.trim() })
+  }).then(async response => {
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || 'Subscription failed.');
+    status.textContent = data.message;
+    email.value = '';
+  }).catch(error => {
+    status.textContent = error.message;
+  });
 });
 
 const languageObserver = new IntersectionObserver(entries => {

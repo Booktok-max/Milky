@@ -44,9 +44,32 @@ Remaining release gates:
 - Inventory and explicitly remove any private files already present on the public host; deployment cleanup remains deliberately disabled.
 - Complete the planned manual/legal review of the commitment terms.
 - Complete proof-metric records, case studies, analytics, checkout, SEO/accessibility/performance, and cross-device QA.
+- Complete the daily reader newsletter workstream described below, including delivery-provider integration and operational controls.
 
 The website should educate enough to make the purchase feel informed, but it should remain a sales system. Every major page must answer a practical buyer question and lead naturally to the next decision.
 
+### Daily reader newsletter workstream — 2026-09-23
+
+The Readers page should become the source for a daily email shelf containing the books currently surfaced in reader discovery. The newsletter should make the daily selection useful rather than sending a generic promotion.
+
+**Implemented foundation:**
+
+- The Readers page has a validated email subscription form.
+- `/api/newsletter/subscribe` accepts and stores a normalized subscriber address outside the public asset boundary.
+- `/api/newsletter/daily` generates a dated shelf from covered Open Library titles and returns each book's title, author, cover, and catalogue link.
+- The daily shelf has a generated subject line and a server-side daily cache to avoid rebuilding the same shelf on every request.
+- `/api/newsletter/preview` provides a protected editorial preview with responsive HTML and plain-text versions before delivery is enabled.
+
+**Pending work:**
+
+- Replace the temporary local subscriber store with a production email provider and rotate any previously exposed provider credentials.
+- Add consent language, unsubscribe handling, suppression/bounce handling, and a clear privacy/data-retention policy.
+- Make the newsletter selection use the same daily seed and discovery rules as the Readers page, including genre context and the Other languages shelf where appropriate.
+- Build a responsive HTML email template with accessible text alternatives, tracked book links, source attribution, and a plain-text version.
+- Add a scheduled daily send job with idempotency, retry limits, rate limits, and delivery monitoring.
+- Add tests for duplicate subscriptions, invalid addresses, provider failures, empty shelves, coverless records, and repeated requests on the same day.
+- Define newsletter analytics separately from site analytics: sends, deliveries, opens, clicks, unsubscribes, bounces, and book-level click-through.
+- Document the final provider setup, sender identity, time zone, data retention, and legal approval before enabling automatic sends.
 ### Work completed since the previous PRD revision — 2026-09-23
 
 The following changes were made after the previous PRD revision and are now part of the implementation history:
@@ -87,6 +110,9 @@ Implemented on 2026-09-23:
 - `pricing.html` and `index.html` use `pricing-data.json`.
 - `results.html` no longer describes pricing data using internal provenance language.
 - Internal sourcing notes were removed from the public Services and How It Works pages.
+- pricing-data.json is the public runtime payload for approved pricing and plan presentation; internal commercial records remain private.
+
+**Acceptance test:** a production/public-content search must return zero matches for the prohibited provenance terms above in client-facing HTML and runtime data.
 - Core sales pages were scrubbed of the identified provenance terminology.
 
 **Acceptance test:** a production/public-content search must return zero matches for the prohibited provenance terms in client-facing HTML, visible text, browser-loaded JSON, and runtime labels.
