@@ -90,6 +90,52 @@ The Readers page now includes a **Trending on TikTok** lane backed by a server-s
 - Optional: `TIKTOK_REGION_CODE` as a comma-separated list such as `US,GB`
 
 TikTok Research API approval is required before live results can appear. The UI must describe these as public Research API matches for the selected query and date window, not as a universal or editorially verified “best of BookTok” ranking. Client credentials must remain server-side.
+
+### Reader catalogue resilience workstream — 2026-09-23
+
+Readers currently depends on Open Library for live catalogue discovery, search, language shelves, public lists, and representative covers. Open Library is a valuable public-good source, but its documentation asks client applications to identify themselves, cache responses, keep request volume low, and avoid treating the service as high-traffic commercial infrastructure. A provider outage or rate limit must not leave the forward-facing Readers page empty.
+
+**Current integration status:**
+
+- Open Library is the only live catalogue provider currently integrated.
+- Readers uses the server-side `/api/readers/open-library` proxy for search and list requests, with an allowlist, request timeout, identifying User-Agent, and cache headers.
+- The page retains a small static fallback shelf for the main book grid when live catalogue requests fail.
+- Google Books is not currently enabled. Existing Google Books destinations are ordinary external search links, not API results.
+- The New York Times Books API is not currently enabled. No NYT key or client exists in the repository.
+- TikTok Research API is a separate discovery signal and is not a replacement for catalogue metadata.
+
+**Provider roles:**
+
+| Provider | Intended role | Status |
+|---|---|---|
+| Open Library | Primary public catalogue, public lists, lending/free-reading context, covers | Integrated; subject to rate limits and outages |
+| Google Books API | Secondary search, ISBN/title lookup, covers, descriptions, publisher and edition metadata | Recommended next integration |
+| New York Times Books API | Optional bestseller rankings, list metadata, and bestseller-specific lane | Recommended separate lane, not a general catalogue replacement |
+| Library of Congress or similar authority source | Optional metadata enrichment and authority cross-checking | Lower-priority investigation |
+
+**Recommended implementation order:**
+
+1. Add a server-side Google Books client using `GOOGLE_BOOKS_API_KEY`; never expose the key in browser JavaScript or public JSON.
+2. Normalize Google Books volumes into the Readers book shape and use Google Books when Open Library fails or returns too few covered records.
+3. Track `source` on every normalized book and show clear attribution such as `Open Library` or `Google Books`.
+4. Cache provider responses by query, filter, and page, with bounded timeouts, retry limits, and provider-specific rate limits.
+5. Add a provider health/fallback test matrix covering successful responses, timeouts, rate limits, malformed records, missing covers, empty results, and complete provider outages.
+6. Add an optional server-side NYT Books client using `NYT_BOOKS_API_KEY`, with a separately labeled **NYT Best Sellers** lane and the list/date metadata required to explain what the ranking represents.
+7. Keep Open Library as the public-good source for list and free-reading context where available; do not imply that Google Books or NYT provides the same lending or access rights.
+8. Document provider attribution, cache duration, API terms, credential ownership, rate limits, and data-retention expectations before enabling production traffic.
+
+**Required future environment variables:**
+
+- `GOOGLE_BOOKS_API_KEY`
+- Optional later: `NYT_BOOKS_API_KEY`
+
+**Acceptance criteria:**
+
+- A temporary Open Library outage does not produce an empty main Readers shelf when Google Books is configured.
+- Search, genre, publication, language, and list requests either return normalized results or a useful, bounded fallback state.
+- Every result identifies its catalogue source where provider data is mixed.
+- No provider credential is shipped to the browser.
+- The page does not claim that a provider's results are globally complete, live-ranked, or editorially endorsed unless the provider data and wording support that claim.
 ### Work completed since the previous PRD revision — 2026-09-23
 
 The following changes were made after the previous PRD revision and are now part of the implementation history:
