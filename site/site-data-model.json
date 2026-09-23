@@ -90,7 +90,7 @@
       },
       {
         "q": "Do you guarantee sales?",
-        "a": "<b>Short answer:</b> No.<br><br><b>Long answer:</b> Although it is possible to estimate expected downloads or sales for lower-priced books, those outcomes cannot be guaranteed because they depend on reader behaviour, market conditions, and platform performance. We control the work we commit to — production, campaigns, reviews recruitment, listing optimisation, reporting. We influence reach, clicks, and conversion. We don't guarantee a specific number of sales, a bestseller position, a ranking, or an algorithmic viral event — no one honestly can.",
+        "a": "<b>Short answer:</b> No.<br><br><b>Then, what's the point?</b> We do the work that earns attention and gives the book a better chance with the right readers.<br><br><b>Long answer:</b> Although it is possible to estimate expected downloads or sales for lower-priced books, those outcomes cannot be guaranteed because they depend on reader behaviour, market conditions, and platform performance. We control the work we commit to — production, campaigns, reviews recruitment, listing optimisation, reporting. We influence reach, clicks, and conversion. We don't guarantee a specific number of sales, a bestseller position, a ranking, or an algorithmic viral event — no one honestly can.",
         "source": "pricing-data.json guarantee.does_not_guarantee + atomic-shelf-commitment-terms.md"
       },
       {
