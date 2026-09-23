@@ -539,7 +539,7 @@ app.post('/api/create-payment', async (req, res) => {
       id: merchantReference,
       currency: CURRENCY,
       amount,
-      description: `Atomic Shelf — ${planInfo.name} plan (${billingTerm.replace('_', ' ')})`.slice(0, 100),
+      description: `Atomic Shelf - ${planInfo.name} plan (${billingTerm.replace('_', ' ')})`.slice(0, 100),
       callback_url: `${APP_BASE_URL}/api/callback`,
       cancellation_url: `${APP_BASE_URL}/api/cancelled`,
       notification_id: NOTIFICATION_ID,
