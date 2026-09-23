@@ -315,7 +315,7 @@ function setReaderGreeting(genre = '', query = '') {
 function updateReaderDateRange(books) {
   const intro = document.getElementById('reader-date-range');
   const years = books
-    .map(book => Number(book.year))
+    .map(book => Number(book.publicationYear))
     .filter(year => Number.isInteger(year) && year > 0 && year <= new Date().getFullYear());
   if (!years.length) {
     intro.textContent = "Browse today's selection across romance, fantasy, thriller, children's books, and more.";
@@ -323,7 +323,7 @@ function updateReaderDateRange(books) {
   }
   const firstYear = Math.min(...years);
   const currentYear = new Date().getFullYear();
-  const firstYearLabel = firstYear < 1500 ? `${firstYear} A.D.` : firstYear;
+  const firstYearLabel = firstYear < 1500 ? `Before ${firstYear}` : firstYear;
   intro.textContent = `Today's selection: books from ${firstYearLabel} to ${currentYear}, matched to what you already love.`;
 }
 
@@ -422,7 +422,10 @@ function bookFromDoc(d) {
   return {
     title: d.title || 'Untitled',
     author: (d.author_name || [])[0] || 'Unknown author',
-    year: d.first_publish_year || '—',
+    publicationYear: d.first_publish_year || null,
+    year: d.first_publish_year
+      ? (d.first_publish_year < 1500 ? `Before ${d.first_publish_year}` : d.first_publish_year)
+      : '—',
     cover: d.cover_i ? `https://covers.openlibrary.org/b/id/${d.cover_i}-L.jpg` : null,
     genre: (d.subject && d.subject[0]) || '',
     where: [
