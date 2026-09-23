@@ -1703,3 +1703,543 @@ When changing a commercial plan:
 5. Run the pricing consistency scan.
 6. Run payment sandbox tests.
 7. Update this PRD's implementation ledger.
+
+
+---
+
+# 39. Book Data & Discovery Enrichment Architecture — 2026-09-23
+
+## Objective
+
+The Readers dashboard at `/readers` should become a richer book-discovery surface without making Open Library the application's only data source.
+
+Milky should use a **provider-adapter architecture**: normalize multiple bibliographic/discovery sources into one internal book model, cache results, preserve attribution, and expose only the fields required by the reader experience.
+
+### Primary provider: Open Library
+
+Open Library remains the first-line source for general bibliographic discovery because its public APIs cover search, works, editions, authors, subjects, covers, ratings/bookshelves, and availability/read links. Its Search API can return both work-level and edition-level information, including authors, identifiers, covers and optional availability. citeturn1search10turn1search4
+
+Important implementation constraint: Open Library explicitly describes its Web APIs as low-volume, human-facing discovery APIs and asks applications to cache responses, identify themselves with a User-Agent/contact header, and avoid bulk harvesting/high-traffic backend use. Identified requests receive a higher request limit than anonymous requests. citeturn1search0
+
+Therefore:
+
+- use Open Library for real-time reader discovery;
+- cache aggressively;
+- batch searches rather than issuing hundreds of individual book requests;
+- never crawl Open Library HTML;
+- do not build a permanent high-volume commercial data warehouse by repeatedly harvesting the API;
+- use Open Library's monthly data dumps if a future bulk import is genuinely required. citeturn1search0turn1search1
+
+## Recommended provider stack
+
+| Provider | Primary use | Priority | Notes |
+|---|---|---:|---|
+| Open Library | General books, editions, authors, subjects, covers, availability | P0 | Existing foundation; continue as primary discovery source |
+| Google Books | Metadata/covers, alternate edition matching, richer commercial bibliographic fields | P0 | Strong secondary enrichment source |
+| Internet Archive / Open Library availability | Public-domain/full-text/read/borrow discovery | P1 | Use where rights/access status is explicitly supplied |
+| Project Gutenberg | Public-domain ebook discovery | P1 | Useful for a dedicated classics/free-ebook lane |
+| Crossref | ISBN/DOI/publisher/date metadata, especially scholarly/nonfiction | P1 | Strong metadata cross-check; not a consumer recommendation engine |
+| OpenAlex | Scholarly books/chapters, topics, authors, citations/open-access context | P2 | Valuable for nonfiction/research discovery, not general fiction |
+| LibraryThing | Recommendations, tags, awards/series signals where licensed/available | P2 | Requires account/API access and has usage/licensing constraints |
+| WorldCat/OCLC | Library holdings and authoritative library metadata | P3 | Commercial/library-access dependency; do not make a baseline dependency |
+| ISBN-focused commercial APIs | ISBN/edition enrichment | P3 | Evaluate only if later metadata gaps justify paid infrastructure |
+
+### Provider principles
+
+No provider should be allowed to overwrite a stronger field merely because it responded later.
+
+Every normalized field should retain:
+
+- provider;
+- provider record ID;
+- retrieved timestamp;
+- confidence/quality state where applicable.
+
+## 39.1 Google Books enrichment
+
+Google Books should be evaluated as the principal secondary source.
+
+Its Books API exposes volume search and single-volume lookup, with controls for language, print type, maturity filtering, ordering and selected projections. citeturn1search8
+
+Potential enrichment fields:
+
+- title/subtitle;
+- authors;
+- publisher;
+- publication date;
+- description;
+- industry identifiers/ISBNs;
+- page count;
+- categories;
+- language;
+- cover images;
+- preview availability;
+- sale/retail metadata where legitimately returned;
+- volume ID.
+
+Use Google Books primarily to:
+
+1. fill missing Open Library metadata;
+2. match editions by ISBN;
+3. improve cover availability;
+4. provide alternate descriptions/categories;
+5. improve search recall.
+
+Do not treat Google Books commercial availability or preview information as proof that a title is currently purchasable or freely readable without checking the returned status.
+
+## 39.2 Internet Archive / reading-access enrichment
+
+Where Open Library provides Internet Archive identifiers or availability information, Readers can expose an appropriate **Read / Borrow / Availability** action rather than merely linking to a generic catalogue record.
+
+Open Library's Read API can return readable and borrowable matches and can match across different editions of a work. citeturn1search9
+
+Required rule:
+
+- distinguish `read`, `borrow`, `preview`, `catalogue`, and `purchase`;
+- never label a book "free" solely because an API record exists;
+- preserve provider/source attribution;
+- do not imply universal availability when access is location- or eligibility-dependent.
+
+## 39.3 Project Gutenberg lane
+
+Evaluate Project Gutenberg as a separate **Public-Domain Classics / Free Reading** discovery lane.
+
+The lane should only contain titles whose source explicitly indicates the applicable access status.
+
+Recommended UI:
+
+**Free to read**
+
+rather than a generic "free book" label when the source supports that status.
+
+This lane can complement Open Library rather than replacing it.
+
+## 39.4 Crossref metadata lane
+
+Crossref is particularly useful for metadata verification and enrichment for scholarly/nonfiction titles.
+
+Its REST API exposes bibliographic metadata deposited by publishers and other trusted sources, including publication information, licenses, funding, ORCID/ROR identifiers, abstracts in some records, and other identifiers. No registration is required for ordinary API access; the polite pool can identify the application with an email address. citeturn0search2turn0search16
+
+Use it for:
+
+- DOI matching;
+- publisher/date verification;
+- ISBN cross-checking;
+- scholarly/nonfiction enrichment;
+- license information where available.
+
+Do not use Crossref as the primary general-fiction recommendation source.
+
+## 39.5 OpenAlex enrichment
+
+OpenAlex should be an optional enrichment provider for scholarly books and chapters.
+
+OpenAlex currently represents books and book chapters alongside articles, datasets, dissertations and other scholarly works, and connects works with authors, topics, institutions, funders, citations and open-access information. citeturn0search1
+
+Potential Readers uses:
+
+- research/nonfiction discovery;
+- topic pages;
+- author research profiles;
+- scholarly reading lists;
+- open-access context;
+- citation/context signals.
+
+OpenAlex supports search, filtering, sorting, grouping and pagination. Basic API use is available without a key, while a free API key increases the daily budget. citeturn0search4turn0search7
+
+Keep OpenAlex signals visually separate from ordinary reader popularity signals. Citation counts are not equivalent to reader popularity.
+
+## 39.6 LibraryThing
+
+LibraryThing should remain an optional provider rather than a core dependency.
+
+Its developer hub currently exposes lightweight APIs and recommendation-oriented services, but access/use is subject to its API terms and some services have low limits. LibraryThing also states that it does not currently offer general bibliographic data through its API and directs developers toward licensed bibliographic providers for high-quality bibliographic metadata. citeturn0search11
+
+Potential future uses:
+
+- recommendation signals;
+- tags;
+- series/award/common-knowledge signals where permitted;
+- reader-oriented enrichment.
+
+Do not make LibraryThing a required dependency for the Readers page.
+
+## 39.7 WorldCat/OCLC
+
+WorldCat can provide authoritative library-bibliographic records, ISBN-based lookups and library-holding information, but access is intended for qualifying library/cataloging customers and commercial partnerships. The older Search API 1.0 has been phased out. citeturn0search8
+
+Therefore WorldCat should be treated as a future enterprise/library integration, not a P0 dependency.
+
+# 40. Normalized Book Model
+
+Milky should normalize providers into a common internal representation.
+
+Minimum model:
+
+```
+Book
+- id
+- workId
+- editionId
+- title
+- subtitle
+- authors[]
+- authorIds[]
+- description
+- language
+- languages[]
+- publicationDate
+- firstPublicationYear
+- publisher
+- publishers[]
+- isbn10[]
+- isbn13[]
+- otherIdentifiers[]
+- subjects[]
+- genres[]
+- tags[]
+- series
+- seriesNumber
+- pageCount
+- cover
+  - small
+  - medium
+  - large
+- sourceLinks[]
+- availability
+  - readable
+  - borrowable
+  - preview
+  - purchasable
+- sourceRecords[]
+- sourceAttribution[]
+- retrievedAt
+- updatedAt
+```
+
+Optional enrichment fields:
+
+- ratings;
+- ratingCount;
+- editionCount;
+- popularity signals;
+- awards;
+- review-count signals;
+- citation signals;
+- open-access status;
+- ebook format;
+- audiobook availability;
+- publication places;
+- subject people;
+- subject times;
+- author photos;
+- related works.
+
+## 40.1 Work versus edition
+
+The application must preserve the distinction between a **work** and an **edition**.
+
+Open Library explicitly models a work as the logical umbrella for related editions, while editions carry edition-specific information such as publisher, ISBN and jacket/cover. citeturn1search4
+
+This is important because a single title may have:
+
+- multiple publishers;
+- multiple ISBNs;
+- multiple languages;
+- different publication dates;
+- different covers;
+- different ebook/print editions.
+
+Readers should normally display the work-level identity while selecting the best available edition metadata for the user's context.
+
+# 41. Reader Discovery Features Enabled by the Enrichment Layer
+
+The enriched dashboard should eventually support:
+
+### Search
+
+Search by:
+
+- title;
+- author;
+- ISBN;
+- subject;
+- genre;
+- language;
+- publisher;
+- series.
+
+### Discovery shelves
+
+Potential shelves:
+
+- New releases
+- Timeless classics
+- Trending
+- Popular in genre
+- Recently discovered
+- Free to read
+- Available to borrow
+- Available as ebook
+- Children's books
+- Young adult
+- Romance
+- Mystery & thriller
+- Fantasy
+- Science fiction
+- Historical fiction
+- Nonfiction
+- Research & scholarly
+
+### Book detail enrichment
+
+A book detail view should be able to show:
+
+- cover;
+- title/subtitle;
+- author;
+- publication information;
+- description;
+- genres/subjects;
+- editions;
+- languages;
+- ISBNs;
+- series;
+- reading/access options;
+- related books;
+- author information;
+- source links.
+
+### Author enrichment
+
+Use author APIs where available to add:
+
+- author identity;
+- alternate names;
+- author photo;
+- work count;
+- notable works;
+- subjects/topics;
+- related books.
+
+Open Library's author API supports author search and individual author records, including alternate names, top work, work count and subjects. citeturn0search17
+
+# 42. Recommendation Engine — Future Layer
+
+Do not immediately build an opaque "AI recommendations" system.
+
+Start with explainable signals:
+
+- same subject;
+- same genre;
+- same author;
+- same series;
+- similar publication era;
+- shared language;
+- shared tags;
+- related Open Library subjects;
+- Google Books categories;
+- reader interactions once Milky has its own first-party interaction data.
+
+Potential recommendation explanation:
+
+> **Because you explored historical fiction**
+
+rather than an unexplained score.
+
+Later, first-party signals can include:
+
+- searches;
+- clicks;
+- saves;
+- shelf additions;
+- completed reads;
+- newsletter clicks;
+- repeated visits.
+
+These signals belong to Milky and should not be sent back to third-party providers unless explicitly required.
+
+# 43. Enrichment Pipeline
+
+The preferred server-side pipeline is:
+
+`User query → Milky Readers API → cache → primary provider → normalized Book → secondary enrichment → response`
+
+For an ISBN lookup:
+
+`ISBN → Open Library → Google Books → Crossref if appropriate → merge → cache`
+
+For general discovery:
+
+`query/genre/language → Open Library Search → optional Google Books enrichment → normalize → cache`
+
+For scholarly/nonfiction discovery:
+
+`query → Open Library + OpenAlex/Crossref → normalize → label scholarly signals`
+
+For free/public-domain discovery:
+
+`query → Open Library availability + Project Gutenberg where applicable → verify access status → normalize`
+
+## 43.1 Field merge rules
+
+Preferred precedence:
+
+1. Provider-specific authoritative identifier match;
+2. exact ISBN match;
+3. exact normalized title + author match;
+4. fuzzy match only with a confidence threshold.
+
+Never merge records solely because their titles are similar.
+
+Field-level merge should prefer:
+
+- edition identifiers from identifier-bearing records;
+- publication metadata from the matching edition;
+- cover from the best valid image source;
+- description from the highest-confidence source;
+- subject/genre arrays as a union with provider attribution;
+- access status only from an explicit availability source.
+
+# 44. Caching
+
+The Readers dashboard should not call every provider on every page load.
+
+Required:
+
+- server-side cache;
+- bounded TTL by data type;
+- stale-while-revalidate where practical;
+- negative caching for confirmed misses;
+- request deduplication;
+- provider timeout;
+- partial-result tolerance.
+
+Suggested initial TTLs:
+
+| Data | Initial TTL |
+|---|---:|
+| Search results | 15–60 minutes |
+| Book metadata | 24 hours |
+| Covers | 7 days or longer |
+| Author metadata | 24 hours |
+| Subject shelves | 6–24 hours |
+| Availability | 5–15 minutes |
+| Trending signals | 15–60 minutes |
+
+These are implementation defaults, not provider requirements.
+
+# 45. Attribution & Licensing
+
+Every provider integration must document:
+
+- API terms;
+- data license;
+- cover-image rules;
+- attribution requirements;
+- caching/storage rules;
+- redistribution restrictions;
+- commercial-use restrictions;
+- rate limits;
+- authentication requirements.
+
+Open Library specifically requests attribution for public cover use and asks applications to point cover requests at its cover domain rather than crawling its cover repository. citeturn0search10
+
+The UI should therefore retain a small, unobtrusive source/attribution mechanism on book records where required.
+
+# 46. Readers Dashboard API Architecture
+
+The frontend should not call every external book API directly.
+
+Recommended endpoints:
+
+- `GET /api/readers/search`
+- `GET /api/readers/book/:id`
+- `GET /api/readers/isbn/:isbn`
+- `GET /api/readers/author/:id`
+- `GET /api/readers/subject/:subject`
+- `GET /api/readers/discover`
+- `GET /api/readers/trending`
+- `GET /api/readers/free`
+- `GET /api/readers/available`
+
+The server owns:
+
+- provider credentials;
+- provider selection;
+- rate limiting;
+- caching;
+- normalization;
+- merge logic;
+- attribution metadata;
+- failure handling.
+
+# 47. Dashboard Enrichment Roadmap
+
+## Phase A — Strengthen existing Open Library integration
+
+- [ ] Add provider-aware normalized Book model.
+- [ ] Consolidate existing Readers Open Library calls behind one adapter.
+- [ ] Add explicit cache layer.
+- [ ] Add request deduplication/timeouts.
+- [ ] Add work/edition distinction.
+- [ ] Add author enrichment.
+- [ ] Add availability/read/borrow states.
+- [ ] Preserve Open Library attribution.
+
+## Phase B — Add Google Books
+
+- [ ] Add Google Books adapter.
+- [ ] Match ISBNs first.
+- [ ] Enrich missing metadata/covers.
+- [ ] Add provider provenance internally.
+- [ ] Add conflict-resolution rules.
+- [ ] Cache results.
+
+## Phase C — Add free/public-domain discovery
+
+- [ ] Evaluate Project Gutenberg integration.
+- [ ] Add explicit access-status model.
+- [ ] Add Free to read shelf.
+- [ ] Verify links and rights/access status before displaying.
+
+## Phase D — Add scholarly enrichment
+
+- [ ] Add Crossref adapter.
+- [ ] Add OpenAlex adapter.
+- [ ] Add scholarly/nonfiction lane.
+- [ ] Keep scholarly signals distinct from reader-popularity signals.
+
+## Phase E — Reader intelligence
+
+- [ ] Add first-party saves.
+- [ ] Add reading shelves.
+- [ ] Add clicks/search analytics.
+- [ ] Build explainable related-book recommendations.
+- [ ] Add newsletter personalization using first-party reader signals where consent and privacy requirements permit.
+
+## Phase F — Advanced providers
+
+- [ ] Evaluate LibraryThing only for clearly licensed/allowed recommendation signals.
+- [ ] Evaluate WorldCat/OCLC only if library/enterprise access becomes commercially justified.
+- [ ] Evaluate paid ISBN/bibliographic providers only after measuring unresolved metadata gaps.
+
+# 48. Readers Definition of Done — Enriched Dashboard
+
+The Readers dashboard is considered enriched when:
+
+1. A single search can return normalized results from multiple providers without duplicate books.
+2. Work and edition data are correctly distinguished.
+3. ISBN matching can enrich records across providers.
+4. Covers have valid fallback behavior.
+5. Authors have dedicated enrichment where available.
+6. Availability is explicitly labeled as read, borrow, preview, purchase or catalogue.
+7. Free/public-domain titles are not mislabeled.
+8. Search and discovery continue working when one provider fails.
+9. Provider calls are cached and rate-limited.
+10. Provider attribution and licensing rules are preserved.
+11. The frontend does not contain third-party provider secrets.
+12. Reader analytics remain first-party Milky data.
+13. Recommendations are explainable rather than an unexplained ranking.
+14. Open Library remains a discovery provider, not an uncontrolled high-volume backend.
+15. Adding or removing a provider does not require rewriting the Readers UI.
