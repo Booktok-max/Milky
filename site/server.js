@@ -446,15 +446,15 @@ if (!APP_BASE_URL) {
   console.warn('WARNING: APP_BASE_URL not set — callback/IPN URLs will be wrong.');
 }
 
-// ---- Current monthly plans (server-side payment validation) ------------
+// ---- Current plans (server-side payment validation) --------------------
 // Never trust an amount sent from the browser — look it up here instead.
 const PLANS = {
-  spark: { name: 'Spark', amount: 20 },
-  enhanced: { name: 'Enhanced', amount: 50 },
-  foundation: { name: 'Foundation', amount: 79 },
-  starter: { name: 'Starter', amount: 100 },
-  momentum: { name: 'Momentum', amount: 249 },
-  growth: { name: 'Growth', amount: 499 },
+  spark: { name: 'Spark', amounts: { monthly: 20, '3_month': 50, '6_month': 90, '12_month': 180 } },
+  enhanced: { name: 'Enhanced', amounts: { monthly: 50, '3_month': 130, '6_month': 240, '12_month': 450 } },
+  foundation: { name: 'Foundation', amounts: { monthly: 79, '3_month': 190, '6_month': 370, '12_month': 710 } },
+  starter: { name: 'Starter', amounts: { monthly: 100, '3_month': 270, '6_month': 480, '12_month': 900 } },
+  momentum: { name: 'Momentum', amounts: { monthly: 249, '3_month': 670, '6_month': 1190, '12_month': 2240 } },
+  growth: { name: 'Growth', amounts: { monthly: 499, '3_month': 1340, '6_month': 2390, '12_month': 4490 } },
 };
 
 // ---- Token cache (Pesapal tokens last ~5 minutes) ----------------------
@@ -513,7 +513,7 @@ app.get('/api/register-ipn', async (req, res) => {
 // ---- Create a payment request ------------------------------------------
 app.post('/api/create-payment', async (req, res) => {
   try {
-    const { plan, email, phone, first_name, last_name } = req.body || {};
+    const { plan, term = 'monthly', email, phone, first_name, last_name } = req.body || {};
 
     const planInfo = PLANS[String(plan || '').toLowerCase()];
     if (!planInfo) {
@@ -522,19 +522,24 @@ app.post('/api/create-payment', async (req, res) => {
     if (!email && !phone) {
       return res.status(400).json({ error: 'email or phone is required' });
     }
+    const billingTerm = String(term || 'monthly').toLowerCase();
+    const amount = planInfo.amounts[billingTerm];
+    if (!Number.isFinite(amount)) {
+      return res.status(400).json({ error: 'Unknown billing term. Use monthly, 3_month, 6_month, or 12_month.' });
+    }
     if (!NOTIFICATION_ID) {
       return res.status(500).json({ error: 'Server not fully configured: PESAPAL_NOTIFICATION_ID missing. Run /api/register-ipn first.' });
     }
 
     const token = await getAccessToken();
 
-    const merchantReference = `AS-${planInfo.name.toUpperCase()}-${Date.now()}`;
+    const merchantReference = `AS-${planInfo.name.toUpperCase()}-${billingTerm.toUpperCase()}-${Date.now()}`;
 
     const orderPayload = {
       id: merchantReference,
       currency: CURRENCY,
-      amount: planInfo.amount,
-      description: `Atomic Shelf — ${planInfo.name} plan`.slice(0, 100),
+      amount,
+      description: `Atomic Shelf — ${planInfo.name} plan (${billingTerm.replace('_', ' ')})`.slice(0, 100),
       callback_url: `${APP_BASE_URL}/api/callback`,
       cancellation_url: `${APP_BASE_URL}/api/cancelled`,
       notification_id: NOTIFICATION_ID,

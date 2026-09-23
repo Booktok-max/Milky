@@ -491,10 +491,11 @@ function formatResultLabel(metrics){
   return forecast + ' ' + (metrics.period || 'by month 3') + '*';
 }
 
-function buildCheckoutUrl(planId, planName){
+function buildCheckoutUrl(planId, planName, term){
   const params = new URLSearchParams({
     plan: String(planId || '').trim(),
-    name: String(planName || '').trim()
+    name: String(planName || '').trim(),
+    term: String(term || 'monthly').trim()
   });
   return 'checkout.html?' + params.toString();
 }
@@ -533,7 +534,7 @@ function renderPricing(term){
       '<div class="price-save">' + saveHTML + '</div>' +
       '<ul class="price-feats">' + featsHTML + '</ul>' +
       '<div class="price-res">' + resHTML + '</div>' +
-      '<a class="btn btn-secondary-dark price-cta" data-track="pricing_plan_selected" data-track-plan="' + escapeHtml(p.id) + '" href="' + buildCheckoutUrl(p.id, p.name) + '">' + escapeHtml(p.cta) + '</a>';
+      '<a class="btn btn-secondary-dark price-cta" data-track="pricing_plan_selected" data-track-plan="' + escapeHtml(p.id) + '" href="' + buildCheckoutUrl(p.id, p.name, term) + '">' + escapeHtml(p.cta) + '</a>';
     grid.appendChild(card);
   });
 }
