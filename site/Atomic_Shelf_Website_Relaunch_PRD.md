@@ -260,7 +260,7 @@ Recommended copy:
 >
 > And when the numbers show that we need to change course, we don't simply point at the dashboard and walk away. We diagnose, adjust, and keep working toward the target.
 >
-> **Your commitment is to the partnership. Ours is to the work.**
+> **We commit to doing the work. You give it the time and access it needs to work.**
 
 ### Commercial implementation ✅ Defined (2026-09-22)
 
