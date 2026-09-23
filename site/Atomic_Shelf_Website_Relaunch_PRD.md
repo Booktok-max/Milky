@@ -1,7 +1,7 @@
 # Atomic Shelf Website Relaunch — Master PRD
 
-**Status:** Implementation underway — commercial baseline implemented; client-facing provenance cleanup in progress/verified on core sales pages; release gates remain
-**Version:** 1.2
+**Status:** Implementation underway — commercial baseline and current pricing/content pass implemented; client-facing provenance cleanup completed on the core sales surfaces; release gates remain
+**Version:** 1.3
 **Date:** 2026-09-23  
 **Product:** Atomic Shelf marketing website  
 **Primary goal:** Relaunch the site as a clear, memorable, conversion-focused system that explains Atomic Shelf, builds trust, makes pricing easy to understand, and gives authors a natural path to becoming customers.
@@ -22,15 +22,19 @@ The visitor should be able to move naturally through:
 
 **Understand → Believe → Identify → Compare → Trust → Buy**
 
-### Implementation status — 2026-09-22
+### Implementation status — 2026-09-23
 
-The following baseline work is complete:
+The following work is now reflected in the repository and should be treated as the current implementation baseline:
 
-- `pricing-data.json` is the browser-facing pricing dataset used by the homepage preview and the full pricing page.
-- The six plan records include commitment prices, services, deliverables, positioning, and performance ranges.
-- The service map and public Services page now match the approved plan inclusions, service stages, and plan-specific content volumes.
-- The How It Works page now aligns the five-stage system with those approved service stages and plan inclusions.
-- A public Editorial page exists; Start Here is a guided five-path selector, and public navigation aliases cover Catalogue, ShelfMates, and StoryPals.
+- `pricing-data.json` is the browser-facing pricing dataset used by the homepage preview and full pricing page.
+- The public pricing model currently contains six standard plans: Spark, Enhanced, Foundation, Starter, Momentum, and Growth, plus custom Surge/Orbit engagements.
+- Pricing records now carry monthly pricing, commitment totals/discounts, plan positioning, audience, services, deliverables, CTAs, and plan-specific performance ranges.
+- Momentum commitment structures and forecast ranges have been expanded by term, and pricing copy has been aligned with those records.
+- The public Pricing page has been refined around commitment selection, plan comparison, expected activity/results, commitment language, FAQ, and CTA flow.
+- Homepage, Pricing, Results, Services, How It Works, FAQ, and Checkout copy has been iterated to align terminology and avoid vague/internal wording.
+- Results copy now distinguishes activity, audience response, and business indicators rather than treating views or impressions as sales.
+- The free-book/promotion flow now invites authors to provide their promotion dates where applicable.
+- The public site continues to use a responsive pricing grid and mobile-first layout; final visual QA remains a release gate.
 - The deployment workflow builds a public-only payload and excludes identified client-work and internal-tool directories.
 - The tracked Brevo environment file has been removed from version control and environment files are ignored going forward.
 
@@ -42,6 +46,34 @@ Remaining release gates:
 - Complete proof-metric records, case studies, analytics, checkout, SEO/accessibility/performance, and cross-device QA.
 
 The website should educate enough to make the purchase feel informed, but it should remain a sales system. Every major page must answer a practical buyer question and lead naturally to the next decision.
+
+### Work completed since the previous PRD revision — 2026-09-23
+
+The following changes were made after the previous PRD revision and are now part of the implementation history:
+
+1. **Pricing model and presentation**
+   - Refined the six-plan commercial structure and current plan records.
+   - Expanded Momentum term-specific commitments and forecast ranges.
+   - Kept the six standard plans in the browser-facing pricing dataset, with Surge and Orbit represented as custom engagements.
+   - Refined pricing-page language, comparison content, commitment explanations, result expectations, and calls to action.
+   - Kept pricing presentation responsive: one column on small screens, two columns at intermediate widths, and three columns on wide screens in the current implementation. Any future fixed 2×3 presentation requirement should be treated as a UX change, not as a pricing-data change.
+
+2. **Public-copy consistency**
+   - Refined campaign/reporting language on public pages.
+   - Refined FAQ wording and the commitment pull quote.
+   - Clarified that results vary by book, audience, offer, timing, and campaign conditions rather than presenting activity metrics as guaranteed sales.
+   - Clarified results across books and the relationship between outputs, audience response, and business indicators.
+
+3. **Public/private boundary**
+   - Public assets and internal records are separated in the deployment structure.
+   - The Neocities workflow continues to deploy only the public `site/` payload while excluding identified internal/client-work directories.
+   - Internal planning/provenance annotations remain documentation-only and must not enter browser-visible customer content.
+
+4. **Release implication**
+   - The PRD should now be used as the implementation checklist against the current repository, not as a description of an earlier proposed site.
+   - Future changes to pricing, commitments, guarantees, or public claims must update both the controlled pricing data and the relevant public copy, followed by a consistency check.
+
+---
 
 ### Public provenance cleanup — 2026-09-23
 
@@ -916,3 +948,41 @@ Required:
 # 30. Visual Direction
 
 Desired aesthetic:
+
+## 31. Current Implementation Ledger — 2026-09-23
+
+This section records what is implemented now versus what remains before the relaunch can be treated as release-ready.
+
+### Implemented
+
+- [x] Six standard pricing plans are represented in `pricing-data.json`.
+- [x] Commitment pricing and discount structures are encoded in the pricing dataset.
+- [x] Plan-specific services, deliverables, positioning, audiences, CTAs, and performance ranges are encoded in the pricing dataset.
+- [x] Pricing page commitment selector and plan-card rendering are connected to the pricing dataset.
+- [x] Homepage pricing preview is connected to the pricing dataset.
+- [x] Public Services and How It Works content has been aligned with the current plan/service structure.
+- [x] Results-page language has been revised to distinguish activity, response, and business indicators.
+- [x] FAQ and Checkout copy have been refined to match the current commercial language.
+- [x] Public provenance/source-language cleanup has been applied to the core sales pages.
+- [x] Deployment workflow excludes identified internal/client-work directories from the Neocities payload.
+- [x] Brevo environment-file exposure was addressed in version control and future environment files are ignored.
+
+### Not yet release-complete
+
+- [ ] Rotate the previously exposed Brevo credential.
+- [ ] Inventory and explicitly remove private files that may already exist on the public Neocities host; deployment cleanup remains disabled.
+- [ ] Complete manual/legal review of commitment and guarantee terms.
+- [ ] Validate every public pricing claim and forecast against a maintained evidence record.
+- [ ] Complete structured case studies and proof-metric records.
+- [ ] Complete analytics/event tracking and checkout/payment verification.
+- [ ] Complete SEO, accessibility, performance, and cross-device QA.
+- [ ] Perform a production crawl/search for prohibited internal provenance terminology across all public HTML, browser-loaded JSON, and runtime-generated labels.
+- [ ] Reconcile any remaining public pages that have not yet been included in the core sales-page cleanup.
+- [ ] Confirm the final pricing-card layout against the latest approved UX requirement before release.
+
+### Change-control rule
+
+When a commercial fact changes, update the controlled pricing dataset first, then update dependent presentation/copy, then run a public consistency and provenance scan. Do not manually maintain conflicting prices, commitments, deliverables, or result ranges in individual pages.
+
+---
+
