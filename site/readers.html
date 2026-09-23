@@ -120,6 +120,7 @@ footer a{color:rgba(255,255,255,0.4);text-decoration:none;}
   <ul class="nav-links">
     <li><a href="#browse-books" style="color:var(--copper);font-weight:600;" aria-current="page">Browse Books</a></li>
     <li><a href="#lucky">I’m feeling lucky</a></li>
+    <li><a href="#browse-books" id="publication-tab">New releases → timeless classics</a></li>
     <li><a href="#other-languages">Other languages</a></li>
   </ul>
   <a href="index.html#pricing" class="nav-cta">For Authors</a>
@@ -149,7 +150,6 @@ footer a{color:rgba(255,255,255,0.4);text-decoration:none;}
       <span class="pill" data-genre="poetry">Poetry</span>
       <span class="pill" data-genre="biography">Biography</span>
       <span class="pill" data-genre="graphic novels">Graphic novels</span>
-      <span class="pill" data-sort="publication">New releases → timeless classics</span>
     </div>
     <p class="filter-note">Children’s results use catalogue subject tags for juvenile fiction, picture books, and juvenile literature—not title keywords.</p>
   </div>
@@ -161,7 +161,7 @@ footer a{color:rgba(255,255,255,0.4);text-decoration:none;}
       <div>
         <div class="eyebrow"><span class="eyebrow-line"></span>Browse Books</div>
         <h2 id="results-title">Popular reading</h2>
-        <p class="list-feed-intro">A daily mix of discovery lanes, including a small Popular in ShelfMates lane. This is not a live last-24-hours ranking.</p>
+        <p class="list-feed-intro">A daily mix of discovery lanes, including free-to-read books on Open Library. Use the catalogue to read where available, or Amazon search to compare editions and availability. This is not a live last-24-hours ranking.</p>
       </div>
       <span class="results-count" id="results-count"></span>
     </div>
@@ -252,7 +252,7 @@ function handleCoverError(image) {
 }
 
 const DISCOVERY_LANES = [
-  { label: 'Free to read', query: 'fiction', params: 'ebook_access=public&has_fulltext=true', sort: 'readinglog', count: 7 },
+  { label: 'Free to read on Open Library', query: 'fiction', params: 'ebook_access=public&has_fulltext=true', sort: 'readinglog', count: 7 },
   { label: 'Popular in ShelfMates', query: 'fiction', params: '', sort: 'readinglog', count: 3 },
   { label: 'Classics', query: 'classics', params: '', sort: 'old', count: 7 },
   { label: 'Rising titles', query: 'fiction', params: '', sort: 'new', count: 7 },
@@ -283,7 +283,7 @@ const GENRE_QUERIES = {
   'literary fiction': 'subject:"literary fiction"',
   poetry: 'subject:poetry',
   biography: 'subject:biography',
-  'graphic novels': 'subject:"graphic novels"'
+  'graphic novels': 'subject:"graphic novels" OR subject:"graphic works" OR subject:"comic books, strips, etc."'
 };
 
 function dailySeed() {
@@ -315,7 +315,7 @@ function setReaderGreeting(genre = '', query = '') {
 function updateReaderDateRange(books) {
   const intro = document.getElementById('reader-date-range');
   const years = books
-    .map(book => Number(book.year))
+    .map(book => Number(book.publicationYear))
     .filter(year => Number.isInteger(year) && year > 0 && year <= new Date().getFullYear());
   if (!years.length) {
     intro.textContent = "Browse today's selection across romance, fantasy, thriller, children's books, and more.";
@@ -323,8 +323,27 @@ function updateReaderDateRange(books) {
   }
   const firstYear = Math.min(...years);
   const currentYear = new Date().getFullYear();
-  const firstYearLabel = firstYear < 1500 ? `${firstYear} A.D.` : firstYear;
+  const firstYearLabel = firstYear < 1500 ? `Before ${firstYear}` : firstYear;
   intro.textContent = `Today's selection: books from ${firstYearLabel} to ${currentYear}, matched to what you already love.`;
+}
+
+function publicationYearLabel(year) {
+  const currentYear = new Date().getFullYear();
+  if (!Number.isInteger(year) || year <= 0) return '—';
+  if (year > currentYear + 1) return null;
+  if (year > currentYear) return `Preorder · ${year}`;
+  if (year < 1500) return `Before ${year}`;
+  return year;
+}
+
+function isGraphicNovel(doc) {
+  const subjects = (doc.subject || []).map(subject => String(subject).toLowerCase());
+  return subjects.some(subject =>
+    subject.includes('graphic novel') ||
+    subject.includes('graphic work') ||
+    subject.includes('comic book') ||
+    subject.includes('comics, strips')
+  );
 }
 
 function seededShuffle(items, seed) {
@@ -348,9 +367,9 @@ async function fetchBooks(query, genre, page = 1, sortByPublication = false) {
     if (!res.ok) throw new Error('Book search failed');
     const data = await res.json();
     return (data.docs || [])
-      .filter(d => d.cover_i)
+      .filter(d => d.cover_i && publicationYearLabel(d.first_publish_year) !== null && (genre !== 'graphic novels' || isGraphicNovel(d)))
       .map(d => ({ ...bookFromDoc(d), lane: 'Search result' }))
-      .sort((a, b) => (Number(b.year) || 0) - (Number(a.year) || 0));
+      .sort((a, b) => (Number(b.publicationYear) || 0) - (Number(a.publicationYear) || 0));
   }
 
   if (sortByPublication) {
@@ -364,9 +383,9 @@ async function fetchBooks(query, genre, page = 1, sortByPublication = false) {
     if (!res.ok) throw new Error('Publication shelf unavailable');
     const data = await res.json();
     return (data.docs || [])
-      .filter(doc => doc.cover_i)
+      .filter(doc => doc.cover_i && publicationYearLabel(doc.first_publish_year) !== null && (genre !== 'graphic novels' || isGraphicNovel(doc)))
       .map(doc => ({ ...bookFromDoc(doc), lane: 'New releases → timeless classics' }))
-      .sort((a, b) => (Number(b.year) || 0) - (Number(a.year) || 0));
+      .sort((a, b) => (Number(b.publicationYear) || 0) - (Number(a.publicationYear) || 0));
   }
 
   async function fetchLanguageBooks(language) {
@@ -379,7 +398,7 @@ async function fetchBooks(query, genre, page = 1, sortByPublication = false) {
     if (!res.ok) throw new Error('Language shelf unavailable');
     const data = await res.json();
     return seededShuffle((data.docs || [])
-      .filter(doc => doc.cover_i)
+      .filter(doc => doc.cover_i && publicationYearLabel(doc.first_publish_year) !== null)
       .slice(0, 18)
       .map(doc => ({ ...bookFromDoc(doc), lane: 'Other languages' })), dailySeed());
   }
@@ -395,9 +414,15 @@ async function fetchBooks(query, genre, page = 1, sortByPublication = false) {
     if (!res.ok) throw new Error('Book search failed');
     const data = await res.json();
     return (data.docs || [])
-      .filter(doc => doc.cover_i)
+      .filter(doc => doc.cover_i && publicationYearLabel(doc.first_publish_year) !== null)
       .slice(0, lane.count)
-      .map(doc => ({ ...bookFromDoc(doc), lane: lane.label }));
+      .map(doc => {
+        const book = bookFromDoc(doc);
+        if (lane.label === 'Free to read on Open Library') {
+          book.where[0].label = 'Read free on Open Library';
+        }
+        return { ...book, lane: lane.label };
+      });
   }));
 
   const seen = new Set();
@@ -416,7 +441,8 @@ function bookFromDoc(d) {
   return {
     title: d.title || 'Untitled',
     author: (d.author_name || [])[0] || 'Unknown author',
-    year: d.first_publish_year || '—',
+    publicationYear: publicationYearLabel(d.first_publish_year) === null ? null : (d.first_publish_year || null),
+    year: publicationYearLabel(d.first_publish_year),
     cover: d.cover_i ? `https://covers.openlibrary.org/b/id/${d.cover_i}-L.jpg` : null,
     genre: (d.subject && d.subject[0]) || '',
     where: [
@@ -442,6 +468,11 @@ function escapeHtml(value) {
 async function loadLists() {
   const grid = document.getElementById('list-grid');
   try {
+    function listUrl(list) {
+      const candidate = list.full_url || list.url;
+      if (!candidate) return `https://openlibrary.org/search/lists?q=${encodeURIComponent(list.name || '')}`;
+      return candidate.startsWith('http') ? candidate : `https://openlibrary.org${candidate.startsWith('/') ? '' : '/'}${candidate}`;
+    }
     const responses = await Promise.all(LIST_SEARCHES.map(async search => {
       const res = await fetch(`https://openlibrary.org/search/lists.json?q=${encodeURIComponent(search.query)}&limit=8`);
       if (!res.ok) throw new Error('List search failed');
@@ -449,7 +480,7 @@ async function loadLists() {
       return (data.docs || []).slice(0, 3).map(list => ({
         ...list,
         category: search.label,
-        url: list.full_url || `https://openlibrary.org${list.url}`
+        url: listUrl(list)
       }));
     }));
     const seen = new Set();
@@ -560,6 +591,21 @@ document.getElementById('genre-filters').addEventListener('click', e => {
   document.getElementById('book-search').value = '';
   setReaderGreeting(activeGenre);
   loadBooks(activeQuery, activeGenre, true, activeSort === 'publication');
+});
+
+document.getElementById('publication-tab').addEventListener('click', e => {
+  e.preventDefault();
+  document.querySelectorAll('.nav-links a').forEach(link => link.removeAttribute('aria-current'));
+  e.currentTarget.setAttribute('aria-current', 'page');
+  document.querySelectorAll('.pill').forEach(pill => pill.classList.remove('active'));
+  document.querySelector('.pill[data-genre=""]').classList.add('active');
+  activeGenre = '';
+  activeQuery = '';
+  activeSort = 'publication';
+  document.getElementById('book-search').value = '';
+  setReaderGreeting();
+  loadBooks(activeQuery, activeGenre, true, true);
+  document.getElementById('browse-books').scrollIntoView({ behavior: 'smooth' });
 });
 
 let languageLoaded = false;
