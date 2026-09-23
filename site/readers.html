@@ -135,7 +135,7 @@ footer a{color:rgba(255,255,255,0.4);text-decoration:none;}
     <li><a href="#tiktok-trends">Trending on TikTok</a></li>
     <li><a href="#other-languages">Other languages</a></li>
   </ul>
-  <a href="index.html#pricing" class="nav-cta">ADD MY OWN BOOK</a>
+  <a href="index.html#pricing" class="nav-cta">Add my own book</a>
 </nav>
 
 <header>
@@ -314,6 +314,15 @@ const GENRE_QUERIES = {
   'graphic novels': 'subject:"graphic novels" OR subject:"graphic works" OR subject:"comic books, strips, etc."'
 };
 
+const FALLBACK_BOOKS = [
+  { title: 'Pride and Prejudice', author_name: ['Jane Austen'], first_publish_year: 1813, cover_i: 8231856, key: '/works/OL66534W', subject: ['Romance', 'Classics'] },
+  { title: 'The Hobbit', author_name: ['J. R. R. Tolkien'], first_publish_year: 1937, cover_i: 6979861, key: '/works/OL27448W', subject: ['Fantasy'] },
+  { title: 'Frankenstein', author_name: ['Mary Shelley'], first_publish_year: 1818, cover_i: 8579767, key: '/works/OL102749W', subject: ['Horror', 'Classics'] },
+  { title: 'Little Women', author_name: ['Louisa May Alcott'], first_publish_year: 1868, cover_i: 7352163, key: '/works/OL102749W', subject: ['Fiction', 'Classics'] },
+  { title: 'The Secret Garden', author_name: ['Frances Hodgson Burnett'], first_publish_year: 1911, cover_i: 8259448, key: '/works/OL1797130W', subject: ['Children', 'Classics'] },
+  { title: 'The Odyssey', author_name: ['Homer'], first_publish_year: -800, cover_i: 8235587, key: '/works/OL45804W', subject: ['Classics', 'Epic poetry'] }
+];
+
 function dailySeed() {
   const today = new Date().toISOString().slice(0, 10);
   return [...today].reduce((seed, char) => ((seed * 31) + char.charCodeAt(0)) >>> 0, 7);
@@ -391,7 +400,7 @@ async function fetchBooks(query, genre, page = 1, sortByPublication = false) {
   if (query) {
     const params = new URLSearchParams({ q: query, limit: '30', page: String(page) });
     if (sortByPublication) params.set('sort', 'new');
-    const res = await fetchWithTimeout(`https://openlibrary.org/search.json?${params}`);
+    const res = await fetchWithTimeout(openLibraryUrl('search.json', Object.fromEntries(params)));
     if (!res.ok) throw new Error('Book search failed');
     const data = await res.json();
     return (data.docs || [])
@@ -407,7 +416,7 @@ async function fetchBooks(query, genre, page = 1, sortByPublication = false) {
       page: String(page),
       sort: 'new'
     });
-    const res = await fetchWithTimeout(`https://openlibrary.org/search.json?${params}`);
+    const res = await fetchWithTimeout(openLibraryUrl('search.json', Object.fromEntries(params)));
     if (!res.ok) throw new Error('Publication shelf unavailable');
     const data = await res.json();
     return (data.docs || [])
@@ -422,7 +431,7 @@ async function fetchBooks(query, genre, page = 1, sortByPublication = false) {
       limit: '30',
       sort: 'readinglog_count desc'
     });
-    const res = await fetchWithTimeout(`https://openlibrary.org/search.json?${params}`);
+    const res = await fetchWithTimeout(openLibraryUrl('search.json', Object.fromEntries(params)));
     if (!res.ok) throw new Error('Language shelf unavailable');
     const data = await res.json();
     return seededShuffle((data.docs || [])
@@ -438,7 +447,7 @@ async function fetchBooks(query, genre, page = 1, sortByPublication = false) {
   const responses = await Promise.allSettled(lanes.map(async lane => {
       const params = new URLSearchParams({ q: lane.query, limit: String(lane.count * 2), page: String(page), ...(lane.sort ? { sort: lane.sort } : {}) });
       if (lane.params) new URLSearchParams(lane.params).forEach((value, key) => params.set(key, value));
-      const res = await fetchWithTimeout(`https://openlibrary.org/search.json?${params}`);
+      const res = await fetchWithTimeout(openLibraryUrl('search.json', Object.fromEntries(params)));
       if (!res.ok) throw new Error(`Book search failed for ${lane.label}`);
       const data = await res.json();
       return (data.docs || [])
@@ -457,7 +466,13 @@ async function fetchBooks(query, genre, page = 1, sortByPublication = false) {
   const books = responses
     .filter(response => response.status === 'fulfilled')
     .flatMap(response => response.value);
-  if (!books.length) throw new Error('Book discovery is unavailable');
+  if (!books.length) {
+    return seededShuffle(FALLBACK_BOOKS.map(doc => {
+      const book = bookFromDoc(doc);
+      book.lane = 'Backup shelf';
+      return book;
+    }), dailySeed() + page);
+  }
   return seededShuffle(books.filter(book => {
     const key = `${book.title.toLowerCase()}|${book.author.toLowerCase()}`;
     if (seen.has(key)) return false;
@@ -507,6 +522,11 @@ async function fetchWithTimeout(url, options = {}, timeout = 8000) {
   }
 }
 
+function openLibraryUrl(path, params = {}) {
+  const query = new URLSearchParams({ path, ...params });
+  return `/api/readers/open-library?${query}`;
+}
+
 async function loadLists() {
   const grid = document.getElementById('list-grid');
   try {
@@ -526,7 +546,7 @@ async function loadLists() {
     }
     const responses = await Promise.all(LIST_SEARCHES.map(async search => {
       try {
-        const res = await fetchWithTimeout(`https://openlibrary.org/search/lists.json?q=${encodeURIComponent(search.query)}&limit=8`);
+        const res = await fetchWithTimeout(openLibraryUrl('search/lists.json', { q: search.query, limit: '8' }));
         if (!res.ok) return [];
         const data = await res.json();
         return Promise.all((data.docs || []).slice(0, 3).map(async list => {
@@ -535,7 +555,7 @@ async function loadLists() {
         let covers = [];
         if (path) {
           try {
-            const editions = await fetchWithTimeout(`https://openlibrary.org${path.replace(/\/$/, '')}/editions.json?limit=4`);
+            const editions = await fetchWithTimeout(openLibraryUrl(`${path.replace(/\/$/, '')}/editions.json`, { limit: '4' }));
             if (editions.ok) {
               const editionData = await editions.json();
               covers = (editionData.entries || [])
