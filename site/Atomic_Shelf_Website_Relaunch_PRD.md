@@ -315,9 +315,9 @@ Recommended copy:
 >
 > If we fall short of the work, delivery, or agreed commitments on our side, we'll make it right — at our cost.
 >
-> And when the numbers show that we need to change course, we don't simply point at the dashboard and walk away. We diagnose, adjust, and keep working toward the target.
+> If the results show that something needs to change, we explain what we are seeing, adjust the plan, and stay involved until the work is back on track.
 >
-> **We commit to doing the work. You give it the time and access it needs to work.**
+> **We commit to doing the work, learning from the results, and improving it as we go.**
 
 ### Commercial implementation ✅ Defined (2026-09-22)
 
@@ -1011,4 +1011,3 @@ This section records what is implemented now versus what remains before the rela
 When a commercial fact changes, update the controlled pricing dataset first, then update dependent presentation/copy, then run a public consistency and provenance scan. Do not manually maintain conflicting prices, commitments, deliverables, or result ranges in individual pages.
 
 ---
-
