@@ -90,7 +90,7 @@
       },
       {
         "q": "Do you guarantee sales?",
-        "a": "No. We don't guarantee a specific number of sales, a category ranking, or a bestseller position — publishing and reader behavior don't work that way. What we guarantee is that we'll do the agreed work; see the Atomic Shelf Commitment for exactly what that covers.",
+        "a": "<b>Short answer:</b> No.<br><br><b>Long answer:</b> Although it is possible to estimate expected free-book downloads or 99¢ deal sales, those outcomes cannot be guaranteed because they depend on reader behaviour, market conditions, and platform performance. We control the work we commit to — production, campaigns, reviews recruitment, listing optimisation, reporting. We influence reach, clicks, and conversion. We don't guarantee a specific number of sales, a bestseller position, a ranking, or an algorithmic viral event — no one honestly can.",
         "source": "commercial-truth.json guarantee.does_not_guarantee + atomic-shelf-commitment-terms.md"
       },
       {
@@ -105,7 +105,7 @@
       { "q": "What happens after a commitment ends?", "a": "We hand over everything — every video created, account information, and all related assets — via a secure transfer method, so nothing gets lost. In practice, most of this is already available to you throughout the engagement: every gallery of content we make is public to you as the author, presented in your progress-report document/link.", "source": "commercial-truth.json operational_policies.end_of_commitment" },
       {
         "q": "Why are longer commitments discounted?",
-        "a": "Longer commitments are prepaid savings, not a cancellation trap. The system has more time to compound, and predictable planning lets us offer better economics.",
+        "a": "Longer commitments are prepaid savings, not a cancellation trap. We have more time to compound the work, and predictable planning lets us offer better economics.",
         "source": "PRD Section 17"
       }
     ],
