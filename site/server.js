@@ -11,6 +11,8 @@ app.use(cors({ origin: process.env.ALLOWED_ORIGIN || '*' }));
 
 const NEWSLETTER_DATA_DIR = path.join(__dirname, 'private-data');
 const NEWSLETTER_SUBSCRIBERS_PATH = path.join(NEWSLETTER_DATA_DIR, 'newsletter-subscribers.json');
+const TRANSACTIONS_PATH = path.join(NEWSLETTER_DATA_DIR, 'transactions.json');
+const COMMUNICATION_EVENTS_PATH = path.join(NEWSLETTER_DATA_DIR, 'communication-events.json');
 let dailyNewsletterCache = null;
 let tiktokAccessTokenCache = null;
 let tiktokTrendCache = null;
@@ -30,6 +32,7 @@ const TIKTOK_FIELDS = [
   'view_count',
 ].join(',');
 const TIKTOK_HASHTAGS = ['booktok', 'bookrecommendations', 'bookish'];
+const BREVO_API_BASE = 'https://api.brevo.com/v3';
 
 const NEWSLETTER_DISCOVERY_LANES = [
   { label: 'Free to read on Open Library', query: 'fiction', params: { ebook_access: 'public', has_fulltext: 'true' }, sort: 'readinglog', count: 2 },
@@ -150,6 +153,122 @@ function saveNewsletterSubscriber(email) {
     subscribers.push({ email, subscribed_at: new Date().toISOString() });
     fs.writeFileSync(NEWSLETTER_SUBSCRIBERS_PATH, JSON.stringify(subscribers, null, 2));
   }
+}
+
+function readTransactions() {
+    try {
+      return JSON.parse(fs.readFileSync(TRANSACTIONS_PATH, 'utf8'));
+    } catch (error) {
+      if (error.code === 'ENOENT') return [];
+      throw error;
+    }
+}
+
+function writeTransactions(transactions) {
+    fs.mkdirSync(NEWSLETTER_DATA_DIR, { recursive: true });
+    const temporaryPath = `${TRANSACTIONS_PATH}.tmp`;
+    fs.writeFileSync(temporaryPath, JSON.stringify(transactions, null, 2));
+    fs.renameSync(temporaryPath, TRANSACTIONS_PATH);
+}
+
+function saveTransaction(transaction) {
+    const transactions = readTransactions();
+    const index = transactions.findIndex(item => item.id === transaction.id);
+    if (index === -1) transactions.push(transaction);
+    else transactions[index] = transaction;
+    writeTransactions(transactions);
+    return transaction;
+}
+
+function findTransaction({ orderTrackingId, merchantReference }) {
+    return readTransactions().find(transaction =>
+      (orderTrackingId && transaction.pesapalOrderTrackingId === orderTrackingId) ||
+      (merchantReference && transaction.merchantReference === merchantReference)
+    );
+}
+
+function paymentStatusFromPesapal(status) {
+    const description = String(status?.payment_status_description || '').toLowerCase();
+    const code = String(status?.status_code || '').toLowerCase();
+    if (description === 'completed' || code === '1' || code === 'completed') return 'completed';
+    if (description.includes('cancel')) return 'cancelled';
+    if (description.includes('fail') || description.includes('reject') || code === 'failed') return 'failed';
+    return 'pending';
+}
+
+function updateTransactionStatus(transaction, status, source) {
+    if (!transaction) return null;
+    const nextStatus = paymentStatusFromPesapal(status);
+    if (transaction.status === 'completed' && nextStatus !== 'completed') return transaction;
+    const updated = {
+      ...transaction,
+      status: nextStatus,
+      statusDescription: status?.payment_status_description || status?.status_code || transaction.statusDescription,
+      lastStatusSource: source,
+      updatedAt: new Date().toISOString(),
+    };
+    return saveTransaction(updated);
+}
+
+function readCommunicationEvents() {
+    try {
+      return JSON.parse(fs.readFileSync(COMMUNICATION_EVENTS_PATH, 'utf8'));
+    } catch (error) {
+      if (error.code === 'ENOENT') return [];
+      throw error;
+    }
+}
+
+function saveCommunicationEvent(event) {
+    fs.mkdirSync(NEWSLETTER_DATA_DIR, { recursive: true });
+    const events = readCommunicationEvents();
+    events.push(event);
+    fs.writeFileSync(COMMUNICATION_EVENTS_PATH, JSON.stringify(events, null, 2));
+}
+
+async function sendCustomerEmail(transaction) {
+    if (!transaction?.customerEmail || transaction.notificationSentAt) return transaction;
+    const event = {
+      id: `payment-confirmation-${transaction.id}`,
+      type: 'transactional',
+      event: 'payment_completed',
+      provider: 'brevo',
+      recipient: transaction.customerEmail,
+      transactionId: transaction.id,
+      status: 'pending',
+      createdAt: new Date().toISOString(),
+    };
+
+    if (!process.env.BREVO_API_KEY || !process.env.BREVO_SENDER_EMAIL) {
+      saveCommunicationEvent({ ...event, status: 'skipped', reason: 'Brevo is not configured.' });
+      return transaction;
+    }
+
+    try {
+      await axios.post(`${BREVO_API_BASE}/smtp/email`, {
+        sender: { email: process.env.BREVO_SENDER_EMAIL, name: process.env.BREVO_SENDER_NAME || 'Atomic Shelf' },
+        to: [{ email: transaction.customerEmail, name: transaction.customerName || undefined }],
+        subject: 'Your Atomic Shelf payment is confirmed',
+        textContent: `Your ${transaction.plan} plan payment of ${transaction.currency} ${transaction.amount} is confirmed. Reference: ${transaction.merchantReference}.`,
+      }, {
+        headers: {
+          accept: 'application/json',
+          'api-key': process.env.BREVO_API_KEY,
+          'content-type': 'application/json',
+        },
+        timeout: 10000,
+      });
+      saveCommunicationEvent({ ...event, status: 'sent', sentAt: new Date().toISOString() });
+      return saveTransaction({ ...transaction, notificationSentAt: new Date().toISOString() });
+    } catch (error) {
+      console.error('customer payment notification error:', error.response?.data || error.message);
+      saveCommunicationEvent({
+        ...event,
+        status: 'failed',
+        error: error.response?.data || error.message,
+      });
+      return transaction;
+    }
 }
 
 function tiktokIsConfigured() {
@@ -559,6 +678,21 @@ app.post('/api/create-payment', async (req, res) => {
     const token = await getAccessToken();
 
     const merchantReference = `AS-${planInfo.name.toUpperCase()}-${billingTerm.toUpperCase()}-${Date.now()}`;
+    const transaction = {
+      id: merchantReference,
+      merchantReference,
+      pesapalOrderTrackingId: null,
+      plan: String(plan || '').toLowerCase(),
+      commitment: billingTerm,
+      customerName: [first_name, last_name].filter(Boolean).join(' ') || null,
+      customerEmail: email || null,
+      amount,
+      currency: CURRENCY,
+      status: 'pending',
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+    saveTransaction(transaction);
 
     const orderPayload = {
       id: merchantReference,
@@ -592,6 +726,12 @@ app.post('/api/create-payment', async (req, res) => {
       return res.status(502).json({ error: 'Unexpected Pesapal response', details: result.data });
     }
 
+    saveTransaction({
+      ...transaction,
+      pesapalOrderTrackingId: result.data.order_tracking_id || null,
+      updatedAt: new Date().toISOString(),
+    });
+
     res.json({
       redirect_url: result.data.redirect_url,
       order_tracking_id: result.data.order_tracking_id,
@@ -621,7 +761,12 @@ app.get('/api/status', async (req, res) => {
     const { orderTrackingId } = req.query;
     if (!orderTrackingId) return res.status(400).json({ error: 'orderTrackingId is required' });
     const status = await fetchStatus(orderTrackingId);
-    res.json(status);
+    const transaction = updateTransactionStatus(
+      findTransaction({ orderTrackingId }),
+      status,
+      'status_lookup'
+    );
+    res.json({ ...status, transaction_status: transaction?.status || paymentStatusFromPesapal(status) });
   } catch (err) {
     res.status(500).json({ error: err.response?.data || err.message });
   }
@@ -630,43 +775,111 @@ app.get('/api/status', async (req, res) => {
 // ---- Callback page (customer lands here after paying) -------------------
 app.get('/api/callback', async (req, res) => {
   const { OrderTrackingId, OrderMerchantReference } = req.query;
-  let statusHtml = '<p>We could not confirm your payment status automatically. If you were charged, contact us and we will verify manually.</p>';
-  let paid = false;
+  let paymentState = 'unable_to_confirm';
+  let statusDescription = 'We could not confirm your payment status automatically.';
+  let transaction = findTransaction({
+    orderTrackingId: OrderTrackingId,
+    merchantReference: OrderMerchantReference,
+  });
 
   try {
     if (OrderTrackingId) {
       const status = await fetchStatus(OrderTrackingId);
       const desc = status.payment_status_description || status.status_code;
-      paid = String(desc).toUpperCase() === 'COMPLETED';
-      statusHtml = `<p>Status: <b>${desc || 'Unknown'}</b></p>`;
+      transaction = updateTransactionStatus(transaction, status, 'callback') || transaction;
+      paymentState = transaction?.status || paymentStatusFromPesapal(status);
+      if (paymentState === 'completed') transaction = await sendCustomerEmail(transaction);
+      statusDescription = desc || 'Payment status received.';
     }
   } catch (err) {
     console.error('callback status check error:', err.response?.data || err.message);
   }
 
+  const stateCopy = {
+    completed: {
+      title: "You're all set.",
+      message: 'Your payment has been confirmed. We will be in touch with the next steps.',
+      className: 'success',
+    },
+    failed: {
+      title: 'Payment not completed',
+      message: 'Pesapal did not complete this payment. You can return to checkout and try again.',
+      className: 'error',
+    },
+    cancelled: {
+      title: 'Payment cancelled',
+      message: 'No payment was completed. You can return to checkout whenever you are ready.',
+      className: 'cancelled',
+    },
+    pending: {
+      title: 'Payment is being confirmed',
+      message: 'Pesapal has received the request, but confirmation is still pending. Refresh this page in a moment if needed.',
+      className: 'pending',
+    },
+    unable_to_confirm: {
+      title: 'Payment status unavailable',
+      message: 'We could not confirm the result yet. If you were charged, keep this reference and contact us so we can verify it.',
+      className: 'pending',
+    },
+  }[paymentState] || {
+    title: 'Payment status unavailable',
+    message: 'We could not confirm the result yet. Keep this reference and contact us so we can verify it.',
+    className: 'pending',
+  };
+  const refreshUrl = `/api/callback?${new URLSearchParams({
+    ...(OrderTrackingId ? { OrderTrackingId } : {}),
+    ...(OrderMerchantReference ? { OrderMerchantReference } : {}),
+  })}`;
+  const reference = OrderMerchantReference || transaction?.merchantReference || 'n/a';
+  const statusHtml = `<p class="status ${stateCopy.className}">${escapeNewsletterHtml(stateCopy.message)}</p>
+    <p class="provider-status">Pesapal status: <b>${escapeNewsletterHtml(statusDescription)}</b></p>`;
+
   res.send(`<!DOCTYPE html><html><head><meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title>${paid ? 'Payment received' : 'Payment status'} — Atomic Shelf</title>
+    <title>${escapeNewsletterHtml(stateCopy.title)} — Atomic Shelf</title>
     <style>
       body{font-family:sans-serif;background:#14120F;color:#F3EEE3;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;padding:2rem;text-align:center;}
       .card{max-width:480px;}
       h1{font-size:1.8rem;margin-bottom:1rem;}
       a{color:#FFB020;}
+      .status{line-height:1.6;}
+      .success{color:#8FE0B5;}
+      .error{color:#FF9F9F;}
+      .cancelled,.pending{color:#FFD27A;}
+      .provider-status{font-size:.9rem;opacity:.8;}
+      .actions{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:1.5rem;}
     </style></head>
     <body><div class="card">
-      <h1>${paid ? "You're all set." : 'Payment received — confirming'}</h1>
+      <h1>${escapeNewsletterHtml(stateCopy.title)}</h1>
       ${statusHtml}
-      <p>Reference: ${OrderMerchantReference || 'n/a'}</p>
-      <p><a href="https://atomic-shelf.com">Return to Atomic Shelf</a></p>
+      <p>Reference: ${escapeNewsletterHtml(reference)}</p>
+      <div class="actions">
+        ${paymentState === 'pending' || paymentState === 'unable_to_confirm' ? `<a href="${refreshUrl}">Refresh payment status</a>` : ''}
+        ${paymentState === 'failed' || paymentState === 'cancelled' ? '<a href="https://atomic-shelf.com/pricing.html">Return to checkout</a>' : ''}
+        <a href="https://atomic-shelf.com">Return to Atomic Shelf</a>
+      </div>
     </div></body></html>`);
 });
 
 app.get('/api/cancelled', (req, res) => {
+  const transaction = findTransaction({
+    orderTrackingId: req.query.OrderTrackingId,
+    merchantReference: req.query.OrderMerchantReference,
+  });
+  if (transaction && transaction.status !== 'completed') {
+    saveTransaction({
+      ...transaction,
+      status: 'cancelled',
+      statusDescription: 'Cancelled by customer',
+      lastStatusSource: 'cancellation',
+      updatedAt: new Date().toISOString(),
+    });
+  }
   res.send(`<!DOCTYPE html><html><head><meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>Payment cancelled — Atomic Shelf</title>
-    <style>body{font-family:sans-serif;background:#14120F;color:#F3EEE3;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;text-align:center;}</style></head>
-    <body><div><h1>Payment cancelled</h1><p><a href="https://atomic-shelf.com/pricing.html" style="color:#FFB020;">Back to pricing</a></p></div></body></html>`);
+    <style>body{font-family:sans-serif;background:#14120F;color:#F3EEE3;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;padding:2rem;text-align:center;}a{color:#FFB020;}</style></head>
+    <body><div><h1>Payment cancelled</h1><p>No payment was completed.</p><p><a href="https://atomic-shelf.com/pricing.html">Return to checkout</a></p></div></body></html>`);
 });
 
 // ---- IPN endpoint (Pesapal server-to-server notification) ---------------
@@ -677,7 +890,12 @@ app.get('/api/ipn', async (req, res) => {
     if (OrderTrackingId) {
       const status = await fetchStatus(OrderTrackingId);
       console.log('IPN status:', OrderMerchantReference, status.payment_status_description);
-      // TODO: mark the order as paid in your own storage / send yourself an email here.
+      const transaction = updateTransactionStatus(
+        findTransaction({ orderTrackingId: OrderTrackingId, merchantReference: OrderMerchantReference }),
+        status,
+        'ipn'
+      );
+      if (transaction?.status === 'completed') await sendCustomerEmail(transaction);
     }
   } catch (err) {
     console.error('IPN status check error:', err.response?.data || err.message);
