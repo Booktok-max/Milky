@@ -333,6 +333,16 @@ footer a{color:rgba(255,255,255,0.4);text-decoration:none;}
    Swap in your own catalog/API later by replacing fetchBooks().
    ============================================================ */
 
+const readersBackendUrl = (
+  window.__ATOMIC_SHELF_BACKEND_URL__ ||
+  'https://milky-production-c748.up.railway.app'
+).replace(/\/+$/, '');
+
+function readersApiUrl(path, params = {}) {
+  const query = new URLSearchParams(params);
+  return `${readersBackendUrl}${path}${query.toString() ? `?${query}` : ''}`;
+}
+
 function coverPlaceholderSVG() {
   return `<svg viewBox="0 0 40 40"><rect x="8" y="6" width="24" height="30" fill="none" stroke="#0E0C1A" stroke-width="1" opacity="0.5"/><line x1="12" y1="14" x2="28" y2="14" stroke="#0E0C1A" stroke-width="0.7" opacity="0.4"/><line x1="12" y1="19" x2="28" y2="19" stroke="#0E0C1A" stroke-width="0.7" opacity="0.4"/><line x1="12" y1="24" x2="24" y2="24" stroke="#0E0C1A" stroke-width="0.7" opacity="0.4"/></svg>`;
 }
@@ -609,8 +619,7 @@ async function fetchWithTimeout(url, options = {}, timeout = 8000) {
 }
 
 function openLibraryUrl(path, params = {}) {
-  const query = new URLSearchParams({ path, ...params });
-  return `/api/readers/open-library?${query}`;
+  return readersApiUrl('/api/readers/open-library', { path, ...params });
 }
 
 async function loadLists() {
@@ -871,7 +880,7 @@ async function loadScholarly(query = 'research') {
   const nav = document.querySelector('[data-provider-nav="research-scholarly"]');
   grid.innerHTML = '<div class="state-note">Loading scholarly works…</div>';
   try {
-    const response = await fetch(`/api/readers/scholarly?q=${encodeURIComponent(query)}`);
+    const response = await fetch(readersApiUrl('/api/readers/scholarly', { q: query }));
     const data = await response.json();
     if (!response.ok) throw new Error(data.error || 'Scholarly works are unavailable.');
     if (!data.items?.length) {
@@ -908,7 +917,7 @@ async function loadTikTokTrends() {
   const section = document.getElementById('tiktok-trends');
   const nav = document.querySelector('[data-provider-nav="tiktok-trends"]');
   try {
-    const response = await fetch('/api/readers/tiktok');
+    const response = await fetch(readersApiUrl('/api/readers/tiktok'));
     const data = await response.json();
     if (!response.ok) throw new Error(data.error || 'TikTok trends are unavailable.');
     if (!data.items?.length) {
@@ -944,7 +953,7 @@ async function loadNytBooks() {
   const section = document.getElementById('nyt-bestsellers');
   const nav = document.querySelector('[data-provider-nav="nyt-bestsellers"]');
   try {
-    const response = await fetch('/api/readers/nyt');
+    const response = await fetch(readersApiUrl('/api/readers/nyt'));
     const data = await response.json();
     if (!response.ok) throw new Error(data.error || 'NYT bestsellers are unavailable.');
     if (!data.items?.length) {
@@ -982,7 +991,7 @@ document.getElementById('weekly-signup-form').addEventListener('submit', e => {
     return;
   }
   status.textContent = 'Saving your subscription…';
-  fetch('/api/newsletter/subscribe', {
+  fetch(readersApiUrl('/api/newsletter/subscribe'), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email: email.value.trim() })
