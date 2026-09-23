@@ -11,6 +11,7 @@ app.use(cors({ origin: process.env.ALLOWED_ORIGIN || '*' }));
 
 const NEWSLETTER_DATA_DIR = path.join(__dirname, 'private-data');
 const NEWSLETTER_SUBSCRIBERS_PATH = path.join(NEWSLETTER_DATA_DIR, 'newsletter-subscribers.json');
+const TRANSACTIONS_PATH = path.join(NEWSLETTER_DATA_DIR, 'transactions.json');
 let dailyNewsletterCache = null;
 let tiktokAccessTokenCache = null;
 let tiktokTrendCache = null;
@@ -149,6 +150,61 @@ function saveNewsletterSubscriber(email) {
   if (!subscribers.some(item => item.email === email)) {
     subscribers.push({ email, subscribed_at: new Date().toISOString() });
     fs.writeFileSync(NEWSLETTER_SUBSCRIBERS_PATH, JSON.stringify(subscribers, null, 2));
+  }
+
+  function readTransactions() {
+    try {
+      return JSON.parse(fs.readFileSync(TRANSACTIONS_PATH, 'utf8'));
+    } catch (error) {
+      if (error.code === 'ENOENT') return [];
+      throw error;
+    }
+  }
+
+  function writeTransactions(transactions) {
+    fs.mkdirSync(NEWSLETTER_DATA_DIR, { recursive: true });
+    const temporaryPath = `${TRANSACTIONS_PATH}.tmp`;
+    fs.writeFileSync(temporaryPath, JSON.stringify(transactions, null, 2));
+    fs.renameSync(temporaryPath, TRANSACTIONS_PATH);
+  }
+
+  function saveTransaction(transaction) {
+    const transactions = readTransactions();
+    const index = transactions.findIndex(item => item.id === transaction.id);
+    if (index === -1) transactions.push(transaction);
+    else transactions[index] = transaction;
+    writeTransactions(transactions);
+    return transaction;
+  }
+
+  function findTransaction({ orderTrackingId, merchantReference }) {
+    return readTransactions().find(transaction =>
+      (orderTrackingId && transaction.pesapalOrderTrackingId === orderTrackingId) ||
+      (merchantReference && transaction.merchantReference === merchantReference)
+    );
+  }
+
+  function paymentStatusFromPesapal(status) {
+    const description = String(status?.payment_status_description || '').toLowerCase();
+    const code = String(status?.status_code || '').toLowerCase();
+    if (description === 'completed' || code === '1' || code === 'completed') return 'completed';
+    if (description.includes('cancel')) return 'cancelled';
+    if (description.includes('fail') || description.includes('reject') || code === 'failed') return 'failed';
+    return 'pending';
+  }
+
+  function updateTransactionStatus(transaction, status, source) {
+    if (!transaction) return null;
+    const nextStatus = paymentStatusFromPesapal(status);
+    if (transaction.status === 'completed' && nextStatus !== 'completed') return transaction;
+    const updated = {
+      ...transaction,
+      status: nextStatus,
+      statusDescription: status?.payment_status_description || status?.status_code || transaction.statusDescription,
+      lastStatusSource: source,
+      updatedAt: new Date().toISOString(),
+    };
+    return saveTransaction(updated);
   }
 }
 
@@ -559,6 +615,21 @@ app.post('/api/create-payment', async (req, res) => {
     const token = await getAccessToken();
 
     const merchantReference = `AS-${planInfo.name.toUpperCase()}-${billingTerm.toUpperCase()}-${Date.now()}`;
+    const transaction = {
+      id: merchantReference,
+      merchantReference,
+      pesapalOrderTrackingId: null,
+      plan: String(plan || '').toLowerCase(),
+      commitment: billingTerm,
+      customerName: [first_name, last_name].filter(Boolean).join(' ') || null,
+      customerEmail: email || null,
+      amount,
+      currency: CURRENCY,
+      status: 'pending',
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+    saveTransaction(transaction);
 
     const orderPayload = {
       id: merchantReference,
@@ -592,6 +663,12 @@ app.post('/api/create-payment', async (req, res) => {
       return res.status(502).json({ error: 'Unexpected Pesapal response', details: result.data });
     }
 
+    saveTransaction({
+      ...transaction,
+      pesapalOrderTrackingId: result.data.order_tracking_id || null,
+      updatedAt: new Date().toISOString(),
+    });
+
     res.json({
       redirect_url: result.data.redirect_url,
       order_tracking_id: result.data.order_tracking_id,
@@ -621,7 +698,12 @@ app.get('/api/status', async (req, res) => {
     const { orderTrackingId } = req.query;
     if (!orderTrackingId) return res.status(400).json({ error: 'orderTrackingId is required' });
     const status = await fetchStatus(orderTrackingId);
-    res.json(status);
+    const transaction = updateTransactionStatus(
+      findTransaction({ orderTrackingId }),
+      status,
+      'status_lookup'
+    );
+    res.json({ ...status, transaction_status: transaction?.status || paymentStatusFromPesapal(status) });
   } catch (err) {
     res.status(500).json({ error: err.response?.data || err.message });
   }
@@ -637,7 +719,12 @@ app.get('/api/callback', async (req, res) => {
     if (OrderTrackingId) {
       const status = await fetchStatus(OrderTrackingId);
       const desc = status.payment_status_description || status.status_code;
-      paid = String(desc).toUpperCase() === 'COMPLETED';
+      const transaction = updateTransactionStatus(
+        findTransaction({ orderTrackingId: OrderTrackingId, merchantReference: OrderMerchantReference }),
+        status,
+        'callback'
+      );
+      paid = transaction?.status === 'completed' || paymentStatusFromPesapal(status) === 'completed';
       statusHtml = `<p>Status: <b>${desc || 'Unknown'}</b></p>`;
     }
   } catch (err) {
@@ -662,6 +749,19 @@ app.get('/api/callback', async (req, res) => {
 });
 
 app.get('/api/cancelled', (req, res) => {
+  const transaction = findTransaction({
+    orderTrackingId: req.query.OrderTrackingId,
+    merchantReference: req.query.OrderMerchantReference,
+  });
+  if (transaction && transaction.status !== 'completed') {
+    saveTransaction({
+      ...transaction,
+      status: 'cancelled',
+      statusDescription: 'Cancelled by customer',
+      lastStatusSource: 'cancellation',
+      updatedAt: new Date().toISOString(),
+    });
+  }
   res.send(`<!DOCTYPE html><html><head><meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>Payment cancelled — Atomic Shelf</title>
@@ -677,7 +777,11 @@ app.get('/api/ipn', async (req, res) => {
     if (OrderTrackingId) {
       const status = await fetchStatus(OrderTrackingId);
       console.log('IPN status:', OrderMerchantReference, status.payment_status_description);
-      // TODO: mark the order as paid in your own storage / send yourself an email here.
+      updateTransactionStatus(
+        findTransaction({ orderTrackingId: OrderTrackingId, merchantReference: OrderMerchantReference }),
+        status,
+        'ipn'
+      );
     }
   } catch (err) {
     console.error('IPN status check error:', err.response?.data || err.message);
