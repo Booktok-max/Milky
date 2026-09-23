@@ -117,6 +117,18 @@ section.results{padding:3.5rem 6vw 6rem;}
 .weekly-form button:hover{background:#f0b15b;}
 .weekly-status{min-height:1.4em;margin-top:.7rem!important;color:var(--copper-2)!important;}
 .tiktok-meta{font-size:.78rem;color:var(--muted);margin-top:.8rem;}
+.scholarly-search{display:flex;gap:.6rem;max-width:560px;margin:1rem 0 1.2rem;flex-wrap:wrap;}
+.scholarly-search input{flex:1;min-width:220px;padding:.75rem 1rem;border-radius:var(--r-xs);border:1px solid var(--border);background:var(--card);font:inherit;color:var(--ink);}
+.scholarly-search button{padding:.75rem 1.1rem;border:0;border-radius:var(--r-xs);background:var(--ink);color:#fff;font-weight:600;cursor:pointer;}
+.scholarly-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r-sm);padding:1.1rem;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:.55rem;}
+.scholarly-card .scholarly-type{font-size:.62rem;text-transform:uppercase;letter-spacing:.12em;color:var(--copper);font-weight:700;}
+.scholarly-card h3{font-size:1.05rem;line-height:1.2;}
+.scholarly-card p{margin:0;color:var(--stone);font-size:.78rem;}
+.scholarly-meta{display:flex;gap:.5rem;flex-wrap:wrap;font-size:.7rem;color:var(--muted);}
+.scholarly-meta span{padding:.2rem .45rem;border-radius:99px;background:var(--ivory-2);}
+.scholarly-card a{color:var(--copper);font-size:.78rem;font-weight:600;text-decoration:none;margin-top:auto;}
+.scholarly-note{font-size:.76rem;color:var(--muted);max-width:72ch;margin-top:1rem;}
+
 .tiktok-card{border:1px solid var(--line);background:var(--paper);padding:1.2rem;display:flex;flex-direction:column;gap:.65rem;}
 .tiktok-card h3{font:1.2rem 'Playfair Display',serif;margin:0;line-height:1.2;}
 .tiktok-card p{margin:0;color:var(--muted);font-size:.88rem;line-height:1.5;}
@@ -185,6 +197,28 @@ footer a{color:rgba(255,255,255,0.4);text-decoration:none;}
       <div class="state-note">Loading books…</div>
     </div>
     <div class="load-sentinel" id="load-sentinel" aria-live="polite">Loading more shelves as you browse…</div>
+  </div>
+</section>
+
+
+<section class="list-feed" id="research-scholarly">
+  <div class="container">
+    <div class="list-feed-head">
+      <div>
+        <div class="eyebrow"><span class="eyebrow-line"></span>Research &amp; Scholarly</div>
+        <h2>Explore scholarly books and chapters</h2>
+      </div>
+      <p class="list-feed-intro">A separate research lane for scholarly works, with topics, authors, institutions, open-access context, and citation information. Citation counts are research context, not reader-popularity rankings.</p>
+    </div>
+    <form class="scholarly-search" id="scholarly-search-form">
+      <label class="sr-only" for="scholarly-search-input">Search scholarly books and chapters</label>
+      <input id="scholarly-search-input" type="search" value="research" placeholder="Search research, topics, authors…" autocomplete="off">
+      <button type="submit">Search research</button>
+    </form>
+    <div class="book-grid" id="scholarly-grid">
+      <div class="state-note">Loading scholarly works…</div>
+    </div>
+    <p class="scholarly-note" id="scholarly-updated">Source: OpenAlex · Scholarly books and book chapters are shown separately from consumer-book discovery.</p>
   </div>
 </section>
 
@@ -804,6 +838,41 @@ function formatMetric(value) {
       : String(number);
 }
 
+
+async function loadScholarly(query = 'research') {
+  const grid = document.getElementById('scholarly-grid');
+  const updated = document.getElementById('scholarly-updated');
+  grid.innerHTML = '<div class="state-note">Loading scholarly works…</div>';
+  try {
+    const response = await fetch(`/api/readers/scholarly?q=${encodeURIComponent(query)}`);
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || 'Scholarly works are unavailable.');
+    if (!data.items?.length) {
+      grid.innerHTML = '<div class="state-note">No scholarly books or chapters matched that search. Try another topic or author.</div>';
+      updated.textContent = 'Source: OpenAlex · No matching scholarly works were returned.';
+      return;
+    }
+    grid.innerHTML = data.items.map(item => `
+      <article class="scholarly-card">
+        <div class="scholarly-type">${escapeHtml(item.type === 'book-chapter' ? 'Book chapter' : 'Book')}</div>
+        <h3>${escapeHtml(item.title)}</h3>
+        <p>${escapeHtml(item.authors?.slice(0, 2).map(author => author.name).join(', ') || 'Author information unavailable')}</p>
+        ${item.institutionNames?.length ? `<p>${escapeHtml(item.institutionNames.slice(0, 2).join(' · '))}</p>` : ''}
+        ${item.topics?.length ? `<p>${escapeHtml(item.topics.slice(0, 3).join(' · '))}</p>` : ''}
+        <div class="scholarly-meta">
+          ${item.publicationYear ? `<span>${escapeHtml(item.publicationYear)}</span>` : ''}
+          <span>${formatMetric(item.citations)} citations</span>
+          ${item.openAccess ? '<span>Open access</span>' : ''}
+        </div>
+        ${item.accessUrl ? `<a href="${escapeHtml(item.accessUrl)}" target="_blank" rel="noopener noreferrer">View scholarly record →</a>` : `<a href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer">View in OpenAlex →</a>`}
+      </article>`).join('');
+    updated.textContent = `Source: OpenAlex · ${data.items.length} scholarly works shown. Citation counts describe scholarly citation activity, not reader popularity.`;
+  } catch (error) {
+    grid.innerHTML = '<div class="state-note">The scholarly catalogue is temporarily unavailable. The main reader shelves are still available.</div>';
+    updated.textContent = 'Source: OpenAlex · Temporarily unavailable.';
+  }
+}
+
 async function loadTikTokTrends() {
   const grid = document.getElementById('tiktok-grid');
   const updated = document.getElementById('tiktok-updated');
@@ -865,6 +934,21 @@ const languageObserver = new IntersectionObserver(entries => {
   }
 }, { rootMargin: '300px' });
 languageObserver.observe(document.getElementById('other-languages'));
+
+
+const scholarlyObserver = new IntersectionObserver(entries => {
+  if (entries[0].isIntersecting) {
+    scholarlyObserver.disconnect();
+    loadScholarly();
+  }
+}, { rootMargin: '500px' });
+scholarlyObserver.observe(document.getElementById('research-scholarly'));
+
+document.getElementById('scholarly-search-form').addEventListener('submit', e => {
+  e.preventDefault();
+  const query = document.getElementById('scholarly-search-input').value.trim() || 'research';
+  loadScholarly(query);
+});
 
 const tiktokObserver = new IntersectionObserver(entries => {
   if (entries[0].isIntersecting) {
