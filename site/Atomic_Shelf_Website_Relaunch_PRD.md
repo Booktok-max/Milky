@@ -139,6 +139,8 @@ Readers currently depends on Open Library for live catalogue discovery, search, 
 
 **NYT provider wiring started:** the server now exposes `GET /api/readers/nyt`, reads `NYT_BOOKS_API_KEY` and `NYT_BOOKS_LIST` server-side, caches successful payloads for one hour, normalizes list entries, and returns a bounded unavailable state when credentials or the upstream service are unavailable. Readers renders the feed as a separately labeled **NYT Best Sellers** lane with list name, rank, publication date, and source attribution. The key remains server-only; live results require a valid NYT developer key and an allowed list.
 
+**Provider visibility rule:** provider-backed Readers lanes are hidden, including their navigation links, when the provider is unconfigured, unavailable, or returns no books. Empty provider states must not occupy forward-facing page space; the main catalogue and other populated lanes remain available.
+
 ### Shelfmates' Love save handoff — 2026-09-23
 
 Each Readers book card should offer a warm, visually distinctive **💗 Save to Shelfmates →** action. The heart is the visual cue; the button does not need to spell out “Love.” The current website implementation provides a stable handoff to `https://storypal.atomic-shelf.com/` so a reader can sign up or sign in, with the selected book's title, author, publication year where available, Open Library catalogue URL, source identifier, and the requested `save_to_shelfmates_love` action.
@@ -1582,7 +1584,7 @@ The previously exposed Brevo credential must be rotated before production commun
 
 ## Phase 2 — PesaPal production checkout
 
-- [ ] Reconcile backend plan mapping with all six current plans.
+- [x] Reconcile backend plan mapping with all six current plans.
 - [ ] Implement authoritative server-side pricing validation.
 - [ ] Implement transaction persistence.
 - [ ] Make callback/IPN processing idempotent.
