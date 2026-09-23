@@ -1588,7 +1588,7 @@ The previously exposed Brevo credential must be rotated before production commun
 - [x] Implement authoritative server-side pricing validation.
 - [x] Implement transaction persistence.
 - [x] Make callback/IPN processing idempotent.
-- [ ] Implement payment success/pending/failure/cancellation states.
+- [x] Implement payment success/pending/failure/cancellation states.
 - [ ] Connect successful payment events to customer notification.
 - [ ] Test the full flow in PesaPal sandbox.
 - [ ] Complete production credential/configuration review.

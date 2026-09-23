@@ -712,39 +712,88 @@ app.get('/api/status', async (req, res) => {
 // ---- Callback page (customer lands here after paying) -------------------
 app.get('/api/callback', async (req, res) => {
   const { OrderTrackingId, OrderMerchantReference } = req.query;
-  let statusHtml = '<p>We could not confirm your payment status automatically. If you were charged, contact us and we will verify manually.</p>';
-  let paid = false;
+  let paymentState = 'unable_to_confirm';
+  let statusDescription = 'We could not confirm your payment status automatically.';
+  let transaction = findTransaction({
+    orderTrackingId: OrderTrackingId,
+    merchantReference: OrderMerchantReference,
+  });
 
   try {
     if (OrderTrackingId) {
       const status = await fetchStatus(OrderTrackingId);
       const desc = status.payment_status_description || status.status_code;
-      const transaction = updateTransactionStatus(
-        findTransaction({ orderTrackingId: OrderTrackingId, merchantReference: OrderMerchantReference }),
-        status,
-        'callback'
-      );
-      paid = transaction?.status === 'completed' || paymentStatusFromPesapal(status) === 'completed';
-      statusHtml = `<p>Status: <b>${desc || 'Unknown'}</b></p>`;
+      transaction = updateTransactionStatus(transaction, status, 'callback') || transaction;
+      paymentState = transaction?.status || paymentStatusFromPesapal(status);
+      statusDescription = desc || 'Payment status received.';
     }
   } catch (err) {
     console.error('callback status check error:', err.response?.data || err.message);
   }
 
+  const stateCopy = {
+    completed: {
+      title: "You're all set.",
+      message: 'Your payment has been confirmed. We will be in touch with the next steps.',
+      className: 'success',
+    },
+    failed: {
+      title: 'Payment not completed',
+      message: 'Pesapal did not complete this payment. You can return to checkout and try again.',
+      className: 'error',
+    },
+    cancelled: {
+      title: 'Payment cancelled',
+      message: 'No payment was completed. You can return to checkout whenever you are ready.',
+      className: 'cancelled',
+    },
+    pending: {
+      title: 'Payment is being confirmed',
+      message: 'Pesapal has received the request, but confirmation is still pending. Refresh this page in a moment if needed.',
+      className: 'pending',
+    },
+    unable_to_confirm: {
+      title: 'Payment status unavailable',
+      message: 'We could not confirm the result yet. If you were charged, keep this reference and contact us so we can verify it.',
+      className: 'pending',
+    },
+  }[paymentState] || {
+    title: 'Payment status unavailable',
+    message: 'We could not confirm the result yet. Keep this reference and contact us so we can verify it.',
+    className: 'pending',
+  };
+  const refreshUrl = `/api/callback?${new URLSearchParams({
+    ...(OrderTrackingId ? { OrderTrackingId } : {}),
+    ...(OrderMerchantReference ? { OrderMerchantReference } : {}),
+  })}`;
+  const reference = OrderMerchantReference || transaction?.merchantReference || 'n/a';
+  const statusHtml = `<p class="status ${stateCopy.className}">${escapeNewsletterHtml(stateCopy.message)}</p>
+    <p class="provider-status">Pesapal status: <b>${escapeNewsletterHtml(statusDescription)}</b></p>`;
+
   res.send(`<!DOCTYPE html><html><head><meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title>${paid ? 'Payment received' : 'Payment status'} — Atomic Shelf</title>
+    <title>${escapeNewsletterHtml(stateCopy.title)} — Atomic Shelf</title>
     <style>
       body{font-family:sans-serif;background:#14120F;color:#F3EEE3;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;padding:2rem;text-align:center;}
       .card{max-width:480px;}
       h1{font-size:1.8rem;margin-bottom:1rem;}
       a{color:#FFB020;}
+      .status{line-height:1.6;}
+      .success{color:#8FE0B5;}
+      .error{color:#FF9F9F;}
+      .cancelled,.pending{color:#FFD27A;}
+      .provider-status{font-size:.9rem;opacity:.8;}
+      .actions{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:1.5rem;}
     </style></head>
     <body><div class="card">
-      <h1>${paid ? "You're all set." : 'Payment received — confirming'}</h1>
+      <h1>${escapeNewsletterHtml(stateCopy.title)}</h1>
       ${statusHtml}
-      <p>Reference: ${OrderMerchantReference || 'n/a'}</p>
-      <p><a href="https://atomic-shelf.com">Return to Atomic Shelf</a></p>
+      <p>Reference: ${escapeNewsletterHtml(reference)}</p>
+      <div class="actions">
+        ${paymentState === 'pending' || paymentState === 'unable_to_confirm' ? `<a href="${refreshUrl}">Refresh payment status</a>` : ''}
+        ${paymentState === 'failed' || paymentState === 'cancelled' ? '<a href="https://atomic-shelf.com/pricing.html">Return to checkout</a>' : ''}
+        <a href="https://atomic-shelf.com">Return to Atomic Shelf</a>
+      </div>
     </div></body></html>`);
 });
 
@@ -765,8 +814,8 @@ app.get('/api/cancelled', (req, res) => {
   res.send(`<!DOCTYPE html><html><head><meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>Payment cancelled — Atomic Shelf</title>
-    <style>body{font-family:sans-serif;background:#14120F;color:#F3EEE3;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;text-align:center;}</style></head>
-    <body><div><h1>Payment cancelled</h1><p><a href="https://atomic-shelf.com/pricing.html" style="color:#FFB020;">Back to pricing</a></p></div></body></html>`);
+    <style>body{font-family:sans-serif;background:#14120F;color:#F3EEE3;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;padding:2rem;text-align:center;}a{color:#FFB020;}</style></head>
+    <body><div><h1>Payment cancelled</h1><p>No payment was completed.</p><p><a href="https://atomic-shelf.com/pricing.html">Return to checkout</a></p></div></body></html>`);
 });
 
 // ---- IPN endpoint (Pesapal server-to-server notification) ---------------
