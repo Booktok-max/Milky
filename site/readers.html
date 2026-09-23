@@ -360,7 +360,7 @@ function publicationYearLabel(year) {
   if (!Number.isInteger(year) || year <= 0) return '—';
   if (year > currentYear + 1) return null;
   if (year > currentYear) return `Preorder · ${year}`;
-  if (year < 1500) return `Before ${year} A.D.`;
+  if (year < 1500) return `${year} A.D.`;
   return year;
 }
 
