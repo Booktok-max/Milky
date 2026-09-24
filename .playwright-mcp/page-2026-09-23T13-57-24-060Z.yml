@@ -1,0 +1,45 @@
+- generic [ref=e3]:
+  - generic [ref=e5]:
+    - generic [ref=e6]: Please select your preferred payment option
+    - generic [ref=e7]:
+      - list [ref=e8]:
+        - listitem [ref=e9] [cursor=pointer]:
+          - radio [checked] [ref=e10]
+        - listitem [ref=e13] [cursor=pointer]:
+          - radio [ref=e14]
+      - list [ref=e17]:
+        - listitem [ref=e18] [cursor=pointer]:
+          - radio [ref=e20]
+      - list [ref=e28]:
+        - listitem "E-wallet" [ref=e29] [cursor=pointer]:
+          - radio [ref=e30]
+      - generic [ref=e36]:
+        - generic [ref=e37]:
+          - generic [ref=e39]:
+            - generic [ref=e40]:
+              - paragraph [ref=e41]:
+                - text: Pay
+                - generic [ref=e42]: "\"Development Work-KE\""
+                - text: KES 10,229.00
+              - list [ref=e43]:
+                - listitem [ref=e44]: Provide your MPESA [KE] mobile number below
+                - listitem [ref=e45]: Click Proceed and a prompt will appear on your phone requesting you to confirm transaction by providing your MPESA PIN
+                - listitem [ref=e46]: Once completed, you will receive the confirmation SMS for this transaction
+            - generic [ref=e47]:
+              - generic [ref=e48]: Provide your Mpesa [KE] Mobile number
+              - generic [ref=e50]:
+                - generic [ref=e51]:
+                  - generic [ref=e52]: 
+                  - generic [ref=e54]:
+                    - textbox [disabled] [ref=e56]: "+254"
+                    - textbox "e.g 7XX XXX XXX" [ref=e58]
+                - generic: 
+          - text:  
+        - text:            
+        - button "Proceed" [ref=e60] [cursor=pointer]
+        - link "Cancel Request" [ref=e61] [cursor=pointer]:
+          - /url: javascript:void(0);
+  - generic [ref=e62]:
+    - strong [ref=e63]: Pesapal
+    - text: is Regulated by the
+    - strong [ref=e64]: Central Bank of Kenya

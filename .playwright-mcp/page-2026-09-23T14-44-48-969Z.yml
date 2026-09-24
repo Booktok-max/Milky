@@ -1,0 +1,163 @@
+- generic [active] [ref=f10e1]:
+  - navigation [ref=f10e2]:
+    - generic [ref=f10e3]:
+      - link "Atomic·Shelf" [ref=f10e4] [cursor=pointer]:
+        - /url: index.html
+      - generic [ref=f10e5]:
+        - link "How It Works" [ref=f10e6] [cursor=pointer]:
+          - /url: how-it-works.html
+        - link "Services" [ref=f10e7] [cursor=pointer]:
+          - /url: services.html
+        - link "Pricing" [ref=f10e8] [cursor=pointer]:
+          - /url: pricing.html
+        - link "Results" [ref=f10e9] [cursor=pointer]:
+          - /url: results.html
+        - link "Readers" [ref=f10e10] [cursor=pointer]:
+          - /url: readers.html
+        - link "Editorial" [ref=f10e11] [cursor=pointer]:
+          - /url: editorial.html
+        - link "Start Here" [ref=f10e12] [cursor=pointer]:
+          - /url: start-here.html
+  - generic [ref=f10e13]:
+    - link "How It Works" [ref=f10e14] [cursor=pointer]:
+      - /url: how-it-works.html
+    - link "Services" [ref=f10e15] [cursor=pointer]:
+      - /url: services.html
+    - link "Pricing" [ref=f10e16] [cursor=pointer]:
+      - /url: pricing.html
+    - link "Results" [ref=f10e17] [cursor=pointer]:
+      - /url: results.html
+    - link "Readers" [ref=f10e18] [cursor=pointer]:
+      - /url: readers.html
+    - link "Editorial" [ref=f10e19] [cursor=pointer]:
+      - /url: editorial.html
+    - link "Start Here" [ref=f10e20] [cursor=pointer]:
+      - /url: start-here.html
+  - banner [ref=f10e21]:
+    - generic [ref=f10e22]:
+      - paragraph [ref=f10e23]: Plans
+      - heading "Pick the level. See exactly what it costs." [level=1] [ref=f10e24]
+      - generic [ref=f10e25]:
+        - generic [ref=f10e26]: 🛡️
+        - generic [ref=f10e27]: Money-back for non-delivery. If we don't deliver the work we agreed to, that portion is refunded. If delivery happened but results are below range, we keep working at no extra cost — see the full commitment below.
+      - generic [ref=f10e28]:
+        - button "Monthly" [disabled] [pressed] [ref=f10e29] [cursor=pointer]
+        - button "3 months — Save 10%" [disabled] [ref=f10e30] [cursor=pointer]
+        - button "6 months — Save 20%" [disabled] [ref=f10e31] [cursor=pointer]
+        - button "12 months — Save 25%" [disabled] [ref=f10e32] [cursor=pointer]
+      - paragraph [ref=f10e34]: Loading plans…
+      - paragraph [ref=f10e35]: Planning a free book giveaway? Tell us — preferably in advance. Share your next free-book dates and we'll feature you. You can provide complimentary copies to selected readers, then invite honest, independent reviews. The free copy is never conditional on posting a review, giving a positive rating, or changing an existing review.
+      - paragraph [ref=f10e36]: "*Expected ranges are 90-day averages based on 200+ books over 24 months, measured against each book's pre-campaign baseline — many starting from little to no prior sales. Individual results vary by genre, backlist, and price point."
+      - generic [ref=f10e37]:
+        - heading "Running a full catalogue, or need something bespoke?" [level=2] [ref=f10e38]
+        - paragraph [ref=f10e39]: Surge and Orbit are custom engagements for multi-book catalogues and bespoke campaign structure — dedicated team or custom seat, custom pricing.
+        - link "Ask about Surge & Orbit" [ref=f10e40] [cursor=pointer]:
+          - /url: mailto:nick@atomic-shelf.com?subject=Surge %26 Orbit
+  - generic [ref=f10e42]:
+    - paragraph [ref=f10e43]: Our commitment
+    - generic [ref=f10e44]:
+      - paragraph [ref=f10e45]: We don't promise that every book will explode overnight. Publishing doesn't work that way — and neither does building a readership.
+      - paragraph [ref=f10e46]: What we do promise is that we'll do the work we've committed to, measure what happens, and stay accountable for the outcome.
+      - paragraph [ref=f10e47]: If we fall short of the work, delivery, or agreed commitments on our side, we'll make it right — at our cost.
+      - paragraph [ref=f10e48]: If the results show that something needs to change, we explain what we are seeing, adjust the plan, and stay involved until the work is back on track.
+    - separator [ref=f10e49]
+    - paragraph [ref=f10e50]: We commit to doing the work, learning from the results, and improving it as we go.
+  - generic [ref=f10e52]:
+    - generic [ref=f10e53]:
+      - paragraph [ref=f10e54]: FAQ
+      - heading "Questions about plans and pricing." [level=2] [ref=f10e55]
+    - generic [ref=f10e56]:
+      - generic [ref=f10e57]:
+        - button "Do you guarantee sales? +" [ref=f10e58] [cursor=pointer]:
+          - text: Do you guarantee sales?
+          - generic [ref=f10e59]: +
+        - generic:
+          - paragraph [ref=f10e60]: "Short answer: No."
+          - paragraph [ref=f10e61]: Then, what's the point? We do the work that earns attention and gives the book a better chance with the right readers.
+          - paragraph [ref=f10e62]: "Long answer: Although it is possible to estimate expected downloads or sales for lower-priced books, those outcomes cannot be guaranteed because they depend on reader behaviour, market conditions, and platform performance. We control the work we commit to — production, campaigns, reviews recruitment, listing optimisation, reporting. We influence reach, clicks, and conversion. We don't guarantee a specific number of sales, a bestseller position, a ranking, or an algorithmic viral event — no one honestly can."
+      - generic [ref=f10e63]:
+        - button "What happens if Atomic Shelf doesn't deliver? +" [ref=f10e64] [cursor=pointer]:
+          - text: What happens if Atomic Shelf doesn't deliver?
+          - generic [ref=f10e65]: +
+        - paragraph [ref=f10e66]: Money-back applies to the specific line items that weren't delivered at all — not a blanket refund, and not triggered simply by results coming in lower than the estimated range. If delivery is confirmed but performance is below range, we keep working, diagnose, and adjust at no extra cost rather than refunding. Claims must be made within 21 days of the end of the relevant cycle.
+      - generic [ref=f10e67]:
+        - button "Why are longer commitments discounted? +" [ref=f10e68] [cursor=pointer]:
+          - text: Why are longer commitments discounted?
+          - generic [ref=f10e69]: +
+        - paragraph [ref=f10e70]: Longer commitments are prepaid savings. We have more time to compound the work, and predictable planning lets us offer better economics.
+      - generic [ref=f10e71]:
+        - button "Can I change plans? +" [ref=f10e72] [cursor=pointer]:
+          - text: Can I change plans?
+          - generic [ref=f10e73]: +
+        - paragraph [ref=f10e74]: Yes — upgrading, downgrading, or pausing is allowed at any time. Current ad spend is taken into account and applied as available credit toward the new plan.
+      - generic [ref=f10e75]:
+        - button "What happens after a commitment ends? +" [ref=f10e76] [cursor=pointer]:
+          - text: What happens after a commitment ends?
+          - generic [ref=f10e77]: +
+        - paragraph [ref=f10e78]: Everything is handed over via secure transfer if needed — videos created, account info, and related assets. In practice, most content is already accessible to you throughout, since every content gallery is public to you via your progress-report link.
+      - generic [ref=f10e79]:
+        - button "Do I need to appear on camera? +" [ref=f10e80] [cursor=pointer]:
+          - text: Do I need to appear on camera?
+          - generic [ref=f10e81]: +
+        - paragraph [ref=f10e82]: No. You provide a link to your book (or, for a backlist, your catalogue), plus optionally any planned discount-deal dates so campaigns can be planned around them.
+  - generic [ref=f10e84]:
+    - heading "Still deciding?" [level=2] [ref=f10e85]
+    - paragraph [ref=f10e86]: Tell us about your book and where you're starting from — we'll tell you honestly which tier makes sense.
+    - generic [ref=f10e87]:
+      - link "Talk to us first" [ref=f10e88] [cursor=pointer]:
+        - /url: mailto:nick@atomic-shelf.com
+      - link "See how it all works" [ref=f10e89] [cursor=pointer]:
+        - /url: how-it-works.html
+  - contentinfo [ref=f10e90]:
+    - generic [ref=f10e91]:
+      - generic [ref=f10e92]:
+        - generic [ref=f10e93]:
+          - generic [ref=f10e94]: Atomic·Shelf
+          - paragraph [ref=f10e95]: Video, reviews, listing optimisation, reader lists, and advertising — one system, built for independent authors and publishers.
+        - generic [ref=f10e96]:
+          - heading "Site" [level=5] [ref=f10e97]
+          - list [ref=f10e98]:
+            - listitem [ref=f10e99]:
+              - link "How It Works" [ref=f10e100] [cursor=pointer]:
+                - /url: how-it-works.html
+            - listitem [ref=f10e101]:
+              - link "Services" [ref=f10e102] [cursor=pointer]:
+                - /url: services.html
+            - listitem [ref=f10e103]:
+              - link "Pricing" [ref=f10e104] [cursor=pointer]:
+                - /url: pricing.html
+            - listitem [ref=f10e105]:
+              - link "Results" [ref=f10e106] [cursor=pointer]:
+                - /url: results.html
+            - listitem [ref=f10e107]:
+              - link "Readers" [ref=f10e108] [cursor=pointer]:
+                - /url: readers.html
+            - listitem [ref=f10e109]:
+              - link "Editorial" [ref=f10e110] [cursor=pointer]:
+                - /url: editorial.html
+        - generic [ref=f10e111]:
+          - heading "More" [level=5] [ref=f10e112]
+          - list [ref=f10e113]:
+            - listitem [ref=f10e114]:
+              - link "Catalogue" [ref=f10e115] [cursor=pointer]:
+                - /url: catalogue.html
+            - listitem [ref=f10e116]:
+              - link "FAQ" [ref=f10e117] [cursor=pointer]:
+                - /url: faq.html
+            - listitem [ref=f10e118]:
+              - link "Contact" [ref=f10e119] [cursor=pointer]:
+                - /url: mailto:nick@atomic-shelf.com
+            - listitem [ref=f10e120]:
+              - link "ShelfMates" [ref=f10e121] [cursor=pointer]:
+                - /url: shelfmates.html
+            - listitem [ref=f10e122]:
+              - link "StoryPals" [ref=f10e123] [cursor=pointer]:
+                - /url: storypals.html
+      - generic [ref=f10e124]:
+        - generic [ref=f10e125]: © 2026 Atomic Shelf
+        - generic [ref=f10e126]:
+          - link "Terms" [ref=f10e127] [cursor=pointer]:
+            - /url: terms.html
+          - text: ·
+          - link "Privacy" [ref=f10e128] [cursor=pointer]:
+            - /url: privacy.html
