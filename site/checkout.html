@@ -346,6 +346,10 @@
 
     const DEFAULT_PLAN = 'spark';
     const DEFAULT_TERM = 'monthly';
+    const idempotencyKey = (
+      window.crypto?.randomUUID?.() ||
+      `${Date.now()}-${Math.random().toString(36).slice(2)}`
+    ).replace(/[^A-Za-z0-9._:-]/g, '').slice(0, 128);
     let planData = {};
     let selectedTerm = DEFAULT_TERM;
 
@@ -469,6 +473,7 @@
       const payload = {
         plan: planField.value,
         term: selectedTerm,
+        idempotency_key: idempotencyKey,
         first_name: document.getElementById('first_name').value.trim(),
         last_name: document.getElementById('last_name').value.trim(),
         email: document.getElementById('email').value.trim(),
