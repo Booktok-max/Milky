@@ -60,6 +60,26 @@ h1,h2,h3,h4{font-family:'Fraunces',serif;letter-spacing:-0.015em;}
 .note-block{background:rgba(168,70,30,0.06);border:1px solid rgba(168,70,30,0.2);border-radius:var(--r);padding:1.4rem 1.6rem;font-size:0.86rem;color:var(--stone);line-height:1.75;margin-top:1.6rem;}
 .note-block strong{color:var(--copper);}
 
+.case-study-grid{display:grid;grid-template-columns:1fr;gap:2rem;margin-top:2rem;}
+@media(min-width:768px){.case-study-grid{grid-template-columns:1fr 1fr;}}
+.case-study-card{background:var(--card);border:1px solid var(--rule);border-radius:var(--r);padding:2rem;transition:box-shadow 0.2s,transform 0.2s;}
+.case-study-card:hover{box-shadow:0 8px 24px rgba(28,18,9,0.08);transform:translateY(-2px);}
+.case-header{display:flex;align-items:flex-start;gap:1rem;margin-bottom:1.2rem;}
+.case-cover{width:80px;height:120px;background:var(--paper-3);border-radius:var(--r);display:flex;align-items:center;justify-content:center;font-size:0.75rem;color:var(--stone);font-style:italic;border:1px solid var(--rule);}
+.case-info{flex:1;}
+.case-title{font-family:'Fraunces',serif;font-size:1.1rem;font-weight:600;color:var(--ink);margin-bottom:0.3rem;line-height:1.2;}
+.case-author{font-size:0.85rem;color:var(--copper);font-weight:500;margin-bottom:0.5rem;}
+.case-genre{font-size:0.78rem;color:var(--stone);background:rgba(28,18,9,0.05);padding:0.3rem 0.6rem;border-radius:var(--r);display:inline-block;}
+.case-section{margin-bottom:1.2rem;}
+.case-section-label{font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--copper);margin-bottom:0.5rem;}
+.case-section-content{font-size:0.85rem;color:var(--stone);line-height:1.6;}
+.case-metrics{display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;margin-top:0.8rem;}
+.case-metric{background:rgba(28,18,9,0.03);padding:0.7rem;border-radius:var(--r);}
+.case-metric-label{font-size:0.72rem;color:var(--stone);margin-bottom:0.2rem;}
+.case-metric-value{font-family:'Fraunces',serif;font-weight:600;font-size:0.95rem;color:var(--teal);}
+.case-quote{font-style:italic;font-size:0.85rem;color:var(--ink);line-height:1.6;padding:1rem;background:rgba(168,70,30,0.04);border-left:3px solid var(--copper);border-radius:0 var(--r) var(--r) 0;margin-top:1rem;}
+.case-quote::before{content:'"';font-family:'Fraunces',serif;font-size:1.5rem;color:var(--copper);line-height:0;margin-right:0.3rem;}
+
 .btn{display:inline-flex;align-items:center;gap:6px;padding:0.82rem 1.85rem;border-radius:var(--r);font-size:0.86rem;font-weight:600;text-decoration:none;transition:all 0.2s;cursor:pointer;border:1.5px solid transparent;}
 .btn-copper{background:var(--copper);color:#fff;border-color:var(--copper);}
 .btn-copper:hover{background:var(--copper-l);border-color:var(--copper-l);transform:translateY(-1px);}
@@ -110,6 +130,13 @@ footer a:hover{color:var(--copper-l);}
 
     <h2 style="font-size:1.7rem;margin-bottom:0.4rem;">What each plan may deliver</h2>
     <p style="color:var(--stone);font-size:0.92rem;max-width:60ch;">Compare the expected month-three ranges for each plan. For the full service and pricing details, <a href="pricing.html" class="xlink">see the plans</a>.</p>
+
+    <h2 style="font-size:1.7rem;margin:3rem 0 0.4rem;">Case studies</h2>
+    <p style="color:var(--stone);font-size:0.92rem;max-width:60ch;">Real authors, real books, real measured results. These examples show how the system works across different genres and starting points.</p>
+
+    <div id="caseStudies" style="margin-top:2rem;">
+      <p style="color:var(--stone);font-size:0.9rem;">Loading case studies…</p>
+    </div>
 
     <div class="results-table-wrap">
       <table class="results-table">
@@ -190,11 +217,79 @@ async function loadResultRanges() {
       <td>${METRIC_LABELS[metric]}</td>
       ${plans.map(plan => `<td class="num">${escapeHtml(plan.metrics[metric] || '—')}</td>`).join('')}
     </tr>`).join('');
+    
+    // Load case studies
+    if (data.case_studies && Array.isArray(data.case_studies)) {
+      renderCaseStudies(data.case_studies);
+    }
   } catch (error) {
     head.innerHTML = '<tr><th>Metric</th><th>Expected range</th></tr>';
     body.innerHTML = `<tr><td colspan="2">${escapeHtml(error.message)} Please use the pricing page for current plan details.</td></tr>`;
     console.error('Results data could not be loaded:', error);
   }
+}
+
+function renderCaseStudies(caseStudies) {
+  const container = document.getElementById('caseStudies');
+  if (!container || !caseStudies.length) return;
+  
+  container.innerHTML = `<div class="case-study-grid">
+    ${caseStudies.map(study => `
+      <div class="case-study-card">
+        <div class="case-header">
+          <div class="case-cover">Book Cover</div>
+          <div class="case-info">
+            <div class="case-title">${escapeHtml(study.book_title)}</div>
+            <div class="case-author">${escapeHtml(study.author)}</div>
+            <div class="case-genre">${escapeHtml(study.genre)}</div>
+          </div>
+        </div>
+        
+        <div class="case-section">
+          <div class="case-section-label">Starting situation</div>
+          <div class="case-section-content">${escapeHtml(study.starting_situation)}</div>
+        </div>
+        
+        <div class="case-section">
+          <div class="case-section-label">Services used</div>
+          <div class="case-section-content">${study.services_used.map(s => escapeHtml(s)).join(' · ')}</div>
+        </div>
+        
+        <div class="case-section">
+          <div class="case-section-label">Measurable outputs (${escapeHtml(study.time_period)})</div>
+          <div class="case-metrics">
+            ${Object.entries(study.measurable_outputs).map(([key, value]) => `
+              <div class="case-metric">
+                <div class="case-metric-label">${escapeHtml(key.replace(/_/g, ' '))}</div>
+                <div class="case-metric-value">${escapeHtml(String(value))}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+        
+        <div class="case-section">
+          <div class="case-section-label">Measurable indicators</div>
+          <div class="case-metrics">
+            ${Object.entries(study.measurable_indicators).map(([key, value]) => `
+              <div class="case-metric">
+                <div class="case-metric-label">${escapeHtml(key.replace(/_/g, ' '))}</div>
+                <div class="case-metric-value">${escapeHtml(String(value))}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+        
+        <div class="case-section">
+          <div class="case-section-label">Context</div>
+          <div class="case-section-content">${escapeHtml(study.context)}</div>
+        </div>
+        
+        ${study.author_quote ? `
+          <div class="case-quote">${escapeHtml(study.author_quote)}</div>
+        ` : ''}
+      </div>
+    `).join('')}
+  </div>`;
 }
 
 loadResultRanges();

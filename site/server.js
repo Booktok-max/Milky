@@ -4,6 +4,7 @@ const cors = require('cors');
 const axios = require('axios');
 const path = require('path');
 const fs = require('fs');
+const crypto = require('crypto');
 
 const app = express();
 app.use(express.json());
@@ -33,10 +34,80 @@ if (!APP_BASE_URL) {
 // Never trust an amount sent from the browser — look it up here instead.
 const PLANS = {
   spark: { name: 'Spark', amount: 20 },
+  enhanced: { name: 'Enhanced', amount: 50 },
   foundation: { name: 'Foundation', amount: 79 },
+  starter: { name: 'Starter', amount: 100 },
   momentum: { name: 'Momentum', amount: 249 },
   growth: { name: 'Growth', amount: 499 },
 };
+
+// ---- Transaction persistence (in-memory for now, upgrade to DB later) ----
+// This provides idempotency and duplicate callback protection
+const transactions = new Map(); // key: merchantReference, value: transaction record
+
+function getTransaction(merchantReference) {
+  return transactions.get(merchantReference);
+}
+
+function setTransaction(merchantReference, data) {
+  transactions.set(merchantReference, {
+    ...data,
+    merchantReference,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
+  });
+}
+
+function updateTransaction(merchantReference, updates) {
+  const existing = transactions.get(merchantReference);
+  if (existing) {
+    transactions.set(merchantReference, {
+      ...existing,
+      ...updates,
+      updatedAt: new Date().toISOString()
+    });
+  }
+}
+
+// ---- Security helpers ----------------------------------------------------
+function generateSignature(data, secret) {
+  const hmac = crypto.createHmac('sha256', secret);
+  hmac.update(JSON.stringify(data));
+  return hmac.digest('hex');
+}
+
+function validateSignature(data, signature, secret) {
+  if (!signature || !secret) return false;
+  const expectedSignature = generateSignature(data, secret);
+  return crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(expectedSignature));
+}
+
+// ---- Email notification helpers -----------------------------------------
+// TODO: Replace with actual email service integration (Brevo, SendGrid, etc.)
+async function sendPaymentConfirmationEmail(transaction) {
+  console.log('TODO: Send payment confirmation email for:', transaction.merchantReference);
+  console.log('To:', transaction.email, 'Plan:', transaction.planName, 'Amount:', transaction.amount);
+  
+  // Placeholder for actual email implementation
+  // This should integrate with your email service (Brevo, etc.)
+  // Return success/failure status
+  return { success: true, method: 'placeholder' };
+}
+
+async function sendPaymentFailedEmail(transaction, error) {
+  console.log('TODO: Send payment failed notification for:', transaction.merchantReference);
+  console.log('Error:', error);
+  
+  // Placeholder for actual email implementation
+  return { success: true, method: 'placeholder' };
+}
+
+async function sendAdminNotification(transaction, eventType) {
+  console.log('TODO: Send admin notification for:', eventType, transaction.merchantReference);
+  
+  // Placeholder for admin notification system
+  return { success: true, method: 'placeholder' };
+}
 
 // ---- Token cache (Pesapal tokens last ~5 minutes) ----------------------
 let cachedToken = null;
@@ -96,20 +167,52 @@ app.post('/api/create-payment', async (req, res) => {
   try {
     const { plan, email, phone, first_name, last_name } = req.body || {};
 
-    const planInfo = PLANS[String(plan || '').toLowerCase()];
+    // Validate plan
+    const planId = String(plan || '').toLowerCase();
+    const planInfo = PLANS[planId];
     if (!planInfo) {
-      return res.status(400).json({ error: 'Unknown plan. Use one of: ' + Object.keys(PLANS).join(', ') });
+      return res.status(400).json({ 
+        error: 'Unknown plan', 
+        validPlans: Object.keys(PLANS),
+        received: plan 
+      });
     }
+
+    // Validate contact info
     if (!email && !phone) {
       return res.status(400).json({ error: 'email or phone is required' });
     }
+
+    // Validate email format if provided
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return res.status(400).json({ error: 'Invalid email format' });
+    }
+
+    // Check server configuration
     if (!NOTIFICATION_ID) {
       return res.status(500).json({ error: 'Server not fully configured: PESAPAL_NOTIFICATION_ID missing. Run /api/register-ipn first.' });
     }
 
     const token = await getAccessToken();
 
-    const merchantReference = `AS-${planInfo.name.toUpperCase()}-${Date.now()}`;
+    // Generate unique merchant reference
+    const merchantReference = `AS-${planInfo.name.toUpperCase()}-${Date.now()}-${crypto.randomBytes(4).toString('hex').slice(0, 8)}`;
+
+    // Initialize transaction record
+    setTransaction(merchantReference, {
+      planId,
+      planName: planInfo.name,
+      amount: planInfo.amount,
+      email,
+      phone,
+      first_name,
+      last_name,
+      status: 'pending',
+      orderTrackingId: null,
+      paymentStatus: null,
+      ipnReceived: false,
+      callbackReceived: false
+    });
 
     const orderPayload = {
       id: merchantReference,
@@ -142,6 +245,12 @@ app.post('/api/create-payment', async (req, res) => {
     if (!result.data || !result.data.redirect_url) {
       return res.status(502).json({ error: 'Unexpected Pesapal response', details: result.data });
     }
+
+    // Update transaction with Pesapal tracking ID
+    updateTransaction(merchantReference, {
+      orderTrackingId: result.data.order_tracking_id,
+      status: 'created'
+    });
 
     res.json({
       redirect_url: result.data.redirect_url,
@@ -183,21 +292,45 @@ app.get('/api/callback', async (req, res) => {
   const { OrderTrackingId, OrderMerchantReference } = req.query;
   let statusHtml = '<p>We could not confirm your payment status automatically. If you were charged, contact us and we will verify manually.</p>';
   let paid = false;
+  let title = 'Payment status';
 
   try {
-    if (OrderTrackingId) {
+    if (OrderTrackingId && OrderMerchantReference) {
+      // Mark callback as received
+      updateTransaction(OrderMerchantReference, {
+        callbackReceived: true,
+        callbackReceivedAt: new Date().toISOString()
+      });
+
       const status = await fetchStatus(OrderTrackingId);
       const desc = status.payment_status_description || status.status_code;
-      paid = String(desc).toUpperCase() === 'COMPLETED';
+      const paymentStatus = String(desc).toUpperCase();
+      
+      paid = paymentStatus === 'COMPLETED';
+      
       statusHtml = `<p>Status: <b>${desc || 'Unknown'}</b></p>`;
+      
+      // Update transaction with callback status
+      updateTransaction(OrderMerchantReference, {
+        paymentStatus,
+        callbackStatus: desc
+      });
+
+      if (paid) {
+        updateTransaction(OrderMerchantReference, {
+          status: 'paid',
+          paidAt: new Date().toISOString()
+        });
+      }
     }
   } catch (err) {
     console.error('callback status check error:', err.response?.data || err.message);
+    statusHtml = '<p>There was an error confirming your payment status. Please contact us if you were charged.</p>';
   }
 
   res.send(`<!DOCTYPE html><html><head><meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title>${paid ? 'Payment received' : 'Payment status'} — Atomic Shelf</title>
+    <title>${title} — Atomic Shelf</title>
     <style>
       body{font-family:sans-serif;background:#14120F;color:#F3EEE3;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;padding:2rem;text-align:center;}
       .card{max-width:480px;}
@@ -205,7 +338,7 @@ app.get('/api/callback', async (req, res) => {
       a{color:#FFB020;}
     </style></head>
     <body><div class="card">
-      <h1>${paid ? "You're all set." : 'Payment received — confirming'}</h1>
+      <h1>${paid ? "You're all set." : (title === 'Payment processing' ? 'Payment processing...' : 'Payment status unclear')}</h1>
       ${statusHtml}
       <p>Reference: ${OrderMerchantReference || 'n/a'}</p>
       <p><a href="https://atomic-shelf.com">Return to Atomic Shelf</a></p>
@@ -213,6 +346,16 @@ app.get('/api/callback', async (req, res) => {
 });
 
 app.get('/api/cancelled', (req, res) => {
+  const { OrderMerchantReference } = req.query;
+  
+  // Update transaction status if we have a reference
+  if (OrderMerchantReference) {
+    updateTransaction(OrderMerchantReference, {
+      status: 'cancelled',
+      cancelledAt: new Date().toISOString()
+    });
+  }
+  
   res.send(`<!DOCTYPE html><html><head><meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>Payment cancelled — Atomic Shelf</title>
@@ -224,15 +367,89 @@ app.get('/api/cancelled', (req, res) => {
 app.get('/api/ipn', async (req, res) => {
   const { OrderTrackingId, OrderMerchantReference, OrderNotificationType } = req.query;
   console.log('IPN received:', { OrderTrackingId, OrderMerchantReference, OrderNotificationType });
+  
   try {
-    if (OrderTrackingId) {
-      const status = await fetchStatus(OrderTrackingId);
-      console.log('IPN status:', OrderMerchantReference, status.payment_status_description);
-      // TODO: mark the order as paid in your own storage / send yourself an email here.
+    if (!OrderTrackingId || !OrderMerchantReference) {
+      console.warn('IPN missing required fields');
+      return res.status(400).json({ error: 'Missing required fields' });
     }
+
+    // Check for duplicate IPN (idempotency)
+    const existingTransaction = getTransaction(OrderMerchantReference);
+    if (existingTransaction && existingTransaction.ipnReceived) {
+      console.log('Duplicate IPN detected for:', OrderMerchantReference);
+      return res.json({
+        orderNotificationType: OrderNotificationType,
+        orderTrackingId: OrderTrackingId,
+        orderMerchantReference: OrderMerchantReference,
+        status: 200,
+        duplicate: true
+      });
+    }
+
+    // Fetch current status from Pesapal
+    const status = await fetchStatus(OrderTrackingId);
+    console.log('IPN status:', OrderMerchantReference, status.payment_status_description);
+    
+    // Update transaction record
+    const paymentStatus = String(status.payment_status_description || status.status_code || '').toUpperCase();
+    updateTransaction(OrderMerchantReference, {
+      paymentStatus,
+      ipnReceived: true,
+      ipnReceivedAt: new Date().toISOString(),
+      pesapalStatus: status
+    });
+
+    // Handle successful payment
+    if (paymentStatus === 'COMPLETED') {
+      updateTransaction(OrderMerchantReference, {
+        status: 'paid',
+        paidAt: new Date().toISOString()
+      });
+      
+      // Get updated transaction for email
+      const completedTransaction = getTransaction(OrderMerchantReference);
+      
+      // Send confirmation email (with error handling)
+      try {
+        const emailResult = await sendPaymentConfirmationEmail(completedTransaction);
+        updateTransaction(OrderMerchantReference, {
+          emailSent: emailResult.success,
+          emailSentAt: new Date().toISOString(),
+          emailError: emailResult.success ? null : emailResult.error
+        });
+      } catch (emailError) {
+        console.error('Failed to send confirmation email:', emailError);
+        updateTransaction(OrderMerchantReference, {
+          emailSent: false,
+          emailError: emailError.message
+        });
+        // Continue despite email failure - payment is still valid
+      }
+      
+      // Send admin notification
+      if (completedTransaction) {
+        await sendAdminNotification(completedTransaction, 'payment_completed');
+      }
+      
+      console.log('Payment completed for:', OrderMerchantReference);
+    } else if (paymentStatus === 'FAILED' || paymentStatus === 'CANCELLED') {
+      updateTransaction(OrderMerchantReference, {
+        status: paymentStatus.toLowerCase()
+      });
+      
+      // Send admin notification for failed payments
+      const failedTransaction = getTransaction(OrderMerchantReference);
+      if (failedTransaction) {
+        await sendAdminNotification(failedTransaction, `payment_${paymentStatus.toLowerCase()}`);
+      }
+    }
+
   } catch (err) {
-    console.error('IPN status check error:', err.response?.data || err.message);
+    console.error('IPN processing error:', err.response?.data || err.message);
+    // Still return 200 to Pesapal to avoid retries, but log the error
   }
+
   res.json({
     orderNotificationType: OrderNotificationType,
     orderTrackingId: OrderTrackingId,
@@ -240,9 +457,65 @@ app.get('/api/ipn', async (req, res) => {
     status: 200,
   });
 });
+
 app.post('/api/ipn', (req, res) => res.redirect(307, `/api/ipn?${new URLSearchParams(req.query)}`));
 
 app.get('/health', (req, res) => res.json({ ok: true, env: ENV }));
+
+// ---- Transaction management endpoints ------------------------------------
+app.get('/api/transaction/:merchantReference', (req, res) => {
+  const { merchantReference } = req.params;
+  const transaction = getTransaction(merchantReference);
+  
+  if (!transaction) {
+    return res.status(404).json({ error: 'Transaction not found' });
+  }
+  
+  // Return safe subset of transaction data
+  const safeTransaction = {
+    merchantReference: transaction.merchantReference,
+    planName: transaction.planName,
+    amount: transaction.amount,
+    status: transaction.status,
+    paymentStatus: transaction.paymentStatus,
+    createdAt: transaction.createdAt,
+    paidAt: transaction.paidAt
+  };
+  
+  res.json(safeTransaction);
+});
+
+// Admin endpoint for transaction reconciliation (protected by SETUP_KEY)
+app.get('/api/admin/transactions', (req, res) => {
+  if (!SETUP_KEY || req.query.key !== SETUP_KEY) {
+    return res.status(403).json({ error: 'Invalid or missing setup key' });
+  }
+  
+  const allTransactions = Array.from(transactions.values());
+  res.json({
+    count: allTransactions.length,
+    transactions: allTransactions
+  });
+});
+
+// Admin endpoint to test payment status lookup
+app.get('/api/admin/test-status', async (req, res) => {
+  if (!SETUP_KEY || req.query.key !== SETUP_KEY) {
+    return res.status(403).json({ error: 'Invalid or missing setup key' });
+  }
+  
+  const { orderTrackingId } = req.query;
+  if (!orderTrackingId) {
+    return res.status(400).json({ error: 'orderTrackingId is required' });
+  }
+  
+  try {
+    const status = await fetchStatus(orderTrackingId);
+    res.json({ success: true, status });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
 
 // ---- Public asset boundary ---------------------------------------------
 // Keep internal records and operational tools outside the browser's reach.

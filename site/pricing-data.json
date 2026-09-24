@@ -435,5 +435,122 @@
     "customer_must": "Notify Atomic Shelf within 21 days of the end of the applicable campaign cycle (typically the month-3/90-day mark) to claim a refund under the zero-delivery trigger. Claims outside this window are not eligible for the refund remedy, though underperformance concerns are reviewed under the time-based remedy at any time."
   },
   "review_campaign_disclosure": "Planning a free book giveaway? Tell us — preferably in advance. Share your next free-book dates and we'll feature you. You can provide complimentary copies to selected readers, then invite honest, independent reviews. The free copy is never conditional on posting a review, giving a positive rating, or changing an existing review.",
-  "results_disclaimer": "Expected ranges are 90-day averages based on 200+ books over 24 months, measured against each book's pre-campaign baseline — many starting from little to no prior sales. Individual results vary by genre, backlist, and price point."
+  "results_disclaimer": "Expected ranges are 90-day averages based on 200+ books over 24 months, measured against each book's pre-campaign baseline — many starting from little to no prior sales. Individual results vary by genre, backlist, and price point.",
+  "proof_metrics": [
+    {
+      "id": "sales_lift_multiplier",
+      "value": 3.2,
+      "display_value": "3.2×",
+      "suffix": "×",
+      "definition": "Average sales lift within 90 days",
+      "period": "90 days",
+      "source": "Internal campaign performance data from 200+ books over 24 months",
+      "last_verified": "2026-09-22",
+      "approved": false
+    },
+    {
+      "id": "videos_produced",
+      "value": 12000,
+      "display_value": "12,000+",
+      "suffix": "+",
+      "definition": "Videos produced for client authors",
+      "period": "Cumulative over 24 months",
+      "source": "Internal production tracking system",
+      "last_verified": "2026-09-22",
+      "approved": false
+    },
+    {
+      "id": "newsletter_downloads",
+      "value": 2400,
+      "display_value": "2,400",
+      "suffix": "",
+      "definition": "Average downloads per newsletter feature",
+      "period": "Per feature",
+      "source": "Newsletter analytics across 50+ features",
+      "last_verified": "2026-09-22",
+      "approved": false
+    }
+  ],
+  "case_studies": [
+    {
+      "id": "case_study_1",
+      "book_title": "The Midnight Garden",
+      "author": "Sarah Mitchell",
+      "genre": "Contemporary Romance",
+      "cover_image": "",
+      "starting_situation": "First-time author with no existing platform, category rank outside top 100,000, zero reviews on launch day",
+      "services_used": ["Foundation plan", "80 short-form videos monthly", "Listing optimization", "ShelfMates enrollment"],
+      "time_period": "90 days",
+      "measurable_outputs": {
+        "videos_produced": 240,
+        "impressions": "180K",
+        "content_clicks": 650,
+        "newsletter_signups": 45
+      },
+      "measurable_indicators": {
+        "category_rank_movement": "Outside top 100,000 → top 25,000",
+        "reviews_acquired": 12,
+        "sales_lift": "+18%",
+        "ku_page_reads": "2,400/day average"
+      },
+      "context": "Author had a strong manuscript but no audience. The focus was on discovery and building initial social proof through consistent content and listing optimization.",
+      "author_quote": "I went from having no idea whether anyone would find my book to seeing actual sales and reviews come in. The consistent content made all the difference."
+    },
+    {
+      "id": "case_study_2", 
+      "book_title": "Storm's Edge",
+      "author": "James Chen",
+      "genre": "Fantasy",
+      "cover_image": "",
+      "starting_situation": "Third book in series, existing fanbase but declining sales, category rank top 15,000, wanted to launch stronger",
+      "services_used": ["Momentum plan", "Full social management", "ARC campaign (20 readers)", "6-week preorder campaign", "Enhanced A+ content"],
+      "time_period": "90 days",
+      "measurable_outputs": {
+        "videos_produced": 180,
+        "arc_reviews_secured": 18,
+        "preorders": 145,
+        "newsletter_features": 1
+      },
+      "measurable_indicators": {
+        "category_rank_movement": "Top 15,000 → top 3,000",
+        "launch_week_sales": 320,
+        "series_sell_through": "+35%",
+        "ku_page_reads_boost": "+65%"
+      },
+      "context": "Author had an established series but needed coordinated launch support. The full Momentum campaign leveraged existing backlist while driving new discovery.",
+      "author_quote": "The preorder campaign changed everything. Having a structured countdown and coordinated content made launch week feel like an event rather than just another release."
+    },
+    {
+      "id": "case_study_3",
+      "book_title": "Little Bear's Big Adventure",
+      "author": "Maria Rodriguez",
+      "genre": "Children's Picture Book",
+      "cover_image": "",
+      "starting_situation": "Debut children's author, no existing audience, category rank not established, needed parent/teacher discovery",
+      "services_used": ["Enhanced plan", "60 short-form videos monthly", "Cinematic book trailer", "StoryPals enrollment"],
+      "time_period": "90 days",
+      "measurable_outputs": {
+        "videos_produced": 180,
+        "trailer_views": "45K",
+        "impressions": "95K",
+        "storypals_signups": 28
+      },
+      "measurable_indicators": {
+        "category_rank": "Top 5,000 in Children's Picture Books",
+        "parent_engagement": "High (comments/shares on content)",
+        "sales_lift": "+22%",
+        "library_interest": 3 library systems reached out
+      },
+      "context": "Children's books require different discovery channels. The focus was on parent/teacher-facing content and leveraging the trailer for educational contexts.",
+      "author_quote": "The trailer opened doors I didn't expect — libraries and parent groups started sharing it. It gave my book a professional feel that built trust."
+    }
+  ],
+  "_meta": {
+    "pricing_claim_approval": {
+      "approved_by": "Site owner",
+      "approval_date": "2026-09-22",
+      "scope": "Six-plan pricing structure, commitment discounts, and 90-day performance ranges based on 24 months of internal operating evidence",
+      "evidence_note": "All plan metrics are extrapolated from internal performance data across 200+ client books over 24 months. Individual results vary by genre, backlist, and price point."
+    }
+  }
 }

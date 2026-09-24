@@ -462,19 +462,8 @@ footer{ background:var(--color-bg-dark); color:var(--color-text-primary-dark); p
 <!-- ============ PROOF STRIP ============ -->
 <section class="proof">
   <div class="wrap">
-    <div class="proof-grid">
-      <div class="proof-item reveal">
-        <div class="proof-n" data-count="3.2" data-suffix="×">0×</div>
-        <div class="proof-l">Average sales lift within 90 days</div>
-      </div>
-      <div class="proof-item reveal">
-        <div class="proof-n" data-count="12000" data-suffix="+">0+</div>
-        <div class="proof-l">Videos produced for client authors</div>
-      </div>
-      <div class="proof-item reveal">
-        <div class="proof-n" data-count="2400" data-suffix="">0</div>
-        <div class="proof-l">Average downloads per newsletter feature</div>
-      </div>
+    <div class="proof-grid" id="proofGrid">
+      <p class="pricing-foot">Loading proof metrics…</p>
     </div>
   </div>
 </section>
@@ -839,6 +828,13 @@ const proofEls = document.querySelectorAll('.proof-n');
 const countUp = (el) => {
   const target = parseFloat(el.dataset.count);
   const suffix = el.dataset.suffix || '';
+  
+  // Handle special suffix cases like "K" (thousands)
+  if (suffix === 'K') {
+    el.textContent = (target / 1000).toFixed(0) + suffix;
+    return;
+  }
+  
   const isDecimal = target % 1 !== 0;
   const duration = reduceMotion ? 0 : 800;
   const start = performance.now();
@@ -870,6 +866,45 @@ document.querySelectorAll('.faq-item').forEach(item => {
     }
   });
 });
+
+/* ---------- Proof metrics ----------
+   Proof metrics are loaded from the public pricing data file. */
+let proofMetrics = [];
+
+function renderProofMetrics(){
+  const proofGrid = document.getElementById('proofGrid');
+  if (!proofGrid || !proofMetrics.length) return;
+  
+  proofGrid.innerHTML = '';
+  proofMetrics.slice(0, 3).forEach(metric => {
+    const item = document.createElement('div');
+    item.className = 'proof-item reveal';
+    
+    // Use the value for animation and suffix from the JSON
+    const suffix = metric.suffix || '';
+    
+    item.innerHTML = `
+      <div class="proof-n" data-count="${metric.value}" data-suffix="${suffix}">0${suffix}</div>
+      <div class="proof-l">${escapeHtml(metric.definition)}</div>
+    `;
+    proofGrid.appendChild(item);
+  });
+  
+  // Reinitialize proof count-up for new elements
+  const newProofEls = proofGrid.querySelectorAll('.proof-n');
+  const proofIO = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { countUp(e.target); proofIO.unobserve(e.target); } });
+  }, { threshold:0.5 });
+  newProofEls.forEach(el => proofIO.observe(el));
+  
+  // Reinitialize reveal for new elements
+  if (!reduceMotion) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold:0.15 });
+    proofGrid.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  }
+}
 
 /* ---------- Pricing preview ----------
    Plan values are loaded from the public pricing data file. This page only
@@ -932,6 +967,12 @@ async function loadPricing(){
     planData = pricingData.plans;
     renderPricing(selectedTerm);
     document.querySelectorAll('#commitToggle button').forEach(button => { button.disabled = false; });
+    
+    // Load proof metrics
+    if (Array.isArray(pricingData.proof_metrics) && pricingData.proof_metrics.length) {
+      proofMetrics = pricingData.proof_metrics;
+      renderProofMetrics();
+    }
   }catch(error){
     grid.innerHTML = '<p class="pricing-foot">Plans are temporarily unavailable. Please <a href="mailto:nick@atomic-shelf.com">contact us</a> for current options.</p>';
     console.error('Pricing data could not be loaded:', error);
