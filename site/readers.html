@@ -152,13 +152,13 @@ footer a{color:rgba(255,255,255,0.4);text-decoration:none;}
 <nav>
   <a href="index.html" class="logo">Atomic<span class="logo-dash">&#8209;</span>Shelf</a>
   <ul class="nav-links">
-    <li><a href="#browse-books" style="color:var(--copper);font-weight:600;" aria-current="page">Browse Books</a></li>
-    <li><a href="#lucky">I’m feeling lucky</a></li>
-    <li><a href="#browse-books" id="publication-tab">New releases → timeless classics</a></li>
-    <li data-provider-nav="tiktok-trends" hidden><a href="#tiktok-trends">Trending on TikTok</a></li>
-    <li data-provider-nav="nyt-bestsellers" hidden><a href="#nyt-bestsellers">NYT Best Sellers</a></li>
-    <li data-provider-nav="research-scholarly" hidden><a href="#research-scholarly">Research &amp; Scholarly</a></li>
-    <li><a href="#other-languages">Other languages</a></li>
+    <li><a href="readers.html?view=browse" data-reader-view="browse" style="color:var(--copper);font-weight:600;" aria-current="page">Browse Books</a></li>
+    <li><a href="readers.html?view=lucky" data-reader-view="lucky">I’m feeling lucky</a></li>
+    <li><a href="readers.html?view=publication" data-reader-view="publication" id="publication-tab">New releases → timeless classics</a></li>
+    <li data-provider-nav="tiktok-trends" hidden><a href="readers.html?view=tiktok" data-reader-view="tiktok">Trending on TikTok</a></li>
+    <li data-provider-nav="nyt-bestsellers" hidden><a href="readers.html?view=nyt" data-reader-view="nyt">NYT Best Sellers</a></li>
+    <li data-provider-nav="research-scholarly" hidden><a href="readers.html?view=scholarly" data-reader-view="scholarly">Research &amp; Scholarly</a></li>
+    <li><a href="readers.html?view=languages" data-reader-view="languages">Other languages</a></li>
   </ul>
   <a href="index.html#pricing" class="nav-cta">Add my own book</a>
 </nav>
@@ -275,6 +275,7 @@ footer a{color:rgba(255,255,255,0.4);text-decoration:none;}
     <div class="list-grid" id="list-grid">
       <div class="state-note">Loading lists…</div>
     </div>
+    <div class="load-sentinel" id="list-load-sentinel" aria-live="polite">Loading more reader shelves as you browse…</div>
   </div>
 </section>
 
@@ -299,6 +300,7 @@ footer a{color:rgba(255,255,255,0.4);text-decoration:none;}
     <div class="book-grid" id="language-grid">
       <div class="state-note">Loading Spanish books…</div>
     </div>
+    <div class="load-sentinel" id="language-load-sentinel" aria-live="polite">Loading more books as you browse…</div>
   </div>
 </section>
 
@@ -337,6 +339,41 @@ const readersBackendUrl = (
   window.__ATOMIC_SHELF_BACKEND_URL__ ||
   'https://milky-production-c748.up.railway.app'
 ).replace(/\/+$/, '');
+const readerView = new URLSearchParams(window.location.search).get('view') || 'browse';
+const validReaderViews = ['browse', 'publication', 'lucky', 'languages', 'tiktok', 'nyt', 'scholarly'];
+const activeReaderView = validReaderViews.includes(readerView) ? readerView : 'browse';
+
+function configureReaderView() {
+  const viewSections = {
+    browse: ['browse-books'],
+    publication: ['browse-books'],
+    lucky: ['lucky'],
+    languages: ['other-languages'],
+    tiktok: ['tiktok-trends'],
+    nyt: ['nyt-bestsellers'],
+    scholarly: ['research-scholarly']
+  };
+  const visibleSections = new Set(viewSections[activeReaderView]);
+  ['browse-books', 'lucky', 'other-languages', 'tiktok-trends', 'nyt-bestsellers', 'research-scholarly']
+    .forEach(id => { document.getElementById(id).hidden = !visibleSections.has(id); });
+  document.getElementById('book-search-form').hidden = !['browse', 'publication'].includes(activeReaderView);
+  document.getElementById('genre-filters').hidden = !['browse', 'publication'].includes(activeReaderView);
+  document.querySelectorAll('[data-reader-view]').forEach(link => {
+    const isActive = link.dataset.readerView === activeReaderView ||
+      (activeReaderView === 'publication' && link.dataset.readerView === 'publication');
+    link.toggleAttribute('aria-current', isActive);
+    link.style.color = isActive ? 'var(--copper)' : '';
+    link.style.fontWeight = isActive ? '600' : '';
+  });
+  if (activeReaderView === 'lucky') {
+    document.getElementById('reader-greeting').textContent = 'Find your next reader-curated shelf';
+    document.getElementById('reader-date-range').textContent = 'A bottomless stream of public lists, shuffled into a fresh discovery path.';
+  } else if (activeReaderView === 'languages') {
+    document.getElementById('reader-greeting').textContent = 'Read beyond English';
+    document.getElementById('reader-date-range').textContent = 'Choose a language, then keep scrolling for more catalogue discoveries.';
+  }
+}
+configureReaderView();
 
 function readersApiUrl(path, params = {}) {
   const query = new URLSearchParams(params);
@@ -515,21 +552,6 @@ async function fetchBooks(query, genre, page = 1, sortByPublication = false) {
       .sort((a, b) => (Number(b.publicationYear) || 0) - (Number(a.publicationYear) || 0));
   }
 
-  async function fetchLanguageBooks(language) {
-    const params = new URLSearchParams({
-      q: `language:${language}`,
-      limit: '30',
-      sort: 'readinglog_count desc'
-    });
-    const res = await fetchOpenLibrary('search.json', Object.fromEntries(params));
-    if (!res.ok) throw new Error('Language shelf unavailable');
-    const data = await res.json();
-    return seededShuffle((data.docs || [])
-      .filter(doc => doc.cover_i && publicationYearLabel(doc.first_publish_year) !== null)
-      .slice(0, 18)
-      .map(doc => ({ ...bookFromDoc(doc), lane: 'Other languages' })), dailySeed());
-  }
-
   const lanes = DISCOVERY_LANES.map(lane => ({
     ...lane,
     query: genre ? `${GENRE_QUERIES[genre] || `subject:${genre}`} ${lane.query}` : lane.query
@@ -569,6 +591,22 @@ async function fetchBooks(query, genre, page = 1, sortByPublication = false) {
     seen.add(key);
     return true;
   }), dailySeed() + page).slice(0, 30);
+}
+
+async function fetchLanguageBooks(language, page = 1) {
+  const params = new URLSearchParams({
+    q: `language:${language}`,
+    limit: '30',
+    page: String(page),
+    sort: 'readinglog_count desc'
+  });
+  const res = await fetchOpenLibrary('search.json', Object.fromEntries(params));
+  if (!res.ok) throw new Error('Language shelf unavailable');
+  const data = await res.json();
+  return seededShuffle((data.docs || [])
+    .filter(doc => doc.cover_i && publicationYearLabel(doc.first_publish_year) !== null)
+    .slice(0, 24)
+    .map(doc => ({ ...bookFromDoc(doc), lane: 'Other languages' })), dailySeed() + page);
 }
 
 function bookFromDoc(d) {
@@ -671,8 +709,19 @@ function fallbackListCover() {
   return placeholder;
 }
 
-async function loadLists() {
+let listPage = 1;
+let listLoading = false;
+let listItems = [];
+
+async function loadLists(reset = true) {
   const grid = document.getElementById('list-grid');
+  if (listLoading) return;
+  listLoading = true;
+  if (reset) {
+    listPage = 1;
+    listItems = [];
+    grid.innerHTML = '<div class="state-note">Loading lists…</div>';
+  }
   try {
     function listUrl(list) {
       const candidate = list.full_url || list.url;
@@ -690,7 +739,7 @@ async function loadLists() {
     }
     const responses = await Promise.all(LIST_SEARCHES.map(async search => {
       try {
-        const res = await fetchOpenLibrary('search/lists.json', { q: search.query, limit: '8' });
+        const res = await fetchOpenLibrary('search/lists.json', { q: search.query, limit: '8', page: String(listPage) });
         if (!res.ok) return [];
         const data = await res.json();
         return Promise.all((data.docs || []).slice(0, 3).map(async list => {
@@ -722,14 +771,23 @@ async function loadLists() {
     const seen = new Set();
     const lists = seededShuffle(responses.flat().filter(list => {
       const key = list.url || list.name;
-      if (seen.has(key)) return false;
+      if (seen.has(key) || listItems.some(item => (item.url || item.name) === key)) return false;
       seen.add(key);
       return true;
-    }), dailySeed()).slice(0, 12);
+    }), dailySeed() + listPage).slice(0, 12);
     if (!lists.length) throw new Error('No public lists found');
-    renderLists(lists);
+    listItems = listItems.concat(lists);
+    renderLists(listItems);
+    listPage += 1;
+    document.getElementById('list-load-sentinel').textContent = 'Keep scrolling for more reader shelves…';
   } catch (err) {
-    renderLists(fallbackListData());
+    if (reset) {
+      listItems = fallbackListData();
+      renderLists(listItems);
+    }
+    document.getElementById('list-load-sentinel').textContent = 'More shelves will appear when the catalogue responds.';
+  } finally {
+    listLoading = false;
   }
 }
 
@@ -812,8 +870,8 @@ async function loadBooks(query, genre, reset = true, sortByPublication = activeS
 
 function runSearch() {
   const q = document.getElementById('book-search').value.trim();
-  document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
-  document.querySelector('.pill[data-genre=""]').classList.add('active');
+  document.querySelectorAll('#genre-filters .pill').forEach(p => p.classList.remove('active'));
+  document.querySelector('#genre-filters .pill[data-genre=""]').classList.add('active');
   activeGenre = '';
   activeQuery = q;
   activeSort = '';
@@ -829,7 +887,7 @@ document.getElementById('book-search-form').addEventListener('submit', e => {
 document.getElementById('genre-filters').addEventListener('click', e => {
   const pill = e.target.closest('.pill');
   if (!pill) return;
-  document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('#genre-filters .pill').forEach(p => p.classList.remove('active'));
   pill.classList.add('active');
   activeGenre = pill.dataset.genre;
   activeQuery = '';
@@ -839,34 +897,36 @@ document.getElementById('genre-filters').addEventListener('click', e => {
   loadBooks(activeQuery, activeGenre, true, activeSort === 'publication');
 });
 
-document.getElementById('publication-tab').addEventListener('click', e => {
-  e.preventDefault();
-  document.querySelectorAll('.nav-links a').forEach(link => link.removeAttribute('aria-current'));
-  e.currentTarget.setAttribute('aria-current', 'page');
-  document.querySelectorAll('.pill').forEach(pill => pill.classList.remove('active'));
-  document.querySelector('.pill[data-genre=""]').classList.add('active');
-  activeGenre = '';
-  activeQuery = '';
-  activeSort = 'publication';
-  document.getElementById('book-search').value = '';
-  setReaderGreeting();
-  loadBooks(activeQuery, activeGenre, true, true);
-  document.getElementById('browse-books').scrollIntoView({ behavior: 'smooth' });
-});
-
 let languageLoaded = false;
 let languageLoading = false;
+let languagePage = 1;
+let languageBooks = [];
 
-async function loadLanguageShelf(language = 'spa') {
+async function loadLanguageShelf(language = 'spa', reset = true) {
   if (languageLoading) return;
   languageLoading = true;
   const grid = document.getElementById('language-grid');
-  grid.innerHTML = '<div class="state-note">Loading books…</div>';
+  if (reset) {
+    languagePage = 1;
+    languageBooks = [];
+    grid.innerHTML = '<div class="state-note">Loading books…</div>';
+  }
   try {
-    renderLanguageBooks(await fetchLanguageBooks(language));
+    const books = await fetchLanguageBooks(language, languagePage);
+    const seen = new Set(languageBooks.map(book => `${book.title}|${book.author}`));
+    languageBooks = languageBooks.concat(books.filter(book => {
+      const key = `${book.title}|${book.author}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    }));
+    renderLanguageBooks(languageBooks);
+    languagePage += 1;
     languageLoaded = true;
+    document.getElementById('language-load-sentinel').textContent = 'Keep scrolling for more books…';
   } catch (error) {
-    grid.innerHTML = '<div class="state-note">This language shelf is unavailable right now. Please try another language.</div>';
+    if (reset) grid.innerHTML = '<div class="state-note">This language shelf is unavailable right now. Please try another language.</div>';
+    document.getElementById('language-load-sentinel').textContent = 'More books will appear when the catalogue responds.';
   } finally {
     languageLoading = false;
   }
@@ -877,7 +937,7 @@ document.getElementById('language-filters').addEventListener('click', async e =>
   if (!pill) return;
   document.querySelectorAll('#language-filters .pill').forEach(item => item.classList.remove('active'));
   pill.classList.add('active');
-  await loadLanguageShelf(pill.dataset.language);
+  await loadLanguageShelf(pill.dataset.language, true);
 });
 
 function renderLanguageBooks(books) {
@@ -1053,6 +1113,14 @@ const languageObserver = new IntersectionObserver(entries => {
 }, { rootMargin: '300px' });
 languageObserver.observe(document.getElementById('other-languages'));
 
+const languageLoadObserver = new IntersectionObserver(entries => {
+  if (entries[0].isIntersecting && activeReaderView === 'languages') {
+    const language = document.querySelector('#language-filters .pill.active')?.dataset.language || 'spa';
+    loadLanguageShelf(language, false);
+  }
+}, { rootMargin: '700px' });
+languageLoadObserver.observe(document.getElementById('language-load-sentinel'));
+
 
 document.getElementById('scholarly-search-form').addEventListener('submit', e => {
   e.preventDefault();
@@ -1061,18 +1129,28 @@ document.getElementById('scholarly-search-form').addEventListener('submit', e =>
 });
 
 const loadObserver = new IntersectionObserver(entries => {
-  if (entries[0].isIntersecting) loadBooks(activeQuery, activeGenre, false, activeSort === 'publication');
+  if (entries[0].isIntersecting && ['browse', 'publication'].includes(activeReaderView)) {
+    loadBooks(activeQuery, activeGenre, false, activeSort === 'publication');
+  }
 }, { rootMargin: '700px' });
 loadObserver.observe(document.getElementById('load-sentinel'));
 
+const listLoadObserver = new IntersectionObserver(entries => {
+  if (entries[0].isIntersecting && activeReaderView === 'lucky') loadLists(false);
+}, { rootMargin: '700px' });
+listLoadObserver.observe(document.getElementById('list-load-sentinel'));
+
 // Prioritise the main book shelf; secondary feeds wait until the browser is idle.
 setReaderGreeting();
-loadBooks(activeQuery, activeGenre);
+if (['browse', 'publication'].includes(activeReaderView)) {
+  activeSort = activeReaderView === 'publication' ? 'publication' : '';
+  loadBooks(activeQuery, activeGenre);
+}
 const schedule = window.requestIdleCallback || (callback => setTimeout(callback, 800));
-schedule(() => loadLists());
-schedule(() => loadScholarly());
-schedule(() => loadTikTokTrends());
-schedule(() => loadNytBooks());
+if (activeReaderView === 'lucky') schedule(() => loadLists());
+if (activeReaderView === 'scholarly') schedule(() => loadScholarly());
+if (activeReaderView === 'tiktok') schedule(() => loadTikTokTrends());
+if (activeReaderView === 'nyt') schedule(() => loadNytBooks());
 </script>
 <script src="analytics.js"></script>
 </body>
