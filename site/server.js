@@ -187,6 +187,11 @@ function findTransaction({ orderTrackingId, merchantReference }) {
     );
 }
 
+function findTransactionByIdempotencyKey(idempotencyKey) {
+    if (!idempotencyKey) return null;
+    return readTransactions().find(transaction => transaction.idempotencyKey === idempotencyKey);
+}
+
 function paymentStatusFromPesapal(status) {
     const description = String(status?.payment_status_description || '').toLowerCase();
     const code = String(status?.status_code || '').toLowerCase();
@@ -657,7 +662,19 @@ app.get('/api/register-ipn', async (req, res) => {
 // ---- Create a payment request ------------------------------------------
 app.post('/api/create-payment', async (req, res) => {
   try {
-    const { plan, term = 'monthly', email, phone, first_name, last_name } = req.body || {};
+    const {
+      plan,
+      term = 'monthly',
+      email,
+      phone,
+      first_name,
+      last_name,
+      idempotency_key: requestIdempotencyKey,
+    } = req.body || {};
+    const idempotencyKey = String(requestIdempotencyKey || '').trim();
+    if (idempotencyKey && !/^[A-Za-z0-9._:-]{8,128}$/.test(idempotencyKey)) {
+      return res.status(400).json({ error: 'Invalid idempotency key.' });
+    }
 
     const planInfo = PLANS[String(plan || '').toLowerCase()];
     if (!planInfo) {
@@ -674,6 +691,23 @@ app.post('/api/create-payment', async (req, res) => {
     if (!NOTIFICATION_ID) {
       return res.status(500).json({ error: 'Server not fully configured: PESAPAL_NOTIFICATION_ID missing. Run /api/register-ipn first.' });
     }
+    const previousTransaction = findTransactionByIdempotencyKey(idempotencyKey);
+    if (previousTransaction && (
+      previousTransaction.plan !== String(plan || '').toLowerCase() ||
+      previousTransaction.commitment !== billingTerm ||
+      previousTransaction.amount !== amount ||
+      previousTransaction.customerEmail !== (email || null)
+    )) {
+      return res.status(409).json({ error: 'This idempotency key was already used for a different payment.' });
+    }
+    if (previousTransaction?.redirectUrl && previousTransaction.pesapalOrderTrackingId) {
+      return res.json({
+        redirect_url: previousTransaction.redirectUrl,
+        order_tracking_id: previousTransaction.pesapalOrderTrackingId,
+        merchant_reference: previousTransaction.merchantReference,
+        idempotent_replay: true,
+      });
+    }
 
     const token = await getAccessToken();
 
@@ -681,6 +715,7 @@ app.post('/api/create-payment', async (req, res) => {
     const transaction = {
       id: merchantReference,
       merchantReference,
+      idempotencyKey: idempotencyKey || null,
       pesapalOrderTrackingId: null,
       plan: String(plan || '').toLowerCase(),
       commitment: billingTerm,
@@ -729,6 +764,7 @@ app.post('/api/create-payment', async (req, res) => {
     saveTransaction({
       ...transaction,
       pesapalOrderTrackingId: result.data.order_tracking_id || null,
+      redirectUrl: result.data.redirect_url,
       updatedAt: new Date().toISOString(),
     });
 

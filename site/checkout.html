@@ -346,6 +346,10 @@
 
     const DEFAULT_PLAN = 'spark';
     const DEFAULT_TERM = 'monthly';
+    const idempotencyKey = (
+      window.crypto?.randomUUID?.() ||
+      `${Date.now()}-${Math.random().toString(36).slice(2)}`
+    ).replace(/[^A-Za-z0-9._:-]/g, '').slice(0, 128);
     let planData = {};
     let selectedTerm = DEFAULT_TERM;
 
@@ -469,6 +473,7 @@
       const payload = {
         plan: planField.value,
         term: selectedTerm,
+        idempotency_key: idempotencyKey,
         first_name: document.getElementById('first_name').value.trim(),
         last_name: document.getElementById('last_name').value.trim(),
         email: document.getElementById('email').value.trim(),
@@ -501,7 +506,14 @@
       } catch (error) {
         submitButton.disabled = false;
         submitButton.textContent = 'Continue to secure payment';
-        setStatus('We could not connect to the payment service. Please try again, or email nick@atomic-shelf.com for help.', 'error');
+        const message = error?.message || '';
+        const isPlanConfigurationError = /unknown plan|billing term|not fully configured|pricing/i.test(message);
+        setStatus(
+          isPlanConfigurationError
+            ? 'This payment option is temporarily unavailable while payment settings are updated. Please email nick@atomic-shelf.com for help.'
+            : 'We could not connect to the payment service. Please try again, or email nick@atomic-shelf.com for help.',
+          'error'
+        );
       }
     });
 
