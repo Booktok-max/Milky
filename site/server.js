@@ -606,16 +606,6 @@ function loadPaymentPlans() {
 }
 
 const PLANS = loadPaymentPlans();
-// ---- Known plans (server-side source of truth for pricing) ------------
-// Never trust an amount sent from the browser — look it up here instead.
-const PLANS = {
-  spark: { name: 'Spark', amount: 20 },
-  enhanced: { name: 'Enhanced', amount: 50 },
-  foundation: { name: 'Foundation', amount: 79 },
-  starter: { name: 'Starter', amount: 100 },
-  momentum: { name: 'Momentum', amount: 249 },
-  growth: { name: 'Growth', amount: 499 },
-};
 
 // ---- Transaction persistence (in-memory for now, upgrade to DB later) ----
 // This provides idempotency and duplicate callback protection
@@ -741,7 +731,19 @@ app.get('/api/register-ipn', async (req, res) => {
 // ---- Create a payment request ------------------------------------------
 app.post('/api/create-payment', async (req, res) => {
   try {
-    const { plan, email, phone, first_name, last_name } = req.body || {};
+    const {
+      plan,
+      term = 'monthly',
+      email,
+      phone,
+      first_name,
+      last_name,
+      idempotency_key: requestIdempotencyKey,
+    } = req.body || {};
+    const idempotencyKey = String(requestIdempotencyKey || '').trim();
+    if (idempotencyKey && !/^[A-Za-z0-9._:-]{8,128}$/.test(idempotencyKey)) {
+      return res.status(400).json({ error: 'Invalid idempotency key.' });
+    }
 
     // Validate plan
     const planId = String(plan || '').toLowerCase();
@@ -800,7 +802,7 @@ app.post('/api/create-payment', async (req, res) => {
     setTransaction(merchantReference, {
       planId,
       planName: planInfo.name,
-      amount: planInfo.amount,
+      amount,
       email,
       phone,
       first_name,
