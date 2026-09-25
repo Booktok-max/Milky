@@ -207,7 +207,11 @@ function paymentStatusFromPesapal(status) {
 
 function updateTransactionStatus(transaction, status, source) {
     if (!transaction || typeof transaction !== 'object') return null;
-    return saveTransaction(paymentLib.applyProviderStatus(transaction, status, source));
+    // Merge against the latest persisted record so metadata written by an
+    // earlier step (callbackReceived/At, ipnReceived/At, paidAt) survives the
+    // status transition instead of being overwritten by a stale copy.
+    const current = paymentLib.resolvePersistedTransaction(readTransactions(), transaction) || transaction;
+    return saveTransaction(paymentLib.applyProviderStatus(current, status, source));
 }
 
 function getTransaction(merchantReference) {

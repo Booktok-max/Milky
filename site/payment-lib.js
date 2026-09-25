@@ -127,6 +127,23 @@ function mapProviderStatus(status) {
   return 'pending';
 }
 
+// Resolve the freshest persisted copy of a transaction so a stale in-memory
+// object cannot overwrite metadata written by a later step (for example the
+// callback flags written just before a status transition).
+function resolvePersistedTransaction(transactions, transaction) {
+  if (!transaction || typeof transaction !== 'object' || Array.isArray(transaction)) return null;
+  const list = Array.isArray(transactions) ? transactions.filter(item => item && typeof item === 'object') : [];
+  if (transaction.merchantReference) {
+    const byReference = list.find(item => item.merchantReference === transaction.merchantReference);
+    if (byReference) return byReference;
+  }
+  if (transaction.pesapalOrderTrackingId) {
+    const byTracking = list.find(item => item.pesapalOrderTrackingId === transaction.pesapalOrderTrackingId);
+    if (byTracking) return byTracking;
+  }
+  return transaction;
+}
+
 // Pure transaction transition. Recorded success never regresses.
 // Missing/non-object transactions return null instead of throwing.
 function applyProviderStatus(transaction, status, source) {
@@ -195,6 +212,7 @@ module.exports = {
   findConflictingReplay,
   mapProviderStatus,
   applyProviderStatus,
+  resolvePersistedTransaction,
   buildMerchantReference,
   safeTransaction,
   retryableTransaction,

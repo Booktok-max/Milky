@@ -131,6 +131,82 @@ describe('transaction lifecycle', () => {
     assert.equal(conflict.status, 409);
   });
 
+  it('preserves callback metadata across the subsequent status update', () => {
+    // Stored record already carries the callback flags written moments earlier.
+    const stored = {
+      id: 'AS-SPARK-1',
+      merchantReference: 'AS-SPARK-1',
+      pesapalOrderTrackingId: 'track-1',
+      status: 'pending',
+      callbackReceived: true,
+      callbackReceivedAt: '2026-09-25T16:31:45.129Z',
+      ipnReceived: true,
+      ipnReceivedAt: '2026-09-25T16:31:29.448Z',
+      paidAt: '2026-09-25T16:31:29.449Z',
+    };
+    // The stale in-memory copy read BEFORE the callback flags were written.
+    const stale = { id: 'AS-SPARK-1', merchantReference: 'AS-SPARK-1', pesapalOrderTrackingId: 'track-1', status: 'pending' };
+
+    const resolved = paymentLib.resolvePersistedTransaction([stored], stale);
+    assert.equal(resolved.callbackReceived, true);
+    assert.equal(resolved.callbackReceivedAt, '2026-09-25T16:31:45.129Z');
+
+    const updated = paymentLib.applyProviderStatus(resolved, { payment_status_description: 'Completed' }, 'callback');
+    assert.equal(updated.status, 'success');
+    assert.equal(updated.callbackReceived, true);
+    assert.equal(updated.callbackReceivedAt, '2026-09-25T16:31:45.129Z');
+    assert.equal(updated.ipnReceived, true);
+    assert.equal(updated.ipnReceivedAt, '2026-09-25T16:31:29.448Z');
+    assert.equal(updated.paidAt, '2026-09-25T16:31:29.449Z');
+  });
+
+  it('keeps callback metadata stable across duplicate callbacks and IPNs', () => {
+    const stored = {
+      id: 'AS-SPARK-1',
+      merchantReference: 'AS-SPARK-1',
+      pesapalOrderTrackingId: 'track-1',
+      status: 'pending',
+      callbackReceived: true,
+      callbackReceivedAt: '2026-09-25T16:31:45.129Z',
+      ipnReceived: true,
+      ipnReceivedAt: '2026-09-25T16:31:29.448Z',
+    };
+    let record = stored;
+
+    // First callback completes the payment.
+    record = paymentLib.applyProviderStatus(
+      paymentLib.resolvePersistedTransaction([record], stored),
+      { payment_status_description: 'Completed' }, 'callback');
+    assert.equal(record.status, 'success');
+    const paidAt = record.paidAt || '2026-09-25T16:31:29.449Z';
+    record = { ...record, paidAt };
+
+    // Duplicate callback and duplicate IPN must not regress or drop metadata.
+    for (const source of ['callback', 'ipn', 'callback', 'ipn']) {
+      const staleReplay = { merchantReference: 'AS-SPARK-1', pesapalOrderTrackingId: 'track-1', status: 'pending' };
+      record = paymentLib.applyProviderStatus(
+        paymentLib.resolvePersistedTransaction([record], staleReplay),
+        { payment_status_description: 'Completed' }, source);
+      assert.equal(record.status, 'success');
+      assert.equal(record.paidAt, paidAt);
+      assert.equal(record.callbackReceived, true);
+      assert.equal(record.callbackReceivedAt, '2026-09-25T16:31:45.129Z');
+      assert.equal(record.ipnReceived, true);
+      assert.equal(record.ipnReceivedAt, '2026-09-25T16:31:29.448Z');
+    }
+  });
+
+  it('resolves persisted records by reference or tracking id and falls back safely', () => {
+    const stored = { merchantReference: 'AS-9', pesapalOrderTrackingId: 'track-9', status: 'pending' };
+    assert.equal(paymentLib.resolvePersistedTransaction([stored], { merchantReference: 'AS-9' }), stored);
+    assert.equal(paymentLib.resolvePersistedTransaction([stored], { pesapalOrderTrackingId: 'track-9' }), stored);
+    const fallback = { merchantReference: 'AS-404' };
+    assert.equal(paymentLib.resolvePersistedTransaction([stored], fallback), fallback);
+    assert.equal(paymentLib.resolvePersistedTransaction(null, { merchantReference: 'AS-9' }).merchantReference, 'AS-9');
+    assert.equal(paymentLib.resolvePersistedTransaction([stored], null), null);
+    assert.equal(paymentLib.resolvePersistedTransaction([null, stored], { merchantReference: 'AS-9' }), stored);
+  });
+
   it('exposes a safe recovery policy', () => {
     assert.equal(paymentLib.retryableTransaction(null).status, 404);
     assert.equal(paymentLib.retryableTransaction({ status: 'pending' }).retryAllowed, true);
