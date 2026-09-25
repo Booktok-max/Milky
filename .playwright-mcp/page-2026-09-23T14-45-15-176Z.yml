@@ -1,0 +1,414 @@
+- generic [active] [ref=f11e1]:
+  - navigation [ref=f11e2]:
+    - generic [ref=f11e3]:
+      - link "Atomic·Shelf" [ref=f11e4] [cursor=pointer]:
+        - /url: index.html
+      - generic [ref=f11e5]:
+        - link "How It Works" [ref=f11e6] [cursor=pointer]:
+          - /url: how-it-works.html
+        - link "Services" [ref=f11e7] [cursor=pointer]:
+          - /url: services.html
+        - link "Pricing" [ref=f11e8] [cursor=pointer]:
+          - /url: pricing.html
+        - link "Results" [ref=f11e9] [cursor=pointer]:
+          - /url: results.html
+        - link "Readers" [ref=f11e10] [cursor=pointer]:
+          - /url: readers.html
+        - link "Editorial" [ref=f11e11] [cursor=pointer]:
+          - /url: editorial.html
+        - link "Start Here" [ref=f11e12] [cursor=pointer]:
+          - /url: start-here.html
+  - generic [ref=f11e13]:
+    - link "How It Works" [ref=f11e14] [cursor=pointer]:
+      - /url: how-it-works.html
+    - link "Services" [ref=f11e15] [cursor=pointer]:
+      - /url: services.html
+    - link "Pricing" [ref=f11e16] [cursor=pointer]:
+      - /url: pricing.html
+    - link "Results" [ref=f11e17] [cursor=pointer]:
+      - /url: results.html
+    - link "Readers" [ref=f11e18] [cursor=pointer]:
+      - /url: readers.html
+    - link "Editorial" [ref=f11e19] [cursor=pointer]:
+      - /url: editorial.html
+    - link "Start Here" [ref=f11e20] [cursor=pointer]:
+      - /url: start-here.html
+  - banner [ref=f11e21]:
+    - generic [ref=f11e22]:
+      - paragraph [ref=f11e23]: For independent authors and publishers
+      - heading "Build a readership that lasts." [level=1] [ref=f11e24]
+      - paragraph [ref=f11e25]: We help independent authors and publishers find readers, turn attention into sales, and build an audience that can follow each book from one release to the next.
+      - generic [ref=f11e26]:
+        - link "See the plans" [ref=f11e27] [cursor=pointer]:
+          - /url: pricing.html
+        - link "See how it works" [ref=f11e28] [cursor=pointer]:
+          - /url: how-it-works.html
+        - link "Talk to us" [ref=f11e29] [cursor=pointer]:
+          - /url: mailto:nick@atomic-shelf.com
+  - generic [ref=f11e32]:
+    - generic [ref=f11e33]:
+      - generic [ref=f11e34]: 0×
+      - generic [ref=f11e35]: Average sales lift within 90 days
+    - generic [ref=f11e36]:
+      - generic [ref=f11e37]: 0+
+      - generic [ref=f11e38]: Videos produced for client authors
+    - generic [ref=f11e39]:
+      - generic [ref=f11e40]: "0"
+      - generic [ref=f11e41]: Average downloads per newsletter feature
+  - generic [ref=f11e43]:
+    - paragraph [ref=f11e44]: The problem
+    - blockquote [ref=f11e45]: A good book is only the beginning.
+    - generic [ref=f11e46]:
+      - paragraph [ref=f11e47]: Readers have to discover it.
+      - paragraph [ref=f11e48]: They have to trust it.
+      - paragraph [ref=f11e49]: They have to understand why it is for them.
+      - paragraph [ref=f11e50]: They have to make the purchase.
+      - paragraph [ref=f11e51]: And ideally, they have to remember the author when the next book arrives.
+    - paragraph [ref=f11e52]: That's why we don't treat marketing as a collection of disconnected tasks.
+  - generic [ref=f11e54]:
+    - paragraph [ref=f11e55]: How Atomic Shelf works
+    - heading "Discover → Trust → Convert → Retain → Repeat" [level=2] [ref=f11e56]
+    - generic [ref=f11e57]:
+      - generic [ref=f11e58]:
+        - generic [ref=f11e59]: "01"
+        - generic [ref=f11e60]:
+          - heading "Discover" [level=3] [ref=f11e61]
+          - paragraph [ref=f11e62]: Video finds the readers. Short-form content puts the book in front of genre-relevant audiences.
+      - generic [ref=f11e63]:
+        - generic [ref=f11e64]: "02"
+        - generic [ref=f11e65]:
+          - heading "Trust" [level=3] [ref=f11e66]
+          - paragraph [ref=f11e67]: Reviews make the click worthwhile. ARC campaigns create social proof and reduce uncertainty.
+      - generic [ref=f11e68]:
+        - generic [ref=f11e69]: "03"
+        - generic [ref=f11e70]:
+          - heading "Convert" [level=3] [ref=f11e71]
+          - paragraph [ref=f11e72]: The listing earns the sale. Copy, keywords, A+ content, and storefront presentation turn interest into buyers.
+      - generic [ref=f11e73]:
+        - generic [ref=f11e74]: "04"
+        - generic [ref=f11e75]:
+          - heading "Retain" [level=3] [ref=f11e76]
+          - paragraph [ref=f11e77]: Reader lists make the relationship repeatable. ShelfMates and StoryPals build a direct reader relationship.
+      - generic [ref=f11e78]:
+        - generic [ref=f11e79]: "05"
+        - generic [ref=f11e80]:
+          - heading "Repeat" [level=3] [ref=f11e81]
+          - paragraph [ref=f11e82]: The next book starts with readers you already earned. The goal is a readership, not one sale.
+  - generic [ref=f11e84]:
+    - generic [ref=f11e85]:
+      - paragraph [ref=f11e86]: What we do
+      - heading "One system, nine kinds of work." [level=2] [ref=f11e87]
+      - paragraph [ref=f11e88]: Every service has a role in the reader journey above. Here's the introduction — the Services page has the detail.
+    - generic [ref=f11e89]:
+      - generic [ref=f11e90]:
+        - generic [ref=f11e91]: Discover
+        - heading "Short-form video" [level=3] [ref=f11e92]
+        - paragraph [ref=f11e93]: Genre-matched TikTok, Reels, and Shorts content that puts your book in front of the right readers.
+      - generic [ref=f11e94]:
+        - generic [ref=f11e95]: Trust
+        - heading "ARC review campaigns" [level=3] [ref=f11e96]
+        - paragraph [ref=f11e97]: Complimentary copies matched to genre-relevant readers, in exchange for honest, independent reviews.
+      - generic [ref=f11e98]:
+        - generic [ref=f11e99]: Convert
+        - heading "Listing optimisation" [level=3] [ref=f11e100]
+        - paragraph [ref=f11e101]: Rewritten copy, keywords, and A+ content that turn a click into a sale.
+      - generic [ref=f11e102]:
+        - generic [ref=f11e103]: Convert
+        - heading "Preorder campaigns" [level=3] [ref=f11e104]
+        - paragraph [ref=f11e105]: A structured countdown that builds momentum before launch day.
+      - generic [ref=f11e106]:
+        - generic [ref=f11e107]: Discover
+        - heading "Free-promotion campaigns" [level=3] [ref=f11e108]
+        - paragraph [ref=f11e109]: Limited free-download windows that widen your reader base and lift visibility.
+      - generic [ref=f11e110]:
+        - generic [ref=f11e111]: Retain
+        - heading "Reader-list building" [level=3] [ref=f11e112]
+        - paragraph [ref=f11e113]: ShelfMates and StoryPals turn one-time readers into a list you own.
+      - generic [ref=f11e114]:
+        - generic [ref=f11e115]: Discover
+        - heading "Amazon advertising" [level=3] [ref=f11e116]
+        - paragraph [ref=f11e117]: Managed ad spend on Amazon DSP, layered on top of organic content.
+      - generic [ref=f11e118]:
+        - generic [ref=f11e119]: Convert
+        - heading "Audience retargeting" [level=3] [ref=f11e120]
+        - paragraph [ref=f11e121]: Segmented retargeting that brings interested readers back to finish the purchase.
+      - generic [ref=f11e122]:
+        - generic [ref=f11e123]: Retain
+        - heading "Reader ecosystem" [level=3] [ref=f11e124]
+        - paragraph [ref=f11e125]: A long-term home for your readers to follow you between releases.
+  - generic [ref=f11e127]:
+    - generic [ref=f11e128]:
+      - paragraph [ref=f11e129]: Where are you right now?
+      - heading "Find your starting point." [level=2] [ref=f11e130]
+    - generic [ref=f11e131]:
+      - link "I need more readers. For authors who have a book but need discovery. See the Spark plan →" [ref=f11e132] [cursor=pointer]:
+        - /url: pricing.html#spark
+        - heading "I need more readers." [level=3] [ref=f11e133]
+        - paragraph [ref=f11e134]: For authors who have a book but need discovery.
+        - generic [ref=f11e135]: See the Spark plan →
+      - link "I have readers, but sales are inconsistent. For authors who need a stronger system around existing attention. See the Foundation plan →" [ref=f11e136] [cursor=pointer]:
+        - /url: pricing.html#foundation
+        - heading "I have readers, but sales are inconsistent." [level=3] [ref=f11e137]
+        - paragraph [ref=f11e138]: For authors who need a stronger system around existing attention.
+        - generic [ref=f11e139]: See the Foundation plan →
+      - link "I have a launch coming. For authors who need coordinated pre-launch and launch support. See the Momentum plan →" [ref=f11e140] [cursor=pointer]:
+        - /url: pricing.html#momentum
+        - heading "I have a launch coming." [level=3] [ref=f11e141]
+        - paragraph [ref=f11e142]: For authors who need coordinated pre-launch and launch support.
+        - generic [ref=f11e143]: See the Momentum plan →
+      - link "I have a backlist. For authors who want a repeatable readership across multiple books. See the Growth plan →" [ref=f11e144] [cursor=pointer]:
+        - /url: pricing.html#growth
+        - heading "I have a backlist." [level=3] [ref=f11e145]
+        - paragraph [ref=f11e146]: For authors who want a repeatable readership across multiple books.
+        - generic [ref=f11e147]: See the Growth plan →
+      - link "I already run ads. For authors who need stronger foundations and better conversion around paid traffic. See the Starter plan →" [ref=f11e148] [cursor=pointer]:
+        - /url: pricing.html#starter
+        - heading "I already run ads." [level=3] [ref=f11e149]
+        - paragraph [ref=f11e150]: For authors who need stronger foundations and better conversion around paid traffic.
+        - generic [ref=f11e151]: See the Starter plan →
+  - generic [ref=f11e153]:
+    - generic [ref=f11e154]:
+      - paragraph [ref=f11e155]: Before you choose
+      - heading "Know what happens after you say yes." [level=2] [ref=f11e156]
+      - paragraph [ref=f11e157]: A useful campaign starts with a clear baseline, a defined first step, and an honest view of what the work can and cannot control.
+    - generic [ref=f11e158]:
+      - paragraph [ref=f11e159]:
+        - strong [ref=f11e160]: We start with the book you actually have.
+        - text: We look at its genre, listing, release timing, existing audience, and the readers you want to reach before recommending a plan.
+      - generic [ref=f11e161]:
+        - generic [ref=f11e162]: 01 — Understand the starting point
+        - generic [ref=f11e163]: 02 — Choose the right system
+        - generic [ref=f11e164]: 03 — Establish the baseline
+        - generic [ref=f11e165]: 04 — Measure and adjust
+      - paragraph [ref=f11e166]:
+        - strong [ref=f11e167]: "What you receive:"
+        - text: clear deliverables, a defined working window, regular performance signals, and a next-step recommendation based on what the data says — not a promise that every book will perform the same way.
+      - generic [ref=f11e168]:
+        - link "Find your starting point" [ref=f11e169] [cursor=pointer]:
+          - /url: start-here.html
+        - link "Ask a question first" [ref=f11e170] [cursor=pointer]:
+          - /url: contact.html?goal=unsure
+  - generic [ref=f11e172]:
+    - generic [ref=f11e173]:
+      - paragraph [ref=f11e174]: What to expect
+      - heading "The first 90 days." [level=2] [ref=f11e175]
+    - generic [ref=f11e176]:
+      - generic [ref=f11e177]:
+        - generic [ref=f11e178]: Days 1–30
+        - heading "Build the foundation" [level=3] [ref=f11e179]
+        - list [ref=f11e180]:
+          - listitem [ref=f11e181]: — Establish positioning
+          - listitem [ref=f11e182]: — Prepare content
+          - listitem [ref=f11e183]: — Improve assets
+          - listitem [ref=f11e184]: — Begin discovery
+          - listitem [ref=f11e185]: — Establish baseline metrics
+      - generic [ref=f11e186]:
+        - generic [ref=f11e187]: Days 31–60
+        - heading "Build momentum" [level=3] [ref=f11e188]
+        - list [ref=f11e189]:
+          - listitem [ref=f11e190]: — Increase consistency
+          - listitem [ref=f11e191]: — Identify what resonates
+          - listitem [ref=f11e192]: — Strengthen social proof
+          - listitem [ref=f11e193]: — Improve conversion points
+          - listitem [ref=f11e194]: — Expand reader acquisition
+      - generic [ref=f11e195]:
+        - generic [ref=f11e196]: Days 61–90
+        - heading "Measure what works" [level=3] [ref=f11e197]
+        - list [ref=f11e198]:
+          - listitem [ref=f11e199]: — Compare against baseline
+          - listitem [ref=f11e200]: — Identify strongest channels
+          - listitem [ref=f11e201]: — Improve weak points
+          - listitem [ref=f11e202]: — Strengthen repeatable acquisition
+          - listitem [ref=f11e203]: — Determine next priorities
+    - paragraph [ref=f11e204]:
+      - strong [ref=f11e205]: The first month establishes the foundation.
+      - text: The following months give the work enough time to learn, compound, and improve.
+  - generic [ref=f11e207]:
+    - generic [ref=f11e208]:
+      - paragraph [ref=f11e209]: Beyond one book
+      - heading "We go beyond marketing books — we aim to build lasting reader relationships." [level=2] [ref=f11e210]
+    - generic [ref=f11e211]:
+      - generic [ref=f11e212]:
+        - heading "ShelfMates" [level=3] [ref=f11e213]
+        - paragraph [ref=f11e214]: The reader ecosystem for adult fiction — a direct line to the readers who follow your work, book after book.
+      - generic [ref=f11e215]:
+        - heading "StoryPals" [level=3] [ref=f11e216]
+        - paragraph [ref=f11e217]: The reader ecosystem for children's books and families — built for how young readers (and their parents) discover a next favorite.
+  - generic [ref=f11e219]:
+    - generic [ref=f11e220]:
+      - paragraph [ref=f11e221]: Plans
+      - heading "Pick the level. See exactly what it costs." [level=2] [ref=f11e222]
+      - paragraph [ref=f11e223]: Every price below comes from one place — no page on this site is allowed to invent its own numbers.
+    - generic [ref=f11e224]:
+      - button "Monthly" [pressed] [ref=f11e225] [cursor=pointer]
+      - button "3 months — Save 10%" [ref=f11e226] [cursor=pointer]
+      - button "6 months — Save 20%" [ref=f11e227] [cursor=pointer]
+      - button "12 months — Save 25%" [ref=f11e228] [cursor=pointer]
+    - generic [ref=f11e229]:
+      - generic [ref=f11e230]:
+        - generic [ref=f11e231]: Spark
+        - generic [ref=f11e232]: Low-risk entry point — proves whether consistent short-form content can move a specific book before committing budget to a full campaign.
+        - generic [ref=f11e233]: $20
+        - generic [ref=f11e234]: per month
+        - link "Get started with Spark" [ref=f11e236] [cursor=pointer]:
+          - /url: pricing.html#spark
+      - generic [ref=f11e237]:
+        - generic [ref=f11e238]: Enhanced
+        - generic [ref=f11e239]: "Content-plus-asset tier: same cadence as Spark, plus a durable creative asset that compounds across future campaigns rather than disappearing after one post cycle."
+        - generic [ref=f11e240]: $50
+        - generic [ref=f11e241]: per month
+        - link "View Enhanced" [ref=f11e243] [cursor=pointer]:
+          - /url: pricing.html#enhanced
+      - generic [ref=f11e244]:
+        - generic [ref=f11e245]: Foundation
+        - generic [ref=f11e246]: First tier where the listing itself starts converting the traffic content sends — the entry point to the reader-list ecosystem (ShelfMates/StoryPals).
+        - generic [ref=f11e247]: $79
+        - generic [ref=f11e248]: per month
+        - link "Get started with Foundation" [ref=f11e250] [cursor=pointer]:
+          - /url: pricing.html#foundation
+      - generic [ref=f11e251]:
+        - generic [ref=f11e252]: Starter
+        - generic [ref=f11e253]: Heaviest creative-and-asset tier below full campaign management — 2 trailers, a theme song, and a modest Amazon DSP budget layered on top of Spark-level content.
+        - generic [ref=f11e254]: $100
+        - generic [ref=f11e255]: per month
+        - link "View Starter" [ref=f11e257] [cursor=pointer]:
+          - /url: pricing.html#starter
+      - generic [ref=f11e258]:
+        - generic [ref=f11e259]: Most popular
+        - generic [ref=f11e260]: Momentum
+        - generic [ref=f11e261]: "First full-funnel tier: content, social proof (ARC reviews), a scheduled preorder campaign, and retargeting run as one coordinated system rather than separate purchases."
+        - generic [ref=f11e262]: $249
+        - generic [ref=f11e263]: per month
+        - link "Get started with Momentum" [ref=f11e265] [cursor=pointer]:
+          - /url: pricing.html#momentum
+      - generic [ref=f11e266]:
+        - generic [ref=f11e267]: Growth
+        - generic [ref=f11e268]: Top production-and-campaign tier below the fully custom Surge/Orbit engagements — same full-funnel system as Momentum, scaled up in every dimension.
+        - generic [ref=f11e269]: $499
+        - generic [ref=f11e270]: per month
+        - link "Get started with Growth" [ref=f11e272] [cursor=pointer]:
+          - /url: pricing.html#growth
+    - generic [ref=f11e273]: Longer commitments are prepaid savings. We have more time to compound the work, and predictable planning lets us give you better economics.
+    - paragraph [ref=f11e274]:
+      - text: Running a full catalogue or need a bespoke campaign structure?
+      - link "Ask about Surge & Orbit" [ref=f11e275] [cursor=pointer]:
+        - /url: mailto:nick@atomic-shelf.com
+      - text: — dedicated team or custom seat, custom pricing.
+  - generic [ref=f11e277]:
+    - paragraph [ref=f11e278]: Our commitment
+    - generic [ref=f11e279]:
+      - paragraph [ref=f11e280]: We don't promise that every book will explode overnight. Publishing doesn't work that way — and neither does building a readership.
+      - paragraph [ref=f11e281]: What we do promise is that we'll do the work we've committed to, measure what happens, and stay accountable for the outcome.
+      - paragraph [ref=f11e282]: If we fall short of the work, delivery, or agreed commitments on our side, we'll make it right — at our cost.
+      - paragraph [ref=f11e283]: If the results show that something needs to change, we explain what we are seeing, adjust the plan, and stay involved until the work is back on track.
+    - separator [ref=f11e284]
+    - paragraph [ref=f11e285]: We commit to doing the work, learning from the results, and improving it as we go.
+  - generic [ref=f11e287]:
+    - generic [ref=f11e288]:
+      - paragraph [ref=f11e289]: FAQ
+      - heading "Questions authors actually ask." [level=2] [ref=f11e290]
+    - generic [ref=f11e291]:
+      - generic [ref=f11e292]:
+        - button "Do you guarantee sales? +" [ref=f11e293] [cursor=pointer]:
+          - text: Do you guarantee sales?
+          - generic [ref=f11e294]: +
+        - generic:
+          - paragraph [ref=f11e295]: "Short answer: No."
+          - paragraph [ref=f11e296]: Then, what's the point? We do the work that earns attention and gives the book a better chance with the right readers.
+          - paragraph [ref=f11e297]: "Long answer: Although it is possible to estimate expected downloads or sales for lower-priced books, those outcomes cannot be guaranteed because they depend on reader behaviour, market conditions, and platform performance. We control the work we commit to — production, campaigns, reviews recruitment, listing optimisation, reporting. We influence reach, clicks, and conversion. We don't guarantee a specific number of sales, a bestseller position, a ranking, or an algorithmic viral event — no one honestly can."
+      - generic [ref=f11e298]:
+        - button "What happens if Atomic Shelf doesn't deliver? +" [ref=f11e299] [cursor=pointer]:
+          - text: What happens if Atomic Shelf doesn't deliver?
+          - generic [ref=f11e300]: +
+        - paragraph [ref=f11e301]: Money-back applies to the specific line items that weren't delivered at all — not a blanket refund, and not triggered simply by results coming in lower than the estimated range. If delivery is confirmed but performance is below range, we keep working, diagnose, and adjust at no extra cost rather than refunding.
+      - generic [ref=f11e302]:
+        - button "Why are longer commitments discounted? +" [ref=f11e303] [cursor=pointer]:
+          - text: Why are longer commitments discounted?
+          - generic [ref=f11e304]: +
+        - paragraph [ref=f11e305]: Longer commitments are prepaid savings. We have more time to compound the work, and predictable planning lets us give you better economics.
+      - generic [ref=f11e306]:
+        - button "Can I change plans? +" [ref=f11e307] [cursor=pointer]:
+          - text: Can I change plans?
+          - generic [ref=f11e308]: +
+        - paragraph [ref=f11e309]: Yes — upgrading, downgrading, or pausing is allowed at any time. Current ad spend is taken into account and applied as available credit toward the new plan.
+      - generic [ref=f11e310]:
+        - button "What happens after a commitment ends? +" [ref=f11e311] [cursor=pointer]:
+          - text: What happens after a commitment ends?
+          - generic [ref=f11e312]: +
+        - paragraph [ref=f11e313]: Everything is handed over via secure transfer if needed — videos created, account info, and related assets. In practice, most content is already accessible to you throughout, since every content gallery is public to you via your progress-report link.
+      - generic [ref=f11e314]:
+        - button "Do I need to appear on camera? +" [ref=f11e315] [cursor=pointer]:
+          - text: Do I need to appear on camera?
+          - generic [ref=f11e316]: +
+        - paragraph [ref=f11e317]: No. You provide a link to your book (or, for a backlist, your catalogue), plus optionally any planned discount-deal dates so campaigns can be planned around them.
+      - generic [ref=f11e318]:
+        - button "Who manages the campaigns? +" [ref=f11e319] [cursor=pointer]:
+          - text: Who manages the campaigns?
+          - generic [ref=f11e320]: +
+        - paragraph [ref=f11e321]: A dedicated outreach team manages your account day-to-day, handles ARC/reviewer list outreach, and monitors that campaigns are running smoothly.
+      - generic [ref=f11e322]:
+        - button "What genres do you support? +" [ref=f11e323] [cursor=pointer]:
+          - text: What genres do you support?
+          - generic [ref=f11e324]: +
+        - paragraph [ref=f11e325]: All genres. Bigger, higher-volume genres tend to see stronger results than smaller genres, simply due to reader pool size.
+  - generic [ref=f11e327]:
+    - heading "Your book deserves meaningful attention." [level=2] [ref=f11e328]
+    - paragraph [ref=f11e329]: It needs more of the right readers. See which plan fits where you are today.
+    - generic [ref=f11e330]:
+      - link "See the plans" [ref=f11e331] [cursor=pointer]:
+        - /url: pricing.html
+      - link "Talk to us" [ref=f11e332] [cursor=pointer]:
+        - /url: mailto:nick@atomic-shelf.com
+  - contentinfo [ref=f11e333]:
+    - generic [ref=f11e334]:
+      - generic [ref=f11e335]:
+        - generic [ref=f11e336]:
+          - generic [ref=f11e337]: Atomic·Shelf
+          - paragraph [ref=f11e338]: Video, reviews, listing optimisation, reader lists, and advertising — one system, built for independent authors and publishers.
+        - generic [ref=f11e339]:
+          - heading "Site" [level=5] [ref=f11e340]
+          - list [ref=f11e341]:
+            - listitem [ref=f11e342]:
+              - link "How It Works" [ref=f11e343] [cursor=pointer]:
+                - /url: how-it-works.html
+            - listitem [ref=f11e344]:
+              - link "Services" [ref=f11e345] [cursor=pointer]:
+                - /url: services.html
+            - listitem [ref=f11e346]:
+              - link "Pricing" [ref=f11e347] [cursor=pointer]:
+                - /url: pricing.html
+            - listitem [ref=f11e348]:
+              - link "Results" [ref=f11e349] [cursor=pointer]:
+                - /url: results.html
+            - listitem [ref=f11e350]:
+              - link "Readers" [ref=f11e351] [cursor=pointer]:
+                - /url: readers.html
+            - listitem [ref=f11e352]:
+              - link "Editorial" [ref=f11e353] [cursor=pointer]:
+                - /url: editorial.html
+        - generic [ref=f11e354]:
+          - heading "More" [level=5] [ref=f11e355]
+          - list [ref=f11e356]:
+            - listitem [ref=f11e357]:
+              - link "Catalogue" [ref=f11e358] [cursor=pointer]:
+                - /url: catalogue.html
+            - listitem [ref=f11e359]:
+              - link "FAQ" [ref=f11e360] [cursor=pointer]:
+                - /url: faq.html
+            - listitem [ref=f11e361]:
+              - link "Contact" [ref=f11e362] [cursor=pointer]:
+                - /url: mailto:nick@atomic-shelf.com
+            - listitem [ref=f11e363]:
+              - link "ShelfMates" [ref=f11e364] [cursor=pointer]:
+                - /url: shelfmates.html
+            - listitem [ref=f11e365]:
+              - link "StoryPals" [ref=f11e366] [cursor=pointer]:
+                - /url: storypals.html
+      - generic [ref=f11e367]:
+        - generic [ref=f11e368]: © 2026 Atomic Shelf
+        - generic [ref=f11e369]:
+          - link "Terms" [ref=f11e370] [cursor=pointer]:
+            - /url: terms.html
+          - text: ·
+          - link "Privacy" [ref=f11e371] [cursor=pointer]:
+            - /url: privacy.html

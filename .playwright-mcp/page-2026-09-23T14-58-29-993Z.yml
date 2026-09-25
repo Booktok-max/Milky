@@ -1,0 +1,58 @@
+- generic [active] [ref=f12e1]:
+  - banner [ref=f12e2]:
+    - generic [ref=f12e3]:
+      - link "Atomic·Shelf" [ref=f12e4] [cursor=pointer]:
+        - /url: index.html
+      - link "← Back to pricing" [ref=f12e5] [cursor=pointer]:
+        - /url: pricing.html
+  - main [ref=f12e6]:
+    - generic [ref=f12e7]:
+      - generic [ref=f12e8]:
+        - paragraph [ref=f12e9]: Secure checkout
+        - heading "Start your next step." [level=1] [ref=f12e10]
+        - paragraph [ref=f12e11]: Tell us where to send the plan details and we'll send you to the secure payment flow once the order is ready.
+        - generic [ref=f12e12]:
+          - generic [ref=f12e13]:
+            - strong [ref=f12e14]: Enhanced
+            - generic [ref=f12e15]: "Content-plus-asset tier: same cadence as Spark, plus a durable creative asset that compounds across future campaigns rather than disappearing after one post cycle."
+          - generic [ref=f12e16]: $130
+        - list [ref=f12e17]:
+          - listitem [ref=f12e18]:
+            - generic [ref=f12e19]: Plan
+            - strong [ref=f12e20]: Enhanced
+          - listitem [ref=f12e21]:
+            - generic [ref=f12e22]: Billing
+            - strong [ref=f12e23]: 3 months
+          - listitem [ref=f12e24]:
+            - generic [ref=f12e25]: Amount
+            - strong [ref=f12e26]: $130
+      - generic [ref=f12e27]:
+        - generic [ref=f12e28]:
+          - generic [ref=f12e29]:
+            - generic [ref=f12e30]:
+              - generic [ref=f12e31]: First name
+              - textbox "First name" [ref=f12e32]
+            - generic [ref=f12e33]:
+              - generic [ref=f12e34]: Last name
+              - textbox "Last name" [ref=f12e35]
+          - generic [ref=f12e36]:
+            - generic [ref=f12e37]: Email address
+            - textbox "Email address" [ref=f12e38]
+          - generic [ref=f12e39]:
+            - generic [ref=f12e40]: Phone (optional)
+            - textbox "Phone (optional)" [ref=f12e41]
+          - generic [ref=f12e42]:
+            - generic [ref=f12e43]: Book title / catalogue link
+            - textbox "Book title / catalogue link" [ref=f12e44]:
+              - /placeholder: e.g. The Midnight Garden or a book link
+          - paragraph [ref=f12e45]:
+            - strong [ref=f12e46]: "Payment method:"
+            - text: On the next page, choose
+            - strong [ref=f12e47]: Card
+            - text: for the fastest checkout. M-Pesa remains available as an alternative.
+          - button "Continue to secure payment" [ref=f12e48] [cursor=pointer]
+          - button "Choose another plan" [ref=f12e49] [cursor=pointer]
+        - generic [ref=f12e50]:
+          - text: Need help first?
+          - link "Email Atomic Shelf" [ref=f12e51] [cursor=pointer]:
+            - /url: mailto:nick@atomic-shelf.com?subject=Atomic%20Shelf%20checkout%20question
