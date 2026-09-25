@@ -27,16 +27,34 @@ jobs:
           mkdir -p .neocities-deploy
           rsync -a --delete \
             --exclude='/ActiveClients/' \
+            --exclude='/Campaigns/' \
             --exclude='/Content-Proposal/' \
             --exclude='/Editorials/' \
+            --exclude='/Images/' \
             --exclude='/Next priority from Milky project roadmap - Claude_files/' \
             --exclude='/Prompts/' \
             --exclude='/Taskmaster/' \
             --exclude='/dashboards/' \
             --exclude='/e/' \
             --exclude='/leads/' \
+            --exclude='/payment/' \
+            --exclude='/private-data/' \
+            --exclude='/Productions/' \
             --exclude='/reports/' \
             --exclude='/staging/' \
+            --exclude='/.env' \
+            --exclude='/.env.example' \
+            --exclude='/package.json' \
+            --exclude='/package-lock.json' \
+            --exclude='/server.js' \
+            --exclude='/payment-lib.js' \
+            --exclude='/payment-test-cases.md' \
+            --exclude='/proof-audit.json' \
+            --exclude='/service-map.json' \
+            --exclude='/site-data-model.json' \
+            --exclude='/atomic-shelf-commitment-terms.md' \
+            --exclude='/Atomic_Shelf_Website_Relaunch_PRD.md' \
+            --exclude='/README.md' \
             site/ .neocities-deploy/
 
       - name: Deploy to Neocities

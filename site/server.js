@@ -5,6 +5,7 @@ const axios = require('axios');
 const path = require('path');
 const fs = require('fs');
 const crypto = require('crypto');
+const paymentLib = require('./payment-lib');
 
 const app = express();
 app.use(express.json());
@@ -194,26 +195,21 @@ function findTransactionByIdempotencyKey(idempotencyKey) {
 }
 
 function paymentStatusFromPesapal(status) {
-    const description = String(status?.payment_status_description || '').toLowerCase();
-    const code = String(status?.status_code || '').toLowerCase();
-    if (description === 'completed' || code === '1' || code === 'completed') return 'completed';
-    if (description.includes('cancel')) return 'cancelled';
-    if (description.includes('fail') || description.includes('reject') || code === 'failed') return 'failed';
-    return 'pending';
+    return paymentLib.mapProviderStatus(status);
 }
 
 function updateTransactionStatus(transaction, status, source) {
-    if (!transaction) return null;
-    const nextStatus = paymentStatusFromPesapal(status);
-    if (transaction.status === 'completed' && nextStatus !== 'completed') return transaction;
-    const updated = {
-      ...transaction,
-      status: nextStatus,
-      statusDescription: status?.payment_status_description || status?.status_code || transaction.statusDescription,
-      lastStatusSource: source,
-      updatedAt: new Date().toISOString(),
-    };
-    return saveTransaction(updated);
+    return saveTransaction(paymentLib.applyProviderStatus(transaction, status, source));
+}
+
+function getTransaction(merchantReference) {
+    return findTransaction({ merchantReference }) || null;
+}
+
+function updateTransaction(merchantReference, updates) {
+    const existing = findTransaction({ merchantReference });
+    if (!existing) return null;
+    return saveTransaction({ ...existing, ...updates, updatedAt: new Date().toISOString() });
 }
 
 function readCommunicationEvents() {
@@ -575,65 +571,19 @@ if (!APP_BASE_URL) {
 // Never trust an amount sent from the browser. Derive it from the same
 // controlled dataset used by the public pricing page.
 const PRICING_DATA_PATH = path.join(__dirname, 'pricing-data.json');
-const BILLING_TERMS = ['monthly', '3_month', '6_month', '12_month'];
+const BILLING_TERMS = paymentLib.BILLING_TERMS;
 
 function loadPaymentPlans() {
-  let pricingData;
-  try {
-    pricingData = JSON.parse(fs.readFileSync(PRICING_DATA_PATH, 'utf8'));
-  } catch (error) {
-    throw new Error(`Unable to load payment pricing data: ${error.message}`);
-  }
-
-  if (!Array.isArray(pricingData.plans) || !pricingData.plans.length) {
-    throw new Error('Payment pricing data must contain at least one plan.');
-  }
-
-  return Object.fromEntries(pricingData.plans.map(plan => {
-    if (!plan.id || !plan.name || !Number.isFinite(Number(plan.monthly_price))) {
-      throw new Error(`Invalid payment pricing record for plan "${plan.id || 'unknown'}".`);
-    }
-    const amounts = { monthly: Number(plan.monthly_price) };
-    for (const term of BILLING_TERMS.slice(1)) {
-      const total = plan.commitments?.[term]?.discounted_total_rounded_down_10;
-      if (!Number.isFinite(Number(total))) {
-        throw new Error(`Missing ${term} payment total for plan "${plan.id}".`);
-      }
-      amounts[term] = Number(total);
-    }
-    return [String(plan.id).toLowerCase(), { name: plan.name, amounts }];
-  }));
+  return paymentLib.buildPaymentPlans(JSON.parse(fs.readFileSync(PRICING_DATA_PATH, 'utf8')));
 }
 
 const PLANS = loadPaymentPlans();
 
-// ---- Transaction persistence (in-memory for now, upgrade to DB later) ----
-// This provides idempotency and duplicate callback protection
-const transactions = new Map(); // key: merchantReference, value: transaction record
-
-function getTransaction(merchantReference) {
-  return transactions.get(merchantReference);
-}
-
-function setTransaction(merchantReference, data) {
-  transactions.set(merchantReference, {
-    ...data,
-    merchantReference,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString()
-  });
-}
-
-function updateTransaction(merchantReference, updates) {
-  const existing = transactions.get(merchantReference);
-  if (existing) {
-    transactions.set(merchantReference, {
-      ...existing,
-      ...updates,
-      updatedAt: new Date().toISOString()
-    });
-  }
-}
+// ---- Transaction persistence (file-backed, shared by all payment paths) --
+// All callback/IPN/status/transaction routes use this single store so updates
+// made in one path are visible in every other path. The legacy in-memory Map
+// previously used by some routes is intentionally removed to avoid split-brain
+// transaction state and lost updates after a restart.
 
 // ---- Security helpers ----------------------------------------------------
 function generateSignature(data, secret) {
@@ -649,30 +599,41 @@ function validateSignature(data, signature, secret) {
 }
 
 // ---- Email notification helpers -----------------------------------------
-// TODO: Replace with actual email service integration (Brevo, SendGrid, etc.)
+// Customer receipts use the implemented Brevo sender (sendCustomerEmail).
+// These wrappers preserve the historical helper names while recording events.
 async function sendPaymentConfirmationEmail(transaction) {
-  console.log('TODO: Send payment confirmation email for:', transaction.merchantReference);
-  console.log('To:', transaction.email, 'Plan:', transaction.planName, 'Amount:', transaction.amount);
-  
-  // Placeholder for actual email implementation
-  // This should integrate with your email service (Brevo, etc.)
-  // Return success/failure status
-  return { success: true, method: 'placeholder' };
+  const updated = await sendCustomerEmail(transaction);
+  return { success: true, method: updated?.notificationSentAt ? 'brevo' : 'brevo-skipped' };
 }
 
-async function sendPaymentFailedEmail(transaction, error) {
-  console.log('TODO: Send payment failed notification for:', transaction.merchantReference);
-  console.log('Error:', error);
-  
-  // Placeholder for actual email implementation
-  return { success: true, method: 'placeholder' };
+async function sendPaymentFailedEmail(transaction) {
+  if (!transaction) return { success: false, error: 'missing transaction' };
+  saveCommunicationEvent({
+    id: `payment-failed-${transaction.id || transaction.merchantReference}`,
+    type: 'transactional',
+    event: 'payment_failed',
+    provider: 'brevo',
+    recipient: transaction.customerEmail || null,
+    transactionId: transaction.id || transaction.merchantReference,
+    status: 'logged',
+    createdAt: new Date().toISOString(),
+  });
+  return { success: true, method: 'event-log' };
 }
 
 async function sendAdminNotification(transaction, eventType) {
-  console.log('TODO: Send admin notification for:', eventType, transaction.merchantReference);
-  
-  // Placeholder for admin notification system
-  return { success: true, method: 'placeholder' };
+  if (!transaction) return { success: false, error: 'missing transaction' };
+  saveCommunicationEvent({
+    id: `admin-${eventType}-${transaction.id || transaction.merchantReference}`,
+    type: 'operational',
+    event: eventType,
+    provider: 'internal-log',
+    recipient: null,
+    transactionId: transaction.id || transaction.merchantReference,
+    status: 'logged',
+    createdAt: new Date().toISOString(),
+  });
+  return { success: true, method: 'event-log' };
 }
 
 // ---- Token cache (Pesapal tokens last ~5 minutes) ----------------------
@@ -729,99 +690,60 @@ app.get('/api/register-ipn', async (req, res) => {
 });
 
 // ---- Create a payment request ------------------------------------------
+// The browser selects a plan/term; every price below is resolved from the
+// controlled pricing file. Browser-supplied amounts are never accepted.
 app.post('/api/create-payment', async (req, res) => {
   try {
-    const {
-      plan,
-      term = 'monthly',
-      email,
-      phone,
-      first_name,
-      last_name,
-      idempotency_key: requestIdempotencyKey,
-    } = req.body || {};
-    const idempotencyKey = String(requestIdempotencyKey || '').trim();
-    if (idempotencyKey && !/^[A-Za-z0-9._:-]{8,128}$/.test(idempotencyKey)) {
-      return res.status(400).json({ error: 'Invalid idempotency key.' });
+    const body = req.body || {};
+    const validated = paymentLib.validateCreatePaymentRequest(body, PLANS, {
+      notificationConfigured: Boolean(NOTIFICATION_ID),
+    });
+    if (!validated.ok) {
+      const response = { error: validated.error };
+      if (validated.validPlans) response.validPlans = validated.validPlans;
+      if (validated.received !== undefined) response.received = validated.received;
+      return res.status(validated.status).json(response);
     }
-
-    // Validate plan
-    const planId = String(plan || '').toLowerCase();
-    const planInfo = PLANS[planId];
-    if (!planInfo) {
-      return res.status(400).json({ 
-        error: 'Unknown plan', 
-        validPlans: Object.keys(PLANS),
-        received: plan 
-      });
-    }
-
-    // Validate contact info
-    if (!email && !phone) {
-      return res.status(400).json({ error: 'email or phone is required' });
-    }
-
-    // Validate email format if provided
-    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      return res.status(400).json({ error: 'Invalid email format' });
-    }
-
-    // Check server configuration
-    const billingTerm = String(term || 'monthly').toLowerCase();
-    const amount = planInfo.amounts[billingTerm];
-    if (!Number.isFinite(amount)) {
-      return res.status(400).json({ error: 'Unknown billing term. Use monthly, 3_month, 6_month, or 12_month.' });
-    }
-    if (!NOTIFICATION_ID) {
-      return res.status(500).json({ error: 'Server not fully configured: PESAPAL_NOTIFICATION_ID missing. Run /api/register-ipn first.' });
-    }
+    const { plan: planInfo, billingTerm, amount, idempotencyKey } = validated;
+    const { email, phone, first_name, last_name } = body;
+    const planId = planInfo.id;
     const previousTransaction = findTransactionByIdempotencyKey(idempotencyKey);
-    if (previousTransaction && (
-      previousTransaction.plan !== String(plan || '').toLowerCase() ||
-      previousTransaction.commitment !== billingTerm ||
-      previousTransaction.amount !== amount ||
-      previousTransaction.customerEmail !== (email || null)
-    )) {
-      return res.status(409).json({ error: 'This idempotency key was already used for a different payment.' });
+    const replay = paymentLib.findConflictingReplay(previousTransaction, {
+      plan: planId,
+      commitment: billingTerm,
+      amount,
+      customerEmail: email || null,
+    });
+    if (replay && !replay.replay) {
+      return res.status(replay.status).json({ error: replay.error });
     }
-    if (previousTransaction?.redirectUrl && previousTransaction.pesapalOrderTrackingId) {
-      return res.json({
-        redirect_url: previousTransaction.redirectUrl,
-        order_tracking_id: previousTransaction.pesapalOrderTrackingId,
-        merchant_reference: previousTransaction.merchantReference,
-        idempotent_replay: true,
-      });
-    }
+    if (replay?.replay) return res.json(replay.body);
 
+    if (!CONSUMER_KEY || !CONSUMER_SECRET) {
+      return res.status(500).json({ error: 'Server not fully configured: PesaPal credentials missing.' });
+    }
     const token = await getAccessToken();
 
     // Generate unique merchant reference
-    const merchantReference = `AS-${planInfo.name.toUpperCase()}-${billingTerm.toUpperCase()}-${Date.now()}-${crypto.randomBytes(4).toString('hex').slice(0, 8)}`;
+    const merchantReference = paymentLib.buildMerchantReference(
+      planInfo.name,
+      billingTerm,
+      crypto.randomBytes(4).toString('hex').slice(0, 8)
+    );
 
-    // Initialize transaction record
-    setTransaction(merchantReference, {
-      planId,
-      planName: planInfo.name,
-      amount,
-      email,
-      phone,
-      first_name,
-      last_name,
-      status: 'pending',
-      orderTrackingId: null,
-      paymentStatus: null,
-      ipnReceived: false,
-      callbackReceived: false
-    });
+    // Persist the pending transaction before redirecting to PesaPal.
     const transaction = {
       id: merchantReference,
       merchantReference,
       idempotencyKey: idempotencyKey || null,
       pesapalOrderTrackingId: null,
-      plan: String(plan || '').toLowerCase(),
+      plan: planId,
+      planId,
+      planName: planInfo.name,
       commitment: billingTerm,
       customerName: [first_name, last_name].filter(Boolean).join(' ') || null,
       customerEmail: email || null,
+      phone: phone || null,
       amount,
       currency: CURRENCY,
       status: 'pending',
@@ -859,14 +781,15 @@ app.post('/api/create-payment', async (req, res) => {
     );
 
     if (!result.data || !result.data.redirect_url) {
+      saveTransaction({
+        ...transaction,
+        status: 'failed',
+        statusDescription: 'Unexpected PesaPal response',
+        lastStatusSource: 'create-payment',
+        updatedAt: new Date().toISOString(),
+      });
       return res.status(502).json({ error: 'Unexpected Pesapal response', details: result.data });
     }
-
-    // Update transaction with Pesapal tracking ID
-    updateTransaction(merchantReference, {
-      orderTrackingId: result.data.order_tracking_id,
-      status: 'created'
-    });
 
     saveTransaction({
       ...transaction,
@@ -916,6 +839,8 @@ app.get('/api/status', async (req, res) => {
 });
 
 // ---- Callback page (customer lands here after paying) -------------------
+// Canonical states: success | pending | failed | cancelled | unable_to_confirm.
+// Refreshing this page re-reads PesaPal and is safe to repeat.
 app.get('/api/callback', async (req, res) => {
   const { OrderTrackingId, OrderMerchantReference } = req.query;
   let paymentState = 'unable_to_confirm';
@@ -924,11 +849,9 @@ app.get('/api/callback', async (req, res) => {
     orderTrackingId: OrderTrackingId,
     merchantReference: OrderMerchantReference,
   });
-  let title = 'Payment status';
 
   try {
     if (OrderTrackingId && OrderMerchantReference) {
-      // Mark callback as received
       updateTransaction(OrderMerchantReference, {
         callbackReceived: true,
         callbackReceivedAt: new Date().toISOString()
@@ -938,25 +861,25 @@ app.get('/api/callback', async (req, res) => {
       const desc = status.payment_status_description || status.status_code;
       transaction = updateTransactionStatus(transaction, status, 'callback') || transaction;
       paymentState = transaction?.status || paymentStatusFromPesapal(status);
-      if (paymentState === 'completed') transaction = await sendCustomerEmail(transaction);
       statusDescription = desc || 'Payment status received.';
-      const paymentStatus = String(desc).toUpperCase();
-      
-      paid = paymentStatus === 'COMPLETED';
-      
-      statusHtml = `<p>Status: <b>${desc || 'Unknown'}</b></p>`;
-      
-      // Update transaction with callback status
       updateTransaction(OrderMerchantReference, {
-        paymentStatus,
-        callbackStatus: desc
+        paymentStatus: String(desc || '').toUpperCase() || null,
+        callbackStatus: desc || null,
       });
+      transaction = findTransaction({
+        orderTrackingId: OrderTrackingId,
+        merchantReference: OrderMerchantReference,
+      }) || transaction;
 
-      if (paid) {
+      if (paymentState === 'success') {
+        transaction = await sendCustomerEmail(transaction);
         updateTransaction(OrderMerchantReference, {
-          status: 'paid',
-          paidAt: new Date().toISOString()
+          paidAt: transaction?.paidAt || new Date().toISOString(),
         });
+        await sendAdminNotification(transaction, 'payment_completed');
+      } else if (paymentState === 'failed' || paymentState === 'cancelled') {
+        await sendPaymentFailedEmail(transaction);
+        await sendAdminNotification(transaction, `payment_${paymentState}`);
       }
     }
   } catch (err) {
@@ -964,7 +887,7 @@ app.get('/api/callback', async (req, res) => {
   }
 
   const stateCopy = {
-    completed: {
+    success: {
       title: "You're all set.",
       message: 'Your payment has been confirmed. We will be in touch with the next steps.',
       className: 'success',
@@ -1031,25 +954,18 @@ app.get('/api/callback', async (req, res) => {
 
 app.get('/api/cancelled', (req, res) => {
   const { OrderMerchantReference } = req.query;
-  
-  // Update transaction status if we have a reference
-  if (OrderMerchantReference) {
-    updateTransaction(OrderMerchantReference, {
-      status: 'cancelled',
-      cancelledAt: new Date().toISOString()
-    });
-  }
-  
+
   const transaction = findTransaction({
     orderTrackingId: req.query.OrderTrackingId,
     merchantReference: req.query.OrderMerchantReference,
   });
-  if (transaction && transaction.status !== 'completed') {
+  if (transaction && transaction.status !== 'success' && transaction.status !== 'completed' && transaction.status !== 'paid') {
     saveTransaction({
       ...transaction,
       status: 'cancelled',
       statusDescription: 'Cancelled by customer',
       lastStatusSource: 'cancellation',
+      cancelledAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     });
   }
@@ -1061,108 +977,57 @@ app.get('/api/cancelled', (req, res) => {
 });
 
 // ---- IPN endpoint (Pesapal server-to-server notification) ---------------
+// One fetch, one canonical transition, then side effects. Repeated IPN
+// deliveries converge on the same stored state and never duplicate records.
 app.get('/api/ipn', async (req, res) => {
   const { OrderTrackingId, OrderMerchantReference, OrderNotificationType } = req.query;
-  console.log('IPN received:', { OrderTrackingId, OrderMerchantReference, OrderNotificationType });
-  
+
   try {
     if (!OrderTrackingId || !OrderMerchantReference) {
-      console.warn('IPN missing required fields');
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
-    // Check for duplicate IPN (idempotency)
     const existingTransaction = getTransaction(OrderMerchantReference);
-    if (existingTransaction && existingTransaction.ipnReceived) {
-      console.log('Duplicate IPN detected for:', OrderMerchantReference);
-      return res.json({
-        orderNotificationType: OrderNotificationType,
-        orderTrackingId: OrderTrackingId,
-        orderMerchantReference: OrderMerchantReference,
-        status: 200,
-        duplicate: true
-      });
-    }
-
-    // Fetch current status from Pesapal
     const status = await fetchStatus(OrderTrackingId);
-    console.log('IPN status:', OrderMerchantReference, status.payment_status_description);
-    
-    // Update transaction record
-    const paymentStatus = String(status.payment_status_description || status.status_code || '').toUpperCase();
+    const updated = updateTransactionStatus(
+      existingTransaction || findTransaction({ orderTrackingId: OrderTrackingId, merchantReference: OrderMerchantReference }),
+      status,
+      'ipn'
+    );
+    const paymentState = updated?.status || paymentStatusFromPesapal(status);
+    const duplicate = Boolean(existingTransaction?.ipnReceived) || Boolean(existingTransaction && updated && existingTransaction.updatedAt === updated.updatedAt && paymentState !== 'pending');
     updateTransaction(OrderMerchantReference, {
-      paymentStatus,
+      paymentStatus: String(status.payment_status_description || status.status_code || '').toUpperCase() || null,
       ipnReceived: true,
-      ipnReceivedAt: new Date().toISOString(),
-      pesapalStatus: status
+      ipnReceivedAt: existingTransaction?.ipnReceivedAt || new Date().toISOString(),
+      pesapalStatus: status,
     });
+    let transaction = getTransaction(OrderMerchantReference) || updated;
 
-    // Handle successful payment
-    if (paymentStatus === 'COMPLETED') {
+    if (paymentState === 'success') {
+      transaction = await sendCustomerEmail(transaction);
       updateTransaction(OrderMerchantReference, {
-        status: 'paid',
-        paidAt: new Date().toISOString()
+        paidAt: transaction?.paidAt || new Date().toISOString(),
       });
-      
-      // Get updated transaction for email
-      const completedTransaction = getTransaction(OrderMerchantReference);
-      
-      // Send confirmation email (with error handling)
-      try {
-        const emailResult = await sendPaymentConfirmationEmail(completedTransaction);
-        updateTransaction(OrderMerchantReference, {
-          emailSent: emailResult.success,
-          emailSentAt: new Date().toISOString(),
-          emailError: emailResult.success ? null : emailResult.error
-        });
-      } catch (emailError) {
-        console.error('Failed to send confirmation email:', emailError);
-        updateTransaction(OrderMerchantReference, {
-          emailSent: false,
-          emailError: emailError.message
-        });
-        // Continue despite email failure - payment is still valid
-      }
-      
-      // Send admin notification
-      if (completedTransaction) {
-        await sendAdminNotification(completedTransaction, 'payment_completed');
-      }
-      
-      console.log('Payment completed for:', OrderMerchantReference);
-    } else if (paymentStatus === 'FAILED' || paymentStatus === 'CANCELLED') {
-      updateTransaction(OrderMerchantReference, {
-        status: paymentStatus.toLowerCase()
-      });
-      
-      // Send admin notification for failed payments
-      const failedTransaction = getTransaction(OrderMerchantReference);
-      if (failedTransaction) {
-        await sendAdminNotification(failedTransaction, `payment_${paymentStatus.toLowerCase()}`);
-      }
+      await sendAdminNotification(transaction, 'payment_completed');
+    } else if (paymentState === 'failed' || paymentState === 'cancelled') {
+      await sendPaymentFailedEmail(transaction);
+      await sendAdminNotification(transaction, `payment_${paymentState}`);
     }
+    transaction = getTransaction(OrderMerchantReference) || transaction;
 
-    if (OrderTrackingId) {
-      const status = await fetchStatus(OrderTrackingId);
-      console.log('IPN status:', OrderMerchantReference, status.payment_status_description);
-      const transaction = updateTransactionStatus(
-        findTransaction({ orderTrackingId: OrderTrackingId, merchantReference: OrderMerchantReference }),
-        status,
-        'ipn'
-      );
-      if (transaction?.status === 'completed') await sendCustomerEmail(transaction);
-    }
+    res.json({
+      orderNotificationType: OrderNotificationType,
+      orderTrackingId: OrderTrackingId,
+      orderMerchantReference: OrderMerchantReference,
+      status: 200,
+      transaction_status: transaction?.status || paymentState,
+      ...(duplicate ? { duplicate: true } : {}),
+    });
   } catch (err) {
     console.error('IPN processing error:', err.response?.data || err.message);
-    // Still return 200 to Pesapal to avoid retries, but log the error
+    res.status(502).json({ error: 'Could not verify this IPN with PesaPal yet. It can be retried safely.' });
   }
-
-  res.json({
-    orderNotificationType: OrderNotificationType,
-    orderTrackingId: OrderTrackingId,
-    orderMerchantReference: OrderMerchantReference,
-    status: 200,
-  });
 });
 
 app.post('/api/ipn', (req, res) => res.redirect(307, `/api/ipn?${new URLSearchParams(req.query)}`));
@@ -1360,26 +1225,45 @@ app.post('/api/newsletter/subscribe', (req, res) => {
 });
 
 // ---- Transaction management endpoints ------------------------------------
+// Safe recovery endpoint: pending records return a refresh path, failed or
+// cancelled records return a new-checkout path, completed records never retry.
 app.get('/api/transaction/:merchantReference', (req, res) => {
   const { merchantReference } = req.params;
   const transaction = getTransaction(merchantReference);
-  
+
   if (!transaction) {
     return res.status(404).json({ error: 'Transaction not found' });
   }
-  
-  // Return safe subset of transaction data
-  const safeTransaction = {
-    merchantReference: transaction.merchantReference,
-    planName: transaction.planName,
-    amount: transaction.amount,
-    status: transaction.status,
-    paymentStatus: transaction.paymentStatus,
-    createdAt: transaction.createdAt,
-    paidAt: transaction.paidAt
-  };
-  
-  res.json(safeTransaction);
+
+  const recovery = paymentLib.retryableTransaction(transaction);
+  res.json({
+    ...paymentLib.safeTransaction(transaction),
+    retryAllowed: recovery.ok === true,
+    recovery: transaction.status === 'pending'
+      ? 'refresh'
+      : (transaction.status === 'failed' || transaction.status === 'cancelled' ? 'new_checkout' : 'none'),
+  });
+});
+
+// Recovery/refresh: re-read PesaPal for a known pending transaction.
+app.get('/api/transaction/:merchantReference/refresh', async (req, res) => {
+  const { merchantReference } = req.params;
+  const transaction = getTransaction(merchantReference);
+  if (!transaction) return res.status(404).json({ error: 'Transaction not found' });
+  if (!transaction.pesapalOrderTrackingId) {
+    return res.status(409).json({ error: 'This payment has no provider reference yet.', transaction_status: transaction.status });
+  }
+  const recovery = paymentLib.retryableTransaction(transaction);
+  if (!recovery.ok) return res.status(recovery.status).json({ error: recovery.error });
+  try {
+    const status = await fetchStatus(transaction.pesapalOrderTrackingId);
+    const updated = updateTransactionStatus(transaction, status, 'refresh') || transaction;
+    if (updated?.status === 'success') await sendCustomerEmail(updated);
+    const current = getTransaction(merchantReference) || updated;
+    res.json({ ...paymentLib.safeTransaction(current), transaction_status: current?.status });
+  } catch (err) {
+    res.status(502).json({ error: err.response?.data || err.message, transaction_status: transaction.status });
+  }
 });
 
 // Admin endpoint for transaction reconciliation (protected by SETUP_KEY)
@@ -1387,8 +1271,8 @@ app.get('/api/admin/transactions', (req, res) => {
   if (!SETUP_KEY || req.query.key !== SETUP_KEY) {
     return res.status(403).json({ error: 'Invalid or missing setup key' });
   }
-  
-  const allTransactions = Array.from(transactions.values());
+
+  const allTransactions = readTransactions();
   res.json({
     count: allTransactions.length,
     transactions: allTransactions
@@ -1422,8 +1306,13 @@ const BLOCKED_PUBLIC_PREFIXES = [
   '/Campaigns/',
   '/Content-Proposal/',
   '/dashboards/',
+  '/e/',
   '/Editorials/',
+  '/Images/',
   '/leads/',
+  '/payment/',
+  '/Productions/',
+  '/Prompts/',
   '/reports/',
   '/staging/',
   '/Taskmaster/',
@@ -1438,10 +1327,14 @@ const BLOCKED_PUBLIC_FILES = new Set([
   '/site-data-model.json',
   '/atomic-shelf-commitment-terms.md',
   '/Atomic_Shelf_Website_Relaunch_PRD.md',
+  '/payment-test-cases.md',
   '/README.md',
   '/server.js',
+  '/payment-lib.js',
   '/package.json',
+  '/package-lock.json',
   '/.env',
+  '/.env.example',
 ]);
 const BLOCKED_PUBLIC_DOCUMENTS = new Set([
   '/Next priority from Milky project roadmap - Claude.html',

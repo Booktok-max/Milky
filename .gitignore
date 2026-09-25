@@ -1,0 +1,19 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Environment and secrets — never commit real credentials
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# Runtime / private data (server-side only)
+private-data/
+.neocities-deploy/
+
+# Logs and OS artifacts
+*.log
+.DS_Store
+Thumbs.db
