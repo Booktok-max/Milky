@@ -127,6 +127,16 @@ function mapProviderStatus(status) {
   return 'pending';
 }
 
+// Callback receipt metadata with first-seen semantics: the first callback
+// records the timestamp, later duplicates keep the original one.
+function applyCallbackReceipt(transaction, nowIso) {
+  if (!transaction || typeof transaction !== 'object' || Array.isArray(transaction)) return null;
+  return {
+    callbackReceived: true,
+    callbackReceivedAt: transaction.callbackReceivedAt || nowIso || new Date().toISOString(),
+  };
+}
+
 // Resolve the freshest persisted copy of a transaction so a stale in-memory
 // object cannot overwrite metadata written by a later step (for example the
 // callback flags written just before a status transition).
@@ -212,6 +222,7 @@ module.exports = {
   findConflictingReplay,
   mapProviderStatus,
   applyProviderStatus,
+  applyCallbackReceipt,
   resolvePersistedTransaction,
   buildMerchantReference,
   safeTransaction,

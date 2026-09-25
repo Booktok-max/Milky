@@ -207,6 +207,55 @@ describe('transaction lifecycle', () => {
     assert.equal(paymentLib.resolvePersistedTransaction([null, stored], { merchantReference: 'AS-9' }), stored);
   });
 
+  it('records callbackReceivedAt on the first callback and keeps it on duplicates', () => {
+    const first = paymentLib.applyCallbackReceipt(
+      { merchantReference: 'AS-1', status: 'pending' }, '2026-09-25T16:55:29.073Z');
+    assert.equal(first.callbackReceived, true);
+    assert.equal(first.callbackReceivedAt, '2026-09-25T16:55:29.073Z');
+
+    const stored = { ...first, merchantReference: 'AS-1', status: 'success', paidAt: '2026-09-25T16:55:17.251Z' };
+    const duplicate = paymentLib.applyCallbackReceipt(stored, '2026-09-25T17:30:00.000Z');
+    assert.equal(duplicate.callbackReceived, true);
+    assert.equal(duplicate.callbackReceivedAt, '2026-09-25T16:55:29.073Z');
+
+    assert.equal(paymentLib.applyCallbackReceipt(null, '2026-09-25T17:00:00.000Z'), null);
+    assert.equal(paymentLib.applyCallbackReceipt('nope', '2026-09-25T17:00:00.000Z'), null);
+    const fallback = paymentLib.applyCallbackReceipt({ merchantReference: 'AS-2', status: 'pending' }, null);
+    assert.ok(fallback.callbackReceivedAt);
+  });
+
+  it('keeps success, ipn metadata and paidAt across duplicate callbacks', () => {
+    let record = {
+      merchantReference: 'AS-SPARK-1',
+      pesapalOrderTrackingId: 'track-1',
+      status: 'pending',
+      ipnReceived: true,
+      ipnReceivedAt: '2026-09-25T16:55:17.249Z',
+    };
+    const firstCallbackAt = '2026-09-25T16:55:29.073Z';
+    const duplicateCallbackAt = '2026-09-25T17:30:00.000Z';
+
+    // First callback: receipt recorded, then status transitions to success.
+    record = { ...record, ...paymentLib.applyCallbackReceipt(record, firstCallbackAt) };
+    record = paymentLib.applyProviderStatus(
+      paymentLib.resolvePersistedTransaction([record], { merchantReference: 'AS-SPARK-1' }),
+      { payment_status_description: 'Completed' }, 'callback');
+    record = { ...record, paidAt: '2026-09-25T16:55:17.251Z' };
+
+    // Duplicate callback arrives later.
+    record = { ...record, ...paymentLib.applyCallbackReceipt(record, duplicateCallbackAt) };
+    record = paymentLib.applyProviderStatus(
+      paymentLib.resolvePersistedTransaction([record], { merchantReference: 'AS-SPARK-1' }),
+      { payment_status_description: 'Completed' }, 'callback');
+
+    assert.equal(record.callbackReceived, true);
+    assert.equal(record.callbackReceivedAt, firstCallbackAt);
+    assert.equal(record.status, 'success');
+    assert.equal(record.ipnReceived, true);
+    assert.equal(record.ipnReceivedAt, '2026-09-25T16:55:17.249Z');
+    assert.equal(record.paidAt, '2026-09-25T16:55:17.251Z');
+  });
+
   it('exposes a safe recovery policy', () => {
     assert.equal(paymentLib.retryableTransaction(null).status, 404);
     assert.equal(paymentLib.retryableTransaction({ status: 'pending' }).retryAllowed, true);

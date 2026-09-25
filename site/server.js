@@ -866,10 +866,11 @@ app.get('/api/callback', async (req, res) => {
 
   try {
     if (OrderTrackingId && OrderMerchantReference) {
-      updateTransaction(OrderMerchantReference, {
-        callbackReceived: true,
-        callbackReceivedAt: new Date().toISOString()
-      });
+      // First-seen semantics: a duplicate callback keeps the original receipt
+      // timestamp, matching ipnReceivedAt.
+      const persisted = getTransaction(OrderMerchantReference) || transaction;
+      const receipt = paymentLib.applyCallbackReceipt(persisted, new Date().toISOString());
+      if (receipt) updateTransaction(OrderMerchantReference, receipt);
 
       const status = await fetchStatus(OrderTrackingId);
       const desc = status.payment_status_description || status.status_code;
