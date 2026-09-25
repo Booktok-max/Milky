@@ -1,0 +1,94 @@
+- generic [active] [ref=f8e1]:
+  - navigation [ref=f8e2]:
+    - link "Atomic‑Shelf" [ref=f8e3] [cursor=pointer]:
+      - /url: index.html
+    - list [ref=f8e4]:
+      - listitem [ref=f8e5]:
+        - link "Browse Books" [ref=f8e6] [cursor=pointer]:
+          - /url: "#browse-books"
+      - listitem [ref=f8e7]:
+        - link "I’m feeling lucky" [ref=f8e8] [cursor=pointer]:
+          - /url: "#lucky"
+      - listitem [ref=f8e9]:
+        - link "New releases → timeless classics" [ref=f8e10] [cursor=pointer]:
+          - /url: "#browse-books"
+      - listitem [ref=f8e11]:
+        - link "Other languages" [ref=f8e12] [cursor=pointer]:
+          - /url: "#other-languages"
+    - link "Add my own book" [ref=f8e13] [cursor=pointer]:
+      - /url: index.html#pricing
+  - banner [ref=f8e14]:
+    - generic [ref=f8e15]:
+      - generic [ref=f8e16]: Reader Discovery
+      - heading "In the mood for something new? Explore today’s mix across popular reading lanes." [level=1] [ref=f8e19]
+      - paragraph [ref=f8e20]: Browse today's selection across romance, fantasy, thriller, children's books, and more.
+      - generic [ref=f8e21]:
+        - generic [ref=f8e22]: Search books
+        - searchbox "Search books" [ref=f8e23]
+        - button "Search books" [ref=f8e24] [cursor=pointer]
+      - generic [ref=f8e25]:
+        - generic [ref=f8e26] [cursor=pointer]: All
+        - generic [ref=f8e27] [cursor=pointer]: Romance — ShelfMates
+        - generic [ref=f8e28] [cursor=pointer]: Fantasy
+        - generic [ref=f8e29] [cursor=pointer]: Thriller
+        - generic [ref=f8e30] [cursor=pointer]: Children's — StoryPals
+        - generic [ref=f8e31] [cursor=pointer]: Mystery
+        - generic [ref=f8e32] [cursor=pointer]: Science fiction
+        - generic [ref=f8e33] [cursor=pointer]: Historical fiction
+        - generic [ref=f8e34] [cursor=pointer]: Horror
+        - generic [ref=f8e35] [cursor=pointer]: Literary fiction
+        - generic [ref=f8e36] [cursor=pointer]: Poetry
+        - generic [ref=f8e37] [cursor=pointer]: Biography
+        - generic [ref=f8e38] [cursor=pointer]: Graphic novels
+      - paragraph [ref=f8e39]: Children’s results use catalogue subject tags for juvenile fiction, picture books, and juvenile literature—not title keywords.
+  - generic [ref=f8e41]:
+    - generic [ref=f8e43]:
+      - generic [ref=f8e44]: Browse Books
+      - heading "Popular reading" [level=2] [ref=f8e46]
+      - paragraph [ref=f8e47]: A daily mix of discovery lanes, including free-to-read books on Open Library. Use the catalogue to read where available, or Amazon search to compare editions and availability. This is not a live last-24-hours ranking.
+    - generic [ref=f8e48]: Loading books…
+    - generic [ref=f8e50]: Loading more shelves as you browse…
+  - generic [ref=f8e52]:
+    - generic [ref=f8e53]:
+      - generic [ref=f8e54]:
+        - generic [ref=f8e55]: I’m feeling lucky
+        - heading "Browse what readers have collected" [level=2] [ref=f8e57]
+      - paragraph [ref=f8e58]: A separate stream of public reader-curated shelves, shuffled daily. Open one to see its full collection and curator context.
+    - generic [ref=f8e59]: Loading lists…
+  - generic [ref=f8e62]:
+    - generic [ref=f8e63]:
+      - generic [ref=f8e64]:
+        - generic [ref=f8e65]: Other languages
+        - heading "Find books beyond English" [level=2] [ref=f8e67]
+      - paragraph [ref=f8e68]: Explore titles in other languages, with catalogue links and edition-aware destinations for readers looking beyond English-language shelves.
+    - generic [ref=f8e69]:
+      - generic [ref=f8e70] [cursor=pointer]: Spanish
+      - generic [ref=f8e71] [cursor=pointer]: French
+      - generic [ref=f8e72] [cursor=pointer]: German
+      - generic [ref=f8e73] [cursor=pointer]: Italian
+      - generic [ref=f8e74] [cursor=pointer]: Portuguese
+      - generic [ref=f8e75] [cursor=pointer]: Japanese
+      - generic [ref=f8e76] [cursor=pointer]: Arabic
+    - generic [ref=f8e77]: This language shelf is unavailable right now. Please try another language.
+  - generic [ref=f8e79]:
+    - generic [ref=f8e80]: Never miss a new release
+    - heading "Get matched to books like these" [level=3] [ref=f8e81]
+    - paragraph [ref=f8e82]: ShelfMates and StoryPals notify readers the moment a new title in their favorite genre or age range goes live — built and run by Atomic Shelf.
+    - generic [ref=f8e83]:
+      - link "📖 Explore ShelfMates (adult fiction)" [ref=f8e84] [cursor=pointer]:
+        - /url: shelfmates.html
+      - link "🧸 Explore StoryPals (children's books)" [ref=f8e85] [cursor=pointer]:
+        - /url: storypals.html
+    - generic [ref=f8e86]:
+      - heading "Get the weekly shelf" [level=4] [ref=f8e87]
+      - paragraph [ref=f8e88]: "One email each week with the best books featured here: a few thoughtful picks, no clutter."
+      - generic [ref=f8e89]:
+        - generic [ref=f8e90]: Email address
+        - textbox "Email address" [ref=f8e91]:
+          - /placeholder: you@example.com
+        - button "Subscribe" [ref=f8e92] [cursor=pointer]
+      - status [ref=f8e93]
+  - contentinfo [ref=f8e94]:
+    - generic [ref=f8e95]: © 2026 Atomic‑Shelf. All rights reserved.
+    - link "Back to Atomic-Shelf.com" [ref=f8e97] [cursor=pointer]:
+      - /url: index.html
