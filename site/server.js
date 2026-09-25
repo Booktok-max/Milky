@@ -174,19 +174,26 @@ function writeTransactions(transactions) {
 }
 
 function saveTransaction(transaction) {
+    if (!transaction || typeof transaction !== 'object') return null;
     const transactions = readTransactions();
-    const index = transactions.findIndex(item => item.id === transaction.id);
+    const key = transaction.id || transaction.merchantReference;
+    const index = key
+      ? transactions.findIndex(item => item && (item.id === key || item.merchantReference === key))
+      : -1;
     if (index === -1) transactions.push(transaction);
     else transactions[index] = transaction;
     writeTransactions(transactions);
     return transaction;
 }
 
-function findTransaction({ orderTrackingId, merchantReference }) {
-    return readTransactions().find(transaction =>
-      (orderTrackingId && transaction.pesapalOrderTrackingId === orderTrackingId) ||
-      (merchantReference && transaction.merchantReference === merchantReference)
-    );
+function findTransaction(query) {
+    const { orderTrackingId, merchantReference } = query || {};
+    if (!orderTrackingId && !merchantReference) return undefined;
+    return readTransactions().find(transaction => {
+      if (!transaction || typeof transaction !== 'object') return false;
+      return (orderTrackingId && transaction.pesapalOrderTrackingId === orderTrackingId) ||
+        (merchantReference && transaction.merchantReference === merchantReference);
+    });
 }
 
 function findTransactionByIdempotencyKey(idempotencyKey) {
@@ -199,14 +206,17 @@ function paymentStatusFromPesapal(status) {
 }
 
 function updateTransactionStatus(transaction, status, source) {
+    if (!transaction || typeof transaction !== 'object') return null;
     return saveTransaction(paymentLib.applyProviderStatus(transaction, status, source));
 }
 
 function getTransaction(merchantReference) {
+    if (!merchantReference) return null;
     return findTransaction({ merchantReference }) || null;
 }
 
 function updateTransaction(merchantReference, updates) {
+    if (!merchantReference) return null;
     const existing = findTransaction({ merchantReference });
     if (!existing) return null;
     return saveTransaction({ ...existing, ...updates, updatedAt: new Date().toISOString() });
@@ -988,12 +998,14 @@ app.get('/api/ipn', async (req, res) => {
     }
 
     const existingTransaction = getTransaction(OrderMerchantReference);
+    if (!existingTransaction) {
+      return res.status(404).json({ error: 'Transaction not found' });
+    }
     const status = await fetchStatus(OrderTrackingId);
-    const updated = updateTransactionStatus(
-      existingTransaction || findTransaction({ orderTrackingId: OrderTrackingId, merchantReference: OrderMerchantReference }),
-      status,
-      'ipn'
-    );
+    const updated = updateTransactionStatus(existingTransaction, status, 'ipn');
+    if (!updated) {
+      return res.status(404).json({ error: 'Transaction not found' });
+    }
     const paymentState = updated?.status || paymentStatusFromPesapal(status);
     const duplicate = Boolean(existingTransaction?.ipnReceived) || Boolean(existingTransaction && updated && existingTransaction.updatedAt === updated.updatedAt && paymentState !== 'pending');
     updateTransaction(OrderMerchantReference, {

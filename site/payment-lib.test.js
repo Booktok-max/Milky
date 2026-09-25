@@ -98,6 +98,22 @@ describe('transaction lifecycle', () => {
     assert.equal(repeated.status, 'success');
   });
 
+  it('handles missing and unknown transactions without throwing', () => {
+    for (const missing of [undefined, null, '', {}]) {
+      assert.equal(paymentLib.applyProviderStatus(missing, { payment_status_description: 'Completed' }, 'ipn'), null);
+      assert.deepEqual(paymentLib.retryableTransaction(missing), { ok: false, status: 404, error: 'Transaction not found' });
+      assert.equal(paymentLib.safeTransaction(missing), null);
+    }
+    assert.deepEqual(paymentLib.retryableTransaction({ status: 'unknown-shape' }), { ok: true, retryAllowed: true });
+    assert.equal(paymentLib.retryableTransaction({ status: 'pending' }).retryAllowed, true);
+    const completed = paymentLib.applyProviderStatus(
+      { status: 'success', merchantReference: 'AS-1' },
+      { payment_status_description: 'Completed' },
+      'callback'
+    );
+    assert.equal(completed.status, 'success');
+  });
+
   it('handles duplicate and conflicting idempotency keys', () => {
     const previous = {
       plan: 'spark', commitment: 'monthly', amount: 20,

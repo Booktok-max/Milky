@@ -128,8 +128,10 @@ function mapProviderStatus(status) {
 }
 
 // Pure transaction transition. Recorded success never regresses.
+// Missing/non-object transactions return null instead of throwing.
 function applyProviderStatus(transaction, status, source) {
-  if (!transaction) return null;
+  if (!transaction || typeof transaction !== 'object' || Array.isArray(transaction)) return null;
+  if (!transaction.id && !transaction.merchantReference && !transaction.status) return null;
   const nextStatus = mapProviderStatus(status);
   if (transaction.status === 'success' || transaction.status === 'completed' || transaction.status === 'paid') {
     return { ...transaction, lastStatusSource: source || transaction.lastStatusSource };
@@ -149,7 +151,8 @@ function buildMerchantReference(planName, billingTerm, randomHex, nowMs = Date.n
 }
 
 function safeTransaction(transaction) {
-  if (!transaction) return null;
+  if (!transaction || typeof transaction !== 'object' || Array.isArray(transaction)) return null;
+  if (!transaction.id && !transaction.merchantReference && !transaction.status) return null;
   return {
     merchantReference: transaction.merchantReference,
     plan: transaction.plan ?? null,
@@ -164,8 +167,12 @@ function safeTransaction(transaction) {
 }
 
 // Recovery policy: only pending records can be refreshed; completed ones never retry.
+// Empty/missing transaction objects are treated as unknown, never retryable.
 function retryableTransaction(transaction) {
-  if (!transaction) return { ok: false, status: 404, error: 'Transaction not found' };
+  if (!transaction || typeof transaction !== 'object' || Array.isArray(transaction)) {
+    return { ok: false, status: 404, error: 'Transaction not found' };
+  }
+  if (!transaction.status) return { ok: false, status: 404, error: 'Transaction not found' };
   if (transaction.status === 'success' || transaction.status === 'completed' || transaction.status === 'paid') {
     return { ok: false, status: 409, error: 'Completed payments cannot be retried.' };
   }
