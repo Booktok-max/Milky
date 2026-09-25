@@ -1,7 +1,7 @@
 # Atomic Shelf Website Relaunch — Master PRD
 
-**Status:** Implementation underway — commercial baseline implemented; client-facing provenance cleanup in progress/verified on core sales pages; release gates remain
-**Version:** 1.2
+**Status:** Implementation underway — commercial baseline, pricing/content pass, provenance cleanup, reader discovery foundation, Research & Scholarly lane, and communications architecture defined; payment, contact, newsletter, outreach integrations and release gates remain
+**Version:** 1.5
 **Date:** 2026-09-23  
 **Product:** Atomic Shelf marketing website  
 **Primary goal:** Relaunch the site as a clear, memorable, conversion-focused system that explains Atomic Shelf, builds trust, makes pricing easy to understand, and gives authors a natural path to becoming customers.
@@ -10,7 +10,7 @@
 
 ## 1. Executive Summary
 
-Atomic Shelf should be presented as a **long-term readership growth partner for independent authors**, not simply as a collection of marketing services.
+Atomic Shelf should be presented as a **long-term readership growth partner for independent authors and publishers**, not simply as a collection of marketing services.
 
 The website must make one idea immediately understandable:
 
@@ -22,15 +22,19 @@ The visitor should be able to move naturally through:
 
 **Understand → Believe → Identify → Compare → Trust → Buy**
 
-### Implementation status — 2026-09-22
+### Implementation status — 2026-09-23
 
-The following baseline work is complete:
+The following work is now reflected in the repository and should be treated as the current implementation baseline:
 
-- `pricing-data.json` is the browser-facing pricing dataset used by the homepage preview and the full pricing page.
-- The six plan records include commitment prices, services, deliverables, positioning, and performance ranges.
-- The service map and public Services page now match the approved plan inclusions, service stages, and plan-specific content volumes.
-- The How It Works page now aligns the five-stage system with those approved service stages and plan inclusions.
-- A public Editorial page exists; Start Here is a guided five-path selector, and public navigation aliases cover Catalogue, ShelfMates, and StoryPals.
+- `pricing-data.json` is the browser-facing pricing dataset used by the homepage preview and full pricing page.
+- The public pricing model currently contains six standard plans: Spark, Enhanced, Foundation, Starter, Momentum, and Growth, plus custom Surge/Orbit engagements.
+- Pricing records now carry monthly pricing, commitment totals/discounts, plan positioning, audience, services, deliverables, CTAs, and plan-specific performance ranges.
+- Momentum commitment structures and forecast ranges have been expanded by term, and pricing copy has been aligned with those records.
+- The public Pricing page has been refined around commitment selection, plan comparison, expected activity/results, commitment language, FAQ, and CTA flow.
+- Homepage, Pricing, Results, Services, How It Works, FAQ, and Checkout copy has been iterated to align terminology and avoid vague/internal wording.
+- Results copy now distinguishes activity, audience response, and business indicators rather than treating views or impressions as sales.
+- The free-book/promotion flow now invites authors to provide their promotion dates where applicable.
+- The public site continues to use a responsive pricing grid and mobile-first layout; final visual QA remains a release gate.
 - The deployment workflow builds a public-only payload and excludes identified client-work and internal-tool directories.
 - The tracked Brevo environment file has been removed from version control and environment files are ignored going forward.
 
@@ -40,8 +44,189 @@ Remaining release gates:
 - Inventory and explicitly remove any private files already present on the public host; deployment cleanup remains deliberately disabled.
 - Complete the planned manual/legal review of the commitment terms.
 - Complete proof-metric records, case studies, analytics, checkout, SEO/accessibility/performance, and cross-device QA.
+- Complete the daily reader newsletter workstream described below, including delivery-provider integration and operational controls.
 
 The website should educate enough to make the purchase feel informed, but it should remain a sales system. Every major page must answer a practical buyer question and lead naturally to the next decision.
+
+### Daily reader newsletter workstream — 2026-09-23
+
+The Readers page should become the source for a daily email shelf containing the books currently surfaced in reader discovery. The newsletter should make the daily selection useful rather than sending a generic promotion.
+
+**Implemented foundation:**
+
+- The Readers page has a validated email subscription form.
+- `/api/newsletter/subscribe` accepts and stores a normalized subscriber address outside the public asset boundary.
+- `/api/newsletter/daily` generates a dated shelf from covered Open Library titles and returns each book's title, author, cover, and catalogue link.
+- The daily shelf has a generated subject line and a server-side daily cache to avoid rebuilding the same shelf on every request.
+- `/api/newsletter/preview` provides a protected editorial preview with responsive HTML and plain-text versions before delivery is enabled.
+
+**Pending work:**
+
+- Replace the temporary local subscriber store with a production email provider and rotate any previously exposed provider credentials.
+- Add consent language, unsubscribe handling, suppression/bounce handling, and a clear privacy/data-retention policy.
+- Make the newsletter selection use the same daily seed and discovery rules as the Readers page, including genre context and the Other languages shelf where appropriate.
+- Build a responsive HTML email template with accessible text alternatives, tracked book links, source attribution, and a plain-text version.
+- Add a scheduled daily send job with idempotency, retry limits, rate limits, and delivery monitoring.
+- Add tests for duplicate subscriptions, invalid addresses, provider failures, empty shelves, coverless records, and repeated requests on the same day.
+- Define newsletter analytics separately from site analytics: sends, deliveries, opens, clicks, unsubscribes, bounces, and book-level click-through.
+- Document the final provider setup, sender identity, time zone, data retention, and legal approval before enabling automatic sends.
+
+### TikTok BookTok discovery workstream — 2026-09-23
+
+The Readers page now includes a **Trending on TikTok** lane backed by a server-side TikTok Research API integration.
+
+**Implemented foundation:**
+
+- `/api/readers/tiktok` obtains and caches a TikTok client access token without exposing credentials to the browser.
+- The endpoint queries public videos matching BookTok-related hashtags over the previous 30 days, optionally restricted by `TIKTOK_REGION_CODE`.
+- Results are cached in memory for 15 minutes, paginated across at most two API pages, normalized, deduplicated by TikTok video ID, and ranked using recency plus views, likes, comments, and shares.
+- Readers displays source attribution, engagement metrics, a last-updated timestamp, and direct TikTok links.
+- Missing credentials or an empty result set produces a clear fallback state and does not interrupt Open Library discovery.
+
+**Required environment variables:**
+
+- `TIKTOK_CLIENT_KEY`
+- `TIKTOK_CLIENT_SECRET`
+- Optional: `TIKTOK_REGION_CODE` as a comma-separated list such as `US,GB`
+
+TikTok Research API approval is required before live results can appear. The UI must describe these as public Research API matches for the selected query and date window, not as a universal or editorially verified “best of BookTok” ranking. Client credentials must remain server-side.
+
+### Reader catalogue resilience workstream — 2026-09-23
+
+Readers currently depends on Open Library for live catalogue discovery, search, language shelves, public lists, and representative covers. Open Library is a valuable public-good source, but its documentation asks client applications to identify themselves, cache responses, keep request volume low, and avoid treating the service as high-traffic commercial infrastructure. A provider outage or rate limit must not leave the forward-facing Readers page empty.
+
+**Current integration status:**
+
+- Open Library is the only live catalogue provider currently integrated.
+- Readers uses the server-side `/api/readers/open-library` proxy for search and list requests, with an allowlist, request timeout, identifying User-Agent, and cache headers.
+- The page retains a small static fallback shelf for the main book grid when live catalogue requests fail.
+- Google Books is not currently enabled. Existing Google Books destinations are ordinary external search links, not API results.
+- The New York Times Books API is not currently enabled. No NYT key or client exists in the repository.
+- TikTok Research API is a separate discovery signal and is not a replacement for catalogue metadata.
+
+**Provider roles:**
+
+| Provider | Intended role | Status |
+|---|---|---|
+| Open Library | Primary public catalogue, public lists, lending/free-reading context, covers | Integrated; subject to rate limits and outages |
+| Google Books API | Secondary search, ISBN/title lookup, covers, descriptions, publisher and edition metadata | Recommended next integration |
+| New York Times Books API | Optional bestseller rankings, list metadata, and bestseller-specific lane | Recommended separate lane, not a general catalogue replacement |
+| Library of Congress or similar authority source | Optional metadata enrichment and authority cross-checking | Lower-priority investigation |
+
+**Recommended implementation order:**
+
+1. Add a server-side Google Books client using `GOOGLE_BOOKS_API_KEY`; never expose the key in browser JavaScript or public JSON.
+2. Normalize Google Books volumes into the Readers book shape and use Google Books when Open Library fails or returns too few covered records.
+3. Track `source` on every normalized book and show clear attribution such as `Open Library` or `Google Books`.
+4. Cache provider responses by query, filter, and page, with bounded timeouts, retry limits, and provider-specific rate limits.
+5. Add a provider health/fallback test matrix covering successful responses, timeouts, rate limits, malformed records, missing covers, empty results, and complete provider outages.
+6. Add an optional server-side NYT Books client using `NYT_BOOKS_API_KEY`, with a separately labeled **NYT Best Sellers** lane and the list/date metadata required to explain what the ranking represents.
+7. Keep Open Library as the public-good source for list and free-reading context where available; do not imply that Google Books or NYT provides the same lending or access rights.
+8. Document provider attribution, cache duration, API terms, credential ownership, rate limits, and data-retention expectations before enabling production traffic.
+
+**Required future environment variables:**
+
+- `GOOGLE_BOOKS_API_KEY`
+- Optional later: `NYT_BOOKS_API_KEY`
+
+**Acceptance criteria:**
+
+- A temporary Open Library outage does not produce an empty main Readers shelf when Google Books is configured.
+- Search, genre, publication, language, and list requests either return normalized results or a useful, bounded fallback state.
+- Every result identifies its catalogue source where provider data is mixed.
+- No provider credential is shipped to the browser.
+- The page does not claim that a provider's results are globally complete, live-ranked, or editorially endorsed unless the provider data and wording support that claim.
+
+**NYT provider wiring started:** the server now exposes `GET /api/readers/nyt`, reads `NYT_BOOKS_API_KEY` and `NYT_BOOKS_LIST` server-side, caches successful payloads for one hour, normalizes list entries, and returns a bounded unavailable state when credentials or the upstream service are unavailable. Readers renders the feed as a separately labeled **NYT Best Sellers** lane with list name, rank, publication date, and source attribution. The key remains server-only; live results require a valid NYT developer key and an allowed list.
+
+**Provider visibility rule:** provider-backed Readers lanes are hidden, including their navigation links, when the provider is unconfigured, unavailable, or returns no books. Empty provider states must not occupy forward-facing page space; the main catalogue and other populated lanes remain available.
+
+### Shelfmates' Love save handoff — 2026-09-23
+
+Each Readers book card should offer a warm, visually distinctive **💗 Save to Shelfmates →** action. The heart is the visual cue; the button does not need to spell out “Love.” The current website implementation provides a stable handoff to `https://storypal.atomic-shelf.com/` so a reader can sign up or sign in, with the selected book's title, author, publication year where available, Open Library catalogue URL, source identifier, and the requested `save_to_shelfmates_love` action.
+
+The Storypal follow-on integration must:
+
+- Send a reader from the handoff into account creation or sign-in before saving.
+- Preserve the selected book while the account flow completes.
+- Search Storypal's directory for an existing matching work before creating a duplicate.
+- Save the matched or newly created work to the reader's **Shelfmates’ Love** shelf.
+- Return the reader to the saved work or shelf with a clear success state; show an actionable error if the save cannot be completed.
+- Treat title and author as search hints, not a unique identity. Prefer Open Library work/edition identifiers and future first-party identifiers when available.
+- Record the originating surface as Readers for product analytics without exposing private account data to the public site.
+
+**Handoff contract:** `action=save_to_shelfmates_love`, `source=atomic_shelf_readers`, `book_title`, `author`, optional `publication_year`, and optional `open_library_url`. Storypal owns account creation, authentication, directory matching, shelf persistence, consent, and duplicate handling. The public Readers page must not create or transmit account credentials.
+
+**Acceptance criteria:**
+
+- Every catalogue and fallback book card exposes the save action.
+- The handoff opens Storypal in a new tab and retains the selected book context.
+- Storypal can route a new reader through account creation and an existing reader through sign-in without losing the book.
+- A matching directory record is reused where possible; duplicate records are not created from repeated handoffs.
+- A successful save is visible in Shelfmates’ Love, and failures are explicit and recoverable.
+### Reader discovery and navigation updates — 2026-09-23
+
+The Readers experience has received additional implementation changes that must now be treated as part of the current product specification.
+
+**Implemented:**
+- Added a dedicated **New releases → timeless classics** navigation item that switches the reader view into publication sorting.
+- Publication-year handling now rejects implausible future dates, supports preorder labelling for the following year, and preserves historical labels such as “Before YYYY”.
+- Reader search, publication shelves, language shelves, and general discovery now use timeout-protected Open Library requests and tolerate partial lane failures instead of failing the entire page.
+- Open Library language queries were corrected to use the catalogue's fre and ger language codes.
+- Reader-curated Open Library lists now have stronger URL handling and can display associated book covers where available.
+- Added **Trending on TikTok** as a dedicated discovery lane using the server-side Research API integration described above.
+- Reader-facing copy was clarified so the page distinguishes discovery features from endorsements and makes the reader journey clearer.
+- Editorial copy was revised to clearly distinguish editorial guidance from manuscript editing, review coverage, and listing optimisation.
+- Pricing/result CTA language was refined across the relevant sales surfaces, including the transition into the commitment/guarantee explanation.
+- Public plan language now reflects the six-plan structure without the former separate Essentials presentation.
+
+**Required reader acceptance criteria:**
+- Publication navigation must work without leaving the Readers page.
+- Invalid/implausible future publication dates must not appear as ordinary publication years.
+- A failed discovery lane must not blank unrelated working lanes.
+- TikTok content must retain source attribution, date-window context, and non-endorsement language.
+- Reader list covers must remain optional and must never block the list itself from rendering.
+- Search and discovery requests must have bounded timeouts.
+
+### Pricing UX additions — 2026-09-23
+
+The current commercial implementation establishes the six standard plans as Spark, Enhanced, Foundation, Starter, Momentum, and Growth, with Surge and Orbit remaining custom engagements.
+
+The pricing UX requirement is now:
+- Present the six standard plans in a **2-column × 3-row layout** on the primary desktop pricing surface so each card has adequate text space.
+- Keep mobile responsive behavior, but do not revert the primary desktop presentation to a dense three-column card grid.
+- Pricing cards must remain driven by pricing-data.json.
+- Where a plan or book-cover visual is enlarged, use a compact **hover magnifier/zoom interaction** that behaves like a retail book-cover inspection tool; it should not replace the normal image with an oversized standalone image.
+- The magnifier is a release requirement if the relevant image is currently difficult to read.
+
+These are UX requirements and do not change the underlying commercial dataset.
+### Work completed since the previous PRD revision — 2026-09-23
+
+The following changes were made after the previous PRD revision and are now part of the implementation history:
+
+1. **Pricing model and presentation**
+   - Refined the six-plan commercial structure and current plan records.
+   - Expanded Momentum term-specific commitments and forecast ranges.
+   - Kept the six standard plans in the browser-facing pricing dataset, with Surge and Orbit represented as custom engagements.
+   - Refined pricing-page language, comparison content, commitment explanations, result expectations, and calls to action.
+   - The approved desktop pricing direction is now a 2-column × 3-row layout for the six standard plans, with mobile remaining responsive. The underlying pricing data is unchanged.
+
+2. **Public-copy consistency**
+   - Refined campaign/reporting language on public pages.
+   - Refined FAQ wording and the commitment pull quote.
+   - Clarified that results vary by book, audience, offer, timing, and campaign conditions rather than presenting activity metrics as guaranteed sales.
+   - Clarified results across books and the relationship between outputs, audience response, and business indicators.
+
+3. **Public/private boundary**
+   - Public assets and internal records are separated in the deployment structure.
+   - The Neocities workflow continues to deploy only the public `site/` payload while excluding identified internal/client-work directories.
+   - Internal planning/provenance annotations remain documentation-only and must not enter browser-visible customer content.
+
+4. **Release implication**
+   - The PRD should now be used as the implementation checklist against the current repository, not as a description of an earlier proposed site.
+   - Future changes to pricing, commitments, guarantees, or public claims must update both the controlled pricing data and the relevant public copy, followed by a consistency check.
+
+---
 
 ### Public provenance cleanup — 2026-09-23
 
@@ -55,13 +240,16 @@ Implemented on 2026-09-23:
 - `pricing.html` and `index.html` use `pricing-data.json`.
 - `results.html` no longer describes pricing data using internal provenance language.
 - Internal sourcing notes were removed from the public Services and How It Works pages.
+- pricing-data.json is the public runtime payload for approved pricing and plan presentation; internal commercial records remain private.
+
+**Acceptance test:** a production/public-content search must return zero matches for the prohibited provenance terms above in client-facing HTML and runtime data.
 - Core sales pages were scrubbed of the identified provenance terminology.
 
 **Acceptance test:** a production/public-content search must return zero matches for the prohibited provenance terms in client-facing HTML, visible text, browser-loaded JSON, and runtime labels.
 
 ### Core positioning
 
-> **We help independent authors find readers, turn attention into sales, and build an audience that can follow them from one book to the next.**
+> **We help independent authors and publishers find readers, turn attention into sales, and build an audience that can follow each book from one release to the next.**
 
 ### Core mental model
 
@@ -146,7 +334,7 @@ This should remain the central brand promise unless later testing demonstrates a
 
 ## Supporting statement
 
-> We help independent authors find readers, turn attention into sales, and build an audience that can follow them from one book to the next.
+> We help independent authors and publishers find readers, turn attention into sales, and build an audience that can follow each book from one release to the next.
 
 ## Supporting philosophy
 
@@ -168,7 +356,7 @@ It is selling a connected growth system.
 
 Atomic Shelf should consistently be described as:
 
-> A books-only growth partner for independent authors.
+> A books-only growth partner for independent authors and publishers.
 
 The site should emphasize:
 
@@ -257,9 +445,9 @@ Recommended copy:
 >
 > If we fall short of the work, delivery, or agreed commitments on our side, we'll make it right — at our cost.
 >
-> And when the numbers show that we need to change course, we don't simply point at the dashboard and walk away. We diagnose, adjust, and keep working toward the target.
+> If the results show that something needs to change, we explain what we are seeing, adjust the plan, and stay involved until the work is back on track.
 >
-> **We commit to doing the work. You give it the time and access it needs to work.**
+> **We commit to doing the work, learning from the results, and improving it as we go.**
 
 ### Commercial implementation ✅ Defined (2026-09-22)
 
@@ -301,7 +489,7 @@ Recommended order:
 
 **Eyebrow:**
 
-> For independent authors
+> For independent authors and publishers
 
 **Headline:**
 
@@ -309,7 +497,7 @@ Recommended order:
 
 **Body:**
 
-> We help independent authors find readers, turn attention into sales, and build an audience that can follow them from one book to the next.
+> We help independent authors and publishers find readers, turn attention into sales, and build an audience that can follow each book from one release to the next.
 
 ### Primary CTA
 
@@ -916,3 +1104,1174 @@ Required:
 # 30. Visual Direction
 
 Desired aesthetic:
+
+## 31. Current Implementation Ledger — 2026-09-23
+
+This section records what is implemented now versus what remains before the relaunch can be treated as release-ready.
+
+### Implemented
+
+- [x] Six standard pricing plans are represented in `pricing-data.json`.
+- [x] Commitment pricing and discount structures are encoded in the pricing dataset.
+- [x] Plan-specific services, deliverables, positioning, audiences, CTAs, and performance ranges are encoded in the pricing dataset.
+- [x] Pricing page commitment selector and plan-card rendering are connected to the pricing dataset.
+- [x] Homepage pricing preview is connected to the pricing dataset.
+- [x] Public Services and How It Works content has been aligned with the current plan/service structure.
+- [x] Results-page language has been revised to distinguish activity, response, and business indicators.
+- [x] FAQ and Checkout copy have been refined to match the current commercial language.
+- [x] Public provenance/source-language cleanup has been applied to the core sales pages.
+- [x] Deployment workflow excludes identified internal/client-work directories from the Neocities payload.
+- [x] Brevo environment-file exposure was addressed in version control and future environment files are ignored.
+
+### Not yet release-complete
+
+- [ ] Rotate the previously exposed Brevo credential.
+- [ ] Inventory and explicitly remove private files that may already exist on the public Neocities host; deployment cleanup remains disabled.
+- [ ] Complete manual/legal review of commitment and guarantee terms.
+- [ ] Validate every public pricing claim and forecast against a maintained evidence record.
+- [ ] Complete structured case studies and proof-metric records.
+- [ ] Complete analytics/event tracking and checkout/payment verification.
+- [ ] Complete SEO, accessibility, performance, and cross-device QA.
+- [ ] Perform a production crawl/search for prohibited internal provenance terminology across all public HTML, browser-loaded JSON, and runtime-generated labels.
+- [ ] Reconcile any remaining public pages that have not yet been included in the core sales-page cleanup.
+- [ ] Complete Readers regression QA for publication sorting, date filtering, language shelves, curated-list covers, partial API failures, and TikTok fallback/attribution.
+- [ ] Verify Editorial, Results, Pricing, and CTA copy remains consistent with the current commercial model after the latest copy refresh.
+- [ ] Implement and verify the approved 2-column × 3-row desktop pricing layout for the six standard plans.
+- [ ] Implement and verify the required hover magnifier/zoom interaction for the affected book-cover/image surface.
+- [ ] Confirm the six-plan public presentation contains no separate legacy Essentials card.
+
+### Change-control rule
+
+When a commercial fact changes, update the controlled pricing dataset first, then update dependent presentation/copy, then run a public consistency and provenance scan. Do not manually maintain conflicting prices, commitments, deliverables, or result ranges in individual pages.
+
+---
+
+
+---
+
+# 32. Communications, Outreach & Mail Architecture — 2026-09-23
+
+Atomic Shelf shall deliberately separate **mailbox infrastructure**, **customer communications**, and **outbound author outreach**.
+
+No single email provider should be treated as the universal communications system.
+
+## 32.1 Provider responsibilities
+
+| Function | System | Responsibility |
+|---|---|---|
+| Business mailbox | Existing Private Email | Human inbox for `nick@atomic-shelf.com` and ordinary business correspondence |
+| Payments | PesaPal | Checkout, payment initiation, payment status, callbacks/IPN |
+| Website contact | Brevo | "Talk to us" submissions, acknowledgements, internal notifications |
+| Newsletter | Brevo | Reader newsletter subscriptions and daily newsletter delivery |
+| Customer transactional email | Brevo | Payment/customer lifecycle notifications |
+| Author prospecting | GMass | Personalized outbound campaigns, mail merge, follow-ups and outreach reporting |
+| Outreach lists | Milky + optional Google Sheets | Prospect preparation and campaign operations |
+| Application records | Milky backend/database | Canonical contacts, leads, customers, payments, campaigns and communication events |
+
+### Mailbox decision
+
+The existing `nick@atomic-shelf.com` mailbox remains on **Private Email**.
+
+**Spacemail is not part of the Atomic Shelf architecture and must not be introduced as a dependency.**
+
+Mailbox hosting must remain independent from application communications. A future mailbox migration, if ever required, must not require a rewrite of Milky's Brevo, GMass or PesaPal integrations.
+
+## 32.2 Brevo — website and customer communications
+
+Brevo is the application-facing email layer for communications initiated by the Atomic Shelf website or customer lifecycle.
+
+Required functionality:
+
+### Contact form
+
+`POST /api/contact`
+
+Flow:
+
+`Website → Milky API → persist inquiry → Brevo notification/acknowledgement`
+
+Requirements:
+
+- validate name, email and message;
+- persist the inquiry before or independently of provider delivery where practical;
+- notify the Atomic Shelf team;
+- acknowledge the sender;
+- prevent obvious duplicate submissions;
+- never expose Brevo credentials in browser code.
+
+### Newsletter
+
+`POST /api/newsletter/subscribe`
+
+Flow:
+
+`Readers page → Milky API → normalize/validate → persist/update → Brevo`
+
+Requirements:
+
+- consent capture;
+- duplicate-safe subscription;
+- unsubscribe support;
+- suppression handling;
+- bounce handling;
+- privacy/data-retention policy;
+- provider failure handling;
+- no permanent dependence on the current temporary JSON subscriber store.
+
+### Daily reader newsletter
+
+The daily reader newsletter must use the same discovery logic and daily shelf as the Readers page where appropriate.
+
+Required pipeline:
+
+`Reader discovery → daily shelf → responsive email → Brevo send → delivery/events → Milky analytics`
+
+Required data:
+
+- title;
+- author;
+- cover where available;
+- genre/context where available;
+- catalogue/book link;
+- date;
+- source attribution;
+- tracked click URL.
+
+Required operational controls:
+
+- daily idempotency;
+- retry limits;
+- rate limits;
+- delivery monitoring;
+- unsubscribe/suppression;
+- empty-shelf handling;
+- provider failure handling;
+- plain-text alternative.
+
+## 32.3 GMass — author outreach layer
+
+GMass is a separate outbound prospecting system.
+
+It is not the replacement for the Atomic Shelf business mailbox and is not the default provider for the public website.
+
+Required functionality:
+
+### Campaign preparation
+
+Milky should prepare campaign-ready prospects containing, where applicable:
+
+- first name;
+- author name;
+- email;
+- book title;
+- genre;
+- campaign;
+- personalization fields;
+- source;
+- internal prospect ID.
+
+### Personalized outreach
+
+GMass should support approved outreach campaigns using personalized fields and controlled message templates.
+
+Campaigns must be associated with a Milky campaign ID.
+
+### Follow-ups
+
+The architecture should support:
+
+- initial outreach;
+- scheduled follow-up;
+- campaign-specific follow-up;
+- reply detection;
+- suppression after unsubscribe/rejection;
+- campaign completion.
+
+### Reporting
+
+Capture available GMass events such as:
+
+- sent;
+- delivered;
+- opened;
+- clicked;
+- replied;
+- bounced;
+- unsubscribed;
+- failed.
+
+These events should be associated with the relevant Milky prospect and campaign.
+
+### Webhooks
+
+Where enabled, GMass webhooks should feed relevant campaign events back into Milky.
+
+Flow:
+
+`GMass → webhook → Milky → contact/campaign/event record`
+
+Webhook handling must be:
+
+- authenticated where supported;
+- idempotent;
+- retry-safe;
+- tolerant of unknown event types;
+- isolated from the public website.
+
+### Google Sheets
+
+Google Sheets may be used as an operational source/list for GMass campaigns.
+
+It is **not** the canonical Atomic Shelf database.
+
+Milky should remain capable of generating or exporting campaign-ready lists without making Sheets a permanent system dependency.
+
+## 32.4 Unified contact model
+
+Milky shall maintain its own contact/prospect identity.
+
+Minimum fields:
+
+- `id`
+- `firstName`
+- `lastName`
+- `email`
+- `phone` where supplied
+- `contactType`
+  - `prospect`
+  - `lead`
+  - `customer`
+  - `subscriber`
+- `source`
+- `status`
+- `brevoContactId` where applicable
+- `gmassContactReference` where applicable
+- `suppressed`
+- `createdAt`
+- `updatedAt`
+
+Provider identifiers are integration references, not the primary application identity.
+
+## 32.5 Unified campaign model
+
+Minimum fields:
+
+- `id`
+- `name`
+- `type`
+  - `outreach`
+  - `newsletter`
+  - `transactional`
+- `provider`
+  - `gmass`
+  - `brevo`
+- `providerCampaignId`
+- `status`
+- `createdAt`
+- `scheduledAt`
+- `completedAt`
+
+## 32.6 Communication event model
+
+Milky should maintain relevant provider events.
+
+Minimum fields:
+
+- `id`
+- `contactId`
+- `campaignId`
+- `provider`
+- `providerEventId` where available
+- `eventType`
+- `eventTimestamp`
+- `metadata`
+- `createdAt`
+
+Supported event types include, where supplied:
+
+- `sent`
+- `delivered`
+- `opened`
+- `clicked`
+- `replied`
+- `bounced`
+- `unsubscribed`
+- `failed`
+
+## 32.7 Suppression and consent
+
+Milky must maintain an application-level suppression state.
+
+A suppressed contact must not be reintroduced into future automated outreach or newsletter campaigns.
+
+Newsletter consent and outreach eligibility must remain distinct concepts.
+
+Public newsletter subscribers must not automatically become GMass outreach prospects.
+
+## 32.8 Provider independence
+
+The application must not hard-code business logic around a particular email provider.
+
+Provider integrations should sit behind server-side service functions/interfaces such as:
+
+- `sendCustomerEmail()`
+- `subscribeNewsletter()`
+- `sendInternalNotification()`
+- `createOutreachCampaign()`
+- `processCommunicationEvent()`
+
+This allows a provider to be replaced without rewriting page-level business logic.
+
+---
+
+# 33. Payments & Checkout — Implementation Specification
+
+PesaPal is the payment processor for paid plans.
+
+## 33.1 Current public plan model
+
+The public commercial model contains:
+
+1. Spark
+2. Enhanced
+3. Foundation
+4. Starter
+5. Momentum
+6. Growth
+
+Surge and Orbit remain custom engagements.
+
+The backend payment configuration must match the current six-plan model. The previous four-plan payment mapping is obsolete and must not remain as the production pricing authority.
+
+## 33.2 Payment flow
+
+`Pricing → Checkout → /api/create-payment → PesaPal → callback/IPN → Milky transaction → customer notification`
+
+The browser may select a plan, but the server must determine the authoritative amount.
+
+Never trust a browser-supplied price.
+
+## 33.3 Checkout requirements
+
+Checkout must:
+
+- load current plan presentation data;
+- validate selected plan;
+- validate customer name;
+- validate email;
+- identify commitment/term where applicable;
+- request payment creation from the server;
+- redirect to PesaPal;
+- preserve a merchant reference;
+- provide a recoverable pending-payment state;
+- provide clear success, failure and cancellation states.
+
+## 33.4 Transaction record
+
+Minimum transaction fields:
+
+- `id`
+- `merchantReference`
+- `pesapalOrderTrackingId`
+- `plan`
+- `commitment`
+- `customerName`
+- `customerEmail`
+- `amount`
+- `currency`
+- `status`
+- `createdAt`
+- `updatedAt`
+
+Recommended statuses:
+
+- `pending`
+- `completed`
+- `failed`
+- `cancelled`
+- `unable_to_confirm`
+
+## 33.5 PesaPal endpoints
+
+The existing implementation foundation includes:
+
+- `POST /api/register-ipn`
+- `POST /api/create-payment`
+- `GET /api/status?orderTrackingId=...`
+- `GET /api/callback`
+- `GET /api/cancelled`
+- `POST /api/ipn`
+- `GET /health`
+
+The final implementation must ensure the IPN/callback updates the transaction state idempotently.
+
+Payment confirmation must be based on PesaPal payment status, not on the browser redirect alone.
+
+## 33.6 Payment/customer communication separation
+
+A payment being completed is a **business event**.
+
+Sending an email is a **communication event**.
+
+The system must record the payment even if Brevo is temporarily unavailable.
+
+Likewise, an email failure must never change a completed payment back to pending.
+
+---
+
+# 34. "Talk to us" Architecture
+
+All public "Talk to us" CTAs should converge on one contact workflow.
+
+Required flow:
+
+`CTA → contact form → /api/contact → validation → persist → Brevo notification/acknowledgement`
+
+Supported entry contexts should include:
+
+- general enquiry;
+- custom plan;
+- Surge;
+- Orbit;
+- unsure which plan;
+- launch question;
+- backlist question;
+- service question.
+
+The contact submission should retain the originating context where available.
+
+The user should not be forced to understand the pricing structure before being able to speak to Atomic Shelf.
+
+---
+
+# 35. Integration Security
+
+All provider secrets are server-side only.
+
+Required environment variables include, as applicable:
+
+- `PESAPAL_CONSUMER_KEY`
+- `PESAPAL_CONSUMER_SECRET`
+- `PESAPAL_NOTIFICATION_ID`
+- `BREVO_API_KEY`
+- `GMASS_API_KEY`
+
+Requirements:
+
+- no credentials in browser JavaScript;
+- no credentials in `pricing-data.json`;
+- no credentials committed to Git;
+- no credentials in public API responses;
+- deployment secrets stored in the hosting environment;
+- credentials must be rotatable;
+- provider failure messages must not expose secrets or sensitive configuration.
+
+The previously exposed Brevo credential must be rotated before production communications are enabled.
+
+---
+
+# 36. Updated Build Phases
+
+## Phase 1 — Commercial and public-surface alignment
+
+- [x] Six-plan public model established.
+- [x] Pricing data connected to public pricing surfaces.
+- [x] Public provenance cleanup applied to core sales surfaces.
+- [ ] Verify every public page against current pricing data.
+- [ ] Complete 2-column × 3-row desktop pricing layout.
+- [ ] Complete hover magnifier/zoom interaction.
+- [ ] Remove/verify absence of legacy Essentials presentation.
+
+## Phase 2 — PesaPal production checkout
+
+- [x] Reconcile backend plan mapping with all six current plans.
+- [x] Implement authoritative server-side pricing validation.
+- [x] Implement transaction persistence.
+- [x] Make callback/IPN processing idempotent.
+- [x] Implement payment success/pending/failure/cancellation states.
+- [x] Connect successful payment events to customer notification.
+- [x] Add retry-safe payment creation with a checkout idempotency key.
+- [ ] Test the full flow in PesaPal sandbox.
+- [ ] Complete production credential/configuration review.
+
+## Phase 3 — Website communications
+
+- [ ] Implement `/api/contact`.
+- [ ] Connect "Talk to us" CTAs.
+- [ ] Persist contact enquiries.
+- [ ] Connect Brevo notification/acknowledgement.
+- [ ] Implement `/api/newsletter/subscribe`.
+- [ ] Move newsletter subscribers from temporary local storage to Brevo.
+- [ ] Add consent, unsubscribe and suppression handling.
+- [ ] Rotate previously exposed Brevo credentials.
+- [ ] Verify sender/domain configuration.
+
+## Phase 4 — Daily reader newsletter
+
+- [ ] Finalize daily shelf generation.
+- [ ] Finalize responsive HTML and plain-text templates.
+- [ ] Add tracked book links.
+- [ ] Add daily idempotency.
+- [ ] Add scheduled send.
+- [ ] Add delivery/bounce/unsubscribe monitoring.
+- [ ] Add newsletter analytics.
+- [ ] Complete legal/privacy review.
+- [ ] Run controlled test sends before automatic delivery.
+
+## Phase 5 — GMass outreach
+
+- [ ] Configure GMass credentials securely.
+- [ ] Define Milky prospect/campaign/event records.
+- [ ] Build campaign preparation/export workflow.
+- [ ] Add personalization fields.
+- [ ] Implement campaign creation/scheduling integration where approved.
+- [ ] Configure follow-up workflow.
+- [ ] Configure relevant GMass webhooks.
+- [ ] Store campaign events in Milky.
+- [ ] Implement application-level suppression.
+- [ ] Add outreach reporting.
+
+## Phase 6 — Unified reporting and operations
+
+- [ ] Create a unified communication-event view.
+- [ ] Connect payment events to customer lifecycle.
+- [ ] Connect contact enquiries to lead records.
+- [ ] Connect GMass outreach events to prospects.
+- [ ] Distinguish newsletter metrics from outreach metrics.
+- [ ] Add provider health/error monitoring.
+- [ ] Add retry and idempotency controls.
+- [ ] Document operational ownership and failure recovery.
+
+## Phase 7 — Release QA
+
+- [ ] Full public-content provenance scan.
+- [ ] Pricing consistency scan.
+- [ ] Payment sandbox test.
+- [ ] Contact-form test.
+- [ ] Newsletter subscription test.
+- [ ] Newsletter provider failure test.
+- [ ] GMass campaign/test-recipient workflow test.
+- [ ] Webhook/idempotency test.
+- [ ] Mobile QA at 320/375/390/430px.
+- [ ] Accessibility QA.
+- [ ] SEO/performance QA.
+- [ ] Production crawl.
+- [ ] Final legal/privacy review.
+- [ ] Final production deployment check.
+
+---
+
+# 37. Updated Definition of Done
+
+Milky is release-ready only when:
+
+1. The six public plans and their current prices/terms are consistent across every public surface.
+2. No legacy Essentials presentation remains.
+3. Desktop pricing uses the approved 2-column × 3-row layout.
+4. The required image hover magnifier works on the affected surface.
+5. PesaPal can create, confirm and persist a payment safely.
+6. Payment state is independent of email-delivery state.
+7. "Talk to us" works from every relevant CTA.
+8. Website contact submissions are persisted and routed through Brevo.
+9. Newsletter subscriptions are consent-aware and routed through Brevo.
+10. The daily reader newsletter can be generated, previewed, tested and safely scheduled.
+11. GMass can be used as the dedicated author-outreach layer without becoming the website's primary customer-email dependency.
+12. Outreach events can be associated with Milky contacts and campaigns.
+13. Suppression/unsubscribe states are respected across relevant automated communications.
+14. Private Email remains the human mailbox layer for `nick@atomic-shelf.com`.
+15. Spacemail is not included as a dependency or integration.
+16. Provider credentials are server-side and rotated where previously exposed.
+17. Public pages contain no internal provenance/source-of-truth language.
+18. The complete site passes mobile, accessibility, SEO, performance and production QA.
+
+---
+
+# 38. Change-Control Rules for Integrations
+
+When changing a provider:
+
+1. Preserve the Milky contact/customer/campaign/event models.
+2. Replace only the provider adapter/integration layer where possible.
+3. Do not move application identity into the provider.
+4. Do not make provider-specific IDs the primary business identifiers.
+5. Re-test webhooks and idempotency.
+6. Re-test suppression and consent.
+7. Re-test failure/retry behavior.
+8. Update this PRD and environment-variable documentation.
+
+When changing a commercial plan:
+
+1. Update the controlled pricing dataset.
+2. Update server-side payment validation.
+3. Update dependent checkout presentation.
+4. Update relevant public copy.
+5. Run the pricing consistency scan.
+6. Run payment sandbox tests.
+7. Update this PRD's implementation ledger.
+
+
+---
+
+# 39. Book Data & Discovery Enrichment Architecture — 2026-09-23
+
+## Objective
+
+The Readers dashboard at `/readers` should become a richer book-discovery surface without making Open Library the application's only data source.
+
+Milky should use a **provider-adapter architecture**: normalize multiple bibliographic/discovery sources into one internal book model, cache results, preserve attribution, and expose only the fields required by the reader experience.
+
+### Primary provider: Open Library
+
+Open Library remains the first-line source for general bibliographic discovery because its public APIs cover search, works, editions, authors, subjects, covers, ratings/bookshelves, and availability/read links. Its Search API can return both work-level and edition-level information, including authors, identifiers, covers and optional availability. citeturn1search10turn1search4
+
+Important implementation constraint: Open Library explicitly describes its Web APIs as low-volume, human-facing discovery APIs and asks applications to cache responses, identify themselves with a User-Agent/contact header, and avoid bulk harvesting/high-traffic backend use. Identified requests receive a higher request limit than anonymous requests. citeturn1search0
+
+Therefore:
+
+- use Open Library for real-time reader discovery;
+- cache aggressively;
+- batch searches rather than issuing hundreds of individual book requests;
+- never crawl Open Library HTML;
+- do not build a permanent high-volume commercial data warehouse by repeatedly harvesting the API;
+- use Open Library's monthly data dumps if a future bulk import is genuinely required. citeturn1search0turn1search1
+
+## Recommended provider stack
+
+| Provider | Primary use | Priority | Notes |
+|---|---|---:|---|
+| Open Library | General books, editions, authors, subjects, covers, availability | P0 | Existing foundation; continue as primary discovery source |
+| Google Books | Metadata/covers, alternate edition matching, richer commercial bibliographic fields | P0 | Strong secondary enrichment source |
+| Internet Archive / Open Library availability | Public-domain/full-text/read/borrow discovery | P1 | Use where rights/access status is explicitly supplied |
+| Project Gutenberg | Public-domain ebook discovery | P1 | Useful for a dedicated classics/free-ebook lane |
+| Crossref | ISBN/DOI/publisher/date metadata, especially scholarly/nonfiction | P1 | Strong metadata cross-check; not a consumer recommendation engine |
+| OpenAlex | Scholarly books/chapters, topics, authors, citations/open-access context | P2 | Valuable for nonfiction/research discovery, not general fiction |
+| LibraryThing | Recommendations, tags, awards/series signals where licensed/available | P2 | Requires account/API access and has usage/licensing constraints |
+| WorldCat/OCLC | Library holdings and authoritative library metadata | P3 | Commercial/library-access dependency; do not make a baseline dependency |
+| ISBN-focused commercial APIs | ISBN/edition enrichment | P3 | Evaluate only if later metadata gaps justify paid infrastructure |
+
+### Provider principles
+
+No provider should be allowed to overwrite a stronger field merely because it responded later.
+
+Every normalized field should retain:
+
+- provider;
+- provider record ID;
+- retrieved timestamp;
+- confidence/quality state where applicable.
+
+## 39.1 Google Books enrichment
+
+Google Books should be evaluated as the principal secondary source.
+
+Its Books API exposes volume search and single-volume lookup, with controls for language, print type, maturity filtering, ordering and selected projections. citeturn1search8
+
+Potential enrichment fields:
+
+- title/subtitle;
+- authors;
+- publisher;
+- publication date;
+- description;
+- industry identifiers/ISBNs;
+- page count;
+- categories;
+- language;
+- cover images;
+- preview availability;
+- sale/retail metadata where legitimately returned;
+- volume ID.
+
+Use Google Books primarily to:
+
+1. fill missing Open Library metadata;
+2. match editions by ISBN;
+3. improve cover availability;
+4. provide alternate descriptions/categories;
+5. improve search recall.
+
+Do not treat Google Books commercial availability or preview information as proof that a title is currently purchasable or freely readable without checking the returned status.
+
+## 39.2 Internet Archive / reading-access enrichment
+
+Where Open Library provides Internet Archive identifiers or availability information, Readers can expose an appropriate **Read / Borrow / Availability** action rather than merely linking to a generic catalogue record.
+
+Open Library's Read API can return readable and borrowable matches and can match across different editions of a work. citeturn1search9
+
+Required rule:
+
+- distinguish `read`, `borrow`, `preview`, `catalogue`, and `purchase`;
+- never label a book "free" solely because an API record exists;
+- preserve provider/source attribution;
+- do not imply universal availability when access is location- or eligibility-dependent.
+
+## 39.3 Project Gutenberg lane
+
+Evaluate Project Gutenberg as a separate **Public-Domain Classics / Free Reading** discovery lane.
+
+The lane should only contain titles whose source explicitly indicates the applicable access status.
+
+Recommended UI:
+
+**Free to read**
+
+rather than a generic "free book" label when the source supports that status.
+
+This lane can complement Open Library rather than replacing it.
+
+## 39.4 Crossref metadata lane
+
+Crossref is particularly useful for metadata verification and enrichment for scholarly/nonfiction titles.
+
+Its REST API exposes bibliographic metadata deposited by publishers and other trusted sources, including publication information, licenses, funding, ORCID/ROR identifiers, abstracts in some records, and other identifiers. No registration is required for ordinary API access; the polite pool can identify the application with an email address. citeturn0search2turn0search16
+
+Use it for:
+
+- DOI matching;
+- publisher/date verification;
+- ISBN cross-checking;
+- scholarly/nonfiction enrichment;
+- license information where available.
+
+Do not use Crossref as the primary general-fiction recommendation source.
+
+## 39.5 OpenAlex enrichment — NOW ENABLED
+
+OpenAlex is now a live, separate **Research & Scholarly** lane on the Readers page.
+
+OpenAlex represents books and book chapters alongside other scholarly works and connects works with authors, topics, institutions, citations and open-access information. citeturn0search1
+
+### Implemented
+
+- Server endpoint: `GET /api/readers/scholarly?q=&page=`.
+- OpenAlex is queried server-side; the browser does not call OpenAlex directly.
+- The integration filters to `book` and `book-chapter` work types.
+- Results are normalized into a scholarly-specific reader shape containing title, authors, institutions, topics, publication year, DOI, OpenAlex URL, open-access status, and citation count where supplied.
+- Responses are cached server-side for 30 minutes with bounded query/page cache size.
+- An optional `OPENALEX_API_KEY` can be supplied server-side; the public lane does not require a key for baseline operation.
+- An optional `OPENALEX_MAILTO` can identify the application for OpenAlex requests.
+- The Readers page has a dedicated **Research & Scholarly** section and its own search field.
+- The lane is loaded independently and failure does not blank the consumer-book shelves.
+- Citation counts are displayed explicitly as **citations**, never as views, popularity, reader demand, or a consumer ranking.
+- Scholarly works are not merged into the ordinary consumer-book popularity shelves merely because they have high citation counts.
+
+### Product boundary
+
+OpenAlex is a **scholarly discovery/enrichment signal**, not a consumer popularity engine.
+
+The UI must keep these concepts separate:
+
+- consumer discovery → reader-oriented catalogue/discovery signals;
+- BookTok → social discovery/engagement signals;
+- Research & Scholarly → scholarly metadata, topics, institutions, open-access context and citations.
+
+Potential future uses:
+
+- research/nonfiction discovery;
+- topic pages;
+- author research profiles;
+- scholarly reading lists;
+- open-access context;
+- citation/context signals;
+- institution or research-area exploration.
+
+Citation counts may be shown as scholarly context, but must never be translated into claims such as “most popular with readers”, “trending”, “best-selling”, or equivalent consumer conclusions.
+
+## 39.6 LibraryThing
+
+LibraryThing should remain an optional provider rather than a core dependency.
+
+Its developer hub currently exposes lightweight APIs and recommendation-oriented services, but access/use is subject to its API terms and some services have low limits. LibraryThing also states that it does not currently offer general bibliographic data through its API and directs developers toward licensed bibliographic providers for high-quality bibliographic metadata. citeturn0search11
+
+Potential future uses:
+
+- recommendation signals;
+- tags;
+- series/award/common-knowledge signals where permitted;
+- reader-oriented enrichment.
+
+Do not make LibraryThing a required dependency for the Readers page.
+
+## 39.7 WorldCat/OCLC
+
+WorldCat can provide authoritative library-bibliographic records, ISBN-based lookups and library-holding information, but access is intended for qualifying library/cataloging customers and commercial partnerships. The older Search API 1.0 has been phased out. citeturn0search8
+
+Therefore WorldCat should be treated as a future enterprise/library integration, not a P0 dependency.
+
+# 40. Normalized Book Model
+
+Milky should normalize providers into a common internal representation.
+
+Minimum model:
+
+```
+Book
+- id
+- workId
+- editionId
+- title
+- subtitle
+- authors[]
+- authorIds[]
+- description
+- language
+- languages[]
+- publicationDate
+- firstPublicationYear
+- publisher
+- publishers[]
+- isbn10[]
+- isbn13[]
+- otherIdentifiers[]
+- subjects[]
+- genres[]
+- tags[]
+- series
+- seriesNumber
+- pageCount
+- cover
+  - small
+  - medium
+  - large
+- sourceLinks[]
+- availability
+  - readable
+  - borrowable
+  - preview
+  - purchasable
+- sourceRecords[]
+- sourceAttribution[]
+- retrievedAt
+- updatedAt
+```
+
+Optional enrichment fields:
+
+- ratings;
+- ratingCount;
+- editionCount;
+- popularity signals;
+- awards;
+- review-count signals;
+- citation signals;
+- open-access status;
+- ebook format;
+- audiobook availability;
+- publication places;
+- subject people;
+- subject times;
+- author photos;
+- related works.
+
+## 40.1 Work versus edition
+
+The application must preserve the distinction between a **work** and an **edition**.
+
+Open Library explicitly models a work as the logical umbrella for related editions, while editions carry edition-specific information such as publisher, ISBN and jacket/cover. citeturn1search4
+
+This is important because a single title may have:
+
+- multiple publishers;
+- multiple ISBNs;
+- multiple languages;
+- different publication dates;
+- different covers;
+- different ebook/print editions.
+
+Readers should normally display the work-level identity while selecting the best available edition metadata for the user's context.
+
+# 41. Reader Discovery Features Enabled by the Enrichment Layer
+
+The enriched dashboard should eventually support:
+
+### Search
+
+Search by:
+
+- title;
+- author;
+- ISBN;
+- subject;
+- genre;
+- language;
+- publisher;
+- series.
+
+### Discovery shelves
+
+Potential shelves:
+
+- New releases
+- Timeless classics
+- Trending
+- Popular in genre
+- Recently discovered
+- Free to read
+- Available to borrow
+- Available as ebook
+- Children's books
+- Young adult
+- Romance
+- Mystery & thriller
+- Fantasy
+- Science fiction
+- Historical fiction
+- Nonfiction
+- Research & scholarly
+
+### Book detail enrichment
+
+A book detail view should be able to show:
+
+- cover;
+- title/subtitle;
+- author;
+- publication information;
+- description;
+- genres/subjects;
+- editions;
+- languages;
+- ISBNs;
+- series;
+- reading/access options;
+- related books;
+- author information;
+- source links.
+
+### Author enrichment
+
+Use author APIs where available to add:
+
+- author identity;
+- alternate names;
+- author photo;
+- work count;
+- notable works;
+- subjects/topics;
+- related books.
+
+Open Library's author API supports author search and individual author records, including alternate names, top work, work count and subjects. citeturn0search17
+
+# 42. Recommendation Engine — Future Layer
+
+Do not immediately build an opaque "AI recommendations" system.
+
+Start with explainable signals:
+
+- same subject;
+- same genre;
+- same author;
+- same series;
+- similar publication era;
+- shared language;
+- shared tags;
+- related Open Library subjects;
+- Google Books categories;
+- reader interactions once Milky has its own first-party interaction data.
+
+Potential recommendation explanation:
+
+> **Because you explored historical fiction**
+
+rather than an unexplained score.
+
+Later, first-party signals can include:
+
+- searches;
+- clicks;
+- saves;
+- shelf additions;
+- completed reads;
+- newsletter clicks;
+- repeated visits.
+
+These signals belong to Milky and should not be sent back to third-party providers unless explicitly required.
+
+# 43. Enrichment Pipeline
+
+The preferred server-side pipeline is:
+
+`User query → Milky Readers API → cache → primary provider → normalized Book → secondary enrichment → response`
+
+For an ISBN lookup:
+
+`ISBN → Open Library → Google Books → Crossref if appropriate → merge → cache`
+
+For general discovery:
+
+`query/genre/language → Open Library Search → optional Google Books enrichment → normalize → cache`
+
+For scholarly/nonfiction discovery:
+
+`query → Open Library + OpenAlex/Crossref → normalize → label scholarly signals`
+
+For free/public-domain discovery:
+
+`query → Open Library availability + Project Gutenberg where applicable → verify access status → normalize`
+
+## 43.1 Field merge rules
+
+Preferred precedence:
+
+1. Provider-specific authoritative identifier match;
+2. exact ISBN match;
+3. exact normalized title + author match;
+4. fuzzy match only with a confidence threshold.
+
+Never merge records solely because their titles are similar.
+
+Field-level merge should prefer:
+
+- edition identifiers from identifier-bearing records;
+- publication metadata from the matching edition;
+- cover from the best valid image source;
+- description from the highest-confidence source;
+- subject/genre arrays as a union with provider attribution;
+- access status only from an explicit availability source.
+
+# 44. Caching
+
+The Readers dashboard should not call every provider on every page load.
+
+Required:
+
+- server-side cache;
+- bounded TTL by data type;
+- stale-while-revalidate where practical;
+- negative caching for confirmed misses;
+- request deduplication;
+- provider timeout;
+- partial-result tolerance.
+
+Suggested initial TTLs:
+
+| Data | Initial TTL |
+|---|---:|
+| Search results | 15–60 minutes |
+| Book metadata | 24 hours |
+| Covers | 7 days or longer |
+| Author metadata | 24 hours |
+| Subject shelves | 6–24 hours |
+| Availability | 5–15 minutes |
+| Trending signals | 15–60 minutes |
+
+These are implementation defaults, not provider requirements.
+
+# 45. Attribution & Licensing
+
+Every provider integration must document:
+
+- API terms;
+- data license;
+- cover-image rules;
+- attribution requirements;
+- caching/storage rules;
+- redistribution restrictions;
+- commercial-use restrictions;
+- rate limits;
+- authentication requirements.
+
+Open Library specifically requests attribution for public cover use and asks applications to point cover requests at its cover domain rather than crawling its cover repository. citeturn0search10
+
+The UI should therefore retain a small, unobtrusive source/attribution mechanism on book records where required.
+
+# 46. Readers Dashboard API Architecture
+
+The frontend should not call every external book API directly.
+
+Recommended endpoints:
+
+- `GET /api/readers/search`
+- `GET /api/readers/book/:id`
+- `GET /api/readers/isbn/:isbn`
+- `GET /api/readers/author/:id`
+- `GET /api/readers/subject/:subject`
+- `GET /api/readers/discover`
+- `GET /api/readers/trending`
+- `GET /api/readers/free`
+- `GET /api/readers/available`
+
+The server owns:
+
+- provider credentials;
+- provider selection;
+- rate limiting;
+- caching;
+- normalization;
+- merge logic;
+- attribution metadata;
+- failure handling.
+
+# 47. Dashboard Enrichment Roadmap
+
+## Phase A — Strengthen existing Open Library integration
+
+- [ ] Add provider-aware normalized Book model.
+- [ ] Consolidate existing Readers Open Library calls behind one adapter.
+- [ ] Add explicit cache layer.
+- [ ] Add request deduplication/timeouts.
+- [ ] Add work/edition distinction.
+- [ ] Add author enrichment.
+- [ ] Add availability/read/borrow states.
+- [ ] Preserve Open Library attribution.
+
+## Phase B — Add Google Books
+
+- [ ] Add Google Books adapter.
+- [ ] Match ISBNs first.
+- [ ] Enrich missing metadata/covers.
+- [ ] Add provider provenance internally.
+- [ ] Add conflict-resolution rules.
+- [ ] Cache results.
+
+## Phase C — Add free/public-domain discovery
+
+- [ ] Evaluate Project Gutenberg integration.
+- [ ] Add explicit access-status model.
+- [ ] Add Free to read shelf.
+- [ ] Verify links and rights/access status before displaying.
+
+## Phase D — Add scholarly enrichment
+
+- [ ] Add Crossref adapter.
+- [x] Add OpenAlex adapter.
+- [x] Add Research & Scholarly lane.
+- [x] Keep scholarly signals distinct from reader-popularity signals.
+- [ ] Add richer scholarly topic/institution navigation.
+- [ ] Add Crossref enrichment and DOI verification.
+
+
+## Phase E — Reader intelligence
+
+- [ ] Add first-party saves.
+- [ ] Add reading shelves.
+- [ ] Add clicks/search analytics.
+- [ ] Build explainable related-book recommendations.
+- [ ] Add newsletter personalization using first-party reader signals where consent and privacy requirements permit.
+
+## Phase F — Advanced providers
+
+- [ ] Evaluate LibraryThing only for clearly licensed/allowed recommendation signals.
+- [ ] Evaluate WorldCat/OCLC only if library/enterprise access becomes commercially justified.
+- [ ] Evaluate paid ISBN/bibliographic providers only after measuring unresolved metadata gaps.
+
+# 48. Readers Definition of Done — Enriched Dashboard
+
+The Readers dashboard is considered enriched when:
+
+1. A single search can return normalized results from multiple providers without duplicate books.
+2. Work and edition data are correctly distinguished.
+3. ISBN matching can enrich records across providers.
+4. Covers have valid fallback behavior.
+5. Authors have dedicated enrichment where available.
+6. Availability is explicitly labeled as read, borrow, preview, purchase or catalogue.
+7. Free/public-domain titles are not mislabeled.
+8. Search and discovery continue working when one provider fails.
+9. Provider calls are cached and rate-limited.
+10. Provider attribution and licensing rules are preserved.
+11. The frontend does not contain third-party provider secrets.
+12. Reader analytics remain first-party Milky data.
+13. Recommendations are explainable rather than an unexplained ranking.
+14. Open Library remains a discovery provider, not an uncontrolled high-volume backend.
+15. Adding or removing a provider does not require rewriting the Readers UI.
+16. The Research & Scholarly lane keeps scholarly citation/context signals separate from consumer-book popularity and BookTok engagement.

@@ -278,7 +278,7 @@
         <div class="plan-card">
           <div>
             <strong id="planName">Spark</strong>
-            <small id="planSummary">The entry point into the system.</small>
+            <small id="planSummary">A practical starting point for building your readership.</small>
           </div>
           <div class="price-tag" id="planPrice">$20</div>
         </div>
@@ -320,6 +320,7 @@
 
           <input id="planField" name="plan" type="hidden" value="spark" />
 
+          <p class="payment-guidance"><strong>Payment method:</strong> On the next page, choose <strong>Card</strong> for the fastest checkout. M-Pesa remains available as an alternative.</p>
           <button class="primary-btn" id="submitButton" type="submit">Continue to secure payment</button>
           <a href="pricing.html" class="secondary-btn" role="button">Choose another plan</a>
 
@@ -334,14 +335,23 @@
   </main>
 
   <script>
-    const backendUrl = window.__ATOMIC_SHELF_BACKEND_URL__ || '';
+    const backendUrl = (
+      window.__ATOMIC_SHELF_BACKEND_URL__ ||
+      'https://milky-production-c748.up.railway.app'
+    ).replace(/\/+$/, '');
     const planField = document.getElementById('planField');
     const form = document.getElementById('checkoutForm');
     const statusEl = document.getElementById('status');
     const submitButton = document.getElementById('submitButton');
 
     const DEFAULT_PLAN = 'spark';
+    const DEFAULT_TERM = 'monthly';
+    const idempotencyKey = (
+      window.crypto?.randomUUID?.() ||
+      `${Date.now()}-${Math.random().toString(36).slice(2)}`
+    ).replace(/[^A-Za-z0-9._:-]/g, '').slice(0, 128);
     let planData = {};
+    let selectedTerm = DEFAULT_TERM;
 
     function setStatus(message, type) {
       statusEl.textContent = message;
@@ -365,6 +375,17 @@
       return planData[planField.value] || planData[DEFAULT_PLAN] || null;
     }
 
+    function getTermLabel(term) {
+      return term === '3_month' ? '3 months' :
+        term === '6_month' ? '6 months' :
+        term === '12_month' ? '12 months' : 'Monthly';
+    }
+
+    function getSelectedAmount(plan) {
+      if (selectedTerm === 'monthly') return Number(plan.monthly_price ?? 0);
+      return Number(plan.commitments?.[selectedTerm]?.discounted_total_rounded_down_10 ?? 0);
+    }
+
     async function loadPlanData() {
       try {
         const response = await fetch('pricing-data.json', { cache: 'no-cache' });
@@ -378,13 +399,17 @@
         planData[DEFAULT_PLAN] = {
           id: DEFAULT_PLAN,
           name: 'Spark',
-          positioning: 'The entry point into the system.',
+          positioning: 'A practical starting point for building your readership.',
           monthly_price: 20,
           cta: 'Get started with Spark'
         };
       }
 
-      const requestedPlan = new URLSearchParams(window.location.search).get('plan') || DEFAULT_PLAN;
+      const params = new URLSearchParams(window.location.search);
+      const requestedPlan = params.get('plan') || DEFAULT_PLAN;
+      const requestedTerm = params.get('term') || DEFAULT_TERM;
+      selectedTerm = ['monthly', '3_month', '6_month', '12_month'].includes(requestedTerm)
+        ? requestedTerm : DEFAULT_TERM;
       const matchedPlan = planData[requestedPlan] ? requestedPlan : DEFAULT_PLAN;
       planField.value = matchedPlan;
       applyPlanView();
@@ -394,11 +419,11 @@
       const plan = getSelectedPlan();
       if (!plan) return;
 
-      const price = Number(plan.monthly_price ?? 0);
+      const price = getSelectedAmount(plan);
       document.getElementById('planName').textContent = plan.name || 'Spark';
-      document.getElementById('planSummary').textContent = plan.positioning || 'The entry point into the system.';
+      document.getElementById('planSummary').textContent = plan.positioning || 'A practical starting point for building your readership.';
       document.getElementById('summaryPlan').textContent = plan.name || 'Spark';
-      document.getElementById('summaryBilling').textContent = 'Monthly';
+      document.getElementById('summaryBilling').textContent = getTermLabel(selectedTerm);
       document.getElementById('summaryAmount').textContent = formatMoney(price);
       document.getElementById('planPrice').textContent = formatMoney(price);
     }
@@ -447,6 +472,8 @@
 
       const payload = {
         plan: planField.value,
+        term: selectedTerm,
+        idempotency_key: idempotencyKey,
         first_name: document.getElementById('first_name').value.trim(),
         last_name: document.getElementById('last_name').value.trim(),
         email: document.getElementById('email').value.trim(),
@@ -458,25 +485,6 @@
       submitButton.disabled = true;
       submitButton.textContent = 'Preparing payment…';
       setStatus('Preparing a secure payment link for your selected plan…', 'info');
-
-      if (!backendUrl) {
-        const subject = encodeURIComponent(selectedPlan.name + ' plan');
-        const body = encodeURIComponent(
-          'Hi — I would like to start with the ' + selectedPlan.name + ' plan.\n\n' +
-          'First name: ' + payload.first_name + '\n' +
-          'Last name: ' + payload.last_name + '\n' +
-          'Email: ' + payload.email + '\n' +
-          'Phone: ' + (payload.phone || 'n/a') + '\n' +
-          'Book / catalogue: ' + (payload.book_title || 'n/a') + '\n'
-        );
-
-        window.location.href = 'mailto:nick@atomic-shelf.com?subject=' + subject + '&body=' + body;
-        if (window.AtomicShelfAnalytics) {
-          window.AtomicShelfAnalytics.track('checkout_fallback', { plan: planField.value });
-        }
-        setStatus('We are opening your email client so we can complete the checkout request manually.', 'success');
-        return;
-      }
 
       try {
         const response = await fetch(backendUrl + '/api/create-payment', {
@@ -498,7 +506,14 @@
       } catch (error) {
         submitButton.disabled = false;
         submitButton.textContent = 'Continue to secure payment';
-        setStatus('The payment service is not yet configured. Please email us directly at nick@atomic-shelf.com and we will complete checkout manually.', 'error');
+        const message = error?.message || '';
+        const isPlanConfigurationError = /unknown plan|billing term|not fully configured|pricing/i.test(message);
+        setStatus(
+          isPlanConfigurationError
+            ? 'This payment option is temporarily unavailable while payment settings are updated. Please email nick@atomic-shelf.com for help.'
+            : 'We could not connect to the payment service. Please try again, or email nick@atomic-shelf.com for help.',
+          'error'
+        );
       }
     });
 

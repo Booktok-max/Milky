@@ -448,9 +448,9 @@ footer{ background:var(--color-bg-dark); color:var(--color-text-primary-dark); p
 <!-- ============ HERO ============ -->
 <header class="hero">
   <div class="wrap">
-    <p class="eyebrow">For independent authors</p>
+    <p class="eyebrow">For independent authors and publishers</p>
     <h1>Build a readership that lasts.</h1>
-    <p class="lede">We help independent authors find readers, turn attention into sales, and build an audience that can follow them from one book to the next.</p>
+    <p class="lede">We help independent authors and publishers find readers, turn attention into sales, and build an audience that can follow each book from one release to the next.</p>
     <div class="btn-row">
       <a href="pricing.html" class="btn btn-primary">See the plans</a>
       <a href="how-it-works.html" class="btn btn-secondary-dark">See how it works</a>
@@ -487,7 +487,7 @@ footer{ background:var(--color-bg-dark); color:var(--color-text-primary-dark); p
 <!-- ============ FIVE-STAGE SYSTEM ============ -->
 <section class="stages section-l">
   <div class="wrap">
-    <p class="eyebrow">The system</p>
+    <p class="eyebrow">How Atomic Shelf works</p>
     <h2 style="font-size:var(--font-size-display-l);max-width:14ch;">Discover → Trust → Convert → Retain → Repeat</h2>
     <div class="stage-row">
       <div class="stage reveal">
@@ -520,7 +520,7 @@ footer{ background:var(--color-bg-dark); color:var(--color-text-primary-dark); p
     <div class="section-head">
       <p class="eyebrow">What we do</p>
       <h2>One system, nine kinds of work.</h2>
-      <p>Every service maps to a stage in the system above. Here's the introduction — the Services page has the detail.</p>
+      <p>Every service has a role in the reader journey above. Here's the introduction — the Services page has the detail.</p>
     </div>
     <div class="service-grid">
       <div class="service-card reveal"><span class="service-tag">Discover</span><h3>Short-form video</h3><p>Genre-matched TikTok, Reels, and Shorts content that puts your book in front of the right readers.</p></div>
@@ -627,7 +627,7 @@ footer{ background:var(--color-bg-dark); color:var(--color-text-primary-dark); p
       </div>
       <div class="phase reveal">
         <div class="phase-label">Days 61–90</div>
-        <h3>Measure the system</h3>
+        <h3>Measure what works</h3>
         <ul>
           <li>Compare against baseline</li>
           <li>Identify strongest channels</li>
@@ -637,7 +637,7 @@ footer{ background:var(--color-bg-dark); color:var(--color-text-primary-dark); p
         </ul>
       </div>
     </div>
-    <p class="journey-core reveal"><strong>The first month starts the system.</strong> The following months give it enough time to learn, compound, and improve.</p>
+    <p class="journey-core reveal"><strong>The first month establishes the foundation.</strong> The following months give the work enough time to learn, compound, and improve.</p>
   </div>
 </section>
 
@@ -693,10 +693,10 @@ footer{ background:var(--color-bg-dark); color:var(--color-text-primary-dark); p
       <p>We don't promise that every book will explode overnight. Publishing doesn't work that way — and neither does building a readership.</p>
       <p>What we do promise is that we'll do the work we've committed to, measure what happens, and stay accountable for the outcome.</p>
       <p>If we fall short of the work, delivery, or agreed commitments on our side, we'll make it right — at our cost.</p>
-      <p>And when the numbers show that we need to change course, we don't simply point at the dashboard and walk away. We diagnose, adjust, and keep working toward the target.</p>
+      <p>If the results show that something needs to change, we explain what we are seeing, adjust the plan, and stay involved until the work is back on track.</p>
     </div>
     <hr class="guarantee-rule" />
-    <p class="guarantee-pull reveal">We commit to doing the work. You give it the time and access it needs to work.</p>
+    <p class="guarantee-pull reveal">We commit to doing the work, learning from the results, and improving it as we go.</p>
   </div>
 </section>
 
@@ -710,7 +710,7 @@ footer{ background:var(--color-bg-dark); color:var(--color-text-primary-dark); p
     <div class="faq-list" id="faqList">
       <div class="faq-item">
         <button class="faq-q">Do you guarantee sales? <span class="faq-ind">+</span></button>
-        <div class="faq-a"><p><b>Short answer:</b> No.</p><p><b>Long answer:</b> Although it is possible to estimate expected downloads or sales for lower-priced books, those outcomes cannot be guaranteed because they depend on reader behaviour, market conditions, and platform performance. We control the work we commit to — production, campaigns, reviews recruitment, listing optimisation, reporting. We influence reach, clicks, and conversion. We don't guarantee a specific number of sales, a bestseller position, a ranking, or an algorithmic viral event — no one honestly can.</p></div>
+        <div class="faq-a"><p><b>Short answer:</b> No.</p><p><b>Then, what's the point?</b> We do the work that earns attention and gives the book a better chance with the right readers.</p><p><b>Long answer:</b> Although it is possible to estimate expected downloads or sales for lower-priced books, those outcomes cannot be guaranteed because they depend on reader behaviour, market conditions, and platform performance. We control the work we commit to — production, campaigns, reviews recruitment, listing optimisation, reporting. We influence reach, clicks, and conversion. We don't guarantee a specific number of sales, a bestseller position, a ranking, or an algorithmic viral event — no one honestly can.</p></div>
       </div>
       <div class="faq-item">
         <button class="faq-q">What happens if Atomic Shelf doesn't deliver? <span class="faq-ind">+</span></button>
@@ -761,7 +761,7 @@ footer{ background:var(--color-bg-dark); color:var(--color-text-primary-dark); p
     <div class="foot-grid">
       <div>
         <div class="foot-brand">Atomic<span>·</span>Shelf</div>
-        <p class="foot-desc">Video, reviews, listing optimisation, reader lists, and advertising — one system, built for independent authors.</p>
+        <p class="foot-desc">Video, reviews, listing optimisation, reader lists, and advertising — one system, built for independent authors and publishers.</p>
       </div>
       <div class="foot-col">
         <h5>Site</h5>
@@ -917,6 +917,10 @@ function escapeHtml(value){
 }
 
 const grid = document.getElementById('pricingGrid');
+function buildPricingUrl(planId, term){
+  const params = new URLSearchParams({ term: String(term || 'monthly').trim() });
+  return 'pricing.html?' + params.toString() + '#' + encodeURIComponent(planId);
+}
 function renderPricing(term){
   grid.innerHTML = '';
   planData.forEach(p => {
@@ -941,7 +945,7 @@ function renderPricing(term){
       '<div class="price-amount">' + priceHTML + '</div>' +
       '<div class="price-per">' + perHTML + '</div>' +
       '<div class="price-save">' + saveHTML + '</div>' +
-      '<a class="btn btn-secondary-light price-cta" data-track="cta_click" data-track-destination="pricing" data-track-plan="' + escapeHtml(p.id) + '" href="pricing.html#' + encodeURIComponent(p.id) + '">' + escapeHtml(p.cta) + '</a>';
+      '<a class="btn btn-secondary-light price-cta" data-track="cta_click" data-track-destination="pricing" data-track-plan="' + escapeHtml(p.id) + '" href="' + buildPricingUrl(p.id, term) + '">' + escapeHtml(p.cta) + '</a>';
     grid.appendChild(card);
   });
 }
@@ -965,6 +969,15 @@ async function loadPricing(){
     const pricingData = await response.json();
     if (!Array.isArray(pricingData.plans) || !pricingData.plans.length) throw new Error('Commercial plan data is missing.');
     planData = pricingData.plans;
+    const requestedTerm = new URLSearchParams(window.location.search).get('term');
+    if (['monthly', '3_month', '6_month', '12_month'].includes(requestedTerm)) {
+      selectedTerm = requestedTerm;
+      document.querySelectorAll('#commitToggle button').forEach(button => {
+        const active = button.dataset.term === selectedTerm;
+        button.classList.toggle('active', active);
+        button.setAttribute('aria-pressed', String(active));
+      });
+    }
     renderPricing(selectedTerm);
     document.querySelectorAll('#commitToggle button').forEach(button => { button.disabled = false; });
     
