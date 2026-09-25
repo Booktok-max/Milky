@@ -1,6 +1,6 @@
 # Atomic Shelf Website Relaunch — Master PRD
 
-**Status:** Implementation underway — commercial baseline, pricing/content pass, provenance cleanup, reader discovery foundation, Research & Scholarly lane, and communications architecture defined; payment, contact, newsletter, outreach integrations and release gates remain
+**Status:** Implementation underway — commercial baseline, pricing/content pass, provenance cleanup, reader discovery foundation, Research & Scholarly lane, communications architecture, and Phase 1 payment/deployment hardening implemented locally; live provider verification and release gates remain
 **Version:** 1.5
 **Date:** 2026-09-23  
 **Product:** Atomic Shelf marketing website  
@@ -37,8 +37,11 @@ The following work is now reflected in the repository and should be treated as t
 - The public site continues to use a responsive pricing grid and mobile-first layout; final visual QA remains a release gate.
 - The deployment workflow builds a public-only payload and excludes identified client-work and internal-tool directories.
 - The tracked Brevo environment file has been removed from version control and environment files are ignored going forward.
+- Phase 1 production release hardening is implemented in the repository but not yet verified against live providers: the PesaPal lifecycle now uses one shared transaction store, explicit pending/success/failed/cancelled states, controlled pricing for every charge, idempotent callback/IPN handling, pending-transaction recovery, and focused automated coverage. Live PesaPal/Brevo verification remains open.
 
 Remaining release gates:
+
+- Complete live PesaPal sandbox/production verification for checkout, callback, IPN, status refresh, duplicate delivery, cancellation, failure, recovery, malformed provider data, provider outages, missing credentials, and Brevo receipt delivery.
 
 - Rotate the previously exposed Brevo credential.
 - Inventory and explicitly remove any private files already present on the public host; deployment cleanup remains deliberately disabled.
@@ -1122,6 +1125,8 @@ This section records what is implemented now versus what remains before the rela
 - [x] Public provenance/source-language cleanup has been applied to the core sales pages.
 - [x] Deployment workflow excludes identified internal/client-work directories from the Neocities payload.
 - [x] Brevo environment-file exposure was addressed in version control and future environment files are ignored.
+- [x] Phase 1 payment/deployment hardening is implemented locally: one shared transaction store; explicit pending/success/failed/cancelled states; controlled pricing for all six standard plans and four billing terms; idempotent callback/IPN/status handling; pending-transaction recovery; strengthened public/private deploy and runtime boundaries; focused automated tests.
+- [ ] Complete live PesaPal sandbox/production verification for checkout, callback, IPN, status refresh, duplicate delivery, cancellation, failure, recovery, malformed provider data, provider outages, missing credentials, and Brevo receipt delivery.
 
 ### Not yet release-complete
 
