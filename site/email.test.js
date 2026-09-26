@@ -284,7 +284,8 @@ describe('sendPaymentFailedEmail: payment failed / cancelled', () => {
     try {
       process.env.BREVO_API_KEY = 'test-key';
       process.env.BREVO_SENDER_EMAIL = 'sender@example.com';
-      const tx = sampleTransaction({ id: 'TX-F-1', merchantReference: 'TX-F-1', status: 'failed' });
+      // Unique ID so no prior test's 'sent' event blocks this one.
+      const tx = sampleTransaction({ id: 'TX-F-1a', merchantReference: 'TX-F-1a', status: 'failed' });
       const result = await sendPaymentFailedEmail(tx);
       assert.equal(result.success, true);
       assert.equal(result.method, 'brevo');
@@ -293,7 +294,7 @@ describe('sendPaymentFailedEmail: payment failed / cancelled', () => {
       assert.equal(payload.to[0].email, 'reader@example.com');
       assert.match(payload.subject, /not completed|cancelled/i);
       const events = await paymentStore.listCommunicationEvents();
-      const evt = events.find(e => e.transactionId === 'TX-F-1' && e.event === 'payment_failed' && e.status === 'sent');
+      const evt = events.find(e => e.transactionId === 'TX-F-1a' && e.event === 'payment_failed' && e.status === 'sent');
       assert.ok(evt);
     } finally {
       brevo.restore();
@@ -344,12 +345,15 @@ describe('sendPaymentFailedEmail: payment failed / cancelled', () => {
   it('remains retryable after delivery failure', async (t) => {
     if (!requireEmailFns(t)) return;
     const brevo = patchAxios('reject');
+    // Timestamp-based ID prevents a prior test run's 'sent' event from
+    // triggering the alreadySent guard and masking the failure.
+    const uid = `TX-F-4-${Date.now()}`;
     try {
       process.env.BREVO_API_KEY = 'test-key';
       process.env.BREVO_SENDER_EMAIL = 'sender@example.com';
-      const tx = sampleTransaction({ id: 'TX-F-4', merchantReference: 'TX-F-4', status: 'failed' });
+      const tx = sampleTransaction({ id: uid, merchantReference: uid, status: 'failed' });
       const fail1 = await sendPaymentFailedEmail(tx);
-      assert.equal(fail1.success, false);
+      assert.equal(fail1.success, false, 'first attempt with Brevo down should fail');
       // Now simulate Brevo recovery and retry.
       brevo.behaviour = 'resolve';
       brevo.calls = [];
