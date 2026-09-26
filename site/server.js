@@ -213,30 +213,224 @@ async function saveCommunicationEvent(event) {
     return paymentStore.saveCommunicationEvent(event);
 }
 
+// ---- Email template helpers ---------------------------------------------
+
+function emailEscape(value) {
+  return String(value == null ? '' : value).replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+  }[c]));
+}
+
+function buildConfirmationEmail(transaction) {
+  const planName   = transaction.planName || transaction.plan || 'your plan';
+  const term       = (transaction.commitment || transaction.billingTerm || '').replace(/_/g, ' ');
+  const amount     = transaction.amount != null ? transaction.amount : '—';
+  const currency   = transaction.currency || '';
+  const ref        = transaction.merchantReference || transaction.id || '—';
+  const customerName = transaction.customerName ? `, ${transaction.customerName.split(' ')[0]}` : '';
+
+  const subject = 'Your Atomic Shelf payment is confirmed';
+
+  const textContent = [
+    `Hi${customerName},`,
+    '',
+    'Your payment to Atomic Shelf has been confirmed.',
+    '',
+    `Plan:      ${planName}`,
+    term ? `Term:      ${term}` : null,
+    `Amount:    ${currency} ${amount}`,
+    `Reference: ${ref}`,
+    '',
+    "We'll be in touch shortly with next steps for your readership campaign.",
+    '',
+    'Thank you for choosing Atomic Shelf.',
+    '',
+    '— The Atomic Shelf Team',
+    'https://atomic-shelf.com',
+  ].filter(line => line !== null).join('\n');
+
+  const htmlContent = `<!doctype html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>${emailEscape(subject)}</title></head>
+<body style="margin:0;padding:0;background:#f5f1e8;font-family:Arial,Helvetica,sans-serif;color:#211d18">
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f5f1e8">
+  <tr><td align="center" style="padding:40px 16px">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:560px;background:#fffdf8;border-radius:4px;overflow:hidden">
+      <tr><td style="padding:32px 40px 0">
+        <p style="margin:0 0 8px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#756d61">Atomic Shelf</p>
+        <h1 style="margin:0 0 24px;font-size:28px;line-height:1.2;color:#211d18">Payment confirmed ✓</h1>
+        <p style="margin:0 0 24px;font-size:16px;line-height:1.6;color:#514a40">
+          Hi${emailEscape(customerName)}, your payment has been received and confirmed.
+        </p>
+        <table width="100%" cellpadding="0" cellspacing="0" border="0"
+               style="background:#f5f1e8;border-radius:4px;margin:0 0 24px">
+          <tr><td style="padding:20px 24px">
+            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <td style="font-size:13px;color:#756d61;padding:4px 0;width:110px">Plan</td>
+                <td style="font-size:13px;color:#211d18;font-weight:bold;padding:4px 0">${emailEscape(planName)}</td>
+              </tr>
+              ${term ? `<tr>
+                <td style="font-size:13px;color:#756d61;padding:4px 0">Term</td>
+                <td style="font-size:13px;color:#211d18;padding:4px 0">${emailEscape(term)}</td>
+              </tr>` : ''}
+              <tr>
+                <td style="font-size:13px;color:#756d61;padding:4px 0">Amount</td>
+                <td style="font-size:13px;color:#211d18;padding:4px 0">${emailEscape(currency)} ${emailEscape(String(amount))}</td>
+              </tr>
+              <tr>
+                <td style="font-size:13px;color:#756d61;padding:4px 0">Reference</td>
+                <td style="font-size:13px;color:#211d18;padding:4px 0;font-family:monospace">${emailEscape(ref)}</td>
+              </tr>
+            </table>
+          </td></tr>
+        </table>
+        <p style="margin:0 0 24px;font-size:15px;line-height:1.6;color:#514a40">
+          We will be in touch shortly with next steps for your readership campaign.
+          Keep your reference number for any follow-up questions.
+        </p>
+        <p style="margin:0 0 32px">
+          <a href="https://atomic-shelf.com"
+             style="display:inline-block;padding:12px 28px;background:#211d18;color:#f5f1e8;
+                    text-decoration:none;border-radius:3px;font-size:14px;font-weight:bold">
+            Visit Atomic Shelf
+          </a>
+        </p>
+      </td></tr>
+      <tr><td style="padding:20px 40px 28px;border-top:1px solid #ede8df">
+        <p style="margin:0;font-size:12px;color:#9c9489;line-height:1.5">
+          This is a transactional email from Atomic Shelf. If you did not make this payment,
+          please reply to this email immediately.<br>
+          <a href="https://atomic-shelf.com" style="color:#756d61">atomic-shelf.com</a>
+        </p>
+      </td></tr>
+    </table>
+  </td></tr>
+</table>
+</body></html>`;
+
+  return { subject, textContent, htmlContent };
+}
+
+function buildFailedEmail(transaction, state) {
+  const planName = transaction.planName || transaction.plan || 'your plan';
+  const ref      = transaction.merchantReference || transaction.id || '—';
+  const stateLabel = state === 'cancelled' ? 'cancelled' : 'not completed';
+  const subject = `Your Atomic Shelf payment was ${stateLabel}`;
+
+  const textContent = [
+    'Hi,',
+    '',
+    `Your payment for the Atomic Shelf ${planName} plan was ${stateLabel}.`,
+    '',
+    `Reference: ${ref}`,
+    '',
+    'No charge was made. You can return to checkout to try again:',
+    'https://atomic-shelf.com/pricing.html',
+    '',
+    'If you believe this is an error, please reply to this email.',
+    '',
+    '— The Atomic Shelf Team',
+  ].join('\n');
+
+  const htmlContent = `<!doctype html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>${emailEscape(subject)}</title></head>
+<body style="margin:0;padding:0;background:#f5f1e8;font-family:Arial,Helvetica,sans-serif;color:#211d18">
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f5f1e8">
+  <tr><td align="center" style="padding:40px 16px">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:560px;background:#fffdf8;border-radius:4px">
+      <tr><td style="padding:32px 40px 0">
+        <p style="margin:0 0 8px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#756d61">Atomic Shelf</p>
+        <h1 style="margin:0 0 24px;font-size:28px;line-height:1.2;color:#211d18">
+          Payment ${emailEscape(stateLabel)}
+        </h1>
+        <p style="margin:0 0 16px;font-size:15px;line-height:1.6;color:#514a40">
+          Your payment for the <strong>${emailEscape(planName)}</strong> plan was ${emailEscape(stateLabel)}.
+          No charge was made.
+        </p>
+        <p style="margin:0 0 8px;font-size:13px;color:#756d61">Reference: <span style="font-family:monospace;color:#211d18">${emailEscape(ref)}</span></p>
+        <p style="margin:0 0 28px;font-size:15px;line-height:1.6;color:#514a40">
+          You can return to checkout to try again whenever you are ready.
+        </p>
+        <p style="margin:0 0 32px">
+          <a href="https://atomic-shelf.com/pricing.html"
+             style="display:inline-block;padding:12px 28px;background:#211d18;color:#f5f1e8;
+                    text-decoration:none;border-radius:3px;font-size:14px;font-weight:bold">
+            Return to checkout
+          </a>
+        </p>
+      </td></tr>
+      <tr><td style="padding:20px 40px 28px;border-top:1px solid #ede8df">
+        <p style="margin:0;font-size:12px;color:#9c9489;line-height:1.5">
+          If you believe this is an error, please reply to this email.<br>
+          <a href="https://atomic-shelf.com" style="color:#756d61">atomic-shelf.com</a>
+        </p>
+      </td></tr>
+    </table>
+  </td></tr>
+</table>
+</body></html>`;
+
+  return { subject, textContent, htmlContent };
+}
+
+function buildAdminEmail(transaction, eventType) {
+  const ref    = transaction.merchantReference || transaction.id || '—';
+  const email  = transaction.customerEmail || '—';
+  const plan   = transaction.planName || transaction.plan || '—';
+  const term   = (transaction.commitment || transaction.billingTerm || '—').replace(/_/g, ' ');
+  const amount = transaction.amount != null ? `${transaction.currency || ''} ${transaction.amount}` : '—';
+  const status = transaction.status || '—';
+  const paidAt = transaction.paidAt || '—';
+  const subject = `[Atomic Shelf] ${eventType}`;
+
+  const textContent = [
+    `Event:     ${eventType}`,
+    `Reference: ${ref}`,
+    `Customer:  ${email}`,
+    `Plan:      ${plan}`,
+    `Term:      ${term}`,
+    `Amount:    ${amount}`,
+    `Status:    ${status}`,
+    `Paid at:   ${paidAt}`,
+    `Created:   ${transaction.createdAt || '—'}`,
+    `Updated:   ${transaction.updatedAt || '—'}`,
+  ].join('\n');
+
+  return { subject, textContent, htmlContent: null };
+}
+
+// ---- Email notification helpers -----------------------------------------
+
 async function sendCustomerEmail(transaction) {
     if (!transaction?.customerEmail || transaction.notificationSentAt) return transaction;
-    const event = {
-      id: `payment-confirmation-${transaction.id}`,
+    const eventId = `payment-confirmation-${transaction.id}`;
+    const baseEvent = {
+      id: eventId,
       type: 'transactional',
       event: 'payment_completed',
       provider: 'brevo',
       recipient: transaction.customerEmail,
       transactionId: transaction.id,
-      status: 'pending',
       createdAt: new Date().toISOString(),
     };
 
     if (!process.env.BREVO_API_KEY || !process.env.BREVO_SENDER_EMAIL) {
-      await saveCommunicationEvent({ ...event, status: 'skipped', reason: 'Brevo is not configured.' });
+      await saveCommunicationEvent({ ...baseEvent, status: 'skipped', reason: 'Brevo is not configured.' });
       return transaction;
     }
 
+    const { subject, textContent, htmlContent } = buildConfirmationEmail(transaction);
     try {
       await axios.post(`${BREVO_API_BASE}/smtp/email`, {
         sender: { email: process.env.BREVO_SENDER_EMAIL, name: process.env.BREVO_SENDER_NAME || 'Atomic Shelf' },
         to: [{ email: transaction.customerEmail, name: transaction.customerName || undefined }],
-        subject: 'Your Atomic Shelf payment is confirmed',
-        textContent: `Your ${transaction.plan} plan payment of ${transaction.currency} ${transaction.amount} is confirmed. Reference: ${transaction.merchantReference}.`,
+        subject,
+        textContent,
+        htmlContent,
       }, {
         headers: {
           accept: 'application/json',
@@ -245,12 +439,12 @@ async function sendCustomerEmail(transaction) {
         },
         timeout: 10000,
       });
-      await saveCommunicationEvent({ ...event, status: 'sent', sentAt: new Date().toISOString() });
+      await saveCommunicationEvent({ ...baseEvent, status: 'sent', sentAt: new Date().toISOString() });
       return saveTransaction({ ...transaction, notificationSentAt: new Date().toISOString() });
     } catch (error) {
       console.error('customer payment notification error:', error.response?.data || error.message);
       await saveCommunicationEvent({
-        ...event,
+        ...baseEvent,
         status: 'failed',
         error: error.response?.data || error.message,
       });
@@ -583,42 +777,109 @@ function validateSignature(data, signature, secret) {
   return crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(expectedSignature));
 }
 
-// ---- Email notification helpers -----------------------------------------
-// Customer receipts use the implemented Brevo sender (sendCustomerEmail).
-// These wrappers preserve the historical helper names while recording events.
-async function sendPaymentConfirmationEmail(transaction) {
-  const updated = await sendCustomerEmail(transaction);
-  return { success: true, method: updated?.notificationSentAt ? 'brevo' : 'brevo-skipped' };
-}
 
 async function sendPaymentFailedEmail(transaction) {
   if (!transaction) return { success: false, error: 'missing transaction' };
-  await saveCommunicationEvent({
-    id: `payment-failed-${transaction.id || transaction.merchantReference}`,
+  const txId    = transaction.id || transaction.merchantReference;
+  const state   = transaction.status === 'cancelled' ? 'cancelled' : 'failed';
+
+  // Guard: if we already have a 'sent' event, do not re-send.
+  const existingEvents = await readCommunicationEvents();
+  const alreadySent = existingEvents.some(
+    e => e.transactionId === txId && e.event === 'payment_failed' && e.status === 'sent');
+  if (alreadySent) return { success: true, method: 'already-sent' };
+
+  // Use a fresh timestamped id so that a previous 'failed' attempt (Brevo error)
+  // does not block retries via the UPSERT conflict key.
+  const eventId = `payment-failed-${txId}-${Date.now()}`;
+  const baseEvent = {
+    id: eventId,
     type: 'transactional',
     event: 'payment_failed',
     provider: 'brevo',
     recipient: transaction.customerEmail || null,
-    transactionId: transaction.id || transaction.merchantReference,
-    status: 'logged',
+    transactionId: txId,
     createdAt: new Date().toISOString(),
-  });
-  return { success: true, method: 'event-log' };
+  };
+
+  if (!transaction.customerEmail || !process.env.BREVO_API_KEY || !process.env.BREVO_SENDER_EMAIL) {
+    await saveCommunicationEvent({ ...baseEvent, status: 'skipped',
+      reason: transaction.customerEmail ? 'Brevo is not configured.' : 'No customer email on transaction.' });
+    return { success: true, method: 'skipped' };
+  }
+
+  const { subject, textContent, htmlContent } = buildFailedEmail(transaction, state);
+  try {
+    await axios.post(`${BREVO_API_BASE}/smtp/email`, {
+      sender: { email: process.env.BREVO_SENDER_EMAIL, name: process.env.BREVO_SENDER_NAME || 'Atomic Shelf' },
+      to: [{ email: transaction.customerEmail, name: transaction.customerName || undefined }],
+      subject,
+      textContent,
+      htmlContent,
+    }, {
+      headers: {
+        accept: 'application/json',
+        'api-key': process.env.BREVO_API_KEY,
+        'content-type': 'application/json',
+      },
+      timeout: 10000,
+    });
+    await saveCommunicationEvent({ ...baseEvent, status: 'sent', sentAt: new Date().toISOString() });
+    return { success: true, method: 'brevo' };
+  } catch (error) {
+    console.error('payment-failed email error:', error.response?.data || error.message);
+    await saveCommunicationEvent({ ...baseEvent, status: 'failed',
+      error: error.response?.data || error.message });
+    return { success: false, method: 'brevo-error' };
+  }
 }
 
 async function sendAdminNotification(transaction, eventType) {
   if (!transaction) return { success: false, error: 'missing transaction' };
-  await saveCommunicationEvent({
-    id: `admin-${eventType}-${transaction.id || transaction.merchantReference}`,
+  const txId      = transaction.id || transaction.merchantReference;
+  const recipient = process.env.ADMIN_EMAIL || process.env.BREVO_SENDER_EMAIL || null;
+
+  // Use timestamped id so Brevo failures do not permanently block retries.
+  const eventId = `admin-${eventType}-${txId}-${Date.now()}`;
+  const baseEvent = {
+    id: eventId,
     type: 'operational',
     event: eventType,
-    provider: 'internal-log',
-    recipient: null,
-    transactionId: transaction.id || transaction.merchantReference,
-    status: 'logged',
+    provider: 'brevo',
+    recipient,
+    transactionId: txId,
     createdAt: new Date().toISOString(),
-  });
-  return { success: true, method: 'event-log' };
+  };
+
+  if (!recipient || !process.env.BREVO_API_KEY || !process.env.BREVO_SENDER_EMAIL) {
+    await saveCommunicationEvent({ ...baseEvent, status: 'skipped',
+      reason: 'Admin recipient or Brevo not configured.' });
+    return { success: true, method: 'skipped' };
+  }
+
+  const { subject, textContent } = buildAdminEmail(transaction, eventType);
+  try {
+    await axios.post(`${BREVO_API_BASE}/smtp/email`, {
+      sender: { email: process.env.BREVO_SENDER_EMAIL, name: process.env.BREVO_SENDER_NAME || 'Atomic Shelf' },
+      to: [{ email: recipient }],
+      subject,
+      textContent,
+    }, {
+      headers: {
+        accept: 'application/json',
+        'api-key': process.env.BREVO_API_KEY,
+        'content-type': 'application/json',
+      },
+      timeout: 10000,
+    });
+    await saveCommunicationEvent({ ...baseEvent, status: 'sent', sentAt: new Date().toISOString() });
+    return { success: true, method: 'brevo' };
+  } catch (error) {
+    console.error('admin notification error:', error.response?.data || error.message);
+    await saveCommunicationEvent({ ...baseEvent, status: 'failed',
+      error: error.response?.data || error.message });
+    return { success: false, method: 'brevo-error' };
+  }
 }
 
 // ---- Token cache (Pesapal tokens last ~5 minutes) ----------------------
@@ -1409,7 +1670,7 @@ async function start() {
   }
 }
 
-module.exports = { app, start, paymentStore };
+module.exports = { app, start, paymentStore, sendCustomerEmail, sendPaymentFailedEmail, sendAdminNotification };
 
 if (require.main === module) {
   start();
