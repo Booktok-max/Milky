@@ -284,8 +284,10 @@ describe('sendPaymentFailedEmail: payment failed / cancelled', () => {
     try {
       process.env.BREVO_API_KEY = 'test-key';
       process.env.BREVO_SENDER_EMAIL = 'sender@example.com';
-      // Unique ID so no prior test's 'sent' event blocks this one.
-      const tx = sampleTransaction({ id: 'TX-F-1a', merchantReference: 'TX-F-1a', status: 'failed' });
+      // Timestamp-suffix prevents a prior run's persisted 'sent' event from
+      // triggering the alreadySent guard (same pattern as TX-F-4).
+      const uid = `TX-F-1a-${Date.now()}`;
+      const tx = sampleTransaction({ id: uid, merchantReference: uid, status: 'failed' });
       const result = await sendPaymentFailedEmail(tx);
       assert.equal(result.success, true);
       assert.equal(result.method, 'brevo');
@@ -294,7 +296,7 @@ describe('sendPaymentFailedEmail: payment failed / cancelled', () => {
       assert.equal(payload.to[0].email, 'reader@example.com');
       assert.match(payload.subject, /not completed|cancelled/i);
       const events = await paymentStore.listCommunicationEvents();
-      const evt = events.find(e => e.transactionId === 'TX-F-1a' && e.event === 'payment_failed' && e.status === 'sent');
+      const evt = events.find(e => e.transactionId === uid && e.event === 'payment_failed' && e.status === 'sent');
       assert.ok(evt);
     } finally {
       brevo.restore();
@@ -329,7 +331,10 @@ describe('sendPaymentFailedEmail: payment failed / cancelled', () => {
     try {
       process.env.BREVO_API_KEY = 'test-key';
       process.env.BREVO_SENDER_EMAIL = 'sender@example.com';
-      const tx = sampleTransaction({ id: 'TX-F-3', merchantReference: 'TX-F-3', status: 'failed' });
+      // Timestamp-suffix so a prior run's 'sent' event doesn't cause the first
+      // call to return already-sent (defeating the assertion below).
+      const uid3 = `TX-F-3-${Date.now()}`;
+      const tx = sampleTransaction({ id: uid3, merchantReference: uid3, status: 'failed' });
       await sendPaymentFailedEmail(tx); // first call — sends
       brevo.calls = [];                 // reset counter
       const result = await sendPaymentFailedEmail(tx); // second call
