@@ -17,3 +17,6 @@ private-data/
 *.log
 .DS_Store
 Thumbs.db
+
+# KiroCrew agent tooling state
+.kiro/

@@ -6,6 +6,7 @@ const path = require('path');
 const fs = require('fs');
 const crypto = require('crypto');
 const paymentLib = require('./payment-lib');
+const { createStore } = require('./store');
 
 const app = express();
 app.use(express.json());
@@ -13,8 +14,6 @@ app.use(cors({ origin: process.env.ALLOWED_ORIGIN || '*' }));
 
 const NEWSLETTER_DATA_DIR = path.join(__dirname, 'private-data');
 const NEWSLETTER_SUBSCRIBERS_PATH = path.join(NEWSLETTER_DATA_DIR, 'newsletter-subscribers.json');
-const TRANSACTIONS_PATH = path.join(NEWSLETTER_DATA_DIR, 'transactions.json');
-const COMMUNICATION_EVENTS_PATH = path.join(NEWSLETTER_DATA_DIR, 'communication-events.json');
 let dailyNewsletterCache = null;
 let tiktokAccessTokenCache = null;
 let tiktokTrendCache = null;
@@ -157,89 +156,61 @@ function saveNewsletterSubscriber(email) {
   }
 }
 
-function readTransactions() {
-    try {
-      return JSON.parse(fs.readFileSync(TRANSACTIONS_PATH, 'utf8'));
-    } catch (error) {
-      if (error.code === 'ENOENT') return [];
-      throw error;
-    }
+// ---- Transaction persistence ---------------------------------------------
+// Both adapters expose the same async interface; see store.js.
+// The file adapter stays the default, and the file data is never deleted.
+const paymentStore = createStore({ dataDir: NEWSLETTER_DATA_DIR });
+
+async function readTransactions() {
+    return paymentStore.listTransactions();
 }
 
-function writeTransactions(transactions) {
-    fs.mkdirSync(NEWSLETTER_DATA_DIR, { recursive: true });
-    const temporaryPath = `${TRANSACTIONS_PATH}.tmp`;
-    fs.writeFileSync(temporaryPath, JSON.stringify(transactions, null, 2));
-    fs.renameSync(temporaryPath, TRANSACTIONS_PATH);
+async function saveTransaction(transaction) {
+    return paymentStore.saveTransaction(transaction);
 }
 
-function saveTransaction(transaction) {
-    if (!transaction || typeof transaction !== 'object') return null;
-    const transactions = readTransactions();
-    const key = transaction.id || transaction.merchantReference;
-    const index = key
-      ? transactions.findIndex(item => item && (item.id === key || item.merchantReference === key))
-      : -1;
-    if (index === -1) transactions.push(transaction);
-    else transactions[index] = transaction;
-    writeTransactions(transactions);
-    return transaction;
+async function findTransaction(query) {
+    return paymentStore.findTransaction(query || {});
 }
 
-function findTransaction(query) {
-    const { orderTrackingId, merchantReference } = query || {};
-    if (!orderTrackingId && !merchantReference) return undefined;
-    return readTransactions().find(transaction => {
-      if (!transaction || typeof transaction !== 'object') return false;
-      return (orderTrackingId && transaction.pesapalOrderTrackingId === orderTrackingId) ||
-        (merchantReference && transaction.merchantReference === merchantReference);
-    });
-}
-
-function findTransactionByIdempotencyKey(idempotencyKey) {
+async function findTransactionByIdempotencyKey(idempotencyKey) {
     if (!idempotencyKey) return null;
-    return readTransactions().find(transaction => transaction.idempotencyKey === idempotencyKey);
+    return paymentStore.findTransactionByIdempotencyKey(idempotencyKey);
 }
 
 function paymentStatusFromPesapal(status) {
     return paymentLib.mapProviderStatus(status);
 }
 
-function updateTransactionStatus(transaction, status, source) {
+async function updateTransactionStatus(transaction, status, source) {
     if (!transaction || typeof transaction !== 'object') return null;
     // Merge against the latest persisted record so metadata written by an
     // earlier step (callbackReceived/At, ipnReceived/At, paidAt) survives the
     // status transition instead of being overwritten by a stale copy.
-    const current = paymentLib.resolvePersistedTransaction(readTransactions(), transaction) || transaction;
+    const stored = await readTransactions();
+    const current = paymentLib.resolvePersistedTransaction(stored, transaction) || transaction;
     return saveTransaction(paymentLib.applyProviderStatus(current, status, source));
 }
 
-function getTransaction(merchantReference) {
+async function getTransaction(merchantReference) {
     if (!merchantReference) return null;
-    return findTransaction({ merchantReference }) || null;
+    const found = await findTransaction({ merchantReference });
+    return found || null;
 }
 
-function updateTransaction(merchantReference, updates) {
+async function updateTransaction(merchantReference, updates) {
     if (!merchantReference) return null;
-    const existing = findTransaction({ merchantReference });
+    const existing = await findTransaction({ merchantReference });
     if (!existing) return null;
     return saveTransaction({ ...existing, ...updates, updatedAt: new Date().toISOString() });
 }
 
-function readCommunicationEvents() {
-    try {
-      return JSON.parse(fs.readFileSync(COMMUNICATION_EVENTS_PATH, 'utf8'));
-    } catch (error) {
-      if (error.code === 'ENOENT') return [];
-      throw error;
-    }
+async function readCommunicationEvents() {
+    return paymentStore.listCommunicationEvents();
 }
 
-function saveCommunicationEvent(event) {
-    fs.mkdirSync(NEWSLETTER_DATA_DIR, { recursive: true });
-    const events = readCommunicationEvents();
-    events.push(event);
-    fs.writeFileSync(COMMUNICATION_EVENTS_PATH, JSON.stringify(events, null, 2));
+async function saveCommunicationEvent(event) {
+    return paymentStore.saveCommunicationEvent(event);
 }
 
 async function sendCustomerEmail(transaction) {
@@ -256,7 +227,7 @@ async function sendCustomerEmail(transaction) {
     };
 
     if (!process.env.BREVO_API_KEY || !process.env.BREVO_SENDER_EMAIL) {
-      saveCommunicationEvent({ ...event, status: 'skipped', reason: 'Brevo is not configured.' });
+      await saveCommunicationEvent({ ...event, status: 'skipped', reason: 'Brevo is not configured.' });
       return transaction;
     }
 
@@ -274,11 +245,11 @@ async function sendCustomerEmail(transaction) {
         },
         timeout: 10000,
       });
-      saveCommunicationEvent({ ...event, status: 'sent', sentAt: new Date().toISOString() });
+      await saveCommunicationEvent({ ...event, status: 'sent', sentAt: new Date().toISOString() });
       return saveTransaction({ ...transaction, notificationSentAt: new Date().toISOString() });
     } catch (error) {
       console.error('customer payment notification error:', error.response?.data || error.message);
-      saveCommunicationEvent({
+      await saveCommunicationEvent({
         ...event,
         status: 'failed',
         error: error.response?.data || error.message,
@@ -622,7 +593,7 @@ async function sendPaymentConfirmationEmail(transaction) {
 
 async function sendPaymentFailedEmail(transaction) {
   if (!transaction) return { success: false, error: 'missing transaction' };
-  saveCommunicationEvent({
+  await saveCommunicationEvent({
     id: `payment-failed-${transaction.id || transaction.merchantReference}`,
     type: 'transactional',
     event: 'payment_failed',
@@ -637,7 +608,7 @@ async function sendPaymentFailedEmail(transaction) {
 
 async function sendAdminNotification(transaction, eventType) {
   if (!transaction) return { success: false, error: 'missing transaction' };
-  saveCommunicationEvent({
+  await saveCommunicationEvent({
     id: `admin-${eventType}-${transaction.id || transaction.merchantReference}`,
     type: 'operational',
     event: eventType,
@@ -721,7 +692,7 @@ app.post('/api/create-payment', async (req, res) => {
     const { plan: planInfo, billingTerm, amount, idempotencyKey } = validated;
     const { email, phone, first_name, last_name } = body;
     const planId = planInfo.id;
-    const previousTransaction = findTransactionByIdempotencyKey(idempotencyKey);
+    const previousTransaction = await findTransactionByIdempotencyKey(idempotencyKey);
     const replay = paymentLib.findConflictingReplay(previousTransaction, {
       plan: planId,
       commitment: billingTerm,
@@ -764,7 +735,7 @@ app.post('/api/create-payment', async (req, res) => {
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
-    saveTransaction(transaction);
+    await saveTransaction(transaction);
 
     const orderPayload = {
       id: merchantReference,
@@ -795,7 +766,7 @@ app.post('/api/create-payment', async (req, res) => {
     );
 
     if (!result.data || !result.data.redirect_url) {
-      saveTransaction({
+      await saveTransaction({
         ...transaction,
         status: 'failed',
         statusDescription: 'Unexpected PesaPal response',
@@ -805,7 +776,7 @@ app.post('/api/create-payment', async (req, res) => {
       return res.status(502).json({ error: 'Unexpected Pesapal response', details: result.data });
     }
 
-    saveTransaction({
+    await saveTransaction({
       ...transaction,
       pesapalOrderTrackingId: result.data.order_tracking_id || null,
       redirectUrl: result.data.redirect_url,
@@ -841,11 +812,8 @@ app.get('/api/status', async (req, res) => {
     const { orderTrackingId } = req.query;
     if (!orderTrackingId) return res.status(400).json({ error: 'orderTrackingId is required' });
     const status = await fetchStatus(orderTrackingId);
-    const transaction = updateTransactionStatus(
-      findTransaction({ orderTrackingId }),
-      status,
-      'status_lookup'
-    );
+    const existing = await findTransaction({ orderTrackingId });
+    const transaction = await updateTransactionStatus(existing, status, 'status_lookup');
     res.json({ ...status, transaction_status: transaction?.status || paymentStatusFromPesapal(status) });
   } catch (err) {
     res.status(500).json({ error: err.response?.data || err.message });
@@ -859,7 +827,7 @@ app.get('/api/callback', async (req, res) => {
   const { OrderTrackingId, OrderMerchantReference } = req.query;
   let paymentState = 'unable_to_confirm';
   let statusDescription = 'We could not confirm your payment status automatically.';
-  let transaction = findTransaction({
+  let transaction = await findTransaction({
     orderTrackingId: OrderTrackingId,
     merchantReference: OrderMerchantReference,
   });
@@ -868,27 +836,27 @@ app.get('/api/callback', async (req, res) => {
     if (OrderTrackingId && OrderMerchantReference) {
       // First-seen semantics: a duplicate callback keeps the original receipt
       // timestamp, matching ipnReceivedAt.
-      const persisted = getTransaction(OrderMerchantReference) || transaction;
+      const persisted = (await getTransaction(OrderMerchantReference)) || transaction;
       const receipt = paymentLib.applyCallbackReceipt(persisted, new Date().toISOString());
-      if (receipt) updateTransaction(OrderMerchantReference, receipt);
+      if (receipt) await updateTransaction(OrderMerchantReference, receipt);
 
       const status = await fetchStatus(OrderTrackingId);
       const desc = status.payment_status_description || status.status_code;
-      transaction = updateTransactionStatus(transaction, status, 'callback') || transaction;
+      transaction = (await updateTransactionStatus(transaction, status, 'callback')) || transaction;
       paymentState = transaction?.status || paymentStatusFromPesapal(status);
       statusDescription = desc || 'Payment status received.';
-      updateTransaction(OrderMerchantReference, {
+      await updateTransaction(OrderMerchantReference, {
         paymentStatus: String(desc || '').toUpperCase() || null,
         callbackStatus: desc || null,
       });
-      transaction = findTransaction({
+      transaction = (await findTransaction({
         orderTrackingId: OrderTrackingId,
         merchantReference: OrderMerchantReference,
-      }) || transaction;
+      })) || transaction;
 
       if (paymentState === 'success') {
         transaction = await sendCustomerEmail(transaction);
-        updateTransaction(OrderMerchantReference, {
+        await updateTransaction(OrderMerchantReference, {
           paidAt: transaction?.paidAt || new Date().toISOString(),
         });
         await sendAdminNotification(transaction, 'payment_completed');
@@ -967,15 +935,15 @@ app.get('/api/callback', async (req, res) => {
     </div></body></html>`);
 });
 
-app.get('/api/cancelled', (req, res) => {
+app.get('/api/cancelled', async (req, res) => {
   const { OrderMerchantReference } = req.query;
 
-  const transaction = findTransaction({
+  const transaction = await findTransaction({
     orderTrackingId: req.query.OrderTrackingId,
     merchantReference: req.query.OrderMerchantReference,
   });
   if (transaction && transaction.status !== 'success' && transaction.status !== 'completed' && transaction.status !== 'paid') {
-    saveTransaction({
+    await saveTransaction({
       ...transaction,
       status: 'cancelled',
       statusDescription: 'Cancelled by customer',
@@ -1002,28 +970,28 @@ app.get('/api/ipn', async (req, res) => {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
-    const existingTransaction = getTransaction(OrderMerchantReference);
+    const existingTransaction = await getTransaction(OrderMerchantReference);
     if (!existingTransaction) {
       return res.status(404).json({ error: 'Transaction not found' });
     }
     const status = await fetchStatus(OrderTrackingId);
-    const updated = updateTransactionStatus(existingTransaction, status, 'ipn');
+    const updated = await updateTransactionStatus(existingTransaction, status, 'ipn');
     if (!updated) {
       return res.status(404).json({ error: 'Transaction not found' });
     }
     const paymentState = updated?.status || paymentStatusFromPesapal(status);
     const duplicate = Boolean(existingTransaction?.ipnReceived) || Boolean(existingTransaction && updated && existingTransaction.updatedAt === updated.updatedAt && paymentState !== 'pending');
-    updateTransaction(OrderMerchantReference, {
+    await updateTransaction(OrderMerchantReference, {
       paymentStatus: String(status.payment_status_description || status.status_code || '').toUpperCase() || null,
       ipnReceived: true,
       ipnReceivedAt: existingTransaction?.ipnReceivedAt || new Date().toISOString(),
       pesapalStatus: status,
     });
-    let transaction = getTransaction(OrderMerchantReference) || updated;
+    let transaction = (await getTransaction(OrderMerchantReference)) || updated;
 
     if (paymentState === 'success') {
       transaction = await sendCustomerEmail(transaction);
-      updateTransaction(OrderMerchantReference, {
+      await updateTransaction(OrderMerchantReference, {
         paidAt: transaction?.paidAt || new Date().toISOString(),
       });
       await sendAdminNotification(transaction, 'payment_completed');
@@ -1031,7 +999,7 @@ app.get('/api/ipn', async (req, res) => {
       await sendPaymentFailedEmail(transaction);
       await sendAdminNotification(transaction, `payment_${paymentState}`);
     }
-    transaction = getTransaction(OrderMerchantReference) || transaction;
+    transaction = (await getTransaction(OrderMerchantReference)) || transaction;
 
     res.json({
       orderNotificationType: OrderNotificationType,
@@ -1244,56 +1212,71 @@ app.post('/api/newsletter/subscribe', (req, res) => {
 // ---- Transaction management endpoints ------------------------------------
 // Safe recovery endpoint: pending records return a refresh path, failed or
 // cancelled records return a new-checkout path, completed records never retry.
-app.get('/api/transaction/:merchantReference', (req, res) => {
-  const { merchantReference } = req.params;
-  const transaction = getTransaction(merchantReference);
+app.get('/api/transaction/:merchantReference', async (req, res) => {
+  try {
+    const { merchantReference } = req.params;
+    const transaction = await getTransaction(merchantReference);
 
-  if (!transaction) {
-    return res.status(404).json({ error: 'Transaction not found' });
+    if (!transaction) {
+      return res.status(404).json({ error: 'Transaction not found' });
+    }
+
+    const recovery = paymentLib.retryableTransaction(transaction);
+    res.json({
+      ...paymentLib.safeTransaction(transaction),
+      retryAllowed: recovery.ok === true,
+      recovery: transaction.status === 'pending'
+        ? 'refresh'
+        : (transaction.status === 'failed' || transaction.status === 'cancelled' ? 'new_checkout' : 'none'),
+    });
+  } catch (error) {
+    console.error('transaction lookup error:', error.message);
+    res.status(500).json({ error: 'Transaction lookup failed' });
   }
-
-  const recovery = paymentLib.retryableTransaction(transaction);
-  res.json({
-    ...paymentLib.safeTransaction(transaction),
-    retryAllowed: recovery.ok === true,
-    recovery: transaction.status === 'pending'
-      ? 'refresh'
-      : (transaction.status === 'failed' || transaction.status === 'cancelled' ? 'new_checkout' : 'none'),
-  });
 });
 
 // Recovery/refresh: re-read PesaPal for a known pending transaction.
 app.get('/api/transaction/:merchantReference/refresh', async (req, res) => {
-  const { merchantReference } = req.params;
-  const transaction = getTransaction(merchantReference);
-  if (!transaction) return res.status(404).json({ error: 'Transaction not found' });
-  if (!transaction.pesapalOrderTrackingId) {
-    return res.status(409).json({ error: 'This payment has no provider reference yet.', transaction_status: transaction.status });
-  }
-  const recovery = paymentLib.retryableTransaction(transaction);
-  if (!recovery.ok) return res.status(recovery.status).json({ error: recovery.error });
   try {
-    const status = await fetchStatus(transaction.pesapalOrderTrackingId);
-    const updated = updateTransactionStatus(transaction, status, 'refresh') || transaction;
-    if (updated?.status === 'success') await sendCustomerEmail(updated);
-    const current = getTransaction(merchantReference) || updated;
-    res.json({ ...paymentLib.safeTransaction(current), transaction_status: current?.status });
-  } catch (err) {
-    res.status(502).json({ error: err.response?.data || err.message, transaction_status: transaction.status });
+    const { merchantReference } = req.params;
+    const transaction = await getTransaction(merchantReference);
+    if (!transaction) return res.status(404).json({ error: 'Transaction not found' });
+    if (!transaction.pesapalOrderTrackingId) {
+      return res.status(409).json({ error: 'This payment has no provider reference yet.', transaction_status: transaction.status });
+    }
+    const recovery = paymentLib.retryableTransaction(transaction);
+    if (!recovery.ok) return res.status(recovery.status).json({ error: recovery.error });
+    try {
+      const status = await fetchStatus(transaction.pesapalOrderTrackingId);
+      const updated = (await updateTransactionStatus(transaction, status, 'refresh')) || transaction;
+      if (updated?.status === 'success') await sendCustomerEmail(updated);
+      const current = (await getTransaction(merchantReference)) || updated;
+      res.json({ ...paymentLib.safeTransaction(current), transaction_status: current?.status });
+    } catch (err) {
+      res.status(502).json({ error: err.response?.data || err.message, transaction_status: transaction.status });
+    }
+  } catch (error) {
+    console.error('transaction refresh error:', error.message);
+    res.status(500).json({ error: 'Transaction refresh failed' });
   }
 });
 
 // Admin endpoint for transaction reconciliation (protected by SETUP_KEY)
-app.get('/api/admin/transactions', (req, res) => {
-  if (!SETUP_KEY || req.query.key !== SETUP_KEY) {
-    return res.status(403).json({ error: 'Invalid or missing setup key' });
-  }
+app.get('/api/admin/transactions', async (req, res) => {
+  try {
+    if (!SETUP_KEY || req.query.key !== SETUP_KEY) {
+      return res.status(403).json({ error: 'Invalid or missing setup key' });
+    }
 
-  const allTransactions = readTransactions();
-  res.json({
-    count: allTransactions.length,
-    transactions: allTransactions
-  });
+    const allTransactions = await readTransactions();
+    res.json({
+      count: allTransactions.length,
+      transactions: allTransactions
+    });
+  } catch (error) {
+    console.error('admin transaction list error:', error.message);
+    res.status(500).json({ error: 'Transaction list failed' });
+  }
 });
 
 // Admin endpoint to test payment status lookup
@@ -1409,4 +1392,25 @@ app.get('/checkout.html', (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Pesapal backend running on port ${PORT} (${ENV})`));
+
+// Initialise the payment store and run any pending migrations before accepting
+// traffic. Postgres is opt-in (PAYMENT_STORE=postgres or DATABASE_URL); the
+// file-backed store remains the default and the rollback path.
+async function start() {
+  try {
+    const migration = await paymentStore.migrate();
+    app.listen(PORT, () =>
+      console.log(`Pesapal backend running on port ${PORT} (${ENV}) — payment store: ${paymentStore.type}`));
+    return migration;
+  } catch (error) {
+    console.error('Failed to initialise payment store:', error.message);
+    process.exit(1);
+    return null;
+  }
+}
+
+module.exports = { app, start, paymentStore };
+
+if (require.main === module) {
+  start();
+}
